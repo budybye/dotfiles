@@ -4,15 +4,28 @@ hostname: vm
 users:
   - default
   - name: ubuntu
-    groups: users,adm,sudo,ssl-cert,xrdp,input
+    groups: users,adm,sudo,ssl-cert,xrdp,input,audio
     shell: /bin/bash
     lock_passwd: false
     passwd: ubuntu
-    uid: 1001
+    uid: 1188
+    gid: 1188
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    # ssh_authorized_keys:
+    #   - ssh-dc25519 ABCDEF...
+    # ssh_import_id:
+    #   - github:username
+
+  - name: hoge
+    groups: users,ssl-cert,xrdp,input,audio
+    shell: /bin/zsh
+    lock_passwd: false
+    passwd: hogehoge
+    uid: 1234
     gid: 1234
     sudo: ALL=(ALL) NOPASSWD:ALL
     # ssh_authorized_keys:
-    #   - ssh-rsa ABCDEF...
+    #   - ssh-dc25519 ABCDEF...
     # ssh_import_id:
     #   - github:username
 
@@ -20,6 +33,12 @@ ssh_pwauth: false
 
 timezone: Asia/Tokyo
 locale: ja_JP.utf8
+
+keyboard:
+  # 日本語キーボードの設定
+  - model: pc105
+  - layout: jp
+  - options: ctrl:nocaps
 
 package_update: true
 package_upgrade: true
@@ -93,10 +112,11 @@ packages:
   - direnv
   - pwgen
   - gawk
-  # - plank
   - neofetch
+  # - plank
 
   # cargo系
+  # - rustup
   - cargo
   - lsd
   # - bat
@@ -134,12 +154,6 @@ packages:
 #   - sudo ufw allow 3389
 #   - sudo systemctl enable xrdp
 #   - sudo systemctl start xrdp
-
-keyboard:
-  # 日本語キーボードの設定
-  - model: pc105
-  - layout: jp
-  - options: ctrl:nocaps
 
 # write_files:
 #   # 環境変数の設定

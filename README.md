@@ -1,6 +1,7 @@
 <link href="./style.css" rel="stylesheet"></link>
 
 # dotfiles
+v.0.1.1
 
 ## chezmoi
 
@@ -16,8 +17,18 @@ chezmoi add --follow < Filename >
 ```
 
 ## mise
+```
+mise use <tool@version>
+
+mise ls
+
+mise trust
+```
 
 ## starship
+```
+~/.config/starship.toml
+```
 
 ## sheldon
 
