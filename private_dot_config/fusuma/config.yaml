@@ -1,0 +1,33 @@
+swipe: #スワイプ
+  3: #3本指ジェスチャー
+    begin:
+      command: xdotool mousedown 1 # 左マウスボタンを押し続ける
+    update:
+      command: xdotool mousemove_relative -- $move_x, $move_y # マウス移動
+      interval: 0.01 # 更新間隔を小さく
+      accel: 2 # マウスの移動量の増加
+    end:
+      command: xdotool mouseup 1 # 左マウスボタン解放
+  4: #４本指ジェスチャー
+    left:
+      command: "xdotool key ctrl+Super+Down" # 次のワークスペースへ進む
+    right:
+      command: "xdotool key ctrl+Super+Up" # 前のワークスペースへ戻る
+    up:
+      command: "xdotool key ctrl+Super+Down" # 次のワークスペースへ進む
+    down:
+      command: "xdotool key ctrl+Super+Up" # 前のワークスペースへ戻る
+pinch: #ピンチ（つまむ）
+  in:
+    command: "xdotool keydown ctrl click 4 keyup ctrl" # ズームイン
+  out:
+    command: "xdotool keydown ctrl click 5 keyup ctrl" # ズームアウト
+
+#threshold: # 閾値（反応開始する距離間隔）
+#swipe: 0.75  # スワイプは標準値の75%の長さ
+#pinch: 0.5   # ピンチは標準値の50%の長さ
+
+#interval: #インターバル （反応時間の間隔）
+#swipe: 0.2 # スワイプは0.2秒
+#pinch: 0.2 # ピンチは0.2秒
+---

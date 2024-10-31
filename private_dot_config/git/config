@@ -1,0 +1,117 @@
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+
+# [user]
+# name = namae
+# email = address@gmail.com
+
+# user.confからユーザー情報を読み込む
+[include]
+	path = ~/.config/git/user.conf
+
+[alias]
+	fml = reset --hard HEAD
+	hist = log --pretty=format:\"%C(cyan)%h %C(green)%ad%Creset | %s %C(yellow)%d %C(magenta)[%an]\" --graph --date=short
+	s = status
+  st = status
+  a = add
+  ad = add
+	unstage = rm --cached -r
+	br = branch
+	b = branch
+  co = checkout
+  pl = pull
+  ps = push
+  psf = push --force-with-lease
+  conf = -config --global
+  cm = commit -m
+  cv = commit -v
+  pom = push origin main
+  dc = diff --cached
+
+[blame]
+	coloring = highlightRecent
+
+[color]
+	ui = auto
+
+[color "blame"]
+	highlightRecent = dim white,30 month ago,dim magenta,24 month ago,dim blue,18 month ago,dim cyan,15 month ago,dim green,12 month ago,dim yellow,9 month ago,dim red,6 month ago,bold magenta,3 month ago,bold blue,2 month ago,bold cyan,6 week ago,bold green,4 week ago,bold yellow,2 week ago,bold red
+
+[color "decorate"]
+	HEAD = cyan
+	remoteBranch = red bold
+	stash = yellow
+	tag = blue bold
+
+[color "diff"]
+	frag = white blue
+	meta = black yellow
+
+[color "grep"]
+	filename = magenta
+	lineNumber = green
+
+[core]
+	excludesfile = ~/.config/git/ignore
+	repositoryformatversion = 0
+	filemode = true
+	bare = true
+	ignorecase = true
+
+[commit]
+	verbose = true
+
+[diff]
+	algorithm = histogram
+	indentHeuristic = true
+	renameLimit = 10000
+	renames = copies
+	statGraphWidth = 8
+
+[help]
+	autocorrect = 30
+
+[push]
+	default = simple
+	gpgSign = if-asked
+
+[rebase]
+	missingCommitsCheck = warn
+
+[rerere]
+	enabled = true
+
+[tag]
+	foreSignAnnotated = true
+
+[user]
+	name = budybye
+	email = 101wayout@gmail.com
+	#useConfigOnly = true
+
+[delta]
+	line-numbers = true
+	side-by-side = false
+
+[init]
+	defaultBranch = main
+
+[pull]
+	rebase = true
+	twohead = ort
+
+[branch]
+	autosetuprebase = always
+[remote "origin"]
+	url = https://github.com/budybye/dotfiles.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[credential "https://github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential

@@ -1,0 +1,90 @@
+## history
+HISTFILE="${XDG_STATE_HOME}/zsh/zsh_history"
+HISTSIZE=100000             # メモリ上に保存する履歴のサイズ
+SAVEHIST=123456             # 上述のファイルに保存する履歴のサイズ
+
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="123"
+
+set -o share_history        # 履歴を他のシェルとリアルタイム共有する
+set -o inc_append_history   # 実行時に履歴をファイルにに追加していく
+set -o hist_verify          # ヒストリを呼び出してから実行する間に一旦編集可能
+set -o hist_expand          # 補完時にヒストリを自動的に展開
+set -o hist_ignore_space    # スペースで始まるコマンドは履歴に記録しない
+set -o hist_ignore_all_dups # 重複を記録しない
+
+set -o auto_param_keys      # 環境変数を補完
+set -o auto_cd              # パスを直接入力してもcdする
+set -o auto_pushd           # cd - [tab]で過去のディレクトリに飛べる
+set -o auto_param_slash     # 自動スラッシュ補完
+set -o no_flow_control      # ctrl+s, ctrl+q を無効にする
+set -o no_nomatch           # curlマッチしない場合にエラーにしない
+set -o mark_dirs            # match directory as append slash
+set -o list_types           # autocomplete list is render file mark
+set -o print_eight_bit      # enable utf-8
+set -o correct              # 入力間違えしていたら、候補を出す。yで選択
+
+# 色
+autoload -Uz colors && colors
+
+# enable completion
+# autoload -Uz compinit && compinit
+compinit -d "${XDG_CACHE_HOME}/zsh/zcompdump-${ZSH_VERSION}"
+
+zstyle ':completion:*' cache-path "${XDG_CACHE_HOME}/zsh/zcompcache"
+
+## 小文字でも大文字でもマッチさせる
+zstyle ':completion:*' matcher-list 'm:{:a-z:}={:A-Z:}'
+
+## 補完方法毎にグループ化する。
+zstyle ':completion:*' format '%B%F{blue}%d%f%b'
+zstyle ':completion:*' group-name ''
+
+## 補完侯補をメニューから選択する。
+## select=2: 補完候補を一覧から選択する。補完候補が2つ以上なければすぐに補完する。##
+zstyle ':completion:*:default' menu select=2
+
+# 補完キャッシュを有効にする
+zstyle ':completion:*' rehash 1
+
+# cdした後に自動でlsする
+chpwd() {
+  ls -la
+}
+
+# homebrew
+if command -v brew > /dev/null 2>&1; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+#export FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+
+# direnv
+if command -v direnv > /dev/null 2>&1; then
+  eval "$(direnv hook zsh)"
+fi
+
+# mise
+if command -v mise > /dev/null 2>&1; then
+  eval "$(mise activate zsh)"
+  eval "$(mise activate --shims)"
+fi
+
+# sheldon
+if command -v sheldon > /dev/null 2>&1; then
+  eval "$(sheldon source)"
+fi
+
+# starship
+if command -v starship > /dev/null 2>&1; then
+  eval "$(starship init zsh)"
+fi
+
+# 重複したPATHを削除
+export PATH=$(printf %s "$PATH" | awk -v RS=: -v ORS=: '!arr[$0]++')
+
+# aliasファイルの読み込み
+. ${HOME}/.aliases
+
+# 初回シェル時のみ byobu実行
+if [ ${SHLVL} = 1 ]; then
+  byobu
+fi

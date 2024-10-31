@@ -1,0 +1,39 @@
+# EditorConfigはUTF-8を使用することを推奨します
+root = true
+
+# 全てのファイルに適用
+[*]
+charset = utf-8
+end_of_line = lf
+indent_style = space
+indent_size = 2
+insert_final_newline = true
+trim_trailing_whitespace = true
+font_size = 13
+
+# フォントの設定
+[*.{c,h,cpp,py,java,js,ts,sh,rs,go,json,yaml,yml,toml,ini,css,html,sql,txt,md,php,file,dat,csv,xml}]
+font_family = "HackGen Console NF", "Source Code Pro", "monospace", "Consolas"
+
+# インデント ４
+[*.{py, php, java, rs, go}]
+indent_size = 4
+
+# インデント 2
+[*.{c, h, cpp, js, ts, jsx, tsx, sh, json, yaml, yml, toml, ini, css, html, sql, txt, file xml}]
+indent_size = 2
+
+# Markdownの場合、インデントスタイルをタブに設定
+[*.md]
+indent_style = tab
+tab_width = 4
+
+# CSV
+[*.csv]
+# データの区切り文字
+separator = ,
+
+# DAT
+[*.dat]
+# データの区切り文字
+separator = \t

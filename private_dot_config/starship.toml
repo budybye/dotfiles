@@ -1,0 +1,234 @@
+# https://starship.rs/ja-jp/config/
+"$schema" = 'https://starship.rs/config-schema.json'
+
+# シェルプロンプトの間に空行を追加します
+add_newline = true
+
+# タイムアウト時間
+scan_timeout = 420
+
+# コマンドタイムアウト
+command_timeout = 4422
+
+# カラーパレットの定義
+palette = 'color'
+
+# 継続プロンプトの表示
+# continuation_prompt = "▶▶"
+
+# 並び順
+format = """
+[ ](gray)\
+[░▒▓](gray)\
+$os\
+$username\
+$hostname\
+[](fg:gray bg:navy)\
+$directory\
+[](fg:navy bg:dark)\
+$git_branch\
+$git_commit\
+$git_state\
+$git_metrics\
+$git_status\
+[](fg:dark bg:dd)\
+$nodejs\
+$rust\
+$golang\
+$php\
+$java\
+$python\
+$ruby\
+$bun\
+$package\
+[](fg:dd bg:ddd)\
+$time\
+$battery\
+$memory_usage\
+[](fg:ddd bg:ddd)\
+$cmd_duration\
+[](fg:ddd)\
+$line_break\
+$character\
+$localip\
+$docker_context\
+$custom\
+$shell\
+"""
+
+# 色の設定
+[palettes.color]
+gray = '#a0a9cb'
+white = '#e3e5e5'
+navy = '#769ff0'
+dark = '#393260'
+dd = '#212736'
+ddd = '#1d2230'
+
+[os]
+disabled = false
+style = "fg:navy bg:gray"
+
+[os.symbols]
+Windows = " "
+Ubuntu = " "
+Linux = " "
+Macos = " "
+Raspbian = " "
+RedHatEnterprise = " "
+
+# ユーザー名
+[username]
+style_user = "fg:navy bg:gray"
+style_root = "fg:red bg:gray"
+format = '[($user)@]($style bold)'
+disabled = false
+show_always = true
+
+# ホスト名
+[hostname]
+ssh_only = false
+style = "fg:navy bg:gray"
+format = '[$ssh_symbol$hostname:]($style bold)'
+disabled = false
+
+[directory]
+style = "fg:white bg:navy"
+format = "[ $path]($style bold)"
+truncate_to_repo = false
+truncation_length = 5
+truncation_symbol = "…/"
+
+[directory.substitutions]
+"Documents" = " "
+"Downloads" = "  "
+"Music" = "  "
+"Pictures" = "  "
+
+[git_branch]
+symbol = " "
+style = "fg:navy bg:dark"
+format = '[ $symbol $branch ]($style bold)'
+
+[git_status]
+style = "fg:navy bg:dark"
+format = '[($all_status$ahead_behind)]($style bold)'
+conflicted = "💥 "
+ahead = "🏎💨 "
+behind = "😰 "
+diverged = "😵 "
+untracked = "🌚 "
+stashed = "📦 "
+modified = "📝 "
+staged = '🔦 '
+renamed = "🏷 "
+deleted = "🗑 "
+
+[nodejs]
+symbol = " "
+style = "fg:navy bg:dd"
+format = '[ $symbol($version)]($style bold)'
+
+[rust]
+symbol = " "
+style = "fg:navy bg:dd"
+format = '[ $symbol($version)]($style bold)'
+
+[golang]
+symbol = "ﳑ "
+style = "fg:navy bg:dd"
+format = '[ $symbol($version)]($style bold)'
+
+[php]
+symbol = " "
+style = "fg:navy bg:dd"
+format = '[ $symbol($version)]($style bold)'
+
+[java]
+symbol = '🌟 '
+style = "fg:navy bg:dd"
+format = '[ $symbol($version)]($style bold)'
+
+[python]
+symbol = ' '
+style = "fg:navy bg:dd"
+format = '[ $symbol($version)]($style bold)'
+
+[ruby]
+symbol = ' '
+style = "fg:navy bg:dd"
+format = '[ $symbol($version)]($style bold)'
+
+[bun]
+symbol = '🍞 '
+style = "fg:navy bg:dd"
+format = '[ $symbol($version)]($style bold)'
+
+[package]
+symbol = " "
+style = "fg:navy bg:dd"
+format = '[ $symbol($version)]($style bold)'
+
+[time]
+disabled = false
+time_format = "%R" # Hour:Minute Format
+style = "fg:gray bg:ddd"
+format = '[ $time]($style bold)'
+
+# バッテリー表示
+[battery]
+full_symbol = ' '
+charging_symbol = ' '
+discharging_symbol = '⚠️ '
+disabled = false
+format = '[ $symbol$percentage]($style bold)'
+
+# バッテリーを表示するタイミング、表示する際の文字の色する際の文字の色
+[[battery.display]]
+threshold = 101
+style = "fg:gray bg:ddd"
+
+[memory_usage]
+disabled = false
+threshold = -1
+symbol = " "
+style = "fg:gray bg:ddd"
+format = '[ $symbol${ram_pct}]($style bold)'
+
+[cmd_duration]
+style = "fg:navy bg:ddd"
+min_time = 4200
+format = '[$duration]($style bold)'
+
+# IPアドレス
+[localip]
+ssh_only = true
+style = "fg:navy bg:gray"
+format = '[@$localipv4]($style bold) '
+disabled = false
+
+[docker_context]
+format = "[🐋$context](blue bold) "
+
+[character]
+success_symbol = "[♨︎ ](green bold)"
+error_symbol = "[♨︎ ](red bold)"
+
+[shell]
+fish_indicator = ' '
+powershell_indicator = '_ '
+style = 'green'
+# format = '[$indicator](strikethrough red bold) [kush]($style bold) [](yellow bold) '
+format = '[$indicator](green bold) [](yellow bold) '
+#format = '[$indicator\$]($style bold) '
+disabled = false
+
+# x86 or arm64
+[custom.arch]
+command = "uname -m"
+when = """ test $(uname -m) = "x86_64" """
+style = "bold navy"
+format = "[ $output]($style bold)"
+
+[gcloud]
+disabled = true

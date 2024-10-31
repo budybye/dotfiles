@@ -1,0 +1,89 @@
+# .config/sheldon/plugins.toml
+shell = "zsh"
+
+[plugins.zsh-defer]
+github = "romkatv/zsh-defer"
+apply = ["source"]
+
+[templates]
+apply = "defer"
+defer = "{% for file in files %}zsh-defer source \"{{ file }}\"\n{% endfor %}"
+PATH = 'export PATH="$PATH:{{ dir }}"'
+
+[plugins.compinit]
+inline = "autoload -Uz compinit && zsh-defer compinit -d \"${XDG_CACHE_HOME}/zsh/zcompdump-${ZSH_VERSION}\""
+
+[plugins.zsh-syntax-highlighting]
+github = "zsh-users/zsh-syntax-highlighting"
+apply = ["defer"]
+
+[plugins.zsh-fast-syntax-highlighting]
+github = "zdharma-continuum/fast-syntax-highlighting"
+apply = ["defer"]
+
+[plugins.zsh-completions]
+github = "zsh-users/zsh-completions"
+apply = ["defer"]
+
+[plugins.zsh-autosuggestions]
+github = "zsh-users/zsh-autosuggestions"
+apply = ["defer"]
+use = ["{{ name }}.zsh"]
+
+[plugins.async]
+github = "mafredri/zsh-async"
+use = ["{{ name }}.zsh"]
+
+[plugins.autojump]
+github = "wting/autojump"
+dir = "bin"
+apply = ["PATH", "source"]
+
+[plugins.z]
+github = "rupa/z"
+apply = ["defer"]
+
+[plugins.zsh-abbr]
+github = "olets/zsh-abbr"
+apply = ["defer"]
+
+[plugins.zsh-navigation-tools]
+github = "z-shell/zsh-navigation-tools"
+apply = ["defer"]
+
+#[plugins.enhancd]
+#github = "b4b4r07/enhancd"
+
+[plugins.fzf]
+github = "junegunn/fzf"
+apply = ["defer"]
+
+#[plugins.powerlevel10k]
+#github = "romkatv/powerlevel10k"
+
+#[plugins.base16]
+#github = "chriskempson/base16-shell"
+
+#[plugins.asdf]
+#github = "asdf-vm/asdf"
+
+#[plugins.blackbox]
+#github = "StackExchange/blackbox"
+
+#[plugins."z.lua"]
+#github = "skywind3000/z.lua"
+
+#[plugins.oh-my-zsh]
+#github = "ohmyzsh/ohmyzsh"
+
+#[plugins.pure]
+#github = "sindresorhus/pure"
+#use = ["async.zsh", "pure.zsh"]
+
+# [plugins.spaceship]
+# github = "spaceship-prompt/spaceship-prompt"
+# apply = ["defer"]
+
+# [plugins.typewritten]
+# github = "reobin/typewritten"
+# apply = ["defer"]
