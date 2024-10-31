@@ -1,0 +1,21 @@
+emulate sh
+. "${HOME}/.profile"
+emulate zsh
+
+typeset -U path PATH
+path=(
+  /opt/homebrew/bin(N-/)
+  /opt/homebrew/sbin(N-/)
+  /opt/X11/bin(N-/)
+  /snap/bin(N-/)
+  /usr/bin
+  /usr/sbin
+  /bin
+  /sbin
+  /usr/local/bin(N-/)
+  ${HOME}/.console-ninja/.bin(N-/)
+  ${HOME}/.local/share/sheldon/repos/github.com/*/*/bin(N-/)
+  ${HOME}/.local/bin(N-/)
+)
+
+. "${HOME}/.zshrc"

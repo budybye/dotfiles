@@ -130,9 +130,9 @@ sudo dpkg -i GitHubDesktop-linux-arm64-3.4.3-linux1.deb
 
 sudo wget https://github.com/coder/cursor-arm/releases/download/v0.42.2/cursor_0.42.2_linux_arm64.AppImage
 sudo chomod a+x cursor_0.42.2_linux_arm64.AppImage
-mkdir -p ~/AppImage
-mv cursor_0.42.2_linux_arm64.AppImage ~/AppImage/cursor_0.42.2_linux_arm64.AppImage
-# ~/AppImage/cursor_0.42.2_linux_arm64.AppImage --no-sandbox
+mkdir -p ~/Applications
+mv cursor_0.42.2_linux_arm64.AppImage ~/Applications/cursor_0.42.2_linux_arm64.AppImage
+# ~/Applications/cursor_0.42.2_linux_arm64.AppImage --no-sandbox
 
 chezmoi init --apply "${GIT_AUTHOR_NAME}"
 
