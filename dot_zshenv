@@ -8,6 +8,7 @@ path=(
   /opt/homebrew/sbin(N-/)
   /opt/X11/bin(N-/)
   /snap/bin(N-/)
+  ${PATH}
   /usr/bin
   /usr/sbin
   /bin
