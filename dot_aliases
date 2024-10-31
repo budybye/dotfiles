@@ -55,7 +55,7 @@ alias ml='multipass launch -n ubuntu -c 4 -m 4G -d 40G  --timeout 3600 --mount $
 alias mld='multipass launch -n ubuntu -c 4 -m 8G -d 40G  --timeout 3600 --mount ${HOME}/dotfiles:/home/ubuntu/dotfiles --cloud-init ${HOME}/dotfiles/cloud-init/desktop.yaml'
 # brew
 alias bs="brew -S"
-alias bb='brew bundle --file "${HOME}/dotfiles/Brewfile" && brew bundle cleanup --force --file "${HOME}/dotfiles/Brewfile" && brew update && brew upgrade && brew autoremove && brew doctor'
+alias bb='brew bundle --file "${HOME}/Brewfile" && brew bundle cleanup --force --file "${HOME}/dotfiles/Brewfile" && brew update && brew upgrade && brew autoremove && brew doctor'
 
 alias lh="open -na 'Brave Browser' --args --new-window http://localhost:3000"
 alias opop="for i in {1..3}; do time zsh -ic exit; done"

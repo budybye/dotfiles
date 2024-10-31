@@ -1,0 +1,164 @@
+/* 全体 */
+* {
+    background-color: #272822;
+    color: whitesmoke;
+    font-family: "monospace" ;
+}
+
+/* コードテキスト */
+code,
+pre {
+    font-family: "HackGen35 Console NF" "monospace";
+    background-color: #000;
+    color: #0f0;
+    padding: 3px;
+}
+.plantuml {
+    background-color: whitesmoke;
+}
+/* 見出し1 */
+h1 {
+    color: whitesmoke;
+    background-color: #75715e;
+    font-weight: bold;
+    border: solid 3px #f92672;
+    padding: 0.5em;
+    border-radius: 0.5em;
+}
+
+/* 見出し2 */
+h2 {
+    color: #a6e22e;
+    position: relative;
+    font-weight: bold;
+    margin: 0 0 1.5em;
+    padding: 0.5em 0.5em 0.5em 2.1em;
+    border-bottom: 2px solid #f92672;
+}
+h2:before {
+    content: "□";
+    font-size: 180%;
+    position: absolute;
+    color: #f92672;
+    top: 0.15em;
+    left: 0.1em;
+    height: 12px;
+    width: 12px;
+}
+h2:after {
+    content: "□";
+    font-size: 120%;
+    position: absolute;
+    color: #fd971f;
+    top: 0.78em;
+    left: 0;
+    height: 12px;
+    width: 12px;
+}
+
+/* 見出し3 */
+h3 {
+    color: #fd971f;
+    padding: .5em .75em;
+    background-color: #75715e;
+    border-left: 6px solid #f92672;
+}
+
+/* 見出し4 */
+h4 {
+    color: #a6e22e;
+    padding: .5em .75em;
+    background-color: #75715e;
+    border-radius: 6px;
+}
+
+/* 見出し5 */
+h5 {
+    color: #e6db74;
+    padding: .5em .75em;
+    border-bottom-style: dotted;
+    border-bottom-color: #fd971f;
+    border-bottom-width: thin;
+}
+
+/* 水平線 */
+hr {
+    background-color: #ae81ff;
+}
+
+/* 表 */
+table thead th {
+    background: #393939;
+    font-weight: bold;
+    vertical-align: top;
+    color: #fd971f;
+}
+table th,
+table td,
+table tr {
+    padding: 9px 16px;
+    border: solid #f92672;
+    color: #e6db74;
+    background-color: #75715e;
+}
+
+/* リスト */
+ul li {
+    color: whitesmoke;
+    padding: 0;
+    margin: 5px 0;
+    list-style-type: none !important;
+    list-style-image: none !important;
+    position: relative;
+    padding-left: 30px;
+}
+ul li:after {
+    content: '';
+    display: block;
+    position: absolute;
+    background: #e6db74;
+    width: 9px;
+    height: 9px;
+    top: 5px;
+    left: 5px;
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+}
+
+/* olタグ（順序リスト） */
+ol {
+    counter-reset: li;
+    padding: 0;
+    list-style: none;
+}
+ol li {
+    color: whitesmoke;
+    position: relative;
+    margin: 0 0 8px 4em;
+    padding: 2px 8px;
+}
+ol li:before {
+    content: counter(li);
+    counter-increment: li;
+    position: absolute;
+    top: -2px;
+    left: -2em;
+    width: 2em;
+    padding: 3px 0;
+    color: #e6db74;
+    background: #75715e;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 30px;
+}
+/* aタグ（リンク） */
+a {
+    color: #66d9ef;
+    font-weight: bold;
+    text-decoration: none;
+}
+a:hover,
+a:active {
+    text-decoration: underline;
+}

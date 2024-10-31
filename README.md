@@ -1,3 +1,5 @@
+<link href="./style.css" rel="stylesheet"></link>
+
 # dotfiles
 
 ## chezmoi
@@ -9,7 +11,32 @@ chezmoi cd
 
 chezmoi apply
 
-chezmoi add --
+chezmoi add --follow < Filename >
+
 ```
 
-## .
+## mise
+
+## starship
+
+## sheldon
+
+## aliases
+
+## aqua
+
+## mkcert
+
+## VSCodium
+
+## Github
+
+## Tabby
+
+## Hackgen NF
+
+## Brewfile
+
+## Ubuntu multipass
+
+## Docker utubun xfce xrdp 

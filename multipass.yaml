@@ -30,6 +30,14 @@ packages:
   - xrdp
 
   # - ubuntu-desktop-minimal
+  # - gnome-shell-extensions
+  # - gnome-shell-extension-manager
+  # - gnome-control-center
+  # - gnome-tweaks
+  # - gnome-session
+  # - task-japanese-gnome-desktop
+  # - gnome-user-docs-ja
+  # - language-pack-gnome-ja
   # - pulseaudio
 
   # - ubuntustudio-installer
@@ -89,6 +97,7 @@ packages:
   - neofetch
 
   # cargo系
+  - cargo
   - lsd
   # - bat
   - zoxide
@@ -114,17 +123,17 @@ packages:
   # - docker-compose
   # - avahi-daemon
 
-runcmd:
-  - sudo sed -i 's/^s*REGDOMAIN=S*/REGDOMAIN=JP/' /etc/default/crda || true
-  - LANG=C xdg-user-dirs-update --force
-  - im-config -n fcitx5
-  - sudo systemctl restart rsyslog
-  - sudo dpkg --configure -a
+# runcmd:
+#   - sudo sed -i 's/^s*REGDOMAIN=S*/REGDOMAIN=JP/' /etc/default/crda || true
+#   - LANG=C xdg-user-dirs-update --force
+#   - im-config -n fcitx5
+#   - sudo systemctl restart rsyslog
+#   - sudo dpkg --configure -a
 
-  - sudo usermod -a -G ssl-cert,xrdp,input,audio
-  - sudo ufw allow 3389
-  - sudo systemctl enable xrdp
-  - sudo systemctl start xrdp
+#   - sudo usermod -a -G ssl-cert,xrdp,input,audio
+#   - sudo ufw allow 3389
+#   - sudo systemctl enable xrdp
+#   - sudo systemctl start xrdp
 
 keyboard:
   # 日本語キーボードの設定
