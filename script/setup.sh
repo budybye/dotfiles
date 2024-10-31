@@ -125,9 +125,18 @@ git config --global user.email "${GIT_AUTHOR_EMAIL}"
 
 # gh auth login
 
+sudo wget https://github.com/shiftkey/desktop/releases/download/release-3.4.3-linux1/GitHubDesktop-linux-arm64-3.4.3-linux1.deb
+sudo dpkg -i GitHubDesktop-linux-arm64-3.4.3-linux1.deb
+
+sudo wget https://github.com/coder/cursor-arm/releases/download/v0.42.2/cursor_0.42.2_linux_arm64.AppImage
+sudo chomod a+x cursor_0.42.2_linux_arm64.AppImage
+mkdir -p ~/AppImage
+mv cursor_0.42.2_linux_arm64.AppImage ~/AppImage/cursor_0.42.2_linux_arm64.AppImage
+# ~/AppImage/cursor_0.42.2_linux_arm64.AppImage --no-sandbox
+
 chezmoi init --apply "${GIT_AUTHOR_NAME}"
 
-sudo cp ~/data/wallpapper.jpeg /usr/share/backgrounds/bg.jpeg
+sudo cp ~/data/bg.jpeg /usr/share/backgrounds/bg.jpeg
 
 echo " ### dotfiles cloned"
 
