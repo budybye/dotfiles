@@ -62,9 +62,9 @@ else
     export EDITOR="vim"
 fi
 
-if [ -z "$DISPLAY" ]; then
-    export DISPLAY=":0"
-fi
+# if [ -z "$DISPLAY" ]; then
+#     export DISPLAY=":0"
+# fi
 
 export PS1="\[\e[32m\]\u@\h\[\e[m\]:\[\e[34m\]\w\[\e[m\] \$ "
 

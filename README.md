@@ -14,6 +14,8 @@ chezmoi apply
 
 chezmoi add --follow < Filename >
 
+chezmoi chattr 
+
 ```
 
 ## mise
