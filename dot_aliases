@@ -17,7 +17,7 @@ alias lt='ls --tree'
 alias tree="tree -NC"
 
 ## cat bat
-alias cat="bat --theme MonokaiExtended"
+alias cat="bat --theme Monokai Extended"
 
 ## git
 alias g="git"

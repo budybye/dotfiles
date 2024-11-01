@@ -12,6 +12,7 @@ sudo ln -sf "${DOTFILES}/.config/git/commit_template" "${XDG_CONFIG_HOME}/git/co
 
 sudo ln -sf "${DOTFILES}/.config/vim/vimrc" "${XDG_CONFIG_HOME}/vim/vimrc"
 
+
 ln -sf "${DOTFILES}/.config/mise/config.toml" "${XDG_CONFIG_HOME}/mise/config.toml"
 ln -sf "${DOTFILES}/.config/mise.toml" "${XDG_CONFIG_HOME}/mise.toml"
 
@@ -19,6 +20,7 @@ ln -sf "${DOTFILES}/.config/starship.toml" "${XDG_CONFIG_HOME}/starship.toml"
 mkdir -p "${XDG_CONFIG_HOME}/sheldon"
 ln -sf "${DOTFILES}/.config/sheldon/plugins.toml" "${XDG_CONFIG_HOME}/sheldon/plugins.toml"
 
+mkdir -p "${XDG_CONFIG_HOME}/byobu"
 ln -sf "${DOTFILES}/.config/byobu/.tmux.conf" "${XDG_CONFIG_HOME}/byobu/.tmux.conf"
 
 mkdir -p "${XDG_CONFIG_HOME}/fusuma"
@@ -35,10 +37,12 @@ mkdir -p "${XDG_CONFIG_HOME}/tabby"
 ln -sf "${DOTFILES}/.config/tabby/config.yaml" "${HOME}/Library/Application Support/tabby/config.yaml"
 ln -sf "${DOTFILES}/.config/tabby/config.yaml" "${XDG_CONFIG_HOME}/tabby/config.yaml"
 
-mkdir -p "${XDG_CONFIG_HOME}/VSCodium/User" "${XDG_DATA_HOME}/vscode/user-data/User"
+mkdir -p "${XDG_CONFIG_HOME}/VSCodium/User" "${XDG_CONFIG_HOME}/vscode/User" "${XDG_DATA_HOME}/vscode/user-data/User"
 ln -sf "${DOTFILES}/.config/vscode/extensions.json" "${XDG_CONFIG_HOME}/vscode/extensions.json"
+ln -sf "${DOTFILES}/.config/vscode/settings.json" "${XDG_CONFIG_HOME}/vscode/User/settings.json"
 ln -sf "${DOTFILES}/.config/vscode/settings.json" "${XDG_DATA_HOME}/vscode/user-data/User/settings.json"
 
+ln -sf "${DOTFILES}/.config/vsocde/extensions.json" "${XDG_CONFIG_HOME}/VSCodium/extensions.json"
 ln -sf "${DOTFILES}/.config/vscode/settings.json" "${XDG_CONFIG_HOME}/VSCodium/User/settings.json"
 # ln -sf "${DOTFILES}/.config/vscode/settings.json" "${HOME}/Library/Application Support/Cursor/User/settings.json"
 

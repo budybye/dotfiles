@@ -65,12 +65,13 @@ fi
 # if [ -z "$DISPLAY" ]; then
 #     export DISPLAY=":0"
 # fi
+export DISPLAY=":0:${DISPLAY}"
 
 export PS1="\[\e[32m\]\u@\h\[\e[m\]:\[\e[34m\]\w\[\e[m\] \$ "
 
 export PROMPT='%F{green}%n@%m%f:%F{blue}% ~ %f%F{yellow}$%f '
 
-# export ZDOTDIR="${HOME}"
+export ZDOTDIR="${HOME}"
 
 # パスを再設定
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
@@ -96,8 +97,11 @@ export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
 # export SPACEMACSDIR="${XDG_CONFIG_HOME}/spacemacs"
 # mv ~/.spacemacs "$SPACEMACSDIR/init.el"
 
-mkdir -p ${XDG_DATA_HOME}/vscode
-export VSCODE_PORTABLE=${XDG_DATA_HOME}/vscode
+# mkdir -p ${XDG_DATA_HOME}/vscode
+# export VSCODE_PORTABLE=${XDG_DATA_HOME}/vscode
+
+mkdir -p ${XDG_CONFIG_HOME}/vscode
+export VSCODE_PORTABLE=${XDG_CONFIG_HOME}/vscode
 
 #mkdir -p "${XDG_DATA_HOME}"/go
 #export GOPATH="${XDG_DATA_HOME}"/go
