@@ -15,10 +15,10 @@ RUN dpkg --configure -a && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-RUN sed -i 's/^s*REGDOMAIN=S*/REGDOMAIN=JP/' /etc/default/crda || true
+# RUN sed -i 's/^s*REGDOMAIN=S*/REGDOMAIN=JP/' /etc/default/crda || true
 # RUN LANG=C xdg-user-dirs-update --force
 # RUN im-config -n fcitx5
-RUN systemctl restart rsyslog
+# RUN systemctl restart rsyslog
 # RUN usermod -a -G ssl-cert,xrdp,input,audio ${USERNAME}
 # RUN ufw allow 3389
 RUN systemctl enable xrdp
