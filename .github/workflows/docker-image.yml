@@ -17,6 +17,14 @@ jobs:
       - name: Dockerイメージのビルド
         run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
 
+      - naem: Docker 動作確認
+        run: |
+           docker run -d --name my-container my-image-name
+           docker ps -a
+           docker logs my-container
+           docker stop my-container
+           docker rm my-container
+
       - name: Install dotfiles
         run: sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply -S .
 
