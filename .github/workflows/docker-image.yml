@@ -29,7 +29,7 @@ jobs:
           docker logs my-container
           docker stop my-container
           docker rm my-container
-          docker-compose up --build -d
+          docker compose up --build -d
           docker compose down
 
       - name: Install dotfiles
