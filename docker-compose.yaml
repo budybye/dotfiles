@@ -10,9 +10,3 @@ services:
       - "3389:3389"
     environment:
       - ENV=production
-
-deploy:
-  resources:
-    limits:
-      cpus: "0.50"
-      memory: "512M"
