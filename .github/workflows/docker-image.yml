@@ -23,7 +23,8 @@ jobs:
 
       - name: Docker 動作確認
         run: |
-          docker run --rm --privileged --name my-container -it 5432:5432 my-image-name:${{ env.IMAGE_TAG }}
+          docker run -d --name my-container my-image-name:${{ env.IMAGE_TAG }}
+          # 必要に応じて追加のテストコマンドをここに記述
           docker ps -a
           docker logs my-container
           docker stop my-container
@@ -32,6 +33,8 @@ jobs:
       - name: Install dotfiles
         run: sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply -S .
 
+      - name: mise set
+        uses: jdx/mise-action@v2
       # - name: GitHub Container Registryにログイン
       #   uses: docker/login-action@v2
       #   with:
