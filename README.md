@@ -6,16 +6,15 @@ v.0.1.1
 ## chezmoi
 
 ```
-chezmoi init --apply < Github Username >
+chezmoi init --apply budybye
 
-chezmoi cd
+chezmoi cd # cd ~/.local/share/chezmoi
 
-chezmoi apply
+chezmoi apply < option Filename >
 
 chezmoi add --follow < Filename >
 
-chezmoi chattr 
-
+chezmoi chattr < Filename >
 ```
 
 ## mise
@@ -26,6 +25,30 @@ mise ls
 
 mise trust
 ```
+```
+./.mise.toml
+~/.config/mise.toml
+~/.config/mise/config.toml
+```
+
+## shell
+```
+~/.zshrc
+
+~/.zshenv
+
+~/.profile
+
+~/.bashrc
+
+~/.bash_profile
+```
+
+## aliases
+```
+### zsh && bash
+~/.aliases
+```
 
 ## starship
 ```
@@ -33,23 +56,79 @@ mise trust
 ```
 
 ## sheldon
-
-## aliases
-
+```
+~/.config/sheldon/plugins.toml
+```
 ## aqua
-
-## mkcert
-
+```
+~/.config/aquaproj-aqua/aqua.yaml
+```
+## byobu
+```
+~/.config/byobu/.tmux.conf
+```
 ## VSCodium
-
-## Github
-
-## Tabby
-
+```
+~/.config/vscode/user-date/User/setting.json
+~/.config/vscode/extntions.json
+```
+## Git
+```
+~/.config/git/config
+~/.config/git/user.conf
+~/.config/git/ignore
+~/.config/git/commit.template
+```
+## tabby
+```
+~/.config/tabby/config.yaml
+```
+## statship
+```
+~/.config/starship.toml
+```
+## editorconfig
+```
+~/.config/.editorconfig
+```
+## vim
+```
+~/.config/vim/vimrc
+```
+## fcitx5
+```
+~/.config/fcitx5/config
+```
+## fusuma
+```
+~/.config/fusuma/config.yaml
+```
+## neofetch
+```
+~/.config/neofetch/config.conf
+```
 ## Hackgen NF
+```
+~/.local/share/fonts/Hackgen NF
+```
 
 ## Brewfile
+```
+~/.config/Brewfile
+```
+## Multipass cloud-init
+```
+multipass launch \
+-n ubuntu \
+-c 4 \
+-m 4G \
+-d 40G \
+--timeout 3600 \
+--mount ${HOME}/.dotfiles:/home/ubuntu/dotfiles \
+--cloud-init ${HOME}/multipass.yaml
+```
 
-## Ubuntu multipass
-
-## Docker utubun xfce xrdp 
+## xrdp docker xfce utubun 
+```
+docker run --rm --privileged --name xdxu -it 5432:5432
+```
