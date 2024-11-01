@@ -13,7 +13,7 @@ jobs:
 
       - name: Dockerのセットアップ
         uses: docker/setup-buildx-action@v2
-        
+
       - name: Dockerイメージのビルド
         id: build
         run: |
@@ -23,8 +23,7 @@ jobs:
 
       - name: Docker 動作確認
         run: |
-          docker run -d --name my-container my-image-name:${{ env.IMAGE_TAG }}
-          # 必要に応じて追加のテストコマンドをここに記述
+          docker run --rm --privileged --name my-container -it 5432:5432 my-image-name:${{ env.IMAGE_TAG }}
           docker ps -a
           docker logs my-container
           docker stop my-container
