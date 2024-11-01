@@ -1,0 +1,52 @@
+docker-compose.yaml
+
+version: "3.8"
+
+services:
+  app:
+    image: my-image-name:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: my-app-container
+    ports:
+      - "8787:80"
+      - "3389:3389"
+    environment:
+      - ENV=production
+      - DATABASE_HOST=db
+      - DATABASE_PORT=5432
+    depends_on:
+      - db
+    networks:
+      - app-network
+    volumes:
+      - ./app/data:/app/data
+
+  db:
+    image: postgres:13
+    container_name: my-db-container
+    restart: always
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydatabase
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  db-data:
+
+deploy:
+  resources:
+    limits:
+      cpus: "0.50"
+      memory: "512M"
