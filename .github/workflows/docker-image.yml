@@ -13,17 +13,22 @@ jobs:
 
       - name: Dockerのセットアップ
         uses: docker/setup-buildx-action@v2
-
+        
       - name: Dockerイメージのビルド
-        run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+        id: build
+        run: |
+          TAG=$(date +%s)
+          docker build . --file Dockerfile --tag my-image-name:${TAG}
+          echo "IMAGE_TAG=${TAG}" >> $GITHUB_ENV
 
       - name: Docker 動作確認
         run: |
-           docker run -d --name my-container my-image-name
-           docker ps -a
-           docker logs my-container
-           docker stop my-container
-           docker rm my-container
+          docker run -d --name my-container my-image-name:${{ env.IMAGE_TAG }}
+          # 必要に応じて追加のテストコマンドをここに記述
+          docker ps -a
+          docker logs my-container
+          docker stop my-container
+          docker rm my-container
 
       - name: Install dotfiles
         run: sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply -S .
