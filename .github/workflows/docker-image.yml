@@ -17,7 +17,7 @@ jobs:
       - name: Dockerイメージのビルド
         run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
 
-      - naem: Docker 動作確認
+      - name: Docker 動作確認
         run: |
            docker run -d --name my-container my-image-name
            docker ps -a
