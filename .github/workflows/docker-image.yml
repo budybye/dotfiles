@@ -34,7 +34,11 @@ jobs:
         run: sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply -S .
 
       - name: mise set
-        uses: jdx/mise-action@v2
+        run: |
+          curl https://mise.run | sh
+          echo "$HOME/.local/share/mise/bin" >> $GITHUB_PATH
+          echo "$HOME/.local/share/mise/shims" >> $GITHUB_PATH
+      
       # - name: GitHub Container Registryにログイン
       #   uses: docker/login-action@v2
       #   with:
