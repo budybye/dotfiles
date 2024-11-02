@@ -2,7 +2,6 @@
 
 # dotfilesリポジトリのパスを設定
 DOTFILES="${HOME}/dotfiles"
-# DOTFILES="${HOME}/.files"
 
 mkdir -p "${XDG_CONFIG_HOME}/git"
 sudo ln -sf "${DOTFILES}/.config/git/config" "${XDG_CONFIG_HOME}/git/config"

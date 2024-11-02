@@ -180,5 +180,9 @@ defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 65 "<dic
 # Spotlight検索を表示、Finderの検索ウインドウを表示が無効化になっているか確認する（64、65をチェックすること）
 defaults read com.apple.symbolichotkeys AppleSymbolicHotKeys
 
-## 一度再起動
-sudo shutdown -r now
+# 再起動
+for app in "Dock" \
+    "Finder" \
+    "SystemUIServer"; do
+    killall "${app}" &> /dev/null
+done

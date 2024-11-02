@@ -132,5 +132,5 @@ echo " ### dotfiles cloned"
 
 sudo chsh -s /bin/zsh ubuntu
 
-echo "### Finish!! reboot now..."
-sudo reboot now
+echo "### Finish!! Pleaes reboot"
+# sudo reboot now
