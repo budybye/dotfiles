@@ -65,7 +65,7 @@ jobs:
 
       - name: go
         run: |
-          go --version
+          go version
 
   mac-test:
     runs-on: macos-latest

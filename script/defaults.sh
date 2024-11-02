@@ -99,8 +99,6 @@ defaults write -g NSAutomaticSpellingCorrectionEnabled -bool false
 ## terminalでUTF-8のみを使用する
 defaults write com.apple.terminal StringEncodings -array 4
 
-## ネットを早くする
-#networksetup -setdnsservers Wi-Fi 2001:4860:4860::8844 2001:4860:4860::8888 8.8.4.4 8.8.8.8
 
 ## 新しいウィンドウでデフォルトでホームフォルダを開く
 defaults write com.apple.finder NewWindowTarget -string "PfDe"
@@ -111,10 +109,10 @@ defaults write com.apple.finder AppleShowAllFiles -bool YES && \
 killall Finder
 
 # ログイン画面でシステム情報を表示する
-sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
+defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
 
 # ダークモードをオンにする
-sudo defaults write /Library/Preferences/.GlobalPreferences AppleInterfaceTheme Dark
+defaults write /Library/Preferences/.GlobalPreferences AppleInterfaceTheme Dark
 
 # アクセントカラーをマルチカラーに設定する
 defaults write NSGlobalDomain AppleAccentColor -int -1
@@ -147,7 +145,7 @@ defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
 defaults write com.apple.menuextra.clock 'DateFormat' -string 'EEE H:mm'
 
 ## 時計アイコンクリック時に OS やホスト名 IP を表示する
-sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
+defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
 
 ## Bluetooth ヘッドフォン・ヘッドセットの音質を向上させる
 defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" -int 40
@@ -155,17 +153,8 @@ defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" -int
 ## 未確認のアプリケーションを実行する際のダイアログを無効にする
 defaults write com.apple.LaunchServices LSQuarantine -bool false
 
-## Show the ~/Library directory （ライブラリディレクトリを表示、デフォルトは非表示）
-chflags nohidden ~/Library
-
-## (on マシンがフリーズしたら自動的にリスタート)
-systemsetup -setrestartfreeze on
-
 # F1、F2などのキーを標準的なファンクションキーとして使用
 defaults write -g com.apple.keyboard.fnState -bool true
-
-## スリープしない
-systemsetup -setcomputersleep Off > /dev/null
 
 # 「新規フォルダ」のショートカットキー設定
 defaults write com.apple.Finder NSUserKeyEquivalents -dict-add "新規フォルダ" -string "^k"
@@ -187,6 +176,19 @@ defaults read com.apple.symbolichotkeys AppleSymbolicHotKeys
 
 # メモリ過負荷時のアラートを表示する空きメモリを1000MBにする。無効にするには -int 1000を消して実行
 # sudo defaults write /System/Library/LaunchDaemons/com.apple.jetsamproperties.Mac.plist JetsamCriticalHighWaterMark -int 1000
+
+
+## Show the ~/Library directory （ライブラリディレクトリを表示、デフォルトは非表示）
+chflags nohidden ~/Library
+
+## (on マシンがフリーズしたら自動的にリスタート)
+systemsetup -setrestartfreeze on
+
+## スリープしない
+systemsetup -setcomputersleep Off > /dev/null
+
+## DNSを設定
+networksetup -setdnsservers Wi-Fi 2001:4860:4860::8844 2001:4860:4860::8888 1.1.1.2 1.1.1.1
 
 ## 一度再起動
 # sudo shutdown -r now
