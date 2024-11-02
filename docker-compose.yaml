@@ -1,6 +1,5 @@
 services:
   ubuntu:
-    image: duxx:latest
     build:
       context: .
       dockerfile: Dockerfile
