@@ -97,7 +97,7 @@ jobs:
 
       - name: defaults cmd
         run: |
-          . ./bin/dedaults.sh
+          . ./bin/defaults.sh
 
       - name: homebrew
         run: |
