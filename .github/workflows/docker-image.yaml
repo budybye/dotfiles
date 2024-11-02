@@ -84,11 +84,11 @@ jobs:
         run: |
           bun i -g wrangler
 
-      - name: default cmd
-        run: |
-          . ./script/default.sh
-
       - name: homebrew
         run: |
           . ./script/install.sh
           fastfetch
+
+      - name: default cmd
+        run: |
+          . ./script/default.sh
