@@ -68,6 +68,10 @@ jobs:
         run: |
           go version
 
+      - name: www
+        run: |
+          neofetch
+
   mac-test:
     runs-on: macos-14
 
