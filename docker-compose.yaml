@@ -22,7 +22,7 @@ services:
       - 8080:8080
       - 5001:5001
     volumes:
-      - ./private_dot_config/ipfs:/home/ubuntu/.config/ipfs
+      - ./private_dot_config/ipfs/config:/home/ubuntu/.config/ipfs/config
       - ./private_data:/export
       - ./private_dot_config/ipfs/executable_entrypoint.sh:/container-init.d/entrypoint.sh #init直後のdaemon起動前に実行されるshをマウント
     environment:
