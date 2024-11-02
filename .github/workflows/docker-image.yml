@@ -3,12 +3,13 @@ name: Docker Image CI
 on:
   push:
     branches: ["main"]
+
 env:
   IMAGE_NAME: duxx
-  IAMEG_TAG: $(date +%s)
   CONT_NAME: docker-ubuntu-xfce-xrdp
+
 jobs:
-  build-and-test:
+  ubuntu-test:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -30,7 +31,9 @@ jobs:
       - name: Docker build
         id: build
         run: |
-          docker build . --file Dockerfile --tag ${{ env.IMAGE_NAME }}:${ env.IMAGE_TAG }
+          TAG=$(date +%s)
+          docker build . --file Dockerfile --tag ${{ env.IMAGE_NAME }}:${TAG}
+          echo "IMAGE_TAG=${TAG}" >> $GITHUB_ENV
 
       - name: Docker run compose
         run: |
