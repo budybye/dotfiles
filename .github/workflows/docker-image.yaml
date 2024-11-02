@@ -8,7 +8,7 @@ env:
   IMAGE_NAME: docker-ubuntu-xfce-xrdp-jp
 
 jobs:
-  ubuntu-test:
+  docker-build-push-compose:
     runs-on: ubuntu-latest
 
     permissions:
@@ -39,6 +39,10 @@ jobs:
           docker ps -a
           docker compose down
 
+  ubuntu-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
       - name: chezmoi init
         run: |
           sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply -S .
