@@ -44,6 +44,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
+
       - name: chezmoi init
         run: |
           sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply -S .
@@ -92,6 +93,7 @@ jobs:
       - name: homebrew
         run: |
           . ./script/install.sh
+          fastfetch
 
       - name: default cmd
         run: |

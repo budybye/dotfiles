@@ -111,7 +111,7 @@ killall Finder
 sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
 
 # ダークモードをオンにする
-sudo defaults write /Library/Preferences/.GlobalPreferences AppleInterfaceTheme Dark
+defaults write /Library/Preferences/.GlobalPreferences AppleInterfaceTheme Dark
 
 # アクセントカラーをマルチカラーに設定する
 defaults write NSGlobalDomain AppleAccentColor -int -1
