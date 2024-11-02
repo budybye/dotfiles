@@ -1,13 +1,23 @@
 #!/bin/sh -x
 
-# Ask for the administrator password upfront
-# sudo -v
+# (on マシンがフリーズしたら自動的にリスタート)
+systemsetup -setrestartfreeze on
+# スリープしない
+systemsetup -setcomputersleep Off > /dev/null
 
-# Keep-alive: update existing `sudo` time stamp until `.osx` has finished
-# 定期的にバックグラウンドでsudoの認証を更新する
-# while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+## defaults による初期設定
 
-# defaults による初期設定
+# Show the ~/Library directory （ライブラリディレクトリを表示、デフォルトは非表示）
+chflags nohidden ~/Library
+
+# ログイン画面でシステム情報を表示する
+sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
+# ダークモードをオンにする
+sudo defaults write /Library/Preferences/.GlobalPreferences AppleInterfaceTheme Dark
+## 時計アイコンクリック時に OS やホスト名 IP を表示する
+sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
+# メモリ過負荷時のアラートを表示する空きメモリを1000MBにする。無効にするには -int 1000を消して実行
+# sudo defaults write /System/Library/LaunchDaemons/com.apple.jetsamproperties.Mac.plist JetsamCriticalHighWaterMark -int 1000
 
 # 動きを高速化
 defaults write -g com.apple.trackpad.scaling 3 && \
@@ -107,12 +117,6 @@ defaults write com.apple.finder NewWindowTargetPath -string "file://${HOME}/"
 defaults write com.apple.finder AppleShowAllFiles -bool YES && \
 killall Finder
 
-# ログイン画面でシステム情報を表示する
-sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
-
-# ダークモードをオンにする
-defaults write /Library/Preferences/.GlobalPreferences AppleInterfaceTheme Dark
-
 # アクセントカラーをマルチカラーに設定する
 defaults write NSGlobalDomain AppleAccentColor -int -1
 
@@ -143,9 +147,6 @@ defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
 ## Date options: Show the day of the week: on （日付表示設定、曜日を表示）
 defaults write com.apple.menuextra.clock 'DateFormat' -string 'EEE H:mm'
 
-## 時計アイコンクリック時に OS やホスト名 IP を表示する
-sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
-
 ## Bluetooth ヘッドフォン・ヘッドセットの音質を向上させる
 defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" -int 40
 
@@ -172,21 +173,6 @@ defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 64 "<dic
 defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 65 "<dict><key>enabled</key><false/><key>value</key><dict><key>parameters</key><array><integer>65535</integer><integer>49</integer><integer>1572864</integer></array><key>type</key><string>standard</string></dict></dict>"
 # Spotlight検索を表示、Finderの検索ウインドウを表示が無効化になっているか確認する（64、65をチェックすること）
 defaults read com.apple.symbolichotkeys AppleSymbolicHotKeys
-
-# メモリ過負荷時のアラートを表示する空きメモリを1000MBにする。無効にするには -int 1000を消して実行
-# sudo defaults write /System/Library/LaunchDaemons/com.apple.jetsamproperties.Mac.plist JetsamCriticalHighWaterMark -int 1000
-
-## Show the ~/Library directory （ライブラリディレクトリを表示、デフォルトは非表示）
-chflags nohidden ~/Library
-
-## (on マシンがフリーズしたら自動的にリスタート)
-systemsetup -setrestartfreeze on
-
-## スリープしない
-systemsetup -setcomputersleep Off > /dev/null
-
-## DNS設定 要らない？
-# networksetup -setdnsservers Wi-Fi 2001:4860:4860::8844 2001:4860:4860::8888 1.1.1.2 1.1.1.1
 
 ## 一度再起動
 # sudo shutdown -r now
