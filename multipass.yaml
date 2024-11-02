@@ -17,7 +17,7 @@ users:
     #   - github:username
 
   - name: hoge
-    groups: users,ssl-cert,xrdp,input,audio
+    groups: users,sudo,ssl-cert,xrdp,input,audio
     shell: /bin/zsh
     lock_passwd: false
     passwd: hogehoge
