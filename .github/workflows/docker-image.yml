@@ -6,7 +6,6 @@ on:
 
 env:
   IMAGE_NAME: duxx
-  CONT_NAME: docker-ubuntu-xfce-xrdp
 
 jobs:
   ubuntu-test:
@@ -15,8 +14,7 @@ jobs:
       contents: read
       packages: write
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Login ghcr
         uses: docker/login-action@v3
@@ -25,56 +23,23 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Docker build
-        uses: docker/setup-buildx-action@v2
-
-      - name: Docker build
-        id: build
-        run: |
-          TAG=$(date +%s)
-          docker build . --file Dockerfile --tag ${{ env.IMAGE_NAME }}:${TAG}
-          echo "IMAGE_TAG=${TAG}" >> $GITHUB_ENV
-
-      - name: Docker run compose
-        run: |
-          docker run -d --name ${{ env.CONT_NAME }} ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
-          docker ps -a
-          docker logs ${{ env.CONT_NAME }}
-          docker stop ${{ env.CONT_NAME }}
-          docker rm ${{ env.CONT_NAME }}
-
-          docker compose up -d
-          docker compose down
-
       - name: build push
         uses: docker/build-push-action@v5
         with:
           push: true
           tags: ghcr.io/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ github.ref_name }}
 
-
-
-      # - name: Dockerイメージのビルド
-      #   run: |
-      #     docker build . --file Dockerfile --tag ghcr.io/${{ github.repository_owner }}/my-image-name:${{ github.sha }}
-
-      # - name: Dockerコンテナの実行とテスト
-      #   run: |
-      #     docker run -d --name my-container ghcr.io/${{ github.repository_owner }}/my-image-name:${{ github.sha }}
-      #     # 必要に応じて追加のテストコマンドをここに記述
-      #     docker ps -a
-      #     docker logs my-container
-      #     docker stop my-container
-      #     docker rm my-container
-
-      # - name: Dockerイメージのプッシュ
-      #   run: |
-      #     docker push ghcr.io/${{ github.repository_owner }}/my-image-name:${{ github.sha }}
+      - name: compose test
+        run: |
+          docker compose up -d
+          docker compose down
 
   macos-test:
     runs-on: macos-latest
     timeout-minutes: 10
+    
     steps:
-      - uses: actions/checkout@v3
-      - name: Install dotfiles
+      - uses: actions/checkout@v4
+
+      - name: Install chezmoi
         run: sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply -S .
