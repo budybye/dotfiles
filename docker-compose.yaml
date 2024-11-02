@@ -1,10 +1,10 @@
 services:
-  app:
-    image: my-image-name:latest
+  ubuntu:
+    image: duxx:latest
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: my-app-container
+    container_name: docker-ubuntu-xfce-xrdp
     ports:
       - "8787:80"
       - "3389:3389"
@@ -13,24 +13,24 @@ services:
     networks:
       - app-network
 
-  # ipfs:
-  #   image: ipfs/kubo
-  #   container_name: ipfs
-  #   networks:
-  #     - app-network
-  #   ports:
-  #     - 4001:4001
-  #     - 8080:8080
-  #     - 5001:5001
-  #   volumes:
-  #     - ./ipfs/ipfs:/home/ubuntu/.config/ipfs
-  #     - ./ipfs/export:/export
-  #     - ./ipfs/src/entrypoint.sh:/container-init.d/entrypoint.sh #init直後のdaemon起動前に実行されるshをマウント
-  #   environment:
-  #     IPFS_PROFILE: server # server modeで起動
-  #     IPFS_PATH: /home/ubuntu/.config/ipfs
-  #   # command: ipfs daemon
-  #   restart: always
+  ipfs:
+    image: ipfs/kubo
+    container_name: ipfs
+    networks:
+      - app-network
+    ports:
+      - 4001:4001
+      - 8080:8080
+      - 5001:5001
+    volumes:
+      - ./ipfs/ipfs:/home/ubuntu/.config/ipfs
+      - ./ipfs/export:/export
+      - ./ipfs/src/entrypoint.sh:/container-init.d/entrypoint.sh #init直後のdaemon起動前に実行されるshをマウント
+    environment:
+      IPFS_PROFILE: server # server modeで起動
+      IPFS_PATH: /home/ubuntu/.config/ipfs
+    # command: ipfs daemon
+    restart: always
 
 networks:
   app-network:
