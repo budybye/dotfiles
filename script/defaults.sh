@@ -189,4 +189,4 @@ defaults read com.apple.symbolichotkeys AppleSymbolicHotKeys
 # sudo defaults write /System/Library/LaunchDaemons/com.apple.jetsamproperties.Mac.plist JetsamCriticalHighWaterMark -int 1000
 
 ## 一度再起動
-sudo shutdown -r now
+# sudo shutdown -r now

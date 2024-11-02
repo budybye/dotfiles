@@ -86,8 +86,9 @@ jobs:
 
       - name: default cmd
         run: |
-          defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
+          . ./script/default.sh
 
       - name: homebrew
         run: |
           . ./script/install.sh
+          fastfetch
