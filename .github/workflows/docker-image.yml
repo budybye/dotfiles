@@ -3,13 +3,18 @@ name: Docker Image CI
 on:
   push:
     branches: ["main"]
-
+env:
+  IMAGE_NAME: duxx
+  IAMEG_TAG: $(date +%s)
+  CONT_NAME: docker-ubuntu-xfce-xrdp
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
-
+    premissions:
+      contents: read
+      packges: write
     steps:
-      - name: リポジトリをチェックアウト
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Login ghcr
@@ -22,23 +27,28 @@ jobs:
       - name: Dockerのセットアップ
         uses: docker/setup-buildx-action@v2
 
-      - name: Dockerイメージのビルド
+      - name: Docker build
         id: build
         run: |
-          TAG=$(date +%s)
-          docker build . --file Dockerfile --tag my-image-name:${TAG}
-          echo "IMAGE_TAG=${TAG}" >> $GITHUB_ENV
+          docker build . --file Dockerfile --tag ${{ env.IMAGE_NAME }}:${ env.IMAGE_TAG }
 
-      - name: Docker 動作確認
+      - name: Docker run compose
         run: |
-          docker run -d --name my-container my-image-name:${{ env.IMAGE_TAG }}
+          docker run -d --name ${{ env.CONT_NAME }} ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
           docker ps -a
-          docker logs my-container
-          docker stop my-container
-          docker rm my-container
+          docker logs ${{ env.CONT_NAME }}
+          docker stop ${{ env.CONT_NAME }}
+          docker rm ${{ env.CONT_NAME }}
 
           docker compose up -d
           docker compose down
+
+      - name: build push
+        uses: docker/build-push-action@v5
+        with:
+          psuh: true
+          tags: ghcr.io/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ github.ref_name }}
+
 
 
       # - name: Dockerイメージのビルド
