@@ -49,8 +49,6 @@ jobs:
           echo "$HOME/.local/share/mise/bin" >> $GITHUB_PATH
           echo "$HOME/.local/share/mise/shims" >> $GITHUB_PATH
           mise use go
-          eval "$(~/.local/bin/mise activate bash)"
-          eval "$(~/.local/bin/mise activate --shims)"
 
       - name: cargo
         run: |
@@ -59,12 +57,6 @@ jobs:
       - name: gem
         run: |
           gem --version
-
-      - name: aqua
-        run: |
-          go --version
-          go install github.com/aquaproj/aqua/v2/cmd/aqua@latest
-          aqua init
 
   macos-test:
     runs-on: macos-latest
@@ -76,7 +68,6 @@ jobs:
       - name: chezmoi init
         run: |
           sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply -S .
-          chezmoi --version
 
       - name: mise
         run: |
@@ -84,3 +75,7 @@ jobs:
           echo "$HOME/.local/share/mise/bin" >> $GITHUB_PATH
           echo "$HOME/.local/share/mise/shims" >> $GITHUB_PATH
           mise use bun
+
+      - name: bun
+        run: |
+          bun i -g wrangler
