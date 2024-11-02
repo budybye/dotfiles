@@ -10,9 +10,11 @@ env:
 jobs:
   ubuntu-test:
     runs-on: ubuntu-latest
+
     permissions:
       contents: read
       packages: write
+
     steps:
       - uses: actions/checkout@v4
 
@@ -31,13 +33,13 @@ jobs:
 
       - name: compose test
         run: |
-          docker compose up -d
+          docker compose up
           docker compose down
 
   macos-test:
     runs-on: macos-latest
     timeout-minutes: 10
-    
+
     steps:
       - uses: actions/checkout@v4
 
