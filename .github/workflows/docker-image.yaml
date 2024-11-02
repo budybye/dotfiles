@@ -95,4 +95,4 @@ jobs:
 
       - name: default cmd
         run: |
-          . ./script/default.sh
+          . ./script/defaults.sh
