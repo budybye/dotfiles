@@ -8,6 +8,7 @@ env:
   IMAGE_NAME: docker-ubuntu-xfce-xrdp-jp
 
 jobs:
+
   docker-build-push-compose:
     runs-on: ubuntu-latest
 
@@ -62,9 +63,8 @@ jobs:
         run: |
           gem --version
 
-  macos-test:
+  mac-test:
     runs-on: macos-latest
-    timeout-minutes: 10
 
     steps:
       - uses: actions/checkout@v4
@@ -79,6 +79,11 @@ jobs:
           echo "$HOME/.local/share/mise/bin" >> $GITHUB_PATH
           echo "$HOME/.local/share/mise/shims" >> $GITHUB_PATH
           mise use bun
+
+      - name: homebrew
+        run: |
+          . ./script/install.sh
+
 
       - name: bun
         run: |
