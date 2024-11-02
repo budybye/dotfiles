@@ -61,7 +61,7 @@ jobs:
 
       - name: gem
         run: |
-          gem i fusuma
+          sudo gem i fusuma
 
       - name: go
         run: |

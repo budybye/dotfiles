@@ -176,7 +176,7 @@ defaults write com.apple.Finder NSUserKeyEquivalents -dict-add "ゴミ箱に入�
 # 「情報を見る」のショートカットキー設定
 defaults write com.apple.Finder NSUserKeyEquivalents -dict-add "情報を見る" -string "^l"
 # Finderの独自ショートカットキー設定の内容を確認
-echo Finderの独自キー設定：$(defaults read com.apple.Finder NSUserKeyEquivalents)
+# echo Finderの独自キー設定：$(defaults read com.apple.Finder NSUserKeyEquivalents)
 
 # Spotlight検索を表示を無効化
 defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 64 "<dict><key>enabled</key><false/><key>value</key><dict><key>parameters</key><array><integer>65535</integer><integer>49</integer><integer>1048576</integer></array><key>type</key><string>standard</string></dict></dict>"
