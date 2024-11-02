@@ -1,4 +1,10 @@
-#!/bin/sh -x
+#!/bin/sh -ex
+
+## コンピュータ名、ホスト名、ローカルホスト名、ユーザー名を設定
+# sudo scutil --set ComputerName "iCom"
+# sudo scutil --set HostName "101"
+# sudo scutil --set LocalHostName "101"
+# sudo scutil --set UserName "hotmilk"
 
 # (on マシンがフリーズしたら自動的にリスタート)
 systemsetup -setrestartfreeze on
@@ -175,4 +181,4 @@ defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 65 "<dic
 defaults read com.apple.symbolichotkeys AppleSymbolicHotKeys
 
 ## 一度再起動
-# sudo shutdown -r now
+sudo shutdown -r now

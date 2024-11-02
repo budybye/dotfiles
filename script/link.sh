@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -ex
 
 # dotfilesリポジトリのパスを設定
 DOTFILES="${HOME}/dotfiles"
