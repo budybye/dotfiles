@@ -57,11 +57,11 @@ jobs:
 
       - name: cargo
         run: |
-          cargo install starship sheldon bat
+          cargo install starship sheldon bat fzf 
 
       - name: gem
         run: |
-          gem --version
+          gem i fusuma
 
   mac-test:
     runs-on: macos-latest
