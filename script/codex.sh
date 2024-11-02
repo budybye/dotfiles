@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # extensions.jsonのパス
-CODEX="${XDG_DATA_HOME}/vscode/extensions.json"
+CODEX="${XDG_CONFIG_HOME}/vscode/extensions.json"
 
 # インストールされている拡張機能を"extension.json"の形式で出力する
 echo '{"recommendations": [],"unwantedRecommendations":[]}' > $CODEX

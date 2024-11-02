@@ -1,18 +1,9 @@
 #!/bin/sh
 set -e
 
-# multipass launch \
-#     -n ubuntu \
-#     -c 4 \
-#     -m 4G \
-#     -d 40G \
-#     --timeout 3600 \
-#     --mount ${HOME}/.files:/home/ubuntu/dotfiles \
-#     --cloud-init ${HOME}/dotfiles/cloud-init/multipass.yaml
-
 echo "### setup ubuntu..."
 
-# sudo sed -i 's/^s*REGDOMAIN=S*/REGDOMAIN=JP/' /etc/default/crda || true
+sudo sed -i 's/^s*REGDOMAIN=S*/REGDOMAIN=JP/' /etc/default/crda || true
 LANG=C xdg-user-dirs-update --force
 im-config -n fcitx5
 sudo systemctl restart rsyslog
@@ -63,7 +54,7 @@ warp-cli registration new &&
 
 echo "### cloudflare-warp done"
 
-rustup default stable
+# rustup default stable
 cargo install mise
 # curl https://mise.run | sh
 echo 'eval "$(~/.local/bin/mise activate zsh)"' >>~/.zshrc
@@ -88,7 +79,7 @@ cargo install starship sheldon fd-find xh bat
 
 echo "### cargo tools installed"
 
-sudo apt install -y ruby
+# sudo apt install -y ruby
 sudo gem i fusuma
 sudo gpasswd -a ${USER} input
 fusuma -d

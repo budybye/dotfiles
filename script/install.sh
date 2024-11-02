@@ -29,7 +29,7 @@ else
 fi
 
 # Brewfileからインストールする
-brew tap Homebrew/bundle && brew bundle --file '~/dotfiles/Brewfile'
+brew tap Homebrew/bundle && brew bundle --file '~/.config/Brewfile'
 
 # Rosetta2 のインストール
 softwareupdate --install-rosetta
