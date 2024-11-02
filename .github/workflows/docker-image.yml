@@ -10,7 +10,7 @@ env:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
-    premissions:
+    permissions:
       contents: read
       packges: write
     steps:
