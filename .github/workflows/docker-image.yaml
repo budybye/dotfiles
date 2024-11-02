@@ -68,8 +68,9 @@ jobs:
         run: |
           go version
 
-      - name: www
+      - name: neofetch
         run: |
+          sudo apt install neofetch -y
           neofetch
 
   mac-test:
