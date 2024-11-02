@@ -10,8 +10,7 @@
 sudo pmset -a standbydelay 86400
 
 ## xcode commond tool install
-xcode-select --install
-sudo xcode-select --switch /Library/Developer/CommandLineTools
+xcode-select --install && sudo xcode-select --switch /Library/Developer/CommandLineTools
 
 ## homebrew をインストールされていなければインストールする
 if ! command -v brew >/dev/null; then
