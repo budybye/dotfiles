@@ -12,6 +12,7 @@ KeyPath="${HOME}/.ssh/${KeyName}"
 # GitHubのユーザーネーム
 GitUser=budybye
 # keyの種類
+# KeyType=rsa
 KeyType=ed25519
 
 # SSH用のディレクトリを作成

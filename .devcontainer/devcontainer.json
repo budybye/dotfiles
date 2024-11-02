@@ -1,0 +1,22 @@
+{
+    "name": "dotdiles",
+    "remoteEnv": {
+        "GIT_USER": "budybye"
+    },
+    "features": {
+        "ghrc.io/devcontainers/features/docker-in-docker:2": {}
+    },
+    "customizations": {
+        "vscode": {
+            "settings": {
+
+            },
+            "extensions": [
+
+            ]
+        }
+    },
+    "dockerComposeFile": "docker-compose.yaml",
+    "service": "ubuntu",
+    "workspaceFolder": "/workspace"
+}

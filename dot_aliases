@@ -62,7 +62,7 @@ alias opop="for i in {1..3}; do time zsh -ic exit; done"
 alias sss="starship explain && sheldon lock --update && opop"
 
 alias python="python3"
-alias pip="pip3"
+# alias pip="pip3"
 
 alias npm="bun"
 alias npx="bunx"

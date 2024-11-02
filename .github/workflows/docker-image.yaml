@@ -95,11 +95,11 @@ jobs:
           bun i -g wrangler
           echo "$HOME/.bun/bin" >> $GITHUB_PATH
 
-      - name: default cmd
+      - name: defaults cmd
         run: |
-          . ./script/defaults.sh
+          . ./bin/dedaults.sh
 
       - name: homebrew
         run: |
-          . ./script/brew.sh
+          . ./bin/brew.sh
           fastfetch

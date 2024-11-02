@@ -11,3 +11,5 @@ install:
     @echo "Installing dotfiles from $(CONFIG_DIR) config"
     stow -v -t $(HOME) -d $(CONFIG_DIR) *
 
+all: init link defaults brew install setup
+

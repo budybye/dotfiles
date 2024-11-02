@@ -80,6 +80,7 @@ sudo wget https://github.com/coder/cursor-arm/releases/download/v0.42.2/cursor_0
 sudo chomod a+x cursor_0.42.2_linux_arm64.AppImage
 mkdir -p ~/Applications
 mv cursor_0.42.2_linux_arm64.AppImage ~/Applications/cursor_0.42.2_linux_arm64.AppImage
+# mv cursor_0.42.2_linux_arm64.AppImage ~/Applications/cursor.AppImage
 # ~/Applications/cursor_0.42.2_linux_arm64.AppImage --no-sandbox
 
 sudo cp ~/data/bg.jpeg /usr/share/backgrounds/bg.jpeg
