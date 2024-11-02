@@ -80,11 +80,14 @@ jobs:
           echo "$HOME/.local/share/mise/shims" >> $GITHUB_PATH
           mise use bun
 
-      - name: homebrew
-        run: |
-          . ./script/install.sh
-
-
       - name: bun
         run: |
           bun i -g wrangler
+
+      - name: default cmd
+        run: |
+          defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
+
+      - name: homebrew
+        run: |
+          . ./script/install.sh

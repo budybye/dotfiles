@@ -9,10 +9,6 @@
 ## スリープ状態に移行するまでの時間，単位は秒(24時間)
 sudo pmset -a standbydelay 86400
 
-# Rosetta2 のインストール
-softwareupdate --install-rosetta
-
-
 ## xcode commond tool install
 xcode-select --install
 sudo xcode-select --switch /Library/Developer/CommandLineTools
@@ -34,3 +30,6 @@ fi
 
 # Brewfileからインストールする
 brew tap Homebrew/bundle && brew bundle --file '~/.config/Brewfile'
+
+# Rosetta2 のインストール
+softwareupdate --install-rosetta
