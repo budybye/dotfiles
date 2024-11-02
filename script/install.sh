@@ -1,10 +1,10 @@
 #!/bin/sh
 
 ## コンピュータ名、ホスト名、ローカルホスト名、ユーザー名を設定
-sudo scutil --set ComputerName "iCom"
-sudo scutil --set HostName "101"
-sudo scutil --set LocalHostName "101"
-sudo scutil --set UserName "hotmilk"
+# sudo scutil --set ComputerName "iCom"
+# sudo scutil --set HostName "101"
+# sudo scutil --set LocalHostName "101"
+# sudo scutil --set UserName "hotmilk"
 
 ## (スリープ状態に移行するまでの時間，単位は秒(24時間))
 sudo pmset -a standbydelay 86400
