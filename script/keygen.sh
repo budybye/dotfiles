@@ -10,7 +10,7 @@ KeyName="id_ed25519"
 # SSH鍵のパス
 KeyPath="${HOME}/.ssh/${KeyName}"
 # GitHubのユーザーネーム
-GitUser=boborder
+GitUser=budybye
 # keyの種類
 KeyType=ed25519
 

@@ -101,5 +101,5 @@ jobs:
 
       - name: homebrew
         run: |
-          . ./script/install.sh
+          . ./script/brew.sh
           fastfetch
