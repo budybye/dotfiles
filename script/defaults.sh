@@ -185,8 +185,8 @@ systemsetup -setrestartfreeze on
 ## スリープしない
 systemsetup -setcomputersleep Off > /dev/null
 
-## ネットを早くする
-networksetup -setdnsservers Wi-Fi 2001:4860:4860::8844 2001:4860:4860::8888 1.1.1.2 1.1.1.1
+## DNS設定 要らない？
+# networksetup -setdnsservers Wi-Fi 2001:4860:4860::8844 2001:4860:4860::8888 1.1.1.2 1.1.1.1
 
 ## 一度再起動
 # sudo shutdown -r now
