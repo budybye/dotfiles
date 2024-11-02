@@ -35,21 +35,22 @@ jobs:
       - name: docker compose test
         run: |
           docker compose up -d
-          docker ps
+          docker logs ipfs
+          docker ps -a
           docker compose down
 
       - name: chezmoi init
         run: |
           sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply -S .
-          chezmoi doctor
 
       - name: mise
         run: |
           curl https://mise.run | sh
           echo "$HOME/.local/share/mise/bin" >> $GITHUB_PATH
           echo "$HOME/.local/share/mise/shims" >> $GITHUB_PATH
-          mise use node
-          mise dr
+          mise use go
+          cargo install starship sheldon bat
+
 
   macos-test:
     runs-on: macos-latest
@@ -68,4 +69,3 @@ jobs:
           echo "$HOME/.local/share/mise/bin" >> $GITHUB_PATH
           echo "$HOME/.local/share/mise/shims" >> $GITHUB_PATH
           mise use bun
-          mise dr
