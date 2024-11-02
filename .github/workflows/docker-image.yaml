@@ -3,7 +3,7 @@ name: Docker Image CI
 on:
   push:
     branches: ["main"]
-
+    # tags: [ 'v*.*.*' ]
 env:
   IMAGE_NAME: docker-ubuntu-xfce-xrdp-jp
 
@@ -41,7 +41,7 @@ jobs:
           docker compose down
 
   ubuntu-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - name: chezmoi init
@@ -68,7 +68,7 @@ jobs:
           go version
 
   mac-test:
-    runs-on: macos-latest
+    runs-on: macos-14
 
     steps:
       - uses: actions/checkout@v4
