@@ -1,16 +1,17 @@
 services:
+
   ubuntu:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: docker-ubuntu-xfce-xrdp
+    container_name: docker-ubuntu-xfce-xrdp-jp
+    networks:
+      - app-network
     ports:
       - "8787:80"
       - "3389:3389"
     environment:
       - ENV=production
-    networks:
-      - app-network
 
   ipfs:
     image: ipfs/kubo
@@ -22,7 +23,7 @@ services:
       - 8080:8080
       - 5001:5001
     volumes:
-      - ./private_dot_config/ipfs/config:/home/ubuntu/.config/ipfs/config
+      # - ./private_dot_config/ipfs/config:/home/ubuntu/.config/ipfs/config
       - ./private_data:/export
       - ./private_dot_config/ipfs/executable_entrypoint.sh:/container-init.d/entrypoint.sh #init直後のdaemon起動前に実行されるshをマウント
     environment:

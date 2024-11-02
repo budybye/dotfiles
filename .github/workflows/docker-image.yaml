@@ -5,7 +5,7 @@ on:
     branches: ["main"]
 
 env:
-  IMAGE_NAME: duxx
+  IMAGE_NAME: docker-ubuntu-xfce-xrdp-jp
 
 jobs:
   ubuntu-test:
@@ -41,6 +41,7 @@ jobs:
       - name: chezmoi init
         run: |
           sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply -S .
+          chezmoi doctor
 
       - name: mise
         run: |
@@ -48,6 +49,7 @@ jobs:
           echo "$HOME/.local/share/mise/bin" >> $GITHUB_PATH
           echo "$HOME/.local/share/mise/shims" >> $GITHUB_PATH
           mise use node
+          mise dr
 
   macos-test:
     runs-on: macos-latest
@@ -66,3 +68,4 @@ jobs:
           echo "$HOME/.local/share/mise/bin" >> $GITHUB_PATH
           echo "$HOME/.local/share/mise/shims" >> $GITHUB_PATH
           mise use bun
+          mise dr
