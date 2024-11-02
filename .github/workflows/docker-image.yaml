@@ -57,11 +57,15 @@ jobs:
 
       - name: cargo
         run: |
-          cargo install starship sheldon bat fzf 
+          cargo install starship sheldon bat
 
       - name: gem
         run: |
           gem i fusuma
+
+      - name: go
+        run: |
+          go --version
 
   mac-test:
     runs-on: macos-latest
@@ -83,11 +87,11 @@ jobs:
       - name: bun
         run: |
           bun i -g wrangler
+          echo "$HOME/.local/bin"
 
       - name: homebrew
         run: |
           . ./script/install.sh
-          fastfetch
 
       - name: default cmd
         run: |
