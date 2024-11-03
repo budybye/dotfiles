@@ -1,4 +1,4 @@
-#!/usr/bin/env bash -x
+#!/usr/bin/env bash -ex
 
 # xcode commond tool install
 xcode-select --install && sudo xcode-select --switch /Library/Developer/CommandLineTools
