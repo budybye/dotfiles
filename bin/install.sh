@@ -159,22 +159,21 @@ install_tabby_terminal() {
 
 # Cloudflare Warp をインストールおよび設定する関数
 install_cloudflare_warp() {
-    sudo curl https://pkg.cloudflareclient.com/pubkey.gpg | sudo gpg --yes --dearmor \
-        --output /usr/share/keyrings/cloudflare-warp-archive-keyring.gpg
-    echo "deb [arch=${arch} signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg] " |
-        sudo tee /etc/apt/sources.list.d/cloudflare-client.list
-    sudo apt update -y && sudo apt install -y cloudflare-warp
-    echo "### cloudflare-warp をインストールしました。"
-
-    if command -v warp-cli >/dev/null 2>&1; then
+    if ! command -v warp-cli >/dev/null 2>&1; then
+        sudo curl https://pkg.cloudflareclient.com/pubkey.gpg | sudo gpg --yes --dearmor \
+            --output /usr/share/keyrings/cloudflare-warp-archive-keyring.gpg
+        echo "deb [arch=${arch} signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg] " |
+            sudo tee /etc/apt/sources.list.d/cloudflare-client.list
+        sudo apt update -y && sudo apt install -y cloudflare-warp
+        echo "### cloudflare-warp をインストールしました。"
+    else
+        echo "### cloudflare-warp はインストールされています。"
+    fi
         warp-cli registration new
         warp-cli mode warp+doh
         warp-cli dns families malware
         warp-cli connect
-        echo "### cloudflare-warp を初期化しました。"
-    else
-        echo "### cloudflare-warp は既に初期化されています。"
-    fi
+        echo "### cloudflare-warp を設定しました。"
 }
 
 # Cargo および Rust 関連ツールをインストールする関数
@@ -207,9 +206,10 @@ install_mise() {
 
     mise use go chezmoi -y
     mise activate zsh
-    mise activate --shims
+    # mise activate --shims
     echo "### シェル設定を完了しました。"
 }
+
 # フォントをインストールする関数
 install_fonts() {
     sudo mkdir -p ${XDG_DATA_HOME}/fonts
