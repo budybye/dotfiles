@@ -14,8 +14,8 @@ if command -v brew > /dev/null 2>&1; then
 else
     echo "brew is not installed"
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    echo 'export PATH="/opt/homebrew/bin:$PATH"' >> ${HOME}/.zshenv
-    . ${HOME}/.zshenv
+    echo 'export PATH="/opt/homebrew/bin:$PATH"' >> "${HOME}/.zshenv"
+    . "${HOME}/.zshenv"
 fi
 
 # Brewfileからインストールする
