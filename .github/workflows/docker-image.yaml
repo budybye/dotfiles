@@ -97,9 +97,9 @@ jobs:
 
       - name: defaults cmd
         run: |
-          . ./bin/defaults.sh
+          make defaults
 
       - name: homebrew
         run: |
-          . ./bin/brew.sh
+          make brew
           fastfetch

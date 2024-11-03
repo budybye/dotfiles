@@ -20,7 +20,7 @@ else
     sense: setup install
 endif
 
-# 共用スクリプト実行
+# 共用スクリプト実行 make it
 it: codex keygen link init
 
 # 環境セットアップスクリプトの実行
