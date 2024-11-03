@@ -1,22 +1,43 @@
 {
-    "name": "dotdiles",
-    "remoteEnv": {
-        "GIT_USER": "budybye"
-    },
-    "features": {
-        "ghrc.io/devcontainers/features/docker-in-docker:2": {}
-    },
-    "customizations": {
-        "vscode": {
-            "settings": {
-
-            },
-            "extensions": [
-
-            ]
-        }
-    },
+    "name": "dotfiles",
     "dockerComposeFile": "docker-compose.yaml",
     "service": "ubuntu",
-    "workspaceFolder": "/workspace"
-}
+    "workspaceFolder": "/workspace",
+    "remoteUser": "vscode",
+    "shutdownAction": "stopCompose",
+    "forwardPorts": [3000, 4000],
+    "postCreateCommand": "sudo apt-get update && sudo apt-get install -y curl git",
+    "remoteEnv": {
+      "GIT_USER": "budybye"
+    },
+    "features": {
+      "ghrc.io/devcontainers/features/docker-in-docker:2": {}
+    },
+    "customizations": {
+      "vscode": {
+        "settings": {
+          "terminal.integrated.shell.linux": "/bin/bash",
+          "editor.formatOnSave": true,
+          "files.autoSave": "afterDelay",
+          "files.autoSaveDelay": 1000,
+          "python.pythonPath": "/usr/local/bin/python3",
+          "editor.tabSize": 4,
+          "files.exclude": {
+            "**/.git": true,
+            "**/.DS_Store": true
+          }
+        },
+        "extensions": [
+          "ms-python.python",
+          "ms-vscode.cpptools",
+          "esbenp.prettier-vscode",
+          "dbaeumer.vscode-eslint",
+          "ms-azuretools.vscode-docker",
+          "eamodio.gitlens",
+          "hashicorp.terraform",
+          "oderwat.indent-rainbow",
+          "esbenp.prettier-vscode"
+        ]
+      }
+    }
+  }
