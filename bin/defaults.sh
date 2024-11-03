@@ -11,16 +11,16 @@ systemsetup -setrestartfreeze on
 # スリープしない
 systemsetup -setcomputersleep Off > /dev/null
 
-## defaults による初期設定
-
 # Show the ~/Library directory （ライブラリディレクトリを表示、デフォルトは非表示）
 chflags nohidden ~/Library
 
+## defaults による初期設定
+
 # ログイン画面でシステム情報を表示する
-sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
+# sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
 # ダークモードをオンにする
 sudo defaults write /Library/Preferences/.GlobalPreferences AppleInterfaceTheme Dark
-## 時計アイコンクリック時に OS やホスト名 IP を表示する
+# 時計アイコンクリック時に OS やホスト名 IP を表示する
 sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
 # メモリ過負荷時のアラートを表示する空きメモリを1000MBにする。無効にするには -int 1000を消して実行
 # sudo defaults write /System/Library/LaunchDaemons/com.apple.jetsamproperties.Mac.plist JetsamCriticalHighWaterMark -int 1000
@@ -74,8 +74,6 @@ defaults write com.apple.LaunchServices LSQuarantine -bool false
 # ゴミ箱を空にする前の警告の無効化
 defaults write com.apple.finder WarnOnEmptyTrash -bool false
 
-# アニメーション無効
-
 ## ウィンドウを開閉するときのアニメーションを無効
 defaults write -g NSAutomaticWindowAnimationsEnabled -bool false
 
@@ -99,9 +97,6 @@ defaults write com.apple.dock persistent-apps -array
 
 ## Dock が表示されるまでの待ち時間を無効にする
 defaults write com.apple.dock autohide-delay -float 0
-
-
-# その他
 
 ## テキストエディットをプレーンテキストで使う
 #defaults write com.apple.TextEdit RichText -int 0
