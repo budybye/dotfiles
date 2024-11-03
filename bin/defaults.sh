@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -ex
+
 ## コンピュータ名、ホスト名、ローカルホスト名、ユーザー名を設定
 # sudo scutil --set ComputerName "iCom"
 # sudo scutil --set HostName "101"

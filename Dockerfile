@@ -15,9 +15,8 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     rm -rf /var/cache/apt /var/lib/apt/lists/*
 
 EXPOSE 3389
-RUN systemctl enable xrdp
 
-RUN echo "xfce4-session" > ~/.xsession
+RUN systemctl enable xrdp && echo "xfce4-session" > ~/.xsession
 
 # COPY ./bin/setup.sh /usr/bin/
 # RUN mv /usr/bin/setbup.sh /usr/bin/setup.sh
