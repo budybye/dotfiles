@@ -1,23 +1,103 @@
-#!/usr/bin/env bash -ex
+#!/bin/sh
 
-# xcode commond tool install
-xcode-select --install && sudo xcode-select --switch /Library/Developer/CommandLineTools
+# デバッグモードを有効にする場合はコメントを外してください
+# set -ex
 
-# brewコマンドが実行可能な場合evalを実行する
-# homebrew をインストールされていなければインストールする
-# brewのPATHを通す
-if command -v brew >/dev/null 2>&1; then
-    eval "$(brew shellenv)"
-else
-    echo "brew is not installed"
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    echo 'export PATH="/opt/homebrew/bin:$PATH"' >> ~/.zshenv
-    . ~/.zshenv
-fi
+# Xcode コマンドラインツールのインストールおよびパスの設定
+install_xcode_command_line_tools() {
+    echo "Xcode コマンドラインツールのインストールを確認中..."
+    if xcode-select -p &>/dev/null; then
+        echo "Xcode コマンドラインツールは既にインストールされています。"
+    else
+        echo "Xcode コマンドラインツールがインストールされていません。インストールを開始します..."
+        xcode-select --install
 
-# Brewfileからインストールする
-# brew tap Homebrew/bundle && brew bundle --file '~/.config/Brewfile'
-brew tap Homebrew/bundle && brew bundle --file '~/.config/Brewfile-test'
+        # インストールが完了するまで待機
+        until xcode-select -p &>/dev/null; do
+            echo "インストール待機中..."
+            sleep 5
+        done
+        echo "Xcode コマンドラインツールのインストールが完了しました。"
+    fi
 
-# Rosetta2 のインストール
-# softwareupdate --install-rosetta
+    # コマンドラインツールのパスを設定
+    CURRENT_PATH=$(xcode-select -p)
+    DESIRED_PATH="/Library/Developer/CommandLineTools"
+
+    if [ "$CURRENT_PATH" != "$DESIRED_PATH" ]; then
+        echo "コマンドラインツールのパスを $DESIRED_PATH に切り替えます。"
+        sudo xcode-select --switch "$DESIRED_PATH"
+
+        if [ $? -eq 0 ]; then
+            echo "パスの切り替えに成功しました。"
+        else
+            echo "パスの切り替えに失敗しました。初期設定をリセットします。"
+            sudo xcode-select --reset
+        fi
+    else
+        echo "既定のパスが正しく設定されています。"
+    fi
+}
+
+# Homebrew のインストールおよび設定
+install_homebrew() {
+    echo "Homebrew のインストールを確認中..."
+    if command -v brew >/dev/null; then
+        echo "Homebrew は既にインストールされています。"
+        eval "$(brew shellenv)"
+    else
+        echo "Homebrew がインストールされていません。インストールを開始します..."
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+        # インストール後のパス設定
+        echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >>~/.zprofile
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+        echo "Homebrew のインストールおよび設定が完了しました。"
+    fi
+}
+
+# Brewfile を使用してパッケージをインストール
+install_brew_packages() {
+    BREWFILE_PATH="$HOME/.config/Brewfile-test"
+
+    if [ -f "$BREWFILE_PATH" ]; then
+        echo "Brewfile ($BREWFILE_PATH) からパッケージをインストールします。"
+        brew tap Homebrew/bundle
+        brew bundle --file="$BREWFILE_PATH"
+        echo "パッケージのインストールが完了しました。"
+    else
+        echo "指定された Brewfile ($BREWFILE_PATH) が見つかりません。スキップします。"
+    fi
+}
+
+# Rosetta 2 のインストール (Apple Silicon の場合)
+install_rosetta() {
+    if [[ "$(uname -m)" == "arm64" ]]; then
+        echo "Apple Silicon Mac を検出しました。Rosetta 2 のインストールを確認中..."
+        if /usr/bin/pgrep oahd >/dev/null 2>&1; then
+            echo "Rosetta 2 は既にインストールされています。"
+        else
+            echo "Rosetta 2 をインストールします。"
+            /usr/sbin/softwareupdate --install-rosetta --agree-to-license
+            if [ $? -eq 0 ]; then
+                echo "Rosetta 2 のインストールに成功しました。"
+            else
+                echo "Rosetta 2 のインストールに失敗しました。"
+            fi
+        fi
+    else
+        echo "Rosetta 2 は必要ありません (Intel Mac)。"
+    fi
+}
+
+# メイン処理
+main() {
+    install_xcode_command_line_tools
+    install_homebrew
+    install_brew_packages
+    # install_rosetta
+    echo "ブートストラップが完了しました。"
+}
+
+# スクリプトの実行
+main
