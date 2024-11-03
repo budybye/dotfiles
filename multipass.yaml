@@ -89,6 +89,7 @@ packages:
   # 開発ツール
   - build-essential
   - cmake
+  - g++
   - libfuse2
   - libssl-dev
   - pkg-config
@@ -107,6 +108,11 @@ packages:
   - libncurses5-dev
   - libffi-dev
   - libgdbm-compat-dev
+
+  - libfreetype6-dev
+  - libfontconfig1-dev
+  - libxcb-xfixes0-dev
+  - libxkbcommon-dev
 
   # ユーティリティ
   - zsh
