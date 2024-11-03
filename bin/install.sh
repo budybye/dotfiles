@@ -7,7 +7,8 @@ set -ex
 USER_NAME=${SUDO_USER:-$(whoami)}
 
 # アーキテクチャを取得
-arch=$(uname -m)
+arch="amd64"
+# arch=$(uname -m)
 # arch=${arch//x86_64/amd64}
 
 # Dotfiles を初期化する関数
@@ -146,14 +147,16 @@ install_brave_browser() {
         https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
     echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] " |
         sudo tee /etc/apt/sources.list.d/brave-browser-release.list
-    sudo apt update -y && sudo apt install -y brave-browser
+    sudo apt update
+    sudo apt install -y brave-browser
     echo "### brave-browser をインストールしました。"
 }
 
 # Tabby Terminal をインストールする関数
 install_tabby_terminal() {
     curl https://packagecloud.io/install/repositories/eugeny/tabby/script.deb.sh | sudo bash
-    sudo apt update -y && sudo apt install -y tabby-terminal
+    sudo apt update
+    sudo apt install -y tabby-terminal
     echo "### tabby-terminal をインストールしました。"
 }
 
@@ -164,7 +167,8 @@ install_cloudflare_warp() {
             --output /usr/share/keyrings/cloudflare-warp-archive-keyring.gpg
         echo "deb [arch=${arch} signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg] " |
             sudo tee /etc/apt/sources.list.d/cloudflare-client.list
-        sudo apt update -y && sudo apt install -y cloudflare-warp
+        sudo apt update
+        sudo apt install -y cloudflare-warp
         echo "### cloudflare-warp をインストールしました。"
     else
         echo "### cloudflare-warp はインストールされています。"
@@ -207,7 +211,7 @@ install_mise() {
     mise use go chezmoi -y
     mise activate zsh
     # mise activate --shims
-    echo "### シェル設定を完了しました。"
+    echo "### miseの設定を完了しました。"
 }
 
 # フォントをインストールする関数
