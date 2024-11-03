@@ -311,8 +311,8 @@ install_mkcert() {
 # メイン関数
 main() {
     initialize_dotfiles
-    change_shell_to_zsh
     install_packages
+    change_shell_to_zsh
     install_snap
     install_docker
     install_cargo_tools
