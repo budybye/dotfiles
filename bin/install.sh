@@ -147,7 +147,7 @@ install_brave_browser() {
         https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
     echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] " |
         sudo tee /etc/apt/sources.list.d/brave-browser-release.list
-    sudo apt update
+    sudo apt update -y
     sudo apt install -y brave-browser
     echo "### brave-browser をインストールしました。"
 }
@@ -155,7 +155,7 @@ install_brave_browser() {
 # Tabby Terminal をインストールする関数
 install_tabby_terminal() {
     curl https://packagecloud.io/install/repositories/eugeny/tabby/script.deb.sh | sudo bash
-    sudo apt update
+    sudo apt update -y
     sudo apt install -y tabby-terminal
     echo "### tabby-terminal をインストールしました。"
 }
@@ -167,7 +167,7 @@ install_cloudflare_warp() {
             --output /usr/share/keyrings/cloudflare-warp-archive-keyring.gpg
         echo "deb [arch=${arch} signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg] " |
             sudo tee /etc/apt/sources.list.d/cloudflare-client.list
-        sudo apt update
+        sudo apt update -y
         sudo apt install -y cloudflare-warp
         echo "### cloudflare-warp をインストールしました。"
     else
@@ -188,7 +188,8 @@ install_cargo_tools() {
             /etc/apt/keyrings/mise-archive-keyring.gpg 1>/dev/null
         echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=${arch}] " |
             sudo tee /etc/apt/sources.list.d/mise.list
-        sudo apt update -y && sudo apt install -y mise
+        sudo apt update -y
+        sudo apt install -y mise
         echo "### mise をインストールしました。"
 
         mise use rust -y || sudo apt install -y cargo
