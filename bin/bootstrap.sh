@@ -1,7 +1,4 @@
-#!/bin/sh
-
-# デバッグモードを有効にする場合はコメントを外してください
-# set -ex
+#!/usr/bin/env bash -ex
 
 # Xcode コマンドラインツールのインストールおよびパスの設定
 install_xcode_command_line_tools() {
@@ -95,7 +92,7 @@ main() {
     install_xcode_command_line_tools
     install_homebrew
     install_brew_packages
-    # install_rosetta
+    install_rosetta
     echo "ブートストラップが完了しました。"
 }
 
