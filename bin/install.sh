@@ -10,6 +10,17 @@ USER_NAME=${SUDO_USER:-$(whoami)}
 arch=$(uname -m)
 # arch=${arch//x86_64/amd64}
 
+# Dotfiles を初期化する関数
+initialize_dotfiles() {
+    if [ -n "${GIT_AUTHOR_NAME:-}" ]; then
+        chezmoi init --apply "${GIT_AUTHOR_NAME}" || {
+            echo "### dotfiles のクローンに失敗しました。"
+            exit 1
+        }
+        echo "### dotfiles をクローンしました。"
+    fi
+}
+
 # Zsh をデフォルトシェルに変更する関数
 change_shell_to_zsh() {
     # Zsh がインストールされているか確認
@@ -32,7 +43,10 @@ change_shell_to_zsh() {
 install_packages() {
     sudo apt update -y && sudo apt upgrade -y
     sudo apt install -y --no-install-recommends curl wget git build-essential cmake dbus-x11 \
-        libfuse2 libssl-dev pkg-config apt-transport-https ca-certificates gnupg lsb-release
+        libfuse2 libssl-dev pkg-config apt-transport-https ca-certificates gnupg lsb-release \
+        xrdp xfce4 xfce-goodies language-pack-ja-base language-pack-ja manpages-ja fcitx5-mozc \
+        g++ zsh vim gh jq tree xsel ncdu xdotool mkcert moreutils mutlitail neofetch plank lsd zoxide \
+        ffmpeg mpd mpc ncmpcpp net-tools nmap wireshark snapd sudo ufw rsylog im-config byobu ruby cargo
     echo "### 必要なパッケージがインストールされました。"
 }
 
@@ -61,6 +75,7 @@ install_docker_compose() {
         exit 1
     fi
 }
+
 install_docker() {
     # Docker の公式 GPG キーを追加
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
@@ -237,20 +252,9 @@ install_cursor() {
     mv cursor_0.42.2_linux_${arch}.AppImage ~/Applications/cursor_0.42.2_linux_${arch}.AppImage
 }
 
-# Neovim の背景画像を設定する関数
+# 背景画像を設定する関数
 set_background_image() {
     sudo cp ${HOME}/data/bg.jpeg /usr/share/backgrounds/bg.jpeg
-}
-
-# Dotfiles を初期化する関数
-initialize_dotfiles() {
-    if [ -n "${GIT_AUTHOR_NAME:-}" ]; then
-        chezmoi init --apply "${GIT_AUTHOR_NAME}" || {
-            echo "### dotfiles のクローンに失敗しました。"
-            exit 1
-        }
-        echo "### dotfiles をクローンしました。"
-    fi
 }
 
 # Ruby と Fusuma をインストールおよび設定する関数
@@ -306,24 +310,24 @@ install_mkcert() {
 
 # メイン関数
 main() {
+    initialize_dotfiles
+    change_shell_to_zsh
     install_packages
-    install_docker
     install_snap
+    install_docker
+    install_cargo_tools
+    install_mise
     install_brave_browser
     install_tabby_terminal
     install_cloudflare_warp
-    install_cargo_tools
-    install_mise
-    install_fonts
     install_wireshark
     install_github_desktop
     install_cursor
-    set_background_image
-    initialize_dotfiles
-    change_shell_to_zsh
-    install_ruby_fusuma
-    install_go_aqua
     install_mkcert
+    install_go_aqua
+    install_ruby_fusuma
+    install_fonts
+    set_background_image
 
     echo "### インストールが完了しました。再起動してください。"
 }

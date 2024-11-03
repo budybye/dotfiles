@@ -50,31 +50,15 @@ jobs:
       - name: chezmoi init
         run: |
           make init
-          # sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply ${{ github.actor }}
 
-      - name: mise
+      - name: installl
         run: |
-          curl https://mise.run | sh
-          echo "$HOME/.local/share/mise/bin" >> $GITHUB_PATH
-          echo "$HOME/.local/share/mise/shims" >> $GITHUB_PATH
-          mise use go
-
-      - name: cargo
-        run: |
-          cargo install starship sheldon bat
-
-      - name: gem
-        run: |
-          sudo gem i fusuma
-
-      - name: go
-        run: |
-          go version
-
-      - name: neofetch
-        run: |
-          sudo apt install neofetch -y
+          make install
           neofetch
+
+      - name: setup
+        run: |
+          make setup
 
   mac-test:
     runs-on: macos-14
