@@ -1,19 +1,18 @@
-#!/bin/sh -ex
+#!/usr/bin/env bash -ex
 
 # このスクリプトを実行すると、SSH鍵を生成してGitHubに設定し、
-# SSH鍵の管理を行うことができます。鍵のファイル名やパスは、
-# シェル変数として定義されているため、必要に応じて変更できます。
+# SSH鍵の管理を行うことができます。
 
 # SSH鍵のファイル名
-# KeyName="id_rsa"
-KeyName="id_ed25519"
+# KEY_NAME="id_rsa"
+KEY_NAME="id_ed25519"
 # SSH鍵のパス
-KeyPath="${HOME}/.ssh/${KeyName}"
+KEY_PATH="${HOME}/.ssh/${KEY_NAME}"
 # GitHubのユーザーネーム
-GitUser=budybye
+GIT_AUTHOR_NAME="budybye"
 # keyの種類
-# KeyType=rsa
-KeyType=ed25519
+# KEY_TYPE=rsa
+KEY_TYPE="ed25519"
 
 # SSH用のディレクトリを作成
 mkdir -pm 700 "${HOME}/.ssh"
@@ -29,34 +28,34 @@ touch config
 cat <<EOF >${HOME}/.ssh/config
 Host github github.com
 HostName github.com
-IdentityFile $KeyPath
+IdentityFile $KEY_PATH
 User git
 EOF
 
 # SSH鍵を生成
-if [ ! -f ${KeyPath} ]; then
-    ssh-keygen -t ${KeyType} -f ${KeyName}
+if [ ! -f ${KEY_PATH} ]; then
+    ssh-keygen -t ${KEY_TYPE} -f ${KEY_NAME}
 else
     echo "SSH key already exists"
 fi
 
 # 公開鍵をauthorized_keysファイルに追加
-cat "${KeyPath}.pub" >> authorized_keys
+cat "${KEY_PATH}.pub" >>authorized_keys
 
 # 公開鍵をmacのクリップボードにコピー
-if [[ $OSTYPE == darwin* ]]; then
-    pbcopy <"${KeyPath}.pub"
-else
-    echo "Please copy the following public key and add it to your GitHub account:"
-    cat "${KeyPath}.pub"
-fi
-
 # ブラウザでgithubログイン画面を開く
-if [[ $OSTYPE == darwin* ]]; then
-    open https://github.com/login?username=$GitUser
-else
-    xdg-open https://github.com/login?username=$GitUser
-fi
+case $OSTYPE in
+darwin*)
+    pbcopy <"${KEY_PATH}.pub"
+    open "https://github.com/login?username=${GIT_AUTHOR_NAME}"
+    ;;
+*)
+    echo "Please copy the following public key and add it to your GitHub account:"
+    cat "${KEY_PATH}.pub"
+    xdg-open "https://github.com/login?username=${GIT_AUTHOR_NAME}"
+    ;;
+    ;;
+esac
 
 chmod 600 *
 
@@ -67,7 +66,7 @@ ssh -T git@github.com
 eval "$(ssh-agent)"
 
 # SSH鍵をエージェントに登録
-ssh-add "${KeyPath}"
+ssh-add "${KEY_PATH}"
 
 # 登録したSSH鍵の一覧を表示
 ssh-add -l

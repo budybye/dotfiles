@@ -1,4 +1,4 @@
-#!/bin/sh -ex
+#!/usr/bin/env/ bash -ex
 
 ## コンピュータ名、ホスト名、ローカルホスト名、ユーザー名を設定
 # sudo scutil --set ComputerName "iCom"
@@ -9,7 +9,7 @@
 # (on マシンがフリーズしたら自動的にリスタート)
 systemsetup -setrestartfreeze on
 # スリープしない
-systemsetup -setcomputersleep Off > /dev/null
+systemsetup -setcomputersleep Off > /dev/null 2>&1
 
 # Show the ~/Library directory （ライブラリディレクトリを表示、デフォルトは非表示）
 chflags nohidden ~/Library
@@ -179,5 +179,5 @@ defaults read com.apple.symbolichotkeys AppleSymbolicHotKeys
 for app in "Dock" \
     "Finder" \
     "SystemUIServer"; do
-    killall "${app}" &> /dev/null
+    killall "${app}" > /dev/null 2>&1
 done

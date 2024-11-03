@@ -1,16 +1,15 @@
-#!/bin/sh -ex
+#!/usr/bin/env/ bash -ex
 
 # dotfilesリポジトリのパスを設定
 DOTFILES="${HOME}/dotfiles"
 
 mkdir -p "${XDG_CONFIG_HOME}/git"
-sudo ln -sf "${DOTFILES}/.config/git/config" "${XDG_CONFIG_HOME}/git/config"
-sudo ln -sf "${DOTFILES}/.config/git/ignore" "${XDG_CONFIG_HOME}/git/ignore"
-sudo ln -sf "${DOTFILES}/.config/git/user.conf" "${XDG_CONFIG_HOME}/git/user.conf"
-sudo ln -sf "${DOTFILES}/.config/git/commit_template" "${XDG_CONFIG_HOME}/git/commit_template"
+ln -sf "${DOTFILES}/.config/git/config" "${XDG_CONFIG_HOME}/git/config"
+ln -sf "${DOTFILES}/.config/git/ignore" "${XDG_CONFIG_HOME}/git/ignore"
+ln -sf "${DOTFILES}/.config/git/user.conf" "${XDG_CONFIG_HOME}/git/user.conf"
+ln -sf "${DOTFILES}/.config/git/commit_template" "${XDG_CONFIG_HOME}/git/commit_template"
 
-sudo ln -sf "${DOTFILES}/.config/vim/vimrc" "${XDG_CONFIG_HOME}/vim/vimrc"
-
+ln -sf "${DOTFILES}/.config/vim/vimrc" "${XDG_CONFIG_HOME}/vim/vimrc"
 
 ln -sf "${DOTFILES}/.config/mise/config.toml" "${XDG_CONFIG_HOME}/mise/config.toml"
 ln -sf "${DOTFILES}/.config/mise.toml" "${XDG_CONFIG_HOME}/mise.toml"
@@ -45,12 +44,12 @@ ln -sf "${DOTFILES}/.config/vsocde/extensions.json" "${XDG_CONFIG_HOME}/VSCodium
 ln -sf "${DOTFILES}/.config/vscode/settings.json" "${XDG_CONFIG_HOME}/VSCodium/User/settings.json"
 # ln -sf "${DOTFILES}/.config/vscode/settings.json" "${HOME}/Library/Application Support/Cursor/User/settings.json"
 
-ln -sf "${DOTFILES}/shell/.profile" "${HOME}/.profile"
-ln -sf "${DOTFILES}/shell/.bashrc" "${HOME}/.bashrc"
-ln -sf "${DOTFILES}/shell/.bash_profile" "${HOME}/.bash_profile"
-ln -sf "${DOTFILES}/shell/.zshrc" "${HOME}/.zshrc"
-ln -sf "${DOTFILES}/shell/.zshenv" "${HOME}/.zshenv"
-ln -sf "${DOTFILES}/shell/.aliases" "${HOME}/.aliases"
+ln -sf "${DOTFILES}/.profile" "${HOME}/.profile"
+ln -sf "${DOTFILES}/.bashrc" "${HOME}/.bashrc"
+ln -sf "${DOTFILES}/.bash_profile" "${HOME}/.bash_profile"
+ln -sf "${DOTFILES}/.zshrc" "${HOME}/.zshrc"
+ln -sf "${DOTFILES}/.zshenv" "${HOME}/.zshenv"
+ln -sf "${DOTFILES}/.aliases" "${HOME}/.aliases"
 
 mkdir -p "${XDG_CONFIG_HOME}/wireshark"
 ln -sf "${DOTFILES}/.config/wireshark/language" "${XDG_CONFIG_HOME}/wireshark/language"

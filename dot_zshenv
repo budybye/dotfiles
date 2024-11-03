@@ -9,11 +9,11 @@ path=(
   /opt/X11/bin(N-/)
   /snap/bin(N-/)
   ${PATH}
-  /usr/bin
-  /usr/sbin
-  /bin
-  /sbin
   /usr/local/bin(N-/)
+  /usr/bin
+  /bin
+  /usr/sbin
+  /sbin
   ${HOME}/.console-ninja/.bin(N-/)
   ${HOME}/.local/share/sheldon/repos/github.com/*/*/bin(N-/)
   ${HOME}/.local/bin(N-/)

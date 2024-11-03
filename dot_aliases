@@ -31,6 +31,8 @@ alias cod="code | codium"
 
 alias che="chezmoi"
 
+alias apply="bit && chezmoi init --applly budybye"
+
 alias hg="--help"
 
 ## docker

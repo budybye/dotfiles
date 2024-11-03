@@ -1,4 +1,4 @@
-#!/bin/sh -ex
+#!/usr/bin/env/ bash -ex
 
 # extensions.jsonのパス
 CODEX="${XDG_CONFIG_HOME}/vscode/extensions.json"
