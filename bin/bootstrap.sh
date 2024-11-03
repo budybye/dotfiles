@@ -9,7 +9,7 @@ xcode-select --install && sudo xcode-select --switch /Library/Developer/CommandL
 # brewコマンドが実行可能な場合evalを実行する
 # homebrew をインストールされていなければインストールする
 # brewのPATHを通す
-if command -v brew > /dev/null 2>&1; then
+if command -v brew > /dev/null; then
     eval "$(brew shellenv)"
 else
     echo "brew is not installed"
