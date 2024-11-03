@@ -85,7 +85,7 @@ jobs:
 
       - name: chezmoi init
         run: |
-          make init
+          sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply ${{ github.actor }}
 
       - name: defaults
         run: |
