@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env bash -x
 
 # xcode commond tool install
 xcode-select --install && sudo xcode-select --switch /Library/Developer/CommandLineTools
@@ -6,7 +6,7 @@ xcode-select --install && sudo xcode-select --switch /Library/Developer/CommandL
 # brewコマンドが実行可能な場合evalを実行する
 # homebrew をインストールされていなければインストールする
 # brewのPATHを通す
-if command -v brew >/dev/null; then
+if command -v brew >/dev/null 2>&1; then
     eval "$(brew shellenv)"
 else
     echo "brew is not installed"
