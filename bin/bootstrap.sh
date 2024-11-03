@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -ex
 
 ## スリープ状態に移行するまでの時間，単位は秒(24時間)
 sudo pmset -a standbydelay 86400
