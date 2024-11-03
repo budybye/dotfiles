@@ -11,7 +11,9 @@ jobs:
 
   docker-build-push-compose:
     runs-on: ubuntu-24.04
-
+    strategy:
+      matrix:
+        platforms: [linux/amd64, linux/arm64]
     permissions:
       contents: read
       packages: write
@@ -81,23 +83,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: chezmoi init
-        run: |
-          # make init
-          sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply ${{github.actor}}
-
-      - name: mise
-        run: |
-          curl https://mise.run | sh
-          echo "$HOME/.local/share/mise/bin" >> $GITHUB_PATH
-          echo "$HOME/.local/share/mise/shims" >> $GITHUB_PATH
-          mise use bun
-
-      - name: bun
-        run: |
-          bun i -g wrangler
-          echo "$HOME/.bun/bin" >> $GITHUB_PATH
-
       - name: defaults
         run: |
           make defaults
@@ -106,3 +91,20 @@ jobs:
         run: |
           make bootstrap
           fastfetch
+
+      - name: chezmoi init
+        run: |
+          chezmoi init --apply ${{ github.actor }}
+
+      - name: mise
+        run: |
+          mise use go bun
+          mise trust
+
+      - name: bun
+        run: |
+          bun i -g wrangler
+
+      - name: go
+        run: |
+          go version
