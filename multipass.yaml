@@ -3,21 +3,22 @@
 hostname: vm
 users:
   - default
+
   - name: ubuntu
     groups: users,adm,sudo,ssl-cert,xrdp,input,audio
     shell: /bin/bash
     lock_passwd: false
     passwd: ubuntu
     uid: 1188
-    gid: 1188
+    gid: 1178
     sudo: ALL=(ALL) NOPASSWD:ALL
     # ssh_authorized_keys:
-    #   - ssh-dc25519 ABCDEF...
+    #   - ssh-ed25519 ABCDEF...
     # ssh_import_id:
     #   - github:username
 
   - name: hoge
-    groups: users,sudo,ssl-cert,xrdp,input,audio
+    groups: users,sudo,ssl-cert,xrdp,input,audio,wireshark
     shell: /bin/zsh
     lock_passwd: false
     passwd: hogehoge
@@ -25,7 +26,7 @@ users:
     gid: 1234
     sudo: ALL=(ALL) NOPASSWD:ALL
     # ssh_authorized_keys:
-    #   - ssh-dc25519 ABCDEF...
+    #   - ssh-ed25519 ABCDEF...
     # ssh_import_id:
     #   - github:username
 
@@ -113,15 +114,15 @@ packages:
   - pwgen
   - gawk
   - neofetch
-  # - plank
+  - plank
 
   # cargo系
   # - rustup
   - cargo
   - lsd
-  # - bat
   - zoxide
-  - fzf
+  # - bat
+  # - fzf
 
   # ネットワークツール
   - net-tools

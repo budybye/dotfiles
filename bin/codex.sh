@@ -1,5 +1,5 @@
-#!/usr/bin/env/ bash -ex
-
+#!/usr/bin/env bash
+set -ex
 # extensions.jsonのパス
 CODEX="${XDG_CONFIG_HOME}/vscode/extensions.json"
 

@@ -1,5 +1,5 @@
-#!/usr/bin/env bash -ex
-
+#!/usr/bin/env bash
+set -ex
 # Xcode コマンドラインツールのインストールおよびパスの設定
 install_xcode_command_line_tools() {
     echo "Xcode コマンドラインツールのインストールを確認中..."

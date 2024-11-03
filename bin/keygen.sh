@@ -1,4 +1,5 @@
-#!/usr/bin/env bash -ex
+#!/usr/bin/env bash
+set -ex
 
 # このスクリプトを実行すると、SSH鍵を生成してGitHubに設定し、
 # SSH鍵の管理を行うことができます。

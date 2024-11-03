@@ -1,5 +1,5 @@
-#!/usr/bin/env/ bash -ex
-
+#!/usr/bin/env bash
+set -ex
 # dotfilesリポジトリのパスを設定
 DOTFILES="${HOME}/dotfiles"
 

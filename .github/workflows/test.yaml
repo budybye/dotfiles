@@ -3,7 +3,7 @@ name: Test
 on:
   push:
     branches: ["main"]
-    # tags: [ 'v*.*.*' ]
+
 env:
   IMAGE_NAME: docker-ubuntu-xfce-xrdp-jp
 
@@ -56,6 +56,7 @@ jobs:
           echo "$HOME/.local/share/mise/bin" >> $GITHUB_PATH
           echo "$HOME/.local/share/mise/shims" >> $GITHUB_PATH
           mise use go
+          mise trust
 
       - name: cargo
         run: |
@@ -96,7 +97,6 @@ jobs:
         run: |
           bun i -g wrangler
           echo "$HOME/.bun/bin" >> $GITHUB_PATH
-          wrangler --version
 
       - name: defaults
         run: |

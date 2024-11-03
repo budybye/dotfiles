@@ -1,4 +1,5 @@
-#!/usr/bin/env/ bash -ex
+#!/usr/bin/env bash
+set -ex
 
 sudo snap install codium --classic
 echo "### codium installed"

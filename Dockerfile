@@ -1,9 +1,7 @@
-# docker run --rm --privileged --name -it 5432:5432
 FROM ubuntu:24.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# rdp
 RUN dpkg --configure -a && \
     apt-get update -y && apt-get upgrade -y
 
