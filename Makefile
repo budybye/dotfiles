@@ -1,3 +1,6 @@
+# git acocunt
+GIT_AUTHOR_NAME ?= budybye
+
 # ubuntu用のスクリプト
 INSTALL_SCRIPT := bin/install.sh
 SETUP_SCRIPT := bin/setup.sh
@@ -21,7 +24,7 @@ else
 endif
 
 # 共用スクリプト実行 make it
-it: codex keygen link init
+it: init codex keygen link
 
 # 環境セットアップスクリプトの実行
 setup:
@@ -60,4 +63,4 @@ link:
 
 init:
 	@echo "chezmoi init..."
-	sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply -S .
+	sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply $(GIT_AUTHOR_NAME)

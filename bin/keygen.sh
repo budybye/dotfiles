@@ -5,28 +5,30 @@ set -ex
 # SSH鍵の管理を行うことができます。
 
 # SSH鍵のファイル名
+SSH="${HOME}/.ssh"
+# keyの種類
+KEY_TYPE="ed25519"
+# KEY_TYPE=rsa
+KEY_NAME="id_${KEY_TYPE}"
 # KEY_NAME="id_rsa"
-KEY_NAME="id_ed25519"
 # SSH鍵のパス
-KEY_PATH="${HOME}/.ssh/${KEY_NAME}"
+KEY_PATH="${SSH}/${KEY_NAME}"
+
 # GitHubのユーザーネーム
 GIT_AUTHOR_NAME="budybye"
-# keyの種類
-# KEY_TYPE=rsa
-KEY_TYPE="ed25519"
 
 # SSH用のディレクトリを作成
-mkdir -pm 700 "${HOME}/.ssh"
+mkdir -pm 700 "${SSH}"
 
 # SSH用のディレクトリに移動
-cd "${HOME}/.ssh"
+cd "${SSH}"
 
 # authorized_keysとconfigファイルを作成
 touch authorized_keys
 touch config
 
 # configファイルにGitHubのホスト情報を設定
-cat <<EOF >${HOME}/.ssh/config
+cat <<EOF >${SSH}/config
 Host github github.com
 HostName github.com
 IdentityFile $KEY_PATH
@@ -81,3 +83,5 @@ eval "$(ssh-agent -k)"
 
 # ホームディレクトリに移動
 cd "${HOME}"
+
+tree ${SSH}

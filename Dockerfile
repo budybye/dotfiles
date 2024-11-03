@@ -2,9 +2,7 @@ FROM ubuntu:24.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update -y && apt-get upgrade -y
-
-RUN apt-get install -y \
+RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     xfce4 xfce4-goodies xrdp build-essential cmake dbus-x11 \
     libfuse2 libssl-dev pkg-config apt-transport-https \
     ca-certificates xorgxrdp zsh vim gh curl wget jq gzip ruby cargo \
