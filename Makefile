@@ -2,7 +2,7 @@
 INSTALL_SCRIPT := bin/install.sh
 SETUP_SCRIPT := bin/setup.sh
 # macOS用のスクリプト
-BREW_SCRIPT := bin/bootstrap.sh
+BOOTSTRAP_SCRIPT := bin/bootstrap.sh
 DEFAULTS_SCRIPT := bin/defaults.sh
 # 共通スクリプト
 LINK_SCRIPT := bin/link.sh
@@ -13,7 +13,7 @@ CODE_SCRIPT := bin/codex.sh
 ifeq ($(shell uname), Darwin)
     # macOS用の設定
     CONFIG_DIR := macos
-    sense: defaults brew
+    sense: defaults bootstrap
 else
     # Linux用の設定
     CONFIG_DIR := linux
@@ -34,9 +34,9 @@ install:
 	sh $(INSTALL_SCRIPT)
 
 # Homebrewインストールスクリプトの実行
-brew:
-	@echo "Running brew script..."
-	sh $(BREW_SCRIPT)
+bootstrap:
+	@echo "Running bootstrap script..."
+	sh $(BOOTSTRAP_SCRIPT)
 
 # デフォルト設定スクリプトの実行
 defaults:

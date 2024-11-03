@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: Test
 
 on:
   push:
@@ -47,7 +47,8 @@ jobs:
 
       - name: chezmoi init
         run: |
-          sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply ${{ github.actor }}
+          make init
+          # sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply ${{ github.actor }}
 
       - name: mise
         run: |
@@ -81,6 +82,7 @@ jobs:
 
       - name: chezmoi init
         run: |
+          # make init
           sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply ${{github.actor}}
 
       - name: mise
@@ -94,12 +96,13 @@ jobs:
         run: |
           bun i -g wrangler
           echo "$HOME/.bun/bin" >> $GITHUB_PATH
+          wrangler --version
 
-      - name: defaults cmd
+      - name: defaults
         run: |
           make defaults
 
-      - name: homebrew
+      - name: bootstrap
         run: |
-          make brew
+          make bootstrap
           fastfetch
