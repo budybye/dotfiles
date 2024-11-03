@@ -1,10 +1,10 @@
-#!/usr/bin/env/ bash -x
+#!/usr/bin/env/ bash
 
 ## スリープ状態に移行するまでの時間，単位は秒(24時間)
 # sudo pmset -a standbydelay 86400
 
 # xcode commond tool install
-xcode-select --install > /dev/null
+xcode-select --install > /dev/null 2>&1
 sudo xcode-select --switch /Library/Developer/CommandLineTools > /dev/null 2>&1
 
 # brewコマンドが実行可能な場合evalを実行する
