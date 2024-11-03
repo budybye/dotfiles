@@ -44,9 +44,9 @@ install_packages() {
     sudo apt update -y && sudo apt upgrade -y
     sudo apt install -y --no-install-recommends curl wget git build-essential cmake dbus-x11 \
         libfuse2 libssl-dev pkg-config apt-transport-https ca-certificates gnupg lsb-release \
-        xrdp xfce4 xfce-goodies language-pack-ja-base language-pack-ja manpages-ja fcitx5-mozc \
-        g++ zsh vim gh jq tree xsel ncdu xdotool mkcert moreutils mutlitail neofetch plank lsd zoxide \
-        ffmpeg mpd mpc ncmpcpp net-tools nmap wireshark snapd sudo ufw rsylog im-config byobu ruby cargo
+        xrdp xfce4 xfce4-goodies language-pack-ja-base language-pack-ja manpages-ja fcitx5-mozc \
+        g++ zsh vim gh jq tree xsel ncdu xdotool mkcert moreutils multitail neofetch plank lsd zoxide \
+        ffmpeg mpd mpc ncmpcpp net-tools nmap wireshark snapd sudo ufw rsyslog im-config byobu ruby cargo
     echo "### 必要なパッケージがインストールされました。"
 }
 
