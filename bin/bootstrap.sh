@@ -1,7 +1,7 @@
 #!/usr/bin/env/ bash -ex
 
 ## スリープ状態に移行するまでの時間，単位は秒(24時間)
-sudo pmset -a standbydelay 86400
+# sudo pmset -a standbydelay 86400
 
 # xcode commond tool install
 # xcode-select --install > /dev/null 2>&1
