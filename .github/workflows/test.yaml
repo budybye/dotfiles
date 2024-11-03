@@ -31,7 +31,7 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
-          platforms: ${{ matrix.platforms}}
+          platforms: ${{ matrix.platforms }}
           push: true
           tags: ghcr.io/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ github.ref_name }}
 
@@ -49,8 +49,8 @@ jobs:
 
       - name: chezmoi init
         run: |
-          make init
-          # sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply ${{ github.actor }}
+          # make init
+          sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply ${{ github.actor }}
 
       - name: mise
         run: |
@@ -58,7 +58,7 @@ jobs:
           echo "$HOME/.local/share/mise/bin" >> $GITHUB_PATH
           echo "$HOME/.local/share/mise/shims" >> $GITHUB_PATH
           mise use go
-          mise trust
+          mise activate
 
       - name: cargo
         run: |
@@ -99,12 +99,4 @@ jobs:
       - name: mise
         run: |
           mise use go bun
-          mise trust
-
-      - name: bun
-        run: |
-          bun i -g wrangler
-
-      - name: go
-        run: |
-          go version
+          mise activate

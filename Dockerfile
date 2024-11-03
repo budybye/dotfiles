@@ -2,8 +2,7 @@ FROM ubuntu:24.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN dpkg --configure -a && \
-    apt-get update -y && apt-get upgrade -y
+RUN apt-get update && apt-get upgrade -y
 
 RUN apt-get install -y \
     xfce4 xfce4-goodies xrdp build-essential cmake dbus-x11 \
@@ -18,8 +17,9 @@ RUN apt-get install -y \
     rm -rf /var/cache/apt /var/lib/apt/lists/*
 
 EXPOSE 3389
-RUN systemctl enable xrdp && \
-    echo "xfce4-session" > ~/.xsession
+RUN systemctl enable xrdp
+
+RUN echo "xfce4-session" > ~/.xsession
 
 # COPY ./bin/setup.sh /usr/bin/
 # RUN mv /usr/bin/setbup.sh /usr/bin/setup.sh
