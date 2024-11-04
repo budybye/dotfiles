@@ -20,14 +20,14 @@ sudo systemctl restart rsyslog
 # 日本語環境設定完了メッセージ
 echo "### 日本語環境の設定が完了しました"
 
-groupadd -f ssl-cert
-groupadd -f xrdp
-groupadd -f input
-groupadd -f audio
-groupadd -f wireshrak
-groupadd -f docker
+sudo groupadd -f ssl-cert
+sudo groupadd -f xrdp
+sudo groupadd -f input
+sudo groupadd -f audio
+sudo groupadd -f wireshrak
+sudo groupadd -f docker
 # ubuntuユーザーを必要なグループに追加
-sudo usermod -a -G ssl-cert,xrdp,input,audio,wiershark,docker "$USER_NAME"
+sudo usermod -aG ssl-cert,xrdp,input,audio,wiershark,docker "${USER_NAME}"
 
 # ファイアウォールで3389番ポート（RDP）を許可
 sudo ufw allow 3389
@@ -39,11 +39,14 @@ sudo systemctl start xrdp
 # xrdpの設定完了メッセージ
 echo "### xrdpの設定が完了しました"
 
-# ubuntuユーザーのパスワードを設定（対話形式で入力）
-# sudo passwd ubuntu
 
 # デフォルトのセッションマネージャーをxfce4-sessionに設定
 sudo update-alternatives --set x-session-manager /usr/bin/xfce4-session
+
+echo "以下のコマンドを実行してパスワードを更新してください"
+echo "sudo passwd ${UERS_NAME}"
+# ubuntuユーザーのパスワードを設定（対話形式で入力）
+# sudo passwd ${UERS_NAME}
 
 # xfce4-sessionの設定完了メッセージ
 echo "### xfce4-sessionの設定が完了しました"
