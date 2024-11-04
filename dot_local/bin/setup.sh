@@ -33,7 +33,7 @@ echo "### xrdpの設定が完了しました"
 sudo update-alternatives --set x-session-manager /usr/bin/xfce4-session
 
 echo "以下のコマンドを実行してパスワードを更新してください"
-echo "sudo passwd \"${USER_NAME}\""
+echo "sudo passwd ${USER_NAME}"
 # ubuntuユーザーのパスワードを設定（対話形式で入力）
 # sudo passwd "${USER_NAME}"
 echo "### xfce4-sessionの設定が完了しました"

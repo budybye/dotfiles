@@ -399,7 +399,7 @@ install_fonts() {
 
     # RobotoMonoJP フォントのダウンロード
     sudo curl -L https://github.com/mjun0812/RobotoMonoJP/releases/download/v5.9.0/RobotoMonoJP-Regular.ttf \
-        -o "${fonts}/RobotoMonoNerd.ttf"
+        -o "${fonts}/RobotoMonoNF-Regular.ttf"
 
     # フォントキャッシュの更新
     fc-cache -f -v

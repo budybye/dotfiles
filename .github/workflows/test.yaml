@@ -6,7 +6,7 @@ on:
     tags:
       - "v*"
   workflow_dispatch:
-  
+
 env:
   IMAGE_NAME: docker-ubuntu-xfce-xrdp-jp
 
@@ -65,8 +65,8 @@ jobs:
 
       - name: docker
         run: |
-          docker --help
-          docker compose --help
+          docker -v
+          docker compose version
 
   mac-test:
     runs-on: macos-14
