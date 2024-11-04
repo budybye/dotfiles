@@ -53,12 +53,12 @@ jobs:
       - name: chezmoi init
         run: |
           sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply ${{ github.actor }}
-          ls -la /Users/runner/
+          ls -la /home/runner
           pwd
-          ls -la /Users/runner/.local/bin
+          ls -la /home/runner/.local/bin
           pwd
-          ls -la /Users/runner/.config
-          /Users/runner/work/dotfiles/dotfiles/bin/chezmoi help
+          ls -la /home/runner/.config
+          /home/runner/work/dotfiles/dotfiles/bin/chezmoi help
 
       - name: installl
         run: |
@@ -82,12 +82,12 @@ jobs:
       - name: chezmoi init
         run: |
           sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply ${{ github.actor }}
-          # ls -la /home/runner
+          ls -la /Users/runner
           pwd
-          # ls -la /home/runner/.local/bin
+          ls -la /Users/runner/.local/bin
           pwd
-          # ls -la /home/runner/.config
-          # /home/runner/work/dotfiles/dotfiles/bin/chezmoi help
+          ls -la /Users/runner/.config
+          /Users/runner/work/dotfiles/dotfiles/bin/chezmoi help
 
       - name: defaults
         run: |
