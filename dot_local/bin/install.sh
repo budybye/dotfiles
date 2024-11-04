@@ -15,6 +15,7 @@ initialize_dotfiles() {
             exit 1
         }
         echo "### dotfiles をクローンしました。"
+        ls -la ./dotfiles
     fi
 }
 
@@ -177,54 +178,45 @@ install_snap() {
     # echo "### chromium をインストールしました。"
 }
 
-
-# Cargo および Rust 関連ツールをインストールする関数
-install_cargo_tools() {
-    if ! command -v cargo > /dev/null 2>&1; then
+# mise でインストールする関数
+install_mise() {
+    if ! command -v mise > /dev/null 2>&1; then
         sudo install -dm 755 /etc/apt/keyrings
         wget -qO - https://mise.jdx.dev/gpg-key.pub | gpg --dearmor | sudo tee \
             /etc/apt/keyrings/mise-archive-keyring.gpg 1>/dev/null
         echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=${arch}] " |
             sudo tee /etc/apt/sources.list.d/mise.list
         sudo apt-get update -y
-        sudo apt-etg install -y mise || curl https://mise.run | sh || {
+        sudo apt-get install -y mise || curl https://mise.run | sh || {
             echo "### mise のインストールに失敗しました。"
             exit 1
         }
         echo "### mise をインストールしました。"
+    fi
 
+    which mise
+    mise activate zsh
+    mise activate --shims
+    mise trust
+
+    mise use chezmoi -y || {
+        echo "### chezmoi のインストールに失敗しました。"
+        exit 1
+    }
+    echo "### miseの設定を完了しました。"
+}
+
+# Cargo および Rust 関連ツールをインストールする関数
+install_cargo_tools() {
+    if ! command -v cargo > /dev/null 2>&1; then
         mise use rust -y || sudo apt-get install -y cargo
     else
         echo "### cargo は既にインストールされています。"
-        if ! command -v mise >/dev/null 2>&1; then
-            cargo install mise || curl https://mise.run | sh || {
-                echo "### mise のインストールに失敗しました。"
-                exit 1
-            }
-            echo "### mise をインストールしました。"
         fi
     fi
     cargo install starship sheldon fd-find xh bat
     echo "### cargo ツールがインストールされました。"
     which cargo
-    which mise
-}
-
-# mise でインストールする関数
-install_mise() {
-    if ! command -v mise > /dev/null 2>&1; then
-        install_cargo_tools
-    fi
-    which mise
-    
-    mise use chezmoi -y || {
-        echo "### chezmoi のインストールに失敗しました。"
-        exit 1
-    }
-    mise activate zsh
-    # mise activate --shims
-    mise trust
-    echo "### miseの設定を完了しました。"
 }
 
 # Brave ブラウザをインストールする関数
@@ -421,13 +413,13 @@ main() {
     change_shell_to_zsh
     install_snap
     install_docker
-    install_cargo_tools
-    install_mise
     install_brave_browser
-    install_tabby_terminal
     install_cloudflare_warp
+    install_tabby_terminal
     install_github_desktop
     install_cursor
+    install_mise
+    install_cargo_tools
     install_go_aqua
     install_ruby_fusuma
     install_mkcert
