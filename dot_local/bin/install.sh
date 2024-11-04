@@ -410,7 +410,7 @@ install_fonts() {
 
 # 背景画像を設定する関数
 set_background_image() {
-    sudo cp ${HOME}/data/bg.jpeg /usr/share/backgrounds/bg.jpeg
+    sudo cp "${HOME}/data/bg.jpeg" /usr/share/backgrounds/bg.jpeg
     echo "### /usr/share/backgrounds/bg.jpeg に壁紙を配置しました。"
 }
 
