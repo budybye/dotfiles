@@ -415,7 +415,7 @@ set_background_image() {
 
 # メイン関数
 main() {
-    initialize_dotfiles
+    # initialize_dotfiles
     install_packages
     change_shell_to_zsh
     install_snap
