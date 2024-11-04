@@ -42,12 +42,13 @@ change_shell_to_zsh() {
 
 # 必要なパッケージをインストールする関数
 install_packages() {
+    sudo dpkg --configure -a
     sudo apt update -y && sudo apt upgrade -y
-    sudo apt install -y --no-install-recommends curl wget git build-essential cmake dbus-x11 \
-        libfuse2 libssl-dev pkg-config apt-transport-https ca-certificates gnupg lsb-release \
+    sudo apt install -y curl wget git build-essential cmake dbus-x11 gnupg g++ gh jq sudo \
+        libfuse2 libssl-dev pkg-config apt-transport-https ca-certificates lsb-release libnss3-tools\
         xrdp xfce4 xfce4-goodies language-pack-ja-base language-pack-ja manpages-ja fcitx5-mozc \
-        g++ zsh vim gh jq tree xsel ncdu xdotool mkcert moreutils multitail neofetch plank lsd zoxide \
-        ffmpeg mpd mpc ncmpcpp net-tools nmap wireshark snapd sudo ufw rsyslog im-config byobu ruby cargo
+        zsh vim tree xsel ncdu xdotool mkcert moreutils multitail neofetch plank lsd zoxide \
+        ffmpeg mpd mpc ncmpcpp net-tools nmap wireshark snapd ufw rsyslog im-config byobu ruby cargo
     echo "### 必要なパッケージがインストールされました。"
 }
 
@@ -96,6 +97,7 @@ install_docker() {
     echo "### Docker Engine をインストールしました。"
 
     # 現在のユーザーを docker グループに追加
+    groupadd docker
     sudo usermod -aG docker "$USER_NAME"
     echo "### ユーザーを docker グループに追加しました。"
 
@@ -107,6 +109,7 @@ install_docker() {
     # Docker Compose のインストール
     install_docker_compose
 }
+
 # Snap をインストールおよび管理する関数
 install_snap() {
     if ! command -v snap &>/dev/null; then
@@ -139,6 +142,42 @@ install_snap() {
     else
         echo "### firefox は既に削除されています。"
     fi
+}
+
+
+# Cargo および Rust 関連ツールをインストールする関数
+install_cargo_tools() {
+    if ! command -v cargo >/dev/null 2>&1; then
+        sudo install -dm 755 /etc/apt/keyrings
+        wget -qO - https://mise.jdx.dev/gpg-key.pub | gpg --dearmor | sudo tee \
+            /etc/apt/keyrings/mise-archive-keyring.gpg 1>/dev/null
+        echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=${arch}] " |
+            sudo tee /etc/apt/sources.list.d/mise.list
+        sudo apt update -y
+        sudo apt install -y mise
+        echo "### mise をインストールしました。"
+
+        mise use rust -y || sudo apt install -y cargo
+    else
+        echo "### cargo は既にインストールされています。"
+        if ! command -v mise >/dev/null 2>&1; then
+            cargo install mise || curl https://mise.run | sh
+            echo "### mise をインストールしました。"
+        fi
+    fi
+    cargo install starship sheldon fd-find xh bat
+    echo "### cargo ツールがインストールされました。"
+}
+
+# mise でインストールする関数
+install_mise() {
+    echo 'eval "$(~/.local/bin/mise activate zsh)"' >>"${HOME}/.zshrc"
+    echo 'export PATH="$HOME/.local/share/mise/shims:$PATH"' >>"${HOME}/.zshenv"
+
+    mise use go chezmoi -y
+    mise activate zsh
+    # mise activate --shims
+    echo "### miseの設定を完了しました。"
 }
 
 # Brave ブラウザをインストールする関数
@@ -180,57 +219,6 @@ install_cloudflare_warp() {
         echo "### cloudflare-warp を設定しました。"
 }
 
-# Cargo および Rust 関連ツールをインストールする関数
-install_cargo_tools() {
-    if ! command -v cargo >/dev/null 2>&1; then
-        sudo install -dm 755 /etc/apt/keyrings
-        wget -qO - https://mise.jdx.dev/gpg-key.pub | gpg --dearmor | sudo tee \
-            /etc/apt/keyrings/mise-archive-keyring.gpg 1>/dev/null
-        echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=${arch}] " |
-            sudo tee /etc/apt/sources.list.d/mise.list
-        sudo apt update -y
-        sudo apt install -y mise
-        echo "### mise をインストールしました。"
-
-        mise use rust -y || sudo apt install -y cargo
-    else
-        echo "### cargo は既にインストールされています。"
-        if ! command -v mise >/dev/null 2>&1; then
-            cargo install mise || curl https://mise.run | sh
-            echo "### mise をインストールしました。"
-        fi
-    fi
-    cargo install starship sheldon fd-find xh bat
-    echo "### cargo ツールがインストールされました。"
-}
-
-# mise でインストールする関数
-install_mise() {
-    echo 'eval "$(~/.local/bin/mise activate zsh)"' >>"${HOME}/.zshrc"
-    echo 'export PATH="$HOME/.local/share/mise/shims:$PATH"' >>"${HOME}/.zshenv"
-
-    mise use go chezmoi -y
-    mise activate zsh
-    # mise activate --shims
-    echo "### miseの設定を完了しました。"
-}
-
-# フォントをインストールする関数
-install_fonts() {
-    sudo mkdir -p ${XDG_DATA_HOME}/fonts
-
-    sudo curl -L https://github.com/yuru7/HackGen/releases/download/v2.9.0/HackGen_NF_v2.9.0.zip \
-        -o ${XDG_DATA_HOME}/fonts/HackGen_NF_v2.9.0.zip
-    sudo unzip ${XDG_DATA_HOME}/fonts/HackGen_NF_v2.9.0.zip -d ${XDG_DATA_HOME}/fonts/
-    sudo rm -f ${XDG_DATA_HOME}/fonts/HackGen_NF_v2.9.0.zip
-
-    sudo curl -L https://github.com/mjun0812/RobotoMonoJP/releases/download/v5.9.0/RobotoMonoJP-Regular.ttf \
-        -o ${XDG_DATA_HOME}/fonts/RobotoMonoNerd.ttf
-
-    fc-cache -f -v
-    echo "### フォントをインストールしました。"
-}
-
 # Wireshark をインストールおよび設定する関数
 install_wireshark() {
     if ! command -v wireshark &>/dev/null; then
@@ -258,11 +246,6 @@ install_cursor() {
     mv cursor_0.42.2_linux_${arch}.AppImage ~/Applications/cursor_0.42.2_linux_${arch}.AppImage
 }
 
-# 背景画像を設定する関数
-set_background_image() {
-    sudo cp ${HOME}/data/bg.jpeg /usr/share/backgrounds/bg.jpeg
-}
-
 # Ruby と Fusuma をインストールおよび設定する関数
 install_ruby_fusuma() {
     if ! command -v gem &>/dev/null; then
@@ -276,7 +259,7 @@ install_ruby_fusuma() {
         exit 1
     }
     groupadd input
-    sudo usermdo -a -G input "$USER_NAME"
+    sudo usermod -a -G input "$USER_NAME"
     fusuma -d
     echo "### fusuma の設定を完了しました。"
 }
@@ -299,7 +282,7 @@ install_go_aqua() {
     export PATH="${AQUA_ROOT_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/aquaproj-aqua}/bin:$PATH"
     aqua init || {
         echo "### aqua の初期化に失敗しました。"
-        exit 1
+        # exit 1
     }
     echo "### aqua をインストールしました。"
 }
@@ -314,6 +297,35 @@ install_mkcert() {
         echo "### mkcert は既にインストールされています。"
         mkcert -install
     fi
+}
+
+# フォントをインストールする関数
+install_fonts() {
+    # フォントディレクトリを作成
+    sudo mkdir -p ${XDG_DATA_HOME}/fonts
+
+    # HackGen フォントのダウンロード
+    sudo curl -L https://github.com/yuru7/HackGen/releases/download/v2.9.0/HackGen_NF_v2.9.0.zip \
+        -o ${XDG_DATA_HOME}/fonts/HackGen_NF_v2.9.0.zip
+
+    # HackGen フォントの展開（ttfファイルのみをfontsディレクトリに配置）
+    sudo unzip -j ${XDG_DATA_HOME}/fonts/HackGen_NF_v2.9.0.zip '*.ttf' -d ${XDG_DATA_HOME}/fonts/
+
+    # ダウンロードしたzipファイルの削除
+    sudo rm -f ${XDG_DATA_HOME}/fonts/HackGen_NF_v2.9.0.zip
+
+    # RobotoMonoJP フォントのダウンロード
+    sudo curl -L https://github.com/mjun0812/RobotoMonoJP/releases/download/v5.9.0/RobotoMonoJP-Regular.ttf \
+        -o ${XDG_DATA_HOME}/fonts/RobotoMonoNerd.ttf
+
+    # フォントキャッシュの更新
+    fc-cache -f -v
+    echo "### フォントをインストールしました。"
+}
+
+# 背景画像を設定する関数
+set_background_image() {
+    sudo cp ${HOME}/data/bg.jpeg /usr/share/backgrounds/bg.jpeg
 }
 
 # メイン関数
@@ -331,11 +343,11 @@ main() {
     install_wireshark
     install_github_desktop
     install_cursor
+    install_go_aqua
     install_mkcert
     install_ruby_fusuma
     install_fonts
     set_background_image
-    # install_go_aqua
 
     echo "### インストールが完了しました。再起動してください。"
 }

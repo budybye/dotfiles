@@ -17,14 +17,11 @@ im-config -n fcitx5
 # rsyslogサービスを再起動
 sudo systemctl restart rsyslog
 
-# 未設定のパッケージを設定
-sudo dpkg --configure -a
-
 # 日本語環境設定完了メッセージ
 echo "### 日本語環境の設定が完了しました"
 
 # ubuntuユーザーを必要なグループに追加
-sudo usermod -a -G ssl-cert,xrdp,input,audio ubuntu
+sudo usermod -a -G ssl-cert,xrdp,input,audio $USER_NAME
 
 # ファイアウォールで3389番ポート（RDP）を許可
 sudo ufw allow 3389
@@ -37,7 +34,7 @@ sudo systemctl start xrdp
 echo "### xrdpの設定が完了しました"
 
 # ubuntuユーザーのパスワードを設定（対話形式で入力）
-sudo passwd ubuntu
+# sudo passwd ubuntu
 
 # デフォルトのセッションマネージャーをxfce4-sessionに設定
 sudo update-alternatives --set x-session-manager /usr/bin/xfce4-session
