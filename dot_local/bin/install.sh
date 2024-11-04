@@ -212,7 +212,6 @@ install_cargo_tools() {
         mise use rust -y || sudo apt-get install -y cargo
     else
         echo "### cargo は既にインストールされています。"
-        fi
     fi
     cargo install starship sheldon fd-find xh bat
     echo "### cargo ツールがインストールされました。"
