@@ -18,6 +18,7 @@ jobs:
       - name: init
         run: |
           sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply ${{ github.actor }}
+          pwd
           ls -la
           ls /home/runner/.local/bin
           ls /home/runner/.config
@@ -55,7 +56,6 @@ jobs:
           docker logs ipfs
           docker ps -a
           docker compose down
-          ls -la
 
   ubuntu-test:
     runs-on: ubuntu-24.04
@@ -64,7 +64,7 @@ jobs:
 
       - name: chezmoi init
         run: |
-          ls -la
+          pwd
           # make init
           sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply ${{ github.actor }}
 
@@ -80,7 +80,6 @@ jobs:
         run: |
           docker -v
           docker compose version
-          ls -la
 
   mac-test:
     runs-on: macos-14
@@ -90,7 +89,7 @@ jobs:
 
       - name: chezmoi init
         run: |
-          ls -la
+          pwd
           # make init
           sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply ${{ github.actor }}
 
@@ -105,4 +104,3 @@ jobs:
       - name: mise
         run: |
           mise use go bun
-          ls -la
