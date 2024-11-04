@@ -17,12 +17,11 @@ jobs:
     steps:
       - name: init
         run: |
-          sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply ${{ github.actor }}
+          make init
+          # sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply ${{ github.actor }}
           pwd
-          ls -la
           ls /home/runner/.local/bin
           ls /home/runner/.config
-
 
   docker-build-push-compose:
     runs-on: ubuntu-24.04
