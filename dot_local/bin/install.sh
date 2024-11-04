@@ -207,6 +207,7 @@ install_cargo_tools() {
     cargo install starship sheldon fd-find xh bat
     echo "### cargo ツールがインストールされました。"
     which cargo
+    which mise
 }
 
 # mise でインストールする関数
@@ -214,21 +215,16 @@ install_mise() {
     if ! command -v mise > /dev/null 2>&1; then
         install_cargo_tools
     fi
-    echo 'eval "$(~/.local/bin/mise activate zsh)"' >>"${HOME}/.zshrc"
-    echo 'export PATH="$HOME/.local/share/mise/shims:$PATH"' >>"${HOME}/.zshenv"
-    mkdir -p ${XDG_CONFIG_HOME}/mise
-    export MISE_CONFIG_DIR=${XDG_CONFIG_HOME}/mise
-    touch ${MISE_CONFIG_DIR}/shorthands.toml
-
-    mise use go chezmoi -y || {
-        echo "### go のインストールに失敗しました。"
+    which mise
+    
+    mise use chezmoi -y || {
+        echo "### chezmoi のインストールに失敗しました。"
         exit 1
     }
     mise activate zsh
     # mise activate --shims
     mise trust
     echo "### miseの設定を完了しました。"
-    which mise
 }
 
 # Brave ブラウザをインストールする関数
