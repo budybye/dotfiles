@@ -16,7 +16,6 @@ initialize_dotfiles() {
             exit 1
         }
         echo "### dotfiles をクローンしました。"
-        ls -la ./dotfiles
     fi
 }
 
@@ -195,7 +194,7 @@ install_mise() {
 
     which mise
     mise activate zsh
-    mise activate --shims
+    # mise activate --shims
     mise trust
 
     mise use chezmoi -y || {
