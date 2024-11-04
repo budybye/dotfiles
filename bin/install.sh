@@ -390,12 +390,12 @@ main() {
     install_docker
     install_cargo_tools
     install_mise
-    install_brave_browser
+    # install_brave_browser
     install_tabby_terminal
-    install_cloudflare_warp
+    # install_cloudflare_warp
     install_wireshark
     install_github_desktop
-    install_cursor
+    # install_cursor
     install_go_aqua
     install_mkcert
     install_ruby_fusuma
