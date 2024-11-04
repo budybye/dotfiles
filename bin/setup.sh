@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # スクリプトのデバッグモードを有効にし、エラートレースを表示
 set -ex
+# ユーザー名を動的に取得
+USER_NAME=${SUDO_USER:-$(whoami)}
 
 # Ubuntuのセットアップ開始メッセージ
 echo "### Ubuntuのセットアップを開始します..."
