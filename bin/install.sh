@@ -239,6 +239,7 @@ install_wireshark() {
     else
         echo "### wireshark は既にインストールされています。"
     fi
+    groupadd wireshark
     sudo usermod -a -G wireshark "$USER_NAME"
 }
 
@@ -274,7 +275,8 @@ install_ruby_fusuma() {
         echo "### fusuma のインストールに失敗しました。"
         exit 1
     }
-    sudo gpasswd -a "$USER_NAME" input
+    groupadd input
+    sudo usermdo -a -G input "$USER_NAME"
     fusuma -d
     echo "### fusuma の設定を完了しました。"
 }
@@ -294,6 +296,7 @@ install_go_aqua() {
         echo "### aqua のインストールに失敗しました。"
         exit 1
     }
+    export PATH="${AQUA_ROOT_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/aquaproj-aqua}/bin:$PATH"
     aqua init || {
         echo "### aqua の初期化に失敗しました。"
         exit 1
@@ -329,10 +332,10 @@ main() {
     install_github_desktop
     install_cursor
     install_mkcert
-    install_go_aqua
     install_ruby_fusuma
     install_fonts
     set_background_image
+    # install_go_aqua
 
     echo "### インストールが完了しました。再起動してください。"
 }
