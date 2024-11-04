@@ -279,7 +279,8 @@ install_github_desktop() {
 
 # Cursor をインストールする関数
 install_cursor() {
-    sudo wget https://github.com/coder/cursor-arm64/releases/download/v0.42.2/cursor_0.42.2_linux_arm64.AppImage || {
+    sudo wget https://github.com/coder/cursor-arm/releases/download/v0.42.2/cursor_0.42.2_linux_arm64.AppImage
+    || {
         echo "### cursor のダウンロードに失敗しました。"
         # exit 1
     }
