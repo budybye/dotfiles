@@ -393,7 +393,7 @@ install_fonts() {
         -o "${XDG_DATA_HOME:-$HOME/.local/share}/fonts/HackGen_NF_v2.9.0.zip"
 
     # HackGen フォントの展開（ttfファイルのみをfontsディレクトリに配置）
-    sudo unzip -j "${XDG_DATA_HOME:-$HOME/.local/share}/fontsHackGen_NF_v2.9.0" '*.ttf' -d "${XDG_DATA_HOME:-$HOME/.local/share}/fonts/"
+    sudo unzip -j "${XDG_DATA_HOME:-$HOME/.local/share}/fonts/HackGen_NF_v2.9.0.zip" '*.ttf' -d "${XDG_DATA_HOME:-$HOME/.local/share}/fonts/"
 
     # ダウンロードしたzipファイルの削除
     sudo rm -f "${XDG_DATA_HOME:-$HOME/.local/share}/fonts/HackGen_NF_v2.9.0.zip"
