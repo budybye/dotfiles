@@ -194,13 +194,17 @@ install_mise() {
         echo "### mise をインストールしました。"
     fi
     which mise
-
-    mise activate zsh
+    echo 'eval "$(~/.local/bin/mise activate zsh)"' >>"${HOME}/.zshrc"
+    echo 'export PATH="$HOME/.local/share/mise/shims:$PATH"' >>"${HOME}/.zshenv"
+    mkdir -p ${XDG_CONFIG_HOME}/mise
+    export MISE_CONFIG_DIR=${XDG_CONFIG_HOME}/mise
+    touch ${MISE_CONFIG_DIR}/shorthands.toml
+    # mise activate zsh
     # mise activate --shims
 
     mise use chezmoi -y || {
         echo "### chezmoi のインストールに失敗しました。"
-        exit 1
+        # exit 1
     }
     echo "### miseの設定を完了しました。"
 }
