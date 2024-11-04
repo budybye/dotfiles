@@ -23,7 +23,7 @@ jobs:
           ls -la /home/runner/.local/bin
           pwd
           ls -la /home/runner/.config
-          /home/runner/work/dotfiles/dotfiles/bin/chezmoi completion
+          /home/runner/work/dotfiles/dotfiles/bin/chezmoi help
           setup
 
   docker-build-push-compose:
