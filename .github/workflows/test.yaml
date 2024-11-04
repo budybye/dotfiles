@@ -54,11 +54,15 @@ jobs:
       - name: installl
         run: |
           make install
-          neofetch
 
       - name: setup
         run: |
           make setup
+
+      - name: docker
+        run: |
+          docker --help
+          docker compose --help
 
   mac-test:
     runs-on: macos-14
@@ -78,7 +82,6 @@ jobs:
       - name: bootstrap
         run: |
           make bootstrap
-          fastfetch
 
       - name: mise
         run: |

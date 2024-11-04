@@ -95,6 +95,8 @@ main() {
     install_brew_packages
     install_rosetta
     echo "ブートストラップが完了しました。"
+
+    fastfetch
 }
 
 # スクリプトの実行
