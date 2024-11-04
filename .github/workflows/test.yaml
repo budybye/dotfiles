@@ -18,17 +18,12 @@ jobs:
       - name: init
         run: |
           sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply ${{ github.actor }}
-          pwd
-          ls -la /home/runner/work
-          pwd
-          ls -la /home/runner/work/dotfiles
-          pwd
-          ls -la /home/runner/work/dotfiles/dotfiles
+          ls -la /home/runner
           pwd
           ls -la /home/runner/.local/bin
           pwd
           ls -la /home/runner/.config
-          chezmoi -v
+          /home/runner/work/dotfiles/dotfiles/bin/chezmoi -v
 
   docker-build-push-compose:
     runs-on: ubuntu-24.04
