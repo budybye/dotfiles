@@ -194,8 +194,9 @@ install_mise() {
         echo "### mise をインストールしました。"
     fi
     which mise
-    # echo "eval \"$(~/.local/bin/mise activate zsh)\"" >>"${HOME}/.zshrc"
-    # echo "export PATH=\"$HOME/.local/share/mise/shims:\$PATH\"" >>"${HOME}/.zshenv"
+    echo "eval \"$(~/.local/bin/mise activate zsh)\"" >>"${HOME}/.zshrc"
+    echo "export PATH=\"$HOME/.local/share/mise/shims:\$PATH\"" >>"${HOME}/.zshenv"
+
     mkdir -p ${XDG_CONFIG_HOME}/mise
     export MISE_CONFIG_DIR=${XDG_CONFIG_HOME}/mise
     touch ${MISE_CONFIG_DIR}/shorthands.toml
@@ -263,10 +264,10 @@ install_cloudflare_warp() {
     fi
     which warp-cli
 
-    warp-cli registration new --accept-tos &&
-        warp-cli mode warp+doh &&
-        warp-cli dns families malware &&
-        warp-cli connect
+    warp-cli registration new -- --accept-tos
+    warp-cli mode warp+doh
+    warp-cli dns families malware
+    warp-cli connect
 
     echo "### cloudflare-warp を設定しました。"
 }
