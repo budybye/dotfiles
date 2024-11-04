@@ -190,7 +190,10 @@ install_cargo_tools() {
     else
         echo "### cargo は既にインストールされています。"
         if ! command -v mise >/dev/null 2>&1; then
-            cargo install mise || curl https://mise.run | sh
+            cargo install mise || curl https://mise.run | sh || {
+                echo "### mise のインストールに失敗しました。"
+                exit 1
+            }
             echo "### mise をインストールしました。"
         fi
     fi
@@ -211,6 +214,7 @@ install_mise() {
     }
     mise activate zsh
     # mise activate --shims
+    # mise trust
     echo "### miseの設定を完了しました。"
 }
 
@@ -229,7 +233,7 @@ install_brave_browser() {
 # Tabby Terminal をインストールする関数
 install_tabby_terminal() {
     curl https://packagecloud.io/install/repositories/eugeny/tabby/script.deb.sh | sudo bash
-    sudo apt update
+    sudo apt update -y
     sudo apt install -y tabby-terminal || {
         echo "### tabby のインストールに失敗しました。"
         exit 1
@@ -242,7 +246,7 @@ install_cloudflare_warp() {
     if ! command -v warp-cli >/dev/null 2>&1; then
         sudo curl -fsSL https://pkg.cloudflareclient.com/pubkey.gpg | sudo gpg --yes --dearmor --output /usr/share/keyrings/cloudflare-warp-archive-keyring.gpg
         echo "deb [signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg] https://pkg.cloudflareclient.com/ $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/cloudflare-client.list
-        sudo apt update
+        sudo apt update -y
         sudo apt install -y cloudflare-warp || {
             echo "### warp のインストールに失敗しました。"
             exit 1
@@ -270,13 +274,14 @@ install_github_desktop() {
 
 # Cursor をインストールする関数
 install_cursor() {
-    sudo wget https://github.com/coder/cursor-${arch}/releases/download/v0.42.2/cursor_0.42.2_linux_${arch}.AppImage || {
+    sudo wget https://github.com/coder/cursor-arm64/releases/download/v0.42.2/cursor_0.42.2_linux_arm64.AppImage || {
         echo "### cursor のダウンロードに失敗しました。"
-        exit 1
+        # exit 1
     }
-    sudo chmod a+x cursor_0.42.2_linux_${arch}.AppImage
+    sudo chmod a+x cursor_0.42.2_linux_arm64.AppImage
     mkdir -p ~/Applications
-    mv cursor_0.42.2_linux_${arch}.AppImage ~/Applications/cursor_0.42.2_linux_${arch}.AppImage
+    mv cursor_0.42.2_linux_arm64.AppImage ~/Applications/cursor
+    # mv cursor_0.42.2_linux_${arch}.AppImage ~/Applications/cursor_0.42.2_linux_${arch}.AppImage
 }
 
 # Ruby と Fusuma をインストールおよび設定する関数
@@ -399,7 +404,7 @@ main() {
     install_tabby_terminal
     install_cloudflare_warp
     install_github_desktop
-    # install_cursor
+    install_cursor
     install_go_aqua
     install_ruby_fusuma
     install_mkcert

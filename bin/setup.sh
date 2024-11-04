@@ -27,7 +27,7 @@ sudo groupadd -f audio
 sudo groupadd -f wireshrak
 sudo groupadd -f docker
 # ubuntuユーザーを必要なグループに追加
-sudo usermod -aG ssl-cert,xrdp,input,audio,wiershark,docker "${USER_NAME}"
+sudo usermod -aG ssl-cert,xrdp,input,audio,wireshark,docker "${USER_NAME}"
 
 # ファイアウォールで3389番ポート（RDP）を許可
 sudo ufw allow 3389
