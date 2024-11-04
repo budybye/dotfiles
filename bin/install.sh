@@ -216,11 +216,9 @@ install_mise() {
 
 # Brave ブラウザをインストールする関数
 install_brave_browser() {
-    sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg \
-        https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
-    echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] " |
-        sudo tee /etc/apt/sources.list.d/brave-browser-release.list
-    sudo apt update
+    sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
+    echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main"| sudo tee /etc/apt/sources.list.d/brave-browser-release.list
+    sudo apt update -y
     sudo apt install -y brave-browser || {
         echo "### brave のインストールに失敗しました。"
         exit 1
@@ -242,10 +240,8 @@ install_tabby_terminal() {
 # Cloudflare Warp をインストールおよび設定する関数
 install_cloudflare_warp() {
     if ! command -v warp-cli >/dev/null 2>&1; then
-        sudo curl https://pkg.cloudflareclient.com/pubkey.gpg | sudo gpg --yes --dearmor \
-            --output /usr/share/keyrings/cloudflare-warp-archive-keyring.gpg
-        echo "deb [arch=${arch} signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg] " |
-            sudo tee /etc/apt/sources.list.d/cloudflare-client.list
+        sudo curl -fsSL https://pkg.cloudflareclient.com/pubkey.gpg | sudo gpg --yes --dearmor --output /usr/share/keyrings/cloudflare-warp-archive-keyring.gpg
+        echo "deb [signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg] https://pkg.cloudflareclient.com/ $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/cloudflare-client.list
         sudo apt update
         sudo apt install -y cloudflare-warp || {
             echo "### warp のインストールに失敗しました。"
@@ -260,18 +256,6 @@ install_cloudflare_warp() {
         warp-cli dns families malware
         warp-cli connect
         echo "### cloudflare-warp を設定しました。"
-}
-
-# Wireshark をインストールおよび設定する関数
-install_wireshark() {
-    if ! command -v wireshark &>/dev/null; then
-        sudo apt install -y wireshark
-        echo "### wireshark をインストールしました。"
-    else
-        echo "### wireshark は既にインストールされています。"
-    fi
-    sudo groupadd -f wireshark
-    sudo usermod -aG wireshark "$USER_NAME"
 }
 
 # GitHub Desktop と Cursor をインストールする関数
@@ -320,7 +304,10 @@ install_ruby_fusuma() {
 install_go_aqua() {
     # Go がインストールされているか確認
     if ! command -v go &>/dev/null; then
-        mise use go -y || sudo apt install -y golang
+        mise use go -y || sudo apt install -y golang || {
+        echo "### go のインストールに失敗しました。"
+        exit 1
+    }
         echo "### go をインストールしました。"
     else
         echo "### go は既にインストールされています。"
@@ -342,13 +329,31 @@ install_go_aqua() {
 # mkcert をインストールおよび設定する関数
 install_mkcert() {
     if ! command -v mkcert &>/dev/null; then
-        mise use mkcert -y || sudo apt install -y mkcert
+        mise use mkcert -y || sudo apt install -y mkcert || {
+            echo "### mkcert のインストールに失敗しました。"
+            exit 1
+        }
         echo "### mkcert をインストールしました。"
         mkcert -install
     else
         echo "### mkcert は既にインストールされています。"
         mkcert -install
     fi
+}
+
+# Wireshark をインストールおよび設定する関数
+install_wireshark() {
+    if ! command -v wireshark &>/dev/null; then
+        sudo apt install -y wireshark || {
+            echo "### wireshark のインストールに失敗しました。"
+            exit 1
+        }
+        echo "### wireshark をインストールしました。"
+    else
+        echo "### wireshark は既にインストールされています。"
+    fi
+    sudo groupadd -f wireshark
+    sudo usermod -aG wireshark "$USER_NAME"
 }
 
 # フォントをインストールする関数
@@ -390,15 +395,15 @@ main() {
     install_docker
     install_cargo_tools
     install_mise
-    # install_brave_browser
+    install_brave_browser
     install_tabby_terminal
-    # install_cloudflare_warp
-    install_wireshark
+    install_cloudflare_warp
     install_github_desktop
     # install_cursor
     install_go_aqua
-    install_mkcert
     install_ruby_fusuma
+    install_mkcert
+    install_wireshark
     install_fonts
     set_background_image
 
