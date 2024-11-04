@@ -135,8 +135,6 @@ install_snap() {
     else
         echo "### snapd は既にインストールされています。"
     fi
-    # snapのパスを通す
-    export PATH="${PATH}:/snap/bin"
 
     # Codium のインストール確認
     if ! command -v codium > /dev/null 2>&1; then
@@ -160,6 +158,7 @@ install_snap() {
     else
         echo "### speedtest は既にインストールされています。"
     fi
+    which speedtest
 
     # Firefox の削除確認
     if command -v firefox > /dev/null 2>&1; then
@@ -171,11 +170,12 @@ install_snap() {
     else
         echo "### firefox は既に削除されています。"
     fi
-    # sudo snap install chromium || {
-    #     echo "### chromium のインストールに失敗しました。"
-    #     exit 1
-    # }
-    # echo "### chromium をインストールしました。"
+    sudo snap install chromium || {
+        echo "### chromium のインストールに失敗しました。"
+        exit 1
+    }
+    echo "### chromium をインストールしました。"
+    which chroimum
 }
 
 # mise でインストールする関数
@@ -330,19 +330,20 @@ install_go_aqua() {
         echo "### go は既にインストールされています。"
     fi
 
+    which go
     # Aqua をインストールおよび初期化
     go install github.com/aquaproj/aqua/v2/cmd/aqua@latest || {
         echo "### aqua のインストールに失敗しました。"
         exit 1
     }
+    echo "### aqua をインストールしました。"
 
     export PATH="${AQUA_ROOT_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/aquaproj-aqua}/bin:$PATH"
-    # aqua init || {
-    #     echo "### aqua の初期化に失敗しました。"
-    #     # exit 1
-    # }
-    echo "### aqua をインストールしました。"
-    which go
+    aqua init || {
+        echo "### aqua の初期化に失敗しました。"
+        # exit 1
+    }
+    # which aqua
 }
 
 # mkcert をインストールおよび設定する関数
@@ -379,26 +380,29 @@ install_wireshark() {
 
 # フォントをインストールする関数
 install_fonts() {
+    # フォントディレクトリ
+    fonts="${XDG_DATA_HOME:-$HOME/.local/share}/fonts"
+
     # フォントディレクトリを作成
-    sudo mkdir -p "${XDG_DATA_HOME:-$HOME/.local/share}/fonts"
+    sudo mkdir -p "${fonts}"
 
     # HackGen フォントのダウンロード
     sudo curl -L https://github.com/yuru7/HackGen/releases/download/v2.9.0/HackGen_NF_v2.9.0.zip \
-        -o "${XDG_DATA_HOME:-$HOME/.local/share}/fonts/HackGen_NF_v2.9.0.zip"
+        -o "${fonts}/HackGen_NF_v2.9.0.zip"
 
     # HackGen フォントの展開（ttfファイルのみをfontsディレクトリに配置）
-    sudo unzip -j "${XDG_DATA_HOME:-$HOME/.local/share}/fonts/HackGen_NF_v2.9.0.zip" '*.ttf' -d "${XDG_DATA_HOME:-$HOME/.local/share}/fonts/"
+    sudo unzip -j "${fonts}/HackGen_NF_v2.9.0.zip" '*.ttf' -d "${fonts}"
 
     # ダウンロードしたzipファイルの削除
-    sudo rm -f "${XDG_DATA_HOME:-$HOME/.local/share}/fonts/HackGen_NF_v2.9.0.zip"
+    sudo rm -f "${fonts}/HackGen_NF_v2.9.0.zip"
 
     # RobotoMonoJP フォントのダウンロード
     sudo curl -L https://github.com/mjun0812/RobotoMonoJP/releases/download/v5.9.0/RobotoMonoJP-Regular.ttf \
-        -o "${XDG_DATA_HOME:-$HOME/.local/share}/fonts/RobotoMonoNerd.ttf"
+        -o "${fonts}/RobotoMonoNerd.ttf"
 
     # フォントキャッシュの更新
     fc-cache -f -v
-    tree "${XDG_DATA_HOME:-$HOME/.local/share}/fonts"
+    tree "${fonts}"
     echo "### フォントをインストールしました。"
 }
 
