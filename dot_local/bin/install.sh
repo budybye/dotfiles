@@ -126,7 +126,7 @@ install_docker() {
 # Snap をインストールおよび管理する関数
 install_snap() {
     if ! command -v snap > /dev/null 2>&1; then
-        sudo apt install -y snapd || {
+        sudo apt-get install -y snapd || {
             echo "### snapd のインストールに失敗しました。"
             exit 1
         }
@@ -135,7 +135,7 @@ install_snap() {
         echo "### snapd は既にインストールされています。"
     fi
     # snapのパスを通す
-    export PATH="/snap/bin:${PATH}"
+    export PATH="${PATH}:/snap/bin"
 
     # Codium のインストール確認
     if ! command -v codium > /dev/null 2>&1; then

@@ -7,16 +7,16 @@ path=(
   /opt/homebrew/bin(N-/)
   /opt/homebrew/sbin(N-/)
   /opt/X11/bin(N-/)
-  /snap/bin(N-/)
+  ${HOME}/.console-ninja/.bin(N-/)
+  ${HOME}/.local/share/sheldon/repos/github.com/*/*/bin(N-/)
   ${PATH}
+  ${HOME}/.local/bin(N-/)
   /usr/local/bin(N-/)
   /usr/bin
   /bin
   /usr/sbin
   /sbin
-  ${HOME}/.console-ninja/.bin(N-/)
-  ${HOME}/.local/share/sheldon/repos/github.com/*/*/bin(N-/)
-  ${HOME}/.local/bin(N-/)
+  /snap/bin(N-/)
 )
 
 . "${HOME}/.zshrc"

@@ -1,12 +1,10 @@
 README.md
 style.css
 
-multipass.yaml
-docker-compose.yaml
-Dockerfile
-Makefile
-
-/bin/*
+# multipass.yaml
+# docker-compose.yaml
+# Dockerfile
+# Makefile
 
 .gitignore
 .github

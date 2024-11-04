@@ -2,15 +2,15 @@
 GIT_AUTHOR_NAME ?= budybye
 
 # ubuntu用のスクリプト
-INSTALL_SCRIPT := bin/install.sh
-SETUP_SCRIPT := bin/setup.sh
+INSTALL_SCRIPT := ${HOME}/.local/bin/install.sh
+SETUP_SCRIPT := ${HOME}/.local/bin/setup.sh
 # macOS用のスクリプト
-BOOTSTRAP_SCRIPT := bin/bootstrap.sh
-DEFAULTS_SCRIPT := bin/defaults.sh
+BOOTSTRAP_SCRIPT := ${HOME}/.local/bin/bootstrap.sh
+DEFAULTS_SCRIPT := ${HOME}/.local/bin/defaults.sh
 # 共通スクリプト
-LINK_SCRIPT := bin/link.sh
-KEYGEN_SCRIPT := bin/keygen.sh
-CODE_SCRIPT := bin/codex.sh
+LINK_SCRIPT := ${HOME}/.local/bin/link.sh
+KEYGEN_SCRIPT := ${HOME}/.local/bin/keygen.sh
+CODE_SCRIPT := ${HOME}/.local/bin/codex.sh
 
 # OSによって設定を変更する make sense で実行
 ifeq ($(shell uname), Darwin)
