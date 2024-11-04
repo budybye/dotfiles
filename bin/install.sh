@@ -268,7 +268,7 @@ install_cloudflare_warp() {
     fi
         which warp-cli
 
-        warp-cli registration new && \
+        warp-cli registration new --accept-tos && \
             warp-cli mode warp+doh && \
             warp-cli dns families malware && \
             warp-cli connect
