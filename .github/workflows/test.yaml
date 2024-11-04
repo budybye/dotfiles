@@ -23,7 +23,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-        run: ls -la
 
       - uses: docker/login-action@v3
         with:
@@ -51,13 +50,12 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
-        run: ls -la
 
       - name: chezmoi init
         run: |
+          ls -la
           # make init
           sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply ${{ github.actor }}
-          ls -la
 
       - name: installl
         run: |
@@ -78,10 +76,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-        run: ls -la
 
       - name: chezmoi init
         run: |
+          ls -la
           # make init
           sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply ${{ github.actor }}
 
