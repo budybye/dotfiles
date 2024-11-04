@@ -28,7 +28,10 @@ change_shell_to_zsh() {
     zsh_path=$(command -v zsh)
     if [ -z "$zsh_path" ]; then
         echo "### zsh がインストールされていません。インストールを行います。"
-        sudo apt install -y zsh
+        sudo apt install -y zsh || {
+            echo "### zsh のインストールに失敗しました。"
+            exit 1
+        }
         zsh_path=$(command -v zsh)
     fi
 
@@ -48,7 +51,10 @@ install_packages() {
         libfuse2 libssl-dev pkg-config apt-transport-https ca-certificates lsb-release libnss3-tools\
         xrdp xfce4 xfce4-goodies language-pack-ja-base language-pack-ja manpages-ja fcitx5-mozc \
         zsh vim tree xsel ncdu xdotool mkcert moreutils multitail neofetch plank lsd zoxide \
-        ffmpeg mpd mpc ncmpcpp net-tools nmap wireshark snapd ufw rsyslog im-config byobu ruby cargo
+        ffmpeg mpd mpc ncmpcpp net-tools nmap wireshark snapd ufw rsyslog im-config byobu ruby cargo || {
+        echo "### apt のインストールに失敗しました。"
+        exit 1
+        }
     echo "### 必要なパッケージがインストールされました。"
 }
 
@@ -93,17 +99,20 @@ install_docker() {
     sudo apt update -y
 
     # Docker Engine をインストール
-    sudo apt install -y docker-ce docker-ce-cli containerd.io
+    sudo apt install -y docker-ce docker-ce-cli containerd.io || {
+        echo "### docker のインストールに失敗しました。"
+        exit 1
+    }
     echo "### Docker Engine をインストールしました。"
 
     # 現在のユーザーを docker グループに追加
-    groupadd docker
+    sudo groupadd -f docker
     sudo usermod -aG docker "$USER_NAME"
     echo "### ユーザーを docker グループに追加しました。"
 
     # Docker サービスを開始および有効化
-    sudo systemctl start docker
     sudo systemctl enable docker
+    sudo systemctl start docker
     echo "### Docker サービスを開始および有効化しました。"
 
     # Docker Compose のインストール
@@ -113,7 +122,10 @@ install_docker() {
 # Snap をインストールおよび管理する関数
 install_snap() {
     if ! command -v snap &>/dev/null; then
-        sudo apt install -y snapd
+        sudo apt install -y snapd || {
+            echo "### snapd のインストールに失敗しました。"
+            exit 1
+        }
         echo "### snapd をインストールしました。"
     else
         echo "### snapd は既にインストールされています。"
@@ -121,7 +133,10 @@ install_snap() {
 
     # Codium のインストール確認
     if ! command -v codium &>/dev/null; then
-        sudo snap install codium --classic
+        sudo snap install codium --classic || {
+            echo "### codium のインストールに失敗しました。"
+            exit 1
+        }
         echo "### codium をインストールしました。"
     else
         echo "### codium は既にインストールされています。"
@@ -129,7 +144,10 @@ install_snap() {
 
     # Speedtest のインストール確認
     if ! command -v speedtest &>/dev/null; then
-        sudo snap install speedtest
+        sudo snap install speedtest || {
+            echo "### speedtest のインストールに失敗しました。"
+            exit 1
+        }
         echo "### speedtest をインストールしました。"
     else
         echo "### speedtest は既にインストールされています。"
@@ -137,11 +155,19 @@ install_snap() {
 
     # Firefox の削除確認
     if command -v firefox &>/dev/null; then
-        sudo snap remove firefox
+        sudo snap remove firefox || {
+            echo "### firefox のアンインストールに失敗しました。"
+            exit 1
+        }
         echo "### firefox を削除しました。"
     else
         echo "### firefox は既に削除されています。"
     fi
+    # sudo snap install chromium || {
+    #     echo "### chromium のインストールに失敗しました。"
+    #     exit 1
+    # }
+    # echo "### chromium をインストールしました。"
 }
 
 
@@ -153,8 +179,11 @@ install_cargo_tools() {
             /etc/apt/keyrings/mise-archive-keyring.gpg 1>/dev/null
         echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=${arch}] " |
             sudo tee /etc/apt/sources.list.d/mise.list
-        sudo apt update -y
-        sudo apt install -y mise
+        sudo apt update
+        sudo apt install -y mise || { curl https://mise.run | sh } || {
+            echo "### mise のインストールに失敗しました。"
+            exit 1
+        }
         echo "### mise をインストールしました。"
 
         mise use rust -y || sudo apt install -y cargo
@@ -171,10 +200,15 @@ install_cargo_tools() {
 
 # mise でインストールする関数
 install_mise() {
+    if ! command -v mise > /dev/null 2>&1; then
+        install_cargo_tools
+    fi
     echo 'eval "$(~/.local/bin/mise activate zsh)"' >>"${HOME}/.zshrc"
     echo 'export PATH="$HOME/.local/share/mise/shims:$PATH"' >>"${HOME}/.zshenv"
-
-    mise use go chezmoi -y
+    mise use go chezmoi -y || {
+        echo "### go のインストールに失敗しました。"
+        exit 1
+    }
     mise activate zsh
     # mise activate --shims
     echo "### miseの設定を完了しました。"
@@ -186,16 +220,22 @@ install_brave_browser() {
         https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
     echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] " |
         sudo tee /etc/apt/sources.list.d/brave-browser-release.list
-    sudo apt update -y
-    sudo apt install -y brave-browser
+    sudo apt update
+    sudo apt install -y brave-browser || {
+        echo "### brave のインストールに失敗しました。"
+        exit 1
+    }
     echo "### brave-browser をインストールしました。"
 }
 
 # Tabby Terminal をインストールする関数
 install_tabby_terminal() {
     curl https://packagecloud.io/install/repositories/eugeny/tabby/script.deb.sh | sudo bash
-    sudo apt update -y
-    sudo apt install -y tabby-terminal
+    sudo apt update
+    sudo apt install -y tabby-terminal || {
+        echo "### tabby のインストールに失敗しました。"
+        exit 1
+    }
     echo "### tabby-terminal をインストールしました。"
 }
 
@@ -206,8 +246,11 @@ install_cloudflare_warp() {
             --output /usr/share/keyrings/cloudflare-warp-archive-keyring.gpg
         echo "deb [arch=${arch} signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg] " |
             sudo tee /etc/apt/sources.list.d/cloudflare-client.list
-        sudo apt update -y
-        sudo apt install -y cloudflare-warp
+        sudo apt update
+        sudo apt install -y cloudflare-warp || {
+            echo "### warp のインストールに失敗しました。"
+            exit 1
+        }
         echo "### cloudflare-warp をインストールしました。"
     else
         echo "### cloudflare-warp はインストールされています。"
@@ -227,20 +270,26 @@ install_wireshark() {
     else
         echo "### wireshark は既にインストールされています。"
     fi
-    groupadd wireshark
-    sudo usermod -a -G wireshark "$USER_NAME"
+    sudo groupadd -f wireshark
+    sudo usermod -aG wireshark "$USER_NAME"
 }
 
 # GitHub Desktop と Cursor をインストールする関数
 install_github_desktop() {
     sudo wget https://github.com/shiftkey/desktop/releases/download/release-3.4.3-linux1/GitHubDesktop-linux-${arch}-3.4.3-linux1.deb
-    sudo dpkg -i GitHubDesktop-linux-${arch}-3.4.3-linux1.deb
+    sudo dpkg -i GitHubDesktop-linux-${arch}-3.4.3-linux1.deb || {
+        echo "### GithubDesktop のインストールに失敗しました。"
+        exit 1
+    }
     sudo rm -f GitHubDesktop-linux-${arch}-3.4.3-linux1.deb
 }
 
 # Cursor をインストールする関数
 install_cursor() {
-    sudo wget https://github.com/coder/cursor-${arch}/releases/download/v0.42.2/cursor_0.42.2_linux_${arch}.AppImage
+    sudo wget https://github.com/coder/cursor-${arch}/releases/download/v0.42.2/cursor_0.42.2_linux_${arch}.AppImage || {
+        echo "### cursor のダウンロードに失敗しました。"
+        exit 1
+    }
     sudo chmod a+x cursor_0.42.2_linux_${arch}.AppImage
     mkdir -p ~/Applications
     mv cursor_0.42.2_linux_${arch}.AppImage ~/Applications/cursor_0.42.2_linux_${arch}.AppImage
@@ -249,7 +298,10 @@ install_cursor() {
 # Ruby と Fusuma をインストールおよび設定する関数
 install_ruby_fusuma() {
     if ! command -v gem &>/dev/null; then
-        mise use ruby -y || sudo apt install -y ruby
+        mise use ruby -y || sudo apt install -y ruby || {
+            echo "### ruby のインストールに失敗しました。"
+            exit 1
+        }
         echo "### ruby をインストールしました。"
     else
         echo "### ruby は既にインストールされています。"
@@ -258,8 +310,8 @@ install_ruby_fusuma() {
         echo "### fusuma のインストールに失敗しました。"
         exit 1
     }
-    groupadd input
-    sudo usermod -a -G input "$USER_NAME"
+    sudo groupadd -f input
+    sudo usermod -aG input "$USER_NAME"
     fusuma -d
     echo "### fusuma の設定を完了しました。"
 }
@@ -302,21 +354,21 @@ install_mkcert() {
 # フォントをインストールする関数
 install_fonts() {
     # フォントディレクトリを作成
-    sudo mkdir -p ${XDG_DATA_HOME}/fonts
+    sudo mkdir -p "${XDG_DATA_HOME:-$HOME/.local/share}/fonts"
 
     # HackGen フォントのダウンロード
     sudo curl -L https://github.com/yuru7/HackGen/releases/download/v2.9.0/HackGen_NF_v2.9.0.zip \
-        -o ${XDG_DATA_HOME}/fonts/HackGen_NF_v2.9.0.zip
+        -o "${XDG_DATA_HOME:-$HOME/.local/share}/fonts/HackGen_NF_v2.9.0.zip"
 
     # HackGen フォントの展開（ttfファイルのみをfontsディレクトリに配置）
-    sudo unzip -j ${XDG_DATA_HOME}/fonts/HackGen_NF_v2.9.0.zip '*.ttf' -d ${XDG_DATA_HOME}/fonts/
+    sudo unzip -j "${XDG_DATA_HOME:-$HOME/.local/share}/fontsHackGen_NF_v2.9.0.zip" '*.ttf' -d "${XDG_DATA_HOME}/fonts/"
 
     # ダウンロードしたzipファイルの削除
-    sudo rm -f ${XDG_DATA_HOME}/fonts/HackGen_NF_v2.9.0.zip
+    sudo rm -f "${XDG_DATA_HOME:-$HOME/.local/share}/fonts/HackGen_NF_v2.9.0.zip"
 
     # RobotoMonoJP フォントのダウンロード
     sudo curl -L https://github.com/mjun0812/RobotoMonoJP/releases/download/v5.9.0/RobotoMonoJP-Regular.ttf \
-        -o ${XDG_DATA_HOME}/fonts/RobotoMonoNerd.ttf
+        -o "${XDG_DATA_HOME:-$HOME/.local/share}/fonts/RobotoMonoNerd.ttf"
 
     # フォントキャッシュの更新
     fc-cache -f -v
@@ -326,6 +378,7 @@ install_fonts() {
 # 背景画像を設定する関数
 set_background_image() {
     sudo cp ${HOME}/data/bg.jpeg /usr/share/backgrounds/bg.jpeg
+    echo "### /usr/share/backgrounds/bg.jpeg に壁紙を配置しました。"
 }
 
 # メイン関数

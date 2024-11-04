@@ -20,8 +20,14 @@ sudo systemctl restart rsyslog
 # 日本語環境設定完了メッセージ
 echo "### 日本語環境の設定が完了しました"
 
+groupadd -f ssl-cert
+groupadd -f xrdp
+groupadd -f input
+groupadd -f audio
+groupadd -f wireshrak
+groupadd -f docker
 # ubuntuユーザーを必要なグループに追加
-sudo usermod -a -G ssl-cert,xrdp,input,audio $USER_NAME
+sudo usermod -a -G ssl-cert,xrdp,input,audio,wiershark,docker "$USER_NAME"
 
 # ファイアウォールで3389番ポート（RDP）を許可
 sudo ufw allow 3389
