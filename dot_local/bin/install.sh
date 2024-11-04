@@ -216,13 +216,17 @@ install_mise() {
     fi
     echo 'eval "$(~/.local/bin/mise activate zsh)"' >>"${HOME}/.zshrc"
     echo 'export PATH="$HOME/.local/share/mise/shims:$PATH"' >>"${HOME}/.zshenv"
+    mkdir -p ${XDG_CONFIG_HOME}/mise
+    export MISE_CONFIG_DIR=${XDG_CONFIG_HOME}/mise
+    touch ${MISE_CONFIG_DIR}/shorthands.toml
+
     mise use go chezmoi -y || {
         echo "### go のインストールに失敗しました。"
         exit 1
     }
     mise activate zsh
     # mise activate --shims
-    # mise trust
+    mise trust
     echo "### miseの設定を完了しました。"
     which mise
 }

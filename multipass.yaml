@@ -19,7 +19,7 @@ users:
 
   - name: hoge
     groups: users,sudo,ssl-cert,xrdp,input,audio,wireshark
-    shell: /bin/zsh
+    shell: /bin/bash
     lock_passwd: false
     passwd: hogehoge
     uid: 1234
@@ -32,7 +32,7 @@ users:
 
   - name: budybye
     groups: users,adm,sudo,ssl-cert,xrdp,input,audio
-    shell: /bin/bash
+    shell: /usr/bin/zsh
     lock_passwd: false
     passwd: hanakuso
     uid: 1113
