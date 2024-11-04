@@ -7,9 +7,7 @@ set -x
 USER_NAME=${SUDO_USER:-$(whoami)}
 
 # アーキテクチャを取得
-arch="amd64"
-# arch=$(uname -m)
-# arch=${arch//x86_64/amd64}
+arch="$(dpkg --print-architecture)"
 
 # Dotfiles を初期化する関数
 initialize_dotfiles() {
@@ -46,8 +44,8 @@ change_shell_to_zsh() {
 # 必要なパッケージをインストールする関数
 install_packages() {
     sudo dpkg --configure -a
-    sudo apt update -y && sudo apt upgrade -y
-    sudo apt install -y curl wget git build-essential cmake dbus-x11 gnupg g++ gh jq sudo \
+    sudo apt-get update -y && sudo apt-get upgrade -y
+    sudo apt-get install -y curl wget git build-essential cmake dbus-x11 gnupg g++ gh jq sudo \
         libfuse2 libssl-dev pkg-config apt-transport-https ca-certificates lsb-release libnss3-tools\
         xrdp xfce4 xfce4-goodies language-pack-ja-base language-pack-ja manpages-ja fcitx5-mozc \
         zsh vim tree xsel ncdu xdotool mkcert moreutils multitail neofetch plank lsd zoxide \
@@ -91,7 +89,7 @@ install_docker() {
 
     # Docker のリポジトリを設定
     echo \
-        "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+        "deb [arch=${arch} signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
       $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
     echo "### Docker のリポジトリを追加しました。"
 
@@ -371,7 +369,7 @@ install_fonts() {
         -o "${XDG_DATA_HOME:-$HOME/.local/share}/fonts/HackGen_NF_v2.9.0.zip"
 
     # HackGen フォントの展開（ttfファイルのみをfontsディレクトリに配置）
-    sudo unzip -j "${XDG_DATA_HOME:-$HOME/.local/share}/fontsHackGen_NF_v2.9.0.zip" '*.ttf' -d "${XDG_DATA_HOME}/fonts/"
+    sudo unzip -j "${XDG_DATA_HOME:-$HOME/.local/share}/fontsHackGen_NF_v2.9.0.zip" '*.ttf' -d "${XDG_DATA_HOME:-$HOME/.local/share}/fonts/"
 
     # ダウンロードしたzipファイルの削除
     sudo rm -f "${XDG_DATA_HOME:-$HOME/.local/share}/fonts/HackGen_NF_v2.9.0.zip"
