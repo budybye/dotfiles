@@ -3,6 +3,7 @@ set -ex
 
 # ユーザー名を動的に取得
 USER_NAME=${SUDO_USER:-$(whoami)}
+GIT_AUTHOR_NAME="budybye"
 
 # アーキテクチャを取得
 arch="$(dpkg --print-architecture)"
@@ -10,7 +11,7 @@ arch="$(dpkg --print-architecture)"
 # Dotfiles を初期化する関数
 initialize_dotfiles() {
     if [ -n "${GIT_AUTHOR_NAME:-}" ]; then
-        chezmoi init --apply "${GIT_AUTHOR_NAME}" || {
+        sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply "${GIT_AUTHOR_NAME}" || {
             echo "### dotfiles のクローンに失敗しました。"
             exit 1
         }
