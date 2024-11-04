@@ -17,8 +17,7 @@ jobs:
     steps:
       - name: init
         run: |
-          make init
-          # sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply ${{ github.actor }}
+          sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply ${{ github.actor }}
           pwd
           ls /home/runner/.local/bin
           ls /home/runner/.config

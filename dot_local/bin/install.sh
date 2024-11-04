@@ -264,7 +264,7 @@ install_cloudflare_warp() {
     fi
     which warp-cli
 
-    warp-cli registration new -- --accept-tos
+    warp-cli registration --accept-tos new
     warp-cli mode warp+doh
     warp-cli dns families malware
     warp-cli connect
@@ -418,15 +418,14 @@ set_background_image() {
 main() {
     # initialize_dotfiles
     install_packages
-    change_shell_to_zsh
     install_snap
+    install_mise
     install_docker
     install_brave_browser
     install_cloudflare_warp
     install_tabby_terminal
     install_github_desktop
     install_cursor
-    install_mise
     install_cargo_tools
     install_go_aqua
     install_ruby_fusuma
@@ -434,6 +433,7 @@ main() {
     install_wireshark
     install_fonts
     set_background_image
+    change_shell_to_zsh
 
     sudo apt-get update -y && sudo apt-get upgrade -y
     echo "### インストールが完了しました。再起動してください。"
