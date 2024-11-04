@@ -19,9 +19,11 @@ jobs:
         run: |
           sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply ${{ github.actor }}
           pwd
-          ls -la /home/runner/dotfiles
+          ls -la /home/runner/work
           pwd
-          ls -la /home/runner/dotfiles/dotfiles
+          ls -la /home/runner/work/dotfiles
+          pwd
+          ls -la /home/runner/work/dotfiles/dotfiles
           pwd
           ls -la /home/runner/.local/bin
           pwd
