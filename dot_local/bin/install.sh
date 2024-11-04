@@ -265,9 +265,9 @@ install_cloudflare_warp() {
     which warp-cli
 
     warp-cli --accept-tos registration new
-    warp-cli mode warp+doh
-    warp-cli dns families malware
-    warp-cli connect
+    warp-cli --accept-tos mode warp+doh
+    warp-cli --accept-tos dns families malware
+    warp-cli --accept-tos connect
 
     echo "### cloudflare-warp を設定しました。"
 }
