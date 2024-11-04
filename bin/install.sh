@@ -81,6 +81,7 @@ install_docker_compose() {
     # インストール確認
     if command -v docker-compose > /dev/null 2>&1; then
         echo "### Docker Compose のインストールが確認されました。"
+        which docker-compose
     else
         echo "### Docker Compose のインストールに失敗しました。"
         exit 1
@@ -117,7 +118,7 @@ install_docker() {
     sudo systemctl enable docker
     sudo systemctl start docker
     echo "### Docker サービスを開始および有効化しました。"
-
+    which docker
     # Docker Compose のインストール
     install_docker_compose
 }
@@ -146,6 +147,7 @@ install_snap() {
     else
         echo "### codium は既にインストールされています。"
     fi
+    which codium
 
     # Speedtest のインストール確認
     if ! command -v speedtest > /dev/null 2>&1; then
@@ -204,6 +206,7 @@ install_cargo_tools() {
     fi
     cargo install starship sheldon fd-find xh bat
     echo "### cargo ツールがインストールされました。"
+    which cargo
 }
 
 # mise でインストールする関数
@@ -221,6 +224,7 @@ install_mise() {
     # mise activate --shims
     # mise trust
     echo "### miseの設定を完了しました。"
+    which mise
 }
 
 # Brave ブラウザをインストールする関数
@@ -233,6 +237,7 @@ install_brave_browser() {
         exit 1
     }
     echo "### brave-browser をインストールしました。"
+    which brave-browser
 }
 
 # Tabby Terminal をインストールする関数
@@ -244,6 +249,7 @@ install_tabby_terminal() {
         exit 1
     }
     echo "### tabby-terminal をインストールしました。"
+    which tabby
 }
 
 # Cloudflare Warp をインストールおよび設定する関数
@@ -260,7 +266,13 @@ install_cloudflare_warp() {
     else
         echo "### cloudflare-warp はインストールされています。"
     fi
-        warp-cli registration new && warp-cli mode warp+doh && warp-cli dns families malware && warp-cli connect
+        which warp-cli
+
+        warp-cli registration new && \
+            warp-cli mode warp+doh && \
+            warp-cli dns families malware && \
+            warp-cli connect
+
         echo "### cloudflare-warp を設定しました。"
 }
 
@@ -299,6 +311,8 @@ install_ruby_fusuma() {
     else
         echo "### ruby は既にインストールされています。"
     fi
+    which ruby
+
     sudo gem install fusuma || {
         echo "### fusuma のインストールに失敗しました。"
         exit 1
@@ -329,11 +343,12 @@ install_go_aqua() {
     }
 
     export PATH="${AQUA_ROOT_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/aquaproj-aqua}/bin:$PATH"
-    aqua init || {
-        echo "### aqua の初期化に失敗しました。"
-        # exit 1
-    }
+    # aqua init || {
+    #     echo "### aqua の初期化に失敗しました。"
+    #     # exit 1
+    # }
     echo "### aqua をインストールしました。"
+    which go
 }
 
 # mkcert をインストールおよび設定する関数
@@ -349,6 +364,7 @@ install_mkcert() {
         echo "### mkcert は既にインストールされています。"
         mkcert -install
     fi
+    which mkcert
 }
 
 # Wireshark をインストールおよび設定する関数
@@ -364,6 +380,7 @@ install_wireshark() {
     fi
     sudo groupadd -f wireshark
     sudo usermod -aG wireshark "$USER_NAME"
+    which wireshark
 }
 
 # フォントをインストールする関数
