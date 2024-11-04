@@ -12,20 +12,6 @@ env:
 
 jobs:
 
-  chezmoi:
-    runs-on: ubuntu-latest
-    steps:
-      - name: init
-        run: |
-          sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply ${{ github.actor }}
-          ls -la /home/runner
-          pwd
-          ls -la /home/runner/.local/bin
-          pwd
-          ls -la /home/runner/.config
-          /home/runner/work/dotfiles/dotfiles/bin/chezmoi help
-          setup
-
   docker-build-push-compose:
     runs-on: ubuntu-24.04
     # strategy:
@@ -66,9 +52,13 @@ jobs:
 
       - name: chezmoi init
         run: |
-          pwd
-          # make init
           sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply ${{ github.actor }}
+          ls -la /home/runner
+          pwd
+          ls -la /home/runner/.local/bin
+          pwd
+          ls -la /home/runner/.config
+          /home/runner/work/dotfiles/dotfiles/bin/chezmoi help
 
       - name: installl
         run: |
@@ -91,9 +81,13 @@ jobs:
 
       - name: chezmoi init
         run: |
-          pwd
-          # make init
           sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply ${{ github.actor }}
+          ls -la /home/runner
+          pwd
+          ls -la /home/runner/.local/bin
+          pwd
+          ls -la /home/runner/.config
+          /home/runner/work/dotfiles/dotfiles/bin/chezmoi help
 
       - name: defaults
         run: |
