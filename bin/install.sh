@@ -179,8 +179,8 @@ install_cargo_tools() {
             /etc/apt/keyrings/mise-archive-keyring.gpg 1>/dev/null
         echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=${arch}] " |
             sudo tee /etc/apt/sources.list.d/mise.list
-        sudo apt update
-        sudo apt install -y mise || { curl https://mise.run | sh } || {
+        sudo apt update -y
+        sudo apt install -y mise || curl https://mise.run | sh || {
             echo "### mise のインストールに失敗しました。"
             exit 1
         }
