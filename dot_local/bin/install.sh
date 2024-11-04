@@ -3,14 +3,15 @@ set -x
 
 # ユーザー名を動的に取得
 USER_NAME=${SUDO_USER:-$(whoami)}
-GIT_AUTHOR_NAME="budybye"
+
+GIT_AUTHOR_NAME=${GIT_AUTHOR_NAME:-budybye}
 
 # アーキテクチャを取得
 arch="$(dpkg --print-architecture)"
 
 # Dotfiles を初期化する関数
 initialize_dotfiles() {
-    if [ -n "${GIT_AUTHOR_NAME:-}" ]; then
+    if [ -n "${GIT_AUTHOR_NAME}" ]; then
         sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply "${GIT_AUTHOR_NAME}" || {
             echo "### dotfiles のクローンに失敗しました。"
             exit 1
@@ -51,13 +52,13 @@ install_packages() {
         libinput-tools libdb-dev libdb5.3-dev libgdbm-dev libgmp-dev libgmpxx4ldbl libgdbm-compat-dev rustc \
         libstd-rust-1.75 libstd-rust-dev libncurses5-dev libffi-dev libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev \
         ffmpeg mpd mpc ncmpcpp net-tools nmap wireshark snapd ufw rsyslog im-config byobu ruby cargo || {
-            echo "### apt のインストールに失敗しました。"
-            exit 1
-        }
-    sudo apt-get remove -y light-locker xscreensaver && \
-    sudo apt-get autoremove -y && \
-    sudo apt-get clean && \
-    sudo rm -rf /var/cache/apt /var/lib/apt/lists/*
+        echo "### apt のインストールに失敗しました。"
+        exit 1
+    }
+    sudo apt-get remove -y light-locker xscreensaver &&
+        sudo apt-get autoremove -y &&
+        sudo apt-get clean &&
+        sudo rm -rf /var/cache/apt /var/lib/apt/lists/*
 
     echo "### 必要なパッケージがインストールされました。"
 }
@@ -75,12 +76,12 @@ install_docker_compose() {
     echo "### Docker Compose をインストールしました。バージョン: ${COMPOSE_VERSION}"
 
     # シンボリックリンクを作成（必要に応じて）
-    if ! command -v docker-compose > /dev/null 2>&1; then
+    if ! command -v docker-compose >/dev/null 2>&1; then
         sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
     fi
 
     # インストール確認
-    if command -v docker-compose > /dev/null 2>&1; then
+    if command -v docker-compose >/dev/null 2>&1; then
         echo "### Docker Compose のインストールが確認されました。"
         which docker-compose
     else
@@ -95,9 +96,8 @@ install_docker() {
     echo "### Docker の GPG キーを追加しました。"
 
     # Docker のリポジトリを設定
-    echo \
-        "deb [arch=${arch} signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
-      $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
+    echo "deb [arch=${arch} signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+        $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
     echo "### Docker のリポジトリを追加しました。"
 
     # パッケージリストを更新
@@ -126,7 +126,7 @@ install_docker() {
 
 # Snap をインストールおよび管理する関数
 install_snap() {
-    if ! command -v snap > /dev/null 2>&1; then
+    if ! command -v snap >/dev/null 2>&1; then
         sudo apt-get install -y snapd || {
             echo "### snapd のインストールに失敗しました。"
             exit 1
@@ -137,7 +137,7 @@ install_snap() {
     fi
 
     # Codium のインストール確認
-    if ! command -v codium > /dev/null 2>&1; then
+    if ! command -v codium >/dev/null 2>&1; then
         sudo snap install codium --classic || {
             echo "### codium のインストールに失敗しました。"
             exit 1
@@ -149,7 +149,7 @@ install_snap() {
     which codium
 
     # Speedtest のインストール確認
-    if ! command -v speedtest > /dev/null 2>&1; then
+    if ! command -v speedtest >/dev/null 2>&1; then
         sudo snap install speedtest || {
             echo "### speedtest のインストールに失敗しました。"
             exit 1
@@ -161,7 +161,7 @@ install_snap() {
     which speedtest
 
     # Firefox の削除確認
-    if command -v firefox > /dev/null 2>&1; then
+    if command -v firefox >/dev/null 2>&1; then
         sudo snap remove firefox || {
             echo "### firefox のアンインストールに失敗しました。"
             exit 1
@@ -180,10 +180,10 @@ install_snap() {
 
 # mise でインストールする関数
 install_mise() {
-    if ! command -v mise > /dev/null 2>&1; then
+    if ! command -v mise >/dev/null 2>&1; then
         curl https://mise.run | sh || {
             sudo install -dm 755 /etc/apt/keyrings
-            wget -qO - https://mise.jdx.dev/gpg-key.pub | gpg --dearmor | sudo tee /etc/apt/keyrings/mise-archive-keyring.gpg 1> /dev/null
+            wget -qO - https://mise.jdx.dev/gpg-key.pub | gpg --dearmor | sudo tee /etc/apt/keyrings/mise-archive-keyring.gpg 1>/dev/null
             echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=${arch}] https://mise.jdx.dev/deb stable main" | sudo tee /etc/apt/sources.list.d/mise.list
             sudo apt-get update -y
             sudo apt-get install -y mise
@@ -194,8 +194,8 @@ install_mise() {
         echo "### mise をインストールしました。"
     fi
     which mise
-    echo 'eval "$(~/.local/bin/mise activate zsh)"' >>"${HOME}/.zshrc"
-    echo 'export PATH="$HOME/.local/share/mise/shims:$PATH"' >>"${HOME}/.zshenv"
+    # echo "eval \"$(~/.local/bin/mise activate zsh)\"" >>"${HOME}/.zshrc"
+    # echo "export PATH=\"$HOME/.local/share/mise/shims:\$PATH\"" >>"${HOME}/.zshenv"
     mkdir -p ${XDG_CONFIG_HOME}/mise
     export MISE_CONFIG_DIR=${XDG_CONFIG_HOME}/mise
     touch ${MISE_CONFIG_DIR}/shorthands.toml
@@ -212,7 +212,7 @@ install_mise() {
 
 # Cargo および Rust 関連ツールをインストールする関数
 install_cargo_tools() {
-    if ! command -v cargo > /dev/null 2>&1; then
+    if ! command -v cargo >/dev/null 2>&1; then
         mise use rust -y || sudo apt-get install -y cargo
     else
         echo "### cargo は既にインストールされています。"
@@ -225,7 +225,7 @@ install_cargo_tools() {
 # Brave ブラウザをインストールする関数
 install_brave_browser() {
     sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
-    echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main"| sudo tee /etc/apt/sources.list.d/brave-browser-release.list
+    echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main" | sudo tee /etc/apt/sources.list.d/brave-browser-release.list
     sudo apt-get update -y
     sudo apt-get install -y brave-browser || {
         echo "### brave のインストールに失敗しました。"
@@ -261,14 +261,14 @@ install_cloudflare_warp() {
     else
         echo "### cloudflare-warp はインストールされています。"
     fi
-        which warp-cli
+    which warp-cli
 
-        warp-cli registration new --accept-tos && \
-            warp-cli mode warp+doh && \
-            warp-cli dns families malware && \
-            warp-cli connect
+    warp-cli registration new --accept-tos &&
+        warp-cli mode warp+doh &&
+        warp-cli dns families malware &&
+        warp-cli connect
 
-        echo "### cloudflare-warp を設定しました。"
+    echo "### cloudflare-warp を設定しました。"
 }
 
 # GitHub Desktop と Cursor をインストールする関数
@@ -297,7 +297,7 @@ install_cursor() {
 
 # Ruby と Fusuma をインストールおよび設定する関数
 install_ruby_fusuma() {
-    if ! command -v gem > /dev/null 2>&1; then
+    if ! command -v gem >/dev/null 2>&1; then
         mise use ruby -y || sudo apt-get install -y ruby || {
             echo "### ruby のインストールに失敗しました。"
             exit 1
@@ -321,11 +321,11 @@ install_ruby_fusuma() {
 # Go と Aqua をインストールする関数
 install_go_aqua() {
     # Go がインストールされているか確認
-    if ! command -v go > /dev/null 2>&1; then
+    if ! command -v go >/dev/null 2>&1; then
         mise use go -y || sudo apt-get install -y golang || {
-        echo "### go のインストールに失敗しました。"
-        exit 1
-    }
+            echo "### go のインストールに失敗しました。"
+            exit 1
+        }
         echo "### go をインストールしました。"
     else
         echo "### go は既にインストールされています。"
@@ -349,7 +349,7 @@ install_go_aqua() {
 
 # mkcert をインストールおよび設定する関数
 install_mkcert() {
-    if ! command -v mkcert > /dev/null 2>&1; then
+    if ! command -v mkcert >/dev/null 2>&1; then
         mise use mkcert -y || sudo apt install -y mkcert || {
             echo "### mkcert のインストールに失敗しました。"
             exit 1
@@ -365,7 +365,7 @@ install_mkcert() {
 
 # Wireshark をインストールおよび設定する関数
 install_wireshark() {
-    if ! command -v wireshark > /dev/null 2>&1; then
+    if ! command -v wireshark >/dev/null 2>&1; then
         sudo apt install -y wireshark || {
             echo "### wireshark のインストールに失敗しました。"
             exit 1
