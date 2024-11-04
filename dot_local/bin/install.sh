@@ -202,7 +202,7 @@ install_mise() {
     touch ${MISE_CONFIG_DIR}/shorthands.toml
 
     mise activate zsh
-    mise activate --shims
+    # mise activate --shims
 
     mise use chezmoi -y || {
         echo "### chezmoi のインストールに失敗しました。"
@@ -264,7 +264,7 @@ install_cloudflare_warp() {
     fi
     which warp-cli
 
-    warp-cli registration --accept-tos new
+    warp-cli --accept-tos registration new
     warp-cli mode warp+doh
     warp-cli dns families malware
     warp-cli connect
