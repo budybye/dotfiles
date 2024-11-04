@@ -199,8 +199,9 @@ install_mise() {
     mkdir -p ${XDG_CONFIG_HOME}/mise
     export MISE_CONFIG_DIR=${XDG_CONFIG_HOME}/mise
     touch ${MISE_CONFIG_DIR}/shorthands.toml
-    # mise activate zsh
-    # mise activate --shims
+
+    mise activate zsh
+    mise activate --shims
 
     mise use chezmoi -y || {
         echo "### chezmoi のインストールに失敗しました。"
