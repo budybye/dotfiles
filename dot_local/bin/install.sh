@@ -195,9 +195,9 @@ install_mise() {
     which mise
 
     mise activate zsh
-    mise activate --shims
+    # mise activate --shims
 
-    mise use chezmoi rust go ruby bun -y || {
+    mise use chezmoi go rust -y || {
         echo "### mise use に失敗しました。"
         exit 1
     }
