@@ -12,21 +12,6 @@ env:
 
 jobs:
 
-  chezmoi:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: chezmoi init
-        run: |
-          # sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply -S .
-          make init --debug=v
-          ls -la ${HOME}
-          ls -la ${XDG_CONFIG_HOME}
-          ls -la ${XDG_DATA_HOME}
-          ls -la ${HOME}/.local/bin
-          "$(pwd)"/bin/chezmoi help
-
   docker-build-push-compose:
     runs-on: ubuntu-24.04
     # strategy:
@@ -67,7 +52,8 @@ jobs:
 
       - name: chezmoi init
         run: |
-          sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply ${{ github.actor }}
+          # sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply -S .
+          make init
           ls -la ${HOME}
           ls -la ${XDG_CONFIG_HOME}
           ls -la ${XDG_DATA_HOME}
@@ -103,7 +89,8 @@ jobs:
 
       - name: chezmoi init
         run: |
-          sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply ${{ github.actor }}
+          # sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply -S .
+          make init
           ls -la ${HOME}
           ls -la ${XDG_CONFIG_HOME}
           ls -la ${XDG_DATA_HOME}
