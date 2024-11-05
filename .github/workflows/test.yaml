@@ -19,7 +19,7 @@ jobs:
 
       - name: chezmoi init
         run: |
-          make init
+          make init --debug=v
 
       - name: ls
         run: |
