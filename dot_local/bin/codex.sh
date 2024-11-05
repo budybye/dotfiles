@@ -21,7 +21,7 @@ extensions_json() {
 
     if ! command -v code >/dev/null 1>&2; then
         echo "VScodeが存在しません。"
-        cp "${XDG_DATA_HOME}/vscode/extensions.json" "${CODEX}"
+        cp "${XDG_DATA_HOME:-$HOME/.local/share}/vscode/extensions.json" "${CODEX}"
     else
         # インストールされている拡張機能を"extensions.json"の形式で出力する
         echo '{"recommendations": [],"unwantedRecommendations":[]}' >"${CODEX}"
@@ -41,7 +41,7 @@ settings_json() {
     else
         echo "${SETTING_JSON}が存在しません。"
         mkdir -p "$(dirname "${SETTINGS_JSON}")"
-        cp "${XGD_DATA_HOME}/vscode/user-data/User/settings.json" "${SETTINGS_JSON}"
+        cp "${XGD_DATA_HOME:-$HOME/.local/share}/vscode/user-data/User/settings.json" "${SETTINGS_JSON}"
         echo "新しい${SETTING_JSON}を作成しました。"
     fi
     cat "${SETTINGS_JSON}"
@@ -57,7 +57,7 @@ keybindings_json() {
     else
         echo "${SEKEYBINDINGS_JSONTTING_JSON}が存在しません。"
         mkdir -p "$(dirname "${KEYBINDINGS_JSON}")"
-        cp "${XGD_DATA_HOME}/vscode/user-data/User/keybindings.json" "${KEYBINDINGS_JSON}"
+        cp "${XGD_DATA_HOME:-$HOME/.local/share}/vscode/user-data/User/keybindings.json" "${KEYBINDINGS_JSON}"
         echo "新しい${KEYBINDINGS_JSON}を作成しました。"
     fi
     cat "${KEYBINDINGS_JSON}"
