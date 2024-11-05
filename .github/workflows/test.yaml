@@ -21,6 +21,12 @@ jobs:
         run: |
           make init
 
+      - name: check
+        run: |
+          	ls -la "${HOME}"
+          	ls -la "${XDG_CONFIG_HOME}"
+            ls -la "HOME"/.local/bin
+
   docker-build-push-compose:
     runs-on: ubuntu-24.04
     # strategy:

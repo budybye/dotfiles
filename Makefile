@@ -62,6 +62,3 @@ link:
 init:
 	@echo "chezmoi init..."
 	sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply budybye
-	ls -la "${HOME}"
-	ls -la "${XDG_CONFIG_HOME}"
-	ls -la "${HOME}/.local/bin"
