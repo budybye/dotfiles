@@ -1,2 +1,4 @@
 .envrc
 .env
+
+data/portainer/*
