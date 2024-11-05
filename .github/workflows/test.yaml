@@ -20,11 +20,6 @@ jobs:
       - name: chezmoi init
         run: |
           make init
-          ls -la ${HOME}
-          ls -la ${HOME}/.local/bin
-          ls -la ${HOME}/.config
-          ls -la ${HOME}/.local/share/
-          "$(pwd)"/bin/chezmoi help
 
   docker-build-push-compose:
     runs-on: ubuntu-24.04

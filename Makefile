@@ -1,6 +1,3 @@
-# git acocunt
-GIT_AUTHOR_NAME := budybye
-
 # ubuntu用のスクリプト
 INSTALL_SCRIPT := ${HOME}/.local/bin/install.sh
 SETUP_SCRIPT := ${HOME}/.local/bin/setup.sh
@@ -8,6 +5,7 @@ SETUP_SCRIPT := ${HOME}/.local/bin/setup.sh
 BOOTSTRAP_SCRIPT := ${HOME}/.local/bin/bootstrap.sh
 DEFAULTS_SCRIPT := ${HOME}/.local/bin/defaults.sh
 # 共通スクリプト
+INIT_SCRIPT := ${HOME}/.local/bin/init.sh
 LINK_SCRIPT := ${HOME}/.local/bin/link.sh
 KEYGEN_SCRIPT := ${HOME}/.local/bin/keygen.sh
 CODE_SCRIPT := ${HOME}/.local/bin/codex.sh
@@ -63,7 +61,4 @@ link:
 
 init:
 	@echo "chezmoi init..."
-	pwd
-	ls -la
-    sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply -S .
-	ls -la ${HOME}
+    sh $(INIT_SCRIPT)
