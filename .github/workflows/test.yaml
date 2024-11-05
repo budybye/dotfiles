@@ -50,30 +50,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: chezmoi init
-        run: |
-          # sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply -S .
-          make init
-          ls -la ${HOME}
-          ls -la ${XDG_CONFIG_HOME}
-          ls -la ${XDG_DATA_HOME}
-          ls -la ${HOME}/.local/bin
-          "$(pwd)"/bin/chezmoi help
-
-      - name: installl
-        run: |
-          make install
-
       - name: setup
-        run: |
-          make setup
-
-      - name: v
-        run: |
-          docker -v
-          docker compose version
-          mise -V
-          go version
+        run: make sense
 
   mac-test:
     runs-on: macos-14
@@ -81,23 +59,5 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: chezmoi init
-        run: |
-          sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply ${{ github.actor }}
-          ls -la ${HOME}
-          ls -la ${XDG_CONFIG_HOME}
-          ls -la ${XDG_DATA_HOME}
-          ls -la ${HOME}/.local/bin
-          "$(pwd)"/bin/chezmoi help
-
-      - name: defaults
-        run: |
-          make defaults
-
-      - name: bootstrap
-        run: |
-          make bootstrap
-
-      - name: mise
-        run: |
-          mise use go bun
+      - name: setup
+        run: make sense
