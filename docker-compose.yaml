@@ -25,12 +25,25 @@ services:
       - 5001:5001
     volumes:
       - ./dot_config/ipfs/config:/home/ubuntu/.config/ipfs/config
-      - ./data:/export
+      - ./data/123.mp3:/export/123.mp3
       - ./dot_config/ipfs/entrypoint.sh:/container-init.d/entrypoint.sh #init直後のdaemon起動前に実行されるshをマウント
     environment:
       IPFS_PROFILE: server # server modeで起動
       IPFS_PATH: /home/ubuntu/.config/ipfs
     # command: ipfs init && ipfs daemon
+    restart: always
+
+  portainer:
+    image: portainer/portainer-ce
+    container_name: portainer
+    networks:
+      - app-network
+    ports:
+      - 8000:8000
+      - 9443:9443
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./data/portainer:/data
     restart: always
 
 networks:
