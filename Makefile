@@ -61,4 +61,6 @@ link:
 
 init:
 	@echo "chezmoi init..."
-	sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply budybye
+	curl_output=$$(curl -fsLS chezmoi.io/get)
+	echo "$$(curl_output)" | sh -s -- init --apply budybye
+	
