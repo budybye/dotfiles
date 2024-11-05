@@ -179,13 +179,13 @@ install_snap() {
 # mise でインストールする関数
 install_mise() {
     if ! command -v mise >/dev/null 2>&1; then
-        sudo install -dm 755 /etc/apt/keyrings
-        wget -qO - https://mise.jdx.dev/gpg-key.pub | gpg --dearmor | sudo tee /etc/apt/keyrings/mise-archive-keyring.gpg 1>/dev/null
-        echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=${arch}] \
+        curl https://mise.run | sh || {
+            sudo install -dm 755 /etc/apt/keyrings
+            wget -qO - https://mise.jdx.dev/gpg-key.pub | gpg --dearmor | sudo tee /etc/apt/keyrings/mise-archive-keyring.gpg 1>/dev/null
+            echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=${arch}] \
                 https://mise.jdx.dev/deb stable main" | sudo tee /etc/apt/sources.list.d/mise.list
-        sudo apt-get update -y
-        sudo apt-get install -y mise || {
-            curl https://mise.run | sh || {
+            sudo apt-get update -y
+            sudo apt-get install -y mise || {
                 echo "### mise のインストールに失敗しました。"
                 exit 1
             }
