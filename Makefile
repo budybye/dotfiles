@@ -66,6 +66,6 @@ init:
 		sh $(INIT_SCRIPT); \
 	else \
 		echo "init.sh が存在しないため、chezmoi をインストールします。"; \
-		wget -qO- chezmoi.io/get | sh -s -- init --apply ${GIT_USER}; \
+		curl -fsLS chezmoi.io/get | sh -s -- init --apply ${GIT_USER}; \
 	fi
 
