@@ -1,0 +1,12 @@
+[
+    {
+	"key": "ctrl+shift+q",
+	"command": "command_1",
+	"when": "config.workspaceKeybindings.hogehoge_ws.enabled",
+	},
+	{
+	"key": "ctrl+shift+q",
+	"command": "command_2",
+	"when": "config.workspaceKeybindings.hugahuga_ws.enabled",
+	},
+]
