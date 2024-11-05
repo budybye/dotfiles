@@ -1,5 +1,4 @@
-GIT_USER := $(GIT_AUTHOR_NAME)
-GIT_USER ?= budybye
+GIT_USER := budybye
 # ubuntu用のスクリプト
 INSTALL_SCRIPT := ${HOME}/.local/bin/install.sh
 SETUP_SCRIPT := ${HOME}/.local/bin/setup.sh
