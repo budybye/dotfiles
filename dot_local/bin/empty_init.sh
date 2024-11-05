@@ -1,4 +1,3 @@
-#!/usr/bin/env bash
 set -ex
 
 GIT_USER="${GIT_AUTHOR_NAME:-budybye}"
