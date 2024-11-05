@@ -60,12 +60,12 @@ jobs:
           ls -la /home/runner/.config
           /home/runner/work/dotfiles/dotfiles/bin/chezmoi help
 
-      - name: mise
-        run: |
-          curl https://mise.run | sh
-          echo "$HOME/.local/share/mise/bin" >> $GITHUB_PATH
-          echo "$HOME/.local/share/mise/shims" >> $GITHUB_PATH
-          mise use bun go node
+      # - name: mise
+      #   run: |
+      #     curl https://mise.run | sh
+      #     echo "$HOME/.local/share/mise/bin" >> $GITHUB_PATH
+      #     echo "$HOME/.local/share/mise/shims" >> $GITHUB_PATH
+      #     mise use bun go node
 
 
       - name: installl

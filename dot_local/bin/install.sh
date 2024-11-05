@@ -341,11 +341,7 @@ install_go_aqua() {
     echo "### aqua をインストールしました。"
 
     export PATH="${AQUA_ROOT_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/aquaproj-aqua}/bin:$PATH"
-    aqua init || {
-        echo "### aqua の初期化に失敗しました。"
-        # exit 1
-    }
-    # which aqua
+    which aqua
 }
 
 # mkcert をインストールおよび設定する関数
