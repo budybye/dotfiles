@@ -49,7 +49,7 @@ install_packages() {
         libfuse2 libssl-dev pkg-config apt-transport-https ca-certificates lsb-release libnss3-tools \
         libinput-tools libdb-dev libdb5.3-dev libgdbm-dev libgmp-dev libgmpxx4ldbl libgdbm-compat-dev rustc \
         libstd-rust-1.75 libstd-rust-dev libncurses5-dev libffi-dev libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev \
-        ffmpeg mpd mpc ncmpcpp net-tools nmap wireshark snapd ufw rsyslog im-config byobu || {
+        ffmpeg mpd mpc ncmpcpp net-tools nmap wireshark snapd ufw rsyslog im-config byobu ruby cargo || {
         echo "### apt のインストールに失敗しました。"
         exit 1
     }
@@ -197,7 +197,7 @@ install_mise() {
     mise activate zsh
     # mise activate --shims
 
-    mise use chezmoi go -y || {
+    mise use chezmoi -y || {
         echo "### mise use に失敗しました。"
         exit 1
     }
@@ -334,9 +334,8 @@ install_go_aqua() {
         exit 1
     }
     echo "### aqua をインストールしました。"
-    echo "${AQUA_ROOT_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/aquaproj-aqua}/bin"
     # export PATH="${AQUA_ROOT_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/aquaproj-aqua}/bin:$PATH"
-    which aqua
+    ls -la $GOROOT/bin
 }
 
 # mkcert をインストールおよび設定する関数
