@@ -59,6 +59,13 @@ link:
 	@echo "Running link script..."
 	sh $(LINK_SCRIPT)
 
+# Dotfilesの初期化スクリプトの実行
 init:
 	@echo "chezmoi init..."
-	wget -qO- chezmoi.io/get | sh -s -- init --apply budybye
+	if [ -f "$(INIT_SCRIPT)" ]; then \
+		sh $(INIT_SCRIPT); \
+	else \
+		echo "初期化スクリプトが存在しないため、chezmoi をインストールします。"; \
+		wget -qO- chezmoi.io/get | sh -s -- init --apply budybye; \
+	fi
+
