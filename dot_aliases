@@ -1,5 +1,3 @@
-# shellcheck shell=sh
-
 if command -v arch >/dev/null 2>&1; then
     alias amd='arch -x86_64 "$SHELL"'
     alias arm='arch -arm64 "$SHELL"'
@@ -58,11 +56,8 @@ fi
 ## multipass
 if command -v multipass >/dev/null 2>&1; then
     alias mu="multipass"
-    # alias md="multipass launch docker -c 4 -m 8G -d 40G  --timeout 3600 --mount ${HOME}/apps:/home/ubuntu/apps && mu info docker"
-    alias md='multipass launch docker -c 4 -m 8G -d 40G  --timeout 3600 --mount ${HOME}/apps:/home/ubuntu/apps --cloud-init ${HOME}/dotfiles/cloud-init/docker.yaml'
-    # alias ml="multipass launch -n ubuntu -c 4 -m 4G -d 40G  --timeout 3600 --mount ${HOME}/dotfiles:/home/ubuntu/dotfiles --cloud-init ${HOME}/dotfiles/cloud-init/multipass.yaml"
-    alias ml='multipass launch -n ubuntu -c 4 -m 4G -d 40G  --timeout 3600 --mount ${HOME}/dotfiles:/home/ubuntu/dotfiles --cloud-init ${HOME}/dotfiles/multipass.yaml'
-    alias mld='multipass launch -n ubuntu -c 4 -m 8G -d 40G  --timeout 3600 --mount ${HOME}/dotfiles:/home/ubuntu/dotfiles --cloud-init ${HOME}/dotfiles/cloud-init/desktop.yaml'
+    alias md="multipass launch docker -c 4 -m 8G -d 40G  --timeout 3600 --mount ${HOME}/apps:/home/ubuntu/apps && mu info docker"
+    alias ml='multipass launch -n ubuntu -c 4 -m 8G -d 40G  --timeout 3600 --mount ${HOME}/dotfiles:/home/ubuntu/dotfiles --cloud-init ${HOME}/dotfiles/multipass.yaml'
 fi
 
 ## kube
