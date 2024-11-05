@@ -74,8 +74,6 @@ jobs:
           docker compose version
           mise -V
           go version
-          node -v
-          bun -v
 
   mac-test:
     runs-on: macos-14
