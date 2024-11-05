@@ -25,8 +25,8 @@ services:
       - 5001:5001
     volumes:
       - ./dot_config/ipfs/config:/home/ubuntu/.config/ipfs/config
-      - ./data/123.mp3:/export/123.mp3
-      - ./dot_config/ipfs/entrypoint.sh:/container-init.d/entrypoint.sh #init直後のdaemon起動前に実行されるshをマウント
+      - ./data/ipfs:/export
+      - ./data/ipfs/entrypoint.sh:/container-init.d/entrypoint.sh #init直後のdaemon起動前に実行されるshをマウント
     environment:
       IPFS_PROFILE: server # server modeで起動
       IPFS_PATH: /home/ubuntu/.config/ipfs

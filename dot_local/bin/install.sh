@@ -250,6 +250,7 @@ install_cloudflare_warp() {
     warp-cli --accept-tos mode warp+doh
     warp-cli --accept-tos dns families malware
     warp-cli --accept-tos connect
+    warp-cli --accept-tos disconnect
 
     echo "### cloudflare-warp を設定しました。"
 }
@@ -365,29 +366,17 @@ install_fonts() {
     sudo mkdir -p "${fonts}"
     # HackGen フォントのダウンロード
     sudo curl -L https://github.com/yuru7/HackGen/releases/download/v2.9.0/HackGen_NF_v2.9.0.zip -o "${fonts}/HackGen_NF_v2.9.0.zip"
-
-    # HackGen フォントの展開（ttfファイルのみをfontsディレクトリに配置）
-    sudo unzip -j -o "${fonts}/HackGen_NF_v2.9.0.zip" '*.ttf' -d "${fonts}"
-
-    # ダウンロードしたzipファイルの削除
-    sudo rm -f "${fonts}/HackGen_NF_v2.9.0.zip"
-
     # RobotoMonoJP フォントのダウンロード
     sudo curl -L https://github.com/mjun0812/RobotoMonoJP/releases/download/v5.9.0/RobotoMonoJP-Regular.ttf -o "${fonts}/RobotoMonoNF-Regular.ttf"
 
+    # HackGen フォントの展開（ttfファイルのみをfontsディレクトリに配置）
+    sudo unzip -j -o "${fonts}/HackGen_NF_v2.9.0.zip" '*.ttf' -d "${fonts}"
+    # ダウンロードしたzipファイルの削除
+    sudo rm -f "${fonts}/HackGen_NF_v2.9.0.zip"
     # フォントキャッシュの更新
     fc-cache -fv
     echo "### フォントをインストールしました。"
     tree "${fonts}"
-}
-
-# 背景画像を設定する関数
-set_background_image() {
-    sudo cp "${HOME}/data/bg.jpeg" /usr/share/backgrounds/bg.jpeg || {
-        echo "### 壁紙の配置に失敗しました。"
-        exti 1
-    }
-    echo "### /usr/share/backgrounds/bg.jpeg に壁紙を配置しました。"
 }
 
 # メイン関数
@@ -408,7 +397,6 @@ main() {
     install_mkcert
     install_wireshark
     install_fonts
-    set_background_image
     echo "### インストールが完了しました。再起動してください。"
     neofetch
 }
