@@ -1,5 +1,5 @@
 # git acocunt
-GIT_AUTHOR_NAME ?= budybye
+GIT_AUTHOR_NAME := budybye
 
 # ubuntu用のスクリプト
 INSTALL_SCRIPT := ${HOME}/.local/bin/install.sh

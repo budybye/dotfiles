@@ -12,6 +12,21 @@ env:
 
 jobs:
 
+  chezmoi:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+        name: chezmoi init
+        run: |
+          make init
+          pwd
+          ls -la ${HOME}
+          ls -la ${HOME}/.local/bin
+          ls -la ${HOME}/.config
+          ls -la ${HOME}/.local/share/
+          "$(pwd)"/bin/chezmoi help
+
   docker-build-push-compose:
     runs-on: ubuntu-24.04
     # strategy:
