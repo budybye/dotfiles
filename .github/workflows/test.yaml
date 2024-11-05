@@ -53,11 +53,11 @@ jobs:
       - name: chezmoi init
         run: |
           sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply ${{ github.actor }}
-          dotfiles=pwd
+          pwd
           ls -la ${HOME}
-          ls -la /home/runner/.local/bin
-          ls -la /home/runner/.config
-          "${dotfiles}"/bin/chezmoi help
+          ls -la ${HOME}/.local/bin
+          ls -la ${HOME}/.config
+          ${HOME}/work/dotfiles/dotfiles/bin/chezmoi help
 
       # - name: mise
       #   run: |
@@ -91,9 +91,9 @@ jobs:
           sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply ${{ github.actor }}
           pwd
           ls -la ${HOME}
-          ls -la /Users/runner/.local/bin
-          ls -la /Users/runner/.config
-          /Users/runner/work/dotfiles/dotfiles/bin/chezmoi help
+          ls -la ${HOME}/.local/bin
+          ls -la ${HOME}/.config
+          ${HOME}/work/dotfiles/dotfiles/bin/chezmoi help
 
       - name: defaults
         run: |
