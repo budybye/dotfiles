@@ -24,7 +24,7 @@ sudo defaults write /Library/Preferences/.GlobalPreferences AppleInterfaceTheme 
 # 時計アイコンクリック時に OS やホスト名 IP を表示する
 sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
 # メモリ過負荷時のアラートを表示する空きメモリを1000MBにする。無効にするには -int 1000を消して実行
-sudo defaults write /System/Library/LaunchDaemons/com.apple.jetsamproperties.Mac.plist JetsamCriticalHighWaterMark -int 1000
+# sudo defaults write /System/Library/LaunchDaemons/com.apple.jetsamproperties.Mac.plist JetsamCriticalHighWaterMark -int 1000
 
 ## 他のMacで購入したアプリを自動的にダウンロードする
 #defaults write com.apple.SoftwareUpdate ConfigDataInstall -int 1
