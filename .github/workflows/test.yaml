@@ -19,8 +19,7 @@ jobs:
 
       - name: chezmoi init
         run: |
-          make init
-          pwd
+          make chezmoi
           ls -la ${HOME}
           ls -la ${HOME}/.local/bin
           ls -la ${HOME}/.config
