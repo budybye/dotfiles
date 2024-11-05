@@ -70,6 +70,9 @@ export VAR=hoge
 現在のディレクトリを信頼してファイルを読み込み
 ```
 mise trust
+echo $VAR
+# 環境変数が反映される
+hoge
 ```
 ./.gitignore でファイルを除外
 ```txt:./.gitignore
