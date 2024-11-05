@@ -34,6 +34,9 @@ defaults write -g com.apple.mouse.scaling 1.5
 defaults write -g KeyRepeat -int 1 && \
 defaults write -g InitialKeyRepeat -int 10
 
+defaults write com.apple.dock autohide-time-modifier -float 0.15;killall Dock
+defaults write com.apple.dock autohide-delay -float 0;killall Dock
+
 ## ダイアログ表示やウィンドウリサイズ速度を高速化する
 defaults write -g NSWindowResizeTime 0.1
 

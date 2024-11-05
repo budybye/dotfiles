@@ -58,6 +58,7 @@ export TERM="xterm-256color"
 export PS1="\[\e[32m\]\u@\h\[\e[m\]:\[\e[34m\]\w\[\e[m\] \$ "
 export PROMPT='%F{green}%n@%m%f:%F{blue}% ~ %f%F{yellow}$%f '
 export ZDOTDIR="${HOME}"
+
 # パスを再設定
 export PATH="${PATH}:${HOME}/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 

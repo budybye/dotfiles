@@ -40,18 +40,18 @@ install_xcode_command_line_tools() {
 # Homebrew のインストールおよび設定
 install_homebrew() {
     echo "Homebrew のインストールを確認中..."
-    if command -v brew >/dev/null; then
-        echo "Homebrew は既にインストールされています。"
-        eval "$(brew shellenv)"
-    else
+    if ! command -v brew >/dev/null; then
         echo "Homebrew がインストールされていません。インストールを開始します..."
-        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
-        # インストール後のパス設定
-        echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >>~/.zprofile
-        eval "$(/opt/homebrew/bin/brew shellenv)"
-        echo "Homebrew のインストールおよび設定が完了しました。"
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" || {
+            echo "Homebrewのインストールが失敗しました。"
+            exit 1
+        }
+        echo "Homebrew のインストールが完了しました。"
     fi
+        echo "Homebrew は既にインストールされています。"
+        echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zshenv
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+        echo "Homebrew の設定が完了しました。"
 }
 
 # Brewfile を使用してパッケージをインストール
@@ -61,7 +61,10 @@ install_brew_packages() {
     if [ -f "$BREWFILE_PATH" ]; then
         echo "Brewfile ($BREWFILE_PATH) からパッケージをインストールします。"
         brew tap Homebrew/bundle
-        brew bundle --file="$BREWFILE_PATH"
+        brew bundle --file="$BREWFILE_PATH" || {
+            echo "brew bundleのインストールが失敗しました。"
+            exit 1
+        }
         echo "パッケージのインストールが完了しました。"
     else
         echo "指定された Brewfile ($BREWFILE_PATH) が見つかりません。スキップします。"

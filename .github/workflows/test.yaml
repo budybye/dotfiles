@@ -52,13 +52,22 @@ jobs:
 
       - name: chezmoi init
         run: |
-          sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply ${{ github.actor }}
+          # sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply ${{ github.actor }}
+          make init
           ls -la /home/runner
           pwd
           ls -la /home/runner/.local/bin
           pwd
           ls -la /home/runner/.config
           /home/runner/work/dotfiles/dotfiles/bin/chezmoi help
+
+      - name: mise
+        run: |
+          curl https://mise.run | sh
+          echo "$HOME/.local/share/mise/bin" >> $GITHUB_PATH
+          echo "$HOME/.local/share/mise/shims" >> $GITHUB_PATH
+          mise use bun go node
+
 
       - name: installl
         run: |
