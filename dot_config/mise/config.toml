@@ -1,27 +1,29 @@
 [tools]
 # グローバルなツールのバージョンをここに設定します
 # `mise use -g`で設定できます
-# node = 'lts'
-# python = "3.11"
+# node = "latest"
 # go = "latest"
 # bun = "latest"
-# pnpm = "latest"
-# rust = "latest"
-# poetry = "latest"
 # java = "latest"
-# ruby = "latest"
+
+# chezmoi = "latest"
+# mkcert = "latest"
+
+# 以下インストールできない
+# python = "latest"
 # php = "latest"
 # maven = "latest"
+# pnpm = "latest"
+# poetry = "latest"
+# ruby = "latest"
+# rust = "latest"
 
-# terraform = "latest"
-# chezmoi = "latest"
-# bitwarden = "latest"
-# sqlite = "latest"
 # websocat = "latest"
-# mkcert = "latest"
+# sqlite = "latest"
+# terraform = "latest"
+# bitwarden = "latest"
 # direnv = "latest"
 # caddy = "latest"
-
 
 [settings]
 # プラグインは他のバージョン管理ツールのバージョンファイルを読み取ることができます（プラグインが有効な場合）

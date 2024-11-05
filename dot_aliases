@@ -19,7 +19,8 @@ fi
 
 if command -v chezmoi >/dev/null 2>&1; then
     alias che="chezmoi"
-    alias apply="bit && chezmoi init --applly budybye"
+    # git push してローカルに反映
+    alias apply="chezmoi cd && bit && chezmoi init --applly budybye"
 fi
 
 if command -v cursor >/dev/null 2>&1; then
@@ -36,7 +37,7 @@ if command -v docekr >/dev/null 2>&1; then
     alias ds='docker stop $(docker ps -q)'
     alias dps='docker ps --format "table {{.Names}}\t{{.Image}}\t{{.Ports}}\t{{.Status}}"'
     ## 停止コンテナ、タグ無しイメージ、未使用ボリューム、未使用ネットワーク一括削除
-    alias drm="docker system prune -af --volumes "
+    alias drm="docker system prune -af --volumes"
 
     if command -v docekr compose >/dev/null 2>&1; then
         alias dc="docker compose"

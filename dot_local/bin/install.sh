@@ -160,7 +160,7 @@ install_snap() {
         exit 1
     }
     echo "### chromium をインストールしました。"
-    which chroimum
+    which chromium
 }
 
 # mise でインストールする関数
@@ -184,7 +184,7 @@ install_mise() {
     mise activate zsh
     # mise activate --shims
 
-    mise use chezmoi -y || {
+    mise use chezmoi bun -y || {
         echo "### mise use に失敗しました。"
         exit 1
     }
@@ -364,18 +364,16 @@ install_fonts() {
     # フォントディレクトリを作成
     sudo mkdir -p "${fonts}"
     # HackGen フォントのダウンロード
-    sudo curl -L https://github.com/yuru7/HackGen/releases/download/v2.9.0/HackGen_NF_v2.9.0.zip \
-        -o "${fonts}/HackGen_NF_v2.9.0.zip"
+    sudo curl -L https://github.com/yuru7/HackGen/releases/download/v2.9.0/HackGen_NF_v2.9.0.zip -o "${fonts}/HackGen_NF_v2.9.0.zip"
 
     # HackGen フォントの展開（ttfファイルのみをfontsディレクトリに配置）
-    sudo unzip -j "${fonts}/HackGen_NF_v2.9.0.zip" '*.ttf' -do "${fonts}"
+    sudo unzip -j -o "${fonts}/HackGen_NF_v2.9.0.zip" '*.ttf' -d "${fonts}"
 
     # ダウンロードしたzipファイルの削除
     sudo rm -f "${fonts}/HackGen_NF_v2.9.0.zip"
 
     # RobotoMonoJP フォントのダウンロード
-    sudo curl -L https://github.com/mjun0812/RobotoMonoJP/releases/download/v5.9.0/RobotoMonoJP-Regular.ttf \
-        -o "${fonts}/RobotoMonoNF-Regular.ttf"
+    sudo curl -L https://github.com/mjun0812/RobotoMonoJP/releases/download/v5.9.0/RobotoMonoJP-Regular.ttf -o "${fonts}/RobotoMonoNF-Regular.ttf"
 
     # フォントキャッシュの更新
     fc-cache -fv

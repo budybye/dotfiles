@@ -8,3 +8,7 @@ Makefile
 
 .gitignore
 .github
+
+.mise.toml
+.env*
+
