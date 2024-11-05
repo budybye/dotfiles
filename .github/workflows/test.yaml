@@ -19,13 +19,13 @@ jobs:
 
       - name: chezmoi init
         run: |
+          # sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply -S .
           make init --debug=v
-
-      - name: ls
-        run: |
-          ls -la "${HOME}"
-          ls -la "${XDG_CONFIG_HOME}"
-          ls -la "HOME"/.local/bin
+          ls -la ${HOME}
+          ls -la ${XDG_CONFIG_HOME}
+          ls -la ${XDG_DATA_HOME}
+          ls -la ${HOME}/.local/bin
+          "$(pwd)"/bin/chezmoi help
 
   docker-build-push-compose:
     runs-on: ubuntu-24.04
@@ -68,11 +68,11 @@ jobs:
       - name: chezmoi init
         run: |
           sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply ${{ github.actor }}
-          pwd
           ls -la ${HOME}
+          ls -la ${XDG_CONFIG_HOME}
+          ls -la ${XDG_DATA_HOME}
           ls -la ${HOME}/.local/bin
-          ls -la ${HOME}/.config
-          ${HOME}/work/dotfiles/dotfiles/bin/chezmoi help
+          "$(pwd)"/bin/chezmoi help
 
       # - name: mise
       #   run: |
@@ -104,11 +104,11 @@ jobs:
       - name: chezmoi init
         run: |
           sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply ${{ github.actor }}
-          pwd
           ls -la ${HOME}
+          ls -la ${XDG_CONFIG_HOME}
+          ls -la ${XDG_DATA_HOME}
           ls -la ${HOME}/.local/bin
-          ls -la ${HOME}/.config
-          ${HOME}/work/dotfiles/dotfiles/bin/chezmoi help
+          "$(pwd)"/bin/chezmoi help
 
       - name: defaults
         run: |

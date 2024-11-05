@@ -61,4 +61,4 @@ link:
 
 init:
 	@echo "chezmoi init..."
-	sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply budybye
+	wget -qO- chezmoi.io/get | sh -s -- init --apply budybye
