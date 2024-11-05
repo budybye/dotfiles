@@ -11,6 +11,9 @@ sudo sed -i 's/^\s*REGDOMAIN=S*/REGDOMAIN=JP/' /etc/default/crda || true
 LANG=C xdg-user-dirs-update --force
 # 入力メソッドとしてfcitx5を設定
 im-config -n fcitx5
+
+sudo localectl set-x11-keymap "jp" pc105
+setupcon -k --force || true
 echo "### 日本語環境の設定が完了しました"
 
 sudo groupadd -f ssl-cert
@@ -20,7 +23,7 @@ sudo groupadd -f audio
 sudo groupadd -f wireshark
 sudo groupadd -f docker
 # ubuntuユーザーを必要なグループに追加
-sudo usermod -aG ssl-cert,xrdp,input,audio,wireshark,docker "${USER_NAME}"
+sudo usermod -aG ssl-cert,xrdp,input,audio,wireshark,docker,sudo "${USER_NAME}"
 # ファイアウォールで3389番ポート（RDP）を許可
 sudo ufw allow 3389
 sudo systemctl daemon-reload
