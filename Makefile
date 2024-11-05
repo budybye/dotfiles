@@ -5,7 +5,7 @@ SETUP_SCRIPT := ${HOME}/.local/bin/setup.sh
 BOOTSTRAP_SCRIPT := ${HOME}/.local/bin/bootstrap.sh
 DEFAULTS_SCRIPT := ${HOME}/.local/bin/defaults.sh
 # 共通スクリプト
-INIT_SCRIPT := ${HOME}/.local/bin/empty_init.sh
+INIT_SCRIPT := ${HOME}/.local/bin/init.sh
 LINK_SCRIPT := ${HOME}/.local/bin/link.sh
 KEYGEN_SCRIPT := ${HOME}/.local/bin/keygen.sh
 CODE_SCRIPT := ${HOME}/.local/bin/codex.sh
