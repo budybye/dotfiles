@@ -65,7 +65,8 @@ init:
 	if [ -f "$(INIT_SCRIPT)" ]; then \
 		sh $(INIT_SCRIPT); \
 	else \
-		echo "初期化スクリプトが存在しないため、chezmoi をインストールします。"; \
+		echo "init.sh が存在しないため、chezmoi をインストールします。"; \
 		wget -qO- chezmoi.io/get | sh -s -- init --apply budybye; \
 	fi
+
 
