@@ -2,7 +2,26 @@
 # グローバルなツールのバージョンをここに設定します
 # `mise use -g`で設定できます
 # node = 'lts'
-# python = ['3.10', '3.11']
+# python = '3.11'
+# go = "latest"
+# bun = "latest"
+# pnpm = "latest"
+# rust = "latest"
+# poetry = "latest"
+# java = "latest"
+# ruby = "latest"
+# php = "latest"
+# maven = "latest"
+
+# terraform = "latest"
+# chezmoi = "latest"
+# bitwarden = "latest"
+# sqlite = "latest"
+# websocat = "latest"
+# mkcert = "latest"
+# direnv = "latest"
+# caddy = "latest"
+
 
 [settings]
 # プラグインは他のバージョン管理ツールのバージョンファイルを読み取ることができます（プラグインが有効な場合）
