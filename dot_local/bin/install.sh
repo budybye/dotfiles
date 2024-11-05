@@ -4,21 +4,8 @@ set -x
 # ユーザー名を動的に取得
 USER_NAME=${SUDO_USER:-$(whoami)}
 
-GIT_AUTHOR_NAME=${GIT_AUTHOR_NAME:-budybye}
-
 # アーキテクチャを取得
 arch="$(dpkg --print-architecture)"
-
-# Dotfiles を初期化する関数
-initialize_dotfiles() {
-    if [ -n "${GIT_AUTHOR_NAME}" ]; then
-        sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply "${GIT_AUTHOR_NAME}" || {
-            echo "### dotfiles のクローンに失敗しました。"
-            exit 1
-        }
-        echo "### dotfiles をクローンしました。"
-    fi
-}
 
 # Zsh をデフォルトシェルに変更する関数
 change_shell_to_zsh() {
@@ -407,7 +394,6 @@ set_background_image() {
 
 # メイン関数
 main() {
-    # initialize_dotfiles
     install_packages
     install_snap
     change_shell_to_zsh
@@ -425,8 +411,6 @@ main() {
     install_wireshark
     install_fonts
     set_background_image
-
-    sudo apt-get update -y && sudo apt-get upgrade -y
     echo "### インストールが完了しました。再起動してください。"
     neofetch
 }
