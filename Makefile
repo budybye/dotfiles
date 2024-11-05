@@ -64,7 +64,3 @@ link:
 init:
 	@echo "chezmoi init..."
 	sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply $(GIT_AUTHOR_NAME)
-
-chezmoi:
-	@echo "chezmoi init..."
-	sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply -S .
