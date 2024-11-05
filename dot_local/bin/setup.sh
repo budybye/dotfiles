@@ -11,8 +11,6 @@ sudo sed -i 's/^\s*REGDOMAIN=S*/REGDOMAIN=JP/' /etc/default/crda || true
 LANG=C xdg-user-dirs-update --force
 # 入力メソッドとしてfcitx5を設定
 im-config -n fcitx5
-
-sudo localectl set-x11-keymap "jp" pc105
 setupcon -k --force || true
 echo "### 日本語環境の設定が完了しました"
 
