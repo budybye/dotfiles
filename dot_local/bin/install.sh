@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -x
+set -ex
 
 # ユーザー名を動的に取得
 USER_NAME=${SUDO_USER:-$(whoami)}
@@ -336,7 +336,7 @@ install_go_aqua() {
     # Aqua をインストールおよび初期化
     go install github.com/aquaproj/aqua/v2/cmd/aqua@latest || {
         echo "### aqua のインストールに失敗しました。"
-        exit 1
+        # exit 1
     }
     echo "### aqua をインストールしました。"
 

@@ -54,14 +54,11 @@ jobs:
         run: |
           # sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply -S .
           make init
-
-      # - name: mise
-      #   run: |
-      #     curl https://mise.run | sh
-      #     echo "$HOME/.local/share/mise/bin" >> $GITHUB_PATH
-      #     echo "$HOME/.local/share/mise/shims" >> $GITHUB_PATH
-      #     mise use bun go node
-
+          ls -la ${HOME}
+          ls -la ${XDG_CONFIG_HOME}
+          ls -la ${XDG_DATA_HOME}
+          ls -la ${HOME}/.local/bin
+          "$(pwd)"/bin/chezmoi help
 
       - name: installl
         run: |
@@ -71,10 +68,14 @@ jobs:
         run: |
           make setup
 
-      - name: docker
+      - name: v
         run: |
           docker -v
           docker compose version
+          mise -V
+          go version
+          node -v
+          bun -v
 
   mac-test:
     runs-on: macos-14
@@ -84,8 +85,12 @@ jobs:
 
       - name: chezmoi init
         run: |
-          # sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply -S .
-          make init
+          sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply ${{ github.actor }}
+          ls -la ${HOME}
+          ls -la ${XDG_CONFIG_HOME}
+          ls -la ${XDG_DATA_HOME}
+          ls -la ${HOME}/.local/bin
+          "$(pwd)"/bin/chezmoi help
 
       - name: defaults
         run: |
