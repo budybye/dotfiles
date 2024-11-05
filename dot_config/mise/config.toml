@@ -21,7 +21,7 @@ plugin_autoupdate_last_check_duration = '1 week' # 0に設定すると更新を�
 
 # これらのプレフィックスを持つ設定ファイルはデフォルトで信頼されます
 trusted_config_paths = [
-    '~/work/my-trusted-projects',
+    '~/.local/share/chezmoi',
 ]
 
 verbose = false       # trueに設定すると、インストールの全出力が表示されます。`MISE_VERBOSE`を参照
@@ -29,14 +29,14 @@ asdf_compat = false   # trueに設定すると、.tool-versionsがasdfと互換�
 http_timeout = "30s"  # HTTPリクエストのタイムアウトを設定します。`MISE_HTTP_TIMEOUT`を参照
 jobs = 4              # 並行してインストールするプラグインやランタイムの数。デフォルトは`4`
 raw = false           # trueに設定すると、プラグインを直接stdin/stdout/stderrにパイプします
-yes = false           # trueに設定すると、すべてのプロンプトに自動的に「はい」と答えます
+yes = true            # trueに設定すると、すべてのプロンプトに自動的に「はい」と答えます
 
 not_found_auto_install = true # `MISE_NOT_FOUND_AUTO_INSTALL`を参照
 task_output = "prefix" # タスクランナーの詳細については参照
 paranoid = false       # `MISE_PARANOID`を参照
 
-shorthands_file = '~/.config/mise/shorthands.toml' # ショートハンドファイルのパス、`MISE_SHORTHANDS_FILE`を参照
-disable_default_shorthands = false # デフォルトのショートハンドを無効にする、`MISE_DISABLE_DEFAULT_SHORTHANDS`を参照
+#shorthands_file = '~/.config/mise/shorthands.toml' # ショートハンドファイルのパス、`MISE_SHORTHANDS_FILE`を参照
+#disable_default_shorthands = false # デフォルトのショートハンドを無効にする、`MISE_DISABLE_DEFAULT_SHORTHANDS`を参照
 # disable_tools = ['node']           # 特定のツールを無効にする、通常はコアツールをオフにするために使用
 
 env_file = '.env' # dotenvファイルから環境変数を読み込む、`MISE_ENV_FILE`を参照
