@@ -62,3 +62,8 @@ link:
 init:
 	@echo "chezmoi init..."
 	wget -qO- chezmoi.io/get | sh -s -- init --apply budybye
+	ls -la ${HOME}
+	ls -la ${XDG_CONFIG_HOME}
+    ls -la ${XDG_DATA_HOME}
+    ls -la ${HOME}/.local/bin
+    "$(pwd)"/bin/chezmoi help

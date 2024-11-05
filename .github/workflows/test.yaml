@@ -54,11 +54,6 @@ jobs:
         run: |
           # sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply -S .
           make init
-          ls -la ${HOME}
-          ls -la ${XDG_CONFIG_HOME}
-          ls -la ${XDG_DATA_HOME}
-          ls -la ${HOME}/.local/bin
-          "$(pwd)"/bin/chezmoi help
 
       # - name: mise
       #   run: |
@@ -91,11 +86,6 @@ jobs:
         run: |
           # sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply -S .
           make init
-          ls -la ${HOME}
-          ls -la ${XDG_CONFIG_HOME}
-          ls -la ${XDG_DATA_HOME}
-          ls -la ${HOME}/.local/bin
-          "$(pwd)"/bin/chezmoi help
 
       - name: defaults
         run: |
