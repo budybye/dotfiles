@@ -61,11 +61,5 @@ link:
 
 init:
 	@echo "chezmoi init..."
-	pwd
-	ls -la
 	sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply -S .
-	ls -la ${HOME}
-	ls -la ${HOME}/.local/bin
-	ls -la ${HOME}/.config
-	ls -la ${HOME}/.local/share/
-	"$(pwd)"/bin/chezmoi help
+	ls -la ${HOME}/.local
