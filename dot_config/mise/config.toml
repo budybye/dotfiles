@@ -39,7 +39,7 @@ yes = true            # trueに設定すると、すべてのプロンプトに�
 #disable_default_shorthands = false # デフォルトのショートハンドを無効にする、`MISE_DISABLE_DEFAULT_SHORTHANDS`を参照
 # disable_tools = ['node']           # 特定のツールを無効にする、通常はコアツールをオフにするために使用
 
-env_file = '.envrc' # dotenvファイルから環境変数を読み込む、`MISE_ENV_FILE`を参照
+# env_file = '.envrc' # dotenvファイルから環境変数を読み込む、`MISE_ENV_FILE`を参照
 
 experimental = true # 実験的な機能を有効にする
 
