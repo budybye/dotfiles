@@ -15,15 +15,15 @@ CODE_SCRIPT := ${HOME}/.local/bin/codex.sh
 ifeq ($(shell uname), Darwin)
     # macOS用の設定
     CONFIG_DIR := macos
-    sense: init bootstrap defaults codex
+    sense: init bootstrap defaults code
 else
     # Linux用の設定
     CONFIG_DIR := linux
-    sense: init install setup codex
+    sense: init install setup code
 endif
 
 # 共用スクリプト実行 make it
-it: init codex keygen link
+it: init code keygen link
 
 # 環境セットアップスクリプトの実行
 setup:
