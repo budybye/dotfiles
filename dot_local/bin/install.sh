@@ -49,7 +49,7 @@ install_packages() {
         libfuse2 libssl-dev pkg-config apt-transport-https ca-certificates lsb-release libnss3-tools \
         libinput-tools libdb-dev libdb5.3-dev libgdbm-dev libgmp-dev libgmpxx4ldbl libgdbm-compat-dev rustc \
         libstd-rust-1.75 libstd-rust-dev libncurses5-dev libffi-dev libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev \
-        ffmpeg mpd mpc ncmpcpp net-tools nmap wireshark snapd ufw rsyslog im-config byobu ruby cargo || {
+        ffmpeg mpd mpc ncmpcpp net-tools nmap wireshark snapd ufw rsyslog im-config byobu || {
         echo "### apt のインストールに失敗しました。"
         exit 1
     }
@@ -90,8 +90,7 @@ install_docker_compose() {
 
 install_docker() {
     # Docker の公式 GPG キーを追加
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | \
-        sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
     echo "### Docker の GPG キーを追加しました。"
 
     # Docker のリポジトリを設定
@@ -180,34 +179,27 @@ install_snap() {
 # mise でインストールする関数
 install_mise() {
     if ! command -v mise >/dev/null 2>&1; then
-        curl https://mise.run | sh || {
-            sudo install -dm 755 /etc/apt/keyrings
-            wget -qO - https://mise.jdx.dev/gpg-key.pub | gpg --dearmor | \
-                sudo tee /etc/apt/keyrings/mise-archive-keyring.gpg 1>/dev/null
-            echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=${arch}] \
+        sudo install -dm 755 /etc/apt/keyrings
+        wget -qO - https://mise.jdx.dev/gpg-key.pub | gpg --dearmor | sudo tee /etc/apt/keyrings/mise-archive-keyring.gpg 1>/dev/null
+        echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=${arch}] \
                 https://mise.jdx.dev/deb stable main" | sudo tee /etc/apt/sources.list.d/mise.list
-            sudo apt-get update -y
-            sudo apt-get install -y mise
-        } || {
-            echo "### mise のインストールに失敗しました。"
-            exit 1
+        sudo apt-get update -y
+        sudo apt-get install -y mise || {
+            curl https://mise.run | sh || {
+                echo "### mise のインストールに失敗しました。"
+                exit 1
+            }
         }
         echo "### mise をインストールしました。"
     fi
     which mise
-    # echo "eval \"$(~/.local/bin/mise activate zsh)\"" >>"${HOME}/.zshrc"
-    # echo "export PATH=\"$HOME/.local/share/mise/shims:\$PATH\"" >>"${HOME}/.zshenv"
-
-    # mkdir -p ${XDG_CONFIG_HOME}/mise
-    # export MISE_CONFIG_DIR=${XDG_CONFIG_HOME}/mise
-    # touch ${MISE_CONFIG_DIR}/shorthands.toml
 
     mise activate zsh
     mise activate --shims
 
-    mise use chezmoi -y || {
-        echo "### chezmoi のインストールに失敗しました。"
-        # exit 1
+    mise use chezmoi rust go ruby bun -y || {
+        echo "### mise use に失敗しました。"
+        exit 1
     }
     echo "### miseの設定を完了しました。"
 }
@@ -254,10 +246,8 @@ install_tabby_terminal() {
 # Cloudflare Warp をインストールおよび設定する関数
 install_cloudflare_warp() {
     if ! command -v warp-cli >/dev/null 2>&1; then
-        sudo curl -fsSL https://pkg.cloudflareclient.com/pubkey.gpg | \
-            sudo gpg --yes --dearmor --output /usr/share/keyrings/cloudflare-warp-archive-keyring.gpg
-        echo "deb [signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg] https://pkg.cloudflareclient.com/ $(lsb_release -cs) main" | \
-            sudo tee /etc/apt/sources.list.d/cloudflare-client.list
+        sudo curl -fsSL https://pkg.cloudflareclient.com/pubkey.gpg | sudo gpg --yes --dearmor --output /usr/share/keyrings/cloudflare-warp-archive-keyring.gpg
+        echo "deb [signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg] https://pkg.cloudflareclient.com/ $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/cloudflare-client.list
         sudo apt-get update -y
         sudo apt-get install -y cloudflare-warp || {
             echo "### warp のインストールに失敗しました。"
@@ -344,7 +334,7 @@ install_go_aqua() {
         exit 1
     }
     echo "### aqua をインストールしました。"
-    ls -la "${AQUA_ROOT_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/aquaproj-aqua}/bin"
+    echo "${AQUA_ROOT_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/aquaproj-aqua}/bin"
     # export PATH="${AQUA_ROOT_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/aquaproj-aqua}/bin:$PATH"
     which aqua
 }
