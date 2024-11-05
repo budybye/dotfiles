@@ -19,7 +19,7 @@ jobs:
 
       - name: chezmoi init
         run: |
-          ls -la
+          sh ./dot_local/bin/init.sh
 
   docker-build-push-compose:
     runs-on: ubuntu-24.04
