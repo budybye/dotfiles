@@ -194,15 +194,15 @@ install_mise() {
         echo "### mise をインストールしました。"
     fi
     which mise
-    echo "eval \"$(~/.local/bin/mise activate zsh)\"" >>"${HOME}/.zshrc"
-    echo "export PATH=\"$HOME/.local/share/mise/shims:\$PATH\"" >>"${HOME}/.zshenv"
+    # echo "eval \"$(~/.local/bin/mise activate zsh)\"" >>"${HOME}/.zshrc"
+    # echo "export PATH=\"$HOME/.local/share/mise/shims:\$PATH\"" >>"${HOME}/.zshenv"
 
-    mkdir -p ${XDG_CONFIG_HOME}/mise
-    export MISE_CONFIG_DIR=${XDG_CONFIG_HOME}/mise
-    touch ${MISE_CONFIG_DIR}/shorthands.toml
+    # mkdir -p ${XDG_CONFIG_HOME}/mise
+    # export MISE_CONFIG_DIR=${XDG_CONFIG_HOME}/mise
+    # touch ${MISE_CONFIG_DIR}/shorthands.toml
 
     mise activate zsh
-    # mise activate --shims
+    mise activate --shims
 
     mise use chezmoi -y || {
         echo "### chezmoi のインストールに失敗しました。"
@@ -380,16 +380,16 @@ install_wireshark() {
 install_fonts() {
     # フォントディレクトリ
     fonts="${XDG_DATA_HOME:-$HOME/.local/share}/fonts"
-
     # フォントディレクトリを作成
     sudo mkdir -p "${fonts}"
+    tree "${fonts}"
 
     # HackGen フォントのダウンロード
     sudo curl -L https://github.com/yuru7/HackGen/releases/download/v2.9.0/HackGen_NF_v2.9.0.zip \
         -o "${fonts}/HackGen_NF_v2.9.0.zip"
 
     # HackGen フォントの展開（ttfファイルのみをfontsディレクトリに配置）
-    sudo unzip -j "${fonts}/HackGen_NF_v2.9.0.zip" '*.ttf' -d "${fonts}"
+    sudo unzip -j "${fonts}/HackGen_NF_v2.9.0.zip" '*.ttf' -do "${fonts}"
 
     # ダウンロードしたzipファイルの削除
     sudo rm -f "${fonts}/HackGen_NF_v2.9.0.zip"
@@ -399,14 +399,17 @@ install_fonts() {
         -o "${fonts}/RobotoMonoNF-Regular.ttf"
 
     # フォントキャッシュの更新
-    fc-cache -f -v
-    tree "${fonts}"
+    fc-cache -fv
     echo "### フォントをインストールしました。"
+    tree "${fonts}"
 }
 
 # 背景画像を設定する関数
 set_background_image() {
-    sudo cp "${HOME}/data/bg.jpeg" /usr/share/backgrounds/bg.jpeg
+    sudo cp "${HOME}/data/bg.jpeg" /usr/share/backgrounds/bg.jpeg || {
+        echo "### 壁紙の配置に失敗しました。"
+        exti 1
+    }
     echo "### /usr/share/backgrounds/bg.jpeg に壁紙を配置しました。"
 }
 
