@@ -6,66 +6,83 @@ if command -v arch >/dev/null 2>&1; then
 fi
 
 ## ls lsd
-alias ls='lsd --group-directories-first'
-alias l='ls -la'
-alias ll='l'
-alias la='ls -a'
-alias lls='ls -la'
-alias lt='ls --tree'
+if command -v lsd >/dev/null 2>&1; then
+    alias ls='lsd --group-directories-first'
+    alias l='ls -la'
+    alias ll='l'
+    alias la='ls -a'
+    alias lls='ls -la'
+    alias lt='ls --tree'
+fi
 
-# N: 文字化け対策 C: 色を付ける
-alias tree="tree -NC"
+if command -v bat >/dev/null 2>&1; then
+    alias cat="bat --theme Monokai Extended"
+fi
 
-## cat bat
-alias cat="bat --theme Monokai Extended"
+if command -v chezmoi >/dev/null 2>&1; then
+    alias che="chezmoi"
+    alias apply="bit && chezmoi init --applly budybye"
+fi
+
+if command -v cursor >/dev/null 2>&1; then
+    alias code="cursor"
+    elif command -v codium >/dev/null 2>&1; then
+        alias code="codium"
+    fi
+fi
+
+## docker
+if command -v docekr >/dev/null 2>&1; then
+    alias d="docker"
+    alias di="docker image"
+    alias dr="docker run --rm"
+    alias ds='docker stop $(docker ps -q)'
+    alias dps='docker ps --format "table {{.Names}}\t{{.Image}}\t{{.Ports}}\t{{.Status}}"'
+    ## 停止コンテナ、タグ無しイメージ、未使用ボリューム、未使用ネットワーク一括削除
+    alias drm="docker system prune -af --volumes "
+
+    if command -v docekr compose >/dev/null 2>&1; then
+        alias dc="docker compose"
+        alias dcb="docker compose build"
+        alias dcu="docker compose up"
+        alias dcd="docker compose down"
+    fi
+fi
+
+## brew
+if command -v brew >/dev/null 2>&1; then
+    alias bs="brew -S"
+    alias bb='brew bundle --file "${HOME}/Brewfile" && brew bundle cleanup --force --file "${HOME}/dotfiles/Brewfile" && brew update && brew upgrade && brew autoremove && brew doctor'
+fi
+
+## multipass
+if command -v multipass >/dev/null 2>&1; then
+    alias mu="multipass"
+    # alias md="multipass launch docker -c 4 -m 8G -d 40G  --timeout 3600 --mount ${HOME}/apps:/home/ubuntu/apps && mu info docker"
+    alias md='multipass launch docker -c 4 -m 8G -d 40G  --timeout 3600 --mount ${HOME}/apps:/home/ubuntu/apps --cloud-init ${HOME}/dotfiles/cloud-init/docker.yaml'
+    # alias ml="multipass launch -n ubuntu -c 4 -m 4G -d 40G  --timeout 3600 --mount ${HOME}/dotfiles:/home/ubuntu/dotfiles --cloud-init ${HOME}/dotfiles/cloud-init/multipass.yaml"
+    alias ml='multipass launch -n ubuntu -c 4 -m 4G -d 40G  --timeout 3600 --mount ${HOME}/.files:/home/ubuntu/dotfiles --cloud-init ${HOME}/.files/multipass.yaml'
+    alias mld='multipass launch -n ubuntu -c 4 -m 8G -d 40G  --timeout 3600 --mount ${HOME}/dotfiles:/home/ubuntu/dotfiles --cloud-init ${HOME}/dotfiles/cloud-init/desktop.yaml'
+fi
+
+## kube
+if command -v kubectl >/dev/null 2>&1; then
+    alias ku="kubectl"
+fi
 
 ## git
 alias g="git"
 alias bit='git add -A && git commit --allow-empty-message -m "" && git push origin $(git branch | sed -n -e "s/^\* \(.*\)/\1/p")'
-
+# N: 文字化け対策 C: 色を付ける
+alias tree="tree -NC"
 alias www="ps cual"
-
-alias code="cursor"
-
-alias cod="code | codium"
-
-alias che="chezmoi"
-
-alias apply="bit && chezmoi init --applly budybye"
-
 alias hg="--help"
-
-## docker
-alias d="docker"
-alias di="docker image"
-alias dr="docker run --rm"
-# alias ds='docker stop $(docker ps -q)'
-# alias dc="docker compose"
-alias dcb="docker compose build"
-alias dcu="docker compose up"
-alias dcd="docker compose down"
-alias dps='docker ps --format "table {{.Names}}\t{{.Image}}\t{{.Ports}}\t{{.Status}}"'
-## 停止コンテナ、タグ無しイメージ、未使用ボリューム、未使用ネットワーク一括削除
-alias drm="docker system prune -af --volumes "
-
-alias ku="kubectl"
-alias mu="multipass"
-# alias md="multipass launch docker -c 4 -m 8G -d 40G  --timeout 3600 --mount ${HOME}/apps:/home/ubuntu/apps && mu info docker"
-alias md='multipass launch docker -c 4 -m 8G -d 40G  --timeout 3600 --mount ${HOME}/apps:/home/ubuntu/apps --cloud-init ${HOME}/dotfiles/cloud-init/docker.yaml'
-# alias ml="multipass launch -n ubuntu -c 4 -m 4G -d 40G  --timeout 3600 --mount ${HOME}/dotfiles:/home/ubuntu/dotfiles --cloud-init ${HOME}/dotfiles/cloud-init/multipass.yaml"
-alias ml='multipass launch -n ubuntu -c 4 -m 4G -d 40G  --timeout 3600 --mount ${HOME}/.files:/home/ubuntu/dotfiles --cloud-init ${HOME}/.files/multipass.yaml'
-alias mld='multipass launch -n ubuntu -c 4 -m 8G -d 40G  --timeout 3600 --mount ${HOME}/dotfiles:/home/ubuntu/dotfiles --cloud-init ${HOME}/dotfiles/cloud-init/desktop.yaml'
-# brew
-alias bs="brew -S"
-alias bb='brew bundle --file "${HOME}/Brewfile" && brew bundle cleanup --force --file "${HOME}/dotfiles/Brewfile" && brew update && brew upgrade && brew autoremove && brew doctor'
-
 alias lh="open -na 'Brave Browser' --args --new-window http://localhost:3000"
 alias opop="for i in {1..3}; do time zsh -ic exit; done"
 alias sss="starship explain && sheldon lock --update && opop"
 
 alias python="python3"
-# alias pip="pip3"
-
+alias pip="pip3"
 alias npm="bun"
 alias npx="bunx"
 alias yarn="bun"

@@ -23,6 +23,7 @@ sudo groupadd -f docker
 sudo usermod -aG ssl-cert,xrdp,input,audio,wireshark,docker "${USER_NAME}"
 # ファイアウォールで3389番ポート（RDP）を許可
 sudo ufw allow 3389
+sudo systemctl daemon-reload
 # rsyslogサービスを再起動
 sudo systemctl restart rsyslog
 # xrdpサービスを有効化し、起動

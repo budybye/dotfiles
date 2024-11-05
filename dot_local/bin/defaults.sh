@@ -18,13 +18,16 @@ chflags nohidden ~/Library
 ## defaults による初期設定
 
 # ログイン画面でシステム情報を表示する
-# sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
+sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
 # ダークモードをオンにする
 sudo defaults write /Library/Preferences/.GlobalPreferences AppleInterfaceTheme Dark
 # 時計アイコンクリック時に OS やホスト名 IP を表示する
 sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
 # メモリ過負荷時のアラートを表示する空きメモリを1000MBにする。無効にするには -int 1000を消して実行
-# sudo defaults write /System/Library/LaunchDaemons/com.apple.jetsamproperties.Mac.plist JetsamCriticalHighWaterMark -int 1000
+sudo defaults write /System/Library/LaunchDaemons/com.apple.jetsamproperties.Mac.plist JetsamCriticalHighWaterMark -int 1000
+
+## 他のMacで購入したアプリを自動的にダウンロードする
+#defaults write com.apple.SoftwareUpdate ConfigDataInstall -int 1
 
 # 動きを高速化
 defaults write -g com.apple.trackpad.scaling 3 && \
@@ -34,7 +37,9 @@ defaults write -g com.apple.mouse.scaling 1.5
 defaults write -g KeyRepeat -int 1 && \
 defaults write -g InitialKeyRepeat -int 10
 
+## dockの動作を素早くする
 defaults write com.apple.dock autohide-time-modifier -float 0.15;killall Dock
+## Dock が表示されるまでの待ち時間を無効にする
 defaults write com.apple.dock autohide-delay -float 0;killall Dock
 
 ## ダイアログ表示やウィンドウリサイズ速度を高速化する
@@ -44,9 +49,6 @@ defaults write -g NSWindowResizeTime 0.1
 defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
 
 ## Enable `Tap to click` （タップでクリックを有効にする）
-#defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
-#defaults write -g com.apple.mouse.tapBehavior -int 1
-#defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
 
 ## 三本指でドラッグ
@@ -99,17 +101,11 @@ defaults write com.apple.dock autohide -bool true
 ## Wipe all app icons from the Dock （Dock に標準で入っている全てのアプリを消す、Finder とごみ箱は消えない）
 defaults write com.apple.dock persistent-apps -array
 
-## Dock が表示されるまでの待ち時間を無効にする
-defaults write com.apple.dock autohide-delay -float 0
-
 ## テキストエディットをプレーンテキストで使う
-#defaults write com.apple.TextEdit RichText -int 0
+defaults write com.apple.TextEdit RichText -int 0
 
 ## スペルの訂正を無効にする
 defaults write -g NSAutomaticSpellingCorrectionEnabled -bool false
-
-## 他のMacで購入したアプリを自動的にダウンロードする
-#defaults write com.apple.SoftwareUpdate ConfigDataInstall -int 1
 
 ## terminalでUTF-8のみを使用する
 defaults write com.apple.terminal StringEncodings -array 4
@@ -170,7 +166,7 @@ defaults write com.apple.Finder NSUserKeyEquivalents -dict-add "ゴミ箱に入�
 # 「情報を見る」のショートカットキー設定
 defaults write com.apple.Finder NSUserKeyEquivalents -dict-add "情報を見る" -string "^l"
 # Finderの独自ショートカットキー設定の内容を確認
-# echo Finderの独自キー設定：$(defaults read com.apple.Finder NSUserKeyEquivalents)
+# echo Finderの独自キー設定: $(defaults read com.apple.Finder NSUserKeyEquivalents)
 
 # Spotlight検索を表示を無効化
 defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 64 "<dict><key>enabled</key><false/><key>value</key><dict><key>parameters</key><array><integer>65535</integer><integer>49</integer><integer>1048576</integer></array><key>type</key><string>standard</string></dict></dict>"
