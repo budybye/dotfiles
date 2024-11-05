@@ -30,7 +30,7 @@
   "telemetry.telemetryLevel": "off",
   "auto-close-tag.SublimeText3Mode": true,
   "editor.codeActionsOnSave": {},
-  "workbench.colorTheme": "Monokai",
+  "workbench.colorTheme": "Monokai Pro",
   "explorer.confirmDelete": false,
   "explorer.confirmDragAndDrop": false,
   "extensions.autoUpdate": true,

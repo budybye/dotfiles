@@ -10,6 +10,8 @@ CODEX="${CODE_DIR}/extensions.json"
 # settings.jsonのパス
 SETTINGS_JSON="${CODE_DIR}/User/settings.json"
 
+KEYBINDINGS_JSON="${CODE_DIR}/User/keybindings.json"
+
 # extensions.jsonが存在する場合はバックアップを作成
 if [ -f "${CODEX}" ]; then
     cp "${CODEX}" "${CODEX}.copy"
@@ -32,6 +34,17 @@ if [ -f "${SETTINGS_JSON}" ]; then
 else
     echo "${SETTING_JSON}が存在しません。"
     mkdir -p "$(dirname "${SETTINGS_JSON}")"
-    cp "${XGD_CONFIG_HOME}/vscode/User/settings.json" "${SETTINGS_JSON}"
+    cp "${XGD_DATA_HOME}/vscode/user-data/User/settings.json" "${SETTINGS_JSON}"
     echo "新しい${SETTING_JSON}を作成しました。"
+fi
+
+# keybindings.jsonが存在する場合はバックアップを作成
+if [ -f "${KEYBINDINGS_JSON}" ]; then
+    cp "${KEYBINDINGS_JSON}" "${KEYBINDINGS_JSON}.copy"
+    echo "バックアップを作成しました: ${KEYBINDINGS_JSON}.copy"
+else
+    echo "${SEKEYBINDINGS_JSONTTING_JSON}が存在しません。"
+    mkdir -p "$(dirname "${KEYBINDINGS_JSON}")"
+    cp "${XGD_DATA_HOME}/vscode/user-data/User/keybindings.json" "${KEYBINDINGS_JSON}"
+    echo "新しい${KEYBINDINGS_JSON}を作成しました。"
 fi

@@ -52,7 +52,7 @@ fi
 ## brew
 if command -v brew >/dev/null 2>&1; then
     alias bs="brew -S"
-    alias bb='brew bundle --file "${HOME}/Brewfile" && brew bundle cleanup --force --file "${HOME}/dotfiles/Brewfile" && brew update && brew upgrade && brew autoremove && brew doctor'
+    alias bb='brew bundle --file "${HOME}/.config/Brewfile" && brew bundle cleanup --force --file "${HOME}/.config/Brewfile" && brew update && brew upgrade && brew autoremove && brew doctor'
 fi
 
 ## multipass
@@ -61,7 +61,7 @@ if command -v multipass >/dev/null 2>&1; then
     # alias md="multipass launch docker -c 4 -m 8G -d 40G  --timeout 3600 --mount ${HOME}/apps:/home/ubuntu/apps && mu info docker"
     alias md='multipass launch docker -c 4 -m 8G -d 40G  --timeout 3600 --mount ${HOME}/apps:/home/ubuntu/apps --cloud-init ${HOME}/dotfiles/cloud-init/docker.yaml'
     # alias ml="multipass launch -n ubuntu -c 4 -m 4G -d 40G  --timeout 3600 --mount ${HOME}/dotfiles:/home/ubuntu/dotfiles --cloud-init ${HOME}/dotfiles/cloud-init/multipass.yaml"
-    alias ml='multipass launch -n ubuntu -c 4 -m 4G -d 40G  --timeout 3600 --mount ${HOME}/.files:/home/ubuntu/dotfiles --cloud-init ${HOME}/.files/multipass.yaml'
+    alias ml='multipass launch -n ubuntu -c 4 -m 4G -d 40G  --timeout 3600 --mount ${HOME}/dotfiles:/home/ubuntu/dotfiles --cloud-init ${HOME}/dotfiles/multipass.yaml'
     alias mld='multipass launch -n ubuntu -c 4 -m 8G -d 40G  --timeout 3600 --mount ${HOME}/dotfiles:/home/ubuntu/dotfiles --cloud-init ${HOME}/dotfiles/cloud-init/desktop.yaml'
 fi
 

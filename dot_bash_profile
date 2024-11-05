@@ -6,7 +6,6 @@ HISTFILE=${XDG_STATE_HOME}/bash/bash_history
 if command -v brew > /dev/null 2>&1; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
-#export FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
 
 # direnv
 if command -v direnv > /dev/null 2>&1; then
