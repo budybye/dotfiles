@@ -41,7 +41,7 @@ jobs:
       - name: docker compose test
         run: |
           docker compose up -d
-          docker logs ipfs
+          docker logs
           docker ps -a
           docker compose down
 
@@ -53,12 +53,11 @@ jobs:
       - name: chezmoi init
         run: |
           sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply ${{ github.actor }}
-          ls -la /home/runner
-          pwd
+          dotfiles=pwd
+          ls -la ${HOME}
           ls -la /home/runner/.local/bin
-          pwd
           ls -la /home/runner/.config
-          /home/runner/work/dotfiles/dotfiles/bin/chezmoi help
+          "${dotfiles}"/bin/chezmoi help
 
       # - name: mise
       #   run: |
@@ -90,10 +89,9 @@ jobs:
       - name: chezmoi init
         run: |
           sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply ${{ github.actor }}
-          ls -la /Users/runner
           pwd
+          ls -la ${HOME}
           ls -la /Users/runner/.local/bin
-          pwd
           ls -la /Users/runner/.config
           /Users/runner/work/dotfiles/dotfiles/bin/chezmoi help
 

@@ -7,10 +7,10 @@
 *.gz
 node_modules
 .env
-.env*
+.envrc
 *.env
 *lock.json
-.mise.toml
+; .mise.toml
 
 # Put at $XDG_CONFIG_HOME/git/ignore
 # See also https://github.com/github/gitignore/tree/master/Global

@@ -25,7 +25,7 @@ v.0.1.1
 
 XDG Base Directory Specification に基づくディレクトリの設定を行います。
 
-```:path
+```:~/.profile/
 XDG_CONFIG_HOME=${HOME}/.config
 
 XDG_DATA_HOME=${HOME}/.local/share
@@ -39,7 +39,7 @@ XDG_CONFIG_DIRS=/etc/xdg
 ...
 ```
 
-### 説明
+### XDG Base Directory Specification
 
 - **XDG_CONFIG_HOME**: ユーザー固有の設定ファイルの格納先。
 - **XDG_DATA_HOME**: ユーザー固有のデータファイルの格納先。
@@ -55,7 +55,26 @@ XDG_CONFIG_DIRS=/etc/xdg
 環境変数の設定を行います。
 
 ```sh
+touch ./.mise.toml
 touch ./.env
+```
+
+```:./.env
+export VAR=hoge
+```
+
+```:./.mise.toml
+[env]
+'_'.file = ".env"
+
+```
+
+```sh
+mise trust
+```
+
+```:./.gitignore
+.env
 ```
 
 ### 説明
