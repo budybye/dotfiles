@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -ex
+set -x
 
 # ユーザー名を動的に取得
 USER_NAME=${SUDO_USER:-$(whoami)}
@@ -23,22 +23,20 @@ initialize_dotfiles() {
 # Zsh をデフォルトシェルに変更する関数
 change_shell_to_zsh() {
     # Zsh がインストールされているか確認
-    zsh_path=$(command -v zsh)
-    if [ -z "$zsh_path" ]; then
+    if ! command zsh >/dev/null 2>&1; then
         echo "### zsh がインストールされていません。インストールを行います。"
         sudo apt-get install -y zsh || {
             echo "### zsh のインストールに失敗しました。"
             exit 1
         }
-        zsh_path=$(command -v zsh)
     fi
-
+    zsh_path=$(command -v zsh)
     # デフォルトシェルを Zsh に変更
-    sudo chsh -s "$zsh_path" "$USER_NAME" || {
+    sudo chsh -s "${zsh_path}" "${USER_NAME}" || {
         echo "### デフォルトシェルの変更に失敗しました。"
         exit 1
     }
-    echo "### デフォルトシェルを $zsh_path に変更しました。"
+    echo "### デフォルトシェルを ${zsh_path} に変更しました。"
 }
 
 # 必要なパッケージをインストールする関数
