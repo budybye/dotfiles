@@ -2,7 +2,7 @@
 # グローバルなツールのバージョンをここに設定します
 # `mise use -g`で設定できます
 # node = 'lts'
-# python = '3.11'
+# python = "3.11"
 # go = "latest"
 # bun = "latest"
 # pnpm = "latest"
@@ -43,7 +43,7 @@ plugin_autoupdate_last_check_duration = '1 week' # 0に設定すると更新を�
 #    '~/.local/share/chezmoi',
 #]
 
-verbose = true       # trueに設定すると、インストールの全出力が表示されます。`MISE_VERBOSE`を参照
+verbose = false       # trueに設定すると、インストールの全出力が表示されます。`MISE_VERBOSE`を参照
 asdf_compat = false   # trueに設定すると、.tool-versionsがasdfと互換性を持つようになります。`MISE_ASDF_COMPAT`を参照
 http_timeout = "30s"  # HTTPリクエストのタイムアウトを設定します。`MISE_HTTP_TIMEOUT`を参照
 jobs = 4              # 並行してインストールするプラグインやランタイムの数。デフォルトは`4`
