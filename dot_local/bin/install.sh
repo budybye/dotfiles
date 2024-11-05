@@ -68,7 +68,7 @@ install_docker_compose() {
     # インストール確認
     if command -v docker-compose >/dev/null 2>&1; then
         echo "### Docker Compose のインストールが確認されました。"
-        which docker-compose
+        which docker compose
     else
         echo "### Docker Compose のインストールに失敗しました。"
         exit 1
@@ -322,7 +322,7 @@ install_go_aqua() {
     }
     echo "### aqua をインストールしました。"
     # export PATH="${AQUA_ROOT_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/aquaproj-aqua}/bin:$PATH"
-    ls -la $GOROOT/bin
+    env
 }
 
 # mkcert をインストールおよび設定する関数
