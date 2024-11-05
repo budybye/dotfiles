@@ -4,7 +4,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: docker-ubuntu-xfce-xrdp-jp
+    container_name: ubuntu
     networks:
       - app-network
     ports:

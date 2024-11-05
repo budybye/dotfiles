@@ -126,7 +126,7 @@ mise ls
 mise trust
 ```
 
-```:~/.config/mise/config.toml
+```sh:~/.config/mise/config.toml
 # mise の設定ファイル
 ./.mise.toml
 
@@ -150,12 +150,16 @@ mise trust
 ```:~/
 # シェルの設定ファイル
 ~/.zshrc
+
 # シェルの環境変数
 ~/.zshenv
+
 # ログインシェルに共通で読み込まれるファイル
 ~/.profile
+
 # bash の設定ファイル
 ~/.bashrc
+
 # bash の環境変数
 ~/.bash_profile
 ```
@@ -165,9 +169,9 @@ mise trust
 ## エイリアス設定
 
 便利なコマンドエイリアスを設定します。
+zsh と bashで読み込まれます。
 
 ```:~/.aliases
-# zsh && bash
 # エイリアスの設定ファイル
 ~/.aliases
 ```
@@ -206,12 +210,16 @@ mise trust
 ~/.config/byobu/.tmux.conf
 ```
 
-### VSCodium
+### VSCode
 
 ```:~/.config/vscode
-# VSCodium の設定ファイル
-~/.config/vscode/user-date/User/setting.json
-# VSCodium の拡張機能の設定ファイル
+# VSCode の設定ファイル
+~/.config/vscode/User/setting.json
+
+# VSCode のキーバインド設定ファイル
+~/.config/vscode/User/setting.json
+
+# VSCode の拡張機能の設定ファイル
 ~/.config/vscode/extntions.json
 ```
 
@@ -220,12 +228,15 @@ mise trust
 ```:~/.config/git
 # Git の設定ファイル
 ~/.config/git/config
-# Git のユーザー設定ファイル
-~/.config/git/user.conf
+
 # Git の無視ファイルの設定ファイル
 ~/.config/git/ignore
+
 # Git のコミットメッセージのテンプレート
 ~/.config/git/commit.template
+
+# Git のユーザー設定ファイル
+~/.config/git/user.conf
 ```
 
 ### tabby
@@ -270,18 +281,23 @@ mise trust
 ~/.config/neofetch/config.conf
 ```
 
-### Fonts
-
-```:~/.local/share/fonts
-~/.local/share/fonts
-```
-
 ### Brewfile
 
 ```:~/.config/Brewfile
 ~/.config/Brewfile
 ```
 
+### Fonts
+
+```:~/.local/share/fonts
+~/.local/share/fonts
+```
+
+### 壁紙
+
+```:~/.local/share/backgrounds
+~/.local/share/backgrounds
+```
 ---
 
 ## Docker と Multipass の設定
@@ -304,5 +320,6 @@ multipass launch \
 ### xrdp と Docker の設定
 Docker コンテナ内で xrdp と xfce を使用した Ubuntu 環境を構築
 ```sh
-docekr compose up
+docekr compose up -d
+docker compose exec ubuntu /bin/bash
 ```
