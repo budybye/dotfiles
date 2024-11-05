@@ -416,9 +416,9 @@ set_background_image() {
 # メイン関数
 main() {
     # initialize_dotfiles
-    change_shell_to_zsh
     install_packages
     install_snap
+    change_shell_to_zsh
     install_mise
     install_docker
     install_tabby_terminal
