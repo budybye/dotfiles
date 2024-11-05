@@ -1,3 +1,5 @@
+GIT_USER := $(GIT_AUTHOR_NAME)
+GIT_USER ?= budybye
 # ubuntu用のスクリプト
 INSTALL_SCRIPT := ${HOME}/.local/bin/install.sh
 SETUP_SCRIPT := ${HOME}/.local/bin/setup.sh
@@ -14,11 +16,11 @@ CODE_SCRIPT := ${HOME}/.local/bin/codex.sh
 ifeq ($(shell uname), Darwin)
     # macOS用の設定
     CONFIG_DIR := macos
-    sense: defaults bootstrap
+    sense: init bootstrap defaults codex
 else
     # Linux用の設定
     CONFIG_DIR := linux
-    sense: setup install
+    sense: init install setup codex
 endif
 
 # 共用スクリプト実行 make it
@@ -59,14 +61,12 @@ link:
 	@echo "Running link script..."
 	sh $(LINK_SCRIPT)
 
-# Dotfilesの初期化スクリプトの実行
 init:
 	@echo "chezmoi init..."
 	if [ -f "$(INIT_SCRIPT)" ]; then \
 		sh $(INIT_SCRIPT); \
 	else \
 		echo "init.sh が存在しないため、chezmoi をインストールします。"; \
-		wget -qO- chezmoi.io/get | sh -s -- init --apply budybye; \
+		wget -qO- chezmoi.io/get | sh -s -- init --apply ${GIT_USER}; \
 	fi
-
 
