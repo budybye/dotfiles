@@ -13,30 +13,28 @@ KEY_NAME="id_${KEY_TYPE}"
 # KEY_NAME="id_rsa"
 # SSH鍵のパス
 KEY_PATH="${SSH}/${KEY_NAME}"
-
 # GitHubのユーザーネーム
-GIT_AUTHOR_NAME="budybye"
+GIT_AUTHOR_NAME="${GIT_AUTHOR_NAME:-budybye}"
 
 # SSH用のディレクトリを作成
-mkdir -pm 700 "${SSH}"
-
+mkdir -p "${SSH}"
+chmod 700 "${SSH}"
 # SSH用のディレクトリに移動
 cd "${SSH}"
-
 # authorized_keysとconfigファイルを作成
 touch authorized_keys
 touch config
 
 # configファイルにGitHubのホスト情報を設定
-cat <<EOF >${SSH}/config
+cat <<EOF >"${SSH}/config"
 Host github github.com
 HostName github.com
-IdentityFile $KEY_PATH
+IdentityFile ${KEY_PATH}
 User git
 EOF
 
 # SSH鍵を生成
-if [ ! -f ${KEY_PATH} ]; then
+if [ ! -f "${KEY_PATH}" ]; then
     ssh-keygen -t ${KEY_TYPE} -f ${KEY_NAME}
 else
     echo "SSH key already exists"
@@ -57,10 +55,9 @@ darwin*)
     cat "${KEY_PATH}.pub"
     xdg-open "https://github.com/login?username=${GIT_AUTHOR_NAME}"
     ;;
-    ;;
 esac
 
-chmod 600 *
+chmod 600 "${SSH}"/*
 
 # GitHubにSSH接続をテスト
 ssh -T git@github.com
@@ -83,5 +80,5 @@ eval "$(ssh-agent -k)"
 
 # ホームディレクトリに移動
 cd "${HOME}"
+tree "${SSH}"
 
-tree ${SSH}
