@@ -50,6 +50,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: init
+        run: make init
+      
       - name: setup
         run: make sense
 
@@ -59,5 +62,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: init
+        run: make init
+        
       - name: setup
         run: make sense
