@@ -90,7 +90,8 @@ install_docker_compose() {
 
 install_docker() {
     # Docker の公式 GPG キーを追加
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | \
+        sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
     echo "### Docker の GPG キーを追加しました。"
 
     # Docker のリポジトリを設定
@@ -181,8 +182,10 @@ install_mise() {
     if ! command -v mise >/dev/null 2>&1; then
         curl https://mise.run | sh || {
             sudo install -dm 755 /etc/apt/keyrings
-            wget -qO - https://mise.jdx.dev/gpg-key.pub | gpg --dearmor | sudo tee /etc/apt/keyrings/mise-archive-keyring.gpg 1>/dev/null
-            echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=${arch}] https://mise.jdx.dev/deb stable main" | sudo tee /etc/apt/sources.list.d/mise.list
+            wget -qO - https://mise.jdx.dev/gpg-key.pub | gpg --dearmor | \
+                sudo tee /etc/apt/keyrings/mise-archive-keyring.gpg 1>/dev/null
+            echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=${arch}] \
+                https://mise.jdx.dev/deb stable main" | sudo tee /etc/apt/sources.list.d/mise.list
             sudo apt-get update -y
             sudo apt-get install -y mise
         } || {
@@ -223,8 +226,10 @@ install_cargo_tools() {
 
 # Brave ブラウザをインストールする関数
 install_brave_browser() {
-    sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
-    echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main" | sudo tee /etc/apt/sources.list.d/brave-browser-release.list
+    sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg \
+        https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
+    echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] \
+        https://brave-browser-apt-release.s3.brave.com/ stable main" | sudo tee /etc/apt/sources.list.d/brave-browser-release.list
     sudo apt-get update -y
     sudo apt-get install -y brave-browser || {
         echo "### brave のインストールに失敗しました。"
@@ -249,8 +254,10 @@ install_tabby_terminal() {
 # Cloudflare Warp をインストールおよび設定する関数
 install_cloudflare_warp() {
     if ! command -v warp-cli >/dev/null 2>&1; then
-        sudo curl -fsSL https://pkg.cloudflareclient.com/pubkey.gpg | sudo gpg --yes --dearmor --output /usr/share/keyrings/cloudflare-warp-archive-keyring.gpg
-        echo "deb [signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg] https://pkg.cloudflareclient.com/ $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/cloudflare-client.list
+        sudo curl -fsSL https://pkg.cloudflareclient.com/pubkey.gpg | \
+            sudo gpg --yes --dearmor --output /usr/share/keyrings/cloudflare-warp-archive-keyring.gpg
+        echo "deb [signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg] https://pkg.cloudflareclient.com/ $(lsb_release -cs) main" | \
+            sudo tee /etc/apt/sources.list.d/cloudflare-client.list
         sudo apt-get update -y
         sudo apt-get install -y cloudflare-warp || {
             echo "### warp のインストールに失敗しました。"
@@ -334,7 +341,7 @@ install_go_aqua() {
     # Aqua をインストールおよび初期化
     go install github.com/aquaproj/aqua/v2/cmd/aqua@latest || {
         echo "### aqua のインストールに失敗しました。"
-        # exit 1
+        exit 1
     }
     echo "### aqua をインストールしました。"
 
@@ -380,8 +387,6 @@ install_fonts() {
     fonts="${XDG_DATA_HOME:-$HOME/.local/share}/fonts"
     # フォントディレクトリを作成
     sudo mkdir -p "${fonts}"
-    tree "${fonts}"
-
     # HackGen フォントのダウンロード
     sudo curl -L https://github.com/yuru7/HackGen/releases/download/v2.9.0/HackGen_NF_v2.9.0.zip \
         -o "${fonts}/HackGen_NF_v2.9.0.zip"
