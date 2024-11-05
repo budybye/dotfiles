@@ -19,7 +19,7 @@ jobs:
 
       - name: chezmoi init
         run: |
-          sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply -S .
+          make init
           ls -la ${HOME}
           ls -la ${HOME}/.local/bin
           ls -la ${HOME}/.config
