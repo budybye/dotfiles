@@ -41,7 +41,7 @@ jobs:
       - name: docker compose test
         run: |
           docker compose up -d
-          docker logs
+          docker logs ipfs
           docker ps -a
           docker compose down
 

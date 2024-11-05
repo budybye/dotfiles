@@ -1,4 +1,4 @@
-<!-- <link href="./style.css" rel="stylesheet"></link> -->
+<link href="./style.css" rel="stylesheet"></link>
 
 # dotfiles
 
@@ -52,28 +52,27 @@ XDG_CONFIG_DIRS=/etc/xdg
 
 ## 環境設定
 
-環境変数の設定を行います。
-
+設定ファイルを作成
 ```sh
 touch ./.mise.toml
 touch ./.env
 ```
-
-```:./.env
+./.env に環境変数を記述
+```sh:./.env
 export VAR=hoge
 ```
-
-```:./.mise.toml
+./.mise.toml で読み込むファイル名を指定
+```toml:./.mise.toml
 [env]
 '_'.file = ".env"
 
 ```
-
-```sh
+現在のディレクトリを信頼してファイルを読み込み
+```
 mise trust
 ```
-
-```:./.gitignore
+./.gitignore でファイルを除外
+```txt:./.gitignore
 .env
 ```
 
@@ -124,7 +123,7 @@ mise ls
 mise trust
 ```
 
-```:path
+```:~/.config/mise/config.toml
 # mise の設定ファイル
 ./.mise.toml
 
@@ -145,7 +144,7 @@ mise trust
 
 シェルの設定ファイルを管理します。
 
-```:path
+```:~/
 # シェルの設定ファイル
 ~/.zshrc
 # シェルの環境変数
@@ -164,7 +163,7 @@ mise trust
 
 便利なコマンドエイリアスを設定します。
 
-```:path
+```:~/.aliases
 # zsh && bash
 # エイリアスの設定ファイル
 ~/.aliases
@@ -176,44 +175,37 @@ mise trust
 
 各種ツールの設定ファイルを管理します。
 
-### Git コミットテンプレート
-
-```:path
-# Git コミットテンプレート
-~/.config/git/commit.template
-```
-
 ### starship
 
-```:path
+```:~/.config/starship.toml
 # starship の設定ファイル
 ~/.config/starship.toml
 ```
 
 ### sheldon
 
-```:path
+```:~/.config/sheldon/plugins.toml
 # sheldon のプラグインの設定ファイル
 ~/.config/sheldon/plugins.toml
 ```
 
 ### aqua
 
-```:path
+```:~/.config/aquaproj-aqua/aqua.yaml
 # aqua の設定ファイル
 ~/.config/aquaproj-aqua/aqua.yaml
 ```
 
 ### byobu
 
-```:path
+```:~/.config/byobu/.tmux.conf
 # byobu の設定ファイル
 ~/.config/byobu/.tmux.conf
 ```
 
 ### VSCodium
 
-```:path
+```:~/.config/vscode
 # VSCodium の設定ファイル
 ~/.config/vscode/user-date/User/setting.json
 # VSCodium の拡張機能の設定ファイル
@@ -222,7 +214,7 @@ mise trust
 
 ### Git
 
-```:path
+```:~/.config/git
 # Git の設定ファイル
 ~/.config/git/config
 # Git のユーザー設定ファイル
@@ -235,68 +227,67 @@ mise trust
 
 ### tabby
 
-```:path
+```:~/.config/tabby/config.yaml
 # tabby の設定ファイル
 ~/.config/tabby/config.yaml
 ```
 
 ### editorconfig
 
-```:path
+```:~/.config/.editorconfig
 # editorconfig の設定ファイル
 ~/.config/.editorconfig
 ```
 
 ### vim
 
-```:path
+```:~/.config/vim/vimrc
 # vim の設定ファイル
 ~/.config/vim/vimrc
 ```
 
 ### fcitx5
 
-```:path
+```:~/.config/fcitx5/config
 # fcitx5 の設定ファイル
 ~/.config/fcitx5/config
 ```
 
 ### fusuma
 
-```:path
+```:~/.config/fusuma/config.yml
 # fusuma の設定ファイル
-~/.config/fusuma/config.yaml
+~/.config/fusuma/config.yml
 ```
 
 ### neofetch
 
-```:path
+```:~/.config/neofetch/config.conf
 # neofetch の設定ファイル
 ~/.config/neofetch/config.conf
 ```
 
-### Hackgen NF
+### Fonts
 
-```:path
-~/.local/share/fonts/Hackgen NF
+```:~/.local/share/fonts
+~/.local/share/fonts
 ```
 
 ### Brewfile
 
-```:path
+```:~/.config/Brewfile
 ~/.config/Brewfile
 ```
 
 ---
 
-## Docker と xrdp の設定
-
-Docker コンテナ内で xrdp と xfce を使用した Ubuntu 環境を構築します。
+## Docker と Multipass の設定
+Dockerfile, cloud-init の仮想環境で
+xrdp で接続できる Ubuntu Desktop 環境の設定
 
 ### Multipass の cloud-init
-
+Multipass で cloud-init を使用して Ubuntu を起動
 ```sh
-# cloud-init を使用して Ubuntu を起動
 multipass launch \
 -n ubuntu \
 -c 4 \
@@ -308,14 +299,7 @@ multipass launch \
 ```
 
 ### xrdp と Docker の設定
-
+Docker コンテナ内で xrdp と xfce を使用した Ubuntu 環境を構築
 ```sh
-# Docker コンテナ内で xrdp と xfce を使用した Ubuntu 環境を構築
-docker run \
---rm \
---privileged \
---name xdxu \
--it \
--p 3389:3389 \
--v ${HOME}/data:/home/ubuntu/mount
+docekr compose up
 ```
