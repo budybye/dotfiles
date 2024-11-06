@@ -59,7 +59,7 @@ code:
 link:
 	$(call run_script,Link,$(LINK_SCRIPT))
 init:
-	@if [ -f "$(INIT_SCRIPT)" ]; then \
+	@if [ -f "$(INIT_SCRIPT)" ]; then
 		$(call run_script,Init,$(INIT_SCRIPT)); \
 	else \
 		echo "### init.sh が存在しないため、chezmoi をインストールします。" | tee -a $(LOGFILE); \
