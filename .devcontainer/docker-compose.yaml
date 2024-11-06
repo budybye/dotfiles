@@ -49,6 +49,19 @@ services:
       - ../data/portainer:/data
     restart: always
 
+  cloudflared:
+    image: cloudflare/cloudflared
+    container_name: cloudflared
+    restart: unless-stopped
+    networks:
+      - app-network
+    volumes:
+      - ../data/cloudflared:/home/nonroot/.cloudflared
+    command: tunnel run --url http://portainer:9443
+    # command: tunnel run --url http://host.docker.internal:9443
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
 networks:
   app-network:
     driver: bridge

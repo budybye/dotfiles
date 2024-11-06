@@ -7,9 +7,6 @@ style.css
 multipass.yaml
 Makefile
 
-# Dockerfile
-# docker-compose.yaml
-
 .gitignore
 .github
 
