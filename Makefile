@@ -1,5 +1,5 @@
 シェルの設定
-# SHELL := bash
+SHELL := bash
 # .RECIPEPREFIX = >
 # .ONESHELL:
 # .SHELLFLAGS := -eu -o pipefail -c
