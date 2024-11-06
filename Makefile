@@ -61,8 +61,7 @@ link:
 init:
 	@if [ -f "$(INIT_SCRIPT)" ]; then
 		$(call run_script,Init,$(INIT_SCRIPT)); \
-	else \
-		echo "### init.sh が存在しないため、chezmoi をインストールします。" | tee -a $(LOGFILE); \
+	else echo "### init.sh が存在しないため、chezmoi をインストールします。" | tee -a $(LOGFILE); \
 		curl -fsLS chezmoi.io/get | sh -s -- init --apply ${GIT_USER} | tee -a $(LOGFILE); \
 	fi
 # "it" ターゲットの定義
