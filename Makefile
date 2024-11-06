@@ -59,11 +59,13 @@ code:
 link:
 	$(call run_script,Link,$(LINK_SCRIPT))
 init:
+	@echo "### Running init script..." | tee -a $(LOGFILE)
 	@if [ -f "$(INIT_SCRIPT)" ]; then \
-		$(call run_script,Init,$(INIT_SCRIPT)); \
-	else echo "### init.sh が存在しないため、chezmoi をインストールします。" | tee -a $(LOGFILE); \
+		sh $(INIT_SCRIPT) | tee -a $(LOGFILE); \
+	else \
+		echo "### init.sh が存在しないため、chezmoi をインストールします。" | tee -a $(LOGFILE); \
 		curl -fsLS chezmoi.io/get | sh -s -- init --apply ${GIT_USER} | tee -a $(LOGFILE); \
-	fi \
+	fi
 # "it" ターゲットの定義
 it: init code keygen link
 	@echo "### 'it' ターゲットの実行が完了しました。" | tee -a $(LOGFILE)
