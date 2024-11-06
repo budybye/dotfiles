@@ -24,7 +24,7 @@ services:
       - 8080:8080
       - 5001:5001
     volumes:
-      - ./dot_config/ipfs/config:/home/ubuntu/.config/ipfs/config
+      - ./data/ipfs:/home/ubuntu/.config/ipfs
       - ./data/ipfs:/export
       - ./data/ipfs/entrypoint.sh:/container-init.d/entrypoint.sh #init直後のdaemon起動前に実行されるshをマウント
     environment:

@@ -95,7 +95,8 @@ packages:
   - pkg-config
   - apt-transport-https
   - ca-certificates
-  # - ruby
+
+  - ruby
   - libinput-tools
   - libdb-dev
   - libdb5.3-dev
@@ -134,14 +135,12 @@ packages:
   - gawk
   - neofetch
   - plank
+  - snapd
 
-  # cargo系
-  # - rustup
-  # - cargo
+  - cargo
   - lsd
   - zoxide
   # - fzf
-  # - bat
 
   # ネットワークツール
   - net-tools
@@ -157,22 +156,19 @@ packages:
   - ncmpcpp
 
   # Docker
-  # - snapd
   # - docker
   # - docker.io
   # - docker-compose
   # - avahi-daemon
-# runcmd:
-#   - sudo sed -i 's/^s*REGDOMAIN=S*/REGDOMAIN=JP/' /etc/default/crda || true
-#   - LANG=C xdg-user-dirs-update --force
-#   - im-config -n fcitx5
-#   - sudo systemctl restart rsyslog
-#   - sudo dpkg --configure -a
-
-#   - sudo usermod -a -G ssl-cert,xrdp,input,audio
-#   - sudo ufw allow 3389
-#   - sudo systemctl enable xrdp
-#   - sudo systemctl start xrdp
+runcmd:
+  - sudo sed -i 's/^s*REGDOMAIN=S*/REGDOMAIN=JP/' /etc/default/crda || true
+  - LANG=C xdg-user-dirs-update --force
+  - im-config -n fcitx5
+  - sudo usermod -a -G ssl-cert,xrdp,input,audio ubutnu
+  - sudo ufw allow 3389
+  - sudo systemctl enable xrdp
+  - sudo systemctl start xrdp
+  - sudo update-alternatives --set x-session-manager /usr/bin/xfce4-session
 
 # write_files:
 #   # 環境変数の設定

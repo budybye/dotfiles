@@ -15,10 +15,12 @@ KEY_NAME="id_${KEY_TYPE}"
 KEY_PATH="${SSH}/${KEY_NAME}"
 # GitHubのユーザーネーム
 GIT_AUTHOR_NAME="${GIT_AUTHOR_NAME:-budybye}"
+# ユーザー名を動的に取得
+USER_NAME=$(whoami)
 
 # SSH用のディレクトリを作成
 mkdir -p "${SSH}"
-chmod 700 "${SSH}"
+sudo chmod 700 "${SSH}"
 # SSH用のディレクトリに移動
 cd "${SSH}"
 # authorized_keysとconfigファイルを作成
@@ -29,13 +31,13 @@ touch config
 cat <<EOF >"${SSH}/config"
 Host github github.com
 HostName github.com
-IdentityFile ${KEY_PATH}
+IdentityFile "${KEY_PATH}"
 User git
 EOF
 
 # SSH鍵を生成
 if [ ! -f "${KEY_PATH}" ]; then
-    ssh-keygen -t ${KEY_TYPE} -f ${KEY_NAME}
+    ssh-keygen -t "${KEY_TYPE}" -f "${KEY_NAME}" -C "${USER_NAME}" -N ""
 else
     echo "SSH key already exists"
 fi
@@ -57,7 +59,7 @@ darwin*)
     ;;
 esac
 
-chmod 600 "${SSH}"/*
+sudo chmod 600 "${SSH}"/*
 
 # GitHubにSSH接続をテスト
 ssh -T git@github.com
@@ -74,11 +76,6 @@ ssh-add -l
 # SSHエージェントを停止
 eval "$(ssh-agent -k)"
 
-# SSH秘密鍵を暗号化する
-# sudo mkdir -p "/usr/bin/ksshaskpass"
-# export SSH_ASKPASS="/usr/bin/ksshaskpass"
-
 # ホームディレクトリに移動
 cd "${HOME}"
 tree "${SSH}"
-

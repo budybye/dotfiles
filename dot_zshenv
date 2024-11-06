@@ -8,6 +8,7 @@ path=(
   /opt/homebrew/sbin(N-/)
   /opt/X11/bin(N-/)
   ${HOME}/.console-ninja/.bin(N-/)
+  ${HOME}/.cache/.bun/bin(N-/)
   ${HOME}/.local/share/sheldon/repos/github.com/*/*/bin(N-/)
   ${PATH}
   ${HOME}/.local/bin(N-/)

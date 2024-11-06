@@ -203,6 +203,20 @@ install_cargo_tools() {
     which cargo
 }
 
+# Bitwarden をインストールする関数
+install_bitwarden() {
+    if ! command -v bitwarden >/dev/null 2>&1; then
+        if [ "${arch}" = "amd64" ]; then
+            sudo snap install bitwarden
+        else
+            bun install -g @bitwarden-cli/cli
+            . ${HOME}/.zshenv
+            echo "### bitwarden をインストールしました。"
+        fi
+    fi
+    which bw
+}
+
 # Brave ブラウザをインストールする関数
 install_brave_browser() {
     sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg \
@@ -385,6 +399,7 @@ main() {
     install_snap
     change_shell_to_zsh
     install_mise
+    install_bitwarden
     install_docker
     install_tabby_terminal
     install_brave_browser
