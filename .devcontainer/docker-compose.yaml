@@ -25,11 +25,11 @@ services:
       - 5001:5001 # http://localhost:5001/webui
     volumes:
       # ipfsの設定ファイルをマウント
-      - ../data/ipfs:/home/ubuntu/.config/ipfs
+      - ./dev/ipfs:/home/ubuntu/.config/ipfs
       # ipfsのエクスポートファイルをマウント
-      - ../data/ipfs:/export
+      - ./dev/ipfs:/export
       #init直後のdaemon起動前に実行されるshをマウント
-      - ../data/ipfs/entrypoint.sh:/container-init.d/entrypoint.sh
+      - ./dev/ipfs/entrypoint.sh:/container-init.d/entrypoint.sh
     environment:
       IPFS_PROFILE: server # server modeで起動
       IPFS_PATH: /home/ubuntu/.config/ipfs
@@ -46,7 +46,7 @@ services:
       - 9443:9443 # http://localhost:9443
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ../data/portainer:/data
+      - ./dev/portainer:/data
     restart: always
 
   cloudflared:
@@ -56,11 +56,8 @@ services:
     networks:
       - app-network
     volumes:
-      - ../data/cloudflared:/home/nonroot/.cloudflared
+      - ./dev/cloudflared:/home/nonroot/.cloudflared
     command: tunnel run --url http://portainer:9443
-    # command: tunnel run --url http://host.docker.internal:9443
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
 
 networks:
   app-network:

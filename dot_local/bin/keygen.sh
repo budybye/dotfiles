@@ -62,7 +62,7 @@ esac
 sudo chmod 600 "${SSH}"/*
 
 # GitHubにSSH接続をテスト
-ssh -T git@github.com
+# ssh -T git@github.com
 
 # SSHエージェントを起動
 eval "$(ssh-agent)"
