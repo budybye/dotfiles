@@ -1,71 +1,76 @@
+# シェルの設定
+SHELL := bash
+.RECIPEPREFIX = >
+.ONESHELL:
+.SHELLFLAGS := -eu -o pipefail -c
+
+# エラーハンドリングの設定
+.DELETE_ON_ERROR:
+
+# Makeの警告とデフォルトルールの無効化
+MAKEFLAGS += --warn-undefined-variables
+MAKEFLAGS += --no-builtin-rules
+
+# Gitユーザーの設定
 GIT_USER := $(if $(GIT_AUTHOR_NAME),$(GIT_AUTHOR_NAME),-S .)
-# ubuntu用のスクリプト
+
+# Linux
 INSTALL_SCRIPT := ${HOME}/.local/bin/install.sh
 SETUP_SCRIPT := ${HOME}/.local/bin/setup.sh
-# macOS用のスクリプト
+# MacOS
 BOOTSTRAP_SCRIPT := ${HOME}/.local/bin/bootstrap.sh
 DEFAULTS_SCRIPT := ${HOME}/.local/bin/defaults.sh
-# 共通スクリプト
+# 共通
 INIT_SCRIPT := ${HOME}/.local/bin/init.sh
 LINK_SCRIPT := ${HOME}/.local/bin/link.sh
 KEYGEN_SCRIPT := ${HOME}/.local/bin/keygen.sh
 CODE_SCRIPT := ${HOME}/.local/bin/codex.sh
 
-# OSによって設定を変更する make sense で実行
+# ログファイルの設定
+LOGFILE := ${HOME}/make.log
+
+# OSによるターゲットの設定
 ifeq ($(shell uname), Darwin)
-    # macOS用の設定
-    CONFIG_DIR := macos
-    sense: init bootstrap defaults code
+	CONFIG_DIR := macos
+	SENSE_TARGETS := init bootstrap defaults code
 else
-    # Linux用の設定
-    CONFIG_DIR := linux
-    sense: init install setup code
+	CONFIG_DIR := linux
+	SENSE_TARGETS := init install setup code
 endif
 
-# 共用スクリプト実行 make it
-it: init code keygen link
+# ターゲットの実行
+sense: $(SENSE_TARGETS)
+	@echo "### OSに応じたスクリプトの実行が完了しました。" | tee -a $(LOGFILE)
 
-# 環境セットアップスクリプトの実行
-setup:
-	@echo "Running setup script..."
-	sh $(SETUP_SCRIPT)
+# 共通のスクリプト実行関数
+define run_script
+	@echo "### Running $(1) script..." | tee -a $(LOGFILE)
+	@sh $(2) | tee -a $(LOGFILE) || { echo "### $(1) script failed!" | tee -a $(LOGFILE); exit 1; }
+endef
 
-# アプリケーションインストールスクリプトの実行
+# 各ターゲットの定義
 install:
-	@echo "Running install script..."
-	sh $(INSTALL_SCRIPT)
-
-# Homebrewインストールスクリプトの実行
+	$(call run_script,Install,$(INSTALL_SCRIPT))
+setup:
+	$(call run_script,Setup,$(SETUP_SCRIPT))
 bootstrap:
-	@echo "Running bootstrap script..."
-	sh $(BOOTSTRAP_SCRIPT)
-
-# デフォルト設定スクリプトの実行
+	$(call run_script,Bootstrap,$(BOOTSTRAP_SCRIPT))
 defaults:
-	@echo "Running defaults script..."
-	sh $(DEFAULTS_SCRIPT)
-
-# SSH鍵生成スクリプトの実行
+	$(call run_script,Defaults,$(DEFAULTS_SCRIPT))
 keygen:
-	@echo "Running keygen script..."
-	sh $(KEYGEN_SCRIPT)
-
-# VSCode拡張機能インストールスクリプトの実行
+	$(call run_script,Keygen,$(KEYGEN_SCRIPT))
 code:
-	@echo "Running code script..."
-	sh $(CODE_SCRIPT)
-
-# シンボリックリンク作成スクリプトの実行
+	$(call run_script,Code,$(CODE_SCRIPT))
 link:
-	@echo "Running link script..."
-	sh $(LINK_SCRIPT)
-
+	$(call run_script,Link,$(LINK_SCRIPT))
 init:
-	@echo "chezmoi init..."
-	if [ -f "$(INIT_SCRIPT)" ]; then \
-		sh $(INIT_SCRIPT); \
+	@if [ -f "$(INIT_SCRIPT)" ]; then \
+		$(call run_script,Init,$(INIT_SCRIPT)) \
 	else \
-		echo "init.sh が存在しないため、chezmoi をインストールします。"; \
-		curl -fsLS chezmoi.io/get | sh -s -- init --apply ${GIT_USER}; \
+		echo "### init.sh が存在しないため、chezmoi をインストールします。" | tee -a $(LOGFILE); \
+		curl -fsLS chezmoi.io/get | sh -s -- init --apply ${GIT_USER} | tee -a $(LOGFILE); \
 	fi
 
+# "it" ターゲットの定義
+it: init code keygen link
+	@echo "### 'it' ターゲットの実行が完了しました。" | tee -a $(LOGFILE)

@@ -4,6 +4,9 @@ set -ex
 # 管理下の設定ファイルの場所
 FROM="${XDG_DATA_HOME:-$HOME/.local/share}/vscode"
 
+# アーキテクチャを取得
+arch="$(dpkg --print-architecture)"
+
 # 環境によって変わる 設定ファイルの場所
 if [ -f "${HOME}/Applications/cursor" ] || command -v cursor >/dev/null 2>&1; then
     CODE_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/Cursor"
