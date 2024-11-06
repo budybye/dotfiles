@@ -1,11 +1,17 @@
 #!/usr/bin/env bash
 set -ex
 
-# VSCodeの設定ファイルの場所
-# 環境によって変わる
-CODE_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/vscode"
-# CODE_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/VSCodium"
-# CODE_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/Cursor"
+# 管理下の設定ファイルの場所
+FROM="${XDG_DATA_HOME:-$HOME/.local/share}/vscode"
+
+# 環境によって変わる 設定ファイルの場所
+if [ -f "${HOME}/Applications/cursor" ] || command -v cursor >/dev/null 2>&1; then
+    CODE_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/Cursor"
+elif [ "${arch}" = "amd64" ]; then
+    CODE_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/VSCodium"
+else
+    CODE_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/vscode"
+fi
 
 # VSCodeのUserディレクトリの作成
 mkdir -p "${CODE_DIR}/User"
@@ -21,7 +27,7 @@ extensions_json() {
 
     if ! command -v code >/dev/null 1>&2; then
         echo "VScodeが存在しません。"
-        cp "${XDG_DATA_HOME:-$HOME/.local/share}/vscode/extensions.json" "${CODEX}"
+        cp "${FROM}/extensions.json" "${CODEX}"
     else
         # インストールされている拡張機能を"extensions.json"の形式で出力する
         echo '{"recommendations": [],"unwantedRecommendations":[]}' >"${CODEX}"
@@ -41,7 +47,7 @@ settings_json() {
     else
         echo "${SETTING_JSON}が存在しません。"
         mkdir -p "$(dirname "${SETTINGS_JSON}")"
-        cp "${XGD_DATA_HOME:-$HOME/.local/share}/vscode/user-data/User/settings.json" "${SETTINGS_JSON}"
+        cp "${FROM}/user-data/User/settings.json" "${SETTINGS_JSON}"
         echo "新しい${SETTING_JSON}を作成しました。"
     fi
     cat "${SETTINGS_JSON}"
@@ -57,7 +63,7 @@ keybindings_json() {
     else
         echo "${SEKEYBINDINGS_JSONTTING_JSON}が存在しません。"
         mkdir -p "$(dirname "${KEYBINDINGS_JSON}")"
-        cp "${XGD_DATA_HOME:-$HOME/.local/share}/vscode/user-data/User/keybindings.json" "${KEYBINDINGS_JSON}"
+        cp "${FROM}/user-data/User/keybindings.json" "${KEYBINDINGS_JSON}"
         echo "新しい${KEYBINDINGS_JSON}を作成しました。"
     fi
     cat "${KEYBINDINGS_JSON}"
@@ -70,4 +76,3 @@ main() {
 }
 
 main
-

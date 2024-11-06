@@ -39,12 +39,10 @@ if command -v docekr >/dev/null 2>&1; then
     ## 停止コンテナ、タグ無しイメージ、未使用ボリューム、未使用ネットワーク一括削除
     alias drm="docker system prune -af --volumes"
 
-    if command -v docekr compose >/dev/null 2>&1; then
-        alias dc="docker compose"
-        alias dcb="docker compose build"
-        alias dcu="docker compose up"
-        alias dcd="docker compose down"
-    fi
+    alias dc="docker compose"
+    alias dcb="docker compose build"
+    alias dcu="docker compose up"
+    alias dcd="docker compose down"
 fi
 
 ## brew

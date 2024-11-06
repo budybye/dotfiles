@@ -47,9 +47,9 @@ install_homebrew() {
             exit 1
         }
         echo "Homebrew のインストールが完了しました。"
+        echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zshenv
     fi
         echo "Homebrew は既にインストールされています。"
-        echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zshenv
         eval "$(/opt/homebrew/bin/brew shellenv)"
         echo "Homebrew の設定が完了しました。"
 }
@@ -79,12 +79,11 @@ install_rosetta() {
             echo "Rosetta 2 は既にインストールされています。"
         else
             echo "Rosetta 2 をインストールします。"
-            /usr/sbin/softwareupdate --install-rosetta --agree-to-license
-            if [ $? -eq 0 ]; then
-                echo "Rosetta 2 のインストールに成功しました。"
-            else
+            /usr/sbin/softwareupdate --install-rosetta --agree-to-license || {
                 echo "Rosetta 2 のインストールに失敗しました。"
-            fi
+                exit 1
+            }
+                echo "Rosetta 2 のインストールに成功しました。"
         fi
     else
         echo "Rosetta 2 は必要ありません (Intel Mac)。"

@@ -36,7 +36,7 @@ install_packages() {
         libfuse2 libssl-dev pkg-config apt-transport-https ca-certificates lsb-release libnss3-tools \
         libinput-tools libdb-dev libdb5.3-dev libgdbm-dev libgmp-dev libgmpxx4ldbl libgdbm-compat-dev rustc \
         libstd-rust-1.75 libstd-rust-dev libncurses5-dev libffi-dev libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev \
-        ffmpeg mpd mpc ncmpcpp net-tools nmap wireshark snapd ufw rsyslog im-config byobu ruby cargo || {
+        ffmpeg mpd mpc ncmpcpp net-tools nmap wireshark snapd ufw rsyslog im-config byobu ruby cargo golang || {
         echo "### apt のインストールに失敗しました。"
         exit 1
     }
@@ -282,14 +282,19 @@ install_github_desktop() {
 
 # Cursor をインストールする関数
 install_cursor() {
-    sudo wget https://github.com/coder/cursor-arm/releases/download/v0.42.2/cursor_0.42.2_linux_arm64.AppImage || {
-        echo "### cursor のダウンロードに失敗しました。"
-        exit 1
-    }
-    sudo chmod a+x cursor_0.42.2_linux_arm64.AppImage
-    mkdir -p ~/Applications
-    mv cursor_0.42.2_linux_arm64.AppImage ~/Applications/cursor
-    # mv cursor_0.42.2_linux_${arch}.AppImage ~/Applications/cursor_0.42.2_linux_${arch}.AppImage
+    mkdir -p "${HOME}/Applications"
+    if [ "${arch}" = "amd64" ]; then
+        curl -L https://downloader.cursor.sh/inulx -o "${HOME}/Applications"/cursor.AppImage || {
+            echo "### cursor のダウンロードに失敗しました。"
+            exit 1
+        }
+    else
+        curl -L https://github.com/coder/cursor-arm/releases/download/v0.42.2/cursor_0.42.2_linux_arm64.AppImage -o "${HOME}/Applications"/cursor.AppImage || {
+            echo "### cursor のダウンロードに失敗しました。"
+            exit 1
+        }
+    fi
+    sudo chmod a+x "${HOME}/Applications"/cursor.AppImage
     echo "### Cursor をインストールしました。"
 }
 
