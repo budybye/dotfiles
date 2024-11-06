@@ -1,8 +1,7 @@
 # シェルの設定
-# SHELL := bash
-# .RECIPEPREFIX = >
-# .ONESHELL:
-# .SHELLFLAGS := -eu -o pipefail -c
+SHELL := bash
+.ONESHELL:
+.SHELLFLAGS := -eu -o pipefail -c
 # エラーハンドリングの設定
 .DELETE_ON_ERROR:
 # Makeの警告とデフォルトルールの無効化
