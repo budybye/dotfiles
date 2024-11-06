@@ -125,13 +125,15 @@ Mise を使用してツールを管理します。
 ```sh
 # ツールをインストール
 mise use < tool@version >
+
 # インストールしたツールを確認
 mise ls
+
 # .mise.toml を信頼
 mise trust
 ```
 
-```sh:~/.config/mise/config.toml
+```toml:~/.config/mise/config.toml
 # mise の設定ファイル
 ./.mise.toml
 
@@ -189,21 +191,21 @@ zsh と bashで読み込まれます。
 
 ### starship
 
-```:~/.config/starship.toml
+```toml:~/.config/starship.toml
 # starship の設定ファイル
 ~/.config/starship.toml
 ```
 
 ### sheldon
 
-```:~/.config/sheldon/plugins.toml
+```toml:~/.config/sheldon/plugins.toml
 # sheldon のプラグインの設定ファイル
 ~/.config/sheldon/plugins.toml
 ```
 
 ### aqua
 
-```:~/.config/aquaproj-aqua/aqua.yaml
+```yaml:~/.config/aquaproj-aqua/aqua.yaml
 # aqua の設定ファイル
 ~/.config/aquaproj-aqua/aqua.yaml
 ```
@@ -246,7 +248,7 @@ zsh と bashで読み込まれます。
 
 ### tabby
 
-```:~/.config/tabby/config.yaml
+```yaml:~/.config/tabby/config.yaml
 # tabby の設定ファイル
 ~/.config/tabby/config.yaml
 ```
@@ -274,7 +276,7 @@ zsh と bashで読み込まれます。
 
 ### fusuma
 
-```:~/.config/fusuma/config.yml
+```yaml:~/.config/fusuma/config.yml
 # fusuma の設定ファイル
 ~/.config/fusuma/config.yml
 ```
@@ -302,6 +304,13 @@ zsh と bashで読み込まれます。
 
 ```:~/.local/share/backgrounds
 ~/.local/share/backgrounds
+```
+---
+
+### テーマ
+
+```:~/.local/share/themes
+~/.local/share/themes
 ```
 ---
 
