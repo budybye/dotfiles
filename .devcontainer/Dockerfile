@@ -19,7 +19,7 @@ EXPOSE 3389
 
 RUN systemctl enable xrdp && echo "xfce4-session" > ~/.xsession
 
-COPY ./dot_local/bin /usr/bin
+COPY ../dot_local/bin /usr/bin
 # COPY ./bin/setup.sh /usr/bin/
 # RUN mv /usr/bin/setbup.sh /usr/bin/setup.sh
 # RUN chmod +x /usr/bin/setup.sh
