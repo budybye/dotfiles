@@ -1,7 +1,7 @@
 # シェルの設定
-# SHELL := bash
+SHELL := bash
 # .RECIPEPREFIX = >
-.ONESHELL:
+# .ONESHELL:
 # .SHELLFLAGS := -eu -o pipefail -c
 # エラーハンドリングの設定
 .DELETE_ON_ERROR:
