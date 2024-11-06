@@ -33,13 +33,14 @@ jobs:
       - uses: docker/build-push-action@v5
         with:
           context: .
-          file: ./Dockerfile
+          file: .devcontainer/Dockerfile
           # platforms: ${{ matrix.platforms }}
           push: true
           tags: ghcr.io/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ github.ref_name }}
 
       - name: docker compose test
         run: |
+          cd .devcontainer
           docker compose up -d
           docker logs ipfs
           docker ps -a
@@ -50,14 +51,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: setup
+      - name: make
         run: make sense
 
+      - name: ssh
+        run: make keygen
   mac-test:
     runs-on: macos-14
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: setup
+      - name: make
         run: make sense

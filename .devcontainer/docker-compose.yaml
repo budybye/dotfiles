@@ -22,7 +22,7 @@ services:
     ports:
       - 4001:4001
       - 8080:8080
-      - 5001:5001
+      - 5001:5001 # http://localhost:5001/webui
     volumes:
       - ./data/ipfs:/home/ubuntu/.config/ipfs
       - ./data/ipfs:/export
@@ -30,7 +30,7 @@ services:
     environment:
       IPFS_PROFILE: server # server modeで起動
       IPFS_PATH: /home/ubuntu/.config/ipfs
-    # command: ipfs init && ipfs daemon
+    # command: ipfs daemon
     restart: always
 
   portainer:
@@ -40,7 +40,7 @@ services:
       - app-network
     ports:
       - 8000:8000
-      - 9443:9443
+      - 9443:9443 # http://localhost:9443
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./data/portainer:/data

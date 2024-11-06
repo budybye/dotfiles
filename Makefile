@@ -56,6 +56,7 @@ keygen:
 	$(call run_script,Keygen,$(KEYGEN_SCRIPT))
 code:
 	$(call run_script,Code,$(CODE_SCRIPT))
+# chezmoi に変更またはWindowsに変更
 link:
 	$(call run_script,Link,$(LINK_SCRIPT))
 init:

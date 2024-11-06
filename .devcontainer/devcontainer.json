@@ -5,7 +5,7 @@
     "workspaceFolder": "/workspace",
     "remoteUser": "vscode",
     "shutdownAction": "stopCompose",
-    "forwardPorts": [3000, 4000],
+    "forwardPorts": [3000, 4000, 9443, 3389, 8787, 8080, 4001, 5001, 80],
     "postCreateCommand": "sudo apt-get update && sudo apt-get install -y curl git",
     "remoteEnv": {
       "GIT_USER": "budybye"
