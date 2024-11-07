@@ -6,11 +6,11 @@ v.0.1.1
 
 ## 概要
 
-このリポジトリは、**Dotfiles** の管理を目的としています。様々なツールや設定ファイルを統合し、効率的な開発環境を構築します。
+- このリポジトリは、**Dotfiles** の管理を目的としています。様々なツールや設定ファイルを統合し、効率的な開発環境を構築します。
 
-MacOS14 と Ubuntu 24.04 で Github Actions で chezmoi をインストールしてテストして、Dotfiles を管理します。
+- MacOS Sonoma と Ubuntu 24.04 で Github Actions で chezmoi をインストールしてテストして、Dotfiles を管理します。
 
-今後は arch64 と Windows でも WSL2 と Windows 用の設定ファイルを追加で管理します。
+- 今後は arch64 と Windows でも WSL2 と Windows 用の設定ファイルを追加で管理します。
 
 ## 目次
 
@@ -146,16 +146,27 @@ XDG Base Directory Specification に基づくディレクトリの設定を行�
 ### 4. Github Actions でテスト
 
 ```mermaid
-flowchart LR
-    Docker[Docker]
-        docker build -t ubuntu-xrdp .
-            docker push ubuntu-xrdp
-    MacOS[MacOS]
-        make init
-    Ubuntu[Ubuntu]
-        make init
-    Windows[Windows]
-        make init
+flowchart TD
+    A[ドットファイル管理] --> B[Chezmoi]
+    A --> C[Make]
+    A --> D[Docker]
+    A --> E[Multipass]
+    
+    B --> B1[初期化]
+    B1 --> B2[設定ファイルを適用]
+    B2 --> B3[環境変数を管理]
+    
+    C --> C1[Makefileを使用]
+    C1 --> C2[シェルスクリプトを実行]
+    C2 --> C3[環境ごとの設定を管理]
+    
+    D --> D1[Dockerイメージをビルド]
+    D1 --> D2[コンテナを起動]
+    D2 --> D3[環境を構築]
+    
+    E --> E1[MultipassでVMを起動]
+    E1 --> E2[cloud-initを使用]
+    E2 --> E3[カスタマイズされた環境を構築]
 ```
   
 | OS         | 管理方法               | コメント                           |
@@ -174,7 +185,7 @@ flowchart LR
 
 ## Chezmoi の使用
 
-Chezmoi を使用して Dotfiles を管理します。
+### Chezmoi を使用して Dotfiles を管理します。
 
 ```sh
 # 初期化
@@ -201,7 +212,8 @@ chezmoi chattr < Filename >
 ---
 
 ## Makefile
-Makefile でシェルスクリプトを管理します。
+
+### Makefile でシェルスクリプトを管理します。
 
 ```sh
 # 環境ごとに分けたシェルスクリプトを実行
@@ -238,12 +250,13 @@ init:
 ---
 
 ## Github Actions
-Main Branch に Push されたときにテストします。
-Github Actions を使用すると様々なOSでテストできます。
-Docker 製の action を使用して image を build して push できます。
-やろうと思えば arm64 や windows でもテストできるかもしれません。
 
-test.yaml でテスト
+- Main Branch に Push されたときにテストします。
+- Github Actions を使用すると様々なOSでテストできます。
+- Docker 製の action を使用して image を build して push できます。
+- やろうと思えば arm64 や windows でもテストできるかもしれません。
+
+### test.yaml でテスト
 
 ```yaml:.github/workflows/.test.yaml
 
@@ -279,16 +292,18 @@ jobs:
 
 ## Mise の使用
 
-Mise を使用してツールを管理します。
+### Mise を使用してツールを管理します。
 
 ```sh
 # ツールをインストール
 mise use < tool@version >
+# global にインストール
+mise use -g < tool@version >
 
 # インストールしたツールを確認
 mise ls
 
-# .mise.toml を信頼
+# .mise.toml の指定ファイルを信頼
 mise trust
 ```
 
@@ -297,26 +312,37 @@ mise trust
 - `use`: 特定のツールとバージョンを使用します。
 - `ls`: インストールされているツールの一覧を表示します。
 - `trust`: 信頼できるリポジトリを設定します。
+- `.mise.toml`: Mise の設定ファイル
+
+[Mise](https://mise.jdx.dev/)
 
 ---
 
 ## 環境変数
 
-設定ファイルを作成
+### 設定ファイルを作成
+
 ```sh
 touch ./.mise.toml
 
 touch ./.env
 ```
-./.env に環境変数を記述
-```sh:.env
-export VAR=hoge
+
+### ./.env に環境変数を記述
+
+```sh
+# .gitignore で.env ファイルを除外
+
+# .env 例
+export GITHUB_AUTHOR_NAME=budybye
 ```
-./.mise.toml で読み込むファイル名を指定
+
+### ./.mise.toml で読み込むファイル名を指定
+
 ```toml:./.mise.toml
+...
 [env]
 '_'.file = ".env*"
-
 ```
 現在のディレクトリを信頼してファイルを読み込み
 ```
@@ -326,23 +352,19 @@ echo $VAR
 
 # 出力 hoge
 ```
-# .gitignore で.env ファイルを除外
-
-# .env 例
-export GITHUB_AUTHOR_NAME=budybye
-```
 
 ### 説明
 
-`.env` に必要な環境変数を設定します。
-~/.config/mise/config.toml で自動で読み込む(mise trust と同じ)ファイル名を指定できます。
+- `.env` に必要な環境変数を設定します。
+- ~/.config/mise/config.toml で自動で読み込む(mise trust と同じ)ファイル名を指定できます。
 
 ---
 
 ## Docker の使用
-Dockerfile で Ubuntu のイメージをビルドしてプッシュ
-Docker コンテナ内で xrdp と xfce を使用した Ubuntu 環境を構築
-devcontainer で使用
+
+- Dockerfile で Ubuntu のイメージをビルドしてプッシュ
+- Docker コンテナ内で xrdp と xfce を使用した Ubuntu 環境を構築
+- devcontainer で使用
 
 ```sh
 # コンテナをビルド
@@ -359,7 +381,8 @@ docker compose exec ubuntu /bin/bash
 ---
 
 ## Multipass の使用
-Multipass で cloud-init を使用して Ubuntu を起動
+
+### Multipass で cloud-init を使用して Ubuntu を起動
 
 ```sh
 # オプションでカスタマイズ
