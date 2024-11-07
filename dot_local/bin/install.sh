@@ -236,4 +236,4 @@ main() {
 }
 
 # スクリプトを実行
-time main
+main
