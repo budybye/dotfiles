@@ -5,8 +5,9 @@
 	required = true
 
 # [user]
-# name = namae
-# email = address@gmail.com
+#	name = budybye
+#	email = 101wayout@gmail.com
+#	useConfigOnly = true
 
 # user.confからユーザー情報を読み込む
 [include]
@@ -32,7 +33,7 @@
 	conf = config --global
 	hist = log --pretty=format:\"%C(cyan)%h %C(green)%ad%Creset | %s %C(yellow)%d %C(magenta)[%an]\" --graph --date=short
 	bit = add -A && commit --allow-empty-message -m "" && push origin $(git branch | sed -n -e "s/^\* \(.*\)/\1/p")
-
+	
 [blame]
 	coloring = highlightRecent
 
@@ -88,11 +89,6 @@
 
 [tag]
 	foreSignAnnotated = true
-
-[user]
-	name = budybye
-	email = 101wayout@gmail.com
-	#useConfigOnly = true
 
 [delta]
 	line-numbers = true

@@ -6,45 +6,30 @@ v.0.1.1
 
 ## 概要
 
-#### このリポジトリは、**Dotfiles** の管理を目的としています。様々なツールや設定ファイルを統合し、効率的な開発環境を構築します。
+このリポジトリは、**Dotfiles** の管理を目的としています。様々なツールや設定ファイルを統合し、効率的な開発環境を構築します。
 
-#### MacOS と Ubuntu 24.04 で Github Actions で chezmoi をインストールしてテストして、Dotfiles を管理します。
+MacOS14 と Ubuntu 24.04 で Github Actions で chezmoi をインストールしてテストして、Dotfiles を管理します。
 
-今後は Windows でも WSL2 と Windows 用の設定ファイルを追加で管理します。
-
+今後は arch64 と Windows でも WSL2 と Windows 用の設定ファイルを追加で管理します。
 
 ## 目次
 
 1. [XDG ディレクトリ構成](#xdg-ディレクトリ構成)
-2. [環境設定](#環境設定)
-3. [Chezmoi の使用](#chezmoi-の使用)
-4. [Mise の使用](#mise-の使用)
-5. [シェル設定](#シェル設定)
-6. [エイリアス設定](#エイリアス設定)
-7. [各種設定ファイル](#各種設定ファイル)
-8. [Docker と xrdp の設定](#docker-と-xrdp-の設定)
+2. [OS差異](#os差異)
+3. [Chezmoi](#chezmoi)
+4. [Makefile](#Makefile)
+5. [Github Actions](#github-actions)
+6. [Mise](#mise)
+7. [環境変数](#環境変数)
+8. [Docker](#docker)
+9. [Multipass](#multipass)
 
 ---
 
 ## XDG ディレクトリ構成
 
-XDG Base Directory Specification に基づくディレクトリの設定を行います。
-
-```:~/.profile/
-XDG_CONFIG_HOME=${HOME}/.config
-
-XDG_DATA_HOME=${HOME}/.local/share
-
-XDG_CACHE_HOME=${HOME}/.cache
-
-XDG_STATE_HOME=${HOME}/.local/state
-XDG_DATA_DIRS=/usr/local/share:/usr/share:${HOME}/data
-XDG_CONFIG_DIRS=/etc/xdg
-
-...
-```
-
 ### XDG Base Directory Specification
+XDG Base Directory Specification に基づくディレクトリの設定を行います。
 
 - **XDG_CONFIG_HOME**: ユーザー固有の設定ファイルの格納先。
 - **XDG_DATA_HOME**: ユーザー固有のデータファイルの格納先。
@@ -53,40 +38,137 @@ XDG_CONFIG_DIRS=/etc/xdg
 - **XDG_DATA_DIRS**: システム全体のデータファイルの検索パス。
 - **XDG_CONFIG_DIRS**: システム全体の設定ファイルの検索パス。
 
+
+```tree:~/
+~/
+├── .config                         # XDG ディレクトリ構成に基づく設定ファイル
+│   ├── vscode                     
+│   │   ├── extensions.json         # VSCode の拡張機能の設定ファイル
+│   │   └── User
+│   │       ├── setting.json        # VSCode の設定ファイル
+│   │       └── keybindings.json    # VSCode のキーバインド設定ファイル
+│   ├── git                         
+│   │   ├── config                  # Git の設定ファイル
+│   │   ├── ignore                  # Git の無視ファイルの設定ファイル
+│   │   ├── commit.template         # Git のコミットメッセージのテンプレート
+│   │   └── user.conf               # Git のユーザー設定ファイル
+│   ├── mise                        
+│   │   └── config.toml             # mise の設定ファイル
+│   ├── chezmoi                     
+│   │   └── config.yaml             # chezmoi の設定ファイル
+│   ├── sheldon                    
+│   │   └── plugins.toml            # sheldon のプラグインの設定ファイル
+│   ├── aquaproj-aqua              
+│   │   └── aqua.yaml               # aqua の設定ファイル
+│   ├── byobu                      
+│   │   └── .tmux.conf              # byobu の設定ファイル
+│   ├── tabby                       
+│   │   └── config.yaml             # tabby の設定ファイル
+│   ├── vim                        
+│   │   └── vimrc                   # vim の設定ファイル
+│   ├── fcitx5                      
+│   │   └── config                  # fcitx5 の設定ファイル
+│   ├── fusuma                      
+│   │   └── config.yml              # fusuma の設定ファイル
+│   ├── neofetch                    
+│   │   └── config.conf             # neofetch の設定ファイル
+│   ├── fish
+│   │   └── config.fish             # fish の設定ファイル
+│   ├── mpd
+│   │   └── mpd.conf                # mpd の設定ファイル
+│   ├── ncmpcpp
+│   │   └── config                  # ncmpcpp の設定ファイル
+│   ├── .editorconfig               # editorconfig の設定ファイル
+│   ├── Brewfile                    # Brewfile
+│   └── starship.toml               # starship の設定ファイル
+├── .local                          # ローカルユーザーディレクトリ
+│   ├── share
+│   │   ├── fonts                   # フォントのディレクトリ
+│   │   ├── backgrounds             # 壁紙のディレクトリ
+│   │   └── themes                  # テーマのディレクトリ
+│   └── bin
+│       ├── init.sh                 # Chezmoi の初期化スクリプト make init
+│       ├── install.sh              # Ubuntu のインストールスクリプト make install
+│       ├── setup.sh                # Ubuntu のセットアップスクリプト make setup
+│       ├── bootstrap.sh            # MacOS のブートストラップスクリプト make bootstrap
+│       ├── defaults.sh             # MacOS のデフォルトスクリプト make defaults
+│       └── codex.sh                # VSCode のスクリプト make code
+├── .devcontainer                   
+│    ├── .devcontainer.json         # devcontainer の設定ファイル
+│    ├── Dockerfile                 # Dockerfile
+│    └── docker-compose.yaml        # docker-compose の設定ファイル
+├── .github                         
+│    └── workflows                 
+│       └── .test.yaml              # Github Actions のテストの設定ファイル
+├── .profile                        # ログインシェルに共通で読み込まれるファイル
+├── .aliases                        # エイリアスの設定ファイル
+├── .zshrc                          # zsh の設定ファイル
+├── .zshenv                         # zsh の環境変数
+├── .bashrc                         # bash の設定ファイル
+├── .bash_profile                   # bash の環境変数
+├── .Makefile                       # Make で シェルスクリプトを設定管理 make sense
+├── .mise.toml                      # mise の設定ファイル .env を読み込む
+├── .env                            # 環境変数の設定ファイル
+├── .chezmoiignore                  # chezmoi の除外ファイル
+├── data                            # データのディレクトリ
+├── multipass.yaml                  # Multipass のcloud-init ファイル
+├── Applications                    # AppImage 系のディレクトリ
+├── etc...                          # その他
+```
+
+- **シェル設定**: ログインシェルやインタラクティブシェルで読み込まれるファイル。
+- **Makefile**: Makefile で シェルスクリプトを設定管理。
+- **.local/bin**: 初期設定用などのシェルスクリプトを格納するディレクトリ。
+- **.devcontainer**: docker, devcontainer使用する設定ファイル。
+- **.github**: Github Actions の設定ファイル。OS 差異のテスト用やイメージビルド用。
+- **~/.config**: 様々なツールやアプリケーションの設定を管理するためのファイル。
+- **.local/share**: ユーザーがインストールしたフォントや壁紙などの共有リソースを格納するディレクトリ。
+
 ---
 
-## 環境設定
+## OS差異
 
-設定ファイルを作成
-```sh
-touch ./.mise.toml
-touch ./.env
-```
-./.env に環境変数を記述
-```sh:./.env
-export VAR=hoge
-```
-./.mise.toml で読み込むファイル名を指定
-```toml:./.mise.toml
-[env]
-'_'.file = ".env"
+### 1. Chezmoiの活用
 
-```
-現在のディレクトリを信頼してファイルを読み込み
-```
-mise trust
-echo $VAR
-# 環境変数が反映される
-hoge
-```
-./.gitignore でファイルを除外
-```txt:./.gitignore
-.env
-```
+- [ ] **クロスプラットフォーム対応**: macOS、Linux、Windows間でドットファイルを同期
+- [ ] **セキュリティ**: シークレットファイルを暗号化して管理
+- [ ] **テンプレート機能**: 環境ごとの設定を柔軟にカスタマイズ
 
-### 説明
+### 2. Makeとの併用
 
-`.env` ファイルを作成し、必要な環境変数を設定します。
+- [ ] **特定の設定やスクリプトの自動化**: Makefileを使用
+- [ ] **Chezmoiとの連携**: ドットファイルの管理はChezmoiに任せる
+
+### 3. .devcontainerとの統合
+
+- [ ] **Dev Containers内でChezmoiを使用**: コンテナ起動時に自動的にドットファイルを適用
+
+### 4. Github Actions でテスト
+
+```mermaid
+flowchart LR
+    Docker[Docker]
+        docker build -t ubuntu-xrdp .
+            docker push ubuntu-xrdp
+    MacOS[MacOS]
+        make init
+    Ubuntu[Ubuntu]
+        make init
+    Windows[Windows]
+        make init
+```
+  
+| OS         | 管理方法               | コメント                           |
+|------------|-----------------------|------------------------------------|
+| macOS      | Make                  | スクリプトの実行や環境設定に適している |
+| Ubuntu     | Make                  | 同上                               |
+| Windows    | Chezmoi               | Windows特有の設定を管理するのに適している |
+
+| メリット | デメリット |
+|----------|-------------|
+| 一貫性のある開発環境 | 学習コストがかかる |
+| 環境の再現性 | リソースの消費 |
+| 依存関係の管理 | 複雑性の増加 |
 
 ---
 
@@ -118,6 +200,83 @@ chezmoi chattr < Filename >
 
 ---
 
+## Makefile
+Makefile でシェルスクリプトを管理します。
+
+```sh
+# 環境ごとに分けたシェルスクリプトを実行
+make sense
+
+# シェルスクリプトを実行
+make install
+make bootstrap
+make setup
+make init
+```
+
+```Makefile:.Makefile
+ifeq ($(OS),Darwin  )
+    # MacOS の場合
+    sense: init bootstrap
+else ifeq ($(OS),Linux)
+    # Ubuntu の場合
+    sense: init install setup
+endif
+
+# 環境ごとに分けたシェルスクリプトを指定
+install:
+    sh $(HOME)/.local/bin/install.sh
+bootstrap:
+    sh $(HOME)/.local/bin/bootstrap.sh
+setup:
+    sh $(HOME)/.local/bin/setup.sh
+init:
+    curl -sfL https://git.io/chezmoi | sh -s -- init --apply -S .
+...
+```
+
+---
+
+## Github Actions
+Main Branch に Push されたときにテストします。
+Github Actions を使用すると様々なOSでテストできます。
+Docker 製の action を使用して image を build して push できます。
+やろうと思えば arm64 や windows でもテストできるかもしれません。
+
+test.yaml でテスト
+
+```yaml:.github/workflows/.test.yaml
+
+jobs:
+  # ubuntu 24.04 でテスト
+  ubuntu:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      # make 経由でシェルスクリプトを実行
+      - run: make sense
+    ...
+  # macos sonoma でテスト
+  macos:
+    runs-on: macos-14
+    ...
+  # docker でテスト
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      # docker製のアクションを使用
+      - uses: docker/login-action@v3
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/setup-qemu-action@v3 # クロスプラットフォーム対応 遅い？
+      - uses: docker/build-push-action@v5
+    ...
+  # windows でテスト
+  windows:
+    runs-on: windows-latest
+    ...
+```
+---
+
 ## Mise の使用
 
 Mise を使用してツールを管理します。
@@ -141,99 +300,67 @@ mise trust
 
 ---
 
+## 環境変数
+
+設定ファイルを作成
+```sh
+touch ./.mise.toml
+
+touch ./.env
+```
+./.env に環境変数を記述
+```sh:.env
+export VAR=hoge
+```
+./.mise.toml で読み込むファイル名を指定
+```toml:./.mise.toml
+[env]
+'_'.file = ".env*"
 
 ```
-~/
-├── multipass.yaml                  # Multipass のcloud-init ファイル
-├── .chezmoiignore                  # chezmoi の除外ファイル
-├── .zshrc                          # zsh の設定ファイル
-├── .zshenv                         # zsh の環境変数
-├── .profile                        # ログインシェルに共通で読み込まれるファイル
-├── .bashrc                         # bash の設定ファイル
-├── .bash_profile                   # bash の環境変数
-├── .aliases                        # エイリアスの設定ファイル
-├── .Makefile                       # Make で シェルスクリプトを設定管理 make sense
-├── .mise.toml                      # mise の設定ファイル .env を読み込む
-├── .env                            # 環境変数の設定ファイル
-├── .config                         # XDG ディレクトリ構成に基づく設定ファイル
-│   ├── .editorconfig               # editorconfig の設定ファイル
-│   ├── Brewfile                    # Brewfile
-│   ├── starship.toml               # starship の設定ファイル
-│   ├── sheldon                    
-│   │   └── plugins.toml            # sheldon のプラグインの設定ファイル
-│   ├── aquaproj-aqua              
-│   │   └── aqua.yaml               # aqua の設定ファイル
-│   ├── byobu                      
-│   │   └── .tmux.conf              # byobu の設定ファイル
-│   ├── vscode                     
-│   │   ├── extensions.json         # VSCode の拡張機能の設定ファイル
-│   │   ├── User
-│   │   │   ├── setting.json        # VSCode の設定ファイル
-│   │   │   └── keybindings.json    # VSCode のキーバインド設定ファイル
-│   ├── git                         
-│   │   ├── config                  # Git の設定ファイル
-│   │   ├── ignore                  # Git の無視ファイルの設定ファイル
-│   │   ├── commit.template         # Git のコミットメッセージのテンプレート
-│   │   └── user.conf               # Git のユーザー設定ファイル
-│   ├── tabby                       
-│   │   └── config.yaml             # tabby の設定ファイル
-│   ├── vim                        
-│   │   └── vimrc                   # vim の設定ファイル
-│   ├── fcitx5                      
-│   │   └── config                  # fcitx5 の設定ファイル
-│   ├── fusuma                      
-│   │   └── config.yml              # fusuma の設定ファイル
-│   ├── neofetch                    
-│   │   └── config.conf             # neofetch の設定ファイル
-│   ├── fish
-│   │   └── config.fish             # fish の設定ファイル
-│   ├── mpd
-│   │   └── mpd.conf                # mpd の設定ファイル
-│   └── ncmpcpp
-│       └── config                  # ncmpcpp の設定ファイル
-│   
-├── .local                          # ローカルユーザーディレクトリ
-│   ├── share
-│   │   ├── fonts                   # フォントのディレクトリ
-│   │   ├── backgrounds             # 壁紙のディレクトリ
-│   │   └── themes                  # テーマのディレクトリ
-│   └── bin
-│       ├── init.sh                 # Chezmoi の初期化スクリプト make init
-│       ├── install.sh              # Ubuntu のインストールスクリプト make install
-│       ├── setup.sh                # Ubuntu のセットアップスクリプト make setup
-│       ├── bootstrap.sh            # MacOS のブートストラップスクリプト make bootstrap
-│       ├── defaults.sh             # MacOS のデフォルトスクリプト make defaults
-│       └── codex.sh                # VSCode のスクリプト make code
-│
-├── .devcontainer                   
-│    ├── .devcontainer.json         # devcontainer の設定ファイル
-│    ├── Dockerfile                 # Dockerfile
-│    └── docker-compose.yaml        # docker-compose の設定ファイル
-│
-├── .github                         
-│    ├── workflows                 
-│    └── .test.yaml                 # Github Actions のテストの設定ファイル
-├── data                            # データのディレクトリ
-├── etc...                          # その他
+現在のディレクトリを信頼してファイルを読み込み
+```
+# 環境変数が反映される
+mise trust
+echo $VAR
+
+# 出力 hoge
+```
+# .gitignore で.env ファイルを除外
+
+# .env 例
+export GITHUB_AUTHOR_NAME=budybye
 ```
 
-## コメント
+### 説明
 
-- **シェル設定**: シェルの動作や環境を設定するためのファイル群。
-- **エイリアス設定**: よく使うコマンドの短縮形を定義するファイル。
-- **各種設定ファイル**: 様々なツールやアプリケーションの設定を管理するためのファイル。
-- **.local/share**: ユーザーがインストールしたフォントや壁紙などの共有リソースを格納するディレクトリ。
-
-このツリー構造を参考に、ドットファイルの管理を行うことで、環境の一貫性を保ちながら効率的に作業を進めることができます。
+`.env` に必要な環境変数を設定します。
+~/.config/mise/config.toml で自動で読み込む(mise trust と同じ)ファイル名を指定できます。
 
 ---
 
-## Docker と Multipass の設定
-Dockerfile, cloud-init の仮想環境で
-xrdp で接続できる Ubuntu Desktop 環境の設定
+## Docker の使用
+Dockerfile で Ubuntu のイメージをビルドしてプッシュ
+Docker コンテナ内で xrdp と xfce を使用した Ubuntu 環境を構築
+devcontainer で使用
 
-### Multipass の cloud-init
+```sh
+# コンテナをビルド
+docker build -t ubuntu-xrdp .
+# イメージをプッシュ
+docker push ubuntu-xrdp
+
+# コンテナを起動
+docker compose up -d
+# コンテナ内に入る
+docker compose exec ubuntu /bin/bash
+```
+
+---
+
+## Multipass の使用
 Multipass で cloud-init を使用して Ubuntu を起動
+
 ```sh
 # オプションでカスタマイズ
 # -n VM 名
@@ -252,18 +379,4 @@ multipass launch \
     --timeout 3600 \
     --mount ${HOME}/data:/home/ubuntu/mount \
     --cloud-init ${HOME}/multipass.yaml
-```
-
-### xrdp と Docker の設定
-Docker コンテナ内で xrdp と xfce を使用した Ubuntu 環境を構築
-```sh
-# コンテナをビルド
-docker build -t ubuntu-xrdp .
-# イメージをプッシュ
-docker push ubuntu-xrdp
-
-# コンテナを起動
-docker compose up -d
-# コンテナ内に入る
-docker compose exec ubuntu /bin/bash
 ```
