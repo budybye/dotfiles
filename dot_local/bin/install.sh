@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -ex
+set -x
 
 # ユーザー名を動的に取得
 USER_NAME=${SUDO_USER:-$(whoami)}
