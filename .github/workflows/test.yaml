@@ -43,6 +43,11 @@ jobs:
           docker logs ipfs
           docker ps -a
           docker compose down
+      
+      - uses: anderssonPeter/cloud-init-linter@v1
+        with:
+          files:
+            ./multipass.yaml 
 
   ubuntu-test:
     runs-on: ubuntu-24.04
