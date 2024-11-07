@@ -37,8 +37,8 @@ extensions_json() {
         echo "新しい ${CODEX} を作成しました。"
     else
         # インストールされている拡張機能を"extensions.json"の形式で出力する
-        sudo echo '{"recommendations": [],"unwantedRecommendations":[]}' >"${CODEX}"
-        sudo "${CODE_CMD}" --list-extensions | xargs -I {} sh -c "jq '.recommendations += [\"{}\"]' ${CODEX} > temp && mv temp ${CODEX}"
+        echo '{"recommendations": [],"unwantedRecommendations":[]}' | sudo tee "${CODEX}" > /dev/null
+        sudo "${CODE_CMD}" --list-extensions | xargs -I {} sh -c "jq '.recommendations += [\"{}\"]' ${CODEX} | sudo tee temp > /dev/null && sudo mv temp ${CODEX}"
         echo '拡張機能の更新が完了しました!'
     fi
     cat "${CODEX}"
