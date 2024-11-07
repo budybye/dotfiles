@@ -16,9 +16,10 @@ desktop_setup() {
         echo "### デスクトップ環境のインストールに失敗しました。"
         exit 1
     }
-    sudo apt-get autoremove -y &&
-        sudo apt-get clean &&
-            sudo rm -rf /var/cache/apt /var/lib/apt/lists/*
+    # sudo apt-get remove -y light-locker xscreensaver &&
+        sudo apt-get autoremove -y &&
+            sudo apt-get clean &&
+                sudo rm -rf /var/cache/apt /var/lib/apt/lists/*
 
     echo "### デスクトップ環境のインストールが完了しました。"
 }
@@ -144,7 +145,7 @@ install_github_desktop() {
 
 # Cursor をインストールする関数
 install_cursor() {
-    appimage="${HOME}/Applications/cursor.AppImage"
+    appimage="${HOME}/Applications/cursor"
     mkdir -p "${HOME}/Applications"
     if [ "${arch}" = "amd64" ]; then
         curl -L https://downloader.cursor.sh/inulx -o "${appimage}" || {

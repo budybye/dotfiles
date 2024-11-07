@@ -41,10 +41,9 @@ install_packages() {
         echo "### apt のインストールに失敗しました。"
         exit 1
     }
-    sudo apt-get remove -y light-locker xscreensaver &&
-        sudo apt-get autoremove -y &&
-            sudo apt-get clean &&
-                sudo rm -rf /var/cache/apt /var/lib/apt/lists/*
+    sudo apt-get autoremove -y &&
+        sudo apt-get clean &&
+            sudo rm -rf /var/cache/apt /var/lib/apt/lists/*
 
     echo "### 必要なパッケージがインストールされました。"
 }
