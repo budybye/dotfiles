@@ -15,7 +15,7 @@
 
 - **対応OS**: MacOS Sonoma、Ubuntu 24.04
 - **テスト**: GitHub Actionsを使用して、さまざまなOSでの動作を確認しています。
-- **今後の計画**: arch64 と Windows でも WSL2 と Windows 用の設定ファイルを追加で管理する予定です。
+- **今後の計画**: arm64 互換と Windows でも WSL2 と Windows 用の設定ファイルを追加で管理する予定です。
 
 
 ## 目次
