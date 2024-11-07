@@ -1,7 +1,6 @@
 cask_args appdir: "/Applications"
 
 tap "homebrew/bundle"
-tap "homebrew/services"
 tap "progrhyme/tap"
 tap "sidneys/homebrew"
 
