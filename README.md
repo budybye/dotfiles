@@ -337,10 +337,9 @@ touch ./.env
 ### ./.env に環境変数を記述
 
 ```sh
-# .gitignore で.env ファイルを除外
-
 # .env 例
 export GITHUB_AUTHOR_NAME=budybye
+# .gitignore で.env ファイルを除外
 ```
 
 ### ./.mise.toml で読み込むファイル名を指定
@@ -500,3 +499,8 @@ multipass launch \
 - [roboto mono nerd font jp](https://github.com/yuru7/RobotoMonoNerdFontJP)
 - [hackgen nerd font](https://github.com/yuru7/HackGenNerdFont)
 - [reggae one font](https://fonts.google.com/specimen/Reggae+One)
+- [ansible](https://docs.ansible.com/)
+- [proxmox](https://www.proxmox.com/en/)
+- [vagrant](https://developer.hashicorp.com/vagrant/docs)
+- [flatpak](https://flatpak.org/)
+- [packer](https://developer.hashicorp.com/packer/docs)
