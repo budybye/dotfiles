@@ -1,5 +1,17 @@
 {{if eq .chezmoi.os "darwin"}}
+    .config/fusuma
+    .config/VSCodium
+    .config/fcitx5
+    .local/bin/install.sh
+    .local/bin/setup.sh
+{{- end}}
 
+{{if eq .chezmoi.os "linux"}}
+    .config/Brewfile*
+    .config/vscode
+    .config/karabiner
+    .local/bin/bootstrap.sh
+    .local/bin/defaults.sh
 {{- end}}
 
 README.md
@@ -11,4 +23,4 @@ Makefile
 .github
 
 .mise.toml
-.env*
+.env
