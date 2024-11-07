@@ -27,8 +27,7 @@ set -o correct              # 入力間違えしていたら、候補を出す�
 autoload -Uz colors && colors
 
 # enable completion
-# autoload -Uz compinit && compinit
-; compinit -d "${XDG_CACHE_HOME}/zsh/zcompdump-${ZSH_VERSION}"
+# autoload -Uz compinit && compinit -d "${XDG_CACHE_HOME}/zsh/zcompdump-${ZSH_VERSION}"
 
 zstyle ':completion:*' cache-path "${XDG_CACHE_HOME}/zsh/zcompcache"
 
