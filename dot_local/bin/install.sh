@@ -224,7 +224,7 @@ main() {
     install_go_aqua
     install_cargo_tools
     install_mkcert
-    git_setup
+    # git_setup
     echo "### インストールが完了しました。再起動してください。"
     neofetch
 }
