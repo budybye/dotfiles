@@ -4,14 +4,14 @@
 	process = git-lfs filter-process
 	required = true
 
-# [user]
-#	name = budybye
-#	email = 101wayout@gmail.com
+[user]
+	name = budybye
+	email = 101wayout@gmail.com
 #	useConfigOnly = true
 
 # user.confからユーザー情報を読み込む
-[include]
-	path = ~/.config/git/user.conf
+# [include]
+# 	path = ~/.config/git/user.conf
 
 [alias]
 	s = status
@@ -103,9 +103,9 @@
 [branch]
 	autosetuprebase = always
 
-[remote "origin"]
-	url = https://github.com/budybye/dotfiles.git
-	fetch = +refs/heads/*:refs/remotes/origin/*
+; [remote "origin"]
+; 	url = https://github.com/budybye/dotfiles.git
+; 	fetch = +refs/heads/*:refs/remotes/origin/*
 
 [credential "https://github.com"]
 	helper = !/usr/bin/gh auth git-credential

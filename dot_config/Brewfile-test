@@ -30,7 +30,6 @@ brew "ripgrep"
 brew "sheldon"
 brew "starship"
 brew "tree"
-brew "aquaproj/aqua/aqua"
 
 cask "appcleaner"
 cask "betterdisplay"
