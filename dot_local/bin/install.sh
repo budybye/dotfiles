@@ -54,19 +54,25 @@ install_docker_compose() {
     COMPOSE_URL="https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)"
 
     # Docker Compose のバイナリをダウンロード
-    sudo curl -L "$COMPOSE_URL" -o /usr/local/bin/docker-compose
+    sudo curl -L "$COMPOSE_URL" -o /usr/local/bin/docker-compose || {
+        echo "### Docker Compose のダウンロードに失敗しました。"
+        exit 1
+    }
     sudo chmod +x /usr/local/bin/docker-compose
     echo "### Docker Compose をインストールしました。バージョン: ${COMPOSE_VERSION}"
 
     # シンボリックリンクを作成（必要に応じて）
     if ! command -v docker-compose >/dev/null 2>&1; then
-        sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+        sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose || {
+            echo "### Docker Compose のシンボリックリンクの作成に失敗しました。"
+            exit 1
+        }
     fi
 
     # インストール確認
     if command -v docker-compose >/dev/null 2>&1; then
         echo "### Docker Compose のインストールが確認されました。"
-        which docker compose
+        which docker-compose
     else
         echo "### Docker Compose のインストールに失敗しました。"
         exit 1
@@ -92,7 +98,7 @@ install_docker() {
         exit 1
     }
     echo "### Docker Engine をインストールしました。"
-
+    sudo chmod 666 /var/run/docker.sock
     # 現在のユーザーを docker グループに追加
     sudo groupadd -f docker
     sudo usermod -aG docker "$USER_NAME"
@@ -102,9 +108,8 @@ install_docker() {
     sudo systemctl enable docker
     sudo systemctl start docker
     echo "### Docker サービスを開始および有効化しました。"
+    docker info
     which docker
-    # Docker Compose のインストール
-    install_docker_compose
 }
 
 # mise でインストールする関数
@@ -128,7 +133,7 @@ install_mise() {
     mise activate zsh
     # mise activate --shims
 
-    mise use chezmoi bun -y || {
+    mise use chezmoi bun starship -y || {
         echo "### mise use に失敗しました。"
         exit 1
     }
@@ -142,7 +147,8 @@ install_cargo_tools() {
     else
         echo "### cargo は既にインストールされています。"
     fi
-    cargo install starship sheldon fd-find xh bat
+    cargo install sheldon fd-find xh bat
+    # cargo install starship sheldon fd-find xh bat
     echo "### cargo ツールがインストールされました。"
     which cargo
 }
@@ -173,8 +179,8 @@ install_go_aqua() {
     else
         echo "### go は既にインストールされています。"
     fi
-
     which go
+
     # Aqua をインストールおよび初期化
     go install github.com/aquaproj/aqua/v2/cmd/aqua@latest || {
         echo "### aqua のインストールに失敗しました。"
@@ -182,7 +188,7 @@ install_go_aqua() {
     }
     echo "### aqua をインストールしました。"
     # export PATH="${AQUA_ROOT_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/aquaproj-aqua}/bin:$PATH"
-    env
+    # which aqua
 }
 
 # mkcert をインストールおよび設定する関数
@@ -209,6 +215,7 @@ git_setup() {
     # git config --global user.email "${GIT_AUTHOR_EMAIL}"
     # GitHub CLIの認証（コメントアウトされているので必要に応じて有効化）
     # gh auth login
+    git status
 }
 
 # メイン関数
@@ -219,9 +226,9 @@ main() {
     install_mise
     install_bitwarden
     install_docker
-    install_snap
-    install_go_aqua
+    install_docker_compose
     install_cargo_tools
+    install_go_aqua
     install_mkcert
     git_setup
     echo "### インストールが完了しました。再起動してください。"
@@ -229,4 +236,4 @@ main() {
 }
 
 # スクリプトを実行
-main
+time main

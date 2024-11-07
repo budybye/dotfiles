@@ -67,14 +67,14 @@ if command -v mise > /dev/null 2>&1; then
   eval "$(mise activate --shims)"
 fi
 
-# sheldon
-if command -v sheldon > /dev/null 2>&1; then
-  eval "$(sheldon source)"
-fi
-
 # starship
 if command -v starship > /dev/null 2>&1; then
   eval "$(starship init zsh)"
+fi
+
+# sheldon
+if command -v sheldon > /dev/null 2>&1; then
+  eval "$(sheldon source)"
 fi
 
 # 重複したPATHを削除
