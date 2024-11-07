@@ -2,7 +2,7 @@
 
 # dotfiles
 
-v.0.1.1
+v.0.2.1
 
 ## 概要
 
@@ -28,8 +28,11 @@ v.0.1.1
 
 ## XDG ディレクトリ構成
 
-### XDG Base Directory Specification
-XDG Base Directory Specification に基づくディレクトリの設定を行います。
+### [XDG Base Directory Specification](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html)
+
+- XDG Base Directory Specification に基づくディレクトリの設定を行います。
+- 環境変数で設定できますが、なるべくデフォルトを使用します。
+- 特に .config は様々なツールに使用されているので、なるべく採用します。
 
 - **XDG_CONFIG_HOME**: ユーザー固有の設定ファイルの格納先。
 - **XDG_DATA_HOME**: ユーザー固有のデータファイルの格納先。
@@ -37,7 +40,6 @@ XDG Base Directory Specification に基づくディレクトリの設定を行�
 - **XDG_STATE_HOME**: ユーザー固有の状態ファイルの格納先。
 - **XDG_DATA_DIRS**: システム全体のデータファイルの検索パス。
 - **XDG_CONFIG_DIRS**: システム全体の設定ファイルの検索パス。
-
 
 ```tree:~/
 ~/
@@ -183,7 +185,7 @@ flowchart TD
 
 ---
 
-## Chezmoi の使用
+## [Chezmoi](https://chezmoi.io/) の使用
 
 ### Chezmoi を使用して Dotfiles を管理します。
 
@@ -211,7 +213,7 @@ chezmoi chattr < Filename >
 
 ---
 
-## Makefile
+## [Makefile](https://.gnu.org/software/make/manual/make.html)
 
 ### Makefile でシェルスクリプトを管理します。
 
@@ -249,7 +251,7 @@ init:
 
 ---
 
-## Github Actions
+## [Github Actions](https://docs.github.com/en/actions)
 
 - Main Branch に Push されたときにテストします。
 - Github Actions を使用すると様々なOSでテストできます。
@@ -290,7 +292,7 @@ jobs:
 ```
 ---
 
-## Mise の使用
+## [Mise](https://mise.jdx.dev/) の使用
 
 ### Mise を使用してツールを管理します。
 
@@ -313,8 +315,6 @@ mise trust
 - `ls`: インストールされているツールの一覧を表示します。
 - `trust`: 信頼できるリポジトリを設定します。
 - `.mise.toml`: Mise の設定ファイル
-
-[Mise](https://mise.jdx.dev/)
 
 ---
 
@@ -360,11 +360,11 @@ echo $VAR
 
 ---
 
-## Docker の使用
+## [Docker](https://docker.com/) の使用
 
 - Dockerfile で Ubuntu のイメージをビルドしてプッシュ
 - Docker コンテナ内で xrdp と xfce を使用した Ubuntu 環境を構築
-- devcontainer で使用
+- [devcontainer](https://docs.github.com/en/codespaces/setting-up-your-project-for-codespaces/creating-a-dev-container-configuration) で使用
 
 ```sh
 # コンテナをビルド
@@ -380,7 +380,7 @@ docker compose exec ubuntu /bin/bash
 
 ---
 
-## Multipass の使用
+## [Multipass](https://multipass.run/) の使用
 
 ### Multipass で cloud-init を使用して Ubuntu を起動
 

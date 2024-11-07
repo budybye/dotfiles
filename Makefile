@@ -27,10 +27,10 @@ LOGFILE := ${HOME}/make.log
 # OSによるターゲットの設定
 ifeq ($(shell uname), Darwin)
 	CONFIG_DIR := macos
-	SENSE_TARGETS := init bootstrap defaults code
+	SENSE_TARGETS := init bootstrap defaults code keygen
 else
 	CONFIG_DIR := linux
-	SENSE_TARGETS := init install setup code
+	SENSE_TARGETS := init install setup code keygen
 endif
 
 # ターゲットの実行
@@ -43,20 +43,22 @@ define run_script
 	@sh $(2) | tee -a $(LOGFILE) || { echo "### $(1) script failed!" | tee -a $(LOGFILE); exit 1; }
 endef
 
-# 各ターゲットの定義
+# MacOS
 install:
 	$(call run_script,Install,$(INSTALL_SCRIPT))
 setup:
 	$(call run_script,Setup,$(SETUP_SCRIPT))
+# Ubuntu
 bootstrap:
 	$(call run_script,Bootstrap,$(BOOTSTRAP_SCRIPT))
 defaults:
 	$(call run_script,Defaults,$(DEFAULTS_SCRIPT))
+# 共通
 keygen:
 	$(call run_script,Keygen,$(KEYGEN_SCRIPT))
 code:
 	$(call run_script,Code,$(CODE_SCRIPT))
-# chezmoi に変更またはWindowsに変更
+# 非推奨 chezmoi に変更
 link:
 	$(call run_script,Link,$(LINK_SCRIPT))
 init:
@@ -67,6 +69,3 @@ init:
 		echo "### init.sh が存在しないため、chezmoi をインストールします。" | tee -a $(LOGFILE); \
 		curl -fsLS chezmoi.io/get | sh -s -- init --apply ${GIT_USER} | tee -a $(LOGFILE); \
 	fi
-# "it" ターゲットの定義
-it: init code keygen link
-	@echo "### 'it' ターゲットの実行が完了しました。" | tee -a $(LOGFILE)

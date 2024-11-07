@@ -7,6 +7,8 @@ USER_NAME=${SUDO_USER:-$(whoami)}
 # アーキテクチャを取得
 arch="$(dpkg --print-architecture)"
 
+echo "### cliのインストールを開始します..."
+
 # Zsh をデフォルトシェルに変更する関数
 change_shell_to_zsh() {
     # Zsh がインストールされているか確認
@@ -31,19 +33,18 @@ install_packages() {
     sudo dpkg --configure -a
     sudo apt-get update -y && sudo apt-get upgrade -y
     sudo apt-get install -y curl wget git build-essential cmake dbus-x11 gnupg g++ gh jq sudo \
-        xrdp xfce4 xfce4-goodies language-pack-ja-base language-pack-ja manpages-ja fcitx5-mozc xorgxrdp \
-        zsh vim tree xsel ncdu xdotool mkcert moreutils multitail neofetch plank lsd zoxide direnv \
+        zsh vim tree xsel ncdu xdotool mkcert moreutils multitail neofetch lsd zoxide direnv \
         libfuse2 libssl-dev pkg-config apt-transport-https ca-certificates lsb-release libnss3-tools \
         libinput-tools libdb-dev libdb5.3-dev libgdbm-dev libgmp-dev libgmpxx4ldbl libgdbm-compat-dev rustc \
         libstd-rust-1.75 libstd-rust-dev libncurses5-dev libffi-dev libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev \
-        ffmpeg mpd mpc ncmpcpp net-tools nmap wireshark snapd ufw rsyslog im-config byobu ruby cargo golang || {
+        ffmpeg mpd mpc ncmpcpp net-tools nmap snapd ufw rsyslog im-config byobu ruby cargo golang || {
         echo "### apt のインストールに失敗しました。"
         exit 1
     }
     sudo apt-get remove -y light-locker xscreensaver &&
         sudo apt-get autoremove -y &&
-        sudo apt-get clean &&
-        sudo rm -rf /var/cache/apt /var/lib/apt/lists/*
+            sudo apt-get clean &&
+                sudo rm -rf /var/cache/apt /var/lib/apt/lists/*
 
     echo "### 必要なパッケージがインストールされました。"
 }
@@ -109,60 +110,6 @@ install_docker() {
     install_docker_compose
 }
 
-# Snap をインストールおよび管理する関数
-install_snap() {
-    if ! command -v snap >/dev/null 2>&1; then
-        sudo apt-get install -y snapd || {
-            echo "### snapd のインストールに失敗しました。"
-            exit 1
-        }
-        echo "### snapd をインストールしました。"
-    else
-        echo "### snapd は既にインストールされています。"
-    fi
-
-    # Codium のインストール確認
-    if ! command -v codium >/dev/null 2>&1; then
-        sudo snap install codium --classic || {
-            echo "### codium のインストールに失敗しました。"
-            exit 1
-        }
-        echo "### codium をインストールしました。"
-    else
-        echo "### codium は既にインストールされています。"
-    fi
-    which codium
-
-    # Speedtest のインストール確認
-    if ! command -v speedtest >/dev/null 2>&1; then
-        sudo snap install speedtest || {
-            echo "### speedtest のインストールに失敗しました。"
-            exit 1
-        }
-        echo "### speedtest をインストールしました。"
-    else
-        echo "### speedtest は既にインストールされています。"
-    fi
-    which speedtest
-
-    # Firefox の削除確認
-    if command -v firefox >/dev/null 2>&1; then
-        sudo snap remove firefox || {
-            echo "### firefox のアンインストールに失敗しました。"
-            exit 1
-        }
-        echo "### firefox を削除しました。"
-    else
-        echo "### firefox は既に削除されています。"
-    fi
-    sudo snap install chromium || {
-        echo "### chromium のインストールに失敗しました。"
-        exit 1
-    }
-    echo "### chromium をインストールしました。"
-    which chromium
-}
-
 # mise でインストールする関数
 install_mise() {
     if ! command -v mise >/dev/null 2>&1; then
@@ -217,110 +164,6 @@ install_bitwarden() {
     which bw
 }
 
-# Brave ブラウザをインストールする関数
-install_brave_browser() {
-    sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg \
-        https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
-    echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] \
-        https://brave-browser-apt-release.s3.brave.com/ stable main" | sudo tee /etc/apt/sources.list.d/brave-browser-release.list
-    sudo apt-get update -y
-    sudo apt-get install -y brave-browser || {
-        echo "### brave のインストールに失敗しました。"
-        exit 1
-    }
-    echo "### brave-browser をインストールしました。"
-    which brave-browser
-}
-
-# Tabby Terminal をインストールする関数
-install_tabby_terminal() {
-    curl https://packagecloud.io/install/repositories/eugeny/tabby/script.deb.sh | sudo bash
-    sudo apt-get update -y
-    sudo apt-get install -y tabby-terminal || {
-        echo "### tabby のインストールに失敗しました。"
-        exit 1
-    }
-    echo "### tabby-terminal をインストールしました。"
-    which tabby
-}
-
-# Cloudflare Warp をインストールおよび設定する関数
-install_cloudflare_warp() {
-    if ! command -v warp-cli >/dev/null 2>&1; then
-        sudo curl -fsSL https://pkg.cloudflareclient.com/pubkey.gpg | sudo gpg --yes --dearmor --output /usr/share/keyrings/cloudflare-warp-archive-keyring.gpg
-        echo "deb [signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg] https://pkg.cloudflareclient.com/ $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/cloudflare-client.list
-        sudo apt-get update -y
-        sudo apt-get install -y cloudflare-warp || {
-            echo "### warp のインストールに失敗しました。"
-            exit 1
-        }
-        echo "### cloudflare-warp をインストールしました。"
-    else
-        echo "### cloudflare-warp はインストールされています。"
-    fi
-    which warp-cli
-
-    warp-cli --accept-tos registration new
-    warp-cli --accept-tos mode warp+doh
-    warp-cli --accept-tos dns families malware
-    warp-cli --accept-tos connect
-    warp-cli --accept-tos disconnect
-
-    echo "### cloudflare-warp を設定しました。"
-}
-
-# GitHub Desktop と Cursor をインストールする関数
-install_github_desktop() {
-    sudo wget https://github.com/shiftkey/desktop/releases/download/release-3.4.3-linux1/GitHubDesktop-linux-${arch}-3.4.3-linux1.deb
-    sudo dpkg -i GitHubDesktop-linux-${arch}-3.4.3-linux1.deb || {
-        echo "### GithubDesktop のインストールに失敗しました。"
-        exit 1
-    }
-    sudo rm -f GitHubDesktop-linux-${arch}-3.4.3-linux1.deb
-    echo "### GithubDesktop をインストールしました。"
-}
-
-# Cursor をインストールする関数
-install_cursor() {
-    mkdir -p "${HOME}/Applications"
-    if [ "${arch}" = "amd64" ]; then
-        curl -L https://downloader.cursor.sh/inulx -o "${HOME}/Applications"/cursor.AppImage || {
-            echo "### cursor のダウンロードに失敗しました。"
-            exit 1
-        }
-    else
-        curl -L https://github.com/coder/cursor-arm/releases/download/v0.42.2/cursor_0.42.2_linux_arm64.AppImage -o "${HOME}/Applications"/cursor.AppImage || {
-            echo "### cursor のダウンロードに失敗しました。"
-            exit 1
-        }
-    fi
-    sudo chmod a+x "${HOME}/Applications"/cursor.AppImage
-    echo "### Cursor をインストールしました。"
-}
-
-# Ruby と Fusuma をインストールおよび設定する関数
-install_ruby_fusuma() {
-    if ! command -v gem >/dev/null 2>&1; then
-        mise use ruby -y || sudo apt-get install -y ruby || {
-            echo "### ruby のインストールに失敗しました。"
-            exit 1
-        }
-        echo "### ruby をインストールしました。"
-    else
-        echo "### ruby は既にインストールされています。"
-    fi
-    which ruby
-
-    sudo gem install fusuma || {
-        echo "### fusuma のインストールに失敗しました。"
-        exit 1
-    }
-    sudo groupadd -f input
-    sudo usermod -aG input "$USER_NAME"
-    fusuma -d
-    echo "### fusuma の設定を完了しました。"
-}
-
 # Go と Aqua をインストールする関数
 install_go_aqua() {
     # Go がインストールされているか確認
@@ -361,62 +204,27 @@ install_mkcert() {
     which mkcert
 }
 
-# Wireshark をインストールおよび設定する関数
-install_wireshark() {
-    if ! command -v wireshark >/dev/null 2>&1; then
-        sudo apt install -y wireshark || {
-            echo "### wireshark のインストールに失敗しました。"
-            exit 1
-        }
-        echo "### wireshark をインストールしました。"
-    else
-        echo "### wireshark は既にインストールされています。"
-    fi
-    sudo groupadd -f wireshark
-    sudo usermod -aG wireshark "$USER_NAME"
-    which wireshark
-}
-
-# フォントをインストールする関数
-install_fonts() {
-    # フォントディレクトリ
-    fonts="${XDG_DATA_HOME:-$HOME/.local/share}/fonts"
-    # フォントディレクトリを作成
-    sudo mkdir -p "${fonts}"
-    # HackGen フォントのダウンロード
-    sudo curl -L https://github.com/yuru7/HackGen/releases/download/v2.9.0/HackGen_NF_v2.9.0.zip -o "${fonts}/HackGen_NF_v2.9.0.zip"
-    # RobotoMonoJP フォントのダウンロード
-    sudo curl -L https://github.com/mjun0812/RobotoMonoJP/releases/download/v5.9.0/RobotoMonoJP-Regular.ttf -o "${fonts}/RobotoMonoNF-Regular.ttf"
-
-    # HackGen フォントの展開（ttfファイルのみをfontsディレクトリに配置）
-    sudo unzip -j -o "${fonts}/HackGen_NF_v2.9.0.zip" '*.ttf' -d "${fonts}"
-    # ダウンロードしたzipファイルの削除
-    sudo rm -f "${fonts}/HackGen_NF_v2.9.0.zip"
-    # フォントキャッシュの更新
-    fc-cache -fv
-    echo "### フォントをインストールしました。"
-    tree "${fonts}"
+# Gitの設定
+git_setup() {
+    # Gitのグローバル設定（コメントアウトされているので必要に応じて有効化）
+    # git config --global user.name "${GIT_AUTHOR_NAME}"
+    # git config --global user.email "${GIT_AUTHOR_EMAIL}"
+    # GitHub CLIの認証（コメントアウトされているので必要に応じて有効化）
+    # gh auth login
 }
 
 # メイン関数
 main() {
     install_packages
-    install_snap
     change_shell_to_zsh
     install_mise
     install_bitwarden
     install_docker
-    install_tabby_terminal
-    install_brave_browser
-    install_github_desktop
-    install_cursor
-    install_cloudflare_warp
-    install_cargo_tools
+    install_snap
     install_go_aqua
-    install_ruby_fusuma
+    install_cargo_tools
     install_mkcert
-    install_wireshark
-    install_fonts
+    git_setup
     echo "### インストールが完了しました。再起動してください。"
     neofetch
 }
