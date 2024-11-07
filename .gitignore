@@ -1,6 +1,6 @@
 .envrc
 .env
 
-./.devcontainer/portainer/*
-./.devcontainer/ipfs/*
-./.devcontainer/cloudflared/*
+./.devcontainer/dev/portainer/*
+./.devcontainer/dev/ipfs/*
+./.devcontainer/dev/cloudflared/*

@@ -12,7 +12,7 @@ echo "### Ubuntuのデスクトップ環境のインストールを開始しま�
 # デスクトップ環境のインストール
 desktop_setup() {
     sudo apt-get update -y && sudo apt-get upgrade -y
-    sudo apt-get install -y xfce4 xfce4-goodies language-pack-ja-base language-pack-ja manpages-ja fcitx5-mozc xorgxrdp wireshark plank || {
+    sudo apt-get install -y xfce4 xfce4-goodies xrdp xorgxrdp language-pack-ja-base language-pack-ja manpages-ja fcitx5-mozc wireshark plank || {
         echo "### デスクトップ環境のインストールに失敗しました。"
         exit 1
     }

@@ -340,11 +340,12 @@ export GITHUB_AUTHOR_NAME=budybye
 ### ./.mise.toml で読み込むファイル名を指定
 
 ```toml:./.mise.toml
-...
 [env]
 '_'.file = ".env*"
 ```
-現在のディレクトリを信頼してファイルを読み込み
+
+### 現在のディレクトリを信頼してファイルを読み込み
+
 ```
 # 環境変数が反映される
 mise trust
