@@ -61,7 +61,6 @@ install_brew_packages() {
     if [ -f "$BREWFILE_PATH" ]; then
         echo "Brewfile ($BREWFILE_PATH) からパッケージをインストールします。"
         brew tap Homebrew/bundle
-        brew tap aquaproj/aqua
         brew bundle --file="$BREWFILE_PATH" || {
             echo "brew bundleのインストールが失敗しました。"
             exit 1
