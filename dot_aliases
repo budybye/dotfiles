@@ -82,11 +82,11 @@ fi
 
 # vscode vscodium cursor mac ubuntu arm64 対応
 if command -v cursor >/dev/null 2>&1; then
-    alias code="cursor"
+    alias co="cursor"
 elif [ -f "${HOME}/Applications/cursor" ]; then
-    alias code="${HOME}/Applications/cursor --no-sandbox"
+    alias co="${HOME}/Applications/cursor --no-sandbox"
 elif command -v codium >/dev/null 2>&1; then
-    alias code="codium"
+    alias co="codium"
 else
     alias co="code"
 fi

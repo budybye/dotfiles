@@ -65,7 +65,9 @@ mkdir -p "${HOME}/.local/state/bash"
 # パスを再設定
 export PATH="${PATH}:${HOME}/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 
-if command -v code >/dev/null 2>&1; then
+if command -v cursor >/dev/null 2>&1; then
+    export EDITOR="cursor"
+elif command -v code >/dev/null 2>&1; then
     export EDITOR="code"
 elif command -v codium >/dev/null 2>&1; then
     export EDITOR="codium"

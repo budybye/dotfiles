@@ -7,20 +7,36 @@ FROM="${HOME}/.local/share/vscode"
 # 環境によって変わる 設定ファイルの場所
 if command -v cursor >/dev/null 2>&1; then
     CODE_DIR="${HOME}/.local/share/Cursor"
-    CODE_CMD="cursor"
 elif [ -f "${HOME}/Applications/cursor" ]; then
     CODE_DIR="${HOME}/.local/share/Cursor"
-    CODE_CMD="${HOME}/Applications/cursor --no-sandbox"
 elif command -v codium >/dev/null 2>&1; then
     CODE_DIR="${HOME}/.config/VSCodium"
-    CODE_CMD="codium"
 else
     CODE_DIR="${HOME}/.config/vscode"
-    CODE_CMD="code"
 fi
 
 # VSCodeのUserディレクトリの作成
 sudo mkdir -p "${CODE_DIR}/User"
+
+# 設定ファイルをバックアップし、新しいファイルを作成する汎用関数
+manage_json_file() {
+    local json_type="$1"  # 'settings' または 'keybindings'
+    local json_file="${CODE_DIR}/User/${json_type}.json"
+    local from_file="${FROM}/user-data/User/${json_type}.json"
+
+    # json_fileが存在する場合はバックアップを作成
+    if [ -f "${json_file}" ]; then
+        sudo cp "${json_file}" "${json_file}.copy"
+        echo "バックアップを作成しました: ${json_file}.copy"
+    else
+        echo "${json_file}が存在しません。"
+        sudo mkdir -p "$(dirname "${json_file}")"
+    fi
+
+    sudo cp "${from_file}" "${json_file}"
+    echo "新しい ${json_file} を作成しました。"
+    cat "${json_file}"
+}
 
 extensions_json() {
     # extensions.jsonのパス
@@ -31,57 +47,25 @@ extensions_json() {
         echo "バックアップを作成しました: ${CODEX}.copy"
     fi
 
-    if ! command -v "${CODE_CMD}" >/dev/null 1>&2; then
-        echo "${CODE_CMD}が存在しません。"
+    if ! command -v "code" >/dev/null 1>&2; then
+        echo "VSCodeが存在しません。"
         sudo cp "${FROM}/extensions.json" "${CODEX}"
         echo "新しい ${CODEX} を作成しました。"
     else
         # インストールされている拡張機能を"extensions.json"の形式で出力する
         echo '{"recommendations": [],"unwantedRecommendations":[]}' | sudo tee "${CODEX}" > /dev/null
-        sudo "${CODE_CMD}" --list-extensions | xargs -I {} sh -c "jq '.recommendations += [\"{}\"]' ${CODEX} | sudo tee temp > /dev/null && sudo mv temp ${CODEX}"
+        sudo "code" --list-extensions | xargs -I {} sh -c "jq '.recommendations += [\"{}\"]' ${CODEX} | sudo tee temp > /dev/null && sudo mv temp ${CODEX}"
         echo '拡張機能の更新が完了しました!'
     fi
     cat "${CODEX}"
 }
 
-settings_json() {
-    # settings.jsonのパス
-    SETTINGS_JSON="${CODE_DIR}/User/settings.json"
-    # settings.jsonが存在する場合はバックアップを作成
-    if [ -f "${SETTINGS_JSON}" ]; then
-        sudo cp "${SETTINGS_JSON}" "${SETTINGS_JSON}.copy"
-        echo "バックアップを作成しました: ${SETTINGS_JSON}.copy"
-    else
-        echo "${SETTINGS_JSON}が存在しません。"
-        sudo mkdir -p "$(dirname "${SETTINGS_JSON}")"
-    fi
-    sudo cp "${FROM}/user-data/User/settings.json" "${SETTINGS_JSON}"
-    echo "新しい ${SETTINGS_JSON} を作成しました。"
-    cat "${SETTINGS_JSON}"
-}
-
-keybindings_json() {
-    # keybindings.jsonのパス
-    KEYBINDINGS_JSON="${CODE_DIR}/User/keybindings.json"
-    # keybindings.jsonが存在する場合はバックアップを作成
-    if [ -f "${KEYBINDINGS_JSON}" ]; then
-        sudo cp "${KEYBINDINGS_JSON}" "${KEYBINDINGS_JSON}.copy"
-        echo "バックアップを作成しました: ${KEYBINDINGS_JSON}.copy"
-    else
-        echo "${KEYBINDINGS_JSON}が存在しません。"
-        sudo mkdir -p "$(dirname "${KEYBINDINGS_JSON}")"
-    fi
-    sudo cp "${FROM}/user-data/User/keybindings.json" "${KEYBINDINGS_JSON}"
-    echo "新しい ${KEYBINDINGS_JSON} を作成しました。"
-    cat "${KEYBINDINGS_JSON}"
-}
-
 main() {
-    echo "VSCodeの設定を開始します。"
+    echo "VSCodeの設定を開始します..."
     extensions_json
-    settings_json
-    keybindings_json
-    ls -l "${CODE_DIR}"
+    manage_json_file "settings"
+    manage_json_file "keybindings"
+    tree "${CODE_DIR}"
     echo "VSCodeの設定が完了しました。"
 }
 
