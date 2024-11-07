@@ -6,11 +6,10 @@
 .DS_Store
 *.gz
 node_modules
-.env
-.envrc
 *.env
 *lock.json
-; .mise.toml
+.envrc
+# .mise.toml
 
 # Put at $XDG_CONFIG_HOME/git/ignore
 # See also https://github.com/github/gitignore/tree/master/Global
@@ -102,6 +101,3 @@ sites/*/files
 # SQL.
 *.sql
 *.sql.*
-
-# user.conf
-# .config/git/user.conf

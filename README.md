@@ -133,15 +133,6 @@ mise ls
 mise trust
 ```
 
-```toml:~/.config/mise/config.toml
-# mise の設定ファイル
-./.mise.toml
-
-~/.config/mise.toml
-
-~/.config/mise/config.toml
-```
-
 ### 説明
 
 - `use`: 特定のツールとバージョンを使用します。
@@ -150,168 +141,91 @@ mise trust
 
 ---
 
-## シェル設定
 
-シェルの設定ファイルを管理します。
-
-```:~/
-# シェルの設定ファイル
-~/.zshrc
-
-# シェルの環境変数
-~/.zshenv
-
-# ログインシェルに共通で読み込まれるファイル
-~/.profile
-
-# bash の設定ファイル
-~/.bashrc
-
-# bash の環境変数
-~/.bash_profile
+```
+~/
+├── multipass.yaml                  # Multipass のcloud-init ファイル
+├── .chezmoiignore                  # chezmoi の除外ファイル
+├── .zshrc                          # zsh の設定ファイル
+├── .zshenv                         # zsh の環境変数
+├── .profile                        # ログインシェルに共通で読み込まれるファイル
+├── .bashrc                         # bash の設定ファイル
+├── .bash_profile                   # bash の環境変数
+├── .aliases                        # エイリアスの設定ファイル
+├── .Makefile                       # Make で シェルスクリプトを設定管理 make sense
+├── .mise.toml                      # mise の設定ファイル .env を読み込む
+├── .env                            # 環境変数の設定ファイル
+├── .config                         # XDG ディレクトリ構成に基づく設定ファイル
+│   ├── .editorconfig               # editorconfig の設定ファイル
+│   ├── Brewfile                    # Brewfile
+│   ├── starship.toml               # starship の設定ファイル
+│   ├── sheldon                    
+│   │   └── plugins.toml            # sheldon のプラグインの設定ファイル
+│   ├── aquaproj-aqua              
+│   │   └── aqua.yaml               # aqua の設定ファイル
+│   ├── byobu                      
+│   │   └── .tmux.conf              # byobu の設定ファイル
+│   ├── vscode                     
+│   │   ├── extensions.json         # VSCode の拡張機能の設定ファイル
+│   │   ├── User
+│   │   │   ├── setting.json        # VSCode の設定ファイル
+│   │   │   └── keybindings.json    # VSCode のキーバインド設定ファイル
+│   ├── git                         
+│   │   ├── config                  # Git の設定ファイル
+│   │   ├── ignore                  # Git の無視ファイルの設定ファイル
+│   │   ├── commit.template         # Git のコミットメッセージのテンプレート
+│   │   └── user.conf               # Git のユーザー設定ファイル
+│   ├── tabby                       
+│   │   └── config.yaml             # tabby の設定ファイル
+│   ├── vim                        
+│   │   └── vimrc                   # vim の設定ファイル
+│   ├── fcitx5                      
+│   │   └── config                  # fcitx5 の設定ファイル
+│   ├── fusuma                      
+│   │   └── config.yml              # fusuma の設定ファイル
+│   ├── neofetch                    
+│   │   └── config.conf             # neofetch の設定ファイル
+│   ├── fish
+│   │   └── config.fish             # fish の設定ファイル
+│   ├── mpd
+│   │   └── mpd.conf                # mpd の設定ファイル
+│   └── ncmpcpp
+│       └── config                  # ncmpcpp の設定ファイル
+│   
+├── .local                          # ローカルユーザーディレクトリ
+│   ├── share
+│   │   ├── fonts                   # フォントのディレクトリ
+│   │   ├── backgrounds             # 壁紙のディレクトリ
+│   │   └── themes                  # テーマのディレクトリ
+│   └── bin
+│       ├── init.sh                 # Chezmoi の初期化スクリプト make init
+│       ├── install.sh              # Ubuntu のインストールスクリプト make install
+│       ├── setup.sh                # Ubuntu のセットアップスクリプト make setup
+│       ├── bootstrap.sh            # MacOS のブートストラップスクリプト make bootstrap
+│       ├── defaults.sh             # MacOS のデフォルトスクリプト make defaults
+│       └── codex.sh                # VSCode のスクリプト make code
+│
+├── .devcontainer                   
+│    ├── .devcontainer.json         # devcontainer の設定ファイル
+│    ├── Dockerfile                 # Dockerfile
+│    └── docker-compose.yaml        # docker-compose の設定ファイル
+│
+├── .github                         
+│    ├── workflows                 
+│    └── .test.yaml                 # Github Actions のテストの設定ファイル
+├── data                            # データのディレクトリ
+├── etc...                          # その他
 ```
 
----
+## コメント
 
-## エイリアス設定
+- **シェル設定**: シェルの動作や環境を設定するためのファイル群。
+- **エイリアス設定**: よく使うコマンドの短縮形を定義するファイル。
+- **各種設定ファイル**: 様々なツールやアプリケーションの設定を管理するためのファイル。
+- **.local/share**: ユーザーがインストールしたフォントや壁紙などの共有リソースを格納するディレクトリ。
 
-便利なコマンドエイリアスを設定します。
-zsh と bashで読み込まれます。
+このツリー構造を参考に、ドットファイルの管理を行うことで、環境の一貫性を保ちながら効率的に作業を進めることができます。
 
-```:~/.aliases
-# エイリアスの設定ファイル
-~/.aliases
-```
-
----
-
-## 各種設定ファイル
-
-各種ツールの設定ファイルを管理します。
-
-### starship
-
-```toml:~/.config/starship.toml
-# starship の設定ファイル
-~/.config/starship.toml
-```
-
-### sheldon
-
-```toml:~/.config/sheldon/plugins.toml
-# sheldon のプラグインの設定ファイル
-~/.config/sheldon/plugins.toml
-```
-
-### aqua
-
-```yaml:~/.config/aquaproj-aqua/aqua.yaml
-# aqua の設定ファイル
-~/.config/aquaproj-aqua/aqua.yaml
-```
-
-### byobu
-
-```:~/.config/byobu/.tmux.conf
-# byobu の設定ファイル
-~/.config/byobu/.tmux.conf
-```
-
-### VSCode
-
-```:~/.config/vscode
-# VSCode の設定ファイル
-~/.config/vscode/User/setting.json
-
-# VSCode のキーバインド設定ファイル
-~/.config/vscode/User/setting.json
-
-# VSCode の拡張機能の設定ファイル
-~/.config/vscode/extntions.json
-```
-
-### Git
-
-```:~/.config/git
-# Git の設定ファイル
-~/.config/git/config
-
-# Git の無視ファイルの設定ファイル
-~/.config/git/ignore
-
-# Git のコミットメッセージのテンプレート
-~/.config/git/commit.template
-
-# Git のユーザー設定ファイル
-~/.config/git/user.conf
-```
-
-### tabby
-
-```yaml:~/.config/tabby/config.yaml
-# tabby の設定ファイル
-~/.config/tabby/config.yaml
-```
-
-### editorconfig
-
-```:~/.config/.editorconfig
-# editorconfig の設定ファイル
-~/.config/.editorconfig
-```
-
-### vim
-
-```:~/.config/vim/vimrc
-# vim の設定ファイル
-~/.config/vim/vimrc
-```
-
-### fcitx5
-
-```:~/.config/fcitx5/config
-# fcitx5 の設定ファイル
-~/.config/fcitx5/config
-```
-
-### fusuma
-
-```yaml:~/.config/fusuma/config.yml
-# fusuma の設定ファイル
-~/.config/fusuma/config.yml
-```
-
-### neofetch
-
-```:~/.config/neofetch/config.conf
-# neofetch の設定ファイル
-~/.config/neofetch/config.conf
-```
-
-### Brewfile
-
-```:~/.config/Brewfile
-~/.config/Brewfile
-```
-
-### Fonts
-
-```:~/.local/share/fonts
-~/.local/share/fonts
-```
-
-### 壁紙
-
-```:~/.local/share/backgrounds
-~/.local/share/backgrounds
-```
----
-
-### テーマ
-
-```:~/.local/share/themes
-~/.local/share/themes
-```
 ---
 
 ## Docker と Multipass の設定
@@ -321,19 +235,35 @@ xrdp で接続できる Ubuntu Desktop 環境の設定
 ### Multipass の cloud-init
 Multipass で cloud-init を使用して Ubuntu を起動
 ```sh
+# オプションでカスタマイズ
+# -n VM 名
+# -c コア数
+# -m メモリ
+# -d ディスク
+# --timeout タイムアウト時間 3600秒 = 1時間
+# --mount マウント  from:to
+# --cloud-init cloud-init の設定ファイルを指定
+
 multipass launch \
--n ubuntu \
--c 4 \
--m 4G \
--d 40G \
---timeout 3600 \
---mount ${HOME}/data:/home/ubuntu/mount \
---cloud-init ${HOME}/multipass.yaml
+    -n ubuntu \
+    -c 4 \
+    -m 4G \
+    -d 40G \
+    --timeout 3600 \
+    --mount ${HOME}/data:/home/ubuntu/mount \
+    --cloud-init ${HOME}/multipass.yaml
 ```
 
 ### xrdp と Docker の設定
 Docker コンテナ内で xrdp と xfce を使用した Ubuntu 環境を構築
 ```sh
-docekr compose up -d
+# コンテナをビルド
+docker build -t ubuntu-xrdp .
+# イメージをプッシュ
+docker push ubuntu-xrdp
+
+# コンテナを起動
+docker compose up -d
+# コンテナ内に入る
 docker compose exec ubuntu /bin/bash
 ```

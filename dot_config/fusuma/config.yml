@@ -23,11 +23,11 @@ pinch: #ピンチ（つまむ）
   out:
     command: "xdotool keydown ctrl click 5 keyup ctrl" # ズームアウト
 
-#threshold: # 閾値（反応開始する距離間隔）
-#swipe: 0.75  # スワイプは標準値の75%の長さ
-#pinch: 0.5   # ピンチは標準値の50%の長さ
+threshold: # 閾値（反応開始する距離間隔）
+  swipe: 0.75 # スワイプは標準値の75%の長さ
+  pinch: 0.5 # ピンチは標準値の50%の長さ
 
-#interval: #インターバル （反応時間の間隔）
-#swipe: 0.2 # スワイプは0.2秒
-#pinch: 0.2 # ピンチは0.2秒
+interval: #インターバル （反応時間の間隔）
+  swipe: 0.2 # スワイプは0.2秒
+  pinch: 0.2 # ピンチは0.2秒
 ---

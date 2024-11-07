@@ -163,6 +163,8 @@ mkdir -p ${XDG_CACHE_HOME}/starship
 export STARSHIP_CONFIG=${XDG_CONFIG_HOME}/starship.toml
 export STARSHIP_CACHE=${XDG_CACHE_HOME}/starship
 
+
+
 mkdir -p ${XDG_DATA_HOME}/z
 export Z_DATA=${XDG_DATA_HOME}/z
 
