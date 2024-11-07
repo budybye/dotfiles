@@ -1,6 +1,6 @@
 ## history
-HISTFILE="${XDG_STATE_HOME}/zsh/zsh_history"
-HISTSIZE=100000             # メモリ上に保存する履歴のサイズ
+HISTFILE="${HOME}/.local/state/zsh/zsh_history"
+HISTSIZE=123456             # メモリ上に保存する履歴のサイズ
 SAVEHIST=123456             # 上述のファイルに保存する履歴のサイズ
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="123"
@@ -27,9 +27,9 @@ set -o correct              # 入力間違えしていたら、候補を出す�
 autoload -Uz colors && colors
 
 # enable completion
-# autoload -Uz compinit && compinit -d "${XDG_CACHE_HOME}/zsh/zcompdump-${ZSH_VERSION}"
+# autoload -Uz compinit && compinit -d "${HOME}/.cache/zsh/zcompdump-${ZSH_VERSION}"
 
-zstyle ':completion:*' cache-path "${XDG_CACHE_HOME}/zsh/zcompcache"
+zstyle ':completion:*' cache-path "${HOME}/.cache/zsh/zcompcache"
 
 ## 小文字でも大文字でもマッチさせる
 zstyle ':completion:*' matcher-list 'm:{:a-z:}={:A-Z:}'
@@ -78,12 +78,12 @@ if command -v starship > /dev/null 2>&1; then
 fi
 
 # 重複したPATHを削除
-export PATH=$(printf %s "$PATH" | awk -v RS=: -v ORS=: '!arr[$0]++')
+export PATH="$(printf %s "${PATH}" | awk -v RS=: -v ORS=: '!arr[$0]++')"
 
 # aliasファイルの読み込み
-. ${HOME}/.aliases
+. "${HOME}/.aliases"
 
 # 初回シェル時のみ byobu実行
-if [ ${SHLVL} = 1 ]; then
+if [ "${SHLVL}" = 1 ]; then
   byobu
 fi

@@ -34,8 +34,8 @@ alias yarnx="bunx"
 
 # アーキテクチャ関連のエイリアス
 if command -v arch >/dev/null 2>&1; then
-    alias amd='arch -x86_64 "$SHELL"'
-    alias arm='arch -arm64 "$SHELL"'
+    alias amd="arch -x86_64 ${SHELL}"
+    alias arm="arch -arm64 ${SHELL}"
 fi
 
 # ls lsd
@@ -83,7 +83,7 @@ fi
 # vscode vscodium cursor mac ubuntu arm64 対応
 if command -v cursor >/dev/null 2>&1; then
     alias code="cursor"
-elif [ -f ${HOME}/Applications/cursor ]; then
+elif [ -f "${HOME}/Applications/cursor" ]; then
     alias code="${HOME}/Applications/cursor --no-sandbox"
 elif command -v codium >/dev/null 2>&1; then
     alias code="codium"
@@ -92,13 +92,13 @@ else
 fi
 
 # docker
-if command -v docekr >/dev/null 2>&1; then
+if command -v docker >/dev/null 2>&1; then
     alias d="docker"
     alias do="docker context show"
     alias di="docker image"
     alias dr="docker run --rm"
-    alias ds='docker stop $(docker ps -q)'
-    alias dps='docker ps --format "table {{.Names}}\t{{.Image}}\t{{.Ports}}\t{{.Status}}"'
+    alias ds="docker stop $(docker ps -q)"
+    alias dps="docker ps --format 'table {{.Names}}\t{{.Image}}\t{{.Ports}}\t{{.Status}}'"
 
     alias dc="docker compose"
     alias dcb="docker compose build"
@@ -111,14 +111,14 @@ fi
 # brew
 if command -v brew >/dev/null 2>&1; then
     alias bs="brew -S"
-    alias bb='brew bundle --file "${HOME}/.config/Brewfile" && brew bundle cleanup --force --file "${HOME}/.config/Brewfile" && brew update && brew upgrade && brew autoremove && brew doctor'
+    alias bb="brew bundle --file ${HOME}/.config/Brewfile && brew bundle cleanup --force --file ${HOME}/.config/Brewfile && brew update && brew upgrade && brew autoremove && brew doctor"
 fi
 
 # multipass
 if command -v multipass >/dev/null 2>&1; then
     alias mu="multipass"
     alias md="multipass launch docker -c 4 -m 8G -d 40G  --timeout 3600 --mount ${HOME}/apps:/home/ubuntu/apps && mu info docker"
-    alias ml='multipass launch -n ubuntu -c 4 -m 8G -d 40G  --timeout 3600 --mount ${HOME}/dotfiles:/home/ubuntu/dotfiles --cloud-init ${HOME}/dotfiles/multipass.yaml'
+    alias ml="multipass launch -n ubuntu -c 4 -m 8G -d 40G  --timeout 3600 --mount ${HOME}/dotfiles:/home/ubuntu/dotfiles --cloud-init ${HOME}/dotfiles/multipass.yaml"
 fi
 
 # kube

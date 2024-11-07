@@ -1,6 +1,6 @@
 . ~/.profile
 
-HISTFILE=${XDG_STATE_HOME}/bash/bash_history
+HISTFILE="${HOME}/.local/state/bash/bash_history"
 
 # homebrew
 if command -v brew > /dev/null 2>&1; then

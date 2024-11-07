@@ -4,13 +4,17 @@ emulate zsh
 
 typeset -U path PATH
 path=(
+  ${PATH}
   /opt/homebrew/bin(N-/)
   /opt/homebrew/sbin(N-/)
   /opt/X11/bin(N-/)
   ${HOME}/.console-ninja/.bin(N-/)
   ${HOME}/.cache/.bun/bin(N-/)
+  ${HOME}/.bun/bin(N-/)
   ${HOME}/.local/share/sheldon/repos/github.com/*/*/bin(N-/)
-  ${PATH}
+  ${HOME}/.local/share/go/bin(N-/)
+  ${HOME}/.local/share/cargo/bin(N-/)
+  ${HOME}/.local/share/gem/bin(N-/)
   ${HOME}/.local/bin(N-/)
   /usr/local/bin(N-/)
   /usr/bin

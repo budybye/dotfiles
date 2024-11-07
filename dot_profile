@@ -56,7 +56,11 @@ export TERM="xterm-256color"
 
 export PS1="\[\e[32m\]\u@\h\[\e[m\]:\[\e[34m\]\w\[\e[m\] \$ "
 export PROMPT='%F{green}%n@%m%f:%F{blue}% ~ %f%F{yellow}$%f '
+
 export ZDOTDIR="${HOME}"
+mkdir -p "${HOME}/.cache/zsh"
+mkdir -p "${HOME}/.local/state/zsh"
+mkdir -p "${HOME}/.local/state/bash"
 
 # パスを再設定
 export PATH="${PATH}:${HOME}/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
@@ -71,17 +75,17 @@ fi
 
 export HOMEBREW_PREFIX="/opt/homebrew"
 
-mkdir -p ${XDG_CONFIG_HOME}/mise
-export MISE_CONFIG_DIR=${XDG_CONFIG_HOME}/mise
-touch ${MISE_CONFIG_DIR}/shorthands.toml
-export MISE_SHORTHANDS_FILE=${MISE_CONFIG_DIR}/shorthands.toml
+mkdir -p "${XDG_CONFIG_HOME}/mise"
+export MISE_CONFIG_DIR="${XDG_CONFIG_HOME}/mise"
+touch "${MISE_CONFIG_DIR}/shorthands.toml"
+export MISE_SHORTHANDS_FILE="${MISE_CONFIG_DIR}/shorthands.toml"
 
 mkdir -p ${XDG_CONFIG_HOME}/aquaproj-aqua ${XDG_DATA_HOME}/aquaproj-aqua
 export PATH="${XDG_DATA_HOME:-$HOME/.local/share}/aquaproj-aqua/bin:${PATH}"
 export AQUA_GLOBAL_CONFIG="${AQUA_GLOBAL_CONFIG:-}:${XDG_CONFIG_HOME:-$HOME/.config}/aquaproj-aqua/aqua.yaml"
 
-mkdir -p ${XDG_CONFIG_HOME}/vscode/User ${XDG_DATA_HOME}/vscode/user-data/User
-export VSCODE_PORTABLE=${XDG_CONFIG_HOME}/vscode
+mkdir -p "${XDG_CONFIG_HOME}/vscode/User" "${XDG_DATA_HOME}/vscode/user-data/User"
+export VSCODE_PORTABLE="${XDG_CONFIG_HOME}/vscode"
 
 if command -v docker >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/docker" "${XDG_DATA_HOME}/docker/machine"
@@ -101,8 +105,8 @@ if command -v mkcert >/dev/null 2>&1; then
     export NODE_EXTRA_CA_CERTS
 fi
 
-mkdir -p "${XDG_DATA_HOME}"/go
-export GOPATH="${XDG_DATA_HOME}"/go
+mkdir -p "${XDG_DATA_HOME}/go"
+export GOPATH="${XDG_DATA_HOME}/go"
 export GOROOT="/usr/local/go"
 export PATH="${GOPATH}/bin:${PATH}"
 
@@ -152,18 +156,18 @@ export VIMINIT='let $MYVIMRC = !has("nvim") ? "${XDG_CONFIG_HOME}/vim/vimrc" : "
 # export SPACEMACSDIR="${XDG_CONFIG_HOME}/spacemacs"
 # mv ~/.spacemacs "$SPACEMACSDIR/init.el"
 
-mkdir -p ${XDG_CONFIG_HOME}/byobu
-export BYOBU_CONFIG_DIR=${XDG_CONFIG_HOME}/byobu
+mkdir -p "${XDG_CONFIG_HOME}/byobu"
+export BYOBU_CONFIG_DIR="${XDG_CONFIG_HOME}/byobu"
 
-mkdir -p ${XDG_CONFIG_HOME}/ipfs
-export IPFS_PATH=${XDG_CONFIG_HOME}/ipfs
+mkdir -p "${XDG_CONFIG_HOME}/ipfs"
+export IPFS_PATH="${XDG_CONFIG_HOME}/ipfs"
 
-mkdir -p ${XDG_CACHE_HOME}/starship
-export STARSHIP_CONFIG=${XDG_CONFIG_HOME}/starship.toml
-export STARSHIP_CACHE=${XDG_CACHE_HOME}/starship
+mkdir -p "${XDG_CACHE_HOME}/starship"
+export STARSHIP_CONFIG="${XDG_CONFIG_HOME}/starship.toml"
+export STARSHIP_CACHE="${XDG_CACHE_HOME}/starship"
 
-mkdir -p ${XDG_DATA_HOME}/z
-export Z_DATA=${XDG_DATA_HOME}/z
+mkdir -p "${XDG_DATA_HOME}/z"
+export Z_DATA="${XDG_DATA_HOME}/z"
 
-mkdir -p ${XDG_CONFIG_HOME}/ffmpeg
-export FFMPEG_DATADIR=${XDG_CONFIG_HOME}/ffmpeg
+mkdir -p "${XDG_CONFIG_HOME}/ffmpeg"
+export FFMPEG_DATADIR="${XDG_CONFIG_HOME}/ffmpeg"
