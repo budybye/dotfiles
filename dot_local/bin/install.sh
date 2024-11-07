@@ -7,8 +7,6 @@ USER_NAME=${SUDO_USER:-$(whoami)}
 # アーキテクチャを取得
 arch="$(dpkg --print-architecture)"
 
-echo "### cliのインストールを開始します..."
-
 # Zsh をデフォルトシェルに変更する関数
 change_shell_to_zsh() {
     # Zsh がインストールされているか確認
@@ -215,6 +213,7 @@ git_setup() {
 
 # メイン関数
 main() {
+    echo "### cliのインストールを開始します..."
     install_packages
     change_shell_to_zsh
     install_mise

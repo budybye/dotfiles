@@ -7,8 +7,6 @@ USER_NAME=${SUDO_USER:-$(whoami)}
 # アーキテクチャを取得
 arch="$(dpkg --print-architecture)"
 
-echo "### Ubuntuのデスクトップ環境のインストールを開始します..."
-
 # デスクトップ環境のインストール
 desktop_setup() {
     sudo apt-get update -y && sudo apt-get upgrade -y
@@ -261,6 +259,7 @@ xrdp_setup() {
 }
 
 main() {
+    echo "### Ubuntuのデスクトップ環境のインストールを開始します..."
     desktop_setup
     install_snap
     install_brave_browser

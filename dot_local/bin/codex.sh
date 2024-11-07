@@ -31,6 +31,7 @@ extensions_json() {
     if ! command -v code >/dev/null 1>&2; then
         echo "VScodeが存在しません。"
         cp "${FROM}/extensions.json" "${CODEX}"
+        echo "新しい ${CODEX} を作成しました。"
     else
         # インストールされている拡張機能を"extensions.json"の形式で出力する
         echo '{"recommendations": [],"unwantedRecommendations":[]}' >"${CODEX}"
@@ -51,7 +52,7 @@ settings_json() {
         echo "${SETTING_JSON}が存在しません。"
         mkdir -p "$(dirname "${SETTINGS_JSON}")"
         cp "${FROM}/user-data/User/settings.json" "${SETTINGS_JSON}"
-        echo "新しい${SETTING_JSON}を作成しました。"
+        echo "新しい ${SETTINGS_JSON} を作成しました。"
     fi
     cat "${SETTINGS_JSON}"
 }
@@ -67,7 +68,7 @@ keybindings_json() {
         echo "${SEKEYBINDINGS_JSONTTING_JSON}が存在しません。"
         mkdir -p "$(dirname "${KEYBINDINGS_JSON}")"
         cp "${FROM}/user-data/User/keybindings.json" "${KEYBINDINGS_JSON}"
-        echo "新しい${KEYBINDINGS_JSON}を作成しました。"
+        echo "新しい ${KEYBINDINGS_JSON} を作成しました。"
     fi
     cat "${KEYBINDINGS_JSON}"
 }
@@ -76,6 +77,8 @@ main() {
     extensions_json
     settings_json
     keybindings_json
+    ls -l "${CODE_DIR}"
+    echo "VSCodeの設定が完了しました。"
 }
 
 main

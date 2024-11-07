@@ -3,10 +3,10 @@
 # `mise use -g`で設定できます
 # node = "latest"
 # go = "latest"
-# bun = "latest"
+bun = "latest"
 # java = "latest"
 
-# chezmoi = "latest"
+chezmoi = "latest"
 # mkcert = "latest"
 
 # 以下インストールできない
@@ -38,12 +38,12 @@ always_keep_install = false         # デフォルトでは失敗時に削除
 # プラグインリポジトリの更新を取得する頻度を設定（分単位）
 # 新しいランタイムがインストールされるたびに更新されます
 # （注：これはまだ実装されていませんが、追加予定です：https://github.com/jdx/mise/issues/128）
-plugin_autoupdate_last_check_duration = '1 week' # 0に設定すると更新を無効化
+# plugin_autoupdate_last_check_duration = '1 week' # 0に設定すると更新を無効化
 
 # これらのプレフィックスを持つ設定ファイルはデフォルトで信頼されます
-#trusted_config_paths = [
-#    '~/.local/share/chezmoi',
-#]
+trusted_config_paths = [
+    '~/.local/share/chezmoi',
+]
 
 verbose = false       # trueに設定すると、インストールの全出力が表示されます。`MISE_VERBOSE`を参照
 asdf_compat = false   # trueに設定すると、.tool-versionsがasdfと互換性を持つようになります。`MISE_ASDF_COMPAT`を参照
@@ -60,7 +60,7 @@ yes = true            # trueに設定すると、すべてのプロンプトに�
 #disable_default_shorthands = false # デフォルトのショートハンドを無効にする、`MISE_DISABLE_DEFAULT_SHORTHANDS`を参照
 # disable_tools = ['node']           # 特定のツールを無効にする、通常はコアツールをオフにするために使用
 
-# env_file = '.envrc' # dotenvファイルから環境変数を読み込む、`MISE_ENV_FILE`を参照
+# env_file = '.env*' # dotenvファイルから環境変数を読み込む、`MISE_ENV_FILE`を参照
 
 experimental = true # 実験的な機能を有効にする
 
