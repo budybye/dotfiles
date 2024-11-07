@@ -43,12 +43,12 @@ define run_script
 	@sh $(2) | tee -a $(LOGFILE) || { echo "### $(1) script failed!" | tee -a $(LOGFILE); exit 1; }
 endef
 
-# MacOS
+# Ubuntu
 install:
 	$(call run_script,Install,$(INSTALL_SCRIPT))
 setup:
 	$(call run_script,Setup,$(SETUP_SCRIPT))
-# Ubuntu
+# MacOS
 bootstrap:
 	$(call run_script,Bootstrap,$(BOOTSTRAP_SCRIPT))
 defaults:

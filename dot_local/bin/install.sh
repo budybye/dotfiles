@@ -206,6 +206,7 @@ install_mkcert() {
 
 # Gitの設定
 git_setup() {
+    echo "### gitの設定を開始します..."
     # Gitのグローバル設定（コメントアウトされているので必要に応じて有効化）
     # git config --global user.name "${GIT_AUTHOR_NAME}"
     # git config --global user.email "${GIT_AUTHOR_EMAIL}"
@@ -224,7 +225,7 @@ main() {
     install_go_aqua
     install_cargo_tools
     install_mkcert
-    # git_setup
+    git_setup
     echo "### インストールが完了しました。再起動してください。"
     neofetch
 }
