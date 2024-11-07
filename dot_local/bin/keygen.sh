@@ -78,4 +78,4 @@ eval "$(ssh-agent -k)"
 
 # ホームディレクトリに移動
 cd "${HOME}"
-tree "${SSH}"
+sudo ls -la "${SSH}"

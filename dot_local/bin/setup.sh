@@ -237,10 +237,10 @@ install_fonts() {
 # xrdpの設定
 xrdp_setup() {
     sudo groupadd -f ssl-cert
-    sudo groupadd -f xrd
+    sudo groupadd -f xrdp
     # ubuntuユーザーを必要なグループに追加
     sudo usermod -aG ssl-cert,xrdp,input,audio,sudo "${USER_NAME}"
-        # rsyslogの再起動
+    # サービスの再起動
     sudo systemctl daemon-reload
     sudo systemctl restart rsyslog
     # ファイアウォールで3389番ポート（RDP）を許可
