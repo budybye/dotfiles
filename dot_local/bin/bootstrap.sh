@@ -60,7 +60,10 @@ install_brew_packages() {
 
     if [ -f "$BREWFILE_PATH" ]; then
         echo "Brewfile ($BREWFILE_PATH) からパッケージをインストールします。"
-        brew tap Homebrew/bundle homebrew/services progrhyme/tap sidneys/homebrew
+        brew tap Homebrew/bundle
+        brew tap homebrew/services
+        brew tap progrhyme/tap
+        brew tap sidneys/homebrew
         brew bundle --file="$BREWFILE_PATH" || {
             echo "brew bundleのインストールが失敗しました。"
             exit 1
