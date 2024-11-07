@@ -2,15 +2,21 @@
 
 # dotfiles
 
-v.0.2.1
+### v.0.2.1
+
+- このリポジトリは、私のドットファイルを管理するためのものです。
+- さまざまなツールや設定ファイルを統合し、効率的な開発環境を構築することを目的としています。
+
+## リポジトリのリンク
+
+- GitHub リポジトリ: [budybye/dotfiles](https://github.com/budybye/dotfiles)
 
 ## 概要
 
-- このリポジトリは、**Dotfiles** の管理を目的としています。様々なツールや設定ファイルを統合し、効率的な開発環境を構築します。
+- **対応OS**: MacOS Sonoma、Ubuntu 24.04
+- **テスト**: GitHub Actionsを使用して、さまざまなOSでの動作を確認しています。
+- **今後の計画**: arch64 と Windows でも WSL2 と Windows 用の設定ファイルを追加で管理する予定です。
 
-- MacOS Sonoma と Ubuntu 24.04 で Github Actions で chezmoi をインストールしてテストして、Dotfiles を管理します。
-
-- 今後は arch64 と Windows でも WSL2 と Windows 用の設定ファイルを追加で管理します。
 
 ## 目次
 
@@ -396,11 +402,41 @@ docker compose exec ubuntu /bin/bash
 # --cloud-init cloud-init の設定ファイルを指定
 
 multipass launch \
-    -n ubuntu \
-    -c 4 \
-    -m 4G \
-    -d 40G \
-    --timeout 3600 \
-    --mount ${HOME}/data:/home/ubuntu/mount \
-    --cloud-init ${HOME}/multipass.yaml
+  -n ubuntu \
+  -c 4 \
+  -m 4G \
+  -d 40G \
+  --timeout 3600 \
+  --mount ${HOME}/data:/home/ubuntu/mount \
+  --cloud-init ${HOME}/multipass.yaml
 ```
+
+---
+
+## 参考文献
+
+- [chezmoi](https://chezmoi.io/)
+- [Makefile](https://www.gnu.org/software/make/manual/make.html)
+- [mise](https://mise.jdx.dev/)
+- [multipass](https://multipass.run/)
+- [Docker](https://docker.com/)
+- [Github Actions](https://docs.github.com/en/actions)
+- [devcontainer](https://docs.github.com/en/codespaces/setting-up-your-project-for-codespaces/creating-a-dev-container-configuration)
+- [starship](https://starship.rs/)
+- [sheldon](https://sheldon.cli.rs/Introduction.html)
+- [fzf](https://github.com/junegunn/fzf)
+- [homebrew](https://brew.sh/)
+- [xfce](https://xfce.org/)
+- [xrdp](https://xrdp.org/)
+- [cloudflare warp](https://developers.cloudflare.com/warp-client)
+- [cloud-init-linter](https://github.com/anderssonPeter/cloud-init-linter)
+- [byobu](https://byobu.co/)
+- [tabby](https://tabby.sh/)
+- [neofetch](https://github.com/dylanaraps/neofetch)
+- [fcitx5](https://github.com/fcitx/fcitx5)
+- [fusuma](https://github.com/iberianpig/fusuma)
+- [aqua](https://aquaproj.github.io/)
+- [zoxide](https://github.com/ajeetdsouza/zoxide)
+- [tldr](https://tldr.sh/)
+- [kubectl](https://kubernetes.io/docs/reference/kubectl/)
+- [monokai-pro](https://github.com/monokai/monokai-pro)
