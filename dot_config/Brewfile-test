@@ -1,6 +1,7 @@
 cask_args appdir: "/Applications"
 
 tap "homebrew/bundle"
+tap "aquaproj/aqua"
 
 brew "autoconf"
 brew "automake"
@@ -30,6 +31,7 @@ brew "ripgrep"
 brew "sheldon"
 brew "starship"
 brew "tree"
+brew "aquaproj/aqua/aqua"
 
 cask "appcleaner"
 cask "betterdisplay"

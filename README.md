@@ -11,6 +11,35 @@
 
 - GitHub リポジトリ: [budybye/dotfiles](https://github.com/budybye/dotfiles)
 
+### 初期設定
+
+```sh
+curl -fsLS https://chezmoi.io/get | sh -s -- init --apply budybye
+# 初期設定する場合
+cd ~/.local/share/chezmoi
+make sense
+```
+
+### Dotfiles Download
+
+```sh
+git clone https://github.com/budybye/dotfiles.git
+```
+
+### git グローバル設定
+
+```sh
+vim ~/.config/git/user.conf
+[user]
+    name = < name >
+    email = < email >
+# or
+git config --global user.name < name >
+git config --global user.email < email >
+```
+
+---
+
 ## 概要
 
 - **対応OS**: MacOS Sonoma、Ubuntu 24.04
