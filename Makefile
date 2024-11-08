@@ -1,5 +1,5 @@
 # シェルの設定 異なる環境でも差をなくすために bash を使用
-SHELL := /usr/bin/env bash
+SHELL := bash
 # 一つのシェルセッションで実行して環境変数を引き継げる
 .ONESHELL:
 # シェルオプションの設定
