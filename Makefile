@@ -1,6 +1,8 @@
-# シェルの設定
-SHELL := bash
+# シェルの設定 異なる環境でも差をなくすために bash を使用
+SHELL := /usr/bin/env bash
+# 一つのシェルセッションで実行して環境変数を引き継げる
 .ONESHELL:
+# シェルオプションの設定
 .SHELLFLAGS := -eu -o pipefail -c
 # エラーハンドリングの設定
 .DELETE_ON_ERROR:

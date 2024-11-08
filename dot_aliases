@@ -6,8 +6,8 @@ alias g="git"
 alias bit='git add -A && git commit --allow-empty-message -m "" && git push origin $(git branch | sed -n -e "s/^\* \(.*\)/\1/p")'
 alias hg="history | grep"
 alias www="ps cual"
-alias opop="for i in {1..3}; do time zsh -ic exit;done"
-alias sss="starship explain && sheldon lock --update && opop"
+alias opi="for i in {1..3}; do time zsh -ic exit;done"
+alias sss="starship explain && sheldon lock --update && opi"
 alias tree="tree -NC"   # N: 文字化け対策 C: 色を付ける
 alias weather="curl wttr.in"  # 天気予報を表示
 alias notes="vim ~/notes.md"  # ノートを開く
@@ -31,7 +31,7 @@ alias npx="bunx"
 alias yarn="bun"
 alias yarnx="bunx"
 
-# `lh` ローカルホスト 3000ポートをブラウザで開く
+# http://localhost:3000 をブラウザで開く
 if command -v xdg-open >/dev/null 2>&1; then
     alias lh="xdg-open http://localhost:3000"
 else
@@ -83,6 +83,7 @@ fi
 if command -v chezmoi >/dev/null 2>&1; then
     alias che="chezmoi"
     alias ca="chezmoi apply"
+    alias cai="chezmoi init --apply git@github.com:budybye/dotfiles.git"
     # git push してローカルに反映
     alias apply="cd ${HOME}/.local/share/chezmoi && bit && chezmoi init --apply -S . && ls -la && cd ${HOME}"
 fi

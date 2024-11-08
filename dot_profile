@@ -10,16 +10,16 @@ export HOSTNAME
 
 # XDG DIRECTORY を作成して権限を700に設定
 mkdir -p \
-    "${XDG_DATA_HOME:-$HOME/.local/share}" \
-    "${XDG_CONFIG_HOME:-$HOME/.config}" \
-    "${XDG_STATE_HOME:-$HOME/.local/state}" \
-    "${XDG_CACHE_HOME:-$HOME/.cache}" \
+    "${HOME}/.local/share" \
+    "${HOME}/.config" \
+    "${HOME}/.local/state" \
+    "${HOME}/.cache" \
     "${HOME}/data"
 chmod 700 \
-    "${XDG_CONFIG_HOME:-$HOME/.config}" \
-    "${XDG_DATA_HOME:-$HOME/.local/share}" \
-    "${XDG_STATE_HOME:-$HOME/.local/state}" \
-    "${XDG_CACHE_HOME:-$HOME/.cache}" \
+    "${HOME}/.config" \
+    "${HOME}/.local/share" \
+    "${HOME}/.local/state" \
+    "${HOME}/.cache" \
     "${HOME}/data"
 
 # XDG DIRECTORY
@@ -150,7 +150,7 @@ export GEM_SPEC_CACHE="${XDG_CACHE_HOME}/gem"
 #export ANDROID_USER_HOME="${XDG_CONFIG_HOME}/android"
 # export PATH="${ANDROID_HOME}/bin:${PATH}"
 
-mkdir -p "${XDG_CONFIG_HOME}/vim"
+mkdir -p "${XDG_CONFIG_HOME}/vim" "${XDG_CONFIG_HOME}/nvim"
 # export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
 export VIMINIT='let $MYVIMRC = !has("nvim") ? "${XDG_CONFIG_HOME}/vim/vimrc" : "${XDG_CONFIG_HOME}/nvim/init.vim" | source $MYVIMRC'
 
