@@ -1,5 +1,6 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
+# chsh -s /usr/bin/zsh
 # chsh -s /bin/zsh
 
 HOSTNAME="$(uname -n)"
@@ -74,6 +75,8 @@ elif command -v codium >/dev/null 2>&1; then
 else
     export EDITOR="vim"
 fi
+
+export BROWSER="brave-browser"
 
 export HOMEBREW_PREFIX="/opt/homebrew"
 

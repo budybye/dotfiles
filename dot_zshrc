@@ -81,7 +81,9 @@ fi
 export PATH="$(printf %s "${PATH}" | awk -v RS=: -v ORS=: '!arr[$0]++')"
 
 # aliasファイルの読み込み
-. "${HOME}/.aliases"
+if [ -f "${HOME}/.aliases" ]; then
+  . "${HOME}/.aliases"
+fi
 
 # 初回シェル時のみ byobu実行
 if [ "${SHLVL}" = 1 ]; then

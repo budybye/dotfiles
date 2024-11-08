@@ -1,7 +1,7 @@
 # git config --global commit.template ~/.config/git/commit_template
 
 # ======== Emoji Prefix ========
-# 🎉  :tada: Initial commit.
+# 🎉  :popper: Initial commit.
 # ✨  :sparkles: New features.
 # 🔧  :wrench: Changing configuration files.
 # 💄  :lipstick: Updating the UI and style files.

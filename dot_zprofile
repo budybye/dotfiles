@@ -1,0 +1,29 @@
+# .zprofile はログインシェルで読み込まれる
+# .profile からbashと共通の環境変数を読み込む
+emulate sh
+if [ -f "${HOME}/.profile" ]; then
+  . "${HOME}/.profile"
+fi
+emulate zsh
+
+typeset -U path PATH
+path=(
+  /opt/homebrew/bin(N-/)
+  /opt/homebrew/sbin(N-/)
+  /opt/X11/bin(N-/)
+  ${HOME}/.console-ninja/.bin(N-/)
+  ${HOME}/.cache/.bun/bin(N-/)
+  ${HOME}/.bun/bin(N-/)
+  ${HOME}/.local/share/sheldon/repos/github.com/*/*/bin(N-/)
+  ${HOME}/.local/share/go/bin(N-/)
+  ${HOME}/.local/share/cargo/bin(N-/)
+  ${HOME}/.local/share/gem/bin(N-/)
+  ${HOME}/.local/bin(N-/)
+  ${PATH}
+  /snap/bin(N-/)
+)
+
+# zshの設定ファイルを読み込む
+if [ -f "${HOME}/.zshrc" ]; then
+  . "${HOME}/.zshrc"
+fi

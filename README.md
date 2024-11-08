@@ -2,7 +2,7 @@
 
 # dotfiles
 
-### v.0.2.1
+## v.0.2.1
 
 - このリポジトリは、私のドットファイルを管理するためのものです。
 - さまざまなツールや設定ファイルを統合し、効率的な開発環境を構築することを目的としています。
@@ -17,22 +17,22 @@
 - **テスト**: GitHub Actionsを使用して、さまざまなOSでの動作を確認しています。
 - **今後の計画**: arm64 互換と Windows でも WSL2 と Windows 用の設定ファイルを追加で管理する予定です。
 
-
 ## 目次
 
-1. [XDG ディレクトリ構成](#xdg-ディレクトリ構成)
-2. [OS差異](#os差異)
-3. [Chezmoi](#chezmoi)
+1. [XDG ディレクトリ構成](#XDG-Base-Directory)
+2. [OS差異](#OS差異)
+3. [Chezmoi](#Chezmoi)
 4. [Makefile](#Makefile)
-5. [Github Actions](#github-actions)
-6. [Mise](#mise)
+5. [Github Actions](#Github-Actions)
+6. [Mise](#Mise)
 7. [環境変数](#環境変数)
-8. [Docker](#docker)
-9. [Multipass](#multipass)
+8. [Docker](#Docker)
+9. [Multipass](#Multipass)
+10. [参考文献](#参考文献)
 
 ---
 
-## XDG ディレクトリ構成
+## XDG Base Directory
 
 ### [XDG Base Directory Specification](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html)
 
@@ -50,7 +50,7 @@
 ```tree:~/
 ~/
 ├── .config                         # XDG ディレクトリ構成に基づく設定ファイル
-│   ├── vscode                     
+│   ├── vscode
 │   │   ├── extensions.json         # VSCode の拡張機能の設定ファイル
 │   │   └── User
 │   │       ├── setting.json        # VSCode の設定ファイル
@@ -138,18 +138,18 @@
 
 ### 1. Chezmoiの活用
 
-- [ ] **クロスプラットフォーム対応**: macOS、Linux、Windows間でドットファイルを同期
-- [ ] **セキュリティ**: シークレットファイルを暗号化して管理
-- [ ] **テンプレート機能**: 環境ごとの設定を柔軟にカスタマイズ
+- [x] **クロスプラットフォーム対応**: macOS、Linux、Windows間でドットファイルを同期
+- [x] **セキュリティ**: シークレットファイルを暗号化して管理
+- [x] **テンプレート機能**: 環境ごとの設定を柔軟にカスタマイズ
 
 ### 2. Makeとの併用
 
-- [ ] **特定の設定やスクリプトの自動化**: Makefileを使用
-- [ ] **Chezmoiとの連携**: ドットファイルの管理はChezmoiに任せる
+- [x] **特定の設定やスクリプトの自動化**: Makefileを使用
+- [x] **Chezmoiとの連携**: ドットファイルの管理はChezmoiに任せる
 
 ### 3. .devcontainerとの統合
 
-- [ ] **Dev Containers内でChezmoiを使用**: コンテナ起動時に自動的にドットファイルを適用
+- [] **Dev Containers内でChezmoiを使用**: コンテナ起動時に自動的にドットファイルを適用
 
 ### 4. Github Actions でテスト
 
@@ -176,12 +176,16 @@ flowchart TD
     E1 --> E2[cloud-initを使用]
     E2 --> E3[カスタマイズされた環境を構築]
 ```
-  
+
+### 管理方法
+
 | OS         | 管理方法               | コメント                           |
 |------------|-----------------------|------------------------------------|
 | macOS      | Make                  | スクリプトの実行や環境設定に適している |
 | Ubuntu     | Make                  | 同上                               |
 | Windows    | Chezmoi               | Windows特有の設定を管理するのに適している |
+
+### メリットとデメリット
 
 | メリット | デメリット |
 |----------|-------------|
@@ -189,12 +193,42 @@ flowchart TD
 | 環境の再現性 | リソースの消費 |
 | 依存関係の管理 | 複雑性の増加 |
 
-| TH 左 | TH 中 | TH 右 | TH (df左) |
-| :--- | :---: | ---: | --- |
-| TD | TD | TD | TD |
-| TD | TD | TD | TD |
-| TD | TD | TD | TD |
-| TD | TD | TD | TD |
+### ツールのインストール
+
+| _設定_ | MacOS | Ubuntu | Docker(amd64) | Docker(arm64) |
+| --- | :---: | :---: | :---: | :---: |
+| Github Actions | ✅ | ✅ | ✅ | ✅ |
+| Chezmoi | ✅ | ✅ | ✅ | ✅ |
+| Makefile | ✅ | ✅ | ✅ | ✅ |
+| Mise | ✅ | ✅ | ✅ | ✅ |
+| Docker | ✅ | ✅ | ✅ | ✅ |
+| Dev Container | ✅ | ✅ | ✅ | ✅ |
+| Multipass | ✅ | ✅ |  |  |
+| Vim | ✅ | ✅ | ✅ | ✅ |
+| Starship | ✅ | ✅ | ✅ | ✅ |
+| Sheldon | ✅ | ✅ | ✅ | ✅ |
+| VSCode | ✅ | ✅ | ✅ | ✅ |
+| VSCodium | ✅ | ✅ | ✅ | ✅ |
+| Cursor | ✅ | ✅ | ✅ | ✅ |
+| Fish | ✅ | ✅ | ✅ | ✅ |
+| Git | ✅ | ✅ | ✅ | ✅ |
+| Github Desktop | ✅ | ✅ | ✅ | ✅ |
+| Github CLI | ✅ | ✅ | ✅ | ✅ |
+| Homebrew | ✅ | ✅ | ✅ | ✅ |
+| Neofetch |  | ✅ | ✅ | ✅ |
+| fcitx5 |  | ✅ | ✅ | ✅ |
+| Fusuma |  | ✅ | ✅ | ✅ |
+| MPD | ✅ | ✅ | ✅ | ✅ |
+| Ncmpcpp | ✅ | ✅ | ✅ | ✅ |
+| aqua VM | ✅ | ✅ | ✅ | ✅ |
+| Byobu | ✅ | ✅ | ✅ | ✅ |
+| Tabby | ✅ | ✅ | ✅ | ✅ |
+| Wireshark | ✅ | ✅ | ✅ | ✅ |
+| XRDP | ✅ | ✅ | ✅ | ✅ |
+| fzf | ✅ | ✅ | ✅ | ✅ |
+| bat | ✅ | ✅ | ✅ | ✅ |
+| lsd | ✅ | ✅ | ✅ | ✅ |
+| ripgrep | ✅ | ✅ | ✅ | ✅ |
 
 ---
 
@@ -305,7 +339,7 @@ jobs:
 ```
 ---
 
-## [Mise](https://mise.jdx.dev/) の使用
+## [Mise](https://mise.jdx.dev/)
 
 ### Mise を使用してツールを管理します。
 
@@ -373,7 +407,7 @@ echo $VAR
 
 ---
 
-## [Docker](https://docker.com/) の使用
+## [Docker](https://docker.com/)
 
 - Dockerfile で Ubuntu のイメージをビルドしてプッシュ
 - Docker コンテナ内で xrdp と xfce を使用した Ubuntu 環境を構築
@@ -393,7 +427,7 @@ docker compose exec ubuntu /bin/bash
 
 ---
 
-## [Multipass](https://multipass.run/) の使用
+## [Multipass](https://multipass.run/)
 
 ### Multipass で cloud-init を使用して Ubuntu を起動
 
@@ -421,93 +455,93 @@ multipass launch \
 
 ## 参考文献
 
-- [chezmoi](https://chezmoi.io/)
+- [Chezmoi](https://chezmoi.io/)
 - [Makefile](https://www.gnu.org/software/make/manual/make.html)
-- [mise](https://mise.jdx.dev/)
-- [multipass](https://multipass.run/)
+- [Mise](https://mise.jdx.dev/)
+- [Multipass](https://multipass.run/)
 - [Docker](https://docker.com/)
-- [docker-compose](https://docs.docker.com/compose/)
+- [Docker Compose](https://docs.docker.com/compose/)
 - [Github Actions](https://docs.github.com/en/actions)
-- [github desktop](https://desktop.github.com/)
-- [github cli](https://cli.github.com/)
-- [git](https://git-scm.com/)
+- [Github Desktop](https://desktop.github.com/)
+- [Github CLI](https://cli.github.com/)
+- [Git](https://git-scm.com/)
 - [ghcr](https://github.com/features/packages)
 - [codespaces](https://docs.github.com/en/codespaces)
-- [devcontainer](https://docs.github.com/en/codespaces/setting-up-your-project-for-codespaces/creating-a-dev-container-configuration)
-- [cursor](https://cursor.com)
-- [vscode](https://code.visualstudio.com/)
-- [zsh](https://zsh.org/)
-- [starship](https://starship.rs/)
-- [sheldon](https://sheldon.cli.rs/Introduction.html)
-- [fish](https://fishshell.com/)
-- [bitwarden](https://bitwarden.com)
-- [bun](https://bun.sh/)
-- [cargo](https://cargo.rust-lang.org/)
-- [go](https://go.dev/)
-- [vim](https://vim.org/)
-- [ipfs](https://ipfs.io/)
-- [curl](https://curl.se/)
+- [Dev Container](https://docs.github.com/en/codespaces/setting-up-your-project-for-codespaces/creating-a-dev-container-configuration)
+- [Cursor](https://cursor.com)
+- [VSCode](https://code.visualstudio.com/)
+- [Zsh](https://zsh.org/)
+- [Starship](https://starship.rs/)
+- [Sheldon](https://sheldon.cli.rs/Introduction.html)
+- [Fish](https://fishshell.com/)
+- [Bitwarden](https://bitwarden.com)
+- [Bun](https://bun.sh/)
+- [Cargo](https://cargo.rust-lang.org/)
+- [Go](https://go.dev/)
+- [Vim](https://vim.org/)
+- [IPFS](https://ipfs.io/)
+- [Curl](https://curl.se/)
 - [jq](https://github.com/jqlang/jq)
 - [mkcert](https://github.com/FiloSottile/mkcert)
 - [fzf](https://github.com/junegunn/fzf)
-- [homebrew](https://brew.sh/)
-- [xfce](https://xfce.org/)
+- [Homebrew](https://brew.sh/)
+- [Xfce](https://xfce.org/)
 - [xrdp](https://xrdp.org/)
-- [wireshark](https://wireshark.org/)
-- [editorconfig](https://editorconfig.org/)
-- [cloudflare warp](https://developers.cloudflare.com/warp-client)
-- [wrangler](https://developers.cloudflare.com/wrangler)
-- [cloud-init-linter](https://github.com/anderssonPeter/cloud-init-linter)
-- [byobu](https://byobu.co/)
-- [tabby](https://tabby.sh/)
-- [neofetch](https://github.com/dylanaraps/neofetch)
+- [Wireshark](https://wireshark.org/)
+- [Editorconfig](https://editorconfig.org/)
+- [Cloudflare Warp](https://developers.cloudflare.com/warp-client)
+- [Wrangler](https://developers.cloudflare.com/wrangler)
+- [Cloud-init-linter](https://github.com/anderssonPeter/cloud-init-linter)
+- [Byobu](https://byobu.co/)
+- [Tabby](https://tabby.sh/)
+- [Neofetch](https://github.com/dylanaraps/neofetch)
 - [ffmpeg](https://ffmpeg.org/)
-- [mpd](https://www.musicpd.org/)
-- [ncmpcpp](https://github.com/ncmpcpp/ncmpcpp)
+- [MPD](https://www.musicpd.org/)
+- [Ncmpcpp](https://github.com/ncmpcpp/ncmpcpp)
 - [fcitx5](https://github.com/fcitx/fcitx5)
-- [fusuma](https://github.com/iberianpig/fusuma)
-- [karabiner-elements](https://karabiner-elements.pqrs.org/)
-- [aqua](https://aquaproj.github.io/)
+- [Fusuma](https://github.com/iberianpig/fusuma)
+- [Karabiner-elements](https://karabiner-elements.pqrs.org/)
+- [Aqua](https://aquaproj.github.io/)
 - [zoxide](https://github.com/ajeetdsouza/zoxide)
 - [tldr](https://tldr.sh/)
 - [kubectl](https://kubernetes.io/docs/reference/kubectl/)
-- [portainer](https://portainer.io/)
-- [monokai-pro](https://github.com/monokai/monokai-pro)
-- [WhiteSur-gtk-theme](https://github.com/vinceliuice/WhiteSur-gtk-theme)
-- [xfce-look](https://xfce-look.org/)
+- [Portainer](https://portainer.io/)
+- [Monokai-Pro](https://github.com/monokai/monokai-pro)
+- [WhiteSur-GTK-Theme](https://github.com/vinceliuice/WhiteSur-gtk-theme)
+- [Xfce-look](https://xfce-look.org/)
 - [awesome](https://github.com/sindresorhus/awesome)
 - [awesome-zsh-plugins](https://github.com/unixorn/awesome-zsh-plugins)
-- [rhino linux](https://github.com/rhinolinux)
-- [mac defaults](https://github.com/kevinSuttle/macOS-Defaults)
-- [powershell](https://docs.microsoft.com/en-us/powershell/)
-- [microsoft remote desktop](https://docs.microsoft.com/en-us/windows-server/remote/remote-desktop-services/clients/remote-desktop-mac)
-- [wsl2](https://docs.microsoft.com/en-us/windows/wsl/wsl2-about)
-- [terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
-- [aws cli](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-mac.html)
-- [google cloud cli](https://cloud.google.com/sdk/docs/install-sdk)
-- [dbeaver](https://dbeaver.io/)
-- [postman](https://www.postman.com/)
-- [insomnia](https://insomnia.rest/)
-- [caddy](https://caddyserver.com/)
-- [brave](https://brave.com/)
+- [Rhino Linux](https://github.com/rhinolinux)
+- [mac-defaults](https://github.com/kevinSuttle/macOS-Defaults)
+- [Power Shell](https://docs.microsoft.com/en-us/powershell/)
+- [Microsoft Remote Desktop](https://docs.microsoft.com/en-us/windows-server/remote/remote-desktop-services/clients/remote-desktop-mac)
+- [WSL2](https://docs.microsoft.com/en-us/windows/wsl/wsl2-about)
+- [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
+- [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-mac.html)
+- [Google Cloud CLI](https://cloud.google.com/sdk/docs/install-sdk)
+- [DBeaver](https://dbeaver.io/)
+- [Postman](https://www.postman.com/)
+- [Insomnia](https://insomnia.rest/)
+- [Caddy](https://caddyserver.com/)
+- [Brave](https://brave.com/)
 - [bookmarklet awesome](https://awesomebookmarklets.com/)
-- [tradingview](https://tradingview.com/)
-- [notion](https://notion.so/)
-- [obsidian](https://obsidian.md/)
-- [mp3tag](https://www.mp3tag.de/en/)
+- [Tradingview](https://tradingview.com/)
+- [Notion](https://notion.so/)
+- [Obsidian](https://obsidian.md/)
+- [Mp3tag](https://www.mp3tag.de/en/)
 - [audacity](https://www.audacityteam.org/)
 - [audacity-plugins-awesome](https://awesomeaudacityplugins.com/)
-- [blender](https://blender.org/)
-- [xcode](https://developer.apple.com/xcode/)
-- [android studio](https://developer.android.com/studio)
-- [poetry](https://python-poetry.org/)
-- [jupyter notebook](https://jupyter.org/)
-- [rasberry pi](https://raspberrypi.org/)
-- [roboto mono nerd font jp](https://github.com/yuru7/RobotoMonoNerdFontJP)
-- [hackgen nerd font](https://github.com/yuru7/HackGenNerdFont)
-- [reggae one font](https://fonts.google.com/specimen/Reggae+One)
-- [ansible](https://docs.ansible.com/)
-- [proxmox](https://www.proxmox.com/en/)
-- [vagrant](https://developer.hashicorp.com/vagrant/docs)
-- [flatpak](https://flatpak.org/)
-- [packer](https://developer.hashicorp.com/packer/docs)
+- [Blender](https://blender.org/)
+- [Xcode](https://developer.apple.com/xcode/)
+- [Android Studio](https://developer.android.com/studio)
+- [Poetry](https://python-poetry.org/)
+- [Jupyter Notebook](https://jupyter.org/)
+- [Raspberry Pi](https://raspberrypi.org/)
+- [Roboto Mono Nerd Font JP](https://github.com/yuru7/RobotoMonoNerdFontJP)
+- [HackGen Nerd Font](https://github.com/yuru7/HackGenNerdFont)
+- [Reggae One Font](https://fonts.google.com/specimen/Reggae+One)
+- [Ansible](https://docs.ansible.com/)
+- [Proxmox](https://www.proxmox.com/en/)
+- [Vagrant](https://developer.hashicorp.com/vagrant/docs)
+- [Flatpak](https://flatpak.org/)
+- [Packer](https://developer.hashicorp.com/packer/docs)

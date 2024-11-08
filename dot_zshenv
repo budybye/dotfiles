@@ -1,22 +1,9 @@
-emulate sh
-. "${HOME}/.profile"
-emulate zsh
-
-typeset -U path PATH
+# .zshenv は全てのシェルで読み込まれる
+typeset -U PATH path
 path=(
-  /opt/homebrew/bin(N-/)
-  /opt/homebrew/sbin(N-/)
-  /opt/X11/bin(N-/)
-  ${HOME}/.console-ninja/.bin(N-/)
-  ${HOME}/.cache/.bun/bin(N-/)
-  ${HOME}/.bun/bin(N-/)
-  ${HOME}/.local/share/sheldon/repos/github.com/*/*/bin(N-/)
-  ${HOME}/.local/share/go/bin(N-/)
-  ${HOME}/.local/share/cargo/bin(N-/)
-  ${HOME}/.local/share/gem/bin(N-/)
-  ${HOME}/.local/bin(N-/)
+  /usr/local/bin(N-/)
+  /usr/bin(N-/)
+  /bin(N-/)
   ${PATH}
-  /snap/bin(N-/)
 )
-
-. "${HOME}/.zshrc"
+# スクリプトでも必要な最小限の環境変数のみをzshenvに記述
