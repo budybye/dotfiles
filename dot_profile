@@ -55,9 +55,6 @@ export LC_CTYPE="en_US.UTF-8"
 export TMPDIR="/tmp"
 export TERM="xterm-256color"
 
-export PS1="\[\e[32m\]\u@\h\[\e[m\]:\[\e[34m\]\w\[\e[m\] \$ "
-export PROMPT='%F{green}%n@%m%f:%F{blue}% ~ %f%F{yellow}$%f '
-
 export ZDOTDIR="${HOME}"
 mkdir -p "${HOME}/.cache/zsh"
 mkdir -p "${HOME}/.local/state/zsh"

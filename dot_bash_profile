@@ -3,7 +3,13 @@ if [ -f "${HOME}/.profile" ]; then
 fi
 
 HISTFILE="${HOME}/.local/state/bash/bash_history"
+PS1='\[\e[32m\]\u@\h\[\e[m\]:\[\e[34m\]\w\[\e[m\] \$ '
 
 if [ -f "${HOME}/.bashrc" ]; then
     . "${HOME}/.bashrc"
+fi
+
+# 初回シェル時のみ byobu実行
+if [ ${SHLVL} = 1 ]; then
+  byobu
 fi
