@@ -1,5 +1,5 @@
 # .config/sheldon/plugins.toml
-shell = "zsh"
+# shell = "zsh"
 
 [plugins.zsh-defer]
 github = "romkatv/zsh-defer"

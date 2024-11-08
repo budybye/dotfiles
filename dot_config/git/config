@@ -1,16 +1,13 @@
-# [excludesfile]
-#	 ~/.config/git/ignore
-
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
 
-#[user]
-#	name = budybye
-#	email = 101wayout@gmail.com
-#	useConfigOnly = true
+; #[user]
+; #	name = budybye
+; #	email = 101wayout@gmail.com
+; #	useConfigOnly = true
 
 # user.confからユーザー情報を読み込む
 [include]
@@ -61,10 +58,10 @@
 
 [core]
 	excludesfile = ~/.config/git/ignore
-	repositoryformatversion = 0
-	filemode = true
-	bare = true
-	ignorecase = true
+; 	repositoryformatversion = 0
+; 	filemode = true
+; 	bare = true
+; 	ignorecase = true
 
 [commit]
 	verbose = true
@@ -106,12 +103,12 @@
 [branch]
 	autosetuprebase = always
 
-[remote "origin"]
-	url = https://github.com/budybye/dotfiles.git
-	fetch = +refs/heads/*:refs/remotes/origin/*
+; [remote "origin"]
+; 	url = https://github.com/budybye/dotfiles.git
+; 	fetch = +refs/heads/*:refs/remotes/origin/*
 
 [credential "https://github.com"]
 	helper = !/usr/bin/gh auth git-credential
 
-[credential "https://gist.github.com"]
-	helper = !/usr/bin/gh auth git-credential
+; [credential "https://gist.github.com"]
+; 	helper = !/usr/bin/gh auth git-credential

@@ -4,11 +4,10 @@ alias c="clear"
 alias x="cat ~/.config/neofetch/image.txt"
 alias g="git"
 alias bit='git add -A && git commit --allow-empty-message -m "" && git push origin $(git branch | sed -n -e "s/^\* \(.*\)/\1/p")'
-alias lh="open -na 'Brave Browser' --args --new-window http://localhost:3000"
 alias hg="history | grep"
 alias www="ps cual"
+alias opop="for i in {1..3}; do time zsh -ic exit;done"
 alias sss="starship explain && sheldon lock --update && opop"
-alias opop="for i in {1..3}; do time zsh -ic exit; done"
 alias tree="tree -NC"   # N: 文字化け対策 C: 色を付ける
 alias weather="curl wttr.in"  # 天気予報を表示
 alias notes="vim ~/notes.md"  # ノートを開く
@@ -31,6 +30,13 @@ alias npm="bun"
 alias npx="bunx"
 alias yarn="bun"
 alias yarnx="bunx"
+
+# `lh` ローカルホスト 3000ポートをブラウザで開く
+if command -v xdg-open >/dev/null 2>&1; then
+    alias lh="xdg-open http://localhost:3000"
+else
+    alias lh="open -na 'Brave Browser' --args --new-window http://localhost:3000"
+fi
 
 # アーキテクチャ関連のエイリアス
 if command -v arch >/dev/null 2>&1; then
@@ -76,6 +82,7 @@ fi
 # chezmoi
 if command -v chezmoi >/dev/null 2>&1; then
     alias che="chezmoi"
+    alias ca="chezmoi apply"
     # git push してローカルに反映
     alias apply="cd ${HOME}/.local/share/chezmoi && bit && chezmoi init --apply -S . && ls -la && cd ${HOME}"
 fi
@@ -94,7 +101,6 @@ fi
 # docker
 if command -v docker >/dev/null 2>&1; then
     alias d="docker"
-    alias do="docker context show"
     alias di="docker image"
     alias dr="docker run --rm"
     alias ds="docker stop $(docker ps -q)"
