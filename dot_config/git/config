@@ -1,5 +1,5 @@
-[excludesfile]
-	~/.config/git/ignore
+# [excludesfile]
+#	 ~/.config/git/ignore
 
 [filter "lfs"]
 	clean = git-lfs clean -- %f
@@ -106,9 +106,9 @@
 [branch]
 	autosetuprebase = always
 
-; [remote "origin"]
-; 	url = https://github.com/budybye/dotfiles.git
-; 	fetch = +refs/heads/*:refs/remotes/origin/*
+[remote "origin"]
+	url = https://github.com/budybye/dotfiles.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
 
 [credential "https://github.com"]
 	helper = !/usr/bin/gh auth git-credential
