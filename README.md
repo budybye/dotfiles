@@ -189,6 +189,13 @@ flowchart TD
 | 環境の再現性 | リソースの消費 |
 | 依存関係の管理 | 複雑性の増加 |
 
+| TH 左 | TH 中 | TH 右 | TH (df左) |
+| :--- | :---: | ---: | --- |
+| TD | TD | TD | TD |
+| TD | TD | TD | TD |
+| TD | TD | TD | TD |
+| TD | TD | TD | TD |
+
 ---
 
 ## [Chezmoi](https://chezmoi.io/) の使用

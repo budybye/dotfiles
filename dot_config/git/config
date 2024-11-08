@@ -1,17 +1,20 @@
+[excludesfile]
+	~/.config/git/ignore
+
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
 
-[user]
-	name = budybye
-	email = 101wayout@gmail.com
+#[user]
+#	name = budybye
+#	email = 101wayout@gmail.com
 #	useConfigOnly = true
 
 # user.confからユーザー情報を読み込む
-# [include]
-# 	path = ~/.config/git/user.conf
+[include]
+ 	path = ~/.config/git/user.conf
 
 [alias]
 	s = status

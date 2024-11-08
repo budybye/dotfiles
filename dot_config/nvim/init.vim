@@ -29,9 +29,6 @@ set showcmd
 set clipboard&
 set clipboard^=unnamed
 
-set clipboard+=unnamed
-set clipboard=unnamed
-
 " クリップボード連携を有効にした時に BackSpace (Delete) が効かなくなるので設定する
 set backspace=indent,eol,start
 
@@ -39,7 +36,7 @@ set backspace=indent,eol,start
 " ------------------------------------------------------------
 
 " Monokai カラースキーム
-" colorscheme monokai
+colorscheme monokai
 
 " 範囲選択が見づらいので変更する
 hi Visual ctermbg=227
