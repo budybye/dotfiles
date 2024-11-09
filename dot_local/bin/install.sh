@@ -35,7 +35,7 @@ install_packages() {
         libfuse2 libssl-dev pkg-config apt-transport-https ca-certificates lsb-release libnss3-tools \
         libinput-tools libdb-dev libdb5.3-dev libgdbm-dev libgmp-dev libgmpxx4ldbl libgdbm-compat-dev rustc \
         libstd-rust-1.75 libstd-rust-dev libncurses5-dev libffi-dev libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev \
-        ffmpeg mpd mpc ncmpcpp net-tools nmap snapd ufw rsyslog im-config byobu cargo ruby golang || {
+        ffmpeg mpd mpc ncmpcpp net-tools nmap snapd ufw rsyslog im-config byobu ruby || {
         echo "### apt のインストールに失敗しました。"
         exit 1
     }
@@ -133,7 +133,7 @@ install_mise() {
     mise activate zsh
     # mise activate --shims
 
-    mise use chezmoi bun starship -y || {
+    mise use chezmoi bun starship node go rust -y || {
         echo "### mise use に失敗しました。"
         exit 1
     }
@@ -157,9 +157,15 @@ install_cargo_tools() {
 install_bitwarden() {
     if ! command -v bitwarden >/dev/null 2>&1; then
         if [ "${arch}" = "amd64" ]; then
-            sudo snap install bitwarden
+            sudo snap install bitwarden || {
+                echo "### snap のインストールに失敗しました。"
+                exit 1
+            }
         else
-            bun install -g @bitwarden-cli/cli
+            bun install -g @bitwarden-cli/cli || {
+                echo "### bun のインストールに失敗しました。"
+                exit 1
+            }
             . ${HOME}/.zshenv
             echo "### bitwarden をインストールしました。"
         fi

@@ -1,8 +1,8 @@
 [tools]
 # グローバルなツールのバージョンをここに設定します
 # `mise use -g`で設定できます
-# node = "latest"
-# go = "latest"
+node = "latest"
+go = "latest"
 bun = "latest"
 # java = "latest"
 
@@ -42,6 +42,7 @@ always_keep_install = false         # デフォルトでは失敗時に削除
 
 # これらのプレフィックスを持つ設定ファイルはデフォルトで信頼されます
 trusted_config_paths = [
+    '~/.dotfiles',
     '~/.local/share/chezmoi',
 ]
 
@@ -65,4 +66,4 @@ yes = true            # trueに設定すると、すべてのプロンプトに�
 experimental = true # 実験的な機能を有効にする
 
 # 設定ファイルを持つディレクトリに入るときに表示されるメッセージを設定
-#status = { missing_tools = "if_other_versions_installed", show_env = false, show_tools = false }
+status = { missing_tools = "if_other_versions_installed", show_env = false, show_tools = false }

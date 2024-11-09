@@ -3,7 +3,7 @@ SHELL := bash
 # 一つのシェルセッションで実行して環境変数を引き継げる
 .ONESHELL:
 # シェルオプションの設定
-.SHELLFLAGS := -eu -o pipefail -c
+.SHELLFLAGS := -euo pipefail -c
 # エラーハンドリングの設定
 .DELETE_ON_ERROR:
 # Makeの警告とデフォルトルールの無効化
@@ -23,51 +23,65 @@ INIT_SCRIPT := ${HOME}/.local/bin/init.sh
 LINK_SCRIPT := ${HOME}/.local/bin/link.sh
 KEYGEN_SCRIPT := ${HOME}/.local/bin/keygen.sh
 CODE_SCRIPT := ${HOME}/.local/bin/codex.sh
-# ログファイルの設定
-LOGFILE := ${HOME}/make.log
 
 # OSによるターゲットの設定
 ifeq ($(shell uname), Darwin)
 	CONFIG_DIR := macos
-	SENSE_TARGETS := init bootstrap defaults code keygen
+	TARGETS := init bootstrap defaults code keygen link
 else
 	CONFIG_DIR := linux
-	SENSE_TARGETS := init install setup code keygen
+	TARGETS := init install setup code keygen link
 endif
 
-# ターゲットの実行
-sense: $(SENSE_TARGETS)
-	@echo "### OSに応じたスクリプトの実行が完了しました。" | tee -a $(LOGFILE)
+# ログファイルの設定
+LOGFILE := ${HOME}/make.log
+# ログファイルへの出力
+define tee_log
+	tee -a $(LOGFILE)
+endef
 
 # 共通のスクリプト実行関数
 define run_script
-	@echo "### Running $(1) script..." | tee -a $(LOGFILE)
-	@sh $(2) | tee -a $(LOGFILE) || { echo "### $(1) script failed!" | tee -a $(LOGFILE); exit 1; }
+	@echo "### Running $(1) script..." | $(tee_log)
+	@sh $(2) | $(tee_log) || { echo "### $(1) script failed!" | $(tee_log); exit 1; }
 endef
 
+# ターゲットの実行
+sense: $(TARGETS)
+	@echo "### OSに応じたスクリプトの実行が完了しました。" | tee -a $(LOGFILE)
+
+# chezmoi init
+init:
+	@echo "### Running init script..." | $(tee_log)
+	@if [ -f "$(INIT_SCRIPT)" ]; then \
+		sh $(INIT_SCRIPT) | $(tee_log); \
+	else \
+		echo "### init.sh が存在しないため、chezmoi をインストールします。" | $(tee_log); \
+		curl -fsLS get.chezmoi.io | sh -s -- init --apply --verbose ${GIT_USER} | $(tee_log); \
+	fi
 # Ubuntu
+# cli tools install
 install:
 	$(call run_script,Install,$(INSTALL_SCRIPT))
+# desktop setup
 setup:
 	$(call run_script,Setup,$(SETUP_SCRIPT))
+
 # MacOS
+# cli tools install
 bootstrap:
 	$(call run_script,Bootstrap,$(BOOTSTRAP_SCRIPT))
+# desktop setup
 defaults:
 	$(call run_script,Defaults,$(DEFAULTS_SCRIPT))
+
 # 共通
-keygen:
-	$(call run_script,Keygen,$(KEYGEN_SCRIPT))
+# vscode setup
 code:
 	$(call run_script,Code,$(CODE_SCRIPT))
-# 非推奨 chezmoi に変更
+# ssh keygen
+keygen:
+	$(call run_script,Keygen,$(KEYGEN_SCRIPT))
+# symlink
 link:
 	$(call run_script,Link,$(LINK_SCRIPT))
-init:
-	@echo "### Running init script..." | tee -a $(LOGFILE)
-	@if [ -f "$(INIT_SCRIPT)" ]; then \
-		sh $(INIT_SCRIPT) | tee -a $(LOGFILE); \
-	else \
-		echo "### init.sh が存在しないため、chezmoi をインストールします。" | tee -a $(LOGFILE); \
-		curl -fsLS get.chezmoi.io | sh -s -- init --apply ${GIT_USER} | tee -a $(LOGFILE); \
-	fi
