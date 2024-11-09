@@ -71,39 +71,10 @@ jobs:
       - uses: actions/checkout@v4
       - uses: Vampire/setup-wsl@v3
         with:
-          wsl-shell-command: bash -eu
-          #distribution: Ubuntu-24.04
-            
-      - shell: wsl-bash {0}
-        run: id
+          wsl-shell-command: bash --noprofile --norc -euo pipefail
+          distribution: Ubuntu-24.04
 
       - shell: wsl-bash {0}
         run: |
-          useradd -m -p 4qBD5NWD3IkbU test
-
-      - uses: Vampire/setup-wsl@v3
-        with:
-          wsl-shell-command: bash -c "sudo -u test bash --noprofile --norc -euo pipefail "\
-          #distribution: Ubuntu-24.04
-          
-      - shell: wsl-bash {0}
-        run: id
-
-      - uses: Vampire/setup-wsl@v3
-        with:
-          wsl-shell-command: bash -c "sudo -u test bash --noprofile --norc -euo pipefail '{0}'"
-          #distribution: Ubuntu-24.04
-          
-      - shell: wsl-bash {0}
-        run: id
-
-      - uses: Vampire/setup-wsl@v3
-        with:
-          wsl-shell-command: bash -c "cd && bash --noprofile --norc -euo pipefail '{0}'"
-          #distribution: Ubuntu-24.04
-          
-      - shell: wsl-bash {0}
-        run: pwd
-
-      - shell: cmd
-        run: DEL /F "${{ steps.execute_action.outputs.wsl-shell-wrapper-path }}"
+          ls -la
+          make sense
