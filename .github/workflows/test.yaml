@@ -49,7 +49,7 @@ jobs:
       - uses: anderssonPeter/cloud-init-linter@v1
         with:
           files:
-            ./multipass.yaml
+            ./cloud-init/multipass.yaml
 
   ubuntu-test:
     runs-on: ubuntu-24.04
