@@ -72,7 +72,7 @@ jobs:
       - uses: Vampire/setup-wsl@v3
         with:
           wsl-shell-command: sh -eu
-          distribution: Ubuntu24.04
+          distribution: Ubuntu-24.04
             
       - shell: wsl-ash {0}
         run: id
