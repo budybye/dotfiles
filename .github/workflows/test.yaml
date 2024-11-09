@@ -77,5 +77,3 @@ jobs:
         run: |
           ls -la
           uname -a
-          sudo apt-get update -y && sudo apt-get upgrade -y
-          sudo apt-get install -y cmake git curl
