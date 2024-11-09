@@ -1,35 +1,33 @@
-<link href="./style.css" rel="stylesheet"></link>
-
+<!-- <link href="./style.css" rel="stylesheet"></link> -->
 # dotfiles
 
-## v.0.2.1
+## 🏴‍☠[budybye/dotfiles](https://github.com/budybye/dotfiles)
 
-- このリポジトリは、私のドットファイルを管理するためのものです。
-- さまざまなツールや設定ファイルを統合し、効率的な開発環境を構築することを目的としています。
+### v.0.2.2
 
-## リポジトリのリンク
 
-- GitHub リポジトリ: [budybye/dotfiles](https://github.com/budybye/dotfiles)
+- このリポジトリは、私の設定ファイルを管理するためのものです。
+- さまざまなツールや設定ファイルを統合し、効率的な開発環境を構築運用することを目的としています。
+- `MacOS` と `Ubuntu` の設定ファイルを管理しています。
+- `Docker` や `Multipass` でも環境設定しています。
 
 ### 初期設定
 
 ```sh
-curl -fsLS https://chezmoi.io/get | sh -s -- init --apply git@github.com:budybye/dotfiles.git
-# 初期設定する場合
-cd ~/.local/share/chezmoi
-make sense
-```
-
-### Dotfiles Download
-
-```sh
-git clone https://github.com/budybye/dotfiles.git
+curl -fsLS https://chezmoi.io/get | sh -s -- init --apply --verbose git@github.com:budybye/dotfiles.git
+# or
+chezmoi init --apply --verbose git@github.com:budybye/dotfiles.git
+# ~/に配置する場合
+cd ~
+git clone git@github.com:budybye/dotfiles.git
+cd dotfiles && make sense
 ```
 
 ### git グローバル設定
 
 ```sh
 vim ~/.config/git/user.conf
+# user.conf に記述
 [user]
     name = < name >
     email = < email >
@@ -49,15 +47,15 @@ git config --global user.email < email >
 ## 目次
 
 1. [XDG ディレクトリ構成](#XDG-Base-Directory)
-2. [OS差異](#OS差異)
+2. [管理方法](#管理方法)
 3. [Chezmoi](#Chezmoi)
 4. [Makefile](#Makefile)
 5. [Github Actions](#Github-Actions)
 6. [Mise](#Mise)
 7. [環境変数](#環境変数)
-8. [Docker](#Docker)
-9. [Multipass](#Multipass)
-10. [参考文献](#参考文献)
+9. [Docker](#Docker)
+10. [Multipass](#Multipass)
+11. [参考文献](#参考文献)
 
 ---
 
@@ -66,17 +64,16 @@ git config --global user.email < email >
 ### [XDG Base Directory Specification](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html)
 
 - XDG Base Directory Specification に基づくディレクトリの設定を行います。
-- 環境変数で設定できますが、なるべくデフォルトを使用します。
-- 特に .config は様々なツールに使用されているので、なるべく採用します。
-
 - **XDG_CONFIG_HOME**: ユーザー固有の設定ファイルの格納先。
 - **XDG_DATA_HOME**: ユーザー固有のデータファイルの格納先。
 - **XDG_CACHE_HOME**: ユーザー固有のキャッシュファイルの格納先。
 - **XDG_STATE_HOME**: ユーザー固有の状態ファイルの格納先。
 - **XDG_DATA_DIRS**: システム全体のデータファイルの検索パス。
 - **XDG_CONFIG_DIRS**: システム全体の設定ファイルの検索パス。
+- 環境変数で設定できますが、なるべくデフォルトを使用します。
+- 特に .config は様々なツールに使用されているので、なるべく採用します。
 
-```tree:~/
+```
 ~/
 ├── .config                         # XDG ディレクトリ構成に基づく設定ファイル
 │   ├── vscode
@@ -163,7 +160,7 @@ git config --global user.email < email >
 
 ---
 
-## OS差異
+## 管理方法
 
 ### 1. Chezmoiの活用
 
@@ -178,7 +175,7 @@ git config --global user.email < email >
 
 ### 3. .devcontainerとの統合
 
-- [] **Dev Containers内でChezmoiを使用**: コンテナ起動時に自動的にドットファイルを適用
+- [x] **Dev Containers内でChezmoiを使用**: コンテナ起動時に自動的にドットファイルを適用
 
 ### 4. Github Actions でテスト
 
@@ -224,40 +221,68 @@ flowchart TD
 
 ### ツールのインストール
 
-| _設定_ | MacOS | Ubuntu | Docker(amd64) | Docker(arm64) |
-| --- | :---: | :---: | :---: | :---: |
-| Github Actions | ✅ | ✅ | ✅ | ✅ |
-| Chezmoi | ✅ | ✅ | ✅ | ✅ |
-| Makefile | ✅ | ✅ | ✅ | ✅ |
-| Mise | ✅ | ✅ | ✅ | ✅ |
-| Docker | ✅ | ✅ | ✅ | ✅ |
-| Dev Container | ✅ | ✅ | ✅ | ✅ |
-| Multipass | ✅ | ✅ |  |  |
-| Vim | ✅ | ✅ | ✅ | ✅ |
-| Starship | ✅ | ✅ | ✅ | ✅ |
-| Sheldon | ✅ | ✅ | ✅ | ✅ |
-| VSCode | ✅ | ✅ | ✅ | ✅ |
-| VSCodium | ✅ | ✅ | ✅ | ✅ |
-| Cursor | ✅ | ✅ | ✅ | ✅ |
-| Fish | ✅ | ✅ | ✅ | ✅ |
-| Git | ✅ | ✅ | ✅ | ✅ |
-| Github Desktop | ✅ | ✅ | ✅ | ✅ |
-| Github CLI | ✅ | ✅ | ✅ | ✅ |
-| Homebrew | ✅ | ✅ | ✅ | ✅ |
-| Neofetch |  | ✅ | ✅ | ✅ |
-| fcitx5 |  | ✅ | ✅ | ✅ |
-| Fusuma |  | ✅ | ✅ | ✅ |
-| MPD | ✅ | ✅ | ✅ | ✅ |
-| Ncmpcpp | ✅ | ✅ | ✅ | ✅ |
-| aqua VM | ✅ | ✅ | ✅ | ✅ |
-| Byobu | ✅ | ✅ | ✅ | ✅ |
-| Tabby | ✅ | ✅ | ✅ | ✅ |
-| Wireshark | ✅ | ✅ | ✅ | ✅ |
-| XRDP | ✅ | ✅ | ✅ | ✅ |
-| fzf | ✅ | ✅ | ✅ | ✅ |
-| bat | ✅ | ✅ | ✅ | ✅ |
-| lsd | ✅ | ✅ | ✅ | ✅ |
-| ripgrep | ✅ | ✅ | ✅ | ✅ |
+|  | MacOS | Ubuntu | Docker  |
+| --- | :---: | :---: | :---: |
+| Chezmoi | ✅ | ✅ | ✅ |
+| Script | ✅ | ✅ | ✅ |
+| Makefile | ✅ | ✅ | ✅ |
+| Zsh | ✅ | ✅ | ✅ |
+| Git | ✅ | ✅ | ✅ |
+| Github Actions | ✅ | ✅ | ✅ |
+| Github CLI | ✅ | ✅ | ✅ |
+| Bitwarden CLI | ✅ | ✅ | ✅ |
+| Docker | ✅ | ✅ | ✅ |
+| Dev Container | ✅ | ✅ | ✅ |
+| Multipass | ✅ | ✅ |  |
+| Homebrew | ✅ |  |  |
+
+| Tool | MacOS | Ubuntu | Docker |
+| --- | :---: | :---: | :---: |
+| Mise | ✅ | ✅ | ✅ |
+| Starship | ✅ | ✅ | ✅ |
+| Sheldon | ✅ | ✅ | ✅ |
+| lsd | ✅ | ✅ | ✅ |
+| bat | ✅ | ✅ | ✅ |
+| ripgrep | ✅ | ✅ | ✅ |
+| fzf | ✅ | ✅ | ✅ |
+| zoxide | ✅ | ✅ | ✅ |
+| fd-find | ✅ | ✅ | ✅ |
+
+| cli | MacOS | Ubuntu | Docker |
+| --- | :---: | :---: | :---: |
+| Byobu | ✅ | ✅ | ✅ |
+| Vim | ✅ | ✅ | ✅ |
+| Fish | ✅ | ✅ | ✅ |
+| aqua VM | ✅ | ✅ | ✅ |
+| MPD | ✅ | ✅ | ✅ |
+| Ncmpcpp | ✅ | ✅ | ✅ |
+| fcitx5 |  | ✅ | ✅ |
+| Neofetch |  | ✅ | ✅ |
+
+| Language | MacOS | Ubuntu | Docker |
+| --- | :---: | :---: | :---: |
+| Node.js | ✅ | ✅ | ✅ |
+| Bun | ✅ | ✅ | ✅ |
+| Python | ✅ | ✅ | ✅ |
+| Go | ✅ | ✅ | ✅ |
+| Rust | ✅ | ✅ | ✅ |
+| Ruby | ✅ | ✅ | ✅ |
+| Java | ✅ | ✅ | ✅ |
+
+| Desktop | MacOS | Ubuntu | Docker |
+| --- | :---: | :---: | :---: |
+| Xfce4 |  | ✅ | ✅ |
+| Xrdp |  | ✅ | ✅ |
+| VSCode | ✅ |  | ✅ |
+| VSCodium |  | ✅ |  |
+| Cursor | ✅ | ✅ |  |
+| Github Desktop | ✅ | ✅ | ✅ |
+| Tabby | ✅ | ✅ | ✅ |
+| Brave | ✅ | ✅ | ✅ |
+| Cloudflare Warp | ✅ | ✅ | ✅ |
+| Wireshark | ✅ | ✅ | ✅ |
+| Fusuma |  | ✅ |  |
+| Karabiner-Elements | ✅ |  |  |
 
 ---
 
@@ -268,35 +293,29 @@ flowchart TD
 ```sh
 # 初期化
 chezmoi init --apply budybye
-
 # cd コマンドで移動 ~/.local/share/chezmoi
 chezmoi cd
+# ファイルを追加
+chezmoi add < Filename >
+# ファイルを追加(シンボリックリンク)
+chezmoi add --follow < Filename >
+# ファイルの差分を確認
+chezmoi diff < option Filename >
 # 変更を適用
 chezmoi apply < option Filename >
-# ファイルを追加
-chezmoi add --follow < Filename >
 # ファイルの属性を変更
 chezmoi chattr < Filename >
+# リモートからの状態を反映
+chezmoi update
 ```
-
-### 説明
-
-- `init`: Chezmoi のリポジトリを初期化し、設定を適用します。
-- `cd`: Chezmoi の管理ディレクトリに移動します。
-- `apply`: 指定したオプションファイルを適用します。
-- `add`: ファイルを Chezmoi の管理対象に追加します。
-- `chattr`: ファイルの属性を変更します。
-
----
 
 ## [Makefile](https://.gnu.org/software/make/manual/make.html)
 
-### Makefile でシェルスクリプトを管理します。
+### Makefile でシェルスクリプトを管理。
 
 ```sh
 # 環境ごとに分けたシェルスクリプトを実行
 make sense
-
 # シェルスクリプトを実行
 make install
 make bootstrap
@@ -304,7 +323,7 @@ make setup
 make init
 ```
 
-```Makefile:.Makefile
+```Makefile:Makefile
 ifeq ($(OS),Darwin  )
     # MacOS の場合
     sense: init bootstrap
@@ -321,7 +340,7 @@ bootstrap:
 setup:
     sh $(HOME)/.local/bin/setup.sh
 init:
-    curl -sfL https://git.io/chezmoi | sh -s -- init --apply -S .
+    curl -sfL https://chezmoi.io/get | sh -s -- init --apply -S .
 ...
 ```
 
@@ -377,22 +396,13 @@ jobs:
 mise use < tool@version >
 # global にインストール
 mise use -g < tool@version >
-
 # インストールしたツールを確認
 mise ls
-
 # .mise.toml の指定ファイルを信頼
 mise trust
+# 環境変数を表示
+mise set
 ```
-
-### 説明
-
-- `use`: 特定のツールとバージョンを使用します。
-- `ls`: インストールされているツールの一覧を表示します。
-- `trust`: 信頼できるリポジトリを設定します。
-- `.mise.toml`: Mise の設定ファイル
-
----
 
 ## 環境変数
 
@@ -400,7 +410,6 @@ mise trust
 
 ```sh
 touch ./.mise.toml
-
 touch ./.env
 ```
 
@@ -408,7 +417,7 @@ touch ./.env
 
 ```sh
 # .env 例
-export GITHUB_AUTHOR_NAME=budybye
+export GITHUB_AUTHOR_NAME=hoge
 # .gitignore で.env ファイルを除外
 ```
 
@@ -416,7 +425,7 @@ export GITHUB_AUTHOR_NAME=budybye
 
 ```toml:./.mise.toml
 [env]
-'_'.file = ".env*"
+_.file = ".env*"
 ```
 
 ### 現在のディレクトリを信頼してファイルを読み込み
@@ -432,7 +441,7 @@ echo $VAR
 ### 説明
 
 - `.env` に必要な環境変数を設定します。
-- ~/.config/mise/config.toml で自動で読み込む(mise trust と同じ)ファイル名を指定できます。
+- `~/.config/mise/config.toml` で自動で読み込むファイル名を指定できます。
 
 ---
 
@@ -440,14 +449,13 @@ echo $VAR
 
 - Dockerfile で Ubuntu のイメージをビルドしてプッシュ
 - Docker コンテナ内で xrdp と xfce を使用した Ubuntu 環境を構築
-- [devcontainer](https://docs.github.com/en/codespaces/setting-up-your-project-for-codespaces/creating-a-dev-container-configuration) で使用
+- `Dev Container` で使用
 
 ```sh
 # コンテナをビルド
 docker build -t ubuntu-xrdp .
 # イメージをプッシュ
 docker push ubuntu-xrdp
-
 # コンテナを起動
 docker compose up -d
 # コンテナ内に入る
@@ -477,7 +485,7 @@ multipass launch \
   -d 40G \
   --timeout 3600 \
   --mount ${HOME}/data:/home/ubuntu/mount \
-  --cloud-init ${HOME}/multipass.yaml
+  --cloud-init ${HOME}/cloud-init/multipass.yaml
 ```
 
 ---

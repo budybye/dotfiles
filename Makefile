@@ -69,5 +69,5 @@ init:
 		sh $(INIT_SCRIPT) | tee -a $(LOGFILE); \
 	else \
 		echo "### init.sh が存在しないため、chezmoi をインストールします。" | tee -a $(LOGFILE); \
-		curl -fsLS chezmoi.io/get | sh -s -- init --apply ${GIT_USER} | tee -a $(LOGFILE); \
+		sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply ${GIT_USER} | tee -a $(LOGFILE); \
 	fi

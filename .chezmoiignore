@@ -4,15 +4,13 @@
     .config/fcitx5
     .local/bin/install.sh
     .local/bin/setup.sh
-{{- end}}
-
-{{if eq .chezmoi.os "linux"}}
+{{else if eq .chezmoi.os "linux"}}
     .config/Brewfile*
     .config/vscode
     .config/karabiner
     .local/bin/bootstrap.sh
     .local/bin/defaults.sh
-{{- end}}
+{{end}}
 
 README.md
 style.css
