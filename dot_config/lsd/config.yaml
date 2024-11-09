@@ -75,13 +75,15 @@ indicators: false
 # Which layout to use. "oneline" might be a bit confusing here and should be
 # called "one-per-line". It might be changed in the future.
 # Possible values: grid, tree, oneline
-layout: tree
+#layout: tree
+layout: grid
 
 # == Recursion ==
 recursion:
   # Whether to enable recursion.
   # Possible values: false, true
-  enabled: true
+#  enabled: true
+  enabled: false
   # How deep the recursion should go. This has to be a positive integer. Leave
   # it unspecified for (virtually) infinite.
   depth: 3
