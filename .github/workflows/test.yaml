@@ -78,7 +78,7 @@ jobs:
         run: |
           ls -la
           uname -a
-          sudo apt update && sudo apt upgrade -y
-          sudo apt install -y cmake git curl gzip zsh
-          curl -fsSL https://get.chezmoi.io | sh -s -- init --apply -S .
-          make sense
+          sudo dpkg --configure -a
+          sudo apt-get update -y && sudo apt-get upgrade -y
+          sudo apt-get install -y cmake git curl gzip zsh gcc build-essential
+          curl -fsLS chezmoi.io/get | sh -s -- init --apply -S .
