@@ -71,14 +71,11 @@ jobs:
       - uses: actions/checkout@v4
       - uses: Vampire/setup-wsl@v3
         with:
-          wsl-shell-command: bash --noprofile --norc -euo pipefail
           distribution: Ubuntu-24.04
 
       - shell: wsl-bash {0}
         run: |
           ls -la
           uname -a
-          sudo dpkg --configure -a
           sudo apt-get update -y && sudo apt-get upgrade -y
-          sudo apt-get install -y cmake git curl gzip zsh gcc build-essential
-          curl -fsLS chezmoi.io/get | sh -s -- init --apply -S .
+          sudo apt-get install -y cmake git curl
