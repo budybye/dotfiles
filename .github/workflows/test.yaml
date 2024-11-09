@@ -69,3 +69,36 @@ jobs:
     runs-on: windows-2022
     steps:
       - uses: actions/checkout@v4
+      - uses: Vampire/setup-wsl@v3
+          with:
+            wsl-shell-command: ash -eu
+      - shell: wsl-ash {0}
+          run: id
+
+      - shell: wsl-bash {0}
+          run: |
+            useradd -m -p 4qBD5NWD3IkbU test
+
+      - uses: Vampire/setup-wsl@v3
+          with:
+             wsl-shell-command: bash -c "sudo -u test bash --noprofile --norc -euo pipefail "\
+
+      - shell: wsl-bash {0}
+          run: id
+
+      - uses: Vampire/setup-wsl@v3
+          with:
+            wsl-shell-command: bash -c "sudo -u test bash --noprofile --norc -euo pipefail '{0}'"
+
+      - shell: wsl-bash {0}
+          run: id
+
+      - uses: Vampire/setup-wsl@v3
+          with:
+            wsl-shell-command: bash -c "cd && bash --noprofile --norc -euo pipefail '{0}'"
+
+      - shell: wsl-bash {0}
+          run: pwd
+
+      - shell: cmd
+          run: DEL /F "${{ steps.execute_action.outputs.wsl-shell-wrapper-path }}"
