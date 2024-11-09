@@ -3,6 +3,7 @@ alias q="exit"
 alias c="clear"
 alias x="cat ~/.config/neofetch/image.txt"
 alias g="git"
+# 現在のブランチに対して add commit push する
 alias bit='git add -A && git commit --allow-empty-message -m "" && git push origin $(git branch | sed -n -e "s/^\* \(.*\)/\1/p")'
 alias hg="history | grep"
 alias www="ps cual"
@@ -56,7 +57,7 @@ fi
 
 # bat
 if command -v bat >/dev/null 2>&1; then
-    alias cat="bat --theme 'Monokai Extended'"
+    alias cat="bat"
 fi
 
 # rg
@@ -71,7 +72,7 @@ fi
 
 # zoxide
 if command -v zoxide >/dev/null 2>&1; then
-    alias cd="zoxide"
+    alias cd="z"
 fi
 
 # tldr
@@ -84,8 +85,6 @@ if command -v chezmoi >/dev/null 2>&1; then
     alias che="chezmoi"
     alias ca="chezmoi apply"
     alias cai="chezmoi init --apply git@github.com:budybye/dotfiles.git"
-    # git push してローカルに反映
-    alias apply="cd ${HOME}/.local/share/chezmoi && bit && chezmoi init --apply -S . && ls -la && cd ${HOME}"
 fi
 
 # vscode vscodium cursor mac ubuntu arm64 対応
@@ -106,6 +105,8 @@ if command -v docker >/dev/null 2>&1; then
     alias dr="docker run --rm"
     alias ds="docker stop $(docker ps -q)"
     alias dps="docker ps --format 'table {{.Names}}\t{{.Image}}\t{{.Ports}}\t{{.Status}}'"
+    # イメージ名を引数にビルドし、プッシュする関数のエイリアス
+    alias ddd='function _ddd() { IMAGE_NAME="$1"; docker build -t "$IMAGE_NAME" . && docker push "$IMAGE_NAME"; }; _ddd'
 
     alias dc="docker compose"
     alias dcb="docker compose build"
@@ -125,12 +126,14 @@ fi
 if command -v multipass >/dev/null 2>&1; then
     alias mu="multipass"
     alias md="multipass launch docker -c 4 -m 8G -d 40G  --timeout 3600 --mount ${HOME}/apps:/home/ubuntu/apps && mu info docker"
-    alias ml="multipass launch -n ubuntu -c 4 -m 8G -d 40G  --timeout 3600 --mount ${HOME}/dotfiles:/home/ubuntu/dotfiles --cloud-init ${HOME}/dotfiles/multipass.yaml"
+    alias ml="multipass launch -n ubuntu -c 4 -m 8G -d 40G  --timeout 3600 --mount ${HOME}/dotfiles:/home/ubuntu/dotfiles --cloud-init ${HOME}/cloud-init/multipass.yaml && mu info docker"
 fi
 
 # kube
 if command -v kubectl >/dev/null 2>&1; then
     alias k="kubectl"
+    # alias kx="kubectx"
+    # alias kn="kubens"
 fi
 
 # apt

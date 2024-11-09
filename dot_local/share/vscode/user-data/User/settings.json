@@ -136,5 +136,8 @@
   "deepl.splitSentences": "1",
   "deepl.translationMode": "Replace",
   "workbench.iconTheme": "simple-icons",
-  "cursor.chat.alwaysSearchWeb": true
+  "cursor.chat.alwaysSearchWeb": true,
+    // "dotfiles.repository": "budybye/dotfiles",
+  // "dotfiles.targetPath": "~/dotfiles",
+  // "dotfiles.installCommand": "make init"
 }

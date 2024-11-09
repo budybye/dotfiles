@@ -14,7 +14,7 @@
 ### 初期設定
 
 ```sh
-curl -fsLS https://chezmoi.io/get | sh -s -- init --apply budybye
+curl -fsLS https://chezmoi.io/get | sh -s -- init --apply git@github.com:budybye/dotfiles.git
 # 初期設定する場合
 cd ~/.local/share/chezmoi
 make sense
