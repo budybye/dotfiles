@@ -71,7 +71,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: Vampire/setup-wsl@v3
         with:
-          wsl-shell-command: ash -eu
+          wsl-shell-command: sh -eu
+          distribution: Ubuntu24.04
             
       - shell: wsl-ash {0}
         run: id
