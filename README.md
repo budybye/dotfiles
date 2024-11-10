@@ -1,9 +1,9 @@
 <!-- <link href="./style.css" rel="stylesheet"></link> -->
 # dotfiles
 
-## 🏴‍☠[budybye/dotfiles](https://github.com/budybye/dotfiles)
+## v.0.2.2
 
-### v.0.2.2
+### 🏴‍☠[budybye/dotfiles](https://github.com/budybye/dotfiles)
 
 
 - このリポジトリは、私の設定ファイルを管理するためのものです。
@@ -12,6 +12,8 @@
 - `Docker` や `Multipass` でも環境設定しています。
 
 ### 初期設定
+
+- `curl` と `git` と `make` が必要です。
 
 ```sh
 curl -fsLS https://chezmoi.io/get | sh -s -- init --apply --verbose git@github.com:budybye/dotfiles.git
@@ -26,23 +28,24 @@ cd dotfiles && make sense
 ### git グローバル設定
 
 ```sh
-vim ~/.config/git/user.conf
-# user.conf に記述
+# 環境変数 を設定していたら
+cat <<EOF >~/.config/git/user.conf
 [user]
-    name = < name >
-    email = < email >
+    name = ${GIT_AUTHOR_NAME}
+    email = ${GIT_AUTHOR_EMAIL}
+EOF
 # or
-git config --global user.name < name >
-git config --global user.email < email >
-```
+git config --global user.name ${GIT_AUTHOR_NAME}
+git config --global user.email ${GIT_AUTHOR_EMAIL}
+``` 
 
 ---
 
 ## 概要
 
-- **対応OS**: MacOS Sonoma、Ubuntu 24.04
-- **テスト**: GitHub Actionsを使用して、さまざまなOSでの動作を確認しています。
-- **今後の計画**: arm64 互換と Windows でも WSL2 と Windows 用の設定ファイルを追加で管理する予定です。
+- **対応OS**: `MacOS` Sequoia、`Ubuntu` 24.04
+- **テスト**: `GitHub Actions` を使用して、さまざまなOSでの動作を確認しています。
+- **今後の計画**: `arm64` 互換と `WSL2` と `Windows` 用の設定ファイルを追加で管理する予定です。
 
 ## 目次
 
@@ -71,7 +74,7 @@ git config --global user.email < email >
 - **XDG_DATA_DIRS**: システム全体のデータファイルの検索パス。
 - **XDG_CONFIG_DIRS**: システム全体の設定ファイルの検索パス。
 - 環境変数で設定できますが、なるべくデフォルトを使用します。
-- 特に .config は様々なツールに使用されているので、なるべく採用します。
+- 特に `~/.config` は様々なツールに使用されているので、なるべく採用します。
 
 ```
 ~/
@@ -151,10 +154,10 @@ git config --global user.email < email >
 ```
 
 - **シェル設定**: ログインシェルやインタラクティブシェルで読み込まれるファイル。
-- **Makefile**: Makefile で シェルスクリプトを設定管理。
+- **Makefile**: `Makefile` で シェルスクリプトを設定管理。
 - **.local/bin**: 初期設定用などのシェルスクリプトを格納するディレクトリ。
-- **.devcontainer**: docker, devcontainer使用する設定ファイル。
-- **.github**: Github Actions の設定ファイル。OS 差異のテスト用やイメージビルド用。
+- **.devcontainer**: `docker` と `devcontainer` 使用する設定ファイル。
+- **.github**: `Github Actions` の設定ファイル。OS 差異のテスト用やイメージビルド用。
 - **~/.config**: 様々なツールやアプリケーションの設定を管理するためのファイル。
 - **.local/share**: ユーザーがインストールしたフォントや壁紙などの共有リソースを格納するディレクトリ。
 
@@ -447,8 +450,8 @@ echo $VAR
 
 ## [Docker](https://docker.com/)
 
-- Dockerfile で Ubuntu のイメージをビルドしてプッシュ
-- Docker コンテナ内で xrdp と xfce を使用した Ubuntu 環境を構築
+- `Dockerfile` で `Ubuntu` のイメージをビルドしてプッシュ
+- `Docker` コンテナ内で `xrdp` と `xfce4` を使用した `Ubuntu` 環境を構築
 - `Dev Container` で使用
 
 ```sh
