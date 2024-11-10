@@ -127,6 +127,7 @@ install_mise() {
             }
         }
         echo "### mise をインストールしました。"
+        echo "export VAR=test" >>./.env
     fi
     which mise
 
