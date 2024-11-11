@@ -48,11 +48,10 @@ jobs:
           restore-keys: |
             ${{ github.ref }}
             refs/head/main
-          path: /tmp/.docker-cache${{ matrix.platforms }}
+          path: /tmp/.docker-cache${{ matrix.platforms }} # キャッシュのパスを指定
 
       # qemuをセットアップ
       - uses: docker/setup-qemu-action@v3
-        platform: ${{ matrix.platforms }}
 
       # イメージをビルドしてPush
       - uses: docker/build-push-action@v5
