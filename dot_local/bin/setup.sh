@@ -9,65 +9,50 @@ arch="$(dpkg --print-architecture)"
 
 # デスクトップ環境のインストール
 desktop_setup() {
+    echo "### デスクトップ環境のインストールを開始します..."
     sudo apt-get update -y && sudo apt-get upgrade -y
     sudo apt-get install -y xfce4 xfce4-goodies xrdp xorgxrdp language-pack-ja-base language-pack-ja manpages-ja fcitx5-mozc wireshark plank || {
         echo "### デスクトップ環境のインストールに失敗しました。"
         exit 1
     }
     # sudo apt-get remove -y light-locker xscreensaver &&
-        sudo apt-get autoremove -y &&
-            sudo apt-get clean &&
-                sudo rm -rf /var/cache/apt /var/lib/apt/lists/*
-
+    sudo apt-get autoremove -y && sudo apt-get clean && sudo rm -rf /var/cache/apt /var/lib/apt/lists/*
     echo "### デスクトップ環境のインストールが完了しました。"
 }
 
 # Snap をインストールおよび管理する関数
 install_snap() {
-    if ! command -v snap >/dev/null 2>&1; then
-        sudo apt-get install -y snapd || {
-            echo "### snapd のインストールに失敗しました。"
-            exit 1
-        }
-        echo "### snapd をインストールしました。"
-    else
-        echo "### snapd は既にインストールされています。"
-    fi
+    echo "### snapd のインストールを開始します..."
+    command -v snap >/dev/null || sudo apt-get install -y snapd || {
+        echo "### snapd のインストールに失敗しました。"
+        exit 1
+    }
+    echo "### snapd をインストールしました。"
 
-    # Codium のインストール確認
-    if ! command -v codium >/dev/null 2>&1; then
-        sudo snap install codium --classic || {
-            echo "### codium のインストールに失敗しました。"
-            exit 1
-        }
-        echo "### codium をインストールしました。"
-    else
-        echo "### codium は既にインストールされています。"
-    fi
+    echo "### Codium のインストールを開始します..."
+    command -v codium >/dev/null || sudo snap install codium --classic || {
+        echo "### codium のインストールに失敗しました。"
+        exit 1
+    }
+    echo "### codium をインストールしました。"
     which codium
 
-    # Speedtest のインストール確認
-    if ! command -v speedtest >/dev/null 2>&1; then
-        sudo snap install speedtest || {
-            echo "### speedtest のインストールに失敗しました。"
-            exit 1
-        }
-        echo "### speedtest をインストールしました。"
-    else
-        echo "### speedtest は既にインストールされています。"
-    fi
+    echo "### Speedtest のインストールを開始します..."
+    command -v speedtest >/dev/null || sudo snap install speedtest || {
+        echo "### speedtest のインストールに失敗しました。"
+        exit 1
+    }
+    echo "### speedtest をインストールしました。"
     which speedtest
 
-    # Firefox の削除確認
-    if command -v firefox >/dev/null 2>&1; then
-        sudo snap remove firefox || {
-            echo "### firefox のアンインストールに失敗しました。"
-            exit 1
-        }
-        echo "### firefox を削除しました。"
-    else
-        echo "### firefox はインストールされていません。"
-    fi
+    echo "### Firefox のアンインストールを開始します..."
+    command -v firefox >/dev/null 2>&1 && sudo snap remove firefox || {
+        echo "### firefox のアンインストールに失敗しました。"
+        exit 1
+    }
+    echo "### firefox を削除しました。"
+
+    # echo "### chromium のインストールを開始します..."
     # sudo snap install chromium || {
     #     echo "### chromium のインストールに失敗しました。"
     #     exit 1
@@ -75,11 +60,12 @@ install_snap() {
     # echo "### chromium をインストールしました。"
     # which chromium
 
-    echo "### Snap のインストールが完了しました。"
+    echo "### Snap tool のインストールが完了しました。"
 }
 
 # Brave ブラウザをインストールする関数
 install_brave_browser() {
+    echo "### Brave ブラウザのインストールを開始します..."
     sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg \
         https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
     echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] \
@@ -95,6 +81,7 @@ install_brave_browser() {
 
 # Tabby Terminal をインストールする関数
 install_tabby_terminal() {
+    echo "### Tabby Terminal のインストールを開始します..."
     curl https://packagecloud.io/install/repositories/eugeny/tabby/script.deb.sh | sudo bash
     sudo apt-get update -y
     sudo apt-get install -y tabby-terminal || {
@@ -107,18 +94,15 @@ install_tabby_terminal() {
 
 # Cloudflare Warp をインストールおよび設定する関数
 install_cloudflare_warp() {
-    if ! command -v warp-cli >/dev/null 2>&1; then
-        sudo curl -fsSL https://pkg.cloudflareclient.com/pubkey.gpg | sudo gpg --yes --dearmor --output /usr/share/keyrings/cloudflare-warp-archive-keyring.gpg
-        echo "deb [signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg] https://pkg.cloudflareclient.com/ $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/cloudflare-client.list
-        sudo apt-get update -y
-        sudo apt-get install -y cloudflare-warp || {
-            echo "### warp のインストールに失敗しました。"
-            exit 1
-        }
-        echo "### cloudflare-warp をインストールしました。"
-    else
-        echo "### cloudflare-warp はインストールされています。"
-    fi
+    echo "### Cloudflare Warp のインストールを開始します..."
+    sudo curl -fsSL https://pkg.cloudflareclient.com/pubkey.gpg | sudo gpg --yes --dearmor --output /usr/share/keyrings/cloudflare-warp-archive-keyring.gpg
+    echo "deb [signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg] https://pkg.cloudflareclient.com/ $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/cloudflare-client.list
+    sudo apt-get update -y
+    sudo apt-get install -y cloudflare-warp || {
+        echo "### warp のインストールに失敗しました。"
+        exit 1
+    }
+    echo "### cloudflare-warp をインストールしました。"
     which warp-cli
 
     warp-cli --accept-tos registration new
@@ -132,6 +116,7 @@ install_cloudflare_warp() {
 
 # GitHub Desktop と Cursor をインストールする関数
 install_github_desktop() {
+    echo "### GithubDesktop のインストールを開始します..."
     sudo wget https://github.com/shiftkey/desktop/releases/download/release-3.4.3-linux1/GitHubDesktop-linux-${arch}-3.4.3-linux1.deb
     sudo dpkg -i GitHubDesktop-linux-${arch}-3.4.3-linux1.deb || {
         echo "### GithubDesktop のインストールに失敗しました。"
@@ -143,6 +128,7 @@ install_github_desktop() {
 
 # Cursor をインストールする関数
 install_cursor() {
+    echo "### Cursor のインストールを開始します..."
     appimage="${HOME}/Applications/cursor"
     mkdir -p "${HOME}/Applications"
     if [ "${arch}" = "amd64" ]; then
@@ -163,15 +149,12 @@ install_cursor() {
 
 # Wireshark をインストールおよび設定する関数
 install_wireshark() {
-    if ! command -v wireshark >/dev/null 2>&1; then
-        sudo apt install -y wireshark || {
-            echo "### wireshark のインストールに失敗しました。"
-            exit 1
-        }
-        echo "### wireshark をインストールしました。"
-    else
-        echo "### wireshark は既にインストールされています。"
-    fi
+    echo "### Wireshark のインストールを開始します..."
+    sudo apt install -y wireshark || {
+        echo "### wireshark のインストールに失敗しました。"
+        exit 1
+    }
+    echo "### wireshark をインストールしました。"
     sudo groupadd -f wireshark
     sudo usermod -aG wireshark "$USER_NAME"
     which wireshark
@@ -179,17 +162,15 @@ install_wireshark() {
 
 # Ruby と Fusuma をインストールおよび設定する関数
 install_ruby_fusuma() {
-    if ! command -v gem >/dev/null 2>&1; then
-        mise use ruby -y || sudo apt-get install -y ruby || {
-            echo "### ruby のインストールに失敗しました。"
-            exit 1
-        }
-        echo "### ruby をインストールしました。"
-    else
-        echo "### ruby は既にインストールされています。"
-    fi
+    echo "### Ruby と Fusuma のインストールを開始します..."
+    command -v gem >/dev/null || mise use ruby -y || sudo apt-get install -y ruby || {
+        echo "### ruby のインストールに失敗しました。"
+        exit 1
+    }
+    echo "### ruby をインストールしました。"
     which ruby
 
+    echo "### fusuma のインストールを開始します..."
     sudo gem install fusuma || {
         echo "### fusuma のインストールに失敗しました。"
         exit 1
@@ -272,7 +253,7 @@ main() {
     install_fonts
     japan_setup
     xrdp_setup
-    echo "### デスクトップ環境のインストールが完了しました。"
+    echo "### デスクトップ環境の設定が完了しました。"
 }
 
 main

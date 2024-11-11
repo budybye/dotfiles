@@ -19,7 +19,7 @@ fi
 sudo mkdir -p "${CODE_DIR}/User"
 
 # 設定ファイルをバックアップし、新しいファイルを作成する汎用関数
-manage_json_file() {
+copy_json_file() {
     local json_type="$1"  # 'settings' または 'keybindings'
     local json_file="${CODE_DIR}/User/${json_type}.json"
     local from_file="${FROM}/user-data/User/${json_type}.json"
@@ -63,8 +63,8 @@ extensions_json() {
 main() {
     echo "VSCodeの設定を開始します..."
     extensions_json
-    manage_json_file "settings"
-    manage_json_file "keybindings"
+    copy_json_file "settings"
+    copy_json_file "keybindings"
     tree "${CODE_DIR}"
     echo "VSCodeの設定が完了しました。"
 }
