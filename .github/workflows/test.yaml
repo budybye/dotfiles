@@ -66,14 +66,12 @@ jobs:
           cache-from: type=local,src=/tmp/.docker-cache # キャッシュを指定
           cache-to: type=local,dest=/tmp/.docker-new-cache # キャッシュ更新
 
-      # docker composeをテスト
       - name: docker compose test
-        run: |
-          cd .devcontainer
-          docker compose up -d
-          docker logs ipfs
-          docker ps -a
-          docker compose down
+        uses: hoverkraft-tech/compose-action@v2
+        with:
+          compose-file: ".devcontainer/docker-compose.yaml"
+          up-flags: "-d"
+          
 
       # キャッシュを更新
       - name: Update cache
