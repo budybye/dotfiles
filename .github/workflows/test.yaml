@@ -71,6 +71,7 @@ jobs:
         uses: cloudposse/github-action-docker-compose-test-run@main
         with:
           file: .devcontainer/docker-compose.yaml
+          registry: ghcr.io/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ github.ref_name }}
           # service: ubuntu
           # command: uname -a
 
