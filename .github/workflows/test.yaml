@@ -65,12 +65,14 @@ jobs:
           push: true # ghcrにPush
           cache-from: type=local,src=/tmp/.docker-cache${{ matrix.platforms }} # キャッシュを指定
           cache-to: type=local,dest=/tmp/.docker-new-cache${{ matrix.platforms }} # キャッシュ更新
+          outputs: type=image,name=target,annotation-index.org.opencontainers.image.description=${{ matrix.platforms }}
 
       - name: docker compose test
-        uses: hoverkraft-tech/compose-action@v2.0.2
+        uses: cloudposse/github-action-docker-compose-test-run@main
         with:
-          compose-file: ".devcontainer/docker-compose.yaml"
-          up-flags: "-d"
+          file: .devcontainer/docker-compose.yaml
+          service: ubuntu
+          command: uname -a
 
       # キャッシュを更新
       - name: Update cache

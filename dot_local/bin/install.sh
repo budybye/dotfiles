@@ -225,6 +225,7 @@ main() {
     install_cargo_tools
     install_go_aqua
     install_mkcert
+    install_act
     install_multipass
     git_setup
     echo "### インストールが完了しました。再起動してください。"
