@@ -3,22 +3,18 @@ set -x
 
 # ユーザー名を動的に取得
 USER_NAME=${SUDO_USER:-$(whoami)}
-
 # アーキテクチャを取得
 arch="$(dpkg --print-architecture)"
 
 # Zsh をデフォルトシェルに変更する関数
 change_shell_to_zsh() {
-    # Zsh がインストールされているか確認
-    if ! command zsh >/dev/null 2>&1; then
-        echo "### zsh がインストールされていません。インストールを行います。"
-        sudo apt-get install -y zsh || {
-            echo "### zsh のインストールに失敗しました。"
-            exit 1
-        }
-    fi
+    echo "### zsh のインストールを開始します..."
+    command -v zsh >/dev/null || sudo apt-get install -y zsh || {
+        echo "### zsh のインストールに失敗しました。"
+        exit 1
+    }
+    # デフォルトシェルを変更
     zsh_path=$(command -v zsh)
-    # デフォルトシェルを Zsh に変更
     sudo chsh -s "${zsh_path}" "${USER_NAME}" || {
         echo "### デフォルトシェルの変更に失敗しました。"
         exit 1
@@ -39,20 +35,15 @@ install_packages() {
         echo "### apt のインストールに失敗しました。"
         exit 1
     }
-    sudo apt-get autoremove -y &&
-        sudo apt-get clean &&
-            sudo rm -rf /var/cache/apt /var/lib/apt/lists/*
-
     echo "### 必要なパッケージがインストールされました。"
+    sudo apt-get autoremove -y && sudo apt-get clean && sudo rm -rf /var/cache/apt /var/lib/apt/lists/*
 }
 
 install_docker_compose() {
     # 最新バージョンを取得
     COMPOSE_VERSION=$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep tag_name | cut -d '"' -f 4)
-
     # ダウンロード URL の作成
     COMPOSE_URL="https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)"
-
     # Docker Compose のバイナリをダウンロード
     sudo curl -L "$COMPOSE_URL" -o /usr/local/bin/docker-compose || {
         echo "### Docker Compose のダウンロードに失敗しました。"
@@ -60,7 +51,6 @@ install_docker_compose() {
     }
     sudo chmod +x /usr/local/bin/docker-compose
     echo "### Docker Compose をインストールしました。バージョン: ${COMPOSE_VERSION}"
-
     # シンボリックリンクを作成（必要に応じて）
     if ! command -v docker-compose >/dev/null 2>&1; then
         sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose || {
@@ -68,43 +58,23 @@ install_docker_compose() {
             exit 1
         }
     fi
-
-    # インストール確認
-    if command -v docker-compose >/dev/null 2>&1; then
-        echo "### Docker Compose のインストールが確認されました。"
-        which docker-compose
-    else
-        echo "### Docker Compose のインストールに失敗しました。"
-        exit 1
-    fi
+    echo "### Docker Compose のインストールが確認されました。"
+    which docker-compose
 }
 
 install_docker() {
-    # Docker の公式 GPG キーを追加
+    echo "### Docker のインストールを開始します..."
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-    echo "### Docker の GPG キーを追加しました。"
-
-    # Docker のリポジトリを設定
-    echo "deb [arch=${arch} signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
-        $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
-    echo "### Docker のリポジトリを追加しました。"
-
-    # パッケージリストを更新
+    echo "deb [arch=${arch} signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
     sudo apt-get update -y
-
-    # Docker Engine をインストール
     sudo apt-get install -y docker-ce docker-ce-cli containerd.io || {
         echo "### docker のインストールに失敗しました。"
         exit 1
     }
     echo "### Docker Engine をインストールしました。"
     sudo chmod 666 /var/run/docker.sock
-    # 現在のユーザーを docker グループに追加
     sudo groupadd -f docker
     sudo usermod -aG docker "$USER_NAME"
-    echo "### ユーザーを docker グループに追加しました。"
-
-    # Docker サービスを開始および有効化
     sudo systemctl enable docker
     sudo systemctl start docker
     echo "### Docker サービスを開始および有効化しました。"
@@ -114,7 +84,7 @@ install_docker() {
 
 # mise でインストールする関数
 install_mise() {
-    if ! command -v mise >/dev/null 2>&1; then
+    command -v mise >/dev/null || {
         curl https://mise.run | sh || {
             sudo install -dm 755 /etc/apt/keyrings
             wget -qO - https://mise.jdx.dev/gpg-key.pub | gpg --dearmor | sudo tee /etc/apt/keyrings/mise-archive-keyring.gpg 1>/dev/null
@@ -126,92 +96,97 @@ install_mise() {
                 exit 1
             }
         }
-        echo "### mise をインストールしました。"
-        echo "export VAR=test" >>./.env
-    fi
-    which mise
-
+    }
     mise activate zsh
     # mise activate --shims
+    mise set
+    echo "### mise をインストールしました。"
+    which mise
 
     mise use chezmoi bun starship node go -y --verbose || {
         echo "### mise use に失敗しました。"
         exit 1
     }
     echo "### miseの設定を完了しました。"
+    echo "chezmoi bun starship node go" | xargs which
 }
 
 # Cargo および Rust 関連ツールをインストールする関数
 install_cargo_tools() {
-    if ! command -v cargo >/dev/null 2>&1; then
-        mise use rust -y || sudo apt-get install -y cargo
-    else
-        echo "### cargo は既にインストールされています。"
-    fi
-    cargo install sheldon fd-find xh bat
-    # cargo install starship sheldon fd-find xh bat
-    echo "### cargo ツールがインストールされました。"
+    echo "### cargo のインストールを開始します..."
+    command -v cargo >/dev/null || mise use rust -y || sudo apt-get install -y cargo || {
+        echo "### cargo のインストールに失敗しました。"
+        exit 1
+    }
+    echo "### cargo をインストールしました。"
     which cargo
+
+    echo "### cargo ツールのインストールを開始します..."
+    cargo install sheldon fd-find xh bat || {
+        echo "### cargo ツールのインストールに失敗しました。"
+        exit 1
+    }
+    echo "### cargo ツールがインストールされました。"
+    echo "sheldon fd-find xh bat" | xargs which
 }
 
 # Bitwarden をインストールする関数
 install_bitwarden() {
-    if ! command -v bitwarden >/dev/null 2>&1; then
+    echo "### bitwarden のインストールを開始します..."
+    command -v bitwarden >/dev/null || {
         if [ "${arch}" = "amd64" ]; then
-            sudo snap install bitwarden || {
-                echo "### snap のインストールに失敗しました。"
-                exit 1
-            }
+            sudo snap install bitwarden
         else
-            bun install -g @bitwarden-cli/cli || {
-                echo "### bun のインストールに失敗しました。"
-                exit 1
-            }
+            bun install -g @bitwarden-cli/cli
             . ${HOME}/.zshenv
-            echo "### bitwarden をインストールしました。"
         fi
-    fi
+    } || {
+        echo "### bitwarden のインストールに失敗しました。"
+        exit 1
+    }
+    echo "### bitwarden をインストールしました。"
     which bw
 }
 
 # Go と Aqua をインストールする関数
 install_go_aqua() {
-    # Go がインストールされているか確認
-    if ! command -v go >/dev/null 2>&1; then
-        mise use go -y || sudo apt-get install -y golang || {
-            echo "### go のインストールに失敗しました。"
-            exit 1
-        }
-        echo "### go をインストールしました。"
-    else
-        echo "### go は既にインストールされています。"
-    fi
+    echo "### go のインストールを開始します..."
+    command -v go >/dev/null || mise use go -y || sudo apt-get install -y golang || {
+        echo "### go のインストールに失敗しました。"
+        exit 1
+    }
+    echo "### go をインストールしました。"
     which go
 
-    # Aqua をインストールおよび初期化
+    echo "### aqua のインストールを開始します..."
     go install github.com/aquaproj/aqua/v2/cmd/aqua@latest || {
         echo "### aqua のインストールに失敗しました。"
         exit 1
     }
     echo "### aqua をインストールしました。"
-    # export PATH="${AQUA_ROOT_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/aquaproj-aqua}/bin:$PATH"
     # which aqua
 }
 
 # mkcert をインストールおよび設定する関数
 install_mkcert() {
-    if ! command -v mkcert >/dev/null 2>&1; then
-        mise use mkcert -y || sudo apt install -y mkcert || {
-            echo "### mkcert のインストールに失敗しました。"
-            exit 1
-        }
-        echo "### mkcert をインストールしました。"
-        mkcert -install
-    else
-        echo "### mkcert は既にインストールされています。"
-        mkcert -install
-    fi
+    echo "### mkcert のインストールを開始します..."
+    command -v mkcert >/dev/null || mise use mkcert -y || sudo apt install -y mkcert || {
+        echo "### mkcert のインストールに失敗しました。"
+        exit 1
+    }
+    mkcert -install
+    echo "### mkcert のインストールが完了しました。"
     which mkcert
+}
+
+install_multipass() {
+    echo "### multipass のインストールを開始します..."
+    command -v multipass >/dev/null || sudo snap install multipass || {
+        echo "### multipass のインストールに失敗しました。"
+        exit 1
+    }
+    echo "### multipass のインストールが完了しました。"
+    which multipass
 }
 
 # Gitの設定
@@ -222,6 +197,7 @@ git_setup() {
     # git config --global user.email "${GIT_AUTHOR_EMAIL}"
     # GitHub CLIの認証（コメントアウトされているので必要に応じて有効化）
     # gh auth login
+    git config --global commit.template ${HOME}/.config/git/commit.template
     git status
 }
 
@@ -237,6 +213,7 @@ main() {
     install_cargo_tools
     install_go_aqua
     install_mkcert
+    install_multipass
     git_setup
     echo "### インストールが完了しました。再起動してください。"
     neofetch

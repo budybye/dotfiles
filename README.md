@@ -19,6 +19,7 @@
 curl -fsLS https://chezmoi.io/get | sh -s -- init --apply --verbose git@github.com:budybye/dotfiles.git
 # or
 chezmoi init --apply --verbose git@github.com:budybye/dotfiles.git
+
 # ~/に配置する場合
 cd ~
 git clone git@github.com:budybye/dotfiles.git
@@ -37,6 +38,8 @@ EOF
 # or
 git config --global user.name ${GIT_AUTHOR_NAME}
 git config --global user.email ${GIT_AUTHOR_EMAIL}
+# コミットメッセージのテンプレート
+git config --global commit.template ~/.config/git/commit_template
 ``` 
 
 ---
@@ -206,6 +209,25 @@ flowchart TD
     E2 --> E3[カスタマイズされた環境を構築]
 ```
 
+```mermaid
+sequenceDiagram
+    participant H as Home Directory
+    participant W as Working Copy
+    participant L as Local Repo
+    participant R as Remote Repo
+
+    H->>L: chezmoi init
+    H->>W: chezmoi add <file>
+    W->>W: chezmoi edit <file>
+    W-->>H: chezmoi diff
+    W->>H: chezmoi apply
+    H-->>W: chezmoi cd
+    W->>L: git add .
+    W->>L: git commit
+    L->>R: git push
+    R->>H: chezmoi init --apply <repo>
+```
+
 ### 管理方法
 
 | OS         | 管理方法               | コメント                           |
@@ -226,66 +248,67 @@ flowchart TD
 
 |  | MacOS | Ubuntu | Docker  |
 | --- | :---: | :---: | :---: |
-| Chezmoi | ✅ | ✅ | ✅ |
-| Script | ✅ | ✅ | ✅ |
-| Makefile | ✅ | ✅ | ✅ |
-| Zsh | ✅ | ✅ | ✅ |
-| Git | ✅ | ✅ | ✅ |
+| Chezmoi | brew | mise | mise |
+| Script | make | make | make |
+| Makefile | make | make | make |
+| Zsh | default | apt | apt |
+| Git | brew | apt | apt |
 | Github Actions | ✅ | ✅ | ✅ |
-| Github CLI | ✅ | ✅ | ✅ |
-| Bitwarden CLI | ✅ | ✅ | ✅ |
-| Docker | ✅ | ✅ | ✅ |
+| Github CLI | brew | apt | apt |
+| Bitwarden CLI | brew | snap/npm | snap/npm |
+| Docker | brew | apt | apt |
 | Dev Container | ✅ | ✅ | ✅ |
-| Multipass | ✅ | ✅ |  |
+| Multipass | brew | snap | snap |
 | Homebrew | ✅ |  |  |
 
-| Tool | MacOS | Ubuntu | Docker |
+| CLI Tool | MacOS | Ubuntu | Docker |
 | --- | :---: | :---: | :---: |
-| Mise | ✅ | ✅ | ✅ |
-| Starship | ✅ | ✅ | ✅ |
-| Sheldon | ✅ | ✅ | ✅ |
-| lsd | ✅ | ✅ | ✅ |
-| bat | ✅ | ✅ | ✅ |
-| ripgrep | ✅ | ✅ | ✅ |
-| fzf | ✅ | ✅ | ✅ |
-| zoxide | ✅ | ✅ | ✅ |
-| fd-find | ✅ | ✅ | ✅ |
+| Byobu | brew | apt | apt |
+| Vim | brew | apt | apt |
+| Fish | brew | apt | apt |
+| aqua VM | brew | apt | apt |
+| MPD | brew | apt | apt |
+| Ncmpcpp | brew | apt | apt |
+| fcitx5 |  | apt | apt |
+| Neofetch | fastfetch | apt | apt |
 
-| cli | MacOS | Ubuntu | Docker |
+| Rust Tool | MacOS | Ubuntu | Docker |
 | --- | :---: | :---: | :---: |
-| Byobu | ✅ | ✅ | ✅ |
-| Vim | ✅ | ✅ | ✅ |
-| Fish | ✅ | ✅ | ✅ |
-| aqua VM | ✅ | ✅ | ✅ |
-| MPD | ✅ | ✅ | ✅ |
-| Ncmpcpp | ✅ | ✅ | ✅ |
-| fcitx5 |  | ✅ | ✅ |
-| Neofetch |  | ✅ | ✅ |
+| Mise | brew | curl | curl |
+| Starship | brew | mise/cargo | mise/cargo |
+| Sheldon | brew | cargo | cargo |
+| lsd | brew | apt | apt |
+| bat | brew | apt | apt |
+| ripgrep | brew | apt | apt |
+| fzf | brew | apt | apt |
+| zoxide | brew | apt | apt |
+| fd-find | brew | apt | apt |
 
 | Language | MacOS | Ubuntu | Docker |
 | --- | :---: | :---: | :---: |
-| Node.js | ✅ | ✅ | ✅ |
-| Bun | ✅ | ✅ | ✅ |
-| Python | ✅ | ✅ | ✅ |
-| Go | ✅ | ✅ | ✅ |
-| Rust | ✅ | ✅ | ✅ |
-| Ruby | ✅ | ✅ | ✅ |
-| Java | ✅ | ✅ | ✅ |
+| Node.js | mise | mise | mise |
+| Bun | mise | mise | mise |
+| Deno | mise | mise/snap | mise/snap |
+| Go | mise | mise/snap | mise/snap |
+| Python | mise | mise/apt | mise/apt |
+| Java | mise | mise/apt | mise/apt |
+| Rust | mise | mise/apt | mise/apt |
+| Ruby | mise | mise/apt | mise/apt |
 
 | Desktop | MacOS | Ubuntu | Docker |
 | --- | :---: | :---: | :---: |
-| Xfce4 |  | ✅ | ✅ |
-| Xrdp |  | ✅ | ✅ |
-| VSCode | ✅ |  | ✅ |
-| VSCodium |  | ✅ |  |
-| Cursor | ✅ | ✅ |  |
-| Github Desktop | ✅ | ✅ | ✅ |
-| Tabby | ✅ | ✅ | ✅ |
-| Brave | ✅ | ✅ | ✅ |
-| Cloudflare Warp | ✅ | ✅ | ✅ |
-| Wireshark | ✅ | ✅ | ✅ |
-| Fusuma |  | ✅ |  |
-| Karabiner-Elements | ✅ |  |  |
+| Xfce4 |  | apt | apt |
+| Xrdp |  | apt | apt |
+| VSCode | brew |  | apt |
+| VSCodium |  | snap | snap |
+| Cursor | brew | AppImage | AppImage |
+| Github Desktop | brew | apt | apt |
+| Tabby | brew | apt | apt |
+| Brave | brew | apt | apt |
+| Cloudflare Warp | brew | apt | apt |
+| Wireshark | brew | apt | apt |
+| Fusuma |  | gem | gem |
+| Karabiner-Elements | brew |  |  |
 
 ---
 
@@ -293,8 +316,22 @@ flowchart TD
 
 ### Chezmoi を使用して Dotfiles を管理します。
 
+- `chezmoi init` で初期化して `chezmoi cd` で移動して `chezmoi add` でファイルを追加します。
+- `chezmoi apply` で変更を適用します。
+- `chezmoi diff` で差分を確認します。
+- `chezmoi chattr` でファイルの属性を変更します。
+- `chezmoi update` でリモートからの状態を反映します。
+
 ```sh
-# 初期化
+# インストールされてない場合
+curl -sfL https://chezmoi.io/get | sh -s -- init --apply budybye
+# or
+make init
+
+# MacOS
+brew install chezmoi
+
+# 初期化 ~/.local/share/chezmoi が作成されて ~/ 以下に反映される
 chezmoi init --apply budybye
 # cd コマンドで移動 ~/.local/share/chezmoi
 chezmoi cd
@@ -312,6 +349,8 @@ chezmoi chattr < Filename >
 chezmoi update
 ```
 
+---
+
 ## [Makefile](https://.gnu.org/software/make/manual/make.html)
 
 ### Makefile でシェルスクリプトを管理。
@@ -320,10 +359,14 @@ chezmoi update
 # 環境ごとに分けたシェルスクリプトを実行
 make sense
 # シェルスクリプトを実行
+make init
 make install
 make bootstrap
+make defaults
 make setup
-make init
+make code
+make link
+make keygen
 ```
 
 ```Makefile:Makefile
@@ -347,14 +390,20 @@ init:
 ...
 ```
 
+- `make sense` で環境ごとに分けた初期設定用のシェルスクリプトを実行できます。
+- `chezmoi` と `make` を連携してドットファイルを管理します。
+- `make.log` を出力してログを確認できます。
+- ほとんどの環境でデフォルトで `make` が使えます。
+
 ---
 
 ## [Github Actions](https://docs.github.com/en/actions)
 
-- Main Branch に Push されたときにテストします。
-- Github Actions を使用すると様々なOSでテストできます。
-- Docker 製の action を使用して image を build して push できます。
-- やろうと思えば arm64 や windows でもテストできるかもしれません。
+- `Main Branch` に Push されたときにテストします。
+- `Github Actions` を使用すると様々なOSでテストできます。
+- `Docker` 製の action を使用して Image を Build して `Github Packages` に Push できます。
+- `Cross Platform` 対応の Image を作成して `Github Packages` に Push したい。
+- `Runs_On` が対応しているので `arm64` や `Windows` でもテストできるかもしれません。
 
 ### test.yaml でテスト
 
@@ -369,9 +418,9 @@ jobs:
       # make 経由でシェルスクリプトを実行
       - run: make sense
     ...
-  # macos sonoma でテスト
+  # macos sequoia でテスト
   macos:
-    runs-on: macos-14
+    runs-on: macos-15
     ...
   # docker でテスト
   docker:
@@ -392,7 +441,7 @@ jobs:
 
 ## [Mise](https://mise.jdx.dev/)
 
-### Mise を使用してツールを管理します。
+### Mise を使用してプログラミングツールやCLIツールを管理します。
 
 ```sh
 # ツールをインストール
@@ -406,6 +455,15 @@ mise trust
 # 環境変数を表示
 mise set
 ```
+
+- `asdf` と 互換性があり `tool-versions` ファイルを使用できます。
+- ディレクトリ毎にツールや環境変数を管理できます。
+- `mise trust` でファイルを信頼して環境変数を読み込みます。
+- `chezmoi` や `starship` もインストール管理できます。
+- 依存関係は自動で解決できないことがあるので注意が必要です。
+- ツールのバージョンを指定してインストールしたり複数管理できます。
+- `~/.config/mise/config.toml` でグローバルな設定ができます。
+- `.mise.toml` でローカルな設定ができます。
 
 ## 環境変数
 

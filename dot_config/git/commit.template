@@ -1,4 +1,4 @@
-# git config --global commit.template ~/.config/git/commit_template
+# git config --global commit.template ~/.config/git/commit.template
 
 # ======== Emoji Prefix ========
 # 🎉  :popper: Initial commit.

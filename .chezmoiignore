@@ -1,24 +1,26 @@
-{{if eq .chezmoi.os "darwin"}}
+{{ if eq .chezmoi.os "darwin" }}
     .config/fusuma
     .config/VSCodium
     .config/fcitx5
     .local/bin/install.sh
     .local/bin/setup.sh
-{{else if eq .chezmoi.os "linux"}}
+{{ else if eq .chezmoi.os "linux" }}
     .config/Brewfile*
     .config/vscode
     .config/karabiner
     .local/bin/bootstrap.sh
     .local/bin/defaults.sh
-{{end}}
+{{ end }}
+
+{{ if eq .chezmoi.os "darwin" }}
+    .config/Brewfile*
+{{ end }}
 
 README.md
 style.css
 multipass.yaml
 Makefile
-
 .gitignore
 .github
-
 .mise.toml
 .env
