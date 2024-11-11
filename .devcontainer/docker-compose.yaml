@@ -58,7 +58,7 @@ services:
       - app-network
     volumes:
       - ./dev/cloudflared:/home/nonroot/.cloudflared
-    command: tunnel run --url http://portainer:9443
+    command: tunnel --url http://portainer:9443
 
 networks:
   app-network:
