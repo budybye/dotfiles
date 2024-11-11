@@ -12,7 +12,7 @@
     .local/bin/defaults.sh
 {{ end }}
 
-{{ if eq .chezmoi.os "darwin" }}
+{{ if eq .chezmoi.os "windows" }}
     .config/Brewfile*
 {{ end }}
 
