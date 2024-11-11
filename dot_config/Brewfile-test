@@ -3,6 +3,7 @@ cask_args appdir: "/Applications"
 tap "homebrew/bundle"
 tap "aquaproj/aqua"
 
+brew "age"
 brew "autoconf"
 brew "automake"
 brew "ain"

@@ -26,7 +26,7 @@ change_shell_to_zsh() {
 install_packages() {
     sudo dpkg --configure -a
     sudo apt-get update -y && sudo apt-get upgrade -y
-    sudo apt-get install -y curl wget git build-essential cmake dbus-x11 gnupg g++ gh jq sudo \
+    sudo apt-get install -y curl wget git build-essential cmake dbus-x11 gnupg g++ gh jq sudo age \
         zsh vim tree xsel ncdu xdotool mkcert moreutils multitail neofetch lsd zoxide direnv \
         libfuse2 libssl-dev pkg-config apt-transport-https ca-certificates lsb-release libnss3-tools \
         libinput-tools libdb-dev libdb5.3-dev libgdbm-dev libgmp-dev libgmpxx4ldbl libgdbm-compat-dev rustc \

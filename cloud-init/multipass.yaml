@@ -89,6 +89,7 @@ packages:
   # 開発ツール
   - build-essential
   - cmake
+  - age
   - g++
   - libfuse2
   - libssl-dev
