@@ -97,6 +97,8 @@ install_mise() {
             }
         }
     }
+    # .env ファイルを作成 (~/dotfiles を mise で設定してる関係)
+    echo "exportGIT_AUTHOR_NAME=budybye" >>./.env
     mise activate zsh
     # mise activate --shims
     mise set
