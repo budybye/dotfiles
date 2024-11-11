@@ -5,9 +5,8 @@ set -ex
 DOTFILES="${HOME}/.local/share/chezmoi"
 HOME_DOTFILES="${HOME}/dotfiles"
 
-ln -sf "${DOTFILES}" "${HOME_DOTFILES}" || echo "### シンボリックリンクの作成に失敗しました。"
-tree "${HOME_DOTFILES}"
-echo "### link.sh が完了しました。"
+ln -sf "${DOTFILES}" "${HOME_DOTFILES}" || echo "### ${DOTFILES} のシンボリックリンクの作成に失敗しました。"
+echo "### link.sh が完了しました。" && ls -la "${HOME_DOTFILES}"
 
 # mkdir -p "${HOME}/.config/git"
 # ln -sf "${DOTFILES}/.config/git/config" "${HOME}/.config/git/config"

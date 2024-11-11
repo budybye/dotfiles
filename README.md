@@ -3,17 +3,20 @@
 
 ## v.0.2.2
 
-### 🏴‍☠[budybye/dotfiles](https://github.com/budybye/dotfiles)
+### 🏴‍☠ [budybye/dotfiles](https://github.com/budybye/dotfiles)
 
 
-- このリポジトリは、私の設定ファイルを管理するためのものです。
-- さまざまなツールや設定ファイルを統合し、効率的な開発環境を構築運用することを目的としています。
+- このリポジトリは、私、個人の設定ファイルを管理するためのものです。
+- さまざまなツールや設定ファイルを統合、管理、改善して、効率的に設定された環境を構築することを目的としています。
 - `MacOS` と `Ubuntu` の設定ファイルを管理しています。
 - `Docker` や `Multipass` でも環境設定しています。
+- 複雑でなければ `Ansible` や `Terraform` も追加予定...
+- `.github/workflows/*.yaml` で環境ごとのテストを行っています。
+- `SSH` やシークレットな情報は `.env` `age` `Bitwarden` で管理しています。
 
 ### 初期設定
 
-- `curl` と `git` と `make` が必要です。
+- `curl` `git` `make` が必要です。
 
 ```sh
 curl -fsLS https://chezmoi.io/get | sh -s -- init --apply --verbose git@github.com:budybye/dotfiles.git
@@ -23,7 +26,8 @@ chezmoi init --apply --verbose git@github.com:budybye/dotfiles.git
 # ~/に配置する場合
 cd ~
 git clone git@github.com:budybye/dotfiles.git
-cd dotfiles && make sense
+cd dotfiles
+make sense
 ```
 
 ### git グローバル設定
