@@ -67,11 +67,10 @@ jobs:
           cache-to: type=local,dest=/tmp/.docker-new-cache # キャッシュ更新
 
       - name: docker compose test
-        uses: hoverkraft-tech/compose-action@v2
+        uses: hoverkraft-tech/compose-action@v2.0.2
         with:
           compose-file: ".devcontainer/docker-compose.yaml"
           up-flags: "-d"
-          
 
       # キャッシュを更新
       - name: Update cache
