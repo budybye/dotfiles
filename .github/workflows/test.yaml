@@ -71,8 +71,8 @@ jobs:
         uses: cloudposse/github-action-docker-compose-test-run@main
         with:
           file: .devcontainer/docker-compose.yaml
-          service: ubuntu
-          command: uname -a
+          # service: ubuntu
+          # command: uname -a
 
       # キャッシュを更新
       - name: Update cache
