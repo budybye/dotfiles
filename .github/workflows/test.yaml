@@ -33,6 +33,7 @@ jobs:
 
       # Pushするイメージのメタデータを取得
       - uses: docker/metadata-action@v5
+        id: meta
         with:
           images: ghcr.io/${{ github.repository }}/${{ env.IMAGE_NAME }}
           labels: org.opencontainers.image.description=${{ matrix.platforms }}
@@ -52,6 +53,8 @@ jobs:
 
       # qemuをセットアップ
       - uses: docker/setup-qemu-action@v3
+        with:
+          platforms: ${{ matrix.platforms }}
 
       # イメージをビルドしてPush
       - uses: docker/build-push-action@v5
@@ -65,13 +68,13 @@ jobs:
           push: true # ghcrにPush
           cache-from: type=local,src=/tmp/.docker-cache${{ matrix.platforms }} # キャッシュを指定
           cache-to: type=local,dest=/tmp/.docker-new-cache${{ matrix.platforms }} # キャッシュ更新
+          labels: ${{ steps.meta.labels }}
           outputs: type=image,name=target,annotation-index.org.opencontainers.image.description=${{ matrix.platforms }}
 
       - name: docker compose test
         uses: hoverkraft-tech/compose-action@v2.0.2
         with:
           compose-file: ".devcontainer/docker-compose.yaml"
-          up-flags: "-d --platform ${{ matrix.platforms }}"
 
       # キャッシュを更新
       - name: Update cache
