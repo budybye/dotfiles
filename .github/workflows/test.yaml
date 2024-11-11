@@ -11,7 +11,7 @@ env:
 
 jobs:
 
-  docker-build-push-compose:
+  docker-test:
     runs-on: ubuntu-24.04
     # マトリックスを使って、複数のプラットフォームでテストを行う
     strategy:
