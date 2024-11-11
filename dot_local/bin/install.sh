@@ -191,6 +191,16 @@ install_multipass() {
     which multipass
 }
 
+install_act() {
+    echo "### act のインストールを開始します..."
+    command -v act >/dev/null || curl https://raw.githubusercontent.com/nektos/act/master/install.sh | sudo bash || {
+        echo "### act のインストールに失敗しました。"
+        exit 1
+    }
+    echo "### act のインストールが完了しました。"
+    which act
+}
+
 # Gitの設定
 git_setup() {
     echo "### gitの設定を開始します..."

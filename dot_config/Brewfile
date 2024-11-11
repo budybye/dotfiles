@@ -24,6 +24,7 @@ tap "yusukebe/tap"
 
 # brew "awscli"
 brew "age"
+brew "act"
 #brew "aespipe"
 #brew "ansible"
 #brew "apache2"

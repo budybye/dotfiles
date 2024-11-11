@@ -4,6 +4,7 @@ tap "homebrew/bundle"
 tap "aquaproj/aqua"
 
 brew "age"
+brew "act"
 brew "autoconf"
 brew "automake"
 brew "ain"
