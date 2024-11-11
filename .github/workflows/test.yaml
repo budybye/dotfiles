@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  IMAGE_NAME: ubuntu-xrdp
+  IMAGE_NAME: ubuntu-rdp
 
 jobs:
 
@@ -48,10 +48,11 @@ jobs:
           restore-keys: |
             ${{ github.ref }}
             refs/head/main
-          path: /tmp/.docker-cache
+          path: /tmp/.docker-cache${{ matrix.platforms }}
 
       # qemuをセットアップ
       - uses: docker/setup-qemu-action@v3
+        platform: ${{ matrix.platforms }}
 
       # イメージをビルドしてPush
       - uses: docker/build-push-action@v5
@@ -63,8 +64,8 @@ jobs:
           platforms: ${{ matrix.platforms }} # マトリックスで指定したプラットフォームを指定
           tags: ghcr.io/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ github.ref_name }} # タグを指定
           push: true # ghcrにPush
-          cache-from: type=local,src=/tmp/.docker-cache # キャッシュを指定
-          cache-to: type=local,dest=/tmp/.docker-new-cache # キャッシュ更新
+          cache-from: type=local,src=/tmp/.docker-cache${{ matrix.platforms }} # キャッシュを指定
+          cache-to: type=local,dest=/tmp/.docker-new-cache${{ matrix.platforms }} # キャッシュ更新
 
       - name: docker compose test
         uses: hoverkraft-tech/compose-action@v2.0.2
@@ -75,8 +76,8 @@ jobs:
       # キャッシュを更新
       - name: Update cache
         run: |
-          rm -rf /tmp/.docker-cache
-          mv /tmp/.docker-new-cache /tmp/.docker-cache
+          rm -rf /tmp/.docker-cache${{ matrix.platforms }}
+          mv /tmp/.docker-new-cache${{ matrix.platforms }} /tmp/.docker-cache${{ matrix.platforms }}
 
       # cloud-initのチェック
       - uses: anderssonPeter/cloud-init-linter@v1

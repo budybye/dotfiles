@@ -6,7 +6,7 @@
     "remoteUser": "vscode",
     "shutdownAction": "stopCompose",
     "forwardPorts": [3000, 4000, 9443, 3389, 8787, 8080, 4001, 5001, 80],
-    "postCreateCommand": "sudo apt-get update && sudo apt-get install -y curl git",
+    "postCreateCommand": "sudo apt-get update && sudo apt-get install -y curl git make",
     "remoteEnv": {
       "GIT_USER": "budybye"
     },
@@ -25,7 +25,10 @@
           "files.exclude": {
             "**/.git": true,
             "**/.DS_Store": true
-          }
+          },
+          "dotfiles.repository": "budybye/dotfiles",
+          "dotfiles.targetPath": "~/dotfiles",
+          "dotfiles.installCommand": "make init"
         },
         "extensions": [
           "ms-python.python",
