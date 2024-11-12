@@ -29,7 +29,7 @@ jobs:
       - name: Set vars
         id: vars
         run: |
-          echo "platform=$(echo -n ${{ matrix.platform }} | sed 's/\//-/g')" >> $GITHUB_OUTPUT
+          echo "platform=$(echo -n ${{ matrix.platforms }} | sed 's/\//-/g')" >> $GITHUB_OUTPUT
 
       - uses: actions/checkout@v4
       # qemuをセットアップ
@@ -66,7 +66,7 @@ jobs:
       - uses: docker/build-push-action@v6
         with:
           context: .devcontainer # ビルドするコンテキストを指定
-          platforms: ${{ matrix.platform }}
+          platforms: ${{ matrix.platforms }}
           # tags: ${{ steps.meta.outputs.tags }}-${{ steps.vars.outputs.platform }} # タグを指定
           tags: ${{ env.PACKAGE }}:${{ github.ref_name }}-${{ steps.vars.outputs.platform }} # タグを指定
           push: true # ghcrにPush
@@ -74,6 +74,9 @@ jobs:
           cache-to: type=local,dest=/tmp/.ubuntu-dev-new-cache-${{ github.sha }} # キャッシュ更新
           # labels: ${{ steps.meta.outputs.labels }}
 
+      - name: Check built images
+        run: |
+          docker images
       # - name: docker compose test
       #   uses: hoverkraft-tech/compose-action@v2.0.2
       #   with:
