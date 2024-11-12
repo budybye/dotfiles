@@ -74,6 +74,7 @@ jobs:
           cache-to: type=local,dest=/tmp/.docker-new-cache${{ matrix.platforms }} # キャッシュ更新
           labels: ${{ steps.meta.outputs.labels }} # ラベルを指定
           annotations: ${{ steps.meta.outputs.annotations }} # 注釈を指定
+          outputs: type=image,name=target,annotation-index.org.opencontainers.image.description=${{ matrix.platforms }}
 
       - name: docker compose test
         uses: hoverkraft-tech/compose-action@v2.0.2
