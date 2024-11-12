@@ -67,8 +67,8 @@ jobs:
         with:
           context: .devcontainer # ビルドするコンテキストを指定
           platforms: ${{ matrix.platform }}
-          # tags: ${{ steps.meta.outputs.tags }}
-          tags: ${{ env.PACKAGE }}-${{ steps.vars.outputs.platform }}:${{ github.ref_name }} # タグを指定
+          tags: ${{ steps.meta.outputs.tags }}
+          # tags: ${{ env.PACKAGE }}-${{ steps.vars.outputs.platform }}:${{ github.ref_name }} # タグを指定
           push: true # ghcrにPush
           cache-from: type=local,src=/tmp/.ubuntu-dev-cache-${{ github.sha }} # キャッシュを指定
           cache-to: type=local,dest=/tmp/.ubuntu-dev-new-cache-${{ github.sha }} # キャッシュ更新
