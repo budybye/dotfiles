@@ -72,9 +72,7 @@ jobs:
           file: .devcontainer/Dockerfile # ビルドするファイルを指定
           # platforms: ${{ matrix.platforms }} # マトリックスで指定したプラットフォームを指定
           platforms: linux/amd64, linux/arm64
-          tags: |
-            ghcr.io/${{ github.repository }}/${{ env.IMAGE_NAME }}:latest # タグを複数指定
-            ghcr.io/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ github.ref_name }} # タグを指定
+          tags: ghcr.io/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ github.ref_name }} # タグを指定
           push: true # ghcrにPush
           # cache-from: type=local,src=/tmp/.docker-cache-${{ matrix.platforms }} # キャッシュを指定
           # cache-to: type=local,dest=/tmp/.docker-new-cache-${{ matrix.platforms }} # キャッシュ更新
