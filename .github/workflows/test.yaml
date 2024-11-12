@@ -35,8 +35,12 @@ jobs:
       - uses: docker/metadata-action@v5
         id: meta
         with:
-          images: ghcr.io/${{ github.repository }}/${{ env.IMAGE_NAME }}
-          labels: org.opencontainers.image.description=${{ matrix.platforms }}
+          images: |
+            ghcr.io/${{ github.repository }}/${{ env.IMAGE_NAME }}
+          labels: |
+            org.opencontainers.image.description=${{ matrix.platforms }}
+          annotations: |
+            org.opencontainers.image.description=${{ matrix.platforms }}
 
       # buildxをセットアップ
       - uses: docker/setup-buildx-action@v3
@@ -68,8 +72,8 @@ jobs:
           push: true # ghcrにPush
           cache-from: type=local,src=/tmp/.docker-cache${{ matrix.platforms }} # キャッシュを指定
           cache-to: type=local,dest=/tmp/.docker-new-cache${{ matrix.platforms }} # キャッシュ更新
-          labels: ${{ steps.meta.labels }}
-          outputs: type=image,name=target,annotation-index.org.opencontainers.image.description=${{ matrix.platforms }}
+          labels: ${{ steps.meta.outputs.labels }} # ラベルを指定
+          annotations: ${{ steps.meta.outputs.annotations }} # 注釈を指定
 
       - name: docker compose test
         uses: hoverkraft-tech/compose-action@v2.0.2
@@ -85,7 +89,7 @@ jobs:
       # cloud-initのチェック
       - uses: anderssonPeter/cloud-init-linter@v1
         with:
-          files:
+          files: |
             cloud-init/multipass.yaml
             cloud-init/user-data
             cloud-init/network-config
