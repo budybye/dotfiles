@@ -44,14 +44,14 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       # Pushするイメージのメタデータを設定
-      - uses: docker/metadata-action@v5
-        id: meta
-        with:
-          images: ${{ env.PACKAGE }}
-          labels: |
-            org.opencontainers.image.description=Ubuntu Dev Container
-            org.opencontainers.image.url=https://github.com/${{ github.repository }}
-            org.opencontainers.image.created=${{ github.run_started_at }}
+      # - uses: docker/metadata-action@v5
+      #   id: meta
+      #   with:
+      #     images: ${{ env.PACKAGE }}
+      #     labels: |
+      #       org.opencontainers.image.description=Ubuntu Dev Container
+      #       org.opencontainers.image.url=https://github.com/${{ github.repository }}
+      #       org.opencontainers.image.created=${{ github.run_started_at }}
 
       # キャッシュを復元
       - uses: actions/cache@v4
@@ -67,12 +67,12 @@ jobs:
         with:
           context: .devcontainer # ビルドするコンテキストを指定
           platforms: ${{ matrix.platform }}
-          tags: ${{ steps.meta.outputs.tags }}
-          # tags: ${{ env.PACKAGE }}-${{ steps.vars.outputs.platform }}:${{ github.ref_name }} # タグを指定
+          # tags: ${{ steps.meta.outputs.tags }}-${{ steps.vars.outputs.platform }} # タグを指定
+          tags: ${{ env.PACKAGE }}:${{ github.ref_name }}-${{ steps.vars.outputs.platform }} # タグを指定
           push: true # ghcrにPush
           cache-from: type=local,src=/tmp/.ubuntu-dev-cache-${{ github.sha }} # キャッシュを指定
           cache-to: type=local,dest=/tmp/.ubuntu-dev-new-cache-${{ github.sha }} # キャッシュ更新
-          labels: ${{ steps.meta.outputs.labels }}
+          # labels: ${{ steps.meta.outputs.labels }}
 
       # - name: docker compose test
       #   uses: hoverkraft-tech/compose-action@v2.0.2
@@ -112,8 +112,8 @@ jobs:
       - name: Create GHCR manifest
         run: |
           docker manifest create ${{ env.PACKAGE }}:${{ github.ref_name }} \
-            ${{ env.PACKAGE }}-linux-amd64:${{ github.ref_name }} \
-            ${{ env.PACKAGE }}-linux-arm64:${{ github.ref_name }}
+            ${{ env.PACKAGE }}:${{ github.ref_name }}-linux-amd64 \
+            ${{ env.PACKAGE }}:${{ github.ref_name }}-linux-arm64
 
       - name: Push manifests
         run: |
