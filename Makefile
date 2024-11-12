@@ -45,7 +45,7 @@ init:
 		sh $(SCRIPT_DIR)/init.sh | $(tee_log); \
 	else \
 		echo "### init.sh が存在しないため、chezmoi をインストールします。" | $(tee_log); \
-		curl -fsLS get.chezmoi.io | sh -s -- init --apply --verbose ${GIT_USER} | $(tee_log); \
+		curl -fsLS get.chezmoi.io | sh -s -- init --apply ${GIT_USER} | $(tee_log); \
 	fi
 
 # スクリプトディレクトリの設定

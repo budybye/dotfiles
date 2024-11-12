@@ -47,7 +47,6 @@ install_brew_packages() {
         echo "指定された Brewfile ($BREWFILE_PATH) が見つかりません。スキップします。"
     fi
     echo "パッケージのインストールが完了しました。"
-    cat "$BREWFILE_PATH"
 }
 
 # Rosetta 2 のインストール (Apple Silicon の場合)
@@ -66,6 +65,7 @@ install_rosetta() {
 
 # メイン処理
 main() {
+    echo "ブートストラップを開始します。"
     install_xcode_command_line_tools
     install_homebrew
     install_brew_packages
