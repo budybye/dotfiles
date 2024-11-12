@@ -47,7 +47,7 @@ jobs:
         id: buildx
 
       # キャッシュを復元
-      - uses: actions/cache@v2
+      - uses: actions/cache@v4
         with:
           key: ${{ github.ref }}-${{ github.sha }} # キャッシュのキーを指定
           restore-keys: |
@@ -61,7 +61,7 @@ jobs:
           platforms: ${{ matrix.platforms }}
 
       # イメージをビルドしてPush
-      - uses: docker/build-push-action@v5
+      - uses: docker/build-push-action@v6
         with:
           builder: ${{ steps.buildx.outputs.name }} # buildxの名前を指定
           load: true # ビルドしたイメージをローカルにロード
