@@ -4,7 +4,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     xfce4 xfce4-goodies xrdp build-essential cmake dbus-x11 g++ \
-    libfuse2 libssl-dev pkg-config apt-transport-https \
+    libssl-dev pkg-config apt-transport-https \
     ca-certificates xorgxrdp zsh vim gh curl wget jq gzip ruby cargo \
     tree xsel xdotool ncdu mkcert pwgen gawk neofetch lsd \
     ffmpeg mpd mpc ncmpcpp language-pack-ja-base language-pack-ja \

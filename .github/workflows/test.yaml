@@ -71,7 +71,7 @@ jobs:
           context: . # ビルドするコンテキストを指定
           file: .devcontainer/Dockerfile # ビルドするファイルを指定
           # platforms: ${{ matrix.platforms }} # マトリックスで指定したプラットフォームを指定
-          platforms: linux/amd64, linux/arm64
+          platforms: linux/amd64, linux/arm64, linux/arm/v7
           tags: ghcr.io/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ github.ref_name }} # タグを指定
           push: true # ghcrにPush
           # cache-from: type=local,src=/tmp/.docker-cache-${{ matrix.platforms }} # キャッシュを指定

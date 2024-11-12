@@ -143,8 +143,15 @@ install_cursor() {
         }
     fi
     sudo chmod a+x "${appimage}"
-    echo "### Cursor をインストールしました。"
-    echo "${appimage}"
+    if [ ! "${arch}" = "armv7" ]; then
+        echo "### libfuse2 のインストールを開始します..."
+        command -v libfuse2 >/dev/null || sudo apt-get install -y libfuse2 || {
+            echo "### libfuse2 のインストールに失敗しました。"
+            exit 1
+        }
+        echo "### libfuse2 をインストールしました。"
+    fi
+    echo "### ${appimage} をインストールしました。"
 }
 
 # Wireshark をインストールおよび設定する関数

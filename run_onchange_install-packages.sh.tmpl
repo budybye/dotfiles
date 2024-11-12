@@ -1,0 +1,15 @@
+#! /bin/env bash
+
+{{ if eq .chezmoi.os "linux" -}}
+    sudo apt-get update -y
+    sudo apt-get upgrade -y
+    sudo apt-get autoremove -y
+    sudo apt-get autoclean -y
+    sudo apt-get check
+{{ else if eq .chezmoi.os "darwin" -}}
+    brew update
+    brew upgrade
+    brew autoremove
+    brew cleanup
+    brew doctor
+{{ end -}}

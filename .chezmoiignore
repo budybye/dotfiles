@@ -10,17 +10,22 @@
     .config/karabiner
     .local/bin/bootstrap.sh
     .local/bin/defaults.sh
-{{ end }}
-
-{{ if eq .chezmoi.os "windows" }}
-    .config/Brewfile*
+{{ else }}
+    .config/*
+    .local/bin/*
+    data/*
+    .devcontainer/*
+    cloud-init/*
+    *rc
+    *profile
+    *env
 {{ end }}
 
 README.md
 style.css
-multipass.yaml
 Makefile
 .gitignore
 .github
 .mise.toml
 .env
+.chezmoiexternal.*

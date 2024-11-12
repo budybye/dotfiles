@@ -28,7 +28,7 @@ install_packages() {
     sudo apt-get update -y && sudo apt-get upgrade -y
     sudo apt-get install -y curl wget git build-essential cmake dbus-x11 gnupg g++ gh jq sudo age \
         zsh vim tree xsel ncdu xdotool mkcert moreutils multitail neofetch lsd zoxide direnv \
-        libfuse2 libssl-dev pkg-config apt-transport-https ca-certificates lsb-release libnss3-tools \
+        libssl-dev pkg-config apt-transport-https ca-certificates lsb-release libnss3-tools \
         libinput-tools libdb-dev libdb5.3-dev libgdbm-dev libgmp-dev libgmpxx4ldbl libgdbm-compat-dev rustc \
         libstd-rust-1.75 libstd-rust-dev libncurses5-dev libffi-dev libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev \
         ffmpeg mpd mpc ncmpcpp net-tools nmap snapd ufw rsyslog im-config byobu ruby cargo|| {
