@@ -27,6 +27,8 @@ sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo Hos
 ## 他のMacで購入したアプリを自動的にダウンロードする
 #defaults write com.apple.SoftwareUpdate ConfigDataInstall -int 1
 
+# F1、F2などのキーを標準的なファンクションキーとして使用
+defaults write -g com.apple.keyboard.fnState -bool true
 # トラックパッドの動きを高速化
 defaults write -g com.apple.trackpad.scaling 3 && \
 # マウスの動きを高速化
@@ -34,6 +36,8 @@ defaults write -g com.apple.mouse.scaling 1.5
 ## キーリピートを早くする
 defaults write -g KeyRepeat -int 1 && \
 defaults write -g InitialKeyRepeat -int 10
+# キー入力の連打を有効化させる
+defaults write -g ApplePressAndHoldEnabled -bool false
 
 ## dockの動作を素早くする
 defaults write com.apple.dock autohide-time-modifier -float 0.15
@@ -51,25 +55,24 @@ defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
 ## 三本指でドラッグ
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerDrag -bool true && \
 defaults write com.apple.AppleMultitouchTrackpad TrackpadThreeFingerDrag -bool true
-# トラックパッドのナチュラルスクロールをオンにする
-defaults write NSGlobalDomain com.apple.swipescrolldirection -bool true
 # フルスクリーンアプリケーション感をするために4本指でスワイプを有効にする
 defaults write com.apple.AppleMultitouchTrackpad.plist TrackpadFourFingerVertSwipeGesture -int 2 && \
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad.plist TrackpadFourFingerVertSwipeGesture -int 2
+# トラックパッドのナチュラルスクロールをオンにする
+defaults write NSGlobalDomain com.apple.swipescrolldirection -bool true
 
 ## クラッシュレポートを無効化する
 defaults write com.apple.CrashReporter DialogType -string "none"
-## ダイアログ表示やウィンドウリサイズ速度を高速化する
-defaults write -g NSWindowResizeTime 0.1
-## (保存ダイアログのデフォルト表示スタイル) -> true (常に詳細な情報を開いて表示)
-defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
 ## 未確認のアプリケーションを実行する際のダイアログを無効にする
 defaults write com.apple.LaunchServices LSQuarantine -bool false
 ## ダウンロードしたファイルを開くときの警告ダイアログをなくしたい
 defaults write com.apple.LaunchServices LSQuarantine -bool false
 ## 未確認のアプリケーションを実行する際のダイアログを無効にする
 defaults write com.apple.LaunchServices LSQuarantine -bool false
-
+## ダイアログ表示やウィンドウリサイズ速度を高速化する
+defaults write -g NSWindowResizeTime 0.1
+## (保存ダイアログのデフォルト表示スタイル) -> true (常に詳細な情報を開いて表示)
+defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
 # アクセントカラーをマルチカラーに設定する
 defaults write NSGlobalDomain AppleAccentColor -int -1
 ## ウィンドウを開閉するときのアニメーションを無効
@@ -125,10 +128,6 @@ defaults write com.apple.Finder NSUserKeyEquivalents -dict-add "ゴミ箱に入�
 # 「情報を見る」のショートカットキー設定
 defaults write com.apple.Finder NSUserKeyEquivalents -dict-add "情報を見る" -string "^l"
 
-# F1、F2などのキーを標準的なファンクションキーとして使用
-defaults write -g com.apple.keyboard.fnState -bool true
-# キー入力の連打を有効化させる
-defaults write -g ApplePressAndHoldEnabled -bool false
 # Spotlight検索を表示を無効化
 defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 64 "<dict><key>enabled</key><false/><key>value</key><dict><key>parameters</key><array><integer>65535</integer><integer>49</integer><integer>1048576</integer></array><key>type</key><string>standard</string></dict></dict>"
 # Finderの検索ウインドウを表示を無効化
