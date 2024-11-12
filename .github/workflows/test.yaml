@@ -76,8 +76,8 @@ jobs:
           cache-to: type=local,dest=/tmp/.docker-new-cache # キャッシュ更新
           # cache-from: type=local,src=/tmp/.docker-cache-${{ matrix.platforms }} # キャッシュを指定
           # cache-to: type=local,dest=/tmp/.docker-new-cache-${{ matrix.platforms }} # キャッシュ更新
-          labels: ${{ steps.meta.outputs.labels }} # ラベルを指定
-          annotations: ${{ steps.meta.outputs.annotations }} # 注釈を指定
+          # labels: ${{ steps.meta.outputs.labels }} # ラベルを指定
+          # annotations: ${{ steps.meta.outputs.annotations }} # 注釈を指定
           # outputs: type=image,name=target,annotation-index.org.opencontainers.image.description=${{ matrix.platforms }}
 
       - name: docker compose test
