@@ -2,7 +2,7 @@
 
 # dotfiles
 
-## v.0.2.2
+## v.1.0.1
 
 ### 🏴‍☠ [budybye/dotfiles](https://github.com/budybye/dotfiles)
 

@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  TAG: ghcr.io/${{ github.repository }}/ubuntu-dev:${{ github.ref_name }}
+  REPO: ghcr.io/${{ github.repository }}/ubuntu-dev
 
 jobs:
 
@@ -18,7 +18,7 @@ jobs:
     strategy:
       # fail-fast: false
       matrix:
-        platforms: [linux/amd64, linux/arm64, linux/arm/v7]
+        platforms: [linux/amd64, linux/arm64]
 
     permissions:
       contents: read
@@ -29,6 +29,7 @@ jobs:
       - name: Set vars
         id: vars
         run: |
+          echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
           echo "platform=$(echo -n ${{ matrix.platform }} | sed 's/\//-/g')" >> $GITHUB_OUTPUT
 
       - uses: actions/checkout@v4
@@ -63,7 +64,7 @@ jobs:
           context: . # ビルドするコンテキストを指定
           file: .devcontainer/Dockerfile # ビルドするファイルを指定
           platforms: ${{ matrix.platform }}
-          tags: ${{ env.TAG }}-${{ steps.vars.outputs.platform }} # タグを指定
+          tags: ${{ env.REPO }}:${{ steps.vars.outputs.version }}-${{ steps.vars.outputs.platform }} # タグを指定
           push: true # ghcrにPush
           cache-from: type=local,src=/tmp/.ubuntu-dev-cache-${{ github.sha }} # キャッシュを指定
           cache-to: type=local,dest=/tmp/.ubuntu-dev-new-cache-${{ github.sha }} # キャッシュ更新
@@ -104,14 +105,13 @@ jobs:
 
       - name: Create GHCR manifest
         run: |
-          docker manifest create ${{ env.TAG }} \
-            ${{ env.TAG }}-linux-amd64 \
-            ${{ env.TAG }}-linux-arm64 \
-            ${{ env.TAG }}-linux-arm-v7
+          docker manifest create ${{ env.REPO }}:${{ steps.vars.outputs.version }} \
+            ${{ env.REPO }}:${{ steps.vars.outputs.version }}-linux-amd64 \
+            ${{ env.REPO }}:${{ steps.vars.outputs.version }}-linux-arm64
 
       - name: Push manifests
         run: |
-          docker manifest push ${{ env.TAG }}
+          docker manifest push ${{ env.REPO }}:${{ steps.vars.outputs.version }}
 
   ubuntu-test:
     runs-on: ubuntu-24.04
