@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  REPO: ghcr.io/${{ github.repository }}/ubuntu-dev
+  TAG: ghcr.io/${{ github.repository }}/ubuntu-dev:${{ github.ref_name }}
 
 jobs:
 
@@ -45,9 +45,14 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       # Pushするイメージのメタデータを設定
-      # - uses: docker/metadata-action@v5
-      #   with:
-      #     images: ${{ env.TAG }}-${{ steps.vars.outputs.platform }}
+      - uses: docker/metadata-action@v5
+        id: meta
+        with:
+          images: ${{ env.TAG }}
+          labels: |
+            org.opencontainers.image.source=https://github.com/${{ github.repository }}
+            org.opencontainers.image.url=https://github.com/${{ github.repository }}
+            org.opencontainers.image.created=${{ github.run_started_at }}
 
       # キャッシュを復元
       - uses: actions/cache@v4
@@ -61,13 +66,13 @@ jobs:
       # イメージをビルドしてPush
       - uses: docker/build-push-action@v6
         with:
-          context: . # ビルドするコンテキストを指定
-          file: .devcontainer/Dockerfile # ビルドするファイルを指定
+          context: .devcontainer # ビルドするコンテキストを指定
           platforms: ${{ matrix.platform }}
-          tags: ${{ env.REPO }}:${{ steps.vars.outputs.version }}-${{ steps.vars.outputs.platform }} # タグを指定
+          tags: ${{ env.TAG }}-${{ steps.vars.outputs.platform }} # タグを指定
           push: true # ghcrにPush
           cache-from: type=local,src=/tmp/.ubuntu-dev-cache-${{ github.sha }} # キャッシュを指定
           cache-to: type=local,dest=/tmp/.ubuntu-dev-new-cache-${{ github.sha }} # キャッシュ更新
+          labels: ${{ steps.meta.outputs.labels }}
 
       - name: docker compose test
         uses: hoverkraft-tech/compose-action@v2.0.2
@@ -105,13 +110,13 @@ jobs:
 
       - name: Create GHCR manifest
         run: |
-          docker manifest create ${{ env.REPO }}:${{ steps.vars.outputs.version }} \
-            ${{ env.REPO }}:${{ steps.vars.outputs.version }}-linux-amd64 \
-            ${{ env.REPO }}:${{ steps.vars.outputs.version }}-linux-arm64
+          docker manifest create ${{ env.TAG }} \
+            ${{ env.TAG }}-linux-amd64 \
+            ${{ env.TAG }}-linux-arm64
 
       - name: Push manifests
         run: |
-          docker manifest push ${{ env.REPO }}:${{ steps.vars.outputs.version }}
+          docker manifest push ${{ env.TAG }}
 
   ubuntu-test:
     runs-on: ubuntu-24.04
