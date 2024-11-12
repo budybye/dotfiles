@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  TAG: ghcr.io/${{ github.repository }}/ubuntu-dev:${{ github.ref_name }}
+  PACKAGE: ghcr.io/${{ github.repository }}/ubuntu-dev
 
 jobs:
 
@@ -29,7 +29,6 @@ jobs:
       - name: Set vars
         id: vars
         run: |
-          echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
           echo "platform=$(echo -n ${{ matrix.platform }} | sed 's/\//-/g')" >> $GITHUB_OUTPUT
 
       - uses: actions/checkout@v4
@@ -48,7 +47,7 @@ jobs:
       - uses: docker/metadata-action@v5
         id: meta
         with:
-          images: ghcr.io/${{ github.repository }}/ubuntu-dev
+          images: ${{ env.PACKAGE }}
           labels: |
             org.opencontainers.image.description=Ubuntu Dev Container
             org.opencontainers.image.url=https://github.com/${{ github.repository }}
@@ -68,7 +67,8 @@ jobs:
         with:
           context: .devcontainer # ビルドするコンテキストを指定
           platforms: ${{ matrix.platform }}
-          tags: ${{ env.TAG }}-${{ steps.vars.outputs.platform }} # タグを指定
+          # tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ env.PACKAGE }}-${{ steps.vars.outputs.platform }}:${{ github.ref_name }} # タグを指定
           push: true # ghcrにPush
           cache-from: type=local,src=/tmp/.ubuntu-dev-cache-${{ github.sha }} # キャッシュを指定
           cache-to: type=local,dest=/tmp/.ubuntu-dev-new-cache-${{ github.sha }} # キャッシュ更新
@@ -111,13 +111,13 @@ jobs:
 
       - name: Create GHCR manifest
         run: |
-          docker manifest create ${{ env.TAG }} \
-            ${{ env.TAG }}-linux-amd64 \
-            ${{ env.TAG }}-linux-arm64
+          docker manifest create ${{ env.PACKAGE }}:${{ github.ref_name }} \
+            ${{ env.PACKAGE }}-linux-amd64:${{ github.ref_name }} \
+            ${{ env.PACKAGE }}-linux-arm64:${{ github.ref_name }}
 
       - name: Push manifests
         run: |
-          docker manifest push ${{ env.TAG }}
+          docker manifest push ${{ env.PACKAGE }}:${{ github.ref_name }}
 
   ubuntu-test:
     runs-on: ubuntu-24.04
