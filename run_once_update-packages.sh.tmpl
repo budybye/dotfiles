@@ -24,4 +24,11 @@ echo "Package update && check start!!"
 {{ end -}}
 
 echo "--------------------------------"
+
+if ! command -v chezmoi >/dev/null 2>&1; then
+    echo "chezmoi command not found"
+else
+    chezmoi data
+fi
+
 echo "Package update && check done!!"

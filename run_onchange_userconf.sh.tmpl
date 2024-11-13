@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-set -ex
 
 echo "--------------------------------"
 echo "Chezmoi apply completed!!"
@@ -16,8 +15,13 @@ echo "--------------------------------"
 echo "${HOME}/.local/share"
 ls -la "${HOME}/.local/share"
 echo "--------------------------------"
-echo "${HOME}/.local/share/chezmoi"
-ls -la "${HOME}/.local/share/chezmoi"
+# chezmoi のディレクトリが存在するか確認 actionsだと無い
+if [ -d "${HOME}/.local/share/chezmoi" ]; then
+    echo "${HOME}/.local/share/chezmoi"
+    ls -la "${HOME}/.local/share/chezmoi"
+else
+    echo "${HOME}/.local/share/chezmoi not found"
+fi
 echo "--------------------------------"
 
 echo 'Dotfiles link ...'
