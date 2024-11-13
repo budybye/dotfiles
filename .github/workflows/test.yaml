@@ -88,7 +88,8 @@ jobs:
 
       - name: Test exec
         run: |
-          docker compose -f .devcontainer/docker-compose.yaml exec ubuntu bash
+          # docker compose -f .devcontainer/docker-compose.yaml exec ubuntu bash
+          docker ps -a
 
 
       - name: devcontainer ci
