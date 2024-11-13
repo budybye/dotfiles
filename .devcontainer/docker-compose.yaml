@@ -1,10 +1,10 @@
 services:
 
   ubuntu:
-    # image: ghcr.io/dotfiles/ubuntu-rdp:latest
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: ghcr.io/budybye/dotfiles/ubuntu-dev:main
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
     container_name: ubuntu
     networks:
       - app-network
