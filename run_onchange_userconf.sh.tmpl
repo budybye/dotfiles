@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
 
-{{ if eq .chezmoi.env.GIT_AUTHOR_NAME "budybye" }}
-    echo "Your git user is budybye"
-{{ end }}
-
 echo "Your git user is ..."
 cat ~/.config/git/userconf
 
