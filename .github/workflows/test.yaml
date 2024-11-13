@@ -97,8 +97,8 @@ jobs:
           docker compose -f .devcontainer/docker-compose.yaml exec ubuntu bash
 
 
-      - name: devcontainer ci
-        uses: devcontainers/ci@v0.3
+      # - name: devcontainer ci
+        # uses: devcontainers/ci@v0.3
         # with:
         #   push: always
         #   subFolder: .devcontainer
