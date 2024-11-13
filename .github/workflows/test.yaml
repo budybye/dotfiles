@@ -48,7 +48,7 @@ jobs:
         with:
           context: .devcontainer
           platforms: ${{ matrix.platform }}
-          tags: ${{ env.PACKAGE }}:${{ github.ref_name }}-${{ matrix.platform }} # 各プラットフォームのタグを指定
+          tags: ${{ env.PACKAGE }}:${{ github.ref_name }}-${{ matrix.platform // / /- }} # スラッシュをハイフンに置き換え
           push: true
 
       - name: Export digest
