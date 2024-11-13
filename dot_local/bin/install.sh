@@ -31,7 +31,7 @@ install_packages() {
         libssl-dev pkg-config apt-transport-https ca-certificates lsb-release libnss3-tools \
         libinput-tools libdb-dev libdb5.3-dev libgdbm-dev libgmp-dev libgmpxx4ldbl libgdbm-compat-dev rustc \
         libstd-rust-1.75 libstd-rust-dev libncurses5-dev libffi-dev libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev \
-        ffmpeg mpd mpc ncmpcpp net-tools nmap snapd ufw rsyslog im-config byobu ruby cargo|| {
+        ffmpeg mpd mpc ncmpcpp net-tools nmap snapd ufw rsyslog im-config byobu ruby cargo || {
         echo "apt install failed."
         exit 1
     }
@@ -100,16 +100,16 @@ install_mise() {
     # .env ファイルを作成 (~/dotfiles を mise で設定してる関係)
     echo "exportGIT_AUTHOR_NAME=budybye" >>./.env
     mise activate zsh
-    # mise activate --shims
     mise set
     echo "mise installed."
     which mise
 
-    mise use chezmoi bun starship node go -y --verbose || {
+    mise use -g chezmoi bun starship node go -y --verbose || {
         echo "mise use failed."
         exit 1
     }
     echo "mise setup completed."
+    mise activate --shims
     echo "chezmoi bun starship node go" | xargs which
 }
 
