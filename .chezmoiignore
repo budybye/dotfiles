@@ -21,11 +21,11 @@
     *env
 {{ end }}
 
+.env
 README.md
 style.css
 Makefile
 .gitignore
 .github
 .mise.toml
-.env
 .chezmoiexternal.*
