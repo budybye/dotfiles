@@ -15,19 +15,19 @@ echo "--------------------------------"
 echo "${HOME}/.local/share"
 ls -la "${HOME}/.local/share"
 echo "--------------------------------"
-echo "${HOME}/.local/share/chezmoi
+echo "${HOME}/.local/share/chezmoi"
 ls -la "${HOME}/.local/share/chezmoi"
 echo "--------------------------------"
-echo "Dotfiles link ..."
+echo 'Dotfiles link ...'
 if [ ! -d ~/dotfiles ]; then
-    ln -sf ~/.local/share/chezmoi ~/dotfiles && ls -la ~/dotfiles || echo "Dotfiles link failed!!"
+    ln -sf ~/.local/share/chezmoi ~/dotfiles && ls -la ~/dotfiles || echo 'Dotfiles link failed!!'
 else
-    echo "Dotfiles link already exists!!"
+    echo 'Dotfiles link already exists!!'
     ls -la ~/dotfiles
 fi
 echo "--------------------------------"
 
-echo "Your git user is ..."
+echo 'Your git user is ...'
 cat ~/.config/git/user.conf
 
 echo "--------------------------------"
@@ -40,4 +40,4 @@ echo 'userconf update ? (y/n)'
 #fi
 
 echo "--------------------------------"
-echo "Change settings done!!"
+echo 'Change settings done!!'
