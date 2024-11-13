@@ -114,9 +114,7 @@ jobs:
 
       - name: Create GHCR manifest
         run: |
-          docker manifest create ${{ env.PACKAGE }}:${{ github.ref_name }} \
-            ${{ env.PACKAGE }}:${{ github.ref_name }}-linux-amd64 \
-            ${{ env.PACKAGE }}:${{ github.ref_name }}-linux-arm64
+          docker manifest create ${{ env.PACKAGE }}:${{ github.ref_name }} ${{ env.PACKAGE }}:${{ github.ref_name }}-linux-amd64 ${{ env.PACKAGE }}:${{ github.ref_name }}-linux-arm64
 
       - name: Push manifests
         run: |
