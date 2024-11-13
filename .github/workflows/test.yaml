@@ -71,7 +71,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           # platforms: ${{ matrix.platforms }}
           # tags: ${{ env.PACKAGE }}:${{ github.ref_name }} # タグを指定
-          tags: ${{ steps.meta.outputs.tags }}-${{ steps.vars.outputs.platform }} # タグを指定
+          tags: ${{ env.PACKAGE }}-${{ steps.vars.outputs.platform }}:${{ github.ref_name }} # タグを指定
           # tags: ${{ env.PACKAGE }}-${{ steps.vars.outputs.platform }}:${{ github.ref_name }} # タグを指定
           push: true # ghcrにPush
           cache-from: type=local,src=/tmp/.ubuntu-dev-cache-${{ github.sha }} # キャッシュを指定
