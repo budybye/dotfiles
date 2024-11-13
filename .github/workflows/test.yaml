@@ -74,13 +74,10 @@ jobs:
           cache-to: type=local,dest=/tmp/.ubuntu-dev-new-cache-${{ github.sha }} # キャッシュ更新
           # labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Check built images
-        run: |
-          docker images
-      # - name: docker compose test
-      #   uses: hoverkraft-tech/compose-action@v2.0.2
-      #   with:
-      #     compose-file: ".devcontainer/docker-compose.yaml"
+      - name: docker compose test
+        uses: hoverkraft-tech/compose-action@v2.0.2
+        with:
+          compose-file: ".devcontainer/docker-compose.yaml"
 
       # キャッシュを更新
       - name: Update cache
@@ -112,9 +109,11 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # - name: Create GHCR manifest
-      #   run: |
-      #     docker manifest create ${{ env.PACKAGE }}:${{ github.ref_name }} ${{ env.PACKAGE }}:${{ github.ref_name }}-linux-amd64 ${{ env.PACKAGE }}:${{ github.ref_name }}-linux-arm64
+      - name: Create GHCR manifest
+        run: |
+          docker manifest create ${{ env.PACKAGE }}:${{ github.ref_name }} \
+            --amend ${{ env.PACKAGE }}:${{ github.ref_name }}-linux-amd64 \
+            --amend ${{ env.PACKAGE }}:${{ github.ref_name }}-linux-arm64
 
       - name: Push manifests
         run: |
