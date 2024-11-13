@@ -28,23 +28,23 @@ endef
 
 # スクリプト実行関数
 define run_script
-	@echo "### Running $(1) script..." | $(tee_log)
-	@sh $(2) | $(tee_log) || { echo "### $(1) script failed!" | $(tee_log); exit 1; }
+	@echo "Running $(1) script..." | $(tee_log)
+	@sh $(2) | $(tee_log) || { echo "$(1) script failed!" | $(tee_log); exit 1; }
 endef
 
 # ターゲットの実行
 sense: $(TARGETS)
-	@echo "### OSに応じたスクリプトの実行が完了しました。" | tee -a $(LOGFILE)
+	@echo "OSに応じたスクリプトの実行が完了しました。" | tee -a $(LOGFILE)
 
 # Gitユーザーの設定
 GIT_USER := $(if $(GIT_AUTHOR_NAME),$(GIT_AUTHOR_NAME),-S .)
 # chezmoi init
 init:
-	@echo "### Running init script..." | $(tee_log)
+	@echo "Running init script..." | $(tee_log)
 	@if [ -f "$(SCRIPT_DIR)/init.sh" ]; then \
 		sh $(SCRIPT_DIR)/init.sh | $(tee_log); \
 	else \
-		echo "### init.sh が存在しないため、chezmoi をインストールします。" | $(tee_log); \
+		echo "init.sh が存在しないため、chezmoi をインストールします。" | $(tee_log); \
 		curl -fsLS get.chezmoi.io | sh -s -- init --apply ${GIT_USER} | $(tee_log); \
 	fi
 
