@@ -2,7 +2,10 @@
 
 echo "--------------------------------"
 echo "Chezmoi apply completed!!"
+pwd
+ls -la
 echo "File check start!!"
+echo "--------------------------------"
 echo "${HOME}"
 ls -la "${HOME}"
 echo "--------------------------------"
@@ -25,6 +28,7 @@ fi
 echo "--------------------------------"
 
 echo 'Dotfiles link ...'
+# .local/share/chezmoi ディレクトリが存在するか確認
 if [ -d "${HOME}/.local/share/chezmoi" ]; then
     if [ ! -d "${HOME}/dotfiles" ]; then
         ln -sf "${HOME}/.local/share/chezmoi" "${HOME}/dotfiles" && ls -la "${HOME}/dotfiles" || echo 'Dotfiles link failed!!'
@@ -32,13 +36,18 @@ if [ -d "${HOME}/.local/share/chezmoi" ]; then
         echo 'Dotfiles link already exists!!'
         ls -la "${HOME}/dotfiles"
     fi
+    echo "--------------------------------"
+    # .env ファイルが存在しない場合は作成
+    if [ ! -f "${HOME}/.local/share/chezmoi/.env" ]; then
+        echo "export USER_NAME=$(whoami)" >>"${HOME}/.local/share/chezmoi/.env" && ls -la "${HOME}/.local/share/chezmoi"
+    fi
 else
     echo "${HOME}/.local/share/chezmoi not found"
 fi
 
 echo "--------------------------------"
 
-echo 'Your git user is ...'
+echo 'Your config git user is ...'
 cat "${HOME}/.config/git/user.conf"
 
 echo "--------------------------------"
@@ -49,12 +58,6 @@ echo 'userconf update ? (y/n)'
 #  git config --global user.name "Your Name"
 #  git config --global user.email "your.email@example.com"
 #fi
-
-echo "--------------------------------"
-
-if [ ! -f "${HOME}/.local/share/chezmoi/.env" ]; then
-    echo "export USER_NAME=$(whoami)" >>"${HOME}/.local/share/chezmoi/.env" && ls -la "${HOME}/.local/share/chezmoi"
-fi
 
 echo "--------------------------------"
 echo 'Change settings done!!'

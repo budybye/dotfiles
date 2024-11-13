@@ -10,6 +10,7 @@ on:
 
 env:
   REGISTRY_IMAGE: ghcr.io/${{ github.repository }}/ubuntu-dev
+ # REGISTRY_IMAGE: ghcr.io/${{ github.repository }}
 
 jobs:
   build:
@@ -77,6 +78,15 @@ jobs:
           path: /tmp/digests/*
           if-no-files-found: error
           retention-days: 1
+
+      - name: Docker compose test
+        uses: hoverkraft-tech/compose-action@v2.0.2
+        with:
+          compose-file: .devcontainer/docker-compose.yaml
+
+      - name: Test ipfs
+        run: |
+          docker-compose exec ipfs ipfs config show
 
   merge:
     runs-on: ubuntu-latest
