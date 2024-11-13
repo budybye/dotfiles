@@ -41,8 +41,6 @@ jobs:
           images: ${{ env.REGISTRY_IMAGE }}
           labels: |
             org.opencontainers.image.description=${{ env.PLATFORM_PAIR }}
-          annotations: |
-            org.opencontainers.image.description=${{ env.PLATFORM_PAIR }}
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -65,10 +63,9 @@ jobs:
           platforms: ${{ matrix.platform }}
           # tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          annotations: ${{ steps.meta.outputs.annotations }}
-          outputs: type=image,name=${{ env.REGISTRY_IMAGE }},push-by-digest=true,name-canonical=true,push=true
           cache-from: type=registry,ref=${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }}
           cache-to: type=registry,ref=${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }},mode=max
+          outputs: type=image,name=${{ env.REGISTRY_IMAGE }},push-by-digest=true,name-canonical=true,push=true,annotation-index.org.opencontainers.image.description=${{ env.PLATFORM_PAIR }}
 
       - name: Export digest
         run: |
