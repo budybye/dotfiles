@@ -2,8 +2,8 @@ name: Test
 
 on:
   push:
-    branches:
-      - main
+    # branches:
+    #   - main
     tags:
       - "v*.*.*"
   workflow_dispatch:
@@ -18,7 +18,7 @@ jobs:
 
     # 並列でマルチプラットフォームビルドを行う
     strategy:
-      # fail-fast: false
+      fail-fast: false
       matrix:
         platforms: [linux/amd64, linux/arm64]
 
@@ -46,14 +46,14 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       # Pushするイメージのメタデータを設定
-      - uses: docker/metadata-action@v5
-        id: meta
-        with:
-          images: ${{ env.PACKAGE }}
-          labels: |
-            org.opencontainers.image.description=Ubuntu Dev Container
-          annotations: |
-            org.opencontainers.image.description=${{ steps.vars.outputs.platform }}
+      # - uses: docker/metadata-action@v5
+      #   id: meta
+      #   with:
+      #     images: ${{ env.PACKAGE }}
+      #     labels: |
+      #       org.opencontainers.image.description=Ubuntu Dev Container
+      #     annotations: |
+      #       org.opencontainers.image.description=${{ steps.vars.outputs.platform }}
 
       # キャッシュを復元
       - uses: actions/cache@v4
@@ -69,13 +69,14 @@ jobs:
         with:
           context: .devcontainer # ビルドするコンテキストを指定
           platforms: ${{ matrix.platforms }}
-          tags: ${{ steps.meta.outputs.tags }}-${{ steps.vars.outputs.platform }} # タグを指定
-          # tags: ${{ env.PACKAGE }}:${{ github.ref_name }}-${{ steps.vars.outputs.platform }} # タグを指定
+          # tags: ${{ steps.meta.outputs.tags }}-${{ steps.vars.outputs.platform }} # タグを指定
+          tags: ${{ env.PACKAGE }}-${{ steps.vars.outputs.platform }}:${{ github.ref_name }} # タグを指定
           push: true # ghcrにPush
           cache-from: type=local,src=/tmp/.ubuntu-dev-cache-${{ github.sha }} # キャッシュを指定
           cache-to: type=local,dest=/tmp/.ubuntu-dev-new-cache-${{ github.sha }} # キャッシュ更新
-          labels: ${{ steps.meta.outputs.labels }}
-          annotations: ${{ steps.meta.outputs.annotations }}
+          # labels: ${{ steps.meta.outputs.labels }}
+          # annotations: ${{ steps.meta.outputs.annotations }}
+          # output: image=ghcr.io/${{ github.repository }}/ubuntu-dev:${{ github.ref_name }}-${{ steps.vars.outputs.platform }}
 
       - name: docker compose test
         uses: hoverkraft-tech/compose-action@v2.0.2
@@ -115,8 +116,8 @@ jobs:
       - name: Create GHCR manifest
         run: |
           docker manifest create ${{ env.PACKAGE }}:${{ github.ref_name }} \
-            --amend ${{ env.PACKAGE }}:${{ github.ref_name }}-linux-amd64 \
-            --amend ${{ env.PACKAGE }}:${{ github.ref_name }}-linux-arm64
+            --amend ${{ env.PACKAGE }}-linux-amd64:${{ github.ref_name }} \
+            --amend ${{ env.PACKAGE }}-linux-arm64:${{ github.ref_name }}
 
       - name: Push manifests
         run: |
