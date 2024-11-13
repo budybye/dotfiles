@@ -18,17 +18,23 @@ echo "--------------------------------"
 echo "${HOME}/.local/share/chezmoi"
 ls -la "${HOME}/.local/share/chezmoi"
 echo "--------------------------------"
+
 echo 'Dotfiles link ...'
-if [ ! -d ~/dotfiles ]; then
-    ln -sf ~/.local/share/chezmoi ~/dotfiles && ls -la ~/dotfiles || echo 'Dotfiles link failed!!'
+if [ -d "${HOME}/.local/share/chezmoi" ]; then
+    if [ ! -d "${HOME}/dotfiles" ]; then
+        ln -sf "${HOME}/.local/share/chezmoi" "${HOME}/dotfiles" && ls -la "${HOME}/dotfiles" || echo 'Dotfiles link failed!!'
+    else
+        echo 'Dotfiles link already exists!!'
+        ls -la "${HOME}/dotfiles"
+    fi
 else
-    echo 'Dotfiles link already exists!!'
-    ls -la ~/dotfiles
+    echo "${HOME}/.local/share/chezmoi not found"
 fi
+
 echo "--------------------------------"
 
 echo 'Your git user is ...'
-cat ~/.config/git/user.conf
+cat "${HOME}/.config/git/user.conf"
 
 echo "--------------------------------"
 
