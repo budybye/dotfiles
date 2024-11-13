@@ -85,11 +85,16 @@ jobs:
         uses: hoverkraft-tech/compose-action@v2.0.2
         with:
           compose-file: .devcontainer/docker-compose.yaml
+          service: |
+            ubuntu
+            ipfs
+            portainer
+            cloudflared
 
       - name: Test exec
         run: |
-          # docker compose -f .devcontainer/docker-compose.yaml exec ubuntu bash
           docker ps -a
+          docker compose -f .devcontainer/docker-compose.yaml exec ubuntu bash
 
 
       - name: devcontainer ci
