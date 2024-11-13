@@ -6,22 +6,27 @@ echo "OS info ..."
 uname -a
 echo "--------------------------------"
 echo "Package update && check start!!"
+echo "--------------------------------"
 
-{{ if eq .chezmoi.os "linux" -}}
+{{ if eq .chezmoi.os "linux" }}
     echo "Linux"
     sudo apt-get update -y
     sudo apt-get upgrade -y
     sudo apt-get autoremove -y
     sudo apt-get autoclean -y
     sudo apt-get check
-{{ else if eq .chezmoi.os "darwin" -}}
+{{ else if eq .chezmoi.os "darwin" }}
     echo "MacOS"
-    brew update
-    brew upgrade
-    brew autoremove
-    brew cleanup
-    brew doctor
-{{ end -}}
+    if ! command -v brew >/dev/null 2>&1; then
+        echo "brew command not found"
+    else
+        brew update
+        brew upgrade
+        brew autoremove
+        brew cleanup
+        brew doctor
+    fi
+{{ end }}
 
 echo "--------------------------------"
 
