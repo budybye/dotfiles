@@ -1,14 +1,20 @@
 #! /usr/bin/env bash
 
+echo "--------------------------------"
+echo "Welcome to my dotfiles!!"
 uname -a
+echo "--------------------------------"
+echo "Package install start!!"
 
 {{ if eq .chezmoi.os "linux" -}}
+    echo "Linux"
     sudo apt-get update -y
     sudo apt-get upgrade -y
     sudo apt-get autoremove -y
     sudo apt-get autoclean -y
     sudo apt-get check
 {{ else if eq .chezmoi.os "darwin" -}}
+    echo "MacOS"
     brew update
     brew upgrade
     brew autoremove
@@ -16,4 +22,5 @@ uname -a
     brew doctor
 {{ end -}}
 
-echo "done"
+echo "--------------------------------"
+echo "Package install done!!"
