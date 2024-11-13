@@ -86,15 +86,15 @@ jobs:
         with:
           compose-file: .devcontainer/docker-compose.yaml
           services: |
-            ubuntu
             ipfs
-            portainer
-            cloudflared
+            # ubuntu
+            # portainer
+            # cloudflared
 
       - name: Test exec
         run: |
           docker ps -a
-          docker compose -f .devcontainer/docker-compose.yaml exec ubuntu bash
+          docker compose -f .devcontainer/docker-compose.yaml exec ipfs bash -c "ipfs config show"
 
 
       # - name: devcontainer ci
