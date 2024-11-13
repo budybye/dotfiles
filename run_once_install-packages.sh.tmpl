@@ -1,5 +1,7 @@
 #! /usr/bin/env bash
 
+uname -a
+
 {{ if eq .chezmoi.os "linux" -}}
     sudo apt-get update -y
     sudo apt-get upgrade -y
@@ -13,3 +15,5 @@
     brew cleanup
     brew doctor
 {{ end -}}
+
+echo "done"

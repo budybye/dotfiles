@@ -17,10 +17,10 @@ jobs:
     runs-on: ubuntu-24.04
 
     # 並列でマルチプラットフォームビルドを行う
-    strategy:
-      fail-fast: false
-      matrix:
-        platforms: [linux/amd64, linux/arm64]
+    # strategy:
+    #   fail-fast: false
+    #   matrix:
+    #     platforms: [linux/amd64, linux/arm64]
 
     permissions:
       contents: read
@@ -28,10 +28,10 @@ jobs:
 
     steps:
       # プラットフォームを環境変数にセットするアクション
-      - name: Set vars
-        id: vars
-        run: |
-          echo "platform=$(echo -n ${{ matrix.platforms }} | sed 's/\//-/g')" >> $GITHUB_OUTPUT
+      # - name: Set vars
+      #   id: vars
+      #   run: |
+      #     echo "platform=$(echo -n ${{ matrix.platforms }} | sed 's/\//-/g')" >> $GITHUB_OUTPUT
 
       - uses: actions/checkout@v4
       # qemuをセットアップ
@@ -70,9 +70,8 @@ jobs:
           context: .devcontainer # ビルドするコンテキストを指定
           platforms: linux/amd64,linux/arm64
           # platforms: ${{ matrix.platforms }}
-          # tags: ${{ env.PACKAGE }}:${{ github.ref_name }} # タグを指定
-          tags: ${{ env.PACKAGE }}-${{ steps.vars.outputs.platform }}:${{ github.ref_name }} # タグを指定
-          # tags: ${{ env.PACKAGE }}-${{ steps.vars.outputs.platform }}:${{ github.ref_name }} # タグを指定
+          tags: ${{ env.PACKAGE }}:${{ github.ref_name }} # タグを指定
+          # tags: ${{ steps.meta.outputs.tags }}-${{ steps.vars.outputs.platform }} # タグを指定
           push: true # ghcrにPush
           cache-from: type=local,src=/tmp/.ubuntu-dev-cache-${{ github.sha }} # キャッシュを指定
           cache-to: type=local,dest=/tmp/.ubuntu-dev-new-cache-${{ github.sha }} # キャッシュ更新
@@ -99,31 +98,31 @@ jobs:
       #       cloud-init/user-data
       #       cloud-init/network-config
 
-  release:
-    runs-on: ubuntu-24.04
-    needs: build
+  # release:
+  #   runs-on: ubuntu-24.04
+  #   needs: build
 
-    permissions:
-      contents: read
-      packages: write
+  #   permissions:
+  #     contents: read
+  #     packages: write
 
-    steps:
-      - uses: actions/checkout@v4
-      - uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: docker/login-action@v3
+  #       with:
+  #         registry: ghcr.io
+  #         username: ${{ github.actor }}
+  #         password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Create GHCR manifest
-        run: |
-          docker manifest create ${{ env.PACKAGE }}:${{ github.ref_name }} \
-            --amend ${{ env.PACKAGE }}-linux-amd64:${{ github.ref_name }} \
-            --amend ${{ env.PACKAGE }}-linux-arm64:${{ github.ref_name }}
+  #     - name: Create GHCR manifest
+  #       run: |
+  #         docker manifest create ${{ env.PACKAGE }}:${{ github.ref_name }} \
+  #           --amend ${{ env.PACKAGE }}-linux-amd64:${{ github.ref_name }} \
+  #           --amend ${{ env.PACKAGE }}-linux-arm64:${{ github.ref_name }}
 
-      - name: Push manifests
-        run: |
-          docker manifest push ${{ env.PACKAGE }}:${{ github.ref_name }}
+  #     - name: Push manifests
+  #       run: |
+  #         docker manifest push ${{ env.PACKAGE }}:${{ github.ref_name }}
 
   ubuntu-test:
     runs-on: ubuntu-24.04
