@@ -15,19 +15,3 @@ else
     echo "### chezmoi がすでにインストールされています。"
     chezmoi cd && chezmoi init --apply "${GIT_USER}"
 fi
-echo "### ファイルの確認を開始します..."
-
-echo "### ${HOME} の中身"
-ls -la "${HOME}"
-
-echo "### ${HOME}/.config の中身"
-ls -la "${HOME}/.config"
-
-echo "### ${HOME}/.local/bin の中身"
-ls -la "${HOME}/.local/bin"
-
-echo "### ${HOME}/.local/share の中身"
-ls -la "${HOME}/.local/share"
-
-echo "### ${HOME}/.local/share/chezmoi の中身"
-ls -la "${HOME}/.local/share/chezmoi"

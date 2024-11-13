@@ -1,7 +1,36 @@
 #!/usr/bin/env bash
 
+echo "--------------------------------"
+echo "Chezmoi apply completed!!"
+echo "File check start!!"
+echo "${HOME}"
+ls -la "${HOME}"
+echo "--------------------------------"
+echo "${HOME}/.config"
+ls -la "${HOME}/.config"
+echo "--------------------------------"
+echo "${HOME}/.local/bin"
+ls -la "${HOME}/.local/bin"
+echo "--------------------------------"
+echo "${HOME}/.local/share"
+ls -la "${HOME}/.local/share"
+echo "--------------------------------"
+echo "${HOME}/.local/share/chezmoi
+ls -la "${HOME}/.local/share/chezmoi"
+echo "--------------------------------"
+echo "Dotfiles link ..."
+if [ ! -d ~/dotfiles ]; then
+    ln -sf ~/.local/share/chezmoi ~/dotfiles && ls -la ~/dotfiles || echo "Dotfiles link failed!!"
+else
+    echo "Dotfiles link already exists!!"
+    ls -la ~/dotfiles
+fi
+echo "--------------------------------"
+
 echo "Your git user is ..."
 cat ~/.config/git/user.conf
+
+echo "--------------------------------"
 
 echo "userconf update ? (y/n)"
 #read ans
@@ -10,6 +39,5 @@ echo "userconf update ? (y/n)"
 #  git config --global user.email "your.email@example.com"
 #fi
 
-echo "Dotfiles link ..." && ln -sf ~/.local/share/chezmoi ~/dotfiles && ls -la ~/dotfiles || echo "Dotfiles link failed!!"
-
+echo "--------------------------------"
 echo "Change settings done!!"

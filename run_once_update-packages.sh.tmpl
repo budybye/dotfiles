@@ -2,9 +2,10 @@
 
 echo "--------------------------------"
 echo "Welcome to my dotfiles!!"
+echo "OS info ..."
 uname -a
 echo "--------------------------------"
-echo "Package install start!!"
+echo "Package update && check start!!"
 
 {{ if eq .chezmoi.os "linux" -}}
     echo "Linux"
@@ -23,4 +24,4 @@ echo "Package install start!!"
 {{ end -}}
 
 echo "--------------------------------"
-echo "Package install done!!"
+echo "Package update && check done!!"
