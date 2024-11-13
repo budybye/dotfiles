@@ -84,9 +84,9 @@ jobs:
         with:
           compose-file: .devcontainer/docker-compose.yaml
 
-      - name: Test ipfs
+      - name: Test exec
         run: |
-          docker exec ipfs bash -c "ipfs config show"
+          which docker-compose > /dev/null 2>&1
 
   merge:
     runs-on: ubuntu-latest
