@@ -86,6 +86,21 @@ jobs:
         with:
           compose-file: .devcontainer/docker-compose.yaml
 
+      - name: Test exec
+        run: |
+          docker compose exec ubuntu-dev bash
+
+
+      - name: devcontainer ci
+        uses: devcontainers/ci@v0.3
+        # with:
+        #   push: always
+        #   subFolder: .devcontainer
+        #   imageName: ${{ env.REGISTRY_IMAGE }}
+        #   imageTag: ${{ env.PLATFORM_PAIR }}
+        #   platform: ${{ matrix.platform }}
+        #   cacheFrom: ${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }}
+
   merge:
     runs-on: ubuntu-latest
     timeout-minutes: 10
