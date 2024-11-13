@@ -86,7 +86,7 @@ jobs:
 
       - name: Test ipfs
         run: |
-          docker compose exec ipfs ipfs config show
+          docker-compose exec ipfs bash -c "ipfs config show"
 
   merge:
     runs-on: ubuntu-latest
