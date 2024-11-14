@@ -34,7 +34,6 @@ services:
     environment:
       IPFS_PROFILE: server # server modeで起動
       # IPFS_PATH: /home/ubuntu/.config/ipfs
-      IPFS_PATH: /home/ubuntu/.config/.ipfs
     command:
       - ipfs init
       - ipfs daemon
