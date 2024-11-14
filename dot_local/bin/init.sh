@@ -10,11 +10,11 @@ if ! command -v chezmoi >/dev/null 2>&1; then
         exit 1
     }
     echo "chezmoi install && init completed."
-    bin/chezmoi data
+    ./bin/chezmoi data
 else
     echo "chezmoi already installed."
     chezmoi cd && chezmoi init --apply "${GIT_USER}"
-    chezmoi help
+    chezmoi data
 fi
 
-ls -la "${HOME}/.local/share/chezmoi"
+cd ${HOME} && ls -la "${HOME}/.local/share/chezmoi"

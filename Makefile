@@ -34,7 +34,7 @@ endef
 
 # ターゲットの実行
 sense: $(TARGETS)
-	@echo "OSに応じたスクリプトの実行が完了しました。" | tee -a $(LOGFILE)
+	@echo "OSに応じたスクリプトの実行が完了しました。" | $(tee_log)
 
 # Gitユーザーの設定
 GIT_USER := $(if $(GIT_AUTHOR_NAME),$(GIT_AUTHOR_NAME),-S .)
@@ -46,7 +46,13 @@ init:
 	else \
 		echo "init.sh が存在しないため、chezmoi をインストールします。" | $(tee_log); \
 		curl -fsLS get.chezmoi.io | sh -s -- init --apply ${GIT_USER} | $(tee_log); \
-		bin/chezmoi data | $(tee_log); \
+		if command -v chezmoi >/dev/null 2>&1; then \
+			echo "chezmoi コマンドを実行します。" | $(tee_log); \
+			chezmoi data | $(tee_log); \
+		else \
+			echo "chezmoi コマンドが見つかりません。" | $(tee_log); \
+			./bin/chezmoi data | $(tee_log); \
+		fi \
 	fi
 
 # スクリプトディレクトリの設定
