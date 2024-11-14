@@ -20,6 +20,7 @@ change_shell_to_zsh() {
         exit 1
     }
     echo "zsh default shell changed to ${zsh_path}."
+    command -v zsh >> ${HOME}/which
 }
 
 # 必要なパッケージをインストールする関数
@@ -59,7 +60,7 @@ install_docker_compose() {
         }
     fi
     echo "docker-compose installed."
-    which docker-compose
+    command -v docker-compose >> ${HOME}/which
 }
 
 install_docker() {
@@ -79,7 +80,7 @@ install_docker() {
     sudo systemctl start docker
     echo "docker service started and enabled."
     docker info
-    which docker
+    command -v docker >> ${HOME}/which
 }
 
 # mise でインストールする関数
@@ -103,14 +104,14 @@ install_mise() {
     mise activate --shims
     mise set
     echo "mise installed."
-    which mise
+    echo "$(command -v mise)" >> ${HOME}/which
 
     mise use -g chezmoi bun starship node go -y --verbose || {
         echo "mise use failed."
         exit 1
     }
     echo "mise setup completed."
-    echo "chezmoi bun starship node go" | xargs which
+    echo "chezmoi bun starship node go" | xargs command -v
 }
 
 # Cargo および Rust 関連ツールをインストールする関数
@@ -121,7 +122,7 @@ install_cargo_tools() {
         exit 1
     }
     echo "cargo installed."
-    which cargo
+    command -v cargo >> ${HOME}/which
 
     echo "cargo tools install start..."
     cargo install sheldon fd-find xh bat || {
@@ -129,13 +130,13 @@ install_cargo_tools() {
         exit 1
     }
     echo "cargo tools installed."
-    echo "sheldon fd-find xh bat" | xargs which
+    echo "sheldon fd-find xh bat" | xargs command -v >> ${HOME}/which
 }
 
 # Bitwarden をインストールする関数
 install_bitwarden() {
     echo "bitwarden install start..."
-    command -v bitwarden >/dev/null || {
+    command -v bw >/dev/null || {
         if [ "${arch}" = "amd64" ]; then
             sudo snap install bitwarden
         else
@@ -147,18 +148,23 @@ install_bitwarden() {
         exit 1
     }
     echo "bitwarden installed."
-    which bw
+    command -v bw >> ${HOME}/which
 }
 
 # Go と Aqua をインストールする関数
 install_go_aqua() {
     echo "go install start..."
-    command -v go >/dev/null || mise use go -y || sudo apt-get install -y golang || {
-        echo "go install failed."
-        exit 1
-    }
+    if ! command -v go >/dev/null 2>&1; then
+        mise use go -y || sudo apt-get install -y golang || {
+            echo "go install failed."
+            exit 1
+        }
+    elif ! command -v /usr/bin/go >/dev/null 2>&1; then
+        sudo apt-get remove -y golang
+        mise use -g go -y
+    fi
     echo "go installed."
-    which go
+    command -v go >> ${HOME}/which
 
     echo "aqua install start..."
     go install github.com/aquaproj/aqua/v2/cmd/aqua@latest || {
@@ -166,7 +172,7 @@ install_go_aqua() {
         exit 1
     }
     echo "aqua installed."
-    # which aqua
+    # command -v aqua >> ${HOME}/which
 }
 
 # mkcert をインストールおよび設定する関数
@@ -178,7 +184,7 @@ install_mkcert() {
     }
     mkcert -install
     echo "mkcert installed."
-    which mkcert
+    command -v mkcert >> ${HOME}/which
 }
 
 install_multipass() {
@@ -188,7 +194,7 @@ install_multipass() {
         exit 1
     }
     echo "multipass installed."
-    which multipass
+    command -v multipass >> ${HOME}/which
 }
 
 install_act() {
@@ -198,7 +204,7 @@ install_act() {
         exit 1
     }
     echo "act installed."
-    which act
+    command -v act >> ${HOME}/which
 }
 
 # Gitの設定
@@ -211,6 +217,9 @@ git_setup() {
     # gh auth login
     git config --global commit.template ${HOME}/.config/git/commit.template
     git status
+    echo "git setup completed."
+    command -v git >> ${HOME}/which
+    command -v gh >> ${HOME}/which
 }
 
 # メイン関数
@@ -230,6 +239,7 @@ main() {
     git_setup
     echo "install completed. please reboot."
     neofetch
+    cat ${HOME}/which && rm -f ${HOME}/which
 }
 
 # スクリプトを実行
