@@ -11,7 +11,8 @@
       "GIT_USER": "budybye"
     },
     "features": {
-      "ghrc.io/devcontainers/features/docker-in-docker:2": {}
+      "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+      "ghcr.io/budybye/dotfiles/ubuntu-dev:main": {}
     },
     "customizations": {
       "vscode": {
