@@ -12,7 +12,6 @@ on:
     - cron: "20 4,7 * * 1-5"
 
 env:
-  # REGISTRY_IMAGE: ghcr.io/${{ github.repository }}/ubuntu-dev
   # REGISTRY_IMAGE: ghcr.io/${{ github.repository }}
   REGISTRY_IMAGE: ghcr.io/budybye/ubuntu-dev
 
