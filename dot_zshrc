@@ -5,23 +5,23 @@ SAVEHIST=123456             # 上述のファイルに保存する履歴のサ�
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="123"
 
-set -o share_history        # 履歴を他のシェルとリアルタイム共有する
-set -o inc_append_history   # 実行時に履歴をファイルにに追加していく
-set -o hist_verify          # ヒストリを呼び出してから実行する間に一旦編集可能
-set -o hist_expand          # 補完時にヒストリを自動的に展開
-set -o hist_ignore_space    # スペースで始まるコマンドは履歴に記録しない
-set -o hist_ignore_all_dups # 重複を記録しない
+setopt share_history        # 履歴を他のシェルとリアルタイム共有する
+setopt inc_append_history   # 実行時に履歴をファイルにに追加していく
+setopt hist_verify          # ヒストリを呼び出してから実行する間に一旦編集可能
+setopt hist_expand          # 補完時にヒストリを自動的に展開
+setopt hist_ignore_space    # スペースで始まるコマンドは履歴に記録しない
+setopt hist_ignore_all_dups # 重複を記録しない
 
-set -o auto_param_keys      # 環境変数を補完
-set -o auto_cd              # パスを直接入力してもcdする
-set -o auto_pushd           # cd - [tab]で過去のディレクトリに飛べる
-set -o auto_param_slash     # 自動スラッシュ補完
-set -o no_flow_control      # ctrl+s, ctrl+q を無効にする
-set -o no_nomatch           # curlマッチしない場合にエラーにしない
-set -o mark_dirs            # match directory as append slash
-set -o list_types           # autocomplete list is render file mark
-set -o print_eight_bit      # enable utf-8
-set -o correct              # 入力間違えしていたら、候補を出す。yで選択
+setopt auto_param_keys      # 環境変数を補完
+setopt auto_cd              # パスを直接入力してもcdする
+setopt auto_pushd           # cd - [tab]で過去のディレクトリに飛べる
+setopt auto_param_slash     # 自動スラッシュ補完
+setopt no_flow_control      # ctrl+s, ctrl+q を無効にする
+setopt no_nomatch           # curlマッチしない場合にエラーにしない
+setopt mark_dirs            # match directory as append slash
+setopt list_types           # autocomplete list is render file mark
+setopt print_eight_bit      # enable utf-8
+setopt correct              # 入力間違えしていたら、候補を出す。yで選択
 
 # 色
 autoload -Uz colors && colors
