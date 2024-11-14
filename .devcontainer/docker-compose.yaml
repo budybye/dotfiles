@@ -24,7 +24,7 @@ services:
       - 4001:4001
       - 8080:8080
       - 5001:5001 # http://localhost:5001/webui
-    volumes:
+    # volumes:
       # # ipfsの設定ファイルをマウント
       # - ./dev/ipfs/ipfs:/home/ubuntu/.config/ipfs
       # # ipfsのエクスポートファイルをマウント
