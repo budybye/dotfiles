@@ -14,11 +14,11 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 60
     permissions:
+      contents: read
       packages: write
-      # contents: read
     strategy:
       fail-fast: false
       matrix:
@@ -103,7 +103,7 @@ jobs:
         #   cacheFrom: ${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }}
 
   merge:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     permissions:
       packages: write

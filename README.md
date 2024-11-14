@@ -6,14 +6,13 @@
 
 ### 🏴‍☠ [budybye/dotfiles](https://github.com/budybye/dotfiles)
 
-
 - このリポジトリは、私、個人の設定ファイルを管理するためのものです。
 - さまざまなツールや設定ファイルを統合、管理、改善して、効率的に設定された環境を構築することを目的としています。
 - `MacOS` と `Ubuntu` の設定ファイルを管理しています。
 - `Docker` や `Multipass` でも環境設定しています。
 - 複雑でなければ `Ansible` や `Terraform` も追加予定...
 - `.github/workflows/*.yaml` で環境ごとのテストを行っています。
-- `SSH` やシークレットな情報は `.env` `age` `Bitwarden` で管理しています。
+- `SSH` やシークレットな情報は `.env` `age` `Bitwarden` `chezmoi` で管理しています。
 
 ### 初期設定
 
@@ -51,9 +50,12 @@ git config --global commit.template ~/.config/git/commit_template
 
 ## 概要
 
-- **対応OS**: `MacOS` Sequoia、`Ubuntu` 24.04
+- **Chezmoi**: `chezmoi` でドットファイルを管理しています。
+- **対応OS**: `MacOS` Sequoia、`Ubuntu` 24.04 `chezmoi tmplate` でOSごとの設定を管理しています。
 - **テスト**: `GitHub Actions` を使用して、さまざまなOSでの動作を確認しています。
+- **Makefile**: `Makefile` でシェルスクリプトを管理しています。
 - **今後の計画**: `arm64` 互換と `WSL2` と `Windows` 用の設定ファイルを追加で管理する予定です。
+- **Docker**: `Dockerfile` と `docker-compose.yaml` と `devcontainer.json` で `Docker` コンテナを管理しています。
 
 ## 目次
 
@@ -139,12 +141,16 @@ git config --global commit.template ~/.config/git/commit_template
 │       ├── defaults.sh             # MacOS のデフォルトスクリプト make defaults
 │       └── codex.sh                # VSCode のスクリプト make code
 ├── .devcontainer                   
+│    ├── dev                        # Docker volume 用のディレクトリ
 │    ├── .devcontainer.json         # devcontainer の設定ファイル
 │    ├── Dockerfile                 # Dockerfile
 │    └── docker-compose.yaml        # docker-compose の設定ファイル
 ├── .github                         
 │    └── workflows                 
 │       └── .test.yaml              # Github Actions のテストの設定ファイル
+├── cloud-init                         
+│    ├── multipass.yaml             # Multipass のcloud-init ファイル
+│    └── user-data.yaml             # cloud-init の設定ファイル
 ├── .profile                        # ログインシェルに共通で読み込まれるファイル
 ├── .aliases                        # エイリアスの設定ファイル
 ├── .zshrc                          # zsh の設定ファイル
@@ -155,8 +161,10 @@ git config --global commit.template ~/.config/git/commit_template
 ├── .mise.toml                      # mise の設定ファイル .env を読み込む
 ├── .env                            # 環境変数の設定ファイル
 ├── .chezmoiignore                  # chezmoi の除外ファイル
+├── .chemoi.yaml.tmpl               # ~/.local/share/chezmoi.yaml になる設定ファイル
+├── run_once_update.sh.tmpl         # chezmoi の一度だけ実行するスクリプト
+├── run_onchange_userconf.sh.tmpl   # chezmoi のapply時に実行するスクリプト
 ├── data                            # データのディレクトリ
-├── multipass.yaml                  # Multipass のcloud-init ファイル
 ├── Applications                    # AppImage 系のディレクトリ
 ├── etc...                          # その他
 ```
@@ -352,6 +360,8 @@ chezmoi apply < option Filename >
 chezmoi chattr < Filename >
 # リモートからの状態を反映
 chezmoi update
+# .chezmoi.* から取得できる情報を表示
+chezmoi data
 ```
 
 ---
@@ -366,9 +376,9 @@ make sense
 # シェルスクリプトを実行
 make init
 make install
+make setup
 make bootstrap
 make defaults
-make setup
 make code
 make link
 make keygen
@@ -513,19 +523,22 @@ echo $VAR
 
 ## [Docker](https://docker.com/)
 
-- `Dockerfile` で `Ubuntu` のイメージをビルドしてプッシュ
-- `Docker` コンテナ内で `xrdp` と `xfce4` を使用した `Ubuntu` 環境を構築
+- `Dockerfile` で `Ubuntu-dev` のイメージをビルドしてプッシュ
+- `Docker` コンテナ内で `xrdp` と `xfce4` を使用した `Ubuntu-dev` 環境を構築
+- `Docker Compose` で複数のコンテナを起動
 - `Dev Container` で使用
+- `linux/amd64` `linux/arm64` Multi Platform 対応
 
 ```sh
+cd .devcontainer
 # コンテナをビルド
-docker build -t ubuntu-xrdp .
+docker build -t ubuntu-dev .
 # イメージをプッシュ
-docker push ubuntu-xrdp
+docker push ubuntu-dev
 # コンテナを起動
 docker compose up -d
 # コンテナ内に入る
-docker compose exec ubuntu /bin/bash
+docker compose exec -f .devcontainer/devcontainer.json ubuntu /bin/bash
 ```
 
 ---
