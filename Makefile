@@ -46,7 +46,7 @@ init:
 	else \
 		echo "init.sh が存在しないため、chezmoi をインストールします。" | $(tee_log); \
 		curl -fsLS get.chezmoi.io | sh -s -- init --apply ${GIT_USER} | $(tee_log); \
-		$(pwd)/bin/chezmoi data | $(tee_log); \
+		"$(pwd)"/bin/chezmoi data | $(tee_log); \
 	fi
 
 # スクリプトディレクトリの設定
