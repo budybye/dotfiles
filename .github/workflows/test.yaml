@@ -8,8 +8,8 @@ on:
       - "v*.*.*"
   workflow_dispatch:
   schedule:
-    # 平日のUTC4:20と 日本時間(UTC+9) 16:20に実行
-    - cron: "20 4,7 * * 1-5"
+    # 平日のUTC16:20と 日本時間(UTC+9) 16:20に実行
+    - cron: "20 16,7 * * 1-5"
 
 env:
   # REGISTRY_IMAGE: ghcr.io/${{ github.repository }}
