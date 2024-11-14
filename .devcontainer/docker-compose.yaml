@@ -25,16 +25,19 @@ services:
       - 8080:8080
       - 5001:5001 # http://localhost:5001/webui
     volumes:
-      # ipfsの設定ファイルをマウント
-      - ./dev/ipfs/ipfs:/home/ubuntu/.config/ipfs
-      # ipfsのエクスポートファイルをマウント
-      - ./dev/ipfs/export:/export
-      #init直後のdaemon起動前に実行されるshをマウント
-      - ./dev/ipfs/entrypoint.sh:/container-init.d/entrypoint.sh
+      # # ipfsの設定ファイルをマウント
+      # - ./dev/ipfs/ipfs:/home/ubuntu/.config/ipfs
+      # # ipfsのエクスポートファイルをマウント
+      # - ./dev/ipfs/export:/export
+      # #init直後のdaemon起動前に実行されるshをマウント
+      # - ./dev/ipfs/entrypoint.sh:/container-init.d/entrypoint.sh
     environment:
       IPFS_PROFILE: server # server modeで起動
-      IPFS_PATH: /home/ubuntu/.config/ipfs
-    # command: ipfs init
+      # IPFS_PATH: /home/ubuntu/.config/ipfs
+      IPFS_PATH: /home/ubuntu/.config/.ipfs
+    command:
+      - ipfs init
+      - ipfs daemon
     restart: always
 
   portainer:
