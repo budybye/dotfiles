@@ -17,7 +17,7 @@
     "customizations": {
       "vscode": {
         "settings": {
-          "terminal.integrated.shell.linux": "/bin/bash",
+          "terminal.integrated.shell.linux": "/usr/bin/zsh",
           "editor.formatOnSave": true,
           "files.autoSave": "afterDelay",
           "files.autoSaveDelay": 1000,

@@ -13,6 +13,7 @@ services:
       - "3389:3389"
     environment:
       - ENV=production
+    command: /bin/bash -c "exec zsh"
     # command: sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply budybye
 
   ipfs:
@@ -53,12 +54,12 @@ services:
   cloudflared:
     image: cloudflare/cloudflared
     container_name: cloudflared
-    restart: unless-stopped
     networks:
       - app-network
-    volumes:
-      - ./dev/cloudflared:/home/nonroot/.cloudflared
+    # volumes:
+    #   - ./dev/cloudflared:/home/nonroot/.cloudflared
     command: tunnel --url http://portainer:9443
+    restart: unless-stopped
     depends_on:
       - portainer
 
