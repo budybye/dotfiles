@@ -90,7 +90,7 @@ jobs:
       - name: Test exec
         run: |
           docker ps -a
-          # docker compose -f .devcontainer/docker-compose.yaml exec ipfs bash -c "ipfs config show"
+          docker compose -f .devcontainer/docker-compose.yaml exec ipfs bash -c "ipfs config show"
 
       # - name: devcontainer ci
         # uses: devcontainers/ci@v0.3
