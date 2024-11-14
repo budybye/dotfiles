@@ -35,8 +35,8 @@ install_packages() {
         echo "apt install failed."
         exit 1
     }
-    echo "apt install completed."
     sudo apt-get autoremove -y && sudo apt-get clean && sudo rm -rf /var/cache/apt /var/lib/apt/lists/*
+    echo "apt install completed."
 }
 
 install_docker_compose() {
@@ -98,8 +98,10 @@ install_mise() {
         }
     }
     # .env ファイルを作成 (~/dotfiles を mise で設定してる関係)
-    echo "exportGIT_AUTHOR_NAME=budybye" >>./.env
-    mise activate zsh
+    echo "export USER_NAME=$(whoami)" >>./.env
+    # mise activate zsh
+    # mise activate --shims
+    . ${HOME}/.zshrc
     mise set
     echo "mise installed."
     which mise
@@ -109,7 +111,6 @@ install_mise() {
         exit 1
     }
     echo "mise setup completed."
-    mise activate --shims
     echo "chezmoi bun starship node go" | xargs which
 }
 
