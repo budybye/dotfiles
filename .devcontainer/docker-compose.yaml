@@ -1,7 +1,7 @@
 services:
 
   ubuntu:
-    image: ghcr.io/budybye/ubuntu-dev
+    image: ghcr.io/budybye/ubuntu-dev:main
     # build:
     #   context: .
     #   dockerfile: Dockerfile
