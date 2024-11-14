@@ -99,9 +99,8 @@ install_mise() {
     }
     # .env ファイルを作成 (~/dotfiles を mise で設定してる関係)
     echo "export USER_NAME=$(whoami)" >>./.env
-    # mise activate zsh
-    # mise activate --shims
-    . ${HOME}/.zshrc
+    mise activate zsh
+    mise activate --shims
     mise set
     echo "mise installed."
     which mise
