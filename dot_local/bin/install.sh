@@ -101,8 +101,6 @@ install_mise() {
     }
     # .env ファイルを作成 (~/dotfiles を mise で設定してる関係)
     echo "export USER_NAME=$(whoami)" >>./.env
-    mise activate --shims
-    mise activate zsh
     mise set
     echo "mise installed."
     echo "$(command -v mise)" >> ${HOME}/which
@@ -111,6 +109,8 @@ install_mise() {
         echo "mise use failed."
         exit 1
     }
+    mise activate zsh
+    mise activate --shims
     echo "mise setup completed."
     for cmd in chezmoi bun starship node go; do
         command -v "$cmd" >> ${HOME}/which || echo "$cmd not found"
@@ -239,7 +239,7 @@ git_setup() {
 
 # メイン関数
 main() {
-    echo "cli install start..."
+    echo "CLI tools install start..."
     install_packages
     change_shell_to_zsh
     install_mise
