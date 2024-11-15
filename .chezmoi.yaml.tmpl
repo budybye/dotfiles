@@ -1,12 +1,24 @@
 # chezmoi .yaml or .toml or .json file is a configuration file for chezmoi
-# ~/.config/chezmoi/chezmoi.yaml ではエラーになる
-# ~/.chezmoi.yaml.tmpl に設定を記述するとエラーが出ない
 
-# sourceDir: ~/.dotfiles
-# git:
-#   autoPush: true
+# ~/.config/chezmoi/chezmoi.yaml ではエラーになる
+# ~/.chezmoi.yaml.tmpl に設定を記述すると反映される
+
+{{- $codespaces:= env "CODESPACES" | not | not -}}
+sourceDir: {{ .chezmoi.sourceDir | quote }}
+
+data:
+  name: "budybye"
+  codespaces: {{ $codespaces }}
+{{- if $codespaces }}{{/* Codespaces dotfiles setup is non-interactive, so set an email address */}}
+  email: "101wayout@gmail.com"
+{{- else }}{{/* Interactive setup, so prompt for an email address */}}
+  email: {{ promptString "email" | quote }}
+{{- end }}
+
+# sourceDir: ~/dotfiles
+git:
+  autoPush: false
 edit:
   command: "co"
   args:
     "--wait"
-

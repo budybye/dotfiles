@@ -8,7 +8,8 @@
     "forwardPorts": [3000, 4000, 9443, 3389, 8787, 8080, 4001, 5001, 80],
     "postCreateCommand": "sudo apt-get update && sudo apt-get install -y curl git make",
     "remoteEnv": {
-      "GIT_USER": "budybye"
+      "GIT_USER": "budybye",
+      "GIT_AUTHOR_NAME": "budybye"
     },
     "features": {
       "ghcr.io/devcontainers/features/docker-in-docker:2": {},
@@ -29,7 +30,7 @@
           },
           "dotfiles.repository": "budybye/dotfiles",
           "dotfiles.targetPath": "~/dotfiles",
-          "dotfiles.installCommand": "make init"
+          "dotfiles.installCommand": "~/dotfiles/dot_local/bin/init.sh"
         },
         "extensions": [
           "ms-python.python",

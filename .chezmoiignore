@@ -19,6 +19,8 @@
     *rc
     *profile
     *env
+{{ if eq (env "REMOTE_CONTAINERS") "true" }}
+    .gitconfig
 {{ end }}
 
 .env

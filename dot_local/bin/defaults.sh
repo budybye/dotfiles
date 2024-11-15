@@ -151,6 +151,11 @@ defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 65 "<dic
 # Spotlight検索を表示、Finderの検索ウインドウを表示が無効化になっているか確認する（64、65をチェックすること）
 defaults read com.apple.symbolichotkeys AppleSymbolicHotKeys
 
+# networksetup -SetDNSServers Wi-Fi 1.1.1.1 1.0.0.1
+# networksetup -SetV6Off Wi-Fi
+
+echo 'Rebooting to reflect settings'
+
 # 再起動
 for app in "Dock" \
     "Finder" \

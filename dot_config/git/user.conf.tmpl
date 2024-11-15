@@ -1,3 +1,11 @@
 [user]
+{{ if eq .chezmoi.username "ubuntu" }}
     email = 101wayout@gmail.com
     name = budybye
+{{ elseif eq .chezmoi.username "runner" }}
+    email = {{// コメント}}
+    name = {{// コメント}}
+{{ else }}
+    email = {{ (bitwarden "item" "gh").login.password | quote }}{{/* コメント */}}
+    name = {{ (bitwarden "item" "gh").login.username | quote }}{{/* bitwarden で取得 */}}
+{{ end }}
