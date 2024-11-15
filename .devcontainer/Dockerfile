@@ -3,12 +3,12 @@ FROM ubuntu:24.04
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends \
-    xfce4 xfce4-goodies xrdp xorgxrdp dbus-x11 gzip xdotool xsel \
-    language-pack-ja-base language-pack-ja manpages-ja fcitx5-mozc \
+    xfce4 xfce4-goodies xrdp xorgxrdp dbus-x11 gzip xdotool xsel sshfs ufw \
+    language-pack-ja-base language-pack-ja manpages-ja fcitx5-mozc im-config \
     tree ncdu mkcert pwgen gawk neofetch lsd ffmpeg mpd mpc ncmpcpp age \
-    build-essential libssl-dev pkg-config apt-transport-https \
+    build-essential libssl-dev pkg-config apt-transport-https avahi-daemon \
     libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev \
-    cmake g++ ca-certificates zsh vim git gh curl wget jq python3 ruby cargo && \
+    cmake g++ ca-certificates zsh vim git gh curl wget jq python3 ruby cargo flatpak && \
     apt-get remove -y light-locker xscreensaver && \
     apt-get autoremove -y && \
     apt-get clean && \

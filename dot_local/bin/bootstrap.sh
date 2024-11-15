@@ -34,7 +34,7 @@ install_homebrew() {
 
 # Brewfile を使用してパッケージをインストール
 install_brew_packages() {
-    BREWFILE_PATH="$HOME/.config/Brewfile-test"
+    BREWFILE_PATH="$HOME/.config/Brewfile"
 
     if [ -f "$BREWFILE_PATH" ]; then
         echo "Brewfile ($BREWFILE_PATH) からパッケージをインストールします。"

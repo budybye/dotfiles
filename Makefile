@@ -38,6 +38,8 @@ sense: $(TARGETS)
 
 # Gitユーザーの設定
 GIT_USER := $(if $(GIT_AUTHOR_NAME),$(GIT_AUTHOR_NAME),-S .)
+# スクリプトディレクトリの設定
+SCRIPT_DIR := ${HOME}/.local/bin
 # chezmoi init
 init:
 	@echo "Running init script..." | $(tee_log)
@@ -46,6 +48,7 @@ init:
 	else \
 		echo "init.sh が存在しないため、chezmoi をインストールします。" | $(tee_log); \
 		curl -fsLS get.chezmoi.io | sh -s -- init --apply ${GIT_USER} | $(tee_log); \
+		sudo cp -r ./bin/chezmoi ${SCRIPT_DIR} | $(tee_log); \
 		if command -v chezmoi >/dev/null 2>&1; then \
 			echo "chezmoi コマンドを実行します。" | $(tee_log); \
 			chezmoi data | $(tee_log); \
@@ -55,8 +58,6 @@ init:
 		fi \
 	fi
 
-# スクリプトディレクトリの設定
-SCRIPT_DIR := ${HOME}/.local/bin
 # Ubuntu
 install:
 	$(call run_script,Install,${SCRIPT_DIR}/install.sh)

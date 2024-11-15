@@ -27,8 +27,8 @@ change_shell_to_zsh() {
 install_packages() {
     sudo dpkg --configure -a
     sudo apt-get update -y && sudo apt-get upgrade -y
-    sudo apt-get install -y curl wget git build-essential cmake dbus-x11 gnupg g++ gh jq sudo age \
-        zsh vim tree xsel ncdu xdotool mkcert moreutils multitail neofetch lsd zoxide direnv \
+    sudo apt-get install -y curl wget git build-essential cmake dbus-x11 gnupg g++ gh jq sudo age flatpak \
+        zsh vim tree xsel ncdu xdotool mkcert moreutils multitail neofetch lsd zoxide direnv avahi-daemon \
         libssl-dev pkg-config apt-transport-https ca-certificates lsb-release libnss3-tools \
         libinput-tools libdb-dev libdb5.3-dev libgdbm-dev libgmp-dev libgmpxx4ldbl libgdbm-compat-dev rustc \
         libstd-rust-1.75 libstd-rust-dev libncurses5-dev libffi-dev libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev \
@@ -100,8 +100,8 @@ install_mise() {
     }
     # .env ファイルを作成 (~/dotfiles を mise で設定してる関係)
     echo "export USER_NAME=$(whoami)" >>./.env
-    mise activate zsh
     mise activate --shims
+    mise activate zsh
     mise set
     echo "mise installed."
     echo "$(command -v mise)" >> ${HOME}/which
@@ -140,7 +140,7 @@ install_bitwarden() {
         if [ "${arch}" = "amd64" ]; then
             sudo snap install bitwarden
         else
-            bun install -g @bitwarden-cli/cli
+            bun install -g @bitwarden/cli
             . ${HOME}/.zshenv
         fi
     } || {
@@ -149,6 +149,16 @@ install_bitwarden() {
     }
     echo "bitwarden installed."
     command -v bw >> ${HOME}/which
+}
+
+install_flatpak() {
+    command -v flatpak >/dev/null || sudo apt-get install -y flatpak || {
+        echo "flatpak install failed."
+        exit 1
+    }
+    flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+    echo "flatpak installed."
+    command -v flatpak >> ${HOME}/which
 }
 
 # Go と Aqua をインストールする関数
@@ -232,6 +242,7 @@ main() {
     install_docker
     install_docker_compose
     install_cargo_tools
+    install_flatpak
     install_go_aqua
     install_mkcert
     install_act

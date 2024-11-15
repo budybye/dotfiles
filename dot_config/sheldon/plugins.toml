@@ -1,4 +1,4 @@
-# .config/sheldon/plugins.toml
+# ~/.config/sheldon/plugins.toml
 shell = "zsh"
 
 [plugins.zsh-defer]

@@ -14,6 +14,7 @@
  	path = ~/.config/git/user.conf
 
 [alias]
+	t = tag
 	s = status
 	st = status
 	a = add

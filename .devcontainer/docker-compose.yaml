@@ -2,19 +2,15 @@ services:
 
   ubuntu:
     image: ghcr.io/budybye/ubuntu-dev:main
-    # build:
-    #   context: .
-    #   dockerfile: Dockerfile
     container_name: ubuntu
     networks:
       - app-network
     ports:
       - "8787:80"
-      - "3389:3389"
+      - "3389:3389" # RDP
     environment:
       - ENV=production
     command: /bin/bash -c "exec zsh"
-    # command: sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply budybye
 
   ipfs:
     image: ipfs/kubo
@@ -25,17 +21,8 @@ services:
       - 4001:4001
       - 8080:8080
       - 5001:5001 # http://localhost:5001/webui
-    # volumes:
-      # # ipfsの設定ファイルをマウント
-      # - ./dev/ipfs/ipfs:/home/ubuntu/.config/ipfs
-      # # ipfsのエクスポートファイルをマウント
-      # - ./dev/ipfs/export:/export
-      # #init直後のdaemon起動前に実行されるshをマウント
-      # - ./dev/ipfs/entrypoint.sh:/container-init.d/entrypoint.sh
     environment:
       IPFS_PROFILE: server # server modeで起動
-      # IPFS_PATH: /home/ubuntu/.config/ipfs
-    # command: ipfs daemon
     restart: always
 
   portainer:
@@ -48,7 +35,7 @@ services:
       - 9443:9443 # http://localhost:9443
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./dev/portainer:/data
+      - ./portainer:/data
     restart: always
 
   cloudflared:
@@ -56,8 +43,6 @@ services:
     container_name: cloudflared
     networks:
       - app-network
-    # volumes:
-    #   - ./dev/cloudflared:/home/nonroot/.cloudflared
     command: tunnel --url http://portainer:9443
     restart: unless-stopped
     depends_on:

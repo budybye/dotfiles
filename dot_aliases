@@ -21,6 +21,7 @@ alias rm="rm -i"   # 削除確認を有効にする
 alias mkdir="mkdir -p"  # 親ディレクトリも作成
 
 # ネットワーク関連のエイリアス
+alias pi="ping -c 5 1.1.1.1"
 alias ping="ping -c 5"  # 5回だけpingを送信
 alias ports="netstat -tuln"  # 開いているポートを表示
 

@@ -12,8 +12,8 @@ users:
     uid: 1188
     gid: 1178
     sudo: ALL=(ALL) NOPASSWD:ALL
-    # ssh_authorized_keys:
-    #   - ssh-ed25519 ABCDEF...
+    ssh_authorized_keys:
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGdb0doNWLWBSLX8x7hx4Wcb4R+F5zlMlPypEk60u7T3
     # ssh_import_id:
     #   - github:username
 
@@ -156,15 +156,16 @@ packages:
   - ncmpcpp
 
   # Docker
-  # - docker
-  # - docker.io
-  # - docker-compose
-  # - avahi-daemon
+  - docker
+  - docker.io
+  - docker-compose
+  - avahi-daemon
+
 runcmd:
   - sudo sed -i 's/^s*REGDOMAIN=S*/REGDOMAIN=JP/' /etc/default/crda || true
   - LANG=C xdg-user-dirs-update --force
   - im-config -n fcitx5
-  # - sudo usermod -a -G ssl-cert,xrdp,input,audio ubutnu
+  - sudo usermod -aG ssl-cert,xrdp,input,audio,docker ubuntu
   - sudo ufw allow 3389
   - sudo systemctl enable xrdp
   - sudo systemctl start xrdp
