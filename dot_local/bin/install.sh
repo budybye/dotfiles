@@ -19,6 +19,7 @@ change_shell_to_zsh() {
         echo "zsh default shell change failed."
         exit 1
     }
+    echo "Your shell is ${SHELL}"
     echo "zsh default shell changed to ${zsh_path}."
     command -v zsh >> ${HOME}/which
 }
@@ -111,7 +112,7 @@ install_mise() {
         exit 1
     }
     echo "mise setup completed."
-    echo "chezmoi bun starship node go" | xargs command -v
+    echo "chezmoi bun starship node go" | xargs -n 1 command -v >> ${HOME}/which
 }
 
 # Cargo および Rust 関連ツールをインストールする関数
@@ -130,7 +131,7 @@ install_cargo_tools() {
         exit 1
     }
     echo "cargo tools installed."
-    echo "sheldon fd-find xh bat" | xargs command -v >> ${HOME}/which
+    echo "sheldon fd-find xh bat" | xargs -n 1 command -v >> ${HOME}/which
 }
 
 # Bitwarden をインストールする関数
@@ -156,7 +157,7 @@ install_flatpak() {
         echo "flatpak install failed."
         exit 1
     }
-    flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+    sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
     echo "flatpak installed."
     command -v flatpak >> ${HOME}/which
 }
@@ -169,7 +170,7 @@ install_go_aqua() {
             echo "go install failed."
             exit 1
         }
-    elif ! command -v /usr/bin/go >/dev/null 2>&1; then
+    elif command -v /usr/bin/go >/dev/null 2>&1; then
         sudo apt-get remove -y golang
         mise use -g go -y
     fi
@@ -213,6 +214,7 @@ install_act() {
         echo "act install failed."
         exit 1
     }
+    sudo cp -r ./bin/act /usr/local/bin
     echo "act installed."
     command -v act >> ${HOME}/which
 }
