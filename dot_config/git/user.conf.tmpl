@@ -1,8 +1,10 @@
 [user]
-{{- if eq .chezmoi.os "darwin" }}
-    email = {{ (bitwarden "item" "gh").login.password | "101wayout@gmail.com" }}
-    name = {{ (bitwarden "item" "gh").login.username | "budybye" }}
-{{- else }}
+{{ if eq .chezmoi.os "darwin" }}
+    email = bob@gmail.com
+    name = bob
+#    email = {{ (bitwarden "item" "gh").login.password | "101wayout@gmail.com" }}
+#    name = {{ (bitwarden "item" "gh").login.username | "budybye" }}
+{{ else }}
     email = 101wayout@gmail.com
     name = budybye
-{{- end }}
+{{ end }}
