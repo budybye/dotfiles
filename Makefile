@@ -48,7 +48,7 @@ init:
 	else \
 		echo "init.sh が存在しないため、chezmoi をインストールします。" | $(tee_log); \
 		curl -fsLS get.chezmoi.io | sh -s -- -b ${SCRIPT_DIR} | $(tee_log); \
-		chezmoi init --apply git@github.com:${GIT_USER}/dotfiles.git | $(tee_log); \
+		chezmoi init --apply git@github.com:budybye/dotfiles.git | $(tee_log); \
 	fi
 
 # Ubuntu
