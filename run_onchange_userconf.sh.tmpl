@@ -37,10 +37,14 @@ if [ -d "${HOME}/.local/share/chezmoi" ]; then
         ls -la "${HOME}/dotfiles"
     fi
     echo "--------------------------------"
+
     # .env ファイルが存在しない場合は作成
     if [ ! -f "${HOME}/.local/share/chezmoi/.env" ]; then
-        echo "export USER_NAME=$(whoami)" >>"${HOME}/.local/share/chezmoi/.env" && ls -la "${HOME}/.local/share/chezmoi"
+        echo "export USER_NAME=$(whoami)" >>"${HOME}/.local/share/chezmoi/.env"
+        echo "export EMAIL=101wayout@gmail.com" >>"${HOME}/.local/share/chezmoi/.env"
+        ls -la "${HOME}/.local/share/chezmoi"
     fi
+
 else
     echo "${HOME}/.local/share/chezmoi not found"
 fi

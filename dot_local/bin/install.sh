@@ -112,7 +112,9 @@ install_mise() {
         exit 1
     }
     echo "mise setup completed."
-    echo "chezmoi bun starship node go" | xargs -n 1 command -v >> ${HOME}/which
+    for cmd in chezmoi bun starship node go; do
+        command -v "$cmd" >> ${HOME}/which || echo "$cmd not found"
+    done
 }
 
 # Cargo および Rust 関連ツールをインストールする関数
@@ -131,7 +133,9 @@ install_cargo_tools() {
         exit 1
     }
     echo "cargo tools installed."
-    echo "sheldon fd-find xh bat" | xargs -n 1 command -v >> ${HOME}/which
+    for cmd in sheldon fd-find xh bat; do
+        command -v "$cmd" >> ${HOME}/which || echo "$cmd not found"
+    done
 }
 
 # Bitwarden をインストールする関数
@@ -142,7 +146,6 @@ install_bitwarden() {
             sudo snap install bitwarden
         else
             bun install -g @bitwarden/cli
-            . ${HOME}/.zshenv
         fi
     } || {
         echo "bitwarden install failed."

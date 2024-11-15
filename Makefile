@@ -44,18 +44,12 @@ SCRIPT_DIR := ${HOME}/.local/bin
 init:
 	@echo "Running init script..." | $(tee_log)
 	@if [ -f "$(SCRIPT_DIR)/init.sh" ]; then \
-		sh $(SCRIPT_DIR)/init.sh | $(tee_log); \
+		sh $(SCRIPT_DIR)/init.sh | $(tee_log) || { echo "init.sh failed!" | $(tee_log); exit 1; }; \
 	else \
 		echo "init.sh が存在しないため、chezmoi をインストールします。" | $(tee_log); \
 		curl -fsLS get.chezmoi.io | sh -s -- init --apply ${GIT_USER} | $(tee_log); \
 		sudo cp -r ./bin/chezmoi ${SCRIPT_DIR} | $(tee_log); \
-		if command -v chezmoi >/dev/null 2>&1; then \
-			echo "chezmoi コマンドを実行します。" | $(tee_log); \
-			chezmoi data | $(tee_log); \
-		else \
-			echo "chezmoi コマンドが見つかりません。" | $(tee_log); \
-			./bin/chezmoi data | $(tee_log); \
-		fi \
+		command -v chezmoi >/dev/null && chezmoi help || echo "chezmoi not found" | $(tee_log); \
 	fi
 
 # Ubuntu

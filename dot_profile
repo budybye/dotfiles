@@ -23,6 +23,8 @@ chmod 700 \
     "${HOME}/.cache" \
     "${HOME}/data"
 
+chmod 600 "${HOME}/.ssh"
+
 # XDG DIRECTORY
 export XDG_CONFIG_HOME=${HOME}/.config
 export XDG_STATE_HOME=${HOME}/.local/state
