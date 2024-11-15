@@ -47,7 +47,7 @@ init:
 		sh $(SCRIPT_DIR)/init.sh | $(tee_log) || { echo "init.sh failed!" | $(tee_log); exit 1; }; \
 	else \
 		echo "init.sh が存在しないため、chezmoi をインストールします。" | $(tee_log); \
-		sh -c "$(curl -fsLS get.chezmoi.io)" -- -b ${SCRIPT_DIR} | $(tee_log); \
+		sh -c (curl -fsLS get.chezmoi.io) -- -b ${SCRIPT_DIR} | $(tee_log); \
 		chezmoi init --apply git@github.com:${GIT_USER}/dotfiles.git | $(tee_log); \
 	fi
 
