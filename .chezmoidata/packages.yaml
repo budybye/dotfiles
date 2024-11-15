@@ -1,0 +1,32 @@
+packages:
+# macOS
+  darwin:
+    brews:
+      - 'git'
+      - 'curl'
+      - 'make'
+      - 'zsh'
+      - 'jq'
+      - 'chezmoi'
+      - 'mise'
+    casks:
+      - 'google-chrome'
+# ubuntu
+  linux:
+    cli:
+      - 'git'
+      - 'curl'
+      - 'make'
+      - 'zsh'
+      - 'jq'
+    gui:
+      - 'xfce4'
+      - 'xfce4-goodies'
+      - 'xrdp'
+      - 'xorg-xrdp'
+    snap:
+      - 'codium'
+      - 'postman'
+      - 'speedtest-cli'
+      - 'chromium'
+      - 'bitwarden'

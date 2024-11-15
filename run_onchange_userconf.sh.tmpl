@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# chezmoi apply が完了したら実行される
 
 echo "--------------------------------"
 echo "Chezmoi apply completed!!"
@@ -57,11 +58,15 @@ cat "${HOME}/.config/git/user.conf"
 echo "--------------------------------"
 
 echo 'userconf update ? (y/n)'
-#read ans
-#if [ "$ans" = "y" ]; then
-#  git config --global user.name "Your Name"
-#  git config --global user.email "your.email@example.com"
-#fi
 
+{{ if eq .chezmoi.username "hotmilk" }}
+
+read ans
+if [ "$ans" = "y" ]; then
+    git config --global user.name "${GIT_USER:-bob}"
+    git config --global user.email "${GIT_EMAIL:-bob@example.com}"
+fi
+
+{{ end }}
 echo "--------------------------------"
 echo 'Change settings done!!'

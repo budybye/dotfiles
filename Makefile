@@ -37,7 +37,7 @@ sense: $(TARGETS)
 	@echo "OSに応じたスクリプトの実行が完了しました。" | $(tee_log)
 
 # Gitユーザーの設定
-GIT_USER := $(if $(GIT_AUTHOR_NAME),$(GIT_AUTHOR_NAME),-S .)
+GIT_USER := $(if $(GIT_AUTHOR_NAME),$(GIT_AUTHOR_NAME),budybye)
 # スクリプトディレクトリの設定
 SCRIPT_DIR := ${HOME}/.local/bin
 # chezmoi init
@@ -47,9 +47,8 @@ init:
 		sh $(SCRIPT_DIR)/init.sh | $(tee_log) || { echo "init.sh failed!" | $(tee_log); exit 1; }; \
 	else \
 		echo "init.sh が存在しないため、chezmoi をインストールします。" | $(tee_log); \
-		curl -fsLS get.chezmoi.io | sh -s -- init --apply ${GIT_USER} | $(tee_log); \
-		sudo cp -r ./bin/chezmoi ${SCRIPT_DIR} | $(tee_log); \
-		command -v chezmoi >/dev/null && chezmoi help || echo "chezmoi not found" | $(tee_log); \
+		sh -c "$(curl -fsLS get.chezmoi.io)" -- -b ${SCRIPT_DIR} | $(tee_log); \
+		chezmoi init --apply git@github.com:${GIT_USER}/dotfiles.git | $(tee_log); \
 	fi
 
 # Ubuntu
