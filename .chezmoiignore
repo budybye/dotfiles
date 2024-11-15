@@ -10,6 +10,8 @@
     .config/karabiner
     .local/bin/bootstrap.sh
     .local/bin/defaults.sh
+{{ else if eq (env "REMOTE_CONTAINERS") "true" }}
+    data
 {{ else }}
     .config/*
     .local/bin/*
@@ -19,8 +21,6 @@
     *rc
     *profile
     *env
-{{ if eq (env "REMOTE_CONTAINERS") "true" }}
-    .gitconfig
 {{ end }}
 
 .env
