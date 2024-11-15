@@ -12,7 +12,7 @@ data:
 {{- if $codespaces }}{{/* Codespaces dotfiles setup is non-interactive, so set an email address */}}
   email: "101wayout@gmail.com"
 {{- else }}{{/* Interactive setup, so prompt for an email address */}}
-  email: {{ promptString "email" | quote }}
+  email: {{ .chezmoi.email | quote }}
 {{- end }}
 
 # sourceDir: ~/dotfiles
