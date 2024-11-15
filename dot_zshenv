@@ -1,6 +1,8 @@
 # .zshenv は全てのシェルで読み込まれる
 typeset -U PATH path
 path=(
+  ${HOME}/bin(N-/)
+  ${HOME}/.local/bin(N-/)
   /usr/local/bin(N-/)
   /usr/bin(N-/)
   /bin(N-/)

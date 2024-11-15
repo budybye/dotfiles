@@ -39,6 +39,8 @@ defaults write -g InitialKeyRepeat -int 10
 # キー入力の連打を有効化させる
 defaults write -g ApplePressAndHoldEnabled -bool false
 
+# 自動で隠す
+defaults write com.apple.dock autohide -bool true
 ## dockの動作を素早くする
 defaults write com.apple.dock autohide-time-modifier -float 0.15
 ## Dock が表示されるまでの待ち時間を無効にする
@@ -49,6 +51,16 @@ defaults write com.apple.dock launchanim -bool false
 defaults write com.apple.dock autohide -bool true
 ## Wipe all app icons from the Dock （Dock に標準で入っている全てのアプリを消す、Finder とごみ箱は消えない）
 defaults write com.apple.dock persistent-apps -array
+# Dock Size
+defaults write com.apple.dock tilesize -int 50
+# Dock 拡大
+defaults write com.apple.dock magnification -bool true
+# Dock 拡大サイズ
+defaults write com.apple.dock largesize -int 123
+# ウィンドウをアプリケーションアイコンにしまう
+defaults write com.apple.dock minimize-to-application -bool true
+# 最近使ったアプリを Dock に表示しない
+defaults write com.apple.dock show-recents -bool false
 
 ## Enable `Tap to click` （タップでクリックを有効にする）
 defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
@@ -60,6 +72,10 @@ defaults write com.apple.AppleMultitouchTrackpad.plist TrackpadFourFingerVertSwi
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad.plist TrackpadFourFingerVertSwipeGesture -int 2
 # トラックパッドのナチュラルスクロールをオンにする
 defaults write NSGlobalDomain com.apple.swipescrolldirection -bool true
+# マウスの動きを高速化
+defaults write "Apple Global Domain" com.apple.mouse.scaling 4.0
+# トラックパッドの動きを高速化
+defaults write "Apple Global Domain" com.apple.trackpad.scaling 4.0
 
 ## クラッシュレポートを無効化する
 defaults write com.apple.CrashReporter DialogType -string "none"

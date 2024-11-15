@@ -22,6 +22,8 @@ setopt mark_dirs            # match directory as append slash
 setopt list_types           # autocomplete list is render file mark
 setopt print_eight_bit      # enable utf-8
 setopt correct              # 入力間違えしていたら、候補を出す。yで選択
+# 日本語を表示できるようにする
+setopt print_eight_bit
 
 # 色
 autoload -Uz colors && colors

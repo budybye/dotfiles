@@ -5,18 +5,19 @@ node = "latest"
 go = "latest"
 bun = "latest"
 # java = "latest"
+# rust = "latest"
 
 chezmoi = "latest"
 # mkcert = "latest"
 
-# 以下インストールできない
+# 以下、不安定
+# deno = "latest"
+# pnpm = "latest"
+# poetry = "latest"
 # python = "latest"
 # php = "latest"
 # maven = "latest"
-# pnpm = "latest"
-# poetry = "latest"
 # ruby = "latest"
-# rust = "latest"
 
 # websocat = "latest"
 # sqlite = "latest"

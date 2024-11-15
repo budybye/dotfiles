@@ -1,9 +1,9 @@
 [filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
-
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
+    required = true
+	
 #[user]
 #	name = name
 #	email = email
@@ -63,6 +63,8 @@
 	filemode = true
 	bare = true
 	ignorecase = true
+	# 日本語を正常に表示させる
+	quotepath = false
 
 [commit]
 	verbose = true

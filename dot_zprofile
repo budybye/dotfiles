@@ -18,7 +18,6 @@ path=(
   ${HOME}/.local/share/go/bin(N-/)
   ${HOME}/.local/share/cargo/bin(N-/)
   ${HOME}/.local/share/gem/bin(N-/)
-  ${HOME}/.local/bin(N-/)
   ${PATH}
   /snap/bin(N-/)
 )
