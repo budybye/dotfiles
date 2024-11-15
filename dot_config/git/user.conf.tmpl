@@ -2,7 +2,7 @@
 {{ if eq .chezmoi.username "ubuntu" }}
     email = 101wayout@gmail.com
     name = budybye
-{{ elseif eq .chezmoi.username "runner" }}
+{{ else if eq .chezmoi.username "runner" }}
     email = {{// コメント}}
     name = {{// コメント}}
 {{ else }}
