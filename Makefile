@@ -12,11 +12,9 @@ MAKEFLAGS += --no-builtin-rules
 
 # OSによるターゲットの設定
 ifeq ($(shell uname), Darwin)
-	CONFIG_DIR := macos
-	TARGETS := init bootstrap defaults code keygen link
+	TARGETS := init bootstrap defaults code keygen
 else
-	CONFIG_DIR := linux
-	TARGETS := init install setup code keygen link
+	TARGETS := init install setup code keygen
 endif
 
 # ログファイルの設定
@@ -68,5 +66,3 @@ code:
 	$(call run_script,Code,${SCRIPT_DIR}/codex.sh)
 keygen:
 	$(call run_script,Keygen,${SCRIPT_DIR}/keygen.sh)
-link:
-	$(call run_script,Link,${SCRIPT_DIR}/link.sh)

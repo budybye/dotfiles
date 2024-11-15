@@ -493,7 +493,7 @@ touch ./.env
 
 ```sh
 # .env 例
-export GITHUB_AUTHOR_NAME=hoge
+export VAR=hoge
 # .gitignore で.env ファイルを除外
 ```
 
@@ -538,7 +538,7 @@ docker push ubuntu-dev
 # コンテナを起動
 docker compose up -d
 # コンテナ内に入る
-docker compose exec -f .devcontainer/devcontainer.json ubuntu /bin/bash
+docker compose exec ubuntu /bin/bash
 ```
 
 ---

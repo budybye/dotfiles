@@ -10,6 +10,9 @@ echo "--------------------------------"
 echo "${HOME}"
 ls -la "${HOME}"
 echo "--------------------------------"
+echo "${HOME}/data"
+ls -la "${HOME}/data"
+echo "--------------------------------"
 echo "${HOME}/.config"
 ls -la "${HOME}/.config"
 echo "--------------------------------"
@@ -19,37 +22,29 @@ echo "--------------------------------"
 echo "${HOME}/.local/share"
 ls -la "${HOME}/.local/share"
 echo "--------------------------------"
-# chezmoi のディレクトリが存在するか確認 actionsだと無い
-if [ -d "${HOME}/.local/share/chezmoi" ]; then
+
+# .local/share/chezmoi が runner だと無い
+# ~/dotfiles にシンボリックリンク
+# devcontainer だと ~/dotfiles
+# .env の確認と作成
+{{ if eq .chezmoi.username "runner" }}
+    echo "runner"
+    echo "export USER_NAME=$(whoami)" >>".env"
+    cat .env
+{{ else if eq (env "REMOTE_CONTAINERS") "true" }}
+    echo "remote-containers"
+    ls -la "${HOME}/dotfiles"
+    echo "export USER_NAME=$(whoami)" >>"${HOME}/dotfiles/.env"
+    cat "${HOME}/dotfiles/.env"
+{{ else }}
     echo "${HOME}/.local/share/chezmoi"
     ls -la "${HOME}/.local/share/chezmoi"
-else
-    echo "${HOME}/.local/share/chezmoi not found"
-fi
-echo "--------------------------------"
-
-echo 'Dotfiles link ...'
-# .local/share/chezmoi ディレクトリが存在するか確認
-if [ -d "${HOME}/.local/share/chezmoi" ]; then
-    if [ ! -d "${HOME}/dotfiles" ]; then
-        ln -sf "${HOME}/.local/share/chezmoi" "${HOME}/dotfiles" && ls -la "${HOME}/dotfiles" || echo 'Dotfiles link failed!!'
-    else
-        echo 'Dotfiles link already exists!!'
-        ls -la "${HOME}/dotfiles"
-    fi
     echo "--------------------------------"
-
-    # .env ファイルが存在しない場合は作成
-    if [ ! -f "${HOME}/.local/share/chezmoi/.env" ]; then
-        echo "export USER_NAME=$(whoami)" >>"${HOME}/.local/share/chezmoi/.env"
-        echo "export EMAIL=101wayout@gmail.com" >>"${HOME}/.local/share/chezmoi/.env"
-        ls -la "${HOME}/.local/share/chezmoi"
-    fi
-
-else
-    echo "${HOME}/.local/share/chezmoi not found"
-fi
-
+    echo 'Dotfiles symlink ...'
+    ln -sf "${HOME}/.local/share/chezmoi" "${HOME}/dotfiles" && ls -la "${HOME}/dotfiles" || echo 'Dotfiles symlink failed!!'
+    echo "export USER_NAME=$(whoami)" >>"${HOME}/.local/share/chezmoi/.env"
+    cat "${HOME}/.local/share/chezmoi/.env"
+{{ end }}
 echo "--------------------------------"
 
 echo 'Your config git user is ...'
@@ -60,13 +55,14 @@ echo "--------------------------------"
 echo 'userconf update ? (y/n)'
 
 {{ if eq .chezmoi.username "hotmilk" }}
-
 read ans
 if [ "$ans" = "y" ]; then
-    git config --global user.name "${GIT_USER:-bob}"
-    git config --global user.email "${GIT_EMAIL:-bob@example.com}"
+    cat "${HOME}/.config/git/config"
+#    git config --global user.name "${GIT_USER:-bob}"
+#    git config --global user.email "${GIT_EMAIL:-bob@example.com}"
 fi
-
 {{ end }}
+
 echo "--------------------------------"
-echo 'Change settings done!!'
+chezmoi data
+echo 'Apply settings done!!'

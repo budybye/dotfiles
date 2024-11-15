@@ -4,7 +4,6 @@ Host github
     HostName github.com
     IdentityFile ~/.ssh/id_ed25519
     User git
-    Port 22
 
 Host ubuntu
     HostName vm.local

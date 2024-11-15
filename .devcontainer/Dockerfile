@@ -1,5 +1,12 @@
 FROM ubuntu:24.04
 
+ARG USERNAME=budybye
+ARG USER_ID=1000
+ARG USER_GID=$USER_ID
+
+ENV TZ=Asia/Tokyo
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends \
@@ -14,9 +21,20 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-reco
     apt-get clean && \
     rm -rf /var/cache/apt /var/lib/apt/lists/*
 
-EXPOSE 3389
+RUN groupadd -g $USER_GID $USERNAME && \
+    useradd --uid $USER_ID --gid $USER_GID -m $USERNAME -G sudo -s /usr/bin/zsh && \
+    echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers && \
+    mkdir -p /home/$USERNAME && \
+    chown -R $USERNAME:$USERNAME /home/$USERNAME
 
-RUN systemctl enable xrdp && echo "xfce4-session" > ~/.xsession
+USER $USERNAME
+WORKDIR /home/$USERNAME/.local/share/chezmoi
+
+RUN sh -c "$(curl -fsSL get.chezmoi.io)" -- -b /usr/local/bin
+
+RUN sudo systemctl enable xrdp && echo "xfce4-session" > ~/.xsession
+
+EXPOSE 3389
 
 # COPY ./bin/setup.sh /usr/bin/
 # RUN mv /usr/bin/setbup.sh /usr/bin/setup.sh
