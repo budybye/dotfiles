@@ -3,8 +3,8 @@
     email = 101wayout@gmail.com
     name = budybye
 {{ else if eq .chezmoi.username "runner" }}
-    email = {{// コメント}}
-    name = {{// コメント}}
+    email = {{/* コメント */}}
+    name = {{/* コメント */}}
 {{ else }}
     email = {{ (bitwarden "item" "gh").login.password | quote }}{{/* コメント */}}
     name = {{ (bitwarden "item" "gh").login.username | quote }}{{/* bitwarden で取得 */}}
