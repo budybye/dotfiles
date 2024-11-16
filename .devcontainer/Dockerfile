@@ -1,7 +1,7 @@
 FROM ubuntu:24.04
 
 ARG USERNAME=budybye
-ARG USER_ID=1000
+ARG USER_ID=1010
 ARG USER_GID=$USER_ID
 
 ENV TZ=Asia/Tokyo
@@ -21,8 +21,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-reco
     apt-get clean && \
     rm -rf /var/cache/apt /var/lib/apt/lists/*
 
-RUN echo "USER_ID: $USER_ID, USER_GID: $USER_GID, USERNAME: $USERNAME" && \
-    groupadd -g $USER_GID -f $USERNAME && \
+RUN groupadd -g $USER_GID -f $USERNAME && \
     useradd --uid $USER_ID --gid $USER_GID -m $USERNAME -G sudo -s /bin/bash && \
     echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers && \
     mkdir -p /home/$USERNAME && \
