@@ -32,6 +32,7 @@ $git_state\
 $git_metrics\
 $git_status\
 [](fg:dark bg:dd)\
+$fill\
 $nodejs\
 $rust\
 $golang\
@@ -55,6 +56,11 @@ $docker_context\
 $custom\
 $shell\
 """
+
+# right_format = """
+# $cmd_duration
+# $time
+# """
 
 # 色の設定
 [palettes.color]
