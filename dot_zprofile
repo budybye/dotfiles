@@ -22,6 +22,8 @@ path=(
   /snap/bin(N-/)
 )
 
+PROMPT='%F{green}%n@%m%f:%F{blue}%~ %f%F{yellow}$%f '
+
 # zshの設定ファイルを読み込む
 if [ -f "${HOME}/.zshrc" ]; then
   . "${HOME}/.zshrc"
