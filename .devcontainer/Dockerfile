@@ -22,7 +22,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-reco
     rm -rf /var/cache/apt /var/lib/apt/lists/*
 
 RUN groupadd -g $USER_GID -f $USERNAME && \
-    useradd --uid $USER_ID --gid $USER_GID -m $USERNAME -G sudo -s /bin/bash && \
+    useradd --uid $USER_ID --gid $USER_GID -m $USERNAME -G sudo -s /usr/bin/zsh && \
     echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers && \
     mkdir -p /home/$USERNAME && \
     chown -R $USERNAME:$USERNAME /home/$USERNAME
@@ -30,7 +30,7 @@ RUN groupadd -g $USER_GID -f $USERNAME && \
 USER $USERNAME
 WORKDIR /home/$USERNAME/.local/share/chezmoi
 
-RUN sh -c "$(curl -fsSL get.chezmoi.io)" -- -b /usr/local/bin
+RUN sudo sh -c "$(curl -fsSL get.chezmoi.io)" -- -b /usr/local/bin
 
 RUN sudo systemctl enable xrdp && echo "xfce4-session" > ~/.xsession
 
