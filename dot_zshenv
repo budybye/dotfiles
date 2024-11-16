@@ -10,4 +10,5 @@ path=(
 )
 # スクリプトでも必要な最小限の環境変数のみをzshenvに記述
 
-PROMPT='%F{green}%n@%m%f:%F{blue}% ~ %f%F{yellow}$%f '
+
+PROMPT='%F{green}%n@%m%f:%F{blue}%~%f%F{yellow}$%f '

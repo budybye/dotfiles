@@ -3,12 +3,19 @@
     url = "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
     refreshPeriod = "168h"
 
-["data/ipfs"]
-    type = "file"
-    url = "https://bob.bloclaat.com"
-    refreshPeriod = "168h"
+# ["data/ipfs/logo.png"]
+#     type = "file"
+#     url = "https://bob.bloclaat.com/logo.png"
+#     refreshPeriod = "168h"
 
-# [".local/share/themes/WhiteSur-gtk-theme"]
+# [".local/share/themes/WhiteSur-gtk-theme-cinnamon-xfce"]
+#     type = "archive"
+#     url = "https://github.com/CoolAller/WhiteSur-gtk-theme-cinnamon-xfce/archive/refs/heads/main.zip"
+#     exact = true
+#     stripComponents = 1
+#     refreshPeriod = "168h"
+
+# [".local/share/icons/WhiteSur-gtk-theme"]
 #     type = "archive"
 #     url = "https://github.com/vinceliuice/WhiteSur-gtk-theme/archive/refs/heads/master.zip"
 #     exact = true
@@ -36,9 +43,9 @@
 #     stripComponents = 1
 #     refreshPeriod = "168h"
 
-# [".local/share/fonts/RobotoMono"]
+# [".local/share/fonts/RobotoMonoJP"]
 #     type = "archive"
-#     url = "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.0/RobotoMono.zip"
+#     url = "https://github.com/mjun0812/RobotoMonoJP/releases/download/v5.0.0/RobotoMonoJP.zip"
 #     exact = true
 #     stripComponents = 1
 #     refreshPeriod = "168h"
