@@ -162,14 +162,12 @@ packages:
   - avahi-daemon
 
 runcmd:
-  - sudo sed -i 's/^s*REGDOMAIN=S*/REGDOMAIN=JP/' /etc/default/crda || true
-  - LANG=C xdg-user-dirs-update --force
   - im-config -n fcitx5
   - sudo usermod -aG ssl-cert,xrdp,input,audio,docker ubuntu
   - sudo ufw allow 3389
   - sudo systemctl enable xrdp
-  - sudo systemctl start xrdp
   - sudo update-alternatives --set x-session-manager /usr/bin/xfce4-session
+  - sudo sh -c "$(curl -fsSL get.chezmoi.io)" -- -b /usr/local/bin
 
 # write_files:
 #   # LSD設定ファイル
