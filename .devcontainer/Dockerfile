@@ -19,11 +19,15 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-reco
     apt-get remove -y light-locker xscreensaver && \
     apt-get autoremove -y && \
     apt-get clean && \
-    rm -rf /var/cache/apt /var/lib/apt/lists/*
+    rm -rf /var/cache/apt /var/lib/apt/lists/* && \
+    usermod -aG sudo $USERNAME && \
+    snap remove firefox
 
 RUN groupadd -g $USER_GID -f $USERNAME && \
     useradd --uid $USER_ID --gid $USER_GID -m $USERNAME -G sudo -s /usr/bin/zsh && \
+    echo "$USERNAME:$USERNAME" | chpasswd && \
     echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers && \
+    echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
     mkdir -p /home/$USERNAME && \
     chown -R $USERNAME:$USERNAME /home/$USERNAME
 
@@ -32,7 +36,20 @@ WORKDIR /home/$USERNAME/.local/share/chezmoi
 
 RUN sudo sh -c "$(curl -fsSL get.chezmoi.io)" -- -b /usr/local/bin
 
-RUN sudo systemctl enable xrdp && echo "xfce4-session" > ~/.xsession
+RUN sudo sed -i 's/^\s*REGDOMAIN=S*/REGDOMAIN=JP/' /etc/default/crda || true && \
+    LANG=C xdg-user-dirs-update --force && \
+    im-config -n fcitx5 && \
+    setupcon -k --force || true
+
+RUN groupadd -f input && \
+    groupadd -f xrdp && \
+    groupadd -f audio && \
+    groupadd -f ssl-cert && \
+    usermod -aG input xrdp audio ssl-cert $USERNAME && \
+    systemctl enable xrdp && \
+    systemctl start xrdp && \
+    update-alternatives --set x-session-manager /usr/bin/xfce4-session && \
+    echo "xfce4-session" > ~/.xsession
 
 EXPOSE 3389
 
