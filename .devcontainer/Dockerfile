@@ -20,8 +20,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-reco
     apt-get autoremove -y && \
     apt-get clean && \
     rm -rf /var/cache/apt /var/lib/apt/lists/* && \
-    usermod -aG sudo $USERNAME && \
-    sudo snap remove firefox
+    snap remove firefox
 
 RUN groupadd -g $USER_GID -f $USERNAME && \
     useradd --uid $USER_ID --gid $USER_GID -m $USERNAME -G sudo -s /usr/bin/zsh && \
