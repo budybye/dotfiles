@@ -21,8 +21,9 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-reco
     apt-get clean && \
     rm -rf /var/cache/apt /var/lib/apt/lists/*
 
-RUN groupadd -g $USER_GID $USERNAME && \
-    useradd --uid $USER_ID --gid $USER_GID -m $USERNAME -G sudo -s /usr/bin/zsh && \
+RUN echo "USER_ID: $USER_ID, USER_GID: $USER_GID, USERNAME: $USERNAME" && \
+    groupadd -g $USER_GID -f $USERNAME && \
+    useradd --uid $USER_ID --gid $USER_GID -m $USERNAME -G sudo -s /bin/bash && \
     echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers && \
     mkdir -p /home/$USERNAME && \
     chown -R $USERNAME:$USERNAME /home/$USERNAME
