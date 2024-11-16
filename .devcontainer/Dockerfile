@@ -34,16 +34,14 @@ WORKDIR /home/$USERNAME/.local/share/chezmoi
 
 RUN sudo sh -c "$(curl -fsSL get.chezmoi.io)" -- -b /usr/local/bin
 
-RUN sudo sed -i 's/^\s*REGDOMAIN=S*/REGDOMAIN=JP/' /etc/default/crda || true && \
-    LANG=C xdg-user-dirs-update --force && \
-    im-config -n fcitx5 && \
+RUN im-config -n fcitx5 && \
     setupcon -k --force || true
 
 RUN groupadd -f input && \
     groupadd -f xrdp && \
     groupadd -f audio && \
     groupadd -f ssl-cert && \
-    sudo usermod -a -G input xrdp audio ssl-cert $USERNAME && \
+    usermod -a input xrdp audio ssl-cert $USERNAME && \
     systemctl enable xrdp && \
     systemctl start xrdp && \
     update-alternatives --set x-session-manager /usr/bin/xfce4-session && \
