@@ -19,8 +19,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-reco
     apt-get remove -y light-locker xscreensaver && \
     apt-get autoremove -y && \
     apt-get clean && \
-    rm -rf /var/cache/apt /var/lib/apt/lists/* && \
-    snap remove firefox
+    rm -rf /var/cache/apt /var/lib/apt/lists/* 
 
 RUN groupadd -g $USER_GID -f $USERNAME && \
     useradd --uid $USER_ID --gid $USER_GID -m $USERNAME -G sudo -s /usr/bin/zsh && \
