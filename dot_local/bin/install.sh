@@ -19,6 +19,7 @@ change_shell_to_zsh() {
         echo "zsh default shell change failed."
         exit 1
     }
+    command -v /bin/zsh >/dev/null || sudo ln -sf /usr/bin/zsh /bin/zsh
     echo "Your shell is ${SHELL}"
     echo "zsh default shell changed to ${zsh_path}."
     command -v zsh >> ${HOME}/which

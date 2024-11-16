@@ -20,8 +20,7 @@ chmod 700 \
     "${HOME}/.config" \
     "${HOME}/.local/share" \
     "${HOME}/.local/state" \
-    "${HOME}/.cache" \
-    "${HOME}/data"
+    "${HOME}/.cache"
 
 chmod 600 "${HOME}/.ssh"
 
