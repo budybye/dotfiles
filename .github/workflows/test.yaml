@@ -16,6 +16,7 @@ env:
   REGISTRY_IMAGE: ghcr.io/budybye/ubuntu-dev
 
 jobs:
+
   build:
     runs-on: ubuntu-24.04
     timeout-minutes: 60
