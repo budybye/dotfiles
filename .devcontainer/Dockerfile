@@ -19,7 +19,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-reco
     apt-get remove -y light-locker xscreensaver && \
     apt-get autoremove -y && \
     apt-get clean && \
-    rm -rf /var/cache/apt /var/lib/apt/lists/* 
+    rm -rf /var/cache/apt /var/lib/apt/lists/*
 
 RUN groupadd -g $USER_GID -f $USERNAME && \
     useradd --uid $USER_ID --gid $USER_GID -m $USERNAME -G sudo -s /usr/bin/zsh && \
@@ -43,7 +43,7 @@ RUN groupadd -f input && \
     groupadd -f xrdp && \
     groupadd -f audio && \
     groupadd -f ssl-cert && \
-    usermod -aG input xrdp audio ssl-cert $USERNAME && \
+    sudo usermod -a -G input xrdp audio ssl-cert $USERNAME && \
     systemctl enable xrdp && \
     systemctl start xrdp && \
     update-alternatives --set x-session-manager /usr/bin/xfce4-session && \
