@@ -41,7 +41,7 @@ RUN groupadd -f input && \
     groupadd -f xrdp && \
     groupadd -f audio && \
     groupadd -f ssl-cert && \
-    usermod -a input xrdp audio ssl-cert $USERNAME && \
+    usermod -aG input,xrdp,audio,ssl-cert $USERNAME && \
     systemctl enable xrdp && \
     systemctl start xrdp && \
     update-alternatives --set x-session-manager /usr/bin/xfce4-session && \
