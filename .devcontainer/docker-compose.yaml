@@ -8,9 +8,9 @@ services:
     ports:
       - "8787:80"
       - "3389:3389" # RDP
-    environment:
-      - ENV=production
-    command: /bin/bash -c "exec zsh"
+    # environment:
+      # - ENV=production
+    # command: /bin/bash
 
   ipfs:
     image: ipfs/kubo
