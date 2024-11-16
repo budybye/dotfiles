@@ -41,10 +41,10 @@ RUN groupadd -f input && \
     groupadd -f xrdp && \
     groupadd -f audio && \
     groupadd -f ssl-cert && \
-    usermod -aG input,xrdp,audio,ssl-cert $USERNAME && \
+    sudo usermod -aG input,xrdp,audio,ssl-cert $USERNAME && \
     systemctl enable xrdp && \
     systemctl start xrdp && \
-    update-alternatives --set x-session-manager /usr/bin/xfce4-session && \
+    sudo update-alternatives --set x-session-manager /usr/bin/xfce4-session && \
     echo "xfce4-session" > ~/.xsession
 
 EXPOSE 3389
