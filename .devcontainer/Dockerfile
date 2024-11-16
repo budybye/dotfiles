@@ -43,7 +43,6 @@ RUN groupadd -f input && \
     groupadd -f ssl-cert && \
     sudo usermod -aG input,xrdp,audio,ssl-cert $USERNAME && \
     systemctl enable xrdp && \
-    systemctl start xrdp && \
     sudo update-alternatives --set x-session-manager /usr/bin/xfce4-session && \
     echo "xfce4-session" > ~/.xsession
 
