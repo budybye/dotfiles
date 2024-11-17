@@ -37,13 +37,19 @@ cat "${KEY_PATH}.pub" >>"${SSH}/authorized_keys"
 
 # 公開鍵をコピー
 # ブラウザでgithubログイン画面を開く
-if [ "${OSTYPE}" == darwin* ]; then
-    pbcopy <"${KEY_PATH}.pub"
-    open "https://github.com/login?username=${GIT_USER}"
-else
-    xsel -b -i <"${KEY_PATH}.pub"
-    xdg-open "https://github.com/login?username=${GIT_USER}"
-fi
+case "${OSTYPE}" in
+    darwin*)
+        pbcopy <"${KEY_PATH}.pub"
+        open "https://github.com/login?username=${GIT_USER}"
+        ;;
+    *)
+        echo "Please copy the following public key and add it to your GitHub account:"
+        cat "${KEY_PATH}.pub"
+        xdg-open "https://github.com/login?username=${GIT_USER}"
+        ;;
+esac
+
+sudo chmod 600 "${SSH}"/*
 
 # GitHubにSSH接続をテスト
 # ssh -T git@github.com

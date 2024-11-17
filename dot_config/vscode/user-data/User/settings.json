@@ -2,10 +2,8 @@
   "application.shellEnvironmentResolutionTimeout": 42,
   "telemetry.telemetryLevel": "off",
   "redhat.telemetry.enabled": false,
-  "mdb.sendTelemetry": false,
   "partialDiff.enableTelemetry": false,
   "search.followSymlinks": false,
-  "workbench.startupEditor": "none",
   "workbench.colorTheme": "Monokai Pro",
   "workbench.iconTheme": "simple-icons",
   "workbench.colorCustomizations": {
@@ -21,7 +19,7 @@
   "editor.minimap.showSlider": "always",
   "editor.minimap.renderCharacters": false,
   "editor.fontSize": 13,
-  "editor.fontFamily": "HackGen Console NF, HackGen Console NFJ, Monaco, 'Courier New', monospace",
+  "editor.fontFamily": "HackGen Console NFJ, monospace",
   "files.autoSave": "afterDelay",
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
@@ -70,7 +68,6 @@
   "[typescriptreact]": {
     "editor.defaultFormatter": "vscode.typescript-language-features"
   },
-  "liveServer.settings.donotShowInfoMsg": true,
   "eslint.codeActionsOnSave.rules": null,
   "json.schemas": [],
   "python.languageServer": "Default",
@@ -81,4 +78,6 @@
   "commentTranslate.targetLanguage": "ja",
   "cursor.chat.smoothStreaming": true,
   "cursor.chat.alwaysSearchWeb": true,
+  "cursor.preferNotificationsSameAsChat": true,
+  "terminal.integrated.env.linux": {}
 }
