@@ -49,8 +49,6 @@ case "${OSTYPE}" in
         ;;
 esac
 
-sudo chmod 600 "${SSH}"/*
-
 # GitHubにSSH接続をテスト
 # ssh -T git@github.com
 
@@ -68,4 +66,4 @@ cat "${SSH}/config"
 cat "${SSH}/authorized_keys"
 cat "${SSH}/known_hosts"
 
-sudo chmod 600 "${SSH}"/*
+sudo chmod 600 "${SSH}"
