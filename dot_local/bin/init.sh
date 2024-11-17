@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -ex
-
+# make から実行された場合は、gitpull をしないでapply する
 if [ "$(pwd)" != "${HOME}/dotfiles" ] && [ "$(pwd)" != "${HOME}/.local/share/chezmoi" ]; then
     GIT_USER="budybye"
 else

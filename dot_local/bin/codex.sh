@@ -21,21 +21,21 @@ sudo mkdir -p "${CODE_DIR}/User"
 # 設定ファイルをバックアップし、新しいファイルを作成する汎用関数
 copy_json_file() {
     local json_type="$1"  # 'settings' または 'keybindings'
-    local json_file="${CODE_DIR}/User/${json_type}.json"
+    local target_file="${CODE_DIR}/User/${json_type}.json"
     local from_file="${FROM}/user-data/User/${json_type}.json"
 
     # json_fileが存在する場合はバックアップを作成
-    if [ -f "${json_file}" ]; then
-        sudo cp "${json_file}" "${json_file}.copy"
-        echo "バックアップを作成しました: ${json_file}.copy"
+    if [ -f "${target_file}" ]; then
+        sudo cp "${target_file}" "${target_file}.copy"
+        echo "バックアップを作成しました: ${target_file}.copy"
     else
-        echo "${json_file}が存在しません。"
-        sudo mkdir -p "$(dirname "${json_file}")"
+        echo "${target_file}が存在しません。"
+        sudo mkdir -p "$(dirname ${target_file})"
     fi
 
-    sudo cp "${from_file}" "${json_file}"
-    echo "新しい ${json_file} を作成しました。"
-    cat "${json_file}"
+    sudo ln -sf "${from_file}" "${target_file}"
+    echo "新しい ${target_file} を作成しました。"
+    cat "${target_file}"
 }
 
 extensions_json() {
@@ -49,7 +49,7 @@ extensions_json() {
 
     if ! command -v "code" >/dev/null 1>&2; then
         echo "VSCodeが存在しません。"
-        sudo cp "${FROM}/extensions.json" "${CODEX}"
+        sudo ln -sf "${FROM}/extensions.json" "${CODEX}"
         echo "新しい ${CODEX} を作成しました。"
     else
         # インストールされている拡張機能を"extensions.json"の形式で出力する
