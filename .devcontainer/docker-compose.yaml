@@ -9,7 +9,7 @@ services:
       - 3389:3389 # RDP
     # environment:
       # - ENV=production
-    command: chezmoi
+    command: chezmoi help
     tty: true
 
   ipfs:
@@ -23,6 +23,7 @@ services:
       - 5001:5001 # http://localhost:5001/webui
     environment:
       IPFS_PROFILE: server # server modeで起動
+    command: ipfs config show
     restart: always
 
   portainer:

@@ -3,7 +3,6 @@
 
 echo "--------------------------------"
 echo "Chezmoi apply completed!!"
-chezmoi update
 pwd
 ls -la
 echo "File check start!!"
@@ -31,20 +30,25 @@ echo "--------------------------------"
 {{ if eq .chezmoi.username "runner" }}
     echo "runner"
     echo "export USER_NAME=$(whoami)" >>".env"
+    echo ".env checking..."
     cat .env
+    ls -la "${HOME}/work/dotfiles/dotfiles"
+    echo "dotfiles symlink..."
     ln -sf ${HOME}/work/dotfiles/dotfiles ${HOME}/dotfiles && ls -la ${HOME}/dotfiles
 {{ else if eq (env "REMOTE_CONTAINERS") "true" }}
+    echo "export USER_NAME=$(whoami)" >>"${HOME}/dotfiles/.env"
     echo "remote-containers"
     ls -la "${HOME}/dotfiles"
-    echo "export USER_NAME=$(whoami)" >>"${HOME}/dotfiles/.env"
+    echo "dotfiles/.env checking..."
     cat "${HOME}/dotfiles/.env"
 {{ else }}
+    echo "export USER_NAME=$(whoami)" >>"${HOME}/.local/share/chezmoi/.env"
     echo "${HOME}/.local/share/chezmoi"
     ls -la "${HOME}/.local/share/chezmoi"
     echo "--------------------------------"
     echo 'Dotfiles symlink ...'
     ln -sf "${HOME}/.local/share/chezmoi" "${HOME}/dotfiles" && ls -la "${HOME}/dotfiles" || echo 'Dotfiles symlink failed!!'
-    echo "export USER_NAME=$(whoami)" >>"${HOME}/.local/share/chezmoi/.env"
+    echo "dotfiles/.env checking..."
     cat "${HOME}/.local/share/chezmoi/.env"
 {{ end }}
 echo "--------------------------------"
