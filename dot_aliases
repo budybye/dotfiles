@@ -15,7 +15,11 @@ alias sss="starship explain && sheldon lock --update && opi"
 alias tree="tree -NC"   # N: 文字化け対策 C: 色を付ける
 alias weather="curl wttr.in"  # 天気予報を表示
 alias notes="vim ~/notes.md"  # ノートを開く
-alias docs="cd ~/Documents"  # ドキュメントフォルダに移動ali
+alias docs="cd ~/Documents"  # ドキュメントフォルダに移動
+
+alias cx="xsel -b -i"  # クリップボードにコピー
+alias cv="xsel -b -o"  # クリップボードの内容をコマンドに渡す
+alias cb="xsel -b"
 
 # ファイル操作のエイリアス
 alias mv="mv -i"   # 上書き確認を有効にする
@@ -28,7 +32,6 @@ alias pi="ping -c 5 1.1.1.1"
 alias ping="ping -c 5"  # 5回だけpingを送信
 alias ports="netstat -tuln"  # 開いているポートを表示
 
-# プログラミング言語関連のエイリアス
 alias python="python3"
 alias pip="pip3"
 alias npm="bun"
@@ -39,11 +42,13 @@ alias yarnx="bunx"
 # http://localhost:3000 をブラウザで開く
 if command -v xdg-open >/dev/null 2>&1; then
     alias lh="xdg-open http://localhost:3000"
-else
+    alias ggg="xdg-open https://google.com"
+elif command -v open >/dev/null 2>&1; then
     alias lh="open -na 'Brave Browser' --args --new-window http://localhost:3000"
+    alias ggg="open -na 'Brave Browser' --args --new-window https://google.com"
 fi
 
-# アーキテクチャ関連のエイリアス
+# rosetta2のエイリアス
 if command -v arch >/dev/null 2>&1; then
     alias amd="arch -x86_64 ${SHELL}"
     alias arm="arch -arm64 ${SHELL}"
@@ -91,14 +96,14 @@ if command -v chezmoi >/dev/null 2>&1; then
     alias cai="chezmoi init --apply git@github.com:budybye/dotfiles.git"
 fi
 
-# vscode vscodium cursor mac ubuntu arm64 対応
+# vscode vscodium cursor mac ubuntu arm64
 if command -v cursor >/dev/null 2>&1; then
     alias co="cursor"
 elif [ -f "${HOME}/Applications/cursor" ]; then
     alias co="${HOME}/Applications/cursor --no-sandbox"
 elif command -v codium >/dev/null 2>&1; then
     alias co="codium"
-else
+elif command -v code >/dev/null 2>&1; then
     alias co="code"
 fi
 
@@ -118,6 +123,8 @@ if command -v docker >/dev/null 2>&1; then
     alias dcd="docker compose down"
     ## 停止コンテナ、タグ無しイメージ、未使用ボリューム、未使用ネットワーク一括削除
     alias drm="docker system prune -af --volumes"
+
+    alias dev="cd ~/.devcontainer && dc up"
 fi
 
 # brew
@@ -145,4 +152,9 @@ if command -v apt >/dev/null 2>&1; then
     alias agi="sudo apt install"
     alias agu="sudo apt update && sudo apt upgrade"
     alias aq="apt search"
+fi
+
+# speedtest
+if command -v speedtest >/dev/null 2>&1; then
+    alias st="speedtest"
 fi

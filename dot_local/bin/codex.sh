@@ -11,7 +11,7 @@ elif [ -f "${HOME}/Applications/cursor" ]; then
     CODE_DIR="${HOME}/.local/share/Cursor"
 elif command -v codium >/dev/null 2>&1; then
     CODE_DIR="${HOME}/.config/VSCodium"
-else
+elif command -v code >/dev/null 2>&1; then
     CODE_DIR="${HOME}/.config/vscode"
 fi
 
