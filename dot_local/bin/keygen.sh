@@ -10,11 +10,9 @@ GIT_USER="${GIT_USER:-budybye}"
 
 # SSH用のディレクトリを作成
 mkdir -p "${SSH}"
-# authorized_keysとconfigとknown_hostsファイルを作成
+# authorized_keysとconfigファイルを作成
 sudo chmod 700 "${SSH}"
 touch "${SSH}/authorized_keys"
-touch "${SSH}/config"
-touch "${SSH}/known_hosts"
 
 # configファイルにGitHubのホスト情報を設定
 cat <<EOF >"${SSH}/config"
@@ -24,14 +22,21 @@ IdentityFile "${KEY_PATH}"
 User git
 EOF
 
+ls -la "${SSH}"
+
+if [ ! -f "${KEY_PATH}.pub" ]; then
+    echo "SSH public key already exists"
+else
+    sudo cp "${KEY_PATH}.pub" "${KEY_PATH}.pub.copy"
+fi
+
 # SSH鍵を生成
 if [ ! -f "${KEY_PATH}" ]; then
-    ssh-keygen -t "${KEY_TYPE}" -f "${KEY_NAME}" -C "" -N ""
+    ssh-keygen -t "${KEY_TYPE}" -f "${KEY_NAME}" -C "${GIT_USER}" -N ""
 else
     echo "SSH key already exists"
     sudo cp "${KEY_PATH}" "${KEY_PATH}.copy"
-    sudo cp "${KEY_PATH}.pub" "${KEY_PATH}.pub.copy"
-    ssh-keygen -t "${KEY_TYPE}" -f "${KEY_NAME}" -C "" -N ""
+    ssh-keygen -t "${KEY_TYPE}" -f "${KEY_NAME}" -C "${GIT_USER}" -N ""
 fi
 
 # 公開鍵をauthorized_keysファイルに追加
@@ -40,7 +45,6 @@ cat "${KEY_PATH}.pub" >>"${SSH}/authorized_keys"
 ls -la "${SSH}"
 cat "${SSH}/config"
 cat "${SSH}/authorized_keys"
-cat "${SSH}/known_hosts"
 
 # 公開鍵をコピー
 # ブラウザでgithubログイン画面を開く
