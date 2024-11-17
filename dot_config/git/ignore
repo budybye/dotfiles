@@ -84,7 +84,7 @@ tags
 [._]*.un~
 
 # Visual Studio Code.
-.vscode/*
+# .vscode/*
 *.code-workspace
 
 #

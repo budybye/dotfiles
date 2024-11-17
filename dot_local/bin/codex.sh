@@ -21,8 +21,8 @@ sudo mkdir -p "${CODE_DIR}/User"
 # 設定ファイルをバックアップし、新しいファイルを作成する汎用関数
 copy_json_file() {
     local json_type="$1"  # 'settings' または 'keybindings'
-    local target_file="${CODE_DIR}/User/${json_type}.json"
     local from_file="${FROM}/user-data/User/${json_type}.json"
+    local target_file="${CODE_DIR}/User/${json_type}.json"
 
     # json_fileが存在する場合はバックアップを作成
     if [ -f "${target_file}" ]; then
@@ -30,12 +30,11 @@ copy_json_file() {
         echo "バックアップを作成しました: ${target_file}.copy"
     else
         echo "${target_file}が存在しません。"
-        sudo mkdir -p "$(dirname ${target_file})"
     fi
 
     sudo ln -sf "${from_file}" "${target_file}"
     echo "新しい ${target_file} を作成しました。"
-    cat "${from_file}"
+    cat "${target_file}"
 }
 
 extensions_json() {
@@ -43,7 +42,7 @@ extensions_json() {
     CODEX="${CODE_DIR}/extensions.json"
     # extensions.jsonが存在する場合はバックアップを作成
     if [ -f "${CODEX}" ]; then
-        cp "${CODEX}" "${CODEX}.copy"
+        sudo cp "${CODEX}" "${CODEX}.copy"
         echo "バックアップを作成しました: ${CODEX}.copy"
     fi
 
@@ -57,14 +56,14 @@ extensions_json() {
         sudo "code" --list-extensions | xargs -I {} sh -c "jq '.recommendations += [\"{}\"]' ${CODEX} | sudo tee temp > /dev/null && sudo mv temp ${CODEX}"
         echo '拡張機能の更新が完了しました!'
     fi
-    cat "${FROM}/extensions.json"
+    cat "${CODEX}"
 }
 
 main() {
     echo "VSCodeの設定を開始します..."
-    extensions_json
     copy_json_file "settings"
     copy_json_file "keybindings"
+    extensions_json
     tree "${CODE_DIR}"
     echo "VSCodeの設定が完了しました。"
 }
