@@ -11,10 +11,10 @@ GIT_USER="${GIT_USER:-budybye}"
 # SSH用のディレクトリを作成
 mkdir -p "${SSH}"
 # authorized_keysとconfigとknown_hostsファイルを作成
+sudo chmod 700 "${SSH}"
 touch "${SSH}/authorized_keys"
 touch "${SSH}/config"
 touch "${SSH}/known_hosts"
-sudo chmod 700 "${SSH}"
 
 # configファイルにGitHubのホスト情報を設定
 cat <<EOF >>"${SSH}/config"
