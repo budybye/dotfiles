@@ -6,14 +6,10 @@ services:
     networks:
       - app-network
     ports:
-      - 8787:80
       - 3389:3389 # RDP
     # environment:
       # - ENV=production
-    command: |
-      - /bin/sh
-      - -c
-      - "while true; do sleep 1000; done"
+    command: chezmoi
     tty: true
 
   ipfs:

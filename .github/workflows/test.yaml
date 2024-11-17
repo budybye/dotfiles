@@ -94,10 +94,8 @@ jobs:
             cloudflared
             ipfs
 
-      - name: Test exec
-        run: |
-          docker ps -a
-          # docker compose -f .devcontainer/docker-compose.yaml exec ipfs /bin/bash -c "ipfs config show"
+      - name: Test
+        run: docker ps -a
 
       # - name: devcontainer ci
         # uses: devcontainers/ci@v0.3
@@ -192,12 +190,4 @@ jobs:
             cloud-init/network-config
 
       - name: chezmoi
-        run: |
-          make init
-
-      - name: multipass
-        run: |
-          sudo snap install multipass
-          multipass find
-          multipass get local.driver
-          # multipass launch -n ubuntu -c 4 -m 8G -d 40G  --timeout 3600 --mount ${HOME}/dotfiles:/home/ubuntu/dotfiles --cloud-init ${HOME}/cloud-init/multipass.yaml && multipass info ubuntu
+        run: make init
