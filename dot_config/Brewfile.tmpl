@@ -83,7 +83,7 @@ cask "wireshark"
 cask "windows-app"
 
 # USER でインストールするソフトを分ける
-{{ if ne .chezmoi.username "runner" }}
+{{ if ne .name "runner" }}
 # formula
 
 # brew "awscli"

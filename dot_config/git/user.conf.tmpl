@@ -1,11 +1,4 @@
 [user]
-{{ if eq .chezmoi.username "hotmilk" }}
-    email = {{ (bitwarden "item" "gh").login.password | quote }}{{/* コメント */}}
-    name = {{ (bitwarden "item" "gh").login.username | quote }}{{/* bitwarden で取得 */}}
-{{ else if ne .chezmoi.username "runner" }}
-    email = 10wayout@gmail.com
-    name = budybye
-{{ else }}
-    email = {{/* コメント */}}
-    name = {{/* コメント */}}
-{{ end }}
+    email = {{ .email }}
+    name = {{ .name }}
+#	useConfigOnly = true

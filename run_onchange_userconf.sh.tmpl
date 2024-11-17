@@ -27,20 +27,22 @@ echo "--------------------------------"
 # ~/dotfiles にシンボリックリンク
 # devcontainer だと ~/dotfiles
 # .env の確認と作成
-{{ if eq .chezmoi.username "runner" }}
+{{ if eq .name "runner" }}
     echo "runner"
     echo "export USER_NAME=$(whoami)" >>".env"
     echo ".env checking..."
     cat .env
-    ls -la "${HOME}/work/dotfiles/dotfiles"
+    ls -la {{ .chezmoi.sourceDir }}
     echo "dotfiles symlink..."
-    ln -sf ${HOME}/work/dotfiles/dotfiles ${HOME}/dotfiles && ls -la ${HOME}/dotfiles
+    ln -sf {{ .chezmoi.sourceDir }} ${HOME}/dotfiles && ls -la ${HOME}/dotfiles
+
 {{ else if eq (env "REMOTE_CONTAINERS") "true" }}
     echo "export USER_NAME=$(whoami)" >>"${HOME}/dotfiles/.env"
     echo "remote-containers"
     ls -la "${HOME}/dotfiles"
     echo "dotfiles/.env checking..."
     cat "${HOME}/dotfiles/.env"
+
 {{ else }}
     echo "export USER_NAME=$(whoami)" >>"${HOME}/.local/share/chezmoi/.env"
     echo "${HOME}/.local/share/chezmoi"
