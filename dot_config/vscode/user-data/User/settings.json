@@ -1,20 +1,33 @@
 {
-  "editor.accessibilitySupport": "off",
+  "application.shellEnvironmentResolutionTimeout": 42,
+  "telemetry.telemetryLevel": "off",
   "redhat.telemetry.enabled": false,
+  "mdb.sendTelemetry": false,
+  "partialDiff.enableTelemetry": false,
+  "search.followSymlinks": false,
   "workbench.startupEditor": "none",
-  "terminal.integrated.env.osx": {
-    "FIG_NEW_SESSION": "1"
+  "workbench.colorTheme": "Monokai Pro",
+  "workbench.iconTheme": "simple-icons",
+  "workbench.colorCustomizations": {
+    "minimapSlider.activeBackground": "#06034dc0",
+    "minimapSlider.background": "#06034dc0",
+    "minimapSlider.hoverBackground": "#06034dc0"
   },
-  "tabnine.experimentalAutoImports": true,
+  "editor.codeActionsOnSave": {},
+  "editor.accessibilitySupport": "off",
+  "editor.fontLigatures": false,
+  "editor.indentSize": "tabSize",
+  "editor.formatOnSave": true,
+  "editor.minimap.showSlider": "always",
+  "editor.minimap.renderCharacters": false,
   "editor.fontSize": 13,
   "editor.fontFamily": "HackGen Console NF, HackGen Console NFJ, Monaco, 'Courier New', monospace",
   "files.autoSave": "afterDelay",
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
   "files.trimTrailingWhitespace": true,
-  "[markdown]": {
-    "files.trimTrailingWhitespace": false
-  },
+  "files.autoGuessEncoding": true,
+  "files.eol": "\n",
   "files.associations": {
     "*.erb": "erb"
   },
@@ -25,61 +38,17 @@
     "**/CVS": true,
     "**/.DS_Store": true
   },
-  "files.eol": "\n",
-  "files.autoGuessEncoding": true,
-  "telemetry.telemetryLevel": "off",
-  "auto-close-tag.SublimeText3Mode": true,
-  "editor.codeActionsOnSave": {},
-  "workbench.colorTheme": "Monokai Pro",
-  "explorer.confirmDelete": false,
   "explorer.confirmDragAndDrop": false,
+  "explorer.confirmDelete": false,
   "extensions.autoUpdate": true,
   "extensions.ignoreRecommendations": false,
-  "json.schemas": [],
-  "liveServer.settings.donotShowInfoMsg": true,
-  "python.languageServer": "Default",
-  "shellcheck.ignorePatterns": {
-    "**/.bash_profile": true,
-    "**/.bashrc": true
-  },
-  "yaml.customTags": [
-    "!And",
-    "!And sequence",
-    "!If",
-    "!If sequence",
-    "!Not",
-    "!Not sequence",
-    "!Equals",
-    "!Equals sequence",
-    "!Or",
-    "!Or sequence",
-    "!FindInMap",
-    "!FindInMap sequence",
-    "!Base64",
-    "!Join",
-    "!Join sequence",
-    "!Cidr",
-    "!Ref",
-    "!Sub",
-    "!Sub sequence",
-    "!GetAtt",
-    "!GetAZs",
-    "!ImportValue",
-    "!ImportValue sequence",
-    "!Select",
-    "!Select sequence",
-    "!Split",
-    "!Split sequence"
-  ],
-  "yaml.schemaStore.enable": false,
-  "yaml.validate": false,
+  "git.confirmSync": false,
+  "git.enableSmartCommit": true,
   "git.openRepositoryInParentFolders": "never",
-  "commentTranslate.hover.enabled": false,
-  "deepl.apiKey": null,
-  "editor.indentSize": "tabSize",
-  "application.shellEnvironmentResolutionTimeout": 42,
-  "hediet.vscode-drawio.resizeImages": null,
   "markdown-preview-enhanced.previewTheme": "none.css",
+  "[markdown]": {
+    "files.trimTrailingWhitespace": false
+  },
   "[json]": {
     "editor.defaultFormatter": "vscode.json-language-features"
   },
@@ -92,52 +61,24 @@
   "[dockercompose]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "editor.formatOnSave": true,
-  "eslint.codeActionsOnSave.rules": null,
   "[typescript]": {
     "editor.defaultFormatter": "vscode.typescript-language-features"
   },
-  "search.followSymlinks": false,
-  "gitlens.terminalLinks.enabled": false,
-  "gitlens.telemetry.enabled": false,
-  "rest-client.enableTelemetry": false,
-  "mdb.sendTelemetry": false,
-  "partialDiff.enableTelemetry": false,
-  "code-runner.enableAppInsights": false,
-  "genieai.telemetry.disable": true,
-  "genieai.enableConversationHistory": true,
-  "genieai.promptPrefix.addTests": "以下のコードに対してテストを実施してください",
-  "genieai.promptPrefix.findProblems": "以下のコードで問題を見つけてください",
-  "genieai.promptPrefix.optimize": "次のコードを最適化してください",
-  "genieai.promptPrefix.explain": "次のコードを説明してください",
-  "genieai.promptPrefix.addComments": "以下のコードにコメントを追加してください",
-  "genieai.promptPrefix.completeCode": "次のコードを完成させてください",
-  "git.confirmSync": false,
-  "git.enableSmartCommit": true,
-  "editor.fontLigatures": false,
-  "workbench.colorCustomizations": {
-    "minimapSlider.activeBackground": "#06034dc0",
-    "minimapSlider.background": "#06034dc0",
-    "minimapSlider.hoverBackground": "#06034dc0"
-  },
-  "editor.minimap.showSlider": "always",
-  "editor.minimap.renderCharacters": false,
-  "console-ninja.featureSet": "Community",
-  "[typescriptreact]": {
-    "editor.defaultFormatter": "vscode.typescript-language-features"
-  },
-  "commentTranslate.targetLanguage": "ja",
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "liveServer.settings.donotShowInfoMsg": true,
+  "eslint.codeActionsOnSave.rules": null,
+  "json.schemas": [],
+  "python.languageServer": "Default",
+  "hediet.vscode-drawio.resizeImages": null,
+  "code-runner.enableAppInsights": false,
+  "console-ninja.featureSet": "Community",
+  "commentTranslate.hover.enabled": false,
+  "commentTranslate.targetLanguage": "ja",
   "cursor.chat.smoothStreaming": true,
-  "deepl.formality": "default",
-  "deepl.tagHandling": "off",
-  "deepl.splitSentences": "1",
-  "deepl.translationMode": "Replace",
-  "workbench.iconTheme": "simple-icons",
   "cursor.chat.alwaysSearchWeb": true,
-  // "dotfiles.repository": "budybye/dotfiles",
-  // "dotfiles.targetPath": "~/dotfiles",
-  // "dotfiles.installCommand": "make init",
 }

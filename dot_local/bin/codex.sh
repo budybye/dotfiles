@@ -2,7 +2,7 @@
 set -ex
 
 # 管理下の設定ファイルの場所
-FROM="${HOME}/.local/share/vscode"
+FROM="${HOME}/.config/vscode"
 
 # 環境によって変わる 設定ファイルの場所
 if command -v cursor >/dev/null 2>&1; then
@@ -12,7 +12,7 @@ elif [ -f "${HOME}/Applications/cursor" ]; then
 elif command -v codium >/dev/null 2>&1; then
     CODE_DIR="${HOME}/.config/VSCodium"
 elif command -v code >/dev/null 2>&1; then
-    CODE_DIR="${HOME}/.config/vscode"
+    CODE_DIR="${HOME}/.local/share/vscode"
 fi
 
 # VSCodeのUserディレクトリの作成

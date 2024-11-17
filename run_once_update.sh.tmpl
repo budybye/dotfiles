@@ -18,14 +18,13 @@ echo "--------------------------------"
 
 {{ if eq .chezmoi.os "linux" }}
     echo "Linux"
-    command -v firefox >/dev/null || sudo snap remove firefox || sudo apt remove firefox || echo "firefox already removed"
     sudo apt-get update -y
     sudo apt-get upgrade -y
     sudo apt-get autoremove -y
     sudo apt-get autoclean -y
     sudo apt-get check
 {{ else if eq .chezmoi.os "darwin" }}
-    echo "MacOS"
+    echo "Darwin"
     if ! command -v brew >/dev/null 2>&1; then
         echo "brew command not found"
     else

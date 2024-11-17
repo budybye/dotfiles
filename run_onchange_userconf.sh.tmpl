@@ -23,41 +23,25 @@ echo "${HOME}/.local/share"
 ls -la "${HOME}/.local/share"
 echo "--------------------------------"
 
-# .local/share/chezmoi が runner だと無い
-# ~/dotfiles にシンボリックリンク
-# devcontainer だと ~/dotfiles
 # .env の確認と作成
-{{ if eq .name "runner" }}
-    echo "runner"
-    echo "export USER_NAME=$(whoami)" >>".env"
-    echo ".env checking..."
-    cat .env
-    ls -la {{ .chezmoi.sourceDir }}
-    echo "dotfiles symlink..."
-    ln -sf {{ .chezmoi.sourceDir }} ${HOME}/dotfiles && ls -la ${HOME}/dotfiles
-
-{{ else if eq (env "REMOTE_CONTAINERS") "true" }}
-    echo "export USER_NAME=$(whoami)" >>"${HOME}/dotfiles/.env"
-    echo "remote-containers"
-    ls -la "${HOME}/dotfiles"
-    echo "dotfiles/.env checking..."
-    cat "${HOME}/dotfiles/.env"
-
-{{ else }}
-    echo "export USER_NAME=$(whoami)" >>"${HOME}/.local/share/chezmoi/.env"
-    echo "${HOME}/.local/share/chezmoi"
-    ls -la "${HOME}/.local/share/chezmoi"
-    echo "--------------------------------"
-    echo 'Dotfiles symlink ...'
-    ln -sf "${HOME}/.local/share/chezmoi" "${HOME}/dotfiles" && ls -la "${HOME}/dotfiles" || echo 'Dotfiles symlink failed!!'
-    echo "dotfiles/.env checking..."
-    cat "${HOME}/.local/share/chezmoi/.env"
-{{ end }}
+echo {{ .name | quote }}
+echo "export USER_NAME=$(whoami)" >>{{ .dotfilesDir }}/.env
+echo {{.dotfilesDir | quote }}
+ls -la {{ .dotfilesDir }}
+echo ".env checking..."
+cat {{ .dotfilesDir }}/.env
 echo "--------------------------------"
+
+# ~/dotfiles にシンボリックリンク
+{{ if ne .name "devcontainer" }}
+    echo 'Dotfiles symlink ...'
+    ln -sf "{{ .dotfilesDir }}" "${HOME}/dotfiles"
+    ls -la "${HOME}/dotfiles"
+    echo "--------------------------------"
+{{ end }}
 
 echo 'Your config git user is ...'
 cat "${HOME}/.config/git/user.conf"
-
 echo "--------------------------------"
 
 echo 'userconf update ? (y/n)'
@@ -66,11 +50,10 @@ echo 'userconf update ? (y/n)'
 read ans
 if [ "$ans" = "y" ]; then
     cat "${HOME}/.config/git/config"
-#    git config --global user.name "${GIT_USER:-bob}"
-#    git config --global user.email "${GIT_EMAIL:-bob@example.com}"
 fi
 {{ end }}
-
 echo "--------------------------------"
+
 chezmoi data
 echo 'Apply settings done!!'
+echo "--------------------------------"

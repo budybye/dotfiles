@@ -11,7 +11,7 @@ arch="$(dpkg --print-architecture)"
 desktop_setup() {
     echo "desktop setup start..."
     sudo apt-get update -y && sudo apt-get upgrade -y
-    sudo apt-get install -y xfce4 xfce4-goodies xrdp xorgxrdp language-pack-ja-base language-pack-ja manpages-ja fcitx5-mozc wireshark plank || {
+    sudo apt-get install -y xfce4 xfce4-goodies xrdp xorgxrdp language-pack-ja-base language-pack-ja manpages-ja fcitx5-mozc plank || {
         echo "desktop setup failed."
         exit 1
     }
@@ -35,7 +35,6 @@ install_snap() {
         exit 1
     }
     echo "codium installed."
-    which codium
 
     echo "speedtest install start..."
     command -v speedtest >/dev/null || sudo snap install speedtest || {
@@ -43,7 +42,13 @@ install_snap() {
         exit 1
     }
     echo "speedtest installed."
-    which speedtest
+
+    echo "alacritty install start..."
+    command -v alacritty >/dev/null || sudo snap install alacritty --classic || {
+        echo "alacritty install failed."
+        exit 1
+    }
+    echo "alacritty installed."
 
     echo "firefox uninstall start..."
     command -v firefox >/dev/null 2>&1 && sudo snap remove firefox || {
@@ -76,7 +81,6 @@ install_brave_browser() {
         exit 1
     }
     echo "brave browser installed."
-    which brave-browser
 }
 
 # Tabby Terminal をインストールする関数
@@ -89,7 +93,6 @@ install_tabby_terminal() {
         exit 1
     }
     echo "tabby terminal installed."
-    which tabby
 }
 
 # Cloudflare Warp をインストールおよび設定する関数
@@ -103,10 +106,9 @@ install_cloudflare_warp() {
         exit 1
     }
     echo "cloudflare warp installed."
-    which warp-cli
 
     warp-cli --accept-tos registration new
-    warp-cli --accept-tos mode warp+doh
+    warp-cli --accept-tos mode warp
     warp-cli --accept-tos dns families malware
     warp-cli --accept-tos connect
     warp-cli --accept-tos disconnect
@@ -131,6 +133,7 @@ install_cursor() {
     echo "cursor install start..."
     appimage="${HOME}/Applications/cursor"
     mkdir -p "${HOME}/Applications"
+
     if [ "${arch}" = "amd64" ]; then
         curl -L https://downloader.cursor.sh/inulx -o "${appimage}" || {
             echo "cursor download failed."
@@ -143,14 +146,13 @@ install_cursor() {
         }
     fi
     sudo chmod a+x "${appimage}"
-    if [ ! "${arch}" = "armv7" ]; then
-        echo "libfuse2 install start..."
-        command -v libfuse2 >/dev/null || sudo apt-get install -y libfuse2 || {
-            echo "libfuse2 install failed."
-            exit 1
-        }
-        echo "libfuse2 installed."
-    fi
+
+    echo "libfuse2 install start..."
+    command -v libfuse2 >/dev/null || sudo apt-get install -y libfuse2 || {
+        echo "libfuse2 install failed."
+        exit 1
+    }
+    echo "libfuse2 installed."
     echo "${appimage} installed."
 }
 
@@ -164,7 +166,6 @@ install_wireshark() {
     echo "wireshark installed."
     sudo groupadd -f wireshark
     sudo usermod -aG wireshark "$USER_NAME"
-    which wireshark
 }
 
 # Ruby と Fusuma をインストールおよび設定する関数
@@ -175,7 +176,6 @@ install_ruby_fusuma() {
         exit 1
     }
     echo "ruby installed."
-    which ruby
 
     echo "fusuma install start..."
     sudo gem install fusuma || {
@@ -193,11 +193,10 @@ japan_setup() {
     echo "japan setup start..."
     # CRDA設定ファイル内のREGDOMAINをJPに変更（存在しない場合は無視）
     sudo sed -i 's/^\s*REGDOMAIN=S*/REGDOMAIN=JP/' /etc/default/crda || true
-    # ユーザーディレクトリを強制的に更新
+    setupcon -k --force || true
     LANG=C xdg-user-dirs-update --force
     # 入力メソッドとしてfcitx5を設定
     im-config -n fcitx5
-    setupcon -k --force || true
     echo "#日本語環境の設定が完了しました"
 }
 
@@ -237,15 +236,12 @@ xrdp_setup() {
     # xrdpサービスを有効化し、起動
     sudo systemctl enable xrdp
     sudo systemctl start xrdp
-    echo "xrdp setup completed."
     # デフォルトのセッションマネージャーをxfce4-sessionに設定
     sudo update-alternatives --set x-session-manager /usr/bin/xfce4-session
+    echo "xrdp setup completed."
 
     echo "以下のコマンドを実行してパスワードを更新してください"
     echo "sudo passwd ${USER_NAME}"
-    # ubuntuユーザーのパスワードを設定（対話形式で入力）
-    # sudo passwd "${USER_NAME}"
-    echo "xfce4-session configured."
 }
 
 main() {

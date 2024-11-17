@@ -1,32 +1,39 @@
 # chezmoi .yaml or .toml or .json file is a configuration file for chezmoi
-# dotfiles/.chezmoi.yaml.tmpl に設定を記述すると反映される
+# dotfiles/.chezmoi.yaml.tmpl に設定を記述すると.local/share/chezmoi/chezmoi.yamlに反映される
 
 # tmpl で参照する変数
 data:
 
-# codespaces の場合は codespaces として扱う
 # runner の場合は runner として扱う
-# Mac の場合は Mac として扱う
+# codespaces の場合は codespaces として扱う
+# devcontainer の場合は devcontainer として扱う
+# ubuntu の場合は budybye
+# その他 Mac の場合は bitwarden のアイテムを参照する
 
-{{- if eq (env "CODESPACES") "true" }}
-  sourceDir: "~/dotfiles"
-  name: "codespaces"
-  email: "null"
-
-{{ else if eq .chezmoi.username "runner" }}
-  sourceDir: "/home/runner/work/dotfiles/dotfiles"
+{{ if eq (env "GITHUB_ACTIONS") "true" }}
+  dotfilesDir: "/home/runner/work/dotfiles/dotfiles"
   name: "runner"
   email: "null"
 
-{{ else if eq .chezmoi.username "hotmilk" }}
-  sourceDir: "/Users/hotmilk/.local/share/chezmoi"
-  email: {{ (bitwarden "item" "gh").login.password | quote }}
-  name: {{ (bitwarden "item" "gh").login.username | quote }}
+{{ else if eq (env "CODESPACES") "true" }}
+  dotfilesDir: "{{ .chezmoi.homeDir }}/dotfiles"
+  name: "codespaces"
+  email: "null"
 
-{{- else }}{{/* Mac, runner, codespaces 以外 */}}
-  sourceDir: {{ .chezmoi.sourceDir | quote }}
+{{ else if eq (env "REMOTE_CONTAINERS") "true" }}
+  dotfilesDir: "{{ .chezmoi.homeDir }}/dotfiles"
+  name: "devcontainer"
+  email: "null"
+
+{{ else if eq .chezmoi.username "ubuntu" }}
+  dotfilesDir: {{ .chezmoi.sourceDir | quote }}
   name: "budybye"
   email: "101wayout@gmail.com"
+
+{{ else }}{{/* ubuntu, devcontainer, runner, codespaces 以外 */}}
+  dotfilesDir: "{{ .chezmoi.homeDir }}/.local/share/chezmoi"
+  email: {{ (bitwarden "item" "gh").login.password | quote }}
+  name: {{ (bitwarden "item" "gh").login.username | quote }}
 
 {{- end }}
 
