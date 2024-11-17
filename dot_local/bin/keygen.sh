@@ -29,6 +29,9 @@ if [ ! -f "${KEY_PATH}" ]; then
     ssh-keygen -t "${KEY_TYPE}" -f "${KEY_NAME}" -C "" -N ""
 else
     echo "SSH key already exists"
+    sudo cp "${KEY_PATH}" "${KEY_PATH}.copy"
+    sudo cp "${KEY_PATH}.pub" "${KEY_PATH}.pub.copy"
+    ssh-keygen -t "${KEY_TYPE}" -f "${KEY_NAME}" -C "" -N ""
 fi
 
 # 公開鍵をauthorized_keysファイルに追加
@@ -52,8 +55,9 @@ case "${OSTYPE}" in
         ;;
 esac
 
-sudo chmod 600 "${SSH}"
-sudo chmod 644 "${KEY_PATH}.pub"
+chmod 600 "${KEY_PATH}"
+chmod 600 "${SSH}/authorized_keys"
+chmod 644 "${KEY_PATH}.pub"
 
 # GitHubにSSH接続をテスト
 

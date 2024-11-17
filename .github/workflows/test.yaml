@@ -7,6 +7,7 @@ on:
     tags:
       - "v*.*.*"
   workflow_dispatch:
+
   schedule:
     # 平日のUTC16:20と 日本時間(UTC+9) 16:20に実行
     - cron: "20 16,7 * * 1-5"
@@ -29,6 +30,11 @@ jobs:
         platform:
           - linux/amd64
           - linux/arm64
+        flavor:
+          - name: devcontainer
+            use_bedrock: false
+          - name: desktop
+            use_bedrock: true
     steps:
       - name: Prepare
         run: |
@@ -65,9 +71,10 @@ jobs:
         with:
           context: .devcontainer
           platforms: ${{ matrix.platform }}
+          build-args: USE_BEDROCK=${{ matrix.flavor.use_bedrock }}
           labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=registry,ref=${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }}
-          cache-to: type=registry,ref=${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }},mode=max
+          cache-from: type=registry,ref=${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }}-${{ matrix.flavor.name }}
+          cache-to: type=registry,ref=${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }}-${{ matrix.flavor.name }},mode=max
           outputs: type=image,name=${{ env.REGISTRY_IMAGE }},push-by-digest=true,name-canonical=true,push=true
 
       - name: Export digest
@@ -79,7 +86,7 @@ jobs:
       - name: Upload digest
         uses: actions/upload-artifact@v4
         with:
-          name: digests-${{ env.PLATFORM_PAIR }}
+          name: digests-${{ env.PLATFORM_PAIR }}-${{ matrix.flavor.name }}
           path: /tmp/digests/*
           if-no-files-found: error
           retention-days: 1
@@ -114,12 +121,18 @@ jobs:
       packages: write
     needs:
       - build
+    strategy:
+      fail-fast: false
+      matrix:
+        flavor:
+          - name: devcontainer
+          - name: desktop
     steps:
       - name: Download digests
         uses: actions/download-artifact@v4
         with:
           path: /tmp/digests
-          pattern: digests-*
+          pattern: digests-*-${{ matrix.flavor.name }}
           merge-multiple: true
 
       - name: Set up Docker Buildx
@@ -143,12 +156,14 @@ jobs:
       - name: Create manifest list and push
         working-directory: /tmp/digests
         run: |
-          docker buildx imagetools create $(jq -cr '.tags | map("-t " + .) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON") \
-            $(printf '${{ env.REGISTRY_IMAGE }}@sha256:%s ' *)
+          flavor=${{ matrix.flavor.name }}
+          tags=$(jq -cr --arg flavor "$flavor" '.tags | map("-t " + . + "-" + $flavor) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON")
+          docker buildx imagetools create $tags \
+          $(printf '${{ env.REGISTRY_IMAGE }}@sha256:%s ' *)
 
       - name: Inspect image
         run: |
-          docker buildx imagetools inspect ${{ env.REGISTRY_IMAGE }}:${{ steps.meta.outputs.version }}
+          docker buildx imagetools inspect ${{ env.REGISTRY_IMAGE }}:${{ steps.meta.outputs.version }}-${{ matrix.flavor.name }}
 
   ubuntu-test:
     runs-on: ubuntu-24.04
