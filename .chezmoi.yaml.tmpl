@@ -5,7 +5,6 @@
 
 {{- $codespaces:= env "CODESPACES" | not | not -}}
 sourceDir: {{ .chezmoi.sourceDir | quote }}
-# sourceDir: ~/dotfiles
 
 data:
   name: "budybye"
@@ -16,6 +15,7 @@ data:
   email: {{ .chezmoi.hostname | quote }}
 {{- end }}
 
+# sourceDir: ~/dotfiles
 git:
   autoPush: false
 edit:

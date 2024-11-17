@@ -8,7 +8,6 @@ echo "--------------------------------"
 echo "env ..."
 env
 echo "--------------------------------"
-echo "--------------------------------"
 echo "Package update && check start!!"
 echo "--------------------------------"
 
@@ -31,14 +30,6 @@ echo "--------------------------------"
         brew doctor
     fi
 {{ end }}
-
-echo "--------------------------------"
-
-if ! command -v chezmoi >/dev/null 2>&1; then
-    echo "chezmoi command not found"
-else
-    chezmoi data
-fi
 
 echo "--------------------------------"
 echo "Package update && check done!!"

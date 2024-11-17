@@ -179,7 +179,7 @@ jobs:
           ls -la
           uname -a
 
-  cloud-init-lint:
+  cloud-init:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -190,3 +190,13 @@ jobs:
             cloud-init/multipass.yaml
             cloud-init/user-data
             cloud-init/network-config
+
+      - naem: chezmoi
+        run: |
+          ln -sf . ${HOME}/dotfiles
+          make init
+
+      - name: multipass
+        run: |
+          sudo snap install multipass
+          multipass launch -n ubuntu -c 4 -m 8G -d 40G  --timeout 3600 --mount ${HOME}/dotfiles:/home/ubuntu/dotfiles --cloud-init ${HOME}/cloud-init/multipass.yaml && multipass info ubuntu

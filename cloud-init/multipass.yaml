@@ -56,6 +56,9 @@ keyboard:
 
 package_update: true
 package_upgrade: true
+package_autoremove: true
+package_cleanup: true
+package_reboot_if_required: true
 packages:
   # デスクトップ環境
   - xfce4
@@ -87,9 +90,12 @@ packages:
   - fcitx5-mozc
 
   # 開発ツール
+  - git
+  - make
+  - curl
   - build-essential
+  - sshfs
   - cmake
-  - age
   - g++
   - libfuse2
   - libssl-dev
@@ -120,9 +126,9 @@ packages:
   - zsh
   - vim
   - gh
-  - curl
   - wget
   - jq
+  - age
   - gzip
   - tree
   - xsel
