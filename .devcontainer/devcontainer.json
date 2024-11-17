@@ -1,23 +1,28 @@
 {
-    "name": "dotfiles",
+    "name": "dev",
     "dockerComposeFile": "docker-compose.yaml",
     "service": "ubuntu",
-    "workspaceFolder": "/workspace",
-    "remoteUser": "vscode",
+    "workspaceFolder": "/home/budybye",
+    "remoteUser": "budybye",
     "shutdownAction": "stopCompose",
     "forwardPorts": [ 3000, 4000, 9443, 3389, 8787, 8080, 4001, 5001, 80 ],
-    "postCreateCommand": "sudo apt-get update -y && sudo apt-get upgrade -y",
+    "initializeCommand": "echo 'Installing dotfiles...'",
+    "onCreateCommand": "echo 'Creating dotfiles...'",
+    "postCreateCommand": "echo 'Post creating dotfiles...'",
+    "postStartCommand": "echo 'Post starting dotfiles...'",
+    "postAttachCommand": "echo 'Post attaching dotfiles...'",
     "remoteEnv": {
-      "USER_NAME": "budybye"
+      "USERNAME": "budybye",
+      "GIT_USER": "${GIT_USER}"
     },
     "features": {
       "ghcr.io/devcontainers/features/docker-in-docker:2": {},
-      "ghcr.io/budybye/dotfiles/ubuntu-dev:main": {}
+      "ghcr.io/budybye/ubuntu-dev:main": {}
     },
     "customizations": {
       "vscode": {
         "settings": {
-          "terminal.integrated.shell.linux": "/bin/zsh",
+          "terminal.integrated.defaultProfile.linux": "zsh",
           "editor.formatOnSave": true,
           "files.autoSave": "afterDelay",
           "files.autoSaveDelay": 3000,
@@ -39,6 +44,7 @@
           "dbaeumer.vscode-eslint",
           "esbenp.prettier-vscode",
           "editorconfig.editorconfig",
+          "hediet.vscode-drawio",
           "formulahendry.auto-close-tag",
           "formulahendry.auto-complete-tag",
           "formulahendry.auto-rename-tag",

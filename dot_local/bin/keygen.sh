@@ -17,7 +17,7 @@ touch "${SSH}/config"
 touch "${SSH}/known_hosts"
 
 # configファイルにGitHubのホスト情報を設定
-cat <<EOF >>"${SSH}/config"
+cat <<EOF >"${SSH}/config"
 Host github github.com
 HostName github.com
 IdentityFile "${KEY_PATH}"
@@ -29,11 +29,15 @@ if [ ! -f "${KEY_PATH}" ]; then
     ssh-keygen -t "${KEY_TYPE}" -f "${KEY_NAME}" -C "" -N ""
 else
     echo "SSH key already exists"
-    exit 1
 fi
 
 # 公開鍵をauthorized_keysファイルに追加
 cat "${KEY_PATH}.pub" >>"${SSH}/authorized_keys"
+
+ls -la "${SSH}"
+cat "${SSH}/config"
+cat "${SSH}/authorized_keys"
+cat "${SSH}/known_hosts"
 
 # 公開鍵をコピー
 # ブラウザでgithubログイン画面を開く
@@ -43,13 +47,16 @@ case "${OSTYPE}" in
         open "https://github.com/login?username=${GIT_USER}"
         ;;
     *)
-        echo "Please copy the following public key and add it to your GitHub account:"
         cat "${KEY_PATH}.pub"
         xdg-open "https://github.com/login?username=${GIT_USER}"
         ;;
 esac
 
+sudo chmod 600 "${SSH}"
+sudo chmod 644 "${KEY_PATH}.pub"
+
 # GitHubにSSH接続をテスト
+
 # ssh -T git@github.com
 
 # SSHエージェントを起動
@@ -61,9 +68,4 @@ ssh-add -l
 # SSHエージェントを停止
 eval "$(ssh-agent -k)"
 
-ls -la "${SSH}"
-cat "${SSH}/config"
-cat "${SSH}/authorized_keys"
-cat "${SSH}/known_hosts"
-
-sudo chmod 600 "${SSH}"
+echo "${KEY_PATH} done"
