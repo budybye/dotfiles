@@ -35,7 +35,7 @@ copy_json_file() {
 
     sudo ln -sf "${from_file}" "${target_file}"
     echo "新しい ${target_file} を作成しました。"
-    cat "${target_file}"
+    cat "${from_file}"
 }
 
 extensions_json() {
@@ -57,7 +57,7 @@ extensions_json() {
         sudo "code" --list-extensions | xargs -I {} sh -c "jq '.recommendations += [\"{}\"]' ${CODEX} | sudo tee temp > /dev/null && sudo mv temp ${CODEX}"
         echo '拡張機能の更新が完了しました!'
     fi
-    cat "${CODEX}"
+    cat "${FROM}/extensions.json"
 }
 
 main() {
