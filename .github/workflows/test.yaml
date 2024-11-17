@@ -191,7 +191,7 @@ jobs:
             cloud-init/user-data
             cloud-init/network-config
 
-      - naem: chezmoi
+      - name: chezmoi
         run: |
           ln -sf . ${HOME}/dotfiles
           make init
