@@ -3,6 +3,7 @@
 
 echo "--------------------------------"
 echo "Chezmoi apply completed!!"
+chezmoi update
 pwd
 ls -la
 echo "File check start!!"
@@ -31,6 +32,7 @@ echo "--------------------------------"
     echo "runner"
     echo "export USER_NAME=$(whoami)" >>".env"
     cat .env
+    ln -sf ${HOME}/work/dotfiles/dotfiles ${HOME}/dotfiles && ls -la ${HOME}/dotfiles
 {{ else if eq (env "REMOTE_CONTAINERS") "true" }}
     echo "remote-containers"
     ls -la "${HOME}/dotfiles"

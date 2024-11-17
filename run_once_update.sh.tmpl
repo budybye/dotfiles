@@ -2,17 +2,23 @@
 
 echo "--------------------------------"
 echo "Welcome to my dotfiles!!"
+echo "whoami: $(whoami)"
 echo "OS info ..."
 uname -a
+echo "$SHELL"
 echo "--------------------------------"
 echo "env ..."
 env
+echo "--------------------------------"
+echo "$PATH ..."
+echo "$PATH" | tr ':' '\n'
 echo "--------------------------------"
 echo "Package update && check start!!"
 echo "--------------------------------"
 
 {{ if eq .chezmoi.os "linux" }}
     echo "Linux"
+    command -v firefox >/dev/null || sudo snap remove firefox || sudo apt remove firefox || echo "firefox already removed"
     sudo apt-get update -y
     sudo apt-get upgrade -y
     sudo apt-get autoremove -y

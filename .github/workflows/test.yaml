@@ -193,10 +193,11 @@ jobs:
 
       - name: chezmoi
         run: |
-          ln -sf . ${HOME}/dotfiles
           make init
 
       - name: multipass
         run: |
           sudo snap install multipass
-          multipass launch -n ubuntu -c 4 -m 8G -d 40G  --timeout 3600 --mount ${HOME}/dotfiles:/home/ubuntu/dotfiles --cloud-init ${HOME}/cloud-init/multipass.yaml && multipass info ubuntu
+          multipass find
+          multipass get local.driver
+          # multipass launch -n ubuntu -c 4 -m 8G -d 40G  --timeout 3600 --mount ${HOME}/dotfiles:/home/ubuntu/dotfiles --cloud-init ${HOME}/cloud-init/multipass.yaml && multipass info ubuntu

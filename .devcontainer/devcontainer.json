@@ -8,7 +8,7 @@
     "forwardPorts": [ 3000, 4000, 9443, 3389, 8787, 8080, 4001, 5001, 80 ],
     "postCreateCommand": "sudo apt-get update -y && sudo apt-get upgrade -y",
     "remoteEnv": {
-      "GIT_AUTHOR_NAME": "budybye"
+      "USER_NAME": "budybye"
     },
     "features": {
       "ghcr.io/devcontainers/features/docker-in-docker:2": {},
@@ -17,11 +17,10 @@
     "customizations": {
       "vscode": {
         "settings": {
-          "terminal.integrated.shell.linux": "/usr/bin/zsh",
+          "terminal.integrated.shell.linux": "/bin/zsh",
           "editor.formatOnSave": true,
           "files.autoSave": "afterDelay",
-          "files.autoSaveDelay": 1000,
-          "python.pythonPath": "/usr/local/bin/python3",
+          "files.autoSaveDelay": 3000,
           "editor.tabSize": 4,
           "files.exclude": {
             "**/.git": true,
@@ -32,15 +31,24 @@
           "dotfiles.installCommand": "~/dotfiles/dot_local/bin/init.sh"
         },
         "extensions": [
-          "ms-python.python",
-          "ms-vscode.cpptools",
-          "esbenp.prettier-vscode",
+          "42crunch.vscode-openapi",
+          "biomejs.biome",
+          "christian-kohler.path-intellisense",
+          "corschenzi.mermaid-graphical-editor",
           "dbaeumer.vscode-eslint",
+          "esbenp.prettier-vscode",
+          "editorconfig.editorconfig",
+          "github.vscode-github-actions",
+          "monokai.theme-monokai-pro-vscode",
           "ms-azuretools.vscode-docker",
-          "eamodio.gitlens",
-          "hashicorp.terraform",
+          "ms-vscode-remote.remote-containers",
+          "ms-vscode-remote.remote-ssh-edit",
+          "ms-vscode-remote.remote-wsl",
+          "ms-vscode-remote.vscode-remote-extensionpack",
+          "visualstudioexptteam.vscodeintellicode",
+          "visualstudioexptteam.intellicode-api-usage-examples",
           "oderwat.indent-rainbow",
-          "esbenp.prettier-vscode"
+          "tailwindcss.tailwind-vscode"
         ]
       }
     }
