@@ -87,8 +87,8 @@ mkdir -p ${XDG_CONFIG_HOME}/aquaproj-aqua ${XDG_DATA_HOME}/aquaproj-aqua
 export PATH="${XDG_DATA_HOME:-$HOME/.local/share}/aquaproj-aqua/bin:${PATH}"
 export AQUA_GLOBAL_CONFIG="${AQUA_GLOBAL_CONFIG:-}:${XDG_CONFIG_HOME:-$HOME/.config}/aquaproj-aqua/aqua.yaml"
 
-mkdir -p "${XDG_CONFIG_HOME}/vscode/user-data/User"
-export VSCODE_PORTABLE="${XDG_CONFIG_HOME}/vscode"
+mkdir -p "${XDG_CONFIG_HOME}/Code/user-data/User"
+export VSCODE_PORTABLE="${XDG_CONFIG_HOME}/Code"
 
 if command -v docker >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/docker" "${XDG_DATA_HOME}/docker/machine"
