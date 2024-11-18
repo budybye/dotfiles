@@ -106,7 +106,7 @@ install_mise() {
     echo "mise installed."
     echo "$(command -v mise)" >> ${HOME}/which
 
-    mise use -g chezmoi bun starship node go -y --verbose || {
+    mise use -g bun starship node go -y --verbose || {
         echo "mise use failed."
         exit 1
     }
