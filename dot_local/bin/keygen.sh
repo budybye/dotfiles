@@ -28,6 +28,7 @@ if [ ! -f "${KEY_PATH}.pub" ]; then
     echo "SSH public key already exists"
 else
     sudo cp "${KEY_PATH}.pub" "${KEY_PATH}.pub.copy"
+    rm -rf "${KEY_PATH}.pub"
 fi
 
 # SSH鍵を生成
@@ -36,6 +37,7 @@ if [ ! -f "${KEY_PATH}" ]; then
 else
     echo "SSH key already exists"
     sudo cp "${KEY_PATH}" "${KEY_PATH}.copy"
+    rm -rf "${KEY_PATH}.pub"
     ssh-keygen -t "${KEY_TYPE}" -f "${KEY_NAME}" -C "${GIT_USER}" -N ""
 fi
 
