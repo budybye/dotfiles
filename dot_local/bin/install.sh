@@ -32,7 +32,7 @@ install_packages() {
     sudo apt-get install -y curl wget git build-essential cmake dbus-x11 gnupg g++ gh jq sudo age flatpak \
         zsh vim tree xsel ncdu xdotool mkcert moreutils multitail neofetch lsd zoxide direnv avahi-daemon \
         libssl-dev pkg-config apt-transport-https ca-certificates lsb-release libnss3-tools \
-        libinput-tools libdb-dev libdb5.3-dev libgdbm-dev libgmp-dev libgmpxx4ldbl libgdbm-compat-dev rustc \
+        libinput-tools libdb-dev libdb5.3-dev libgdbm-dev libgmp-dev libgmpxx4ldbl libgdbm-compat-dev \
         libstd-rust-1.75 libstd-rust-dev libncurses5-dev libffi-dev libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev \
         ffmpeg mpd mpc ncmpcpp net-tools nmap snapd ufw rsyslog im-config byobu ruby cargo || {
         echo "apt install failed."
@@ -106,14 +106,14 @@ install_mise() {
     echo "mise installed."
     echo "$(command -v mise)" >> ${HOME}/which
 
-    mise use -g bun starship node go -y --verbose || {
+    mise use -g bun node go -y --verbose || {
         echo "mise use failed."
         exit 1
     }
     mise activate zsh
     mise activate --shims
     echo "mise setup completed."
-    for cmd in chezmoi bun starship node go; do
+    for cmd in chezmoi bun node go; do
         command -v "$cmd" >> ${HOME}/which || echo "$cmd not found"
     done
 }
@@ -147,6 +147,7 @@ install_bitwarden() {
             sudo snap install bitwarden
         else
             bun install -g @bitwarden/cli
+            echo "export PATH=\"$HOME/.cache.bun/bin:\$PATH\"" >> ${HOME}/.zshrc
         fi
     } || {
         echo "bitwarden install failed."
