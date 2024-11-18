@@ -4,18 +4,17 @@ echo "before bitwarden cli install"
 
 case "${OSTYPE}" in
     darwin*)
-        brew install mise
-        mise use -g bun node -y --verbose || curl -fsSL https://bun.sh/install | bash
-
+        brew install mise || curl https://mise.run | sh
+        mise use -g bun node -y --verbose || curl -fsSL https://bun.sh/install | bash && curl https://get.volta.sh | bash
         brew install bitwarden-cli || bun install -g @bitwarden/cli
         bw --version
         echo "export BW_SESSION=\"$(bw unlock --raw)\"" >> .env
         ;;
     *)
-        curl -fsSL https://get.mise.sh | bash || sudo apt-get install -y cargo && cargo install mise
-        mise use -g bun node -y --verbose || curl -fsSL https://bun.sh/install | bash
+        curl https://mise.run | sh || sudo apt-get install -y cargo && cargo install mise
+        mise use -g bun node -y --verbose || curl -fsSL https://bun.sh/install | bash && curl https://get.volta.sh | bash
 
-        bun install -g @bitwarden/cli || npm install -g bitwarden
+        bun i -g @bitwarden/cli || npm i -g @bitwarden/cli
         bw --version
         echo "export BW_SESSION=\"$(bw unlock --raw)\"" >> .env
         ;;
