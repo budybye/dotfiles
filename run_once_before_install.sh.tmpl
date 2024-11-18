@@ -1,0 +1,24 @@
+#! /usr/bin/env bash
+
+echo "OS: {{ .chezmoi.os | quote }}"
+
+echo "before bitwarden cli install"
+case "${OSTYPE}" in
+    darwin*)
+        brew install mise || curl https://mise.run | sh
+        mise use -g bun node -y --verbose || curl -fsSL https://bun.sh/install | bash
+        curl https://get.volta.sh | bash && volta install node || sudo brew install -y npm
+        brew install bitwarden-cli || bun install -g @bitwarden/cli
+        echo "export BW_SESSION=\"$(bw unlock --raw)\"" >> .env
+        ;;
+    *)
+        curl https://mise.run | sh && export PATH="$HOME/.local/bin:$PATH" || sudo apt-get install -y cargo && cargo install mise
+        mise use -g bun node -y --verbose && mise activate zsh || curl -fsSL https://bun.sh/install | bash && export PATH="$HOME/.bun/bin:$PATH"
+        curl https://get.volta.sh | bash && export PATH="$HOME/.volta/bin:$PATH" && volta install node
+
+        bun install -g @bitwarden/cli && export PATH="$HOME/.cache/.bun/bin:$PATH"
+        npm install -g @bitwarden/cli || echo "export PATH=\"$HOME/bin:$PATH\"" >> ~/.zshrc
+        echo "export BW_SESSION=\"$(bw unlock --raw)\"" >> .env
+        ;;
+esac
+echo "bitwarden cli install complete"
