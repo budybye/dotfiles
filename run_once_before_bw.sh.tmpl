@@ -15,7 +15,6 @@ case "${OSTYPE}" in
         mise use -g bun node -y --verbose || curl -fsSL https://bun.sh/install | bash && curl https://get.volta.sh | bash
 
         bun i -g @bitwarden/cli || npm i -g @bitwarden/cli
-        bw --version
         echo "export BW_SESSION=\"$(bw unlock --raw)\"" >> .env
         ;;
 esac

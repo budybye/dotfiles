@@ -14,16 +14,12 @@ echo "$PATH ..."
 echo "$PATH" | tr ':' '\n'
 echo "--------------------------------"
 echo "SSH key ..."
-chmod 700 ~/.ssh
-chmod 600 ~/.ssh/authorized_keys
-chmod 600 ~/.ssh/id_ed25519
-chmod 644 ~/.ssh/id_ed25519.pub
 cat /etc/ssh/sshd_config
 ls -la ~/.ssh
+cat ~/.ssh/id_ed25519.pub
 echo "--------------------------------"
-echo "git config user.name"
-git config user.name
-git config user.email
+echo "git config ..."
+git config --list
 echo "--------------------------------"
 echo "Package update && check start!!"
 echo "--------------------------------"
@@ -32,7 +28,7 @@ echo "--------------------------------"
     apt --version
     sudo apt-get update -y
     sudo apt-get upgrade -y
-    sudo apt-get install -y {{ .packages.linux | join " " }}
+    sudo apt-get install -y {{ .packages.linux.cli | join " " }}
     sudo apt-get autoremove -y
     sudo apt-get autoclean -y
     sudo apt-get check
@@ -41,7 +37,8 @@ echo "--------------------------------"
     if ! command -v brew >/dev/null 2>&1; then
         echo "brew command not found"
     else
-        brew install {{ .packages.darwin | join " " }}
+        brew --version
+        brew install {{ .packages.darwin.brews | join " " }}
         brew update
         brew upgrade
         brew autoremove
