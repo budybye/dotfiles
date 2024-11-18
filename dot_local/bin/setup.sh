@@ -254,7 +254,7 @@ main() {
     install_github_desktop
     install_cursor
     install_ruby_fusuma
-    install_wireshark
+#    install_wireshark
     install_fonts
     japan_setup
     xrdp_setup
