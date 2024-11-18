@@ -50,11 +50,11 @@ install_snap() {
     }
     echo "alacritty installed."
 
-    echo "firefox uninstall start..."
-    command -v firefox >/dev/null 2>&1 && sudo snap remove firefox || {
+    if [ command -v firefox ]; then
+        sudo snap remove firefox || sudo apt remove firefox {
         echo "firefox uninstall failed."
-        exit 1
     }
+    fi
     echo "firefox uninstalled."
 
     # echo "### chromium のインストールを開始します..."
