@@ -35,12 +35,12 @@ fi
 
 # SSH鍵を生成
 if [ ! -f "${KEY_PATH}" ]; then
-    ssh-keygen -t "${KEY_TYPE}" -f "${KEY_NAME}" -C "${GIT_USER}" -N ""
+    ssh-keygen -t "${KEY_TYPE}" -f "${KEY_NAME}" -C "" -N ""
 else
     echo "SSH key already exists"
     sudo cp "${KEY_PATH}" "${KEY_PATH}.copy"
     rm -rf "${KEY_PATH}.pub"
-    ssh-keygen -t "${KEY_TYPE}" -f "${KEY_NAME}" -C "${GIT_USER}" -N ""
+    ssh-keygen -t "${KEY_TYPE}" -f "${KEY_NAME}" -C "" -N ""
 fi
 
 # 公開鍵をauthorized_keysファイルに追加
@@ -81,4 +81,5 @@ ssh-add -l
 eval "$(ssh-agent -k)"
 
 cd "${HOME}"
+
 echo "${KEY_PATH} done"

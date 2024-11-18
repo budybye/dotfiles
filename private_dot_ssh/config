@@ -1,7 +1,6 @@
 Host github
     HostName github.com
     User git
-    Port 22
     IdentityFile ~/.ssh/id_ed25519
     ServerAliveInterval 60
 
@@ -9,9 +8,4 @@ Host ubuntu
     HostName vm.local
     IdentityFile ~/.ssh/id_ed25519
     User ubuntu
-    IdentityOnly yes
     ServerAliveInterval 60
-
-Host *
-    StrictHostKeyChecking no
-    UserKnownHostsFile /dev/null
