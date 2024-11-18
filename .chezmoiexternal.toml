@@ -38,14 +38,14 @@
 
 [".local/share/fonts/HackGenNerd"]
     type = "archive"
-    url = "https://github.com/yuru7/HackGen/releases/download/v2.9.0/HackGenNerd_v2.9.0.zip"
+    url = "https://github.com/yuru7/HackGen/archive/refs/tags/v2.9.0.zip"
     exact = true
     stripComponents = 1
     refreshPeriod = "168h"
 
 [".local/share/fonts/RobotoMonoJP"]
     type = "archive"
-    url = "https://github.com/mjun0812/RobotoMonoJP/releases/download/v5.0.0/RobotoMonoJP.zip"
+    url = "https://github.com/mjun0812/RobotoMonoJP/archive/refs/tags/v5.0.0.zip"
     exact = true
     stripComponents = 1
     refreshPeriod = "168h"
