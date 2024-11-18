@@ -2,7 +2,7 @@
 # dotfiles/.chezmoi.yaml.tmpl に設定を記述すると.local/share/chezmoi/chezmoi.yamlに反映される
 
 # tmpl で参照する変数
-data:
+[data]
 
 # runner の場合は runner として扱う
 # codespaces の場合は codespaces として扱う
@@ -11,40 +11,39 @@ data:
 # その他 Mac の場合は bitwarden のアイテムを参照する
 
 {{ if eq (env "GITHUB_ACTIONS") "true" }}
-  dotfilesDir: "/home/runner/work/dotfiles/dotfiles"
-  name: "runner"
-  email: "null"
+  dotfilesDir = "/home/runner/work/dotfiles/dotfiles"
+  name = "runner"
+  email = "null"
 
 {{ else if eq (env "CODESPACES") "true" }}
-  dotfilesDir: "{{ .chezmoi.homeDir }}/dotfiles"
-  name: "codespaces"
-  email: "null"
+  dotfilesDir = "{{ .chezmoi.homeDir }}/dotfiles"
+  name = "codespaces"
+  email = "null"
 
 {{ else if eq (env "REMOTE_CONTAINERS") "true" }}
-  dotfilesDir: "{{ .chezmoi.homeDir }}/dotfiles"
-  name: "devcontainer"
-  email: "null"
+  dotfilesDir = "{{ .chezmoi.homeDir }}/dotfiles"
+  name = "devcontainer"
+  email = "null"
 
 {{ else if eq .chezmoi.username "ubuntu" }}
-  dotfilesDir: {{ .chezmoi.sourceDir | quote }}
-  name: "budybye"
-  email: "101wayout@gmail.com"
+  dotfilesDir = {{ .chezmoi.sourceDir | quote }}
+  name = "budybye"
+  email = "101wayout@gmail.com"
 
 {{ else }}{{/* ubuntu, devcontainer, runner, codespaces 以外 */}}
-  dotfilesDir: "{{ .chezmoi.homeDir }}/.local/share/chezmoi"
-  email: {{ (bitwarden "item" "gh").login.password | quote }}
-  name: {{ (bitwarden "item" "gh").login.username | quote }}
+  dotfilesDir = "{{ .chezmoi.homeDir }}/.local/share/chezmoi"
+  email = {{ (bitwarden "item" "gh").login.password | quote }}
+  name = {{ (bitwarden "item" "gh").login.username | quote }}
 
 {{- end }}
 
-git:
-  autoPush: false
+[git]
+  autoPush = false
 
-edit:
-  command: "co"
-  args:
-    "--wait"
+[edit]
+  command = "co"
+  args = ["--wait"]
 
-umask: 0o022
+umask = 0o022
 
-scriptTempDir: "~/tmp"
+scriptTempDir = "~/tmp"
