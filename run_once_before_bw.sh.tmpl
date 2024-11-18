@@ -1,20 +1,21 @@
 #!/bin/env bash
 
 echo "before bitwarden cli install"
-{{ if eq .chezmoi.user "runner" }}
-    echo "before runner"
-{{ else if eq .chezmoi.os "linux" }}
-    command -v cargo >/dev/null || sudo apt-get install -y cargo
-    cargo install mise || curl -fsSL https://get.mise.sh | bash
-    mise use -g bun node -y --verbose || curl -fsSL https://bun.sh/install | bash
-    bun install -g @bitwarden/cli || sudo snap install bitwarden
-    bw --version
-    echo "export BW_SESSION=\"$(bw unlock --raw)\"" >> {{ .chezmoi.sourceDir }}/.env
-{{ else if eq .chezmoi.os "darwin" }}
+if [[ "$(uname -s)" == "Darwin*" ]]; then
     brew install mise
     mise use -g bun node -y --verbose || curl -fsSL https://bun.sh/install | bash
+
     brew install bitwarden-cli || bun install -g @bitwarden/cli
     bw --version
-    echo "export BW_SESSION=\"$(bw unlock --raw)\"" >> {{ .chezmoi.sourceDir }}/.env
-{{ end }}
-echo "bitwarden cli install complete"
+    echo "export BW_SESSION=\"$(bw unlock --raw)\"" >> .env
+    echo "bitwarden cli install complete"
+
+elif [[ "$(uname -s)" == "Linux*" ]]; then
+    curl -fsSL https://get.mise.sh | bash || sudo apt-get install -y cargo && cargo install mise
+    mise use -g bun node -y --verbose || curl -fsSL https://bun.sh/install | bash
+
+    bun install -g @bitwarden/cli || npm install -g bitwarden
+    bw --version
+    echo "export BW_SESSION=\"$(bw unlock --raw)\"" >> .env
+    echo "bitwarden cli install complete"
+fi
