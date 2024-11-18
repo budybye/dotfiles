@@ -1,7 +1,8 @@
 #! /usr/bin/env bash
 
-echo "before bitwarden cli install"
+echo "OS: {{ .chezmoi.os | quote }}"
 
+echo "before bitwarden cli install"
 case "${OSTYPE}" in
     darwin*)
         brew install mise || curl https://mise.run | sh
