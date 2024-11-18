@@ -51,7 +51,7 @@ install_snap() {
     echo "alacritty installed."
 
     if [ command -v firefox ]; then
-        sudo snap remove firefox || sudo apt remove firefox {
+        sudo snap remove firefox || sudo apt remove firefox || {
         echo "firefox uninstall failed."
     }
     fi
