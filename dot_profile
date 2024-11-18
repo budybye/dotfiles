@@ -93,8 +93,8 @@ export VSCODE_PORTABLE="${XDG_CONFIG_HOME}/vscode"
 if command -v docker >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/docker" "${XDG_DATA_HOME}/docker/machine"
     export DOCKER_CONFIG="${XDG_CONFIG_HOME}/docker"
-    export DOCKER_CONTEXT="default"
-    export DOCKER_HOST="unix:///var/run/docker.sock"
+    # export DOCKER_CONTEXT="default"
+    # export DOCKER_HOST="unix:///var/run/docker.sock"
     export MACHINE_STORAGE_PATH="${XDG_DATA_HOME}/docker/machine"
 fi
 

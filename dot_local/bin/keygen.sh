@@ -81,5 +81,6 @@ ssh-add -l
 eval "$(ssh-agent -k)"
 
 cd "${HOME}"
+ls -la "${SSH}"
 
 echo "${KEY_PATH} done"

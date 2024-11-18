@@ -106,14 +106,14 @@ install_mise() {
     echo "mise installed."
     echo "$(command -v mise)" >> ${HOME}/which
 
-    mise use -g bun node go -y --verbose || {
+    mise use -g starship@1.20.1 bun node@22 go -y --verbose || {
         echo "mise use failed."
         exit 1
     }
     mise activate zsh
     mise activate --shims
     echo "mise setup completed."
-    for cmd in chezmoi bun node go; do
+    for cmd in starship bun node go; do
         command -v "$cmd" >> ${HOME}/which || echo "$cmd not found"
     done
 }
@@ -129,7 +129,7 @@ install_cargo_tools() {
     command -v cargo >> ${HOME}/which
 
     echo "cargo tools install start..."
-    cargo install sheldon fd-find xh bat || {
+    cargo install sheldon fd-find@9.0.0 xh bat || {
         echo "cargo tools install failed."
         exit 1
     }
