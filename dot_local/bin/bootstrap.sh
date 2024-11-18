@@ -77,4 +77,4 @@ main() {
 }
 
 # script execution
-main
+# main
