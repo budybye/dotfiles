@@ -33,12 +33,12 @@ cat {{ .dotfilesDir }}/.env
 echo "--------------------------------"
 
 # ~/dotfiles にシンボリックリンク
-{{ if ne .name "devcontainer" }}
+{{- if ne .name "devcontainer" }}
     echo 'Dotfiles symlink ...'
     ln -sf "{{ .dotfilesDir }}" "${HOME}/dotfiles"
     ls -la "${HOME}/dotfiles"
     echo "--------------------------------"
-{{ end }}
+{{- end }}
 
 echo 'Your config git user is ...'
 cat "${HOME}/.config/git/user.conf"

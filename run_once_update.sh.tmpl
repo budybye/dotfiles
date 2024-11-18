@@ -27,7 +27,7 @@ git config user.email
 echo "--------------------------------"
 echo "Package update && check start!!"
 echo "--------------------------------"
-{{ if eq .chezmoi.os "linux" }}
+{{- if eq .chezmoi.os "linux" }}
     echo "Linux"
     apt --version
     sudo apt-get update -y
@@ -36,7 +36,7 @@ echo "--------------------------------"
     sudo apt-get autoremove -y
     sudo apt-get autoclean -y
     sudo apt-get check
-{{ else if eq .chezmoi.os "darwin" }}
+{{- else if eq .chezmoi.os "darwin" }}
     echo "Darwin"
     if ! command -v brew >/dev/null 2>&1; then
         echo "brew command not found"
@@ -48,7 +48,7 @@ echo "--------------------------------"
         brew cleanup
         brew doctor
     fi
-{{ end }}
+{{- end }}
 
 echo "--------------------------------"
 echo "Package update && check done!!"
