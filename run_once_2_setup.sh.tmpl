@@ -176,7 +176,7 @@ echo "desktop system setup"
     desktop_setup() {
         echo "desktop setup start..."
         sudo apt-get update -y && sudo apt-get upgrade -y
-        sudo apt-get install -y {{ .packages.linux.gui_packages | join " " }} || echo "desktop setup failed."
+        sudo apt-get install -y {{ .packages.linux.gui | join " " }} || echo "desktop setup failed."
         #sudo apt-get remove -y light-locker xscreensaver &&
         sudo apt-get autoremove -y && sudo apt-get clean && sudo rm -rf /var/cache/apt /var/lib/apt/lists/*
         echo "desktop setup completed."

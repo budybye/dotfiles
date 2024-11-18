@@ -10,59 +10,9 @@ SHELL := bash
 MAKEFLAGS += --warn-undefined-variables
 MAKEFLAGS += --no-builtin-rules
 
-# OSによるターゲットの設定
-ifeq ($(shell uname), Darwin)
-	TARGETS := init bootstrap defaults code keygen
-else
-	TARGETS := init install setup code keygen
-endif
-
-# ログファイルの設定
-LOGFILE := ${HOME}/make.log
-# ログファイルへの出力
-define tee_log
-	tee -a $(LOGFILE)
-endef
-
-# スクリプト実行関数
-define run_script
-	@echo "Running $(1) script..." | $(tee_log)
-	@sh $(2) | $(tee_log) || { echo "$(1) script failed!" | $(tee_log); exit 1; }
-endef
-
-# ターゲットの実行
-sense: $(TARGETS)
-	@echo "OSに応じたスクリプトの実行が完了しました。" | $(tee_log)
-
-# Gitユーザーの設定
-GIT_USER := $(if $(GIT_AUTHOR_NAME),$(GIT_AUTHOR_NAME),-S .)
-# スクリプトディレクトリの設定
-SCRIPT_DIR := ${HOME}/.local/bin
-# chezmoi init
 init:
-	@echo "Running init script..." | $(tee_log)
-	@if [ -f "$(SCRIPT_DIR)/init.sh" ]; then \
-		sh $(SCRIPT_DIR)/init.sh | $(tee_log) || { echo "init.sh failed!" | $(tee_log); exit 1; }; \
-	else \
-		echo "init.sh が存在しないため、chezmoi をインストールします。" | $(tee_log); \
-		curl -fsLS get.chezmoi.io | sh -s -- -b ${SCRIPT_DIR} | $(tee_log); \
-		chezmoi init --apply ${GIT_USER} | $(tee_log); \
-	fi
+	@curl -fsLS get.chezmoi.io | sh -s -- -b ${HOME}/.local/bin && \
+		chezmoi init --apply -S . | tee ${HOME}/make.log
 
-# Ubuntu
-install:
-	$(call run_script,Install,${SCRIPT_DIR}/install.sh)
-setup:
-	$(call run_script,Setup,${SCRIPT_DIR}/setup.sh)
-
-# MacOS
-bootstrap:
-	$(call run_script,Bootstrap,${SCRIPT_DIR}/bootstrap.sh)
-defaults:
-	$(call run_script,Defaults,${SCRIPT_DIR}/defaults.sh)
-
-# 共通
-code:
-	$(call run_script,Code,${SCRIPT_DIR}/codex.sh)
-keygen:
-	$(call run_script,Keygen,${SCRIPT_DIR}/keygen.sh)
+docker:
+	@docker compose up -f .devcontainer/docker-compose.yml -d

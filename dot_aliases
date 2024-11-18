@@ -42,10 +42,10 @@ alias yarnx="bunx"
 # http://localhost:3000 をブラウザで開く
 if command -v xdg-open >/dev/null 2>&1; then
     alias lh="xdg-open http://localhost:3000"
-    alias ggg="xdg-open https://google.com"
+    alias ggg="xdg-open https://youtube.com"
 elif command -v open >/dev/null 2>&1; then
     alias lh="open -na 'Brave Browser' --args --new-window http://localhost:3000"
-    alias ggg="open -na 'Brave Browser' --args --new-window https://google.com"
+    alias ggg="open -na 'Brave Browser' --args --new-window https://youtube.com"
 fi
 
 # rosetta2のエイリアス
@@ -94,6 +94,11 @@ if command -v chezmoi >/dev/null 2>&1; then
     alias che="chezmoi"
     alias ca="chezmoi apply"
     alias cai="chezmoi init --apply git@github.com:budybye/dotfiles.git"
+fi
+
+# bitwarden
+if command -v bw >/dev/null 2>&1; then
+    alias bwbw="export BW_SESSION=$(bw unlock --raw)"
 fi
 
 # vscode vscodium cursor mac ubuntu arm64

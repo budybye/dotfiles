@@ -50,10 +50,6 @@ fi
 # 公開鍵をauthorized_keysファイルに追加
 cat "${KEY_PATH}.pub" >>"${SSH}/authorized_keys"
 
-ls -la "${SSH}"
-cat "${SSH}/config"
-cat "${SSH}/authorized_keys"
-
 # 公開鍵をコピー
 # ブラウザでgithubログイン画面を開く
 
@@ -90,7 +86,10 @@ ssh-add -l
 # SSHエージェントを停止
 eval "$(ssh-agent -k)"
 
+echo "--------------------------------"
 cd "${HOME}"
-ls -la "${SSH}"
-
 echo "${KEY_PATH} done"
+
+ls -la "${SSH}"
+cat "${SSH}/config"
+cat "${SSH}/authorized_keys"

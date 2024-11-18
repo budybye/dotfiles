@@ -1,18 +1,13 @@
 {{ if eq .chezmoi.os "darwin" }}
     .config/fusuma
     .config/fcitx5
-    .local/bin/install.sh
-    .local/bin/setup.sh
 {{ else if eq .chezmoi.os "linux" }}
     .config/Brewfile*
     .config/karabiner
-    .local/bin/bootstrap.sh
-    .local/bin/defaults.sh
 {{ else if eq (env "REMOTE_CONTAINERS") "true" }}
     data
 {{ else }}
     .config/*
-    .local/bin/*
     data/*
     .devcontainer/*
     cloud-init/*
@@ -26,6 +21,7 @@ README.md
 style.css
 Makefile
 .gitignore
+.gitconfig
 .github
 .mise.toml
 .chezmoiexternal.*
