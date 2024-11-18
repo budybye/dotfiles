@@ -5,8 +5,6 @@ SSH="${HOME}/.ssh"
 KEY_TYPE="ed25519"
 KEY_NAME="id_${KEY_TYPE}"
 KEY_PATH="${SSH}/${KEY_NAME}"
-# GitHubのユーザーネーム
-GIT_USER="${GIT_USER:-budybye}"
 
 # SSH用のディレクトリを作成
 mkdir -p "${SSH}"
@@ -55,11 +53,11 @@ cat "${SSH}/authorized_keys"
 case "${OSTYPE}" in
     darwin*)
         pbcopy <"${KEY_PATH}.pub"
-        open "https://github.com/login?username=${GIT_USER}"
+        open "https://github.com/settings/keys"
         ;;
     *)
         cat "${KEY_PATH}.pub"
-        xdg-open "https://github.com/login?username=${GIT_USER}"
+        xdg-open "https://github.com/settings/keys"
         ;;
 esac
 
