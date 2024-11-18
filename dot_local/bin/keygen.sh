@@ -24,6 +24,8 @@ EOF
 
 ls -la "${SSH}"
 
+cd "${SSH}"
+
 if [ ! -f "${KEY_PATH}.pub" ]; then
     echo "SSH public key already exists"
 else
@@ -78,4 +80,5 @@ ssh-add -l
 # SSHエージェントを停止
 eval "$(ssh-agent -k)"
 
+cd "${HOME}"
 echo "${KEY_PATH} done"
