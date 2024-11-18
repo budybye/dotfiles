@@ -8,44 +8,44 @@
 #     url = "https://bob.bloclaat.com/logo.png"
 #     refreshPeriod = "168h"
 
-# [".local/share/themes/WhiteSur-gtk-theme-cinnamon-xfce"]
-#     type = "archive"
-#     url = "https://github.com/CoolAller/WhiteSur-gtk-theme-cinnamon-xfce/archive/refs/heads/main.zip"
-#     exact = true
-#     stripComponents = 1
-#     refreshPeriod = "168h"
+[".local/share/themes/WhiteSur-gtk-theme-cinnamon-xfce"]
+    type = "archive"
+    url = "https://github.com/CoolAller/WhiteSur-gtk-theme-cinnamon-xfce/archive/refs/heads/main.zip"
+    exact = true
+    stripComponents = 1
+    refreshPeriod = "168h"
 
-# [".local/share/icons/WhiteSur-gtk-theme"]
+# [".local/share/themes/WhiteSur-gtk-theme"]
 #     type = "archive"
 #     url = "https://github.com/vinceliuice/WhiteSur-gtk-theme/archive/refs/heads/master.zip"
 #     exact = true
 #     stripComponents = 1
 #     refreshPeriod = "168h"
 
-# [".local/share/icons/WhiteSur-icon-theme"]
-#     type = "archive"
-#     url = "https://github.com/vinceliuice/WhiteSur-icon-theme/archive/refs/heads/master.zip"
-#     exact = true
-#     stripComponents = 1
-#     refreshPeriod = "168h"
+[".local/share/icons/WhiteSur-icon-theme"]
+    type = "archive"
+    url = "https://github.com/vinceliuice/WhiteSur-icon-theme/archive/refs/heads/master.zip"
+    exact = true
+    stripComponents = 1
+    refreshPeriod = "168h"
 
-# [".local/share/backgrounds/WhiteSur-wallpapers"]
-#     type = "archive"
-#     url = "https://github.com/vinceliuice/WhiteSur-wallpapers/archive/refs/heads/master.zip"
-#     exact = true
-#     stripComponents = 1
-#     refreshPeriod = "168h"
+[".local/share/backgrounds/WhiteSur-wallpapers"]
+    type = "archive"
+    url = "https://github.com/vinceliuice/WhiteSur-wallpapers/archive/refs/heads/master.zip"
+    exact = true
+    stripComponents = 1
+    refreshPeriod = "168h"
 
-# [".local/share/fonts/HackGenNerd"]
-#     type = "archive"
-#     url = "https://github.com/yuru7/HackGen/releases/download/v2.9.0/HackGenNerd_v2.9.0.zip"
-#     exact = true
-#     stripComponents = 1
-#     refreshPeriod = "168h"
+[".local/share/fonts/HackGenNerd"]
+    type = "archive"
+    url = "https://github.com/yuru7/HackGen/releases/download/v2.9.0/HackGenNerd_v2.9.0.zip"
+    exact = true
+    stripComponents = 1
+    refreshPeriod = "168h"
 
-# [".local/share/fonts/RobotoMonoJP"]
-#     type = "archive"
-#     url = "https://github.com/mjun0812/RobotoMonoJP/releases/download/v5.0.0/RobotoMonoJP.zip"
-#     exact = true
-#     stripComponents = 1
-#     refreshPeriod = "168h"
+[".local/share/fonts/RobotoMonoJP"]
+    type = "archive"
+    url = "https://github.com/mjun0812/RobotoMonoJP/releases/download/v5.0.0/RobotoMonoJP.zip"
+    exact = true
+    stripComponents = 1
+    refreshPeriod = "168h"

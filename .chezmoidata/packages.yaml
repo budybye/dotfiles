@@ -82,6 +82,11 @@ packages:
       - 'xfce4-goodies'
       - 'xrdp'
       - 'xorg-xrdp'
+      - 'language-pack-ja-base'
+      - 'language-pack-ja'
+      - 'manpages-ja'
+      - 'fcitx5-mozc'
+      - 'plank'
     snap:
       - 'codium'
       - 'postman'

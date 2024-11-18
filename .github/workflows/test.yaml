@@ -170,14 +170,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: make
-        run: make sense
+        run: make init
 
   mac-test:
     runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
       - name: make
-        run: make sense
+        run: make init
 
   windows-test:
     runs-on: windows-2022

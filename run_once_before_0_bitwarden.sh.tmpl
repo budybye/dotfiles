@@ -2,12 +2,13 @@
 
 echo "OS: {{ .chezmoi.os | quote }}"
 echo "before bitwarden cli install"
+cd ${HOME}
 
 {{ if eq .chezmoi.os "darwin" -}}
-    brew install mise || curl https://mise.run | sh
-    mise use -g bun node -y --verbose || curl -fsSL https://bun.sh/install | bash
-    curl https://get.volta.sh | bash && volta install node || sudo brew install -y npm
-    brew install bitwarden-cli || bun install -g @bitwarden/cli
+    brew install mise || curl https://mise.run | sh || echo "mise install failed."
+    mise use -g bun node -y --verbose || curl -fsSL https://bun.sh/install | bash || echo "bun install failed."
+    command -v npm >/dev/null || curl https://get.volta.sh | bash && export PATH="${HOME}/.volta/bin:${PATH}" && volta install node || sudo brew install -y npm
+    brew install bitwarden-cli || bun install -g @bitwarden/cli || echo "bitwarden cli install failed."
     echo "export BW_SESSION=\"$(bw unlock --raw)\"" >> .env
 
 {{ else if eq .chezmoi.os "linux" -}}
