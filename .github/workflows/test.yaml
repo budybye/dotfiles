@@ -104,8 +104,6 @@ jobs:
       - name: Test
         run: |
           docker ps -a
-          docker logs -f tunnel-portainer
-          docker logs -f tunnel-ipfs
           docker exec -it ipfs swarm peers
 
       # - name: devcontainer ci
