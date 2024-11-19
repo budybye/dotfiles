@@ -97,11 +97,16 @@ jobs:
           services: |
             ubuntu
             portainer
-            cloudflared
             ipfs
+            tunnel-portainer
+            tunnel-ipfs
 
       - name: Test
-        run: docker ps -a
+        run: |
+          docker ps -a
+          docker logs -f tunnel-portainer
+          docker logs -f tunnel-ipfs
+          docker exec -it ipfs swarm peers
 
       # - name: devcontainer ci
         # uses: devcontainers/ci@v0.3
