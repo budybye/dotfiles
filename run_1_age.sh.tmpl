@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 
-{{ if eq .chezmoi.os "Darwin" }}
+{{ if eq .chezmoi.os "darwin" -}}
 command -v age >/dev/null || brew install age
-{{ else }}
+{{ else -}}
 command -v age >/dev/null || sudo apt-get install -y age
 {{ end }}
