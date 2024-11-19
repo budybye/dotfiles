@@ -1,18 +1,21 @@
-# シェルの設定 異なる環境でも差をなくすために bash を使用
-SHELL := bash
-# 一つのシェルセッションで実行して環境変数を引き継げる
-.ONESHELL:
-# シェルオプションの設定
-.SHELLFLAGS := -euo pipefail -c
-# エラーハンドリングの設定
-.DELETE_ON_ERROR:
-# Makeの警告とデフォルトルールの無効化
-MAKEFLAGS += --warn-undefined-variables
-MAKEFLAGS += --no-builtin-rules
+.PHONY: dev init up ubuntu git bw ssh
+
+dev: bw init
 
 init:
-	@curl -fsLS get.chezmoi.io | sh -s -- -b ${HOME}/.local/bin && \
-		chezmoi init --apply -S . | tee ${HOME}/make.log
+	sh -c install.sh | tee ${HOME}/make.log && rm -f ${HOME}/make.log
 
-docker:
-	@docker compose up -f .devcontainer/docker-compose.yml -d
+up:
+	docker compose up -f .devcontainer/docker-compose.yml -d
+
+ubuntu:
+	multipass launch -n ubuntu -c 4 -m 8G -d 42G  --timeout 3600 --mount ${HOME}/dotfiles:/home/ubuntu/dotfiles --cloud-init $(pwd)/cloud-init/multipass.yaml && multipass info ubuntu
+
+bw:
+	export BW_SESSION=$(bw unlock --raw)
+
+ssh:
+	ssh ubuntu@$(multipass info ubuntu --format json | jq -r '.[0].ipv4[0]')
+
+git:
+	git add -A && git commit --allow-empty-message -m "" && git push origin main

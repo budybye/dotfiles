@@ -1,55 +1,44 @@
 #cloud-config
 
 hostname: vm
-users:
-  - default
-
-  - name: ubuntu
-    groups: users,adm,sudo,ssl-cert,xrdp,input,audio
-    shell: /bin/bash
-    lock_passwd: false
-    passwd: ubuntu
-    uid: 1188
-    gid: 1178
+system_info:
+  default_user:
+    name: ubuntu
+    home: /home/ubuntu
+    shell: /bin/zsh
+    groups: users,adm,staff,sudo,docker
     sudo: ALL=(ALL) NOPASSWD:ALL
-    ssh_authorized_keys:
-      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC9+qnJxEuf/eJrpeGWahUpYh38PVHt+X9nZslctV/en
-    # ssh_import_id:
-    #   - github:username
-
-  - name: hoge
-    groups: users,sudo,ssl-cert,xrdp,input,audio
-    shell: /bin/bash
     lock_passwd: false
-    passwd: hogehoge
+
+users:
+  - name: ubuntu
+    passwd: ubuntu
+    uid: 1024
+    gid: 1024
+
+  - name: hotmilk
+    groups: users,adm,staff,sudo,docker
+    passwd: hotmilk
     uid: 1234
     gid: 1234
     sudo: ALL=(ALL) NOPASSWD:ALL
-    # ssh_authorized_keys:
-    #   - ssh-ed25519 ABCDEF...
-    # ssh_import_id:
-    #   - github:username
 
   - name: budybye
-    groups: users,adm,sudo,ssl-cert,xrdp,input,audio
-    shell: /usr/bin/zsh
-    lock_passwd: false
-    passwd: hanakuso
-    uid: 1113
-    gid: 1123
+    groups: users,adm,staff,sudo,docker
+    passwd: hotmilk
+    uid: 1188
+    gid: 1188
     sudo: ALL=(ALL) NOPASSWD:ALL
-    # ssh_authorized_keys:
-    #   - ssh-ed25519 ABCDEF...
-    # ssh_import_id:
-    #   - github:username
 
 ssh_pwauth: false
+ssh_authorized_keys:
+  - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC9+qnJxEuf/eJrpeGWahUpYh38PVHt+X9nZslctV/en
+ssh_import_id:
+  - github:budybye
 
 timezone: Asia/Tokyo
 locale: ja_JP.utf8
-
 keyboard:
-  # 日本語キーボードの設定
   - model: pc105
   - layout: jp
   - options: ctrl:nocaps
@@ -59,132 +48,80 @@ package_upgrade: true
 package_autoremove: true
 package_cleanup: true
 package_reboot_if_required: true
+apt:
+  sources:
+    - docker.list:
+        source: deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable
+        keyid: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
+
 packages:
-  # デスクトップ環境
-  - xfce4
-  - xfce4-goodies
-  - xrdp
 
-  # - ubuntu-desktop-minimal
-  # - gnome-shell-extensions
-  # - gnome-shell-extension-manager
-  # - gnome-control-center
-  # - gnome-tweaks
-  # - gnome-session
-  # - task-japanese-gnome-desktop
-  # - gnome-user-docs-ja
-  # - language-pack-gnome-ja
-  # - pulseaudio
+  - avahi-daemon
+  - apt-transport-https
+  - ca-certificates
+  - docker
+  - docker.io
+  - docker-ce
+  - docker-ce-cli
+  - docker-compose
+  - containerd.io
 
-  # - ubuntustudio-installer
-  # - ubuntustudio-desktop
-  # - ubuntustudio-audio
-  # - ubuntustudio-audio-plugins
-  # - ubuntustudio-video
-  # - ubuntustudio-graphics
+  - git
+  - curl
+  - wget
+  - make
+  - zsh
+  - jq
+  - sshfs
 
-  # 日本語サポート
+  - gh
+  - age
+  - vim
+  - xsel
+  - cmake
+  - g++
+  - libssl-dev
+  - pkg-config
+  - build-essential
+
   - language-pack-ja-base
   - language-pack-ja
   - manpages-ja
-  - fcitx5-mozc
-
-  # 開発ツール
-  - git
-  - make
-  - curl
-  - build-essential
-  - sshfs
-  - cmake
-  - g++
-  - libfuse2
-  - libssl-dev
-  - pkg-config
-  - apt-transport-https
-  - ca-certificates
-
-  - ruby
-  - libinput-tools
-  - libdb-dev
-  - libdb5.3-dev
-  - libgdbm-dev
-  - libgmp-dev
-  - libgmpxx4ldbl
-  - libstd-rust-1.75
-  - libstd-rust-dev
-  - rustc
-  - libncurses5-dev
-  - libffi-dev
-  - libgdbm-compat-dev
-
-  - libfreetype6-dev
-  - libfontconfig1-dev
-  - libxcb-xfixes0-dev
-  - libxkbcommon-dev
-
-  # ユーティリティ
-  - zsh
-  - vim
-  - gh
-  - wget
-  - jq
-  - age
-  - gzip
-  - tree
-  - xsel
-  - xdotool
-  - ncdu
-  - mkcert
-  - moreutils
-  - multitail
-  - direnv
-  - pwgen
-  - gawk
-  - neofetch
-  - plank
-  - snapd
-
-  - cargo
-  - lsd
-  - zoxide
-  # - fzf
-
-  # ネットワークツール
-  - net-tools
-  - nmap
-  # - netcat
-  # - hashcat
-
-  # マルチメディア
-  - ffmpeg
-  - mpd
-  - mpc
-  - ncmpcpp
-
-  # Docker
-  - docker
-  - docker.io
-  - docker-compose
-  - avahi-daemon
 
 runcmd:
-  - im-config -n fcitx5
-  - sudo usermod -aG ssl-cert,xrdp,input,audio,docker ubuntu
-  - sudo ufw allow 3389
-  - sudo systemctl enable xrdp
-  - sudo update-alternatives --set x-session-manager /usr/bin/xfce4-session
-  - sudo sh -c "$(curl -fsSL get.chezmoi.io)" -- -b /usr/local/bin
 
-# write_files:
-#   # LSD設定ファイル
-#   - path: /home/ubuntu/.config/lsd/config.yaml
-#     content: |
-#       # LSD設定ファイル
-#       color:
-#         when: auto
-#       icons:
-#         when: auto
-#       sorting:
-#         dir-grouping: first
-#     owner: ubuntu:ubuntu
-#     permissions: '0644'
+  - curl -fsSL -o /usr/local/bin/docker-compose-v2 https://github.com/docker/compose/releases/download/v2.24.6/docker-compose-linux-$(dpkg --print-architecture)
+  - chmod +x /usr/local/bin/docker-compose-v2
+
+  - curl -fsSL -o /usr/libexec/docker/cli-plugins/docker-compose https://github.com/docker/compose/releases/download/v2.24.6/docker-compose-linux-$(dpkg --print-architecture)
+  - chmod +x /usr/libexec/docker/cli-plugins/docker-compose
+
+  - curl -fsSL -o /usr/local/bin/compose-switch https://github.com/docker/compose/releases/download/v2.24.6/docker-compose-linux-x86_64
+  - chmod +x /usr/local/bin/compose-switch
+  - update-alternatives --install /usr/bin/docker-compose docker-compose /usr/local/bin/docker-compose-v2 1
+  - update-alternatives --install /usr/bin/docker-compose docker-compose /usr/local/bin/compose-switch 99
+
+  - su -c 'sh -c "$(curl -fsSL get.chezmoi.io)" -- -b /usr/local/bin init --apply budybye' ubuntu
+
+  - systemctl daemon-reload
+  - systemctl restart docker containerd
+  - sysctl --system
+
+write_files:
+
+  - path: /etc/sysctl.d/local.conf
+    owner: root
+    permissions: 0644
+    content: |
+      fs.inotify.max_user_watches=524288
+
+  - path: /etc/docker/daemon.json
+    owner: root
+    permissions: 0644
+    content: |
+      {
+        "experimental": true,
+        "features": {
+          "buildkit": true
+        }
+      }

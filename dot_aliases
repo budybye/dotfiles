@@ -10,6 +10,7 @@ alias hh="cd ~"
 alias ds='echo $PATH && echo $SHELL'
 alias vv="env | grep"
 alias www="ps aux"
+alias bk="cp -t $HOME/backup/$(date +%Y%m%d%H%M%S).bk"
 alias opi="for i in {1..3}; do time zsh -ic exit;done"
 alias sss="starship explain && sheldon lock --update && opi"
 alias tree="tree -NC"   # N: 文字化け対策 C: 色を付ける

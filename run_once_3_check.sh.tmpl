@@ -3,7 +3,9 @@
 
 echo "--------------------------------"
 echo "Chezmoi apply completed!!"
-pwd
+echo "USER: $(whoami)"
+echo "SHELL: ${SHELL}"
+echo "pwd: $(pwd)"
 ls -la
 echo "File check start!!"
 echo "--------------------------------"
@@ -25,7 +27,7 @@ echo "--------------------------------"
 
 # .env の確認と作成
 echo {{ .name | quote }}
-echo "export USER_NAME=$(whoami)" >>{{ .dotfilesDir }}/.env
+echo "export USERNAME=$(whoami)" >>{{ .dotfilesDir }}/.env
 echo {{.dotfilesDir | quote }}
 ls -la {{ .dotfilesDir }}
 echo ".env checking..."
@@ -41,19 +43,18 @@ echo "--------------------------------"
 {{- end }}
 
 echo 'Your config git user is ...'
-cat "${HOME}/.config/git/user.conf"
+git config --list
 echo "--------------------------------"
-
 echo 'userconf update ? (y/n)'
 
-{{ if eq .chezmoi.username "hotmilk" }}
+{{ if eq .chezmoi.username "hotmilk" -}}
 read ans
 if [ "$ans" = "y" ]; then
     cat "${HOME}/.config/git/config"
 fi
-{{ end }}
-echo "--------------------------------"
+{{ end -}}
 
+echo "--------------------------------"
 chezmoi data
 echo 'Apply settings done!!'
 echo "--------------------------------"

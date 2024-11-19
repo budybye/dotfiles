@@ -11,7 +11,7 @@
 # その他 Mac の場合は bitwarden のアイテムを参照する
 
 {{ if eq (env "GITHUB_ACTIONS") "true" }}
-  dotfilesDir = "/home/runner/work/dotfiles/dotfiles"
+  dotfilesDir = "{{ .chezmoi.homeDir }}/work/dotfiles/dotfiles"
   name = "runner"
   email = "null"
 
