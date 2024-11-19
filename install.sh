@@ -1,3 +1,16 @@
 #! /usr/bin/env bash
 
-chezmoi init --apply budybye || sh -c "$(curl -fsLS get.chezmoi.io)" -- -b "$HOME/.local/bin" init --apply budybye
+USER=budybye
+BIN=${HOME}/.local/bin
+
+echo "pwd: $(pwd)"
+echo "${USER} install chezmoi to ${BIN}..."
+
+if ! command -v chezmoi >/dev/null 2>&1; then
+    sh -c "$(curl -fsLS get.chezmoi.io)" -- -b "${BIN}"
+    export PATH="${BIN}:$PATH"
+fi
+
+chezmoi init --apply ${USER}
+# chezmoi init --apply --verbose ${USER}
+# chezmoi init --apply --source-path ${HOME}/dotfiles

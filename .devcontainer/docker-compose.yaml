@@ -2,7 +2,7 @@ services:
 
   ubuntu:
     image: ghcr.io/budybye/ubuntu-dev:main
-    container_name: ubuntu
+    privileged: true
     networks:
       - app-network
     ports:
@@ -14,7 +14,6 @@ services:
 
   ipfs:
     image: ipfs/kubo
-    container_name: ipfs
     networks:
       - app-network
     ports:
@@ -23,12 +22,13 @@ services:
       - 5001:5001 # http://localhost:5001/webui
     environment:
       IPFS_PROFILE: server # server modeで起動
-    command: ps aux
-    restart: always
+    command: ipfs daemon
+    volumes:
+      - /ipfs:/data/ipfs
+    restart: unless-stopped
 
   portainer:
     image: portainer/portainer-ce
-    container_name: portainer
     networks:
       - app-network
     ports:
@@ -41,7 +41,6 @@ services:
 
   cloudflared:
     image: cloudflare/cloudflared
-    container_name: cloudflared
     networks:
       - app-network
     command: tunnel --url http://portainer:9443
@@ -50,5 +49,7 @@ services:
       - portainer
 
 networks:
+  default:
+    external: true
   app-network:
     driver: bridge
