@@ -39,7 +39,6 @@ RUN curl -fsSL https://mise.run | sh && \
     export PATH="${HOME}/.local/bin:${PATH}" && \
     mise use -g bun node@20 -y --verbose && \
     mise activate zsh && \
-    mise activate --shims && \
     bun install -g @bitwarden/cli
 
 RUN im-config -n fcitx5 && \
