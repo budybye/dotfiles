@@ -9,6 +9,3 @@ command -v age >/dev/null || brew install age
 command -v age >/dev/null || sudo apt-get install -y age
 {{ end }}
 
-{{ if ne (stat -c %s ${KEY_FILE}) 0 }}
-age-keygen -o ${KEY_FILE}
-{{ end }}
