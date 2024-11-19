@@ -40,9 +40,8 @@ RUN curl -fsSL https://mise.run | sh && \
 
 RUN curl -fsSL https://get.volta.sh | bash && \
     export PATH="${HOME}/.volta/bin:${PATH}" && \
-    volta install node@20
-
-RUN npm install -g @bitwarden/cli
+    volta install node@20 && \
+    npm install -g @bitwarden/cli
 
 RUN im-config -n fcitx5 && \
     setupcon -k --force || true
