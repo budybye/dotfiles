@@ -1,8 +1,9 @@
 FROM ubuntu:24.04
 
-ARG USERNAME=dev
-ARG USER_ID=1010
-ARG USER_GID=$USER_ID
+ARG USER=dev
+ARG UID=1010
+ARG GID=1010
+ARG HOME=/home/$USER
 
 ENV TZ=Asia/Tokyo
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
@@ -21,22 +22,22 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-reco
     apt-get clean && \
     rm -rf /var/cache/apt /var/lib/apt/lists/*
 
-RUN groupadd -g $USER_GID -f $USERNAME && \
-    useradd --uid $USER_ID --gid $USER_GID -m $USERNAME -G sudo -s /usr/bin/zsh && \
-    echo "$USERNAME:$USERNAME" | chpasswd && \
+RUN groupadd -g $GID -f $USER && \
+    useradd --uid $UID --gid $GID -m $USER -G sudo -s /usr/bin/zsh && \
+    echo "$USER:$USER" | chpasswd && \
     echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers && \
-    echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
-    mkdir -p /home/$USERNAME && \
-    chown -R $USERNAME:$USERNAME /home/$USERNAME
+    echo "$USER ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
+    mkdir -p $HOME && \
+    chown -R $USER:$USER $HOME
 
-USER $USERNAME
-WORKDIR /home/$USERNAME/.local/share/chezmoi
+USER $USER
+WORKDIR $HOME/.local/share/chezmoi
 
 RUN sudo sh -c "$(curl -fsSL get.chezmoi.io)" -- -b /usr/local/bin
 
-# RUN curl -fsSL https://mise.run | sh && \
-#     export PATH="${HOME}/.local/bin:${PATH}" && \
-#     mise use -g bitwarden node@20 -y
+RUN curl -fsSL https://mise.run | sh && \
+    export PATH="${HOME}/.local/bin:${PATH}" && \
+    mise use -g bitwarden node@20 -y
 
 RUN im-config -n fcitx5 && \
     setupcon -k --force || true

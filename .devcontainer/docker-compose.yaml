@@ -12,7 +12,10 @@ services:
       - 3389:3389 # RDP
     # environment:
       # - ENV=production
-    command: chezmoi help
+    command: |
+      uname -a
+      pwd
+      ls -la
     tty: true
 
   portainer:
