@@ -1,6 +1,7 @@
-.PHONY: dev init up down exec ubuntu git bw ssh
+.PHONY: dev init up down ipfs exec ubuntu git bw ssh
+
 .ONESHELL:
-SHELL = /usr/bin/env bash
+SHELL = bash
 .SHELLFLAGS = -ceuo pipefail
 
 dev: bw init
@@ -15,7 +16,8 @@ down:
 	docker compose down -f .devcontainer/docker-compose.yml
 ipfs:
 	docker compose exec -it ipfs ipfs add -r /data
-
+exec:
+	docker compose exec -it ubuntu /bin/bash
 ubuntu:
 	multipass launch -n ubuntu -c 4 -m 8G -d 42G  --timeout 3600 --mount ${HOME}/dotfiles:/home/ubuntu/dotfiles --cloud-init $(pwd)/cloud-init/multipass.yaml && multipass info ubuntu
 ssh:
