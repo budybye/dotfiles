@@ -1,7 +1,16 @@
 #! /usr/bin/env bash
 
+echo "install age..."
+export KEY_FILE=${HOME}/key.txt
+
 {{ if eq .chezmoi.os "darwin" -}}
-command -v age >/dev/null || brew install age
+command -v age >/dev/null || brew install age || echo "age install failed"
 {{ else -}}
-command -v age >/dev/null || sudo apt-get install -y age
+command -v age >/dev/null || sudo apt-get install -y age || echo "age install failed"
 {{ end }}
+
+if [ ! -f ${KEY_FILE} ]; then
+    age-keygen -o ${KEY_FILE}
+fi
+cat ${KEY_FILE}
+echo "age installed"
