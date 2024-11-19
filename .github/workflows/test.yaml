@@ -104,7 +104,7 @@ jobs:
       - name: Test
         run: |
           docker ps -a
-          docker exec -it ipfs swarm peers
+          docker compose -f .devcontainer/docker-compose.yaml exec ipfs swarm peers
 
       # - name: devcontainer ci
         # uses: devcontainers/ci@v0.3

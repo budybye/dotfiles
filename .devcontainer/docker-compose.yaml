@@ -71,7 +71,6 @@ services:
     volumes:
       - /ipfs:/data/ipfs
     restart: unless-stopped
-    tty: true
 
 networks:
   local:
