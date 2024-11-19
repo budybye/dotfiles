@@ -1,7 +1,7 @@
 services:
 
   ubuntu:
-    image: ghcr.io/budybye/ubuntu-dev:main
+    image: ghcr.io/budybye/ubuntu-dev:main-desktop
     container_name: ubuntu
     privileged: true
     networks:
@@ -10,8 +10,7 @@ services:
         ipv6_address: 2001:db8:1:1::13
     ports:
       - 3389:3389 # RDP
-    environment:
-      - DOCKER=true
+    command: git clone https://github.com/budybye/dotfiles.git
     tty: true
 
   portainer:

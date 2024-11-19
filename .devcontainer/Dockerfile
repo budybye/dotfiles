@@ -1,5 +1,6 @@
 FROM ubuntu:24.04
 
+ENV DOCKER=true
 ARG USER=docker
 ARG UID=1010
 ARG GID=1010
