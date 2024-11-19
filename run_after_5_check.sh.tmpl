@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#! /usr/bin/env bash
 # chezmoi apply が完了したら実行される
 
 echo "--------------------------------"
@@ -26,12 +26,13 @@ ls -la "${HOME}/.local/share"
 echo "--------------------------------"
 
 # .env の確認と作成
+echo ".env checking..."
 echo {{ .name | quote }}
 echo "export USERNAME=$(whoami)" >>{{ .dotfilesDir }}/.env
+cat {{ .dotfilesDir }}/.env
+# ~/dotfiles ディレクトリの確認
 echo {{.dotfilesDir | quote }}
 ls -la {{ .dotfilesDir }}
-echo ".env checking..."
-cat {{ .dotfilesDir }}/.env
 echo "--------------------------------"
 
 # ~/dotfiles にシンボリックリンク
