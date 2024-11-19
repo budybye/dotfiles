@@ -10,12 +10,8 @@ services:
         ipv6_address: 2001:db8:1:1::13
     ports:
       - 3389:3389 # RDP
-    # environment:
-      # - ENV=production
-    command: |
-      uname -a
-      pwd
-      ls -la
+    environment:
+      - DOCKER=true
     tty: true
 
   portainer:
