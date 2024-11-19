@@ -1,13 +1,14 @@
 [tools]
 # グローバルなツールのバージョンをここに設定します
 # `mise use -g`で設定できます
-node = "latest"
+node = "20.11.0"
 go = "latest"
 bun = "latest"
+
 # java = "latest"
 # rust = "latest"
 
-chezmoi = "latest"
+# chezmoi = "latest"
 # mkcert = "latest"
 
 # 以下、不安定
