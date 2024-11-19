@@ -6,8 +6,8 @@ cd ${HOME}
 
 {{ if eq .chezmoi.os "darwin" -}}
     brew install mise || curl https://mise.run | sh  && export PATH="${HOME}/.local/bin:${PATH}" || echo "mise install failed."
-    mise use -g bun node -y --verbose || curl -fsSL https://bun.sh/install | bash && export PATH="${HOME}/.bun/bin:${PATH}" || echo "bun install failed."
-    command -v npm >/dev/null || curl https://get.volta.sh | bash && export PATH="${HOME}/.volta/bin:${PATH}" && volta install node || sudo brew install -y npm
+    mise use -g bun node@20 -y --verbose || curl -fsSL https://bun.sh/install | bash && export PATH="${HOME}/.bun/bin:${PATH}" || echo "bun install failed."
+    command -v npm >/dev/null || curl https://get.volta.sh | bash && export PATH="${HOME}/.volta/bin:${PATH}" && volta install node@20 || sudo brew install -y npm
     brew install bitwarden-cli || bun install -g @bitwarden/cli && export PATH="${HOME}/.cache/.bun/bin:${PATH}" || echo "bitwarden cli install failed."
     echo "export BW_SESSION=\"$(bw unlock --raw)\"" >> .env
 
@@ -15,11 +15,11 @@ cd ${HOME}
     curl https://mise.run | sh && export PATH="${HOME}/.local/bin:${PATH}" || echo "mise install failed."
     command -v mise >/dev/null || sudo apt-get install -y cargo && cargo install mise
 
-    mise use -g bun node -y --verbose && mise activate zsh
+    mise use -g bun node@20 -y --verbose && mise activate zsh
     curl -fsSL https://bun.sh/install | bash && export PATH="${HOME}/.bun/bin:${PATH}" || echo "bun install failed."
 
     curl https://get.volta.sh | bash && export PATH="${HOME}/.volta/bin:${PATH}" || echo "volta install failed."
-    command -v volta >/dev/null || volta install node@22 || sudo apt-get install -y nodejs
+    command -v volta >/dev/null || volta install node@20 || sudo apt-get install -y nodejs
 
     bun install -g @bitwarden/cli && export PATH="${HOME}/.cache/.bun/bin:${PATH}" || echo "bitwarden cli install failed."
     npm install -g @bitwarden/cli && export PATH="${HOME}/bin:${PATH}" || echo "bitwarden cli install failed."

@@ -18,16 +18,16 @@
 
 - `curl` `git` `make` が必要です。
 
-```sh
-curl -fsLS https://chezmoi.io/get | sh -s -- init --apply --verbose git@github.com:budybye/dotfiles.git
+```install.sh:sh
+sh -c $(curl -fsLS https://chezmoi.io/get) -- -b ${HOME}/.local/bin init --apply budybye
 # or
-chezmoi init --apply --verbose git@github.com:budybye/dotfiles.git
+chezmoi init --apply budybye
 
-# ~/に配置する場合
+# ~/dotfiles に配置する場合
 cd ~
 git clone git@github.com:budybye/dotfiles.git
 cd dotfiles
-make sense
+make init
 ```
 
 ### git グローバル設定

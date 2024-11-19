@@ -106,7 +106,7 @@ echo "--------------------------------"
         echo "mise installed."
         echo "$(command -v mise)" >> ${HOME}/which
         # version 指定しないと arm64 でエラーになる
-        mise use -g starship@1.20.1 bun node@22 go -y --verbose || echo "mise use failed." >> ${HOME}/which
+        mise use -g starship@1.20.1 bun node@20 go -y --verbose || echo "mise use failed." >> ${HOME}/which
         mise activate zsh
         mise activate --shims
         echo "mise setup completed."
