@@ -104,7 +104,7 @@ jobs:
       - name: Test
         run: |
           docker ps -a
-          docker compose -f .devcontainer/docker-compose.yaml exec ubuntu ping -c 3 1.1.1.1
+          docker compose -f .devcontainer/docker-compose.yaml exec ubuntu docker
 
       # - name: devcontainer ci
         # uses: devcontainers/ci@v0.3
