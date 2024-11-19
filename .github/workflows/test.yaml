@@ -104,7 +104,7 @@ jobs:
       - name: Test
         run: |
           docker ps -a
-          docker compose -f .devcontainer/docker-compose.yaml exec ubuntu docker
+          docker compose -f .devcontainer/docker-compose.yaml exec ubuntu chezmoi init --apply budybye
 
       # - name: devcontainer ci
         # uses: devcontainers/ci@v0.3
