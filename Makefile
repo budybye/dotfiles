@@ -1,4 +1,10 @@
 .PHONY: dev init up ubuntu git bw ssh
+# シェルの設定 異なる環境でも差をなくすために bash を使用
+SHELL := bash
+# 一つのシェルセッションで実行して環境変数を引き継げる
+.ONESHELL:
+# シェルオプションの設定
+.SHELLFLAGS := -euo pipefail -c
 
 dev: bw init
 

@@ -1,0 +1,14 @@
+#! /usr/bin/env bash
+
+export KEY_FILE=${HOME}/key.txt
+echo "age key file: ${KEY_FILE}"
+
+{{ if eq .chezmoi.os "Darwin" }}
+command -v age >/dev/null || brew install age
+{{ else }}
+command -v age >/dev/null || sudo apt-get install -y age
+{{ end }}
+
+{{ if ne (stat -c %s ${KEY_FILE}) 0 }}
+age-keygen -o ${KEY_FILE}
+{{ end }}
