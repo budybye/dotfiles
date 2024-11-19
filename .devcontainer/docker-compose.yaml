@@ -24,23 +24,35 @@ services:
         ipv6_address: 2001:db8:1:1::11
     ports:
       - 8000:8000
-      - 9443:9443 # http://localhost:9443
+      - 9443:9443 # https://localhost:9443
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./portainer:/data
     restart: always
 
-  cloudflared:
+  tunnel-portainer:
     image: cloudflare/cloudflared
-    container_name: cloudflared
+    container_name: tunnel-portainer
     networks:
       local:
         ipv4_address: 10.10.10.12
         ipv6_address: 2001:db8:1:1::12
-    command: tunnel --url http://portainer:9443
+    command: tunnel --url https://portainer:9443
     restart: unless-stopped
     depends_on:
       - portainer
+
+  tunnel-ipfs:
+    image: cloudflare/cloudflared
+    container_name: tunnel-ipfs
+    networks:
+      local:
+        ipv4_address: 10.10.10.14
+        ipv6_address: 2001:db8:1:1::14
+    command: tunnel --url http://ipfs:5001
+    restart: unless-stopped
+    depends_on:
+      - ipfs
 
   ipfs:
     image: ipfs/kubo
