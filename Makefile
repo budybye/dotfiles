@@ -3,7 +3,8 @@
 dev: bw init
 
 init:
-	sh -c install.sh | tee ${HOME}/make.log && rm -f ${HOME}/make.log
+	chmod +x ./install.sh
+	./install.sh | tee ${HOME}/make.log && rm -f ${HOME}/make.log
 
 up:
 	docker compose up -f .devcontainer/docker-compose.yml -d
