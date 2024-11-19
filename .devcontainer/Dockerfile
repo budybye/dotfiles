@@ -1,6 +1,6 @@
 FROM ubuntu:24.04
 
-ARG USER=dev
+ARG USER=docker
 ARG UID=1010
 ARG GID=1010
 ARG HOME=/home/$USER

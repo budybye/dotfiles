@@ -7,6 +7,7 @@
 # runner の場合は runner として扱う
 # codespaces の場合は codespaces として扱う
 # devcontainer の場合は devcontainer として扱う
+# docker の場合は dev として扱う
 # ubuntu の場合は budybye
 # その他 Mac の場合は bitwarden のアイテムを参照する
 
@@ -25,9 +26,9 @@
   name = "devcontainer"
   email = "null"
 
-{{ else if eq .chezmoi.username "dev" }}
+{{ else if eq .chezmoi.username "docker" }}
   dotfilesDir = {{ .chezmoi.sourceDir | quote }}
-  name = "dev"
+  name = "docker"
   email = "null"
 
 {{ else if eq .chezmoi.username "ubuntu" }}
