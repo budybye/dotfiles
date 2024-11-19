@@ -1,12 +1,12 @@
-{{ if eq .chezmoi.os "darwin" }}
+{{ if eq .chezmoi.os "darwin" -}}
     .config/fusuma
     .config/fcitx5
-{{ else if eq .chezmoi.os "linux" }}
+{{ else if eq .chezmoi.os "linux" -}}
     .config/Brewfile*
     .config/karabiner
-{{ else if eq (env "REMOTE_CONTAINERS") "true" }}
+{{ else if eq (env "REMOTE_CONTAINERS") "true" -}}
     data
-{{ else }}
+{{ else -}}
     .config/*
     data/*
     .devcontainer/*
@@ -14,7 +14,7 @@
     *rc
     *profile
     *env
-{{ end }}
+{{ end -}}
 
 .env
 README.md
