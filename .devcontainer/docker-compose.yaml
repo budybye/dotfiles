@@ -2,9 +2,12 @@ services:
 
   ubuntu:
     image: ghcr.io/budybye/ubuntu-dev:main
+    container_name: ubuntu
     privileged: true
     networks:
-      - app-network
+      local:
+        ipv4_address: 10.10.10.13
+        ipv6_address: 2001:db8:1:1::13
     ports:
       - 3389:3389 # RDP
     # environment:
@@ -12,10 +15,40 @@ services:
     command: chezmoi help
     tty: true
 
+  portainer:
+    image: portainer/portainer-ce
+    container_name: portainer
+    networks:
+      local:
+        ipv4_address: 10.10.10.11
+        ipv6_address: 2001:db8:1:11
+    ports:
+      - 8000:8000
+      - 9443:9443 # http://localhost:9443
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./portainer:/data
+    restart: always
+
+  cloudflared:
+    image: cloudflare/cloudflared
+    container_name: cloudflared
+    networks:
+      local:
+        ipv4_address: 10.10.10.12
+        ipv6_address: 2001:db8:1:1::12
+    command: tunnel --url http://portainer:9443
+    restart: unless-stopped
+    depends_on:
+      - portainer
+
   ipfs:
     image: ipfs/kubo
+    container_name: ipfs
     networks:
-      - app-network
+      local:
+        ipv4_address: 10.10.10.10
+        ipv6_address: 2001:db8:1:1::10
     ports:
       - 4001:4001
       - 8080:8080
@@ -27,29 +60,14 @@ services:
       - /ipfs:/data/ipfs
     restart: unless-stopped
 
-  portainer:
-    image: portainer/portainer-ce
-    networks:
-      - app-network
-    ports:
-      - 8000:8000
-      - 9443:9443 # http://localhost:9443
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ./portainer:/data
-    restart: always
-
-  cloudflared:
-    image: cloudflare/cloudflared
-    networks:
-      - app-network
-    command: tunnel --url http://portainer:9443
-    restart: unless-stopped
-    depends_on:
-      - portainer
-
 networks:
-  default:
-    external: true
-  app-network:
+  local:
     driver: bridge
+    ipam:
+      config:
+        - subnet: 10.10.10.0/24
+          gateway: 10.10.10.1
+        - subnet: 2001:db8:1:1::/64
+          gateway: 2001:db8:1:1::1
+  # default:
+  #   external: true
