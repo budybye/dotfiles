@@ -34,6 +34,10 @@ WORKDIR /home/$USERNAME/.local/share/chezmoi
 
 RUN sudo sh -c "$(curl -fsSL get.chezmoi.io)" -- -b /usr/local/bin
 
+# RUN curl -fsSL https://mise.run | sh && \
+#     export PATH="${HOME}/.local/bin:${PATH}" && \
+#     mise use -g bitwarden node@20 -y
+
 RUN im-config -n fcitx5 && \
     setupcon -k --force || true
 

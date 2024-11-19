@@ -25,6 +25,11 @@
   name = "devcontainer"
   email = "null"
 
+{{ else if eq .chezmoi.username "dev" }}
+  dotfilesDir = {{ .chezmoi.sourceDir | quote }}
+  name = "budybye"
+  email = "101wayout@gmail.com"
+
 {{ else if eq .chezmoi.username "ubuntu" }}
   dotfilesDir = {{ .chezmoi.sourceDir | quote }}
   name = "budybye"
@@ -53,4 +58,3 @@ encryption = "age"
 [age]
   identity = "/home/user/key.txt"
   recipients = "age10svrwklxyxaqmt66m9ly7e0whrzc02vw2kk3588qcmyln4nhfg3qkxeryp"
-
