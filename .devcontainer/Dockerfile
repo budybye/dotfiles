@@ -38,7 +38,7 @@ RUN sudo sh -c "$(curl -fsSL get.chezmoi.io)" -- -b /usr/local/bin
 RUN curl -fsSL https://mise.run | sh && \
     export PATH="${HOME}/.local/bin:${PATH}" && \
     mise use -g bun node@20 -y --verbose && \
-    mise activate zsh && \
+    export PATH="/home/docker/.local/share/mise/installs/bun/1.1.34/bin:${PATH}" && \
     bun install -g @bitwarden/cli
 
 RUN im-config -n fcitx5 && \
