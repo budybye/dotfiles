@@ -132,8 +132,8 @@ jobs:
       fail-fast: false
       matrix:
         flavor:
-          - name: devcontainer
-          - name: desktop
+          - name: dev
+          - name: slim
     steps:
       - name: Download digests
         uses: actions/download-artifact@v4

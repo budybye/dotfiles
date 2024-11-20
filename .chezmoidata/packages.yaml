@@ -1,5 +1,4 @@
 packages:
-# macOS
   darwin:
     brews:
       - 'git'
@@ -11,7 +10,6 @@ packages:
       - 'mise'
     casks:
       - 'google-chrome'
-# ubuntu
   linux:
     cli:
       - 'git'

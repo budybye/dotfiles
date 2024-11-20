@@ -4,7 +4,7 @@ ENV DOCKER=true
 
 ARG USER=docker
 ARG UID=1010
-ARG GID=1010
+ARG GID=$UID
 ARG HOME=/home/$USER
 
 ENV TZ=Asia/Tokyo
@@ -38,8 +38,8 @@ WORKDIR $HOME
 RUN sudo sh -c "$(curl -fsSL get.chezmoi.io)" -- -b /usr/local/bin
 
 RUN curl https://mise.run | sh && \
-    ${HOME}/.local/bin/mise use -g bun@1.1.36 && \
-    ${HOME}/.local/share/mise/installs/bun/1.1.36/bin/bun i -g @bitwarden/cli || echo "bun is not installed" && \
+    ${HOME}/.local/bin/mise use -g bun@1.1.36 node@20.18 || echo "mise install failed" && \
+    ${HOME}/.local/share/mise/installs/bun/1.1.36/bin/bun i -g @bitwarden/cli || echo "bun install failed" && \
     ${HOME}/.bun/bin/bw --version || echo "bw is not installed"
 
 RUN im-config -n fcitx5
