@@ -90,9 +90,11 @@ jobs:
           platform: ${{ matrix.platform }}
           # キャッシュ設定
           cacheFrom: |
-            ${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }}-${{ matrix.flavor.name }}
-          push: never
+            type=registry,ref=${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }}-${{ matrix.flavor.name }}
+          push: always
           # build-args を渡す
+          runCmd: |
+            env
           build-args: |
             USE_BEDROCK=${{ matrix.flavor.use_bedrock }}
             TARGETPLATFORM=${{ matrix.platform }}
