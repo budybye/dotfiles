@@ -87,11 +87,11 @@ jobs:
           # subFolder: .devcontainer
           imageName: ${{ env.REGISTRY_IMAGE }}
           imageTag: ${{ env.PLATFORM_PAIR }}-${{ matrix.flavor.name }}
-          platform: ${{ matrix.platform }}
+          # platform: ${{ matrix.platform }}
           # キャッシュ設定
           cacheFrom: |
             ${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }}-${{ matrix.flavor.name }}
-          push: always
+          push: never
           # build-args を渡す
           runCmd: |
             env
