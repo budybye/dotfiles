@@ -11,15 +11,15 @@ init:
 	./install.sh | tee ${HOME}/make.log
 	rm -f ${HOME}/make.log
 up:
-	docker compose up -f .devcontainer/docker-compose.yml -d
+	docker compose up -f .devcontainer/docker-compose.yaml -d
 down:
-	docker compose down -f .devcontainer/docker-compose.yml
+	docker compose down -f .devcontainer/docker-compose.yaml
 ipfs:
-	docker compose exec -it ipfs ipfs add -r /data
+	docker compose -f .devcontainer/docker-compose.yaml exec ipfs ipfs add -r /data
 exec:
-	docker compose exec -it ubuntu /bin/bash
+	docker compose -f .devcontainer/docker-compose.yaml exec ubuntu /bin/bash
 ubuntu:
-	multipass launch -n ubuntu -c 4 -m 8G -d 42G  --timeout 3600 --mount ${HOME}/dotfiles:/home/ubuntu/dotfiles --cloud-init $(pwd)/cloud-init/multipass.yaml && multipass info ubuntu
+	multipass launch -n ubuntu -c 4 -m 8G -d 42G  --timeout 3600 --mount ${HOME}/dotfiles:/home/ubuntu/dotfiles --cloud-init $(pwd)/cloud-init/multipass.yaml && multipass exec ubuntu -- tail -2 /var/log/cloud-init.log
 ssh:
 	ssh ubuntu@$(multipass info ubuntu --format json | jq -r '.[0].ipv4[0]')
 git:

@@ -1,15 +1,6 @@
 #cloud-config
 
 hostname: vm
-system_info:
-  default_user:
-    name: ubuntu
-    home: /home/ubuntu
-    shell: /bin/zsh
-    groups: users,adm,staff,sudo,docker
-    sudo: ALL=(ALL) NOPASSWD:ALL
-    lock_passwd: false
-
 users:
   - name: ubuntu
     passwd: ubuntu
@@ -21,14 +12,21 @@ users:
     passwd: hotmilk
     uid: 1234
     gid: 1234
-    sudo: ALL=(ALL) NOPASSWD:ALL
 
   - name: budybye
     groups: users,adm,staff,sudo,docker
     passwd: hotmilk
     uid: 1188
     gid: 1188
+
+system_info:
+  default_user:
+    name: ubuntu
+    home: /home/ubuntu
+    shell: /bin/zsh
+    groups: [users,adm,staff,sudo,docker]
     sudo: ALL=(ALL) NOPASSWD:ALL
+    lock_passwd: false
 
 ssh_pwauth: false
 ssh_authorized_keys:
@@ -55,9 +53,9 @@ apt:
         keyid: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
 
 packages:
-
+  - sshfs
   - avahi-daemon
-  - apt-transport-https
+  - lsb-release
   - ca-certificates
   - docker
   - docker.io
@@ -72,24 +70,28 @@ packages:
   - make
   - zsh
   - jq
-  - sshfs
-
   - gh
   - age
   - vim
-  - xsel
   - cmake
   - g++
+  - gcc
+  - gnupg
+  - xsel
   - libssl-dev
   - pkg-config
+  - apt-transport-https
   - build-essential
 
   - language-pack-ja-base
   - language-pack-ja
   - manpages-ja
 
-runcmd:
+bootcmd:
+  - printf "[Resolve]\nDNS=1.1.1.1\n" >> /etc/systemd/resolved.conf
+  - [ systemctl, restart, systemd-resolved ]
 
+runcmd:
   - curl -fsSL -o /usr/local/bin/docker-compose-v2 https://github.com/docker/compose/releases/download/v2.24.6/docker-compose-linux-$(dpkg --print-architecture)
   - chmod +x /usr/local/bin/docker-compose-v2
 
@@ -108,7 +110,6 @@ runcmd:
   - sysctl --system
 
 write_files:
-
   - path: /etc/sysctl.d/local.conf
     owner: root
     permissions: 0644
