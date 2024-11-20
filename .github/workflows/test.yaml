@@ -80,16 +80,22 @@ jobs:
           cache-to: type=registry,ref=${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }}-${{ matrix.flavor.name }},mode=max
           outputs: type=image,name=${{ env.REGISTRY_IMAGE }},push-by-digest=true,name-canonical=true,push=true
 
-      # - name: devcontainer ci
-        # if: matrix.flavor.name == 'dev'
-        # uses: devcontainers/ci@v0.3
-        # with:
-        #   subFolder: .devcontainer
-        #   platform: ${{ matrix.platform }}
-        #   imageName: ${{ env.REGISTRY_IMAGE }}-${{ matrix.flavor.name }}
-        #   imageTag: ${{ env.PLATFORM_PAIR }}-${{ matrix.flavor.name }}
-        #   cacheFrom: ${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }}
-        #   push: always
+      - name: Build and push devcontainer
+        if: matrix.flavor.name == 'dev'
+        uses: devcontainers/ci@v0.3
+        with:
+          subFolder: .devcontainer
+          imageName: ${{ env.REGISTRY_IMAGE }}-devcontainer
+          platform: ${{ matrix.platform }}
+          # キャッシュ設定
+          cacheFrom: |
+            ${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }}-${{ matrix.flavor.name }}
+          push: never
+          # build-args を渡す
+          build-args: |
+            USE_BEDROCK=${{ matrix.flavor.use_bedrock }}
+            TARGETPLATFORM=${{ matrix.platform }}
+
 
       - name: Export digest
         run: |

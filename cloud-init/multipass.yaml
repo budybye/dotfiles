@@ -124,5 +124,7 @@ write_files:
         "experimental": true,
         "features": {
           "buildkit": true
-        }
+        },
+        "ipv6": true,
+        "fixed-cidr-v6": "aaaa:bbbb:cccc::/64"
       }
