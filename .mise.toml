@@ -10,8 +10,3 @@ _.source = 'dot_aliases'
 #   './node_modules/.bin',
 # ]
 
-# [tools]
-# starship = "latest"
-# bun = "latest"
-# node = "latest"
-# go = "latest"

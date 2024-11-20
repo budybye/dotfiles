@@ -1,6 +1,7 @@
 FROM ubuntu:24.04
 
 ENV DOCKER=true
+
 ARG USER=docker
 ARG UID=1010
 ARG GID=1010
@@ -37,16 +38,18 @@ WORKDIR $HOME
 RUN sudo sh -c "$(curl -fsSL get.chezmoi.io)" -- -b /usr/local/bin
 
 RUN curl https://mise.run | sh && \
-    ${HOME}/.local/bin/mise use -g bun node@20 && \
-    which bun || echo "bun is not installed"
+    ${HOME}/.local/bin/mise use -g bun@1.1.36 && \
+    ${HOME}/.local/share/mise/installs/bun/1.1.36/bin/bun i -g @bitwarden/cli || echo "bun is not installed"
 
-RUN curl https://get.volta.sh | bash && \
-    ${HOME}/.volta/bin/volta install node@20 && \
-    ${HOME}/.volta/bin/npm --version || echo "npm is not installed" && \
-    ${HOME}/.volta/bin/npm install -g @bitwarden/cli || echo "bitwarden is not installed"
+ENV VOLTA_HOME=${HOME}/.local
 
-RUN im-config -n fcitx5 && \
-    setupcon -k --force || true
+RUN curl https://get.volta.sh | sh || echo "volta is not installed" && \
+    ${VOLTA_HOME}/bin/volta install node@20 || echo "node is not installed" && \
+    ${VOLTA_HOME}/bin/npm --version || echo "npm is not installed" && \
+    ${VOLTA_HOME}/bin/npm install -g @bitwarden/cli || echo "bitwarden is not installed" && \
+    ${VOLTA_HOME}/bin/bw || echo "bw is not installed"
+
+RUN im-config -n fcitx5
 
 RUN groupadd -f input && \
     groupadd -f xrdp && \
