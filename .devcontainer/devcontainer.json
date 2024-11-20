@@ -18,8 +18,7 @@
       "GIT_USER": "${GIT_USER}"
     },
     "features": {
-      "ghcr.io/devcontainers/features/docker-in-docker:2": {},
-      "ghcr.io/budybye/ubuntu-dev:main-dev": {}
+      "ghcr.io/devcontainers/features/docker-in-docker:2": {}
     },
     "customizations": {
       "vscode": {
