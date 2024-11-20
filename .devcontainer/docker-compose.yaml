@@ -77,7 +77,7 @@ networks:
       config:
         - subnet: 10.10.10.0/24
           gateway: 10.10.10.1
-        - subnet: aaaa:bbbb:cccc:dddd:eeee:0/64
+        - subnet: aaaa:bbbb:cccc:dddd:eeee:/64
           gateway: aaaa:bbbb:cccc:dddd:eeee:1
   # default:
   #   external: true
