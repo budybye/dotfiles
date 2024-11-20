@@ -5,7 +5,6 @@ ARG USER=docker
 ARG UID=1010
 ARG GID=1010
 ARG HOME=/home/$USER
-ARG BIN=/usr/local/bin
 
 ENV TZ=Asia/Tokyo
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
@@ -35,13 +34,16 @@ RUN groupadd -g $GID -f $USER && \
 USER $USER
 WORKDIR $HOME
 
-RUN curl https://get.chezmoi.io | sudo sh -s -- -b ${BIN}
+RUN sudo sh -c "$(curl -fsSL get.chezmoi.io)" -- -b /usr/local/bin
 
-RUN curl https://mise.run | sudo sh -s -- -b ${BIN}
+RUN curl https://mise.run | sh && \
+    ${HOME}/.local/bin/mise use -g bun node@20 && \
+    which bun || echo "bun is not installed"
 
-RUN curl https://get.volta.sh | sudo sh -s -- -b ${BIN} && \
-    sudo volta install node@20 && \
-    sudo npm install -g @bitwarden/cli
+RUN curl https://get.volta.sh | bash && \
+    ${HOME}/.volta/bin/volta install node@20 && \
+    ${HOME}/.volta/bin/npm --version || echo "npm is not installed" && \
+    ${HOME}/.volta/bin/npm install -g @bitwarden/cli || echo "bitwarden is not installed"
 
 RUN im-config -n fcitx5 && \
     setupcon -k --force || true
