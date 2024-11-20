@@ -36,10 +36,10 @@ WORKDIR $HOME/.local/share/chezmoi
 
 RUN sudo sh -c "$(curl -fsSL get.chezmoi.io)" -- -b /usr/local/bin
 
-RUN curl -fsSL https://mise.run | sh && \
+RUN curl https://mise.run | sh && \
     export PATH="${HOME}/.local/bin:${PATH}"
 
-RUN curl -fsSL https://get.volta.sh | bash && \
+RUN curl https://get.volta.sh | bash && \
     export PATH="${HOME}/.volta/bin:${PATH}" && \
     volta install node@20 && \
     npm install -g @bitwarden/cli
