@@ -35,11 +35,11 @@ RUN groupadd -g $GID -f $USER && \
 USER $USER
 WORKDIR $HOME
 
-RUN sudo curl https://get.chezmoi.io | sh -s -- -b ${BIN}
+RUN curl https://get.chezmoi.io | sudo sh -s -- -b ${BIN}
 
-RUN sudo curl https://mise.run | sh -s -- -b ${BIN}
+RUN curl https://mise.run | sudo sh -s -- -b ${BIN}
 
-RUN sudo curl https://get.volta.sh | sh -s -- -b ${BIN} && \
+RUN curl https://get.volta.sh | sudo sh -s -- -b ${BIN} && \
     sudo volta install node@20 && \
     sudo npm install -g @bitwarden/cli
 
