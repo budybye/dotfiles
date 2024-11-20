@@ -35,13 +35,13 @@ RUN groupadd -g $GID -f $USER && \
 USER $USER
 WORKDIR $HOME
 
-RUN curl https://get.chezmoi.io | sh -s -- -b ${BIN}
+RUN sudo curl https://get.chezmoi.io | sh -s -- -b ${BIN}
 
-RUN curl https://mise.run | sh -s -- -b ${BIN}
+RUN sudo curl https://mise.run | sh -s -- -b ${BIN}
 
-RUN curl https://get.volta.sh | sh -s -- -b ${BIN} && \
-    volta install node@20 && \
-    npm install -g @bitwarden/cli
+RUN sudo curl https://get.volta.sh | sh -s -- -b ${BIN} && \
+    sudo volta install node@20 && \
+    sudo npm install -g @bitwarden/cli
 
 RUN im-config -n fcitx5 && \
     setupcon -k --force || true
