@@ -3,7 +3,7 @@
     "dockerComposeFile": "docker-compose.yaml",
     "service": "ubuntu",
     "remoteUser": "dev",
-    "workspaceFolder": "/home/dev",
+    "workspaceFolder": "/home/docker",
     "forwardPorts": [
       3000, 4000, 9443, 3389, 8787, 8080, 4001, 5001, 80
     ],
@@ -14,12 +14,12 @@
     "postAttachCommand": "echo 'Post attached...'",
     "shutdownAction": "stopCompose",
     "remoteEnv": {
-      "USERNAME": "dev",
+      "USERNAME": "docker",
       "GIT_USER": "${GIT_USER}"
     },
     "features": {
       "ghcr.io/devcontainers/features/docker-in-docker:2": {},
-      "ghcr.io/budybye/ubuntu-dev:main": {}
+      "ghcr.io/budybye/ubuntu-dev:main-dev": {}
     },
     "customizations": {
       "vscode": {

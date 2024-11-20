@@ -84,8 +84,9 @@ jobs:
         if: matrix.flavor.name == 'dev'
         uses: devcontainers/ci@v0.3
         with:
-          subFolder: .devcontainer
-          imageName: ${{ env.REGISTRY_IMAGE }}-devcontainer
+          # subFolder: .devcontainer
+          imageName: ${{ env.REGISTRY_IMAGE }}
+          imageTag: ${{ env.PLATFORM_PAIR }}-${{ matrix.flavor.name }}
           platform: ${{ matrix.platform }}
           # キャッシュ設定
           cacheFrom: |
