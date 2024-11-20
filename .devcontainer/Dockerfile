@@ -5,6 +5,7 @@ ARG USER=docker
 ARG UID=1010
 ARG GID=1010
 ARG HOME=/home/$USER
+ARG BIN=/usr/local/bin
 
 ENV TZ=Asia/Tokyo
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
@@ -32,15 +33,13 @@ RUN groupadd -g $GID -f $USER && \
     chown -R $USER:$USER $HOME
 
 USER $USER
-WORKDIR $HOME/.local/share/chezmoi
+WORKDIR $HOME
 
-RUN sudo sh -c "$(curl -fsSL get.chezmoi.io)" -- -b /usr/local/bin
+RUN curl https://get.chezmoi.io | sh -s -- -b ${BIN}
 
-RUN curl https://mise.run | sh && \
-    export PATH="${HOME}/.local/bin:${PATH}"
+RUN curl https://mise.run | sh -s -- -b ${BIN}
 
-RUN curl https://get.volta.sh | bash && \
-    export PATH="${HOME}/.volta/bin:${PATH}" && \
+RUN curl https://get.volta.sh | sh -s -- -b ${BIN} && \
     volta install node@20 && \
     npm install -g @bitwarden/cli
 
