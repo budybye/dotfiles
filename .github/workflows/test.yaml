@@ -90,7 +90,7 @@ jobs:
           platform: ${{ matrix.platform }}
           # キャッシュ設定
           cacheFrom: |
-            type=registry,ref=${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }}-${{ matrix.flavor.name }}
+            ${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }}-${{ matrix.flavor.name }}
           push: always
           # build-args を渡す
           runCmd: |
