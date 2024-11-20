@@ -82,6 +82,7 @@ jobs:
 
       - name: Build and push devcontainer
         if: matrix.flavor.name == 'dev'
+        id: devcontainer
         uses: devcontainers/ci@v0.3
         with:
           imageName: ${{ env.REGISTRY_IMAGE }}
@@ -90,20 +91,24 @@ jobs:
           cacheFrom: |
             ${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }}-${{ matrix.flavor.name }}
           push: never
+          skipContainerUserIdUpdate: true
           runCmd: |
+            pwd
             env
-          build-args: |
-            USE_BEDROCK=${{ matrix.flavor.use_bedrock }}
-            TARGETPLATFORM=${{ matrix.platform }}
-
+            ls -la
+          env: |
+            USE_BEDROCK: true
+            TARGETPLATFORM: ${{ matrix.platform }}
 
       - name: Export digest
+        if: matrix.flavor.name == 'slim'
         run: |
           mkdir -p /tmp/digests
           digest="${{ steps.build.outputs.digest }}"
           touch "/tmp/digests/${digest#sha256:}"
 
       - name: Upload digest
+        if: matrix.flavor.name == 'slim'
         uses: actions/upload-artifact@v4
         with:
           name: digests-${{ env.PLATFORM_PAIR }}-${{ matrix.flavor.name }}
@@ -112,6 +117,7 @@ jobs:
           retention-days: 1
 
       - name: Docker compose test
+        if: matrix.flavor.name == 'slim'
         uses: hoverkraft-tech/compose-action@v2.0.2
         with:
           compose-file: .devcontainer/docker-compose.yaml
@@ -123,6 +129,7 @@ jobs:
             tunnel-ipfs
 
       - name: Test
+        if: matrix.flavor.name == 'slim'
         run: |
           docker ps -a
           docker compose -f .devcontainer/docker-compose.yaml exec ubuntu env
@@ -142,6 +149,7 @@ jobs:
           - name: slim
     steps:
       - name: Download digests
+        if: matrix.flavor.name == 'slim'
         uses: actions/download-artifact@v4
         with:
           path: /tmp/digests
@@ -149,6 +157,7 @@ jobs:
           merge-multiple: true
 
       - name: Set up Docker Buildx
+        if: matrix.flavor.name == 'slim'
         uses: docker/setup-buildx-action@v3
 
       - name: Docker meta
@@ -167,6 +176,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create manifest list and push
+        if: matrix.flavor.name == 'slim'
         working-directory: /tmp/digests
         run: |
           flavor=${{ matrix.flavor.name }}
@@ -175,6 +185,7 @@ jobs:
           $(printf '${{ env.REGISTRY_IMAGE }}@sha256:%s ' *)
 
       - name: Inspect image
+        if: matrix.flavor.name == 'slim'
         run: |
           docker buildx imagetools inspect ${{ env.REGISTRY_IMAGE }}:${{ steps.meta.outputs.version }}-${{ matrix.flavor.name }}
 
