@@ -68,7 +68,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push by digest
-        # if: matrix.flavor.name == 'slim'
+        if: matrix.flavor.name == 'slim'
         id: build
         uses: docker/build-push-action@v6
         with:
@@ -84,15 +84,12 @@ jobs:
         if: matrix.flavor.name == 'dev'
         uses: devcontainers/ci@v0.3
         with:
-          # subFolder: .devcontainer
           imageName: ${{ env.REGISTRY_IMAGE }}
           imageTag: ${{ env.PLATFORM_PAIR }}-${{ matrix.flavor.name }}
           # platform: ${{ matrix.platform }}
-          # キャッシュ設定
           cacheFrom: |
             ${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }}-${{ matrix.flavor.name }}
           push: never
-          # build-args を渡す
           runCmd: |
             env
           build-args: |
