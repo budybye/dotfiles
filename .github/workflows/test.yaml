@@ -95,9 +95,8 @@ jobs:
             TARGETPLATFORM: ${{ matrix.platform }}
           push: always
           runCmd: |
-            chezmoi help
             env
-            ls -la .devcontainer
+            ls -la .dotfiles
 
       - name: Export digest
         if: matrix.flavor.name == 'slim'

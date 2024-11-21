@@ -16,12 +16,14 @@
     *env
 {{ end -}}
 
-.env
 README.md
 style.css
 Makefile
+install.sh
+.env
+.tool-versions
+.mise.toml
+.chezmoiexternal.*
 .gitignore
 .gitconfig
 .github
-.mise.toml
-.chezmoiexternal.*
