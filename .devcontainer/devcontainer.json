@@ -2,8 +2,8 @@
     "name": "dev",
     "dockerComposeFile": "docker-compose.yaml",
     "service": "ubuntu",
-    "remoteUser": "docker",
-    "workspaceFolder": "/home/docker",
+    "remoteUser": "dev",
+    "workspaceFolder": "/home/dev",
     "forwardPorts": [
       3000, 4000, 9443, 3389, 8787, 8080, 4001, 5001, 80, 22
     ],
