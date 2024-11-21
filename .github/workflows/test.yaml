@@ -96,7 +96,7 @@ jobs:
           push: always
           runCmd: |
             env
-            ls -la dotfiles
+            ls -la
 
       - name: Export digest
         if: matrix.flavor.name == 'slim'
