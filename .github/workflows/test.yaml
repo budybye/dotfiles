@@ -90,14 +90,15 @@ jobs:
           # platform: ${{ matrix.platform }}
           cacheFrom: |
             ${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }}-${{ matrix.flavor.name }}
-          push: always
-          runCmd: |
-            pwd
-            env
-            ls -la
           env: |
             USE_BEDROCK: true
             TARGETPLATFORM: ${{ matrix.platform }}
+          push: always
+          runCmd: |
+            chezmoi help
+            env
+            ls -la .devcontainer
+            ls -la /home/docker/dotfiles
 
       - name: Export digest
         if: matrix.flavor.name == 'slim'
