@@ -16,14 +16,16 @@ setopt auto_param_keys      # 環境変数を補完
 setopt auto_cd              # パスを直接入力してもcdする
 setopt auto_pushd           # cd - [tab]で過去のディレクトリに飛べる
 setopt auto_param_slash     # 自動スラッシュ補完
+setopt no_beep              # ビープ音を鳴らさない
 setopt no_flow_control      # ctrl+s, ctrl+q を無効にする
 setopt no_nomatch           # curlマッチしない場合にエラーにしない
+setopt correct              # 入力間違えしていたら、候補を出す。yで選択
 setopt mark_dirs            # match directory as append slash
 setopt list_types           # autocomplete list is render file mark
 setopt print_eight_bit      # enable utf-8
-setopt correct              # 入力間違えしていたら、候補を出す。yで選択
-# 日本語を表示できるようにする
-setopt print_eight_bit
+setopt pushd_ignore_dups    # 重複したディレクトリを無視
+setopt prompt_subst         # promptに変数を埋め込む
+
 
 # 色
 autoload -Uz colors && colors

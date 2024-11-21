@@ -3,27 +3,43 @@
   "telemetry.telemetryLevel": "off",
   "redhat.telemetry.enabled": false,
   "partialDiff.enableTelemetry": false,
+
   "search.followSymlinks": false,
   "workbench.colorTheme": "Monokai Pro",
   "workbench.iconTheme": "simple-icons",
+  "workbench.statusBar.visible": true,
+  "workbench.editor.enablePreview": false,
   "workbench.colorCustomizations": {
     "minimapSlider.activeBackground": "#06034dc0",
     "minimapSlider.background": "#06034dc0",
     "minimapSlider.hoverBackground": "#06034dc0"
   },
-  "editor.codeActionsOnSave": {},
-  "editor.accessibilitySupport": "off",
+
+  "editor.fontSize": 13,
   "editor.fontLigatures": false,
-  "editor.indentSize": "tabSize",
+  "editor.fontFamily": "HackGen Console NF, monospace",
+  "editor.wordWrap": "on",
+  "editor.formatOnType": true,
   "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "editor.cursorBlinking": "smooth",
+  "editor.cursorStyle": "block",
+  "editor.renderControlCharacters": true,
+  "editor.renderWhitespace": "all",
+  "editor.renderLineHighlight": "all",
+  "editor.indentSize": "tabSize",
   "editor.minimap.showSlider": "always",
   "editor.minimap.renderCharacters": false,
-  "editor.fontSize": 13,
-  "editor.fontFamily": "HackGen Console NFJ, monospace",
+  "editor.codeActionsOnSave": {},
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.accessibilitySupport": "off",
+  "editor.bracketPairColorization.enabled": true,
+
   "files.autoSave": "afterDelay",
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
   "files.trimTrailingWhitespace": true,
+  "files.trimTrailingWhitespaceOnSave": true,
   "files.autoGuessEncoding": true,
   "files.eol": "\n",
   "files.associations": {
@@ -36,6 +52,10 @@
     "**/CVS": true,
     "**/.DS_Store": true
   },
+
+  "terminal.integrated.env.linux": {},
+  "terminal.integrated.fontSize": 9,
+
   "explorer.confirmDragAndDrop": false,
   "explorer.confirmDelete": false,
   "extensions.autoUpdate": true,
@@ -43,7 +63,7 @@
   "git.confirmSync": false,
   "git.enableSmartCommit": true,
   "git.openRepositoryInParentFolders": "never",
-  "markdown-preview-enhanced.previewTheme": "none.css",
+
   "[markdown]": {
     "files.trimTrailingWhitespace": false
   },
@@ -68,6 +88,8 @@
   "[typescriptreact]": {
     "editor.defaultFormatter": "vscode.typescript-language-features"
   },
+
+  "markdown-preview-enhanced.previewTheme": "none.css",
   "eslint.codeActionsOnSave.rules": null,
   "json.schemas": [],
   "python.languageServer": "Default",
@@ -78,6 +100,5 @@
   "commentTranslate.targetLanguage": "ja",
   "cursor.chat.smoothStreaming": true,
   "cursor.chat.alwaysSearchWeb": true,
-  "cursor.preferNotificationsSameAsChat": true,
-  "terminal.integrated.env.linux": {}
+  "cursor.preferNotificationsSameAsChat": true
 }
