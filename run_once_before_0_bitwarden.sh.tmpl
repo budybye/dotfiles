@@ -8,13 +8,10 @@ cd ${HOME}
     brew install bitwarden-cli node@20 || echo "bitwarden cli install failed."
 
 {{ else if eq .chezmoi.os "linux" -}}
-    curl https://mise.run | sh && export PATH="${HOME}/.local/bin:${PATH}"
+    curl https://mise.run | sh
 
     if command -v mise >/dev/null 2>&1; then
         mise use -g bitwarden node@20 -y && mise activate bash
-
-    elif command -v ${HOME}/.local/bin/mise >/dev/null 2>&1; then
-        ${HOME}/.local/bin/mise use -g bitwarden node@20 -y && ${HOME}/.local/bin/mise activate bash
 
     elif command -v cargo >/dev/null 2>&1; then
         cargo install mise && ${HOME}/.cargo/bin/mise use -g bitwarden node@20 -y && ${HOME}/.cargo/bin/mise activate bash

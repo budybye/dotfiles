@@ -14,7 +14,7 @@ fi
 if [ "${USER}" == "dev" ]; then
     chezmoi init --apply --source-path ${HOME}/dotfiles
 
-elif [ -f ${HOME}/dotfiles/.chezmoi.yaml.tmpl ]; then
+elif [ -f ${HOME}/dotfiles/.chezmoi.toml.tmpl ]; then
     chezmoi init --apply --source-path ${HOME}/dotfiles
 
 else
