@@ -10,7 +10,6 @@ services:
         ipv6_address: aaaa:bbbb:cccc::13
     ports:
       - 3389:3389 # RDP
-    command: echo "$SHELL"
     tty: true
 
   portainer:
