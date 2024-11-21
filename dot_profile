@@ -1,21 +1,19 @@
 #!/usr/bin/env bash
 
-# chsh -s /usr/bin/zsh
 # chsh -s /bin/zsh
 
 HOSTNAME="$(uname -n)"
 export HOSTNAME
 
-## '${VAR} "${VAR}" "${VAR:=var}"' は環境変数 ' : ' で区切り
-# export DOTFILES="${HOME}/dotfiles"
+# ${VAR} "${VAR}" "${VAR:-var}" は環境変数
+# ' : ' で区切り
 
 # XDG DIRECTORY を作成して権限を700に設定
 mkdir -p \
     "${HOME}/.local/share" \
     "${HOME}/.config" \
     "${HOME}/.local/state" \
-    "${HOME}/.cache" \
-    "${HOME}/data"
+    "${HOME}/.cache"
 chmod 700 \
     "${HOME}/.config" \
     "${HOME}/.local/share" \
