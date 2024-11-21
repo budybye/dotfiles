@@ -118,7 +118,7 @@ echo "--------------------------------"
         fi
         command -v mise >> ${HOME}/which || echo "mise not found" >> ${HOME}/which
         # version 指定しないと arm64 でエラーになる
-        mise use -g bun go@1.22.1 -y --verbose || echo "mise use failed." >> ${HOME}/which
+        mise use -g bun go@1.23.2 -y --verbose || echo "mise use failed." >> ${HOME}/which
         mise activate bash || true
         mise activate --shims || true
         echo "mise setup completed."
@@ -151,10 +151,10 @@ echo "--------------------------------"
 
     # Go と Aqua をインストールする関数
     install_go_aqua() {
-        mise use -g go@1.22.1 -y || echo "go install failed." >> ${HOME}/which
+        mise use -g go@1.23.2 -y || echo "go install failed." >> ${HOME}/which
         command -v go >> ${HOME}/which || echo "go not found" >> ${HOME}/which
 
-        ${HOME}/.local/share/mise/installs/go/1.22.1/bin/go install github.com/aquaproj/aqua/v2/cmd/aqua@latest || echo "aqua install failed." >> ${HOME}/which
+        ${HOME}/.local/share/mise/installs/go/1.23.2/bin/go install github.com/aquaproj/aqua/v2/cmd/aqua@latest || echo "aqua install failed." >> ${HOME}/which
         echo "aqua installed."
         command -v aqua >> ${HOME}/which || echo "aqua not found" >> ${HOME}/which
     }

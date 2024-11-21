@@ -82,7 +82,7 @@ packages:
       - 'xfce4-goodies'
       - 'xrdp'
       - 'xorgxrdp'
-      - 'pulseaudio'
+        # - 'pulseaudio'
       - 'libpulse-dev'
       - 'gnome-keyring'
 
