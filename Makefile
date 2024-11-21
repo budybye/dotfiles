@@ -9,7 +9,6 @@ dev: bw init
 init:
 	chmod +x ./install.sh
 	./install.sh | tee ${HOME}/make.log
-	rm -f ${HOME}/make.log
 up:
 	docker compose up -f .devcontainer/docker-compose.yaml -d
 down:

@@ -202,7 +202,9 @@ echo "--------------------------------"
         command -v alacritty >/dev/null || sudo snap install alacritty --classic || echo "alacritty install failed."
         echo "alacritty installed."
 
-        command -v firefox >/dev/null || sudo snap remove firefox || sudo apt remove firefox || echo "firefox uninstall failed."
+        if command -v firefox >/dev/null 2>&1; then
+            sudo snap remove firefox || sudo apt remove firefox || echo "firefox uninstall failed."
+        fi
         echo "firefox uninstalled."
 
         #command -v chromium >/dev/null || sudo snap install chromium || echo "chromium install failed."
@@ -326,12 +328,14 @@ echo "--------------------------------"
     install_pipewire() {
         sudo apt-get install -y pipewire pipewire-audio libspa-0.2-dev libpipewire-0.3-dev autoconf libtool || echo "pipewire install failed."
         mkdir -p "${HOME}/.config/pipewire"
-        git clone https://github.com/neutrinolabs/pulseaudio-module-xrdp.git "${HOME}/.config/pipewire/pulseaudio-module-xrdp"
-        cd "${HOME}/.config/pipewire/pulseaudio-module-xrdp"
-        ./bootstrap
-        ./configure
-        sudo make install
-        cd "${HOME}"
+        if ! [ -d "${HOME}/.config/pipewire/pulseaudio-module-xrdp" ]; then
+            git clone https://github.com/neutrinolabs/pulseaudio-module-xrdp.git "${HOME}/.config/pipewire/pulseaudio-module-xrdp"
+            cd "${HOME}/.config/pipewire/pulseaudio-module-xrdp"
+            ./bootstrap
+            ./configure
+            sudo make install
+            cd "${HOME}"
+        fi
         echo "pipewire installed."
     }
 
