@@ -8,6 +8,8 @@
 #     url = "https://bob.bloclaat.com/logo.png"
 #     refreshPeriod = "168h"
 
+{{ if eq .chezmoi.os "linux" }}
+
 [".local/share/themes/WhiteSur-gtk-theme-cinnamon-xfce"]
     type = "archive"
     url = "https://github.com/CoolAller/WhiteSur-gtk-theme-cinnamon-xfce/archive/refs/heads/main.zip"
@@ -49,3 +51,5 @@
     exact = true
     stripComponents = 1
     refreshPeriod = "168h"
+
+{{ end }}

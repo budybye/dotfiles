@@ -1,7 +1,8 @@
 #! /usr/bin/env bash
 
 echo "install age..."
-export KEY_FILE=${HOME}/key.txt
+KEY_FILE=${HOME}/key.txt
+echo "KEY_FILE: ${KEY_FILE}"
 
 {{ if eq .chezmoi.os "darwin" -}}
 command -v age >/dev/null || brew install age || echo "age install failed"

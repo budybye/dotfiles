@@ -1,16 +1,22 @@
 #! /usr/bin/env bash
 
-USER=budybye
+USER=$(whoami)
 BIN=${HOME}/.local/bin
 
-echo "pwd: $(pwd)"
-echo "${USER} install chezmoi to ${BIN}..."
+echo "USER: ${USER}"
 
 if ! command -v chezmoi >/dev/null 2>&1; then
+    echo "${USER} install chezmoi to ${BIN}..."
     sh -c "$(curl -fsLS get.chezmoi.io)" -- -b "${BIN}"
     export PATH="${BIN}:$PATH"
 fi
 
-chezmoi init --apply ${USER}
-# chezmoi init --apply --verbose ${USER}
-# chezmoi init --apply --source-path ${HOME}/dotfiles
+if [ "${USER}" == "dev" ]; then
+    chezmoi init --apply --source-path ${HOME}/dotfiles
+
+elif [ -f ${HOME}/dotfiles/.chezmoi.yaml.tmpl ]; then
+    chezmoi init --apply --source-path ${HOME}/dotfiles
+
+else
+    chezmoi init --apply budybye
+fi
