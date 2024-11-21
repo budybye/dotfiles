@@ -1,7 +1,7 @@
 [tools]
 # グローバルなツールのバージョンをここに設定します
 # `mise use -g`で設定できます
-node = "20.11.0"
+node = "20.18.0"
 go = "latest"
 bun = "latest"
 
