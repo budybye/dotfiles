@@ -5,27 +5,32 @@ echo "before bitwarden cli install"
 cd ${HOME}
 
 {{ if eq .chezmoi.os "darwin" -}}
-    # brew install mise || curl https://mise.run | sh  && export PATH="${HOME}/.local/bin:${PATH}" || echo "mise install failed."
-    # mise use -g bitwarden node@20 -y --verbose || curl -fsSL https://bun.sh/install | bash && export PATH="${HOME}/.bun/bin:${PATH}" || echo "bun install failed."
-    # command -v npm >/dev/null || curl https://get.volta.sh | bash && export PATH="${HOME}/.volta/bin:${PATH}" && volta install node@20 || sudo brew install -y npm
-    brew install bitwarden-cli || mise install -g bitwarden && echo "bitwarden cli install failed."
-    echo "export BW_SESSION="$(bw unlock --raw)"" >> .env
+    brew install bitwarden-cli node@20 || echo "bitwarden cli install failed."
 
 {{ else if eq .chezmoi.os "linux" -}}
-    curl https://mise.run | sh && export PATH="${HOME}/.local/bin:${PATH}" || echo "mise install failed."
-    command -v mise >/dev/null || sudo apt-get install -y cargo && cargo install mise
+    curl https://mise.run | sh && export PATH="${HOME}/.local/bin:${PATH}"
 
-    mise use -g bitwarden node@20 -y && mise activate zsh
-    # curl -fsSL https://bun.sh/install | bash && export PATH="${HOME}/.bun/bin:${PATH}" || echo "bun install failed."
+    if command -v mise >/dev/null 2>&1; then
+        mise use -g bitwarden node@20 -y && mise activate bash
 
-    # curl https://get.volta.sh | bash && export PATH="${HOME}/.volta/bin:${PATH}" || echo "volta install failed."
-    # command -v volta >/dev/null || volta install node@20 || sudo apt-get install -y nodejs
+    elif command -v ${HOME}/.local/bin/mise >/dev/null 2>&1; then
+        ${HOME}/.local/bin/mise use -g bitwarden node@20 -y && ${HOME}/.local/bin/mise activate bash
 
-    # bun install -g @bitwarden/cli && export PATH="${HOME}/.cache/.bun/bin:${PATH}" || echo "bitwarden cli install failed."
-    # npm install -g @bitwarden/cli && export PATH="${HOME}/bin:${PATH}" || echo "bitwarden cli install failed."
-    echo "export BW_SESSION="$(bw unlock --raw)"" >> .env
+    elif command -v cargo >/dev/null 2>&1; then
+        cargo install mise && ${HOME}/.cargo/bin/mise use -g bitwarden node@20 -y && ${HOME}/.cargo/bin/mise activate bash
+
+    else
+        sudo apt-get install -y cargo && cargo install mise && ${HOME}/.cargo/bin/mise use -g bitwarden node@20 -y && ${HOME}/.cargo/bin/mise activate bash
+    fi
 {{ end -}}
 
-echo "export PATH=\"${HOME}/bin:${PATH}\"" >> ~/.zshrc
+if command -v bw >/dev/null 2>&1; then
+    echo "export BW_SESSION="$(bw unlock --raw)"" >> .env || echo "bw unlock failed."
+elif command -v ${HOME}/.local/share/mise/bitwarden/installs/2024.11.0/bin/bw >/dev/null 2>&1; then
+    echo "export BW_SESSION="$(${HOME}/.local/share/mise/bitwarden/installs/2024.11.0/bin/bw unlock --raw)"" >> .env || echo "bw unlock failed."
+else
+    echo "bw install failed."
+fi
+
 echo "${PATH}" | tr ':' '\n'
 echo "bitwarden cli install complete"

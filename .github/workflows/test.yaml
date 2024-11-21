@@ -98,7 +98,6 @@ jobs:
             chezmoi help
             env
             ls -la .devcontainer
-            ls -la /home/docker/dotfiles
 
       - name: Export digest
         if: matrix.flavor.name == 'slim'

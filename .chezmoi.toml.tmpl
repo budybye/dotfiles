@@ -26,7 +26,7 @@
   name = "devcontainer"
   email = "null"
 
-{{ else if eq .chezmoi.username "docker" }}
+{{ else if eq (env "DOCKER") "true" }}
   dotfilesDir = {{ .chezmoi.sourceDir | quote }}
   name = "docker"
   email = "null"

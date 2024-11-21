@@ -7,6 +7,11 @@ ARG UID=1010
 ARG GID=$UID
 ARG HOME=/home/$USER
 
+ARG DEV=dev
+ARG DEV_UID=1234
+ARG DEV_GID=$DEV_UID
+ARG DEV_HOME=/home/$DEV
+
 ENV TZ=Asia/Tokyo
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
@@ -32,8 +37,16 @@ RUN groupadd -g $GID -f $USER && \
     mkdir -p $HOME && \
     chown -R $USER:$USER $HOME
 
+RUN groupadd -g $DEV_GID -f $DEV && \
+    useradd --uid $DEV_UID --gid $DEV_GID -m $DEV -G sudo -s /usr/bin/zsh && \
+    echo "$DEV:$DEV" | chpasswd && \
+    echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers && \
+    echo "$DEV ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
+    mkdir -p $DEV_HOME && \
+    chown -R $DEV:$DEV $DEV_HOME
+
 USER $USER
-WORKDIR $HOME
+WORKDIR $HOME/.local/share/chezmoi
 
 RUN sudo sh -c "$(curl -fsSL get.chezmoi.io)" -- -b /usr/local/bin
 
@@ -53,7 +66,9 @@ RUN groupadd -f input && \
     sudo update-alternatives --set x-session-manager /usr/bin/xfce4-session && \
     echo "xfce4-session" > ~/.xsession
 
-EXPOSE 3389
+EXPOSE 3389 22
+
+CMD git clone https://github.com/budybye/dotfiles.git
 
 # COPY ./bin/setup.sh /usr/bin/
 # RUN mv /usr/bin/setbup.sh /usr/bin/setup.sh
