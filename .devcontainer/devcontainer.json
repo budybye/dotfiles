@@ -7,7 +7,7 @@
     "forwardPorts": [
       3000, 4000, 9443, 3389, 8787, 8080, 4001, 5001, 80, 22
     ],
-    "initializeCommand":"echo 'Initializing...'",
+    "initializeCommand": "echo 'Initializing...'",
     "onCreateCommand": "echo 'Creating...'",
     "postCreateCommand": "echo 'Post created...'",
     "postStartCommand": "echo 'Post started...'",

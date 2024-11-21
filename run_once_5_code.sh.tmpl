@@ -7,10 +7,13 @@ FROM="${HOME}/.config/Code"
 # 環境によって変わる 設定ファイルの場所
 if command -v cursor >/dev/null 2>&1; then
     CODE_DIR="${HOME}/.local/share/Cursor"
+
 elif [ -f "${HOME}/Applications/cursor" ]; then
     CODE_DIR="${HOME}/.local/share/Cursor"
+
 elif command -v codium >/dev/null 2>&1; then
     CODE_DIR="${HOME}/.config/VSCodium"
+
 elif command -v code >/dev/null 2>&1; then
     CODE_DIR="${HOME}/.local/share/Code"
 fi

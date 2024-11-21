@@ -46,7 +46,7 @@ RUN groupadd -g $DEV_GID -f $DEV && \
     chown -R $DEV:$DEV $DEV_HOME
 
 USER $USER
-WORKDIR $HOME/.local/share/chezmoi
+WORKDIR $HOME
 
 RUN sudo sh -c "$(curl -fsSL get.chezmoi.io)" -- -b /usr/local/bin
 

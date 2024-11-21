@@ -25,20 +25,21 @@ echo "${HOME}/.local/share"
 ls -la "${HOME}/.local/share"
 echo "--------------------------------"
 
-# .env の確認と作成
-echo ".env checking..."
-echo {{ .name | quote }}
-echo "export USERNAME=$(whoami)" >>{{ .dotfilesDir }}/.env
-cat {{ .dotfilesDir }}/.env
-# ~/dotfiles ディレクトリの確認
+# sourceDir 確認
 echo {{.dotfilesDir | quote }}
 ls -la {{ .dotfilesDir }}
 echo "--------------------------------"
 
+
 # ~/dotfiles にシンボリックリンク
 {{- if ne .name "devcontainer" }}
     echo 'Dotfiles symlink ...'
-    ln -sf "{{ .dotfilesDir }}" "${HOME}/dotfiles"
+    if [ -d "${HOME}/dotfiles" ]; then
+        echo "Dotfiles already exists."
+    else
+        echo "Dotfiles symlink..."
+        ln -sf "{{ .dotfilesDir }}" "${HOME}/dotfiles"
+    fi
     ls -la "${HOME}/dotfiles"
     echo "--------------------------------"
 {{- end }}

@@ -5,10 +5,14 @@ KEY_FILE=${HOME}/key.txt
 echo "KEY_FILE: ${KEY_FILE}"
 
 {{ if eq .chezmoi.os "darwin" -}}
-command -v age >/dev/null || brew install age || echo "age install failed"
+    command -v age >/dev/null || brew install age || echo "age install failed"
+{{ else if eq .chezmoi.os "linux" -}}
+    command -v age >/dev/null || sudo apt-get install -y age || echo "age install failed"
 {{ else -}}
-command -v age >/dev/null || sudo apt-get install -y age || echo "age install failed"
+    echo {{ .chezmoi.os | quote }}
+    curl -sSL https://github.com/FiloSottile/age/releases/download/v1.1.2/age-v1.1.2-darwin-amd64.tar.gz | tar xz
 {{ end }}
+
 
 if [ ! -f ${KEY_FILE} ]; then
     age-keygen -o ${KEY_FILE}

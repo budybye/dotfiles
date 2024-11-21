@@ -1,24 +1,34 @@
 #! /usr/bin/env bash
 
+USERNAME=$(whoami)
+
 echo "--------------------------------"
 echo "Welcome to my dotfiles!!"
-echo "whoami: $(whoami)"
+echo "dotfilesDir: {{ .dotfilesDir }}"
+echo "user: $USERNAME"
 echo "OS info ..."
 uname -a
-echo "$SHELL"
+echo "SHELL: $SHELL"
 echo "--------------------------------"
-echo "env ..."
+# .env の確認と作成
+echo ".env checking..."
+echo {{ .name | quote }}
+echo "export GIT_USER=$USERNAME" >>{{ .dotfilesDir }}/.env
+cat {{ .dotfilesDir }}/.env
 env
 echo "--------------------------------"
-echo "$PATH ..."
+echo "PATH ..."
 echo "$PATH" | tr ':' '\n'
 echo "--------------------------------"
 echo "SSH key ..."
-echo "$(cat /etc/ssh/sshd_config)"
+cat /etc/ssh/sshd_config
 ls -la ~/.ssh
-echo "$(cat ~/.ssh/id_ed25519.pub)"
+cat ~/.ssh/id_ed25519.pub
 echo "--------------------------------"
 echo "git config ..."
+cat ~/.config/git/user.conf
+git config --global user.name
+git config --global user.email
 git config --list
 git config --global commit.template ${HOME}/.config/git/commit.template
 echo "--------------------------------"
@@ -28,22 +38,21 @@ echo "--------------------------------"
 {{- if eq .chezmoi.os "linux" }}
 
     echo "Linux"
-    # ユーザー名を動的に取得
-    USER_NAME=$(whoami)
     # アーキテクチャを取得
     arch="$(dpkg --print-architecture)"
+
     # Zsh をデフォルトシェルに変更する関数
     change_shell_to_zsh() {
-            # zsh がインストールされているか確認
+        # zsh がインストールされているか確認
         command -v zsh >/dev/null || sudo apt-get install -y zsh || echo "zsh install failed." >> ${HOME}/which
+        # デフォルトシェルを変更
+        zsh_path=$(command -v zsh)
+        sudo chsh -s "${zsh_path}" "${USERNAME}" || echo "zsh default shell change failed." >> ${HOME}/which
+        command -v /bin/zsh >/dev/null || sudo ln -sf /usr/bin/zsh /bin/zsh
+        echo "Your shell is ${SHELL}"
+        echo "zsh default shell changed to ${zsh_path}."
+        command -v zsh >> ${HOME}/which || echo "zsh not found" >> ${HOME}/which
     }
-    # デフォルトシェルを変更
-    zsh_path=$(command -v zsh)
-    sudo chsh -s "${zsh_path}" "${USER_NAME}" || echo "zsh default shell change failed." >> ${HOME}/which
-    command -v /bin/zsh >/dev/null || sudo ln -sf /usr/bin/zsh /bin/zsh
-    echo "Your shell is ${SHELL}"
-    echo "zsh default shell changed to ${zsh_path}."
-    command -v zsh >> ${HOME}/which || echo "zsh not found" >> ${HOME}/which
 
     # 必要なパッケージをインストールする関数
     install_packages() {
@@ -60,57 +69,59 @@ echo "--------------------------------"
     }
 
     install_docker_compose() {
-        # 最新バージョンを取得
-        COMPOSE_VERSION=$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep tag_name | cut -d '"' -f 4)
-        # ダウンロード URL の作成
-        COMPOSE_URL="https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)"
-        # Docker Compose のバイナリをダウンロード
-        sudo curl -L "$COMPOSE_URL" -o /usr/local/bin/docker-compose || echo "docker-compose download failed." >> ${HOME}/which
-        sudo chmod +x /usr/local/bin/docker-compose
-        echo "docker-compose install completed."
-        # シンボリックリンクを作成（必要に応じて）
-        if ! command -v docker-compose >/dev/null 2>&1; then
-            sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose || echo "docker-compose link failed." >> ${HOME}/which
+        if command -v docker-compose >/dev/null 2>&1; then
+            echo "docker-compose already installed."
+        else
+            # 最新バージョンを取得
+            COMPOSE_VERSION=$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep tag_name | cut -d '"' -f 4)
+            # ダウンロード URL の作成
+            COMPOSE_URL="https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)"
+            # Docker Compose のバイナリをダウンロード
+            sudo curl -L "$COMPOSE_URL" -o /usr/local/bin/docker-compose || echo "docker-compose download failed." >> ${HOME}/which
+            sudo chmod +x /usr/local/bin/docker-compose
+            command -v docker compose >> ${HOME}/which || echo "docker-compose not found" >> ${HOME}/which
+           echo "docker-compose installed."
         fi
-        echo "docker-compose installed."
-        command -v docker compose >> ${HOME}/which || echo "docker-compose not found" >> ${HOME}/which
     }
 
     install_docker() {
-        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-        echo "deb [arch=${arch} signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
-        sudo apt-get update -y
-        sudo apt-get install -y docker-ce docker-ce-cli containerd.io || echo "docker install failed." >> ${HOME}/which
-        sudo chmod 666 /var/run/docker.sock
-        sudo groupadd -f docker
-        sudo usermod -aG docker "$USER_NAME"
-        sudo systemctl enable docker
-        docker info
-        command -v docker >> ${HOME}/which || echo "docker not found" >> ${HOME}/which
-        echo "docker daemon started."
+        if command -v docker >/dev/null 2>&1; then
+            echo "docker already installed."
+        else
+            curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+            echo "deb [arch=${arch} signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
+            sudo apt-get update -y
+            sudo apt-get install -y docker-ce docker-ce-cli containerd.io || echo "docker install failed." >> ${HOME}/which
+            sudo chmod 666 /var/run/docker.sock
+            sudo groupadd -f docker
+            sudo usermod -aG docker "$USERNAME"
+            sudo systemctl enable docker
+            docker info
+            command -v docker >> ${HOME}/which || echo "docker not found" >> ${HOME}/which
+            echo "docker daemon started."
+        fi
     }
 
     # mise でインストールする関数
     install_mise() {
-        command -v mise >/dev/null || {
+        if ! command -v mise >/dev/null 2>&1; then
+            echo "mise install start..."
             curl https://mise.run | sh || {
                 sudo install -dm 755 /etc/apt/keyrings
                 wget -qO - https://mise.jdx.dev/gpg-key.pub | gpg --dearmor | sudo tee /etc/apt/keyrings/mise-archive-keyring.gpg 1>/dev/null
                 echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=${arch}] https://mise.jdx.dev/deb stable main" | sudo tee /etc/apt/sources.list.d/mise.list
                 sudo apt-get update -y && sudo apt-get install -y mise || echo "mise install failed." >> ${HOME}/which
             }
-        }
-        # .env ファイルを作成 (~/dotfiles を mise で設定してる関係)
-        echo "export USER_NAME=$(whoami)" >>.env
-        mise set
-        echo "mise installed."
-        echo "$(command -v mise)" >> ${HOME}/which
+        else
+            echo "mise already installed."
+        fi
+        command -v mise >> ${HOME}/which || echo "mise not found" >> ${HOME}/which
         # version 指定しないと arm64 でエラーになる
-        mise use -g starship@1.20.1 bun node@20 go -y --verbose || echo "mise use failed." >> ${HOME}/which
-        mise activate zsh
-        mise activate --shims
+        mise use -g bun go -y --verbose || echo "mise use failed." >> ${HOME}/which
+        mise activate bash || true
+        mise activate --shims || true
         echo "mise setup completed."
-        for cmd in starship bun node go; do
+        for cmd in starship bun go; do
             command -v "$cmd" >> ${HOME}/which || echo "$cmd not found" >> ${HOME}/which
         done
     }
@@ -123,26 +134,11 @@ echo "--------------------------------"
         command -v cargo >> ${HOME}/which || echo "cargo not found" >> ${HOME}/which
 
         echo "cargo tools install start..."
-        cargo install sheldon fd-find@9.0.0 xh bat || echo "cargo tools install failed." >> ${HOME}/which
+        cargo install starship@1.20.1 sheldon fd-find@9.0.0 xh bat || echo "cargo tools install failed." >> ${HOME}/which
         echo "cargo tools installed."
-        for cmd in sheldon fd-find xh bat; do
+        for cmd in starship sheldon fd-find xh bat; do
             command -v "$cmd" >> ${HOME}/which || echo "$cmd not found" >> ${HOME}/which
         done
-    }
-
-    # Bitwarden をインストールする関数
-    install_bitwarden() {
-        echo "bitwarden install start..."
-        command -v bw >/dev/null || {
-            if [ "${arch}" = "amd64" ]; then
-                sudo snap install bitwarden
-            else
-                bun install -g @bitwarden/cli
-                echo "export PATH=\"$HOME/.cache/.bun/bin:\$PATH\"" >> ${HOME}/.zshrc
-            fi
-        } || echo "bitwarden install failed." >> ${HOME}/which
-        echo "bitwarden installed."
-        command -v bw >> ${HOME}/which || echo "bitwarden not found" >> ${HOME}/which
     }
 
     install_flatpak() {
@@ -179,11 +175,18 @@ echo "--------------------------------"
     }
 
     install_act() {
-    echo "act install start..."
+        echo "act install start..."
         command -v act >/dev/null || curl https://raw.githubusercontent.com/nektos/act/master/install.sh | sudo bash || echo "act install failed." >> ${HOME}/which
         sudo cp -r ./bin/act /usr/local/bin && sudo chmod +x /usr/local/bin/act
         echo "act installed."
         command -v act >> ${HOME}/which || echo "act not found" >> ${HOME}/which
+    }
+
+    install_volta() {
+        echo "volta install start..."
+        command -v volta >/dev/null || curl https://get.volta.sh | bash || echo "volta install failed." >> ${HOME}/which
+        echo "volta installed."
+        command -v volta >> ${HOME}/which || echo "volta not found" >> ${HOME}/which
     }
 
     install_cli_tools() {
@@ -192,12 +195,12 @@ echo "--------------------------------"
         install_packages
         change_shell_to_zsh
         install_mise
-        install_bitwarden
         install_docker
         install_docker_compose
         install_cargo_tools
         install_flatpak
         install_go_aqua
+        install_volta
         install_mkcert
         install_act
         install_multipass
@@ -249,7 +252,6 @@ echo "--------------------------------"
         else
             echo "specified Brewfile ($BREWFILE_PATH) not found. skip."
         fi
-        brew list
         brew --version
         brew install {{ .packages.darwin.brews | join " " }} || echo "brew install failed."
         brew update
@@ -257,6 +259,7 @@ echo "--------------------------------"
         brew autoremove
         brew cleanup
         brew doctor
+        brew list
         echo "packages install done."
     }
 
@@ -287,5 +290,4 @@ echo "--------------------------------"
 
 echo "--------------------------------"
 echo "zsh --version $(zsh --version)"
-echo "SHELL: $SHELL"
 echo "Package update && check done!!"

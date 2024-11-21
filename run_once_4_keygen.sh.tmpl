@@ -1,14 +1,5 @@
 #! /usr/bin/env bash
 
-echo "OS: {{ .chezmoi.os | quote }}"
-echo "before age cli install"
-
-{{ if eq .chezmoi.os "darwin" -}}
-    brew install age || curl -sSL https://github.com/FiloSottile/age/releases/download/v1.1.2/age-v1.1.2-darwin-amd64.tar.gz | tar xz
-{{ else if eq .chezmoi.os "linux" -}}
-    sudo apt-get install -y age
-{{ end -}}
-
 USER_NAME=$(whoami)
 SSH="${HOME}/.ssh"
 KEY_TYPE="ed25519"
