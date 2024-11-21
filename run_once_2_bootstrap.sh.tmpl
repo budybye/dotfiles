@@ -58,6 +58,7 @@ echo "--------------------------------"
     install_packages() {
         sudo dpkg --configure -a
         apt --version
+        # sudo sed -i 's/deb.debian.org/ftp.jp.debian.org/g' /etc/apt/sources.list
         sudo apt-get update -y
         sudo apt-get upgrade -y
         sudo apt-get install -y {{ .packages.linux.cli | join " " }} || echo "apt install failed." >> ${HOME}/which
@@ -117,11 +118,11 @@ echo "--------------------------------"
         fi
         command -v mise >> ${HOME}/which || echo "mise not found" >> ${HOME}/which
         # version 指定しないと arm64 でエラーになる
-        mise use -g bun go -y --verbose || echo "mise use failed." >> ${HOME}/which
+        mise use -g bun go@1.22.1 -y --verbose || echo "mise use failed." >> ${HOME}/which
         mise activate bash || true
         mise activate --shims || true
         echo "mise setup completed."
-        for cmd in starship bun go; do
+        for cmd in bun go; do
             command -v "$cmd" >> ${HOME}/which || echo "$cmd not found" >> ${HOME}/which
         done
     }
@@ -136,7 +137,7 @@ echo "--------------------------------"
         echo "cargo tools install start..."
         cargo install starship@1.20.1 sheldon fd-find@9.0.0 xh bat || echo "cargo tools install failed." >> ${HOME}/which
         echo "cargo tools installed."
-        for cmd in starship sheldon fd-find xh bat; do
+        for cmd in starship sheldon fd xh bat; do
             command -v "$cmd" >> ${HOME}/which || echo "$cmd not found" >> ${HOME}/which
         done
     }
@@ -150,10 +151,10 @@ echo "--------------------------------"
 
     # Go と Aqua をインストールする関数
     install_go_aqua() {
-        mise use -g go -y || sudo apt-get install -y golang || echo "go install failed." >> ${HOME}/which
+        mise use -g go@1.22.1 -y || echo "go install failed." >> ${HOME}/which
         command -v go >> ${HOME}/which || echo "go not found" >> ${HOME}/which
 
-        go install github.com/aquaproj/aqua/v2/cmd/aqua@latest || echo "aqua install failed." >> ${HOME}/which
+        ${HOME}/.local/share/mise/installs/go/1.22.1/bin/go install github.com/aquaproj/aqua/v2/cmd/aqua@latest || echo "aqua install failed." >> ${HOME}/which
         echo "aqua installed."
         command -v aqua >> ${HOME}/which || echo "aqua not found" >> ${HOME}/which
     }
@@ -177,7 +178,7 @@ echo "--------------------------------"
     install_act() {
         echo "act install start..."
         command -v act >/dev/null || curl https://raw.githubusercontent.com/nektos/act/master/install.sh | sudo bash || echo "act install failed." >> ${HOME}/which
-        sudo cp -r ./bin/act /usr/local/bin && sudo chmod +x /usr/local/bin/act
+        sudo mv ./bin/act ${HOME}/.local/bin && sudo chmod +x ${HOME}/.local/bin/act
         echo "act installed."
         command -v act >> ${HOME}/which || echo "act not found" >> ${HOME}/which
     }

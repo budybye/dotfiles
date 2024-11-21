@@ -159,7 +159,7 @@ echo "--------------------------------"
     # sudo networksetup -SetAirportNetwork en0 <SSID> <PASSWORD>
     # sudo networksetup -SetDNSServers Wi-Fi 1.1.1.1 1.0.0.1 192.168.0.1
     # sudo networksetup -SetV6Off Wi-Fi
-    networksetup -listnetworkserviceorder
+    networksetup -ListNetworkServiceOrder
     nslookup apple.com
 
     echo 'Rebooting to reflect settings'
@@ -321,6 +321,18 @@ echo "--------------------------------"
         # 入力メソッドとしてfcitx5を設定
         im-config -n fcitx5
         echo "日本語環境の設定が完了しました。"
+    }
+
+    install_pipewire() {
+        sudo apt-get install -y pipewire pipewire-audio libspa-0.2-dev libpipewire-0.3-dev autoconf libtool || echo "pipewire install failed."
+        mkdir -p "${HOME}/.config/pipewire"
+        git clone https://github.com/neutrinolabs/pulseaudio-module-xrdp.git "${HOME}/.config/pipewire/pulseaudio-module-xrdp"
+        cd "${HOME}/.config/pipewire/pulseaudio-module-xrdp"
+        ./bootstrap
+        ./configure
+        sudo make install
+        cd "${HOME}"
+        echo "pipewire installed."
     }
 
     # フォントをインストールする関数
