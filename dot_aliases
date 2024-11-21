@@ -155,8 +155,8 @@ fi
 
 # apt
 if command -v apt >/dev/null 2>&1; then
-    alias agi="sudo apt install"
-    alias agu="sudo apt update && sudo apt upgrade"
+    alias agi="sudo apt install -y"
+    alias agu="sudo apt update -y && sudo apt upgrade -y"
     alias aq="apt search"
 fi
 

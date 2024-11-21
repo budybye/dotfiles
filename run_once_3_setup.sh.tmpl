@@ -6,16 +6,24 @@ echo "desktop system setup"
 echo "--------------------------------"
 
 {{ if eq .chezmoi.os "darwin" -}}
+    echo "macOS setup start..."
     # コンピュータ名、ホスト名、ローカルホスト名、ユーザー名を設定
     #sudo scutil --set ComputerName "iCom"
-    #sudo scutil --set HostName "101"
     #sudo scutil --set LocalHostName "101"
+    #sudo scutil --set HostName "101"
     #sudo scutil --set UserName "hotmilk"
 
     # (on マシンがフリーズしたら自動的にリスタート)
     systemsetup -setrestartfreeze on
     # スリープしない
-    systemsetup -setcomputersleep Off > /dev/null 2>&1
+    systemsetup -setcomputersleep Off
+    # ネットワーク時刻サーバーを設定
+    systemsetup -setnetworktimeserver time.apple.com
+    # タイムゾーンを設定
+    systemsetup -settimezone "Asia/Tokyo"
+    # リモートログインを有効化
+    # systemsetup -setremotelogin on
+
 
     # Show the ~/Library directory （ライブラリディレクトリを表示、デフォルトは非表示）
     chflags nohidden ~/Library
@@ -29,8 +37,28 @@ echo "--------------------------------"
     # 時計アイコンクリック時に OS やホスト名 IP を表示する
     sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
 
-    ## 他のMacで購入したアプリを自動的にダウンロードする
-    #defaults write com.apple.SoftwareUpdate ConfigDataInstall -int 1
+    # 他のMacで購入したアプリを自動的にダウンロードする
+    # defaults write com.apple.SoftwareUpdate ConfigDataInstall -int 1
+    # ソフトウェアの自動更新を有効化
+    # defaults write com.apple.commerce AutoUpdate -bool true
+    # WebKitデベロッパーツールを有効にする
+    # defaults write com.apple.appstore WebKitDeveloperExtras -bool true
+    # デバッグメニューを有効にする
+    # defaults write com.apple.appstore ShowDebugMenu -bool true
+    # 自動更新チェックを有効にする
+    # defaults write com.apple.SoftwareUpdate AutomaticCheckEnabled -bool true
+    # 毎日アプリケーションのアップデートを確認する
+    # defaults write com.apple.SoftwareUpdate ScheduleFrequency -int 1
+    # アプリケーションのアップデートをバックグラウンドでダウンロードする
+    # defaults write com.apple.SoftwareUpdate AutomaticDownload -int 1
+    # システムデータファイルとセキュリティ更新プログラムをインストールする
+    # defaults write com.apple.SoftwareUpdate CriticalUpdateInstall -int 1
+    # 他のMacで購入したアプリを自動的にダウンロードする
+    # defaults write com.apple.SoftwareUpdate ConfigDataInstall -int 1
+    # アプリケーションの自動更新を有効化
+    # defaults write com.apple.commerce AutoUpdate -bool true
+    # 再起動が必要なアプリケーションの場合自動で再起動を有効化する
+    # defaults write com.apple.commerce AutoUpdateRestartRequired -bool true
 
     # F1、F2などのキーを標準的なファンクションキーとして使用
     defaults write -g com.apple.keyboard.fnState -bool true
@@ -76,6 +104,7 @@ echo "--------------------------------"
     defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad.plist TrackpadFourFingerVertSwipeGesture -int 2
     # トラックパッドのナチュラルスクロールをオンにする
     defaults write NSGlobalDomain com.apple.swipescrolldirection -bool true
+
     # マウスの動きを高速化
     defaults write "Apple Global Domain" com.apple.mouse.scaling 4.0
     # トラックパッドの動きを高速化
@@ -90,7 +119,7 @@ echo "--------------------------------"
     # 未確認のアプリケーションを実行する際のダイアログを無効にする
     defaults write com.apple.LaunchServices LSQuarantine -bool false
     # ダイアログ表示やウィンドウリサイズ速度を高速化する
-    defaults write -g NSWindowResizeTime 0.1
+    defaults write NSGlobalDomain NSWindowResizeTime -float 0.001
     # (保存ダイアログのデフォルト表示スタイル) -> true (常に詳細な情報を開いて表示)
     defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
     # アクセントカラーをマルチカラーに設定する
@@ -118,8 +147,15 @@ echo "--------------------------------"
     # Bluetooth ヘッドフォン・ヘッドセットの音質を向上させる
     defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" -int 40
 
-    # 全ての拡張子のファイルを表示する
-    defaults write -g AppleShowAllExtensions -bool true
+
+
+
+    # 全ての拡張子のファイルを表示
+    defaults write NSGlobalDomain AppleShowAllExtensions -bool true
+    # ディレクトリのスプリングロードを有効化
+    defaults write NSGlobalDomain com.apple.springing.enabled -bool true
+    # スプリングロード遅延を除去
+    defaults write NSGlobalDomain com.apple.springing.delay -float 0
     # 新しいウィンドウでデフォルトでホームフォルダを開く
     defaults write com.apple.finder NewWindowTarget -string "PfDe"
     defaults write com.apple.finder NewWindowTargetPath -string "file://${HOME}/"
@@ -127,18 +163,21 @@ echo "--------------------------------"
     defaults write com.apple.finder AppleShowAllFiles -bool true
     # Finder のタイトルバーにフルパスを表示する
     defaults write com.apple.finder _FXShowPosixPathInTitle -bool true
+    # 検索時にデフォルトでカレントディレクトリを検索
+    defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
+    # 拡張子変更時の警告を無効化
+    defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
     # タブバーを表示する
     defaults write com.apple.finder ShowTabView -bool true
     # パスバーを表示する
     defaults write com.apple.finder ShowPathbar -bool true
     # ステータスバーを表示する
     defaults write com.apple.finder ShowStatusBar -bool true
-    # 名前で並べ替えを選択時にディレクトリを前に置くようにする
-    defaults write com.apple.finder _FXSortFoldersFirst -bool true
     # Finderで情報ウィンドウを開くときのアニメーションを無効
     defaults write com.apple.finder DisableAllAnimations -bool true
     # ゴミ箱を空にする前の警告の無効化
     defaults write com.apple.finder WarnOnEmptyTrash -bool false
+
     # 「新規フォルダ」のショートカットキー設定
     defaults write com.apple.Finder NSUserKeyEquivalents -dict-add "新規フォルダ" -string "^k"
     # 「ここに項目を移動」のショートカットキー設定
@@ -157,7 +196,7 @@ echo "--------------------------------"
 
     # sudo networksetup -SetAirportPower en0 on
     # sudo networksetup -SetAirportNetwork en0 <SSID> <PASSWORD>
-    # sudo networksetup -SetDNSServers Wi-Fi 1.1.1.1 1.0.0.1 192.168.0.1
+    sudo networksetup -SetDNSServers Wi-Fi 1.1.1.2 1.0.0.2 192.168.0.1
     # sudo networksetup -SetV6Off Wi-Fi
     networksetup -ListNetworkServiceOrder
     nslookup apple.com
@@ -165,13 +204,24 @@ echo "--------------------------------"
     echo 'Rebooting to reflect settings'
 
     # 再起動
-    for app in "Dock" \
+    for app in \
+        "Activity Monitor" \
+        "Address Book" \
+        "Calendar" \
+        "Contacts" \
+        "Dock" \
         "Finder" \
+        "Mail" \
+        "Messages" \
+        "Photos" \
+        "Safari" \
+        "Terminal" \
         "SystemUIServer"; do
         killall "${app}" > /dev/null 2>&1
     done
 
 {{ else if eq .chezmoi.os "linux" -}}
+    echo "desktop setup start..."
 
     # ユーザー名を動的に取得
     USER_NAME=${SUDO_USER:-$(whoami)}
@@ -180,12 +230,11 @@ echo "--------------------------------"
 
     # デスクトップ環境のインストール
     desktop_setup() {
-        echo "desktop setup start..."
         sudo apt-get update -y && sudo apt-get upgrade -y
-        sudo apt-get install -y {{ .packages.linux.gui | join " " }} || echo "desktop setup failed."
+        sudo apt-get install -y {{ .packages.linux.gui | join " " }} || echo "desktop packages install failed."
         #sudo apt-get remove -y light-locker xscreensaver &&
         sudo apt-get autoremove -y && sudo apt-get clean && sudo rm -rf /var/cache/apt /var/lib/apt/lists/*
-        echo "desktop setup completed."
+        echo "desktop packages installed."
     }
 
     # Snap をインストールおよび管理する関数
@@ -260,7 +309,7 @@ echo "--------------------------------"
     # GitHub Desktop と Cursor をインストールする関数
     install_github_desktop() {
         if ! command -v github-desktop >/dev/null 2>&1; then
-            sudo wget https://github.com/shiftkey/desktop/releases/download/release-3.4.3-linux1/GitHubDesktop-linux-${arch}-3.4.3-linux1.deb
+            sudo curl -L https://github.com/shiftkey/desktop/releases/download/release-3.4.3-linux1/GitHubDesktop-linux-${arch}-3.4.3-linux1.deb -o GitHubDesktop-linux-${arch}-3.4.3-linux1.deb
             sudo dpkg -i GitHubDesktop-linux-${arch}-3.4.3-linux1.deb || echo "github desktop install failed."
             sudo rm -f GitHubDesktop-linux-${arch}-3.4.3-linux1.deb
             echo "github desktop installed."
@@ -291,6 +340,7 @@ echo "--------------------------------"
             sudo apt install -y wireshark || echo "wireshark install failed."
             sudo groupadd -f wireshark
             sudo usermod -aG wireshark "$USER_NAME"
+            sudo chmod +x /usr/bin/dumpcap
             echo "wireshark installed."
         else
             echo "wireshark already installed."
@@ -339,26 +389,6 @@ echo "--------------------------------"
         echo "pipewire installed."
     }
 
-    # フォントをインストールする関数
-    install_fonts() {
-        # フォントディレクトリ
-        fonts="${XDG_DATA_HOME:-$HOME/.local/share}/fonts"
-        # フォントディレクトリを作成
-        sudo mkdir -p "${fonts}"
-        # HackGen フォントのダウンロード
-        sudo curl -L https://github.com/yuru7/HackGen/releases/download/v2.9.0/HackGen_NF_v2.9.0.zip -o "${fonts}/HackGen_NF_v2.9.0.zip"
-        # RobotoMonoJP フォントのダウンロード
-        sudo curl -L https://github.com/mjun0812/RobotoMonoJP/releases/download/v5.9.0/RobotoMonoJP-Regular.ttf -o "${fonts}/RobotoMonoNF-Regular.ttf"
-        # HackGen フォントの展開（ttfファイルのみをfontsディレクトリに配置）
-        sudo unzip -j -o "${fonts}/HackGen_NF_v2.9.0.zip" '*.ttf' -d "${fonts}"
-        # ダウンロードしたzipファイルの削除
-        sudo rm -f "${fonts}/HackGen_NF_v2.9.0.zip"
-        # フォントキャッシュの更新
-        fc-cache -fv
-        echo "fonts installed."
-        tree "${fonts}"
-    }
-
     # xrdpの設定
     xrdp_setup() {
         echo "xrdp setup start..."
@@ -394,7 +424,6 @@ echo "--------------------------------"
         install_ruby_fusuma
         # install_wireshark
         install_pipewire
-        # install_fonts
         japan_setup
         xrdp_setup
         echo "desktop setup completed."
