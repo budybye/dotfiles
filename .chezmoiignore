@@ -20,6 +20,7 @@ README.md
 style.css
 Makefile
 install.sh
+
 .env
 .tool-versions
 .mise.toml
@@ -27,3 +28,5 @@ install.sh
 .gitignore
 .gitconfig
 .github
+.vscode
+.devcontainer
