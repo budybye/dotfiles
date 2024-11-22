@@ -13,7 +13,7 @@ font_size = 13
 
 # フォントの設定
 [*.{c,h,cpp,py,java,js,ts,sh,rs,go,json,yaml,yml,toml,ini,css,html,sql,txt,md,php,file,dat,csv,xml}]
-font_family = "HackGen Console NF", "Source Code Pro", "monospace", "Consolas"
+font_family = "HackGen Console NF", "RobotoMonoJP", "monospace", "Consolas"
 
 # インデント ４
 [*.{py, php, java, rs, go}]
