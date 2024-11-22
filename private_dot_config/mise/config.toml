@@ -49,7 +49,7 @@ trusted_config_paths = [
 ]
 
 verbose = false       # trueに設定すると、インストールの全出力が表示されます。`MISE_VERBOSE`を参照
-asdf_compat = false   # trueに設定すると、.tool-versionsがasdfと互換性を持つようになります。`MISE_ASDF_COMPAT`を参照
+asdf_compat = true    # trueに設定すると、.tool-versionsがasdfと互換性を持つようになります。`MISE_ASDF_COMPAT`を参照
 http_timeout = "30s"  # HTTPリクエストのタイムアウトを設定します。`MISE_HTTP_TIMEOUT`を参照
 jobs = 4              # 並行してインストールするプラグインやランタイムの数。デフォルトは`4`
 raw = false           # trueに設定すると、プラグインを直接stdin/stdout/stderrにパイプします
