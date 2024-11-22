@@ -153,6 +153,7 @@ echo "--------------------------------"
         echo "cargo tools install start..."
         cargo install cargo-binstall@1.6.9 || echo "cargo-binstall install failed."
         cargo binstall starship sheldon fd-find xh bat || echo "cargo tools install failed."
+        # cargo binstall starship@1.20.1 sheldon fd-find@9.0.0 xh bat || echo "cargo tools install failed."
         echo "cargo tools installed."
         for cmd in starship sheldon fd xh bat; do
             command -v "$cmd" >> ${HOME}/which || echo "$cmd not found"
@@ -173,6 +174,8 @@ echo "--------------------------------"
 
         ${HOME}/.local/share/mise/shims/go install github.com/aquaproj/aqua/v2/cmd/aqua@latest || echo "aqua install failed."
         echo "aqua installed."
+        # パスが通っていないので直接パスを指定
+        ${HOME}/.local/share/mise/installs/go/1.23.2/bin/aqua init || echo "aqua not found"
         command -v aqua >> ${HOME}/which || echo "aqua not found" >> ${HOME}/which
     }
 
