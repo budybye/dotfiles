@@ -18,7 +18,7 @@ key_path="{{ .chezmoi.sourceDir }}/${key_name}"
 
 {{ end }}
 
-{{ if ne .chezmoi.user "runner" -}}
+{{ if ne .chezmoi.username "runner" -}}
     echo "Please enter your passphrase:"
 
     if [ ! -f ${identity} ]; then
