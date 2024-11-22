@@ -15,7 +15,10 @@ style = "Bold"
 family = "HackGen Console NF"
 style = "Italic"
 
-[shell]
+[terminal]
+osc52 = "CopyPaste"
+
+[terminal.shell]
 program = "/bin/zsh"
 args = ["--login"]
 
@@ -53,3 +56,6 @@ blue = "0xb3deef"
 magenta = "0xd3b987"
 cyan = "0x73cef4"
 white = "0xfeffff"
+
+[env]
+TERM = "xterm-256color"
