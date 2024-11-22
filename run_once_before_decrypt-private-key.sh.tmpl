@@ -16,14 +16,16 @@ key_path="{{ .chezmoi.sourceDir }}/${key_name}"
     echo "Your OS is {{ .chezmoi.os }}"
     curl -sSL https://github.com/FiloSottile/age/releases/download/v1.1.2/age-v1.1.2-darwin-amd64.tar.gz | tar xz
 
-{{ end -}}
+{{ end }}
 
-echo "Please enter your passphrase:"
+{{ if ne .chezmoi.user "runner" -}}
+    echo "Please enter your passphrase:"
 
-if [ ! -f ${identity} ]; then
-    mkdir -p ${HOME}/.config/chezmoi
-    chezmoi age decrypt --output "${identity}" --passphrase "${key_path}"
-    chmod 600 ${identity}
-fi
+    if [ ! -f ${identity} ]; then
+        mkdir -p ${HOME}/.config/chezmoi
+        chezmoi age decrypt --output "${identity}" --passphrase "${key_path}"
+        chmod 600 ${identity}
+    fi
+{{ end }}
 
 echo "Decrypt-private-key complete."
