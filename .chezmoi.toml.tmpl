@@ -1,13 +1,6 @@
 # chezmoi .yaml or .toml or .json file is a configuration file for chezmoi
 # dotfiles/.chezmoi.yaml.tmpl に設定を記述すると.local/share/chezmoi/chezmoi.yamlに反映される
 
-encryption = "age"
-
-[age]
-  identity = "~/config/chezmoi/key.txt"
-  recipients = "age1x5f8f75r0rwclumjhjyh0uwcj5s3k4qmrx6xhengqes7yuuf64ksfwt2np"
-  passphrase = true
-
 
 # tmpl で参照する変数
 [data]
@@ -63,3 +56,12 @@ encryption = "age"
 umask = 0o022
 
 scriptTempDir = "~/tmp"
+
+{{ if ne .chezmoi.username "runner" }}
+  encryption = "age"
+
+  [age]
+    identity = "~/config/chezmoi/key.txt"
+    recipients = "age1x5f8f75r0rwclumjhjyh0uwcj5s3k4qmrx6xhengqes7yuuf64ksfwt2np"
+    passphrase = true
+{{ end }}
