@@ -151,7 +151,8 @@ echo "--------------------------------"
         command -v cargo >> ${HOME}/which || echo "cargo not found"
 
         echo "cargo tools install start..."
-        cargo install starship@1.20.1 sheldon fd-find@9.0.0 xh bat || echo "cargo tools install failed."
+        cargo install cargo-binstall@1.6.9 || echo "cargo-binstall install failed."
+        cargo binstall starship sheldon fd-find xh bat || echo "cargo tools install failed."
         echo "cargo tools installed."
         for cmd in starship sheldon fd xh bat; do
             command -v "$cmd" >> ${HOME}/which || echo "$cmd not found"
