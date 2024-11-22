@@ -6,8 +6,9 @@
     .config/karabiner
 {{ else if eq (env "REMOTE_CONTAINERS") "true" -}}
     data
-{{ else if eq .chezmoi.username "runner" }}
+{{ else if eq .chezmoi.username "runner" -}}
     .ssh/id_ed25519.age
+    dot_ssh/encrypted_id_ed25519.age
 {{ else -}}
     .config/*
     data/*
