@@ -22,13 +22,11 @@ echo "$PATH" | tr ':' '\n'
 echo "--------------------------------"
 echo "SSH key ..."
 cat /etc/ssh/sshd_config
+echo "--------------------------------"
 ls -la ~/.ssh
 echo "--------------------------------"
 echo "SSH key pub ..."
 cat ~/.ssh/id_ed25519.pub
-echo "--------------------------------"
-echo "SSH key authorized_keys ..."
-cat ~/.ssh/authorized_keys
 echo "--------------------------------"
 echo "git config ..."
 cat ~/.config/git/user.conf

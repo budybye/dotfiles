@@ -25,3 +25,5 @@ git:
 	git add -A && git commit --allow-empty-message -m "" && git push origin main
 bw:
 	export BW_SESSION=$(bw unlock --raw)
+age:
+	age-keygen | tee >(age --armor --passphrase > key.txt.age) > publickey.txt

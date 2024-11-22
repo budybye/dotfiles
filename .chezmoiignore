@@ -4,6 +4,8 @@
 {{ if eq .name "runner" -}}
     .ssh/id_ed25519.age
     .ssh/authorized_keys
+    key.txt.age
+    
 {{ else if eq .name "dev" -}}
     data
 
