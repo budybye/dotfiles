@@ -1,4 +1,6 @@
-{{ if eq .chezmoi.os "darwin" -}}
+{{ if eq .chezmoi.username "runner" -}}
+    .ssh/id_ed25519.age
+{{ else if eq .chezmoi.os "darwin" -}}
     .config/fusuma
     .config/fcitx5
 {{ else if eq .chezmoi.os "linux" -}}
@@ -6,9 +8,6 @@
     .config/karabiner
 {{ else if eq (env "REMOTE_CONTAINERS") "true" -}}
     data
-{{ else if eq .chezmoi.username "runner" -}}
-    .ssh/id_ed25519.age
-    dot_ssh/encrypted_id_ed25519.age
 {{ else -}}
     .config/*
     data/*
