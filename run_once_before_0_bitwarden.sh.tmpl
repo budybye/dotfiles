@@ -20,12 +20,15 @@ cd ${HOME}
 {{ end -}}
 
 if command -v bw >/dev/null 2>&1; then
+    echo "bw cli in PATH"
     echo "export BW_SESSION="$(bw unlock --raw)"" >> .env || echo "bw unlock failed."
 
 elif [ -f ${HOME}/.local/share/mise/installs/bitwarden/2024.11.0/bin/bw ]; then
+    echo "bw cli not in PATH"
     echo "export BW_SESSION="$(${HOME}/.local/share/mise/installs/bitwarden/2024.11.0/bin/bw unlock --raw)"" >> .env || echo "bw unlock failed."
 
 elif [ -f ${HOME}/.local/share/mise/installs/node/20.18.1/bin/bw ]; then
+    echo "bw cli not in PATH"
     echo "export BW_SESSION="$(${HOME}/.local/share/mise/node/installs/20.18.1/bin/bw unlock --raw)"" >> .env || echo "bw unlock failed."
 
 else

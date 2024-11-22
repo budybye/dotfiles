@@ -219,7 +219,8 @@ echo "--------------------------------"
         "SystemUIServer"; do
         killall "${app}" > /dev/null 2>&1
     done
-
+    fastfetch
+    
 {{ else if eq .chezmoi.os "linux" -}}
     echo "desktop setup start..."
 
@@ -427,6 +428,7 @@ echo "--------------------------------"
         japan_setup
         xrdp_setup
         echo "desktop setup completed."
+        neofetch
     }
     setup
 
@@ -438,4 +440,5 @@ echo "--------------------------------"
 
 echo "--------------------------------"
 echo "desktop setup complete"
+
 echo "--------------------------------"

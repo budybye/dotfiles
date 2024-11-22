@@ -23,12 +23,17 @@ echo "--------------------------------"
 echo "SSH key ..."
 cat /etc/ssh/sshd_config
 ls -la ~/.ssh
+echo "--------------------------------"
+echo "SSH key pub ..."
 cat ~/.ssh/id_ed25519.pub
+echo "--------------------------------"
+echo "SSH key authorized_keys ..."
+cat ~/.ssh/authorized_keys
 echo "--------------------------------"
 echo "git config ..."
 cat ~/.config/git/user.conf
-git config --global user.name
-git config --global user.email
+git config user.name
+git config user.email
 git config --list
 git config --global commit.template ${HOME}/.config/git/commit.template
 echo "--------------------------------"
@@ -81,7 +86,7 @@ echo "--------------------------------"
             sudo curl -L "$COMPOSE_URL" -o /usr/local/bin/docker-compose || echo "docker-compose download failed." >> ${HOME}/which
             sudo chmod +x /usr/local/bin/docker-compose
             command -v docker compose >> ${HOME}/which || echo "docker-compose not found" >> ${HOME}/which
-           echo "docker-compose installed."
+            echo "docker-compose installed."
         fi
     }
 
@@ -119,8 +124,9 @@ echo "--------------------------------"
         command -v mise >> ${HOME}/which || echo "mise not found" >> ${HOME}/which
         # version 指定しないと arm64 でエラーになる
         mise use -g bun go@1.23.2 -y --verbose || echo "mise use failed." >> ${HOME}/which
-        mise activate bash || true
-        mise activate --shims || true
+        mise activate bash
+        # mise activate --shims
+        export PATH="${HOME}/.local/share/mise/shims:$PATH"
         echo "mise setup completed."
         for cmd in bun go; do
             command -v "$cmd" >> ${HOME}/which || echo "$cmd not found" >> ${HOME}/which
@@ -151,7 +157,7 @@ echo "--------------------------------"
 
     # Go と Aqua をインストールする関数
     install_go_aqua() {
-        mise use -g go@1.23.2 -y || echo "go install failed." >> ${HOME}/which
+        command -v go >/dev/null || mise use -g go@1.23.2 -y || sudo apt-get install -y golang || echo "go install failed." >> ${HOME}/which
         command -v go >> ${HOME}/which || echo "go not found" >> ${HOME}/which
 
         ${HOME}/.local/share/mise/installs/go/1.23.2/bin/go install github.com/aquaproj/aqua/v2/cmd/aqua@latest || echo "aqua install failed." >> ${HOME}/which
@@ -201,15 +207,14 @@ echo "--------------------------------"
         install_cargo_tools
         install_flatpak
         install_go_aqua
-        install_volta
+        # install_volta
         install_mkcert
         install_act
         install_multipass
         echo "install completed. please reboot."
-        neofetch
         cat ${HOME}/which && rm -f ${HOME}/which
+        neofetch
     }
-
     # スクリプトを実行
     install_cli_tools
 
@@ -283,7 +288,6 @@ echo "--------------------------------"
         install_rosetta
         echo "bootstrap done."
         fastfetch
-        x
     }
     bootstrap
 

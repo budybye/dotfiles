@@ -1,4 +1,5 @@
 # https://starship.rs/ja-jp/config/
+
 "$schema" = 'https://starship.rs/config-schema.json'
 
 # シェルプロンプトの間に空行を追加します
