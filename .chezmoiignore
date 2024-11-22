@@ -24,7 +24,10 @@ install.sh
 .env
 .tool-versions
 .mise.toml
+
 .chezmoiexternal.*
+kye.txt.age
+
 .gitignore
 .gitconfig
 .github

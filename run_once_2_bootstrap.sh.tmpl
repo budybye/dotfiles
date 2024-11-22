@@ -183,8 +183,10 @@ echo "--------------------------------"
 
     install_act() {
         echo "act install start..."
-        command -v act >/dev/null || curl https://raw.githubusercontent.com/nektos/act/master/install.sh | sudo bash || echo "act install failed." >> ${HOME}/which
-        sudo mv ./bin/act ${HOME}/.local/bin && sudo chmod +x ${HOME}/.local/bin/act
+        if ! command -v act >/dev/null; then
+            curl https://raw.githubusercontent.com/nektos/act/master/install.sh | sudo bash || echo "act install failed." >> ${HOME}/which
+            sudo mv ./bin/act ${HOME}/.local/bin && sudo chmod +x ${HOME}/.local/bin/act
+        fi
         echo "act installed."
         command -v act >> ${HOME}/which || echo "act not found" >> ${HOME}/which
     }
