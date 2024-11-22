@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 
+echo "run_once_2_bootstrap.sh.tmpl"
 USERNAME=$(whoami)
-
 echo "--------------------------------"
 echo "Welcome to my dotfiles!!"
 echo "dotfilesDir: {{ .dotfilesDir }}"
@@ -23,10 +23,22 @@ echo "--------------------------------"
 echo "SSH key ..."
 cat /etc/ssh/sshd_config
 echo "--------------------------------"
+chmod 700 ~/.ssh
+chmod 600 ~/.ssh/id_ed25519
+chmod 644 ~/.ssh/id_ed25519.pub
+{{- if ne .name "runner" }}
+    chmod 600 ~/.ssh/authorized_keys
+    echo "authorized_keys..."
+    cat ~/.ssh/authorized_keys
+    echo "--------------------------------"
+{{- end }}
 ls -la ~/.ssh
 echo "--------------------------------"
 echo "SSH key pub ..."
 cat ~/.ssh/id_ed25519.pub
+echo "--------------------------------"
+echo "SSH Config ..."
+cat ~/.ssh/config
 echo "--------------------------------"
 echo "git config ..."
 cat ~/.config/git/user.conf
@@ -119,10 +131,10 @@ echo "--------------------------------"
         else
             echo "mise already installed."
         fi
-        command -v mise >> ${HOME}/which || echo "mise not found" >> ${HOME}/which
+        command -v mise >> ${HOME}/which || echo "mise not found"
         # version 指定しないと arm64 でエラーになる
-        mise use -g bun go@1.23.2 -y --verbose || echo "mise use failed." >> ${HOME}/which
-        mise activate bash
+        mise use -g bun go@1.23.2 -y --verbose || echo "mise use failed."
+        mise activate bash >/dev/null
         # mise activate --shims
         export PATH="${HOME}/.local/share/mise/shims:$PATH"
         echo "mise setup completed."
@@ -134,31 +146,31 @@ echo "--------------------------------"
     # Cargo および Rust 関連ツールをインストールする関数
     install_cargo_tools() {
         echo "cargo install start..."
-        command -v cargo >/dev/null || mise use rust -y || sudo apt-get install -y cargo || echo "cargo install failed." >> ${HOME}/which
+        command -v cargo >/dev/null || mise use rust -y || sudo apt-get install -y cargo || echo "cargo install failed."
         echo "cargo installed."
-        command -v cargo >> ${HOME}/which || echo "cargo not found" >> ${HOME}/which
+        command -v cargo >> ${HOME}/which || echo "cargo not found"
 
         echo "cargo tools install start..."
-        cargo install starship@1.20.1 sheldon fd-find@9.0.0 xh bat || echo "cargo tools install failed." >> ${HOME}/which
+        cargo install starship@1.20.1 sheldon fd-find@9.0.0 xh bat || echo "cargo tools install failed."
         echo "cargo tools installed."
         for cmd in starship sheldon fd xh bat; do
-            command -v "$cmd" >> ${HOME}/which || echo "$cmd not found" >> ${HOME}/which
+            command -v "$cmd" >> ${HOME}/which || echo "$cmd not found"
         done
     }
 
     install_flatpak() {
-        command -v flatpak >/dev/null || sudo apt-get install -y flatpak || echo "flatpak install failed." >> ${HOME}/which
+        command -v flatpak >/dev/null || sudo apt-get install -y flatpak || echo "flatpak install failed."
         sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
         echo "flatpak installed."
-        command -v flatpak >> ${HOME}/which || echo "flatpak not found" >> ${HOME}/which
+        command -v flatpak >> ${HOME}/which || echo "flatpak not found"
     }
 
     # Go と Aqua をインストールする関数
     install_go_aqua() {
-        command -v go >/dev/null || mise use -g go@1.23.2 -y || sudo apt-get install -y golang || echo "go install failed." >> ${HOME}/which
+        command -v go >/dev/null || mise use -g go@1.23.2 -y || sudo apt-get install -y golang || echo "go install failed."
         command -v go >> ${HOME}/which || echo "go not found" >> ${HOME}/which
 
-        ${HOME}/.local/share/mise/installs/go/1.23.2/bin/go install github.com/aquaproj/aqua/v2/cmd/aqua@latest || echo "aqua install failed." >> ${HOME}/which
+        ${HOME}/.local/share/mise/shims/go install github.com/aquaproj/aqua/v2/cmd/aqua@latest || echo "aqua install failed."
         echo "aqua installed."
         command -v aqua >> ${HOME}/which || echo "aqua not found" >> ${HOME}/which
     }
@@ -166,38 +178,37 @@ echo "--------------------------------"
     # mkcert をインストールおよび設定する関数
     install_mkcert() {
         echo "mkcert install start..."
-        command -v mkcert >/dev/null || mise use mkcert -y || sudo apt install -y mkcert || echo "mkcert install failed." >> ${HOME}/which
+        command -v mkcert >/dev/null || mise use mkcert -y || sudo apt install -y mkcert || echo "mkcert install failed."
         mkcert -install
         echo "mkcert installed."
-        command -v mkcert >> ${HOME}/which || echo "mkcert not found" >> ${HOME}/which
+        command -v mkcert >> ${HOME}/which || echo "mkcert not found"
     }
 
     install_multipass() {
         echo "multipass install start..."
-        command -v multipass >/dev/null || sudo snap install multipass || echo "multipass install failed." >> ${HOME}/which
+        command -v multipass >/dev/null || sudo snap install multipass || echo "multipass install failed."
         echo "multipass installed."
-        command -v multipass >> ${HOME}/which || echo "multipass not found" >> ${HOME}/which
+        command -v multipass >> ${HOME}/which || echo "multipass not found"
     }
 
     install_act() {
         echo "act install start..."
         if ! command -v act >/dev/null; then
-            curl https://raw.githubusercontent.com/nektos/act/master/install.sh | sudo bash || echo "act install failed." >> ${HOME}/which
-            sudo mv ./bin/act ${HOME}/.local/bin && sudo chmod +x ${HOME}/.local/bin/act
+            curl https://raw.githubusercontent.com/nektos/act/master/install.sh | sudo bash || echo "act install failed."
+            sudo mv ./bin/act ${HOME}/.local/bin && chmod +x ${HOME}/.local/bin/act
         fi
         echo "act installed."
-        command -v act >> ${HOME}/which || echo "act not found" >> ${HOME}/which
+        command -v act >> ${HOME}/which || echo "act not found"
     }
 
     install_volta() {
         echo "volta install start..."
-        command -v volta >/dev/null || curl https://get.volta.sh | bash || echo "volta install failed." >> ${HOME}/which
+        command -v volta >/dev/null || curl https://get.volta.sh | bash || echo "volta install failed."
         echo "volta installed."
-        command -v volta >> ${HOME}/which || echo "volta not found" >> ${HOME}/which
+        command -v volta >> ${HOME}/which || echo "volta not found"
     }
 
     install_cli_tools() {
-        export PATH="$HOME/.cache/.bun/bin:$HOME/.local/bin:$HOME/.cargo/bin:$HOME/.volta/bin:$HOME:$HOME/.bun/bin:$HOME/bin:$PATH"
         echo "CLI tools install start..."
         install_packages
         change_shell_to_zsh
@@ -213,7 +224,6 @@ echo "--------------------------------"
         install_multipass
         echo "install completed. please reboot."
         cat ${HOME}/which && rm -f ${HOME}/which
-        neofetch
     }
     # スクリプトを実行
     install_cli_tools
@@ -287,12 +297,11 @@ echo "--------------------------------"
         install_brew_packages
         install_rosetta
         echo "bootstrap done."
-        fastfetch
     }
     bootstrap
 
 {{- end }}
-
 echo "--------------------------------"
 echo "zsh --version $(zsh --version)"
 echo "Package update && check done!!"
+echo "--------------------------------"

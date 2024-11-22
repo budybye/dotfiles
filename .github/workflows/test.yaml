@@ -93,7 +93,8 @@ jobs:
           env: |
             USE_BEDROCK: true
             TARGETPLATFORM: ${{ matrix.platform }}
-          push: always
+          # push: always
+          push: never
           runCmd: |
             env
             ls -la

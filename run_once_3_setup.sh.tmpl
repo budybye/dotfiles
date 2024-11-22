@@ -1,228 +1,251 @@
 #! /usr/bin/env bash
 
-echo "--------------------------------"
+echo "run_once_3_setup.sh.tmpl"
 echo "OS: {{ .chezmoi.os | quote }}"
 echo "desktop system setup"
 echo "--------------------------------"
 
 {{ if eq .chezmoi.os "darwin" -}}
-    echo "macOS setup start..."
-    # コンピュータ名、ホスト名、ローカルホスト名、ユーザー名を設定
-    #sudo scutil --set ComputerName "iCom"
-    #sudo scutil --set LocalHostName "101"
-    #sudo scutil --set HostName "101"
-    #sudo scutil --set UserName "hotmilk"
 
-    # (on マシンがフリーズしたら自動的にリスタート)
-    systemsetup -setrestartfreeze on
-    # スリープしない
-    systemsetup -setcomputersleep Off
-    # ネットワーク時刻サーバーを設定
-    systemsetup -setnetworktimeserver time.apple.com
-    # タイムゾーンを設定
-    systemsetup -settimezone "Asia/Tokyo"
-    # リモートログインを有効化
-    # systemsetup -setremotelogin on
+    user_setup() {
+        # コンピュータ名、ホスト名、ローカルホスト名、ユーザー名を設定
+        sudo scutil --set ComputerName "iCom"
+        sudo scutil --set LocalHostName "101"
+        sudo scutil --set HostName "101"
+        sudo scutil --set UserName "hotmilk"
+        whoami
+        pwd
+    }
+
+    system_setup() {
+        # (on マシンがフリーズしたら自動的にリスタート)
+        systemsetup -setrestartfreeze on
+        # スリープしない
+        systemsetup -setcomputersleep Off
+        # ネットワーク時刻サーバーを設定
+        systemsetup -setnetworktimeserver time.apple.com
+        # タイムゾーンを設定
+        systemsetup -settimezone "Asia/Tokyo"
+        # リモートログインを有効化
+        # systemsetup -setremotelogin on
+    }
+
+    app_setup() {
+        # 他のMacで購入したアプリを自動的にダウンロードする
+        defaults write com.apple.SoftwareUpdate ConfigDataInstall -int 1
+        # ソフトウェアの自動更新を有効化
+        defaults write com.apple.commerce AutoUpdate -bool true
+        # WebKitデベロッパーツールを有効にする
+        defaults write com.apple.appstore WebKitDeveloperExtras -bool true
+        # デバッグメニューを有効にする
+        defaults write com.apple.appstore ShowDebugMenu -bool true
+        # 自動更新チェックを有効にする
+        defaults write com.apple.SoftwareUpdate AutomaticCheckEnabled -bool true
+        # 毎日アプリケーションのアップデートを確認する
+        defaults write com.apple.SoftwareUpdate ScheduleFrequency -int 1
+        # アプリケーションのアップデートをバックグラウンドでダウンロードする
+        defaults write com.apple.SoftwareUpdate AutomaticDownload -int 1
+        # システムデータファイルとセキュリティ更新プログラムをインストールする
+        defaults write com.apple.SoftwareUpdate CriticalUpdateInstall -int 1
+        # 他のMacで購入したアプリを自動的にダウンロードする
+        defaults write com.apple.SoftwareUpdate ConfigDataInstall -int 1
+        # アプリケーションの自動更新を有効化
+        defaults write com.apple.commerce AutoUpdate -bool true
+        # 再起動が必要なアプリケーションの場合自動で再起動を有効化する
+        defaults write com.apple.commerce AutoUpdateRestartRequired -bool true
+    }
+
+    interface_setup() {
+        # F1、F2などのキーを標準的なファンクションキーとして使用
+        defaults write -g com.apple.keyboard.fnState -bool true
+        # キーリピートを早くする
+        defaults write -g KeyRepeat -int 1
+        # キー入力の連打を有効化させる
+        defaults write -g ApplePressAndHoldEnabled -bool false
+
+        # Enable `Tap to click` （タップでクリックを有効にする）
+        defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
+        # 三本指でドラッグ
+        defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerDrag -bool true && \
+        defaults write com.apple.AppleMultitouchTrackpad TrackpadThreeFingerDrag -bool true
+        # フルスクリーンアプリケーション感をするために4本指でスワイプを有効にする
+        defaults write com.apple.AppleMultitouchTrackpad.plist TrackpadFourFingerVertSwipeGesture -int 2 && \
+        defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad.plist TrackpadFourFingerVertSwipeGesture -int 2
+        # トラックパッドのナチュラルスクロールをオンにする
+        defaults write NSGlobalDomain com.apple.swipescrolldirection -bool true
+        # マウスの動きを高速化
+        defaults write "Apple Global Domain" com.apple.mouse.scaling 4.0
+        # トラックパッドの動きを高速化
+        defaults write "Apple Global Domain" com.apple.trackpad.scaling 4.0
+    }
+
+    dock_setup() {
+        # 自動で隠す
+        defaults write com.apple.dock autohide -bool true
+        # dockの動作を素早くする
+        defaults write com.apple.dock autohide-time-modifier -float 0.15
+        # Dock が表示されるまでの待ち時間を無効にする
+        defaults write com.apple.dock autohide-delay -float 0
+        # Dockからアプリを起動するときのアニメーションを無効
+        defaults write com.apple.dock launchanim -bool false
+        # Automatically hide or show the Dock （Dock を自動的に隠す）
+        defaults write com.apple.dock autohide -bool true
+        # Wipe all app icons from the Dock （Dock に標準で入っている全てのアプリを消す、Finder とごみ箱は消えない）
+        defaults write com.apple.dock persistent-apps -array
+        # Dock Size
+        defaults write com.apple.dock tilesize -int 50
+        # Dock 拡大
+        defaults write com.apple.dock magnification -bool true
+        # Dock 拡大サイズ
+        defaults write com.apple.dock largesize -int 123
+        # ウィンドウをアプリケーションアイコンにしまう
+        defaults write com.apple.dock minimize-to-application -bool true
+        # 最近使ったアプリを Dock に表示しない
+        defaults write com.apple.dock show-recents -bool false
+    }
+
+    window_setup() {
+        # Show the ~/Library directory （ライブラリディレクトリを表示、デフォルトは非表示）
+        chflags nohidden ~/Library
+        # ログイン画面でシステム情報を表示する
+        sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
+        # ダークモードをオンにする
+        sudo defaults write /Library/Preferences/.GlobalPreferences AppleInterfaceTheme Dark
+        # 時計アイコンクリック時に OS やホスト名 IP を表示する
+        sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
+        # クラッシュレポートを無効化する
+        defaults write com.apple.CrashReporter DialogType -string "none"
+        # 未確認のアプリケーションを実行する際のダイアログを無効にする
+        defaults write com.apple.LaunchServices LSQuarantine -bool false
+        # ダウンロードしたファイルを開くときの警告ダイアログをなくしたい
+        defaults write com.apple.LaunchServices LSQuarantine -bool false
+        # 未確認のアプリケーションを実行する際のダイアログを無効にする
+        defaults write com.apple.LaunchServices LSQuarantine -bool false
+        # ダイアログ表示やウィンドウリサイズ速度を高速化する
+        defaults write NSGlobalDomain NSWindowResizeTime -float 0.001
+        # (保存ダイアログのデフォルト表示スタイル) -> true (常に詳細な情報を開いて表示)
+        defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
+        # アクセントカラーをマルチカラーに設定する
+        defaults write NSGlobalDomain AppleAccentColor -int -1
+        # ウィンドウを開閉するときのアニメーションを無効
+        defaults write -g NSAutomaticWindowAnimationsEnabled -bool false
+        # スペルの訂正を無効にする
+        defaults write -g NSAutomaticSpellingCorrectionEnabled -bool false
+        # スクロールバーを常時表示する
+        defaults write -g AppleShowScrollBars -string "Always"
+        # ウィンドウサイズを調整する際の加速再生
+        defaults write -g NSWindowResizeTime -float 0.001
+        # Quick Lookウィンドウのアニメーションをオフ
+        defaults write -g QLPanelAnimationDuration -float 0
+        # テキストエディットをプレーンテキストで使う
+        defaults write com.apple.TextEdit RichText -int 0
+        # terminalでUTF-8のみを使用する
+        defaults write com.apple.terminal StringEncodings -array 4
+        # スクリーンショットをjpgで保存
+        defaults write com.apple.screencapture type jpg
+        # ネットワークディスクで、`.DS_Store` ファイルを作らない
+        defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
+        # 日付表示設定、曜日を表示
+        defaults write com.apple.menuextra.clock 'DateFormat' -string 'EEE H:mm'
+        # Bluetooth ヘッドフォン・ヘッドセットの音質を向上させる
+        defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" -int 40
+    }
+
+    finder_setup() {
+        # 全ての拡張子のファイルを表示
+        defaults write NSGlobalDomain AppleShowAllExtensions -bool true
+        # ディレクトリのスプリングロードを有効化
+        defaults write NSGlobalDomain com.apple.springing.enabled -bool true
+        # スプリングロード遅延を除去
+        defaults write NSGlobalDomain com.apple.springing.delay -float 0
+        # 新しいウィンドウでデフォルトでホームフォルダを開く
+        defaults write com.apple.finder NewWindowTarget -string "PfDe"
+        defaults write com.apple.finder NewWindowTargetPath -string "file://${HOME}/"
+        # 隠しファイルを常にファインダーに表示する
+        defaults write com.apple.finder AppleShowAllFiles -bool true
+        # Finder のタイトルバーにフルパスを表示する
+        defaults write com.apple.finder _FXShowPosixPathInTitle -bool true
+        # 検索時にデフォルトでカレントディレクトリを検索
+        defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
+        # 拡張子変更時の警告を無効化
+        defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
+        # タブバーを表示する
+        defaults write com.apple.finder ShowTabView -bool true
+        # パスバーを表示する
+        defaults write com.apple.finder ShowPathbar -bool true
+        # ステータスバーを表示する
+        defaults write com.apple.finder ShowStatusBar -bool true
+        # Finderで情報ウィンドウを開くときのアニメーションを無効
+        defaults write com.apple.finder DisableAllAnimations -bool true
+        # ゴミ箱を空にする前の警告の無効化
+        defaults write com.apple.finder WarnOnEmptyTrash -bool false
+        # 「新規フォルダ」のショートカットキー設定
+        defaults write com.apple.Finder NSUserKeyEquivalents -dict-add "新規フォルダ" -string "^k"
+        # 「ここに項目を移動」のショートカットキー設定
+        defaults write com.apple.Finder NSUserKeyEquivalents -dict-add "ここに項目を移動" -string "@^v"
+        # 「ゴミ箱に入れる」のショートカットキー設定
+        defaults write com.apple.Finder NSUserKeyEquivalents -dict-add "ゴミ箱に入れる" -string "^d"
+        # 「情報を見る」のショートカットキー設定
+        defaults write com.apple.Finder NSUserKeyEquivalents -dict-add "情報を見る" -string "^l"
+    }
+
+    search_setup() {
+        # Spotlight検索を表示を無効化
+        defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 64 "<dict><key>enabled</key><false/><key>value</key><dict><key>parameters</key><array><integer>65535</integer><integer>49</integer><integer>1048576</integer></array><key>type</key><string>standard</string></dict></dict>"
+        # Finderの検索ウインドウを表示を無効化
+        defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 65 "<dict><key>enabled</key><false/><key>value</key><dict><key>parameters</key><array><integer>65535</integer><integer>49</integer><integer>1572864</integer></array><key>type</key><string>standard</string></dict></dict>"
+        # Spotlight検索を表示、Finderの検索ウインドウを表示が無効化になっているか確認する（64、65をチェックすること）
+        # defaults read com.apple.symbolichotkeys AppleSymbolicHotKeys | grep -E '64|65'
+    }
+
+    network_setup() {
+        # sudo networksetup -SetAirportPower en0 on
+        # sudo networksetup -SetAirportNetwork en0 <SSID> <PASSWORD>
+        sudo networksetup -SetDNSServers Wi-Fi 1.1.1.2 1.0.0.2 192.168.0.1
+        # sudo networksetup -SetV6Off Wi-Fi
+        networksetup -ListNetworkServiceOrder
+        nslookup apple.com
+    }
 
 
-    # Show the ~/Library directory （ライブラリディレクトリを表示、デフォルトは非表示）
-    chflags nohidden ~/Library
+    restart() {
+        echo 'Rebooting to reflect settings'
+        # 再起動
+        for app in \
+            "Activity Monitor" \
+            "Address Book" \
+            "Calendar" \
+            "Contacts" \
+            "Dock" \
+            "Finder" \
+            "Mail" \
+            "Messages" \
+            "Photos" \
+            "Safari" \
+            "Terminal" \
+            "SystemUIServer"; do
+            killall "${app}" > /dev/null 2>&1
+        done
+    }
 
-    ## defaults による初期設定
-
-    # ログイン画面でシステム情報を表示する
-    sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
-    # ダークモードをオンにする
-    sudo defaults write /Library/Preferences/.GlobalPreferences AppleInterfaceTheme Dark
-    # 時計アイコンクリック時に OS やホスト名 IP を表示する
-    sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
-
-    # 他のMacで購入したアプリを自動的にダウンロードする
-    # defaults write com.apple.SoftwareUpdate ConfigDataInstall -int 1
-    # ソフトウェアの自動更新を有効化
-    # defaults write com.apple.commerce AutoUpdate -bool true
-    # WebKitデベロッパーツールを有効にする
-    # defaults write com.apple.appstore WebKitDeveloperExtras -bool true
-    # デバッグメニューを有効にする
-    # defaults write com.apple.appstore ShowDebugMenu -bool true
-    # 自動更新チェックを有効にする
-    # defaults write com.apple.SoftwareUpdate AutomaticCheckEnabled -bool true
-    # 毎日アプリケーションのアップデートを確認する
-    # defaults write com.apple.SoftwareUpdate ScheduleFrequency -int 1
-    # アプリケーションのアップデートをバックグラウンドでダウンロードする
-    # defaults write com.apple.SoftwareUpdate AutomaticDownload -int 1
-    # システムデータファイルとセキュリティ更新プログラムをインストールする
-    # defaults write com.apple.SoftwareUpdate CriticalUpdateInstall -int 1
-    # 他のMacで購入したアプリを自動的にダウンロードする
-    # defaults write com.apple.SoftwareUpdate ConfigDataInstall -int 1
-    # アプリケーションの自動更新を有効化
-    # defaults write com.apple.commerce AutoUpdate -bool true
-    # 再起動が必要なアプリケーションの場合自動で再起動を有効化する
-    # defaults write com.apple.commerce AutoUpdateRestartRequired -bool true
-
-    # F1、F2などのキーを標準的なファンクションキーとして使用
-    defaults write -g com.apple.keyboard.fnState -bool true
-    # トラックパッドの動きを高速化
-    defaults write -g com.apple.trackpad.scaling 3 && \
-    # マウスの動きを高速化
-    defaults write -g com.apple.mouse.scaling 1.5
-    # キーリピートを早くする
-    defaults write -g KeyRepeat -int 1 && \
-    # キー入力の連打を有効化させる
-    defaults write -g ApplePressAndHoldEnabled -bool false
-
-    # 自動で隠す
-    defaults write com.apple.dock autohide -bool true
-    # dockの動作を素早くする
-    defaults write com.apple.dock autohide-time-modifier -float 0.15
-    # Dock が表示されるまでの待ち時間を無効にする
-    defaults write com.apple.dock autohide-delay -float 0
-    # Dockからアプリを起動するときのアニメーションを無効
-    defaults write com.apple.dock launchanim -bool false
-    # Automatically hide or show the Dock （Dock を自動的に隠す）
-    defaults write com.apple.dock autohide -bool true
-    # Wipe all app icons from the Dock （Dock に標準で入っている全てのアプリを消す、Finder とごみ箱は消えない）
-    defaults write com.apple.dock persistent-apps -array
-    # Dock Size
-    defaults write com.apple.dock tilesize -int 50
-    # Dock 拡大
-    defaults write com.apple.dock magnification -bool true
-    # Dock 拡大サイズ
-    defaults write com.apple.dock largesize -int 123
-    # ウィンドウをアプリケーションアイコンにしまう
-    defaults write com.apple.dock minimize-to-application -bool true
-    # 最近使ったアプリを Dock に表示しない
-    defaults write com.apple.dock show-recents -bool false
-
-    # Enable `Tap to click` （タップでクリックを有効にする）
-    defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
-    # 三本指でドラッグ
-    defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerDrag -bool true && \
-    defaults write com.apple.AppleMultitouchTrackpad TrackpadThreeFingerDrag -bool true
-    # フルスクリーンアプリケーション感をするために4本指でスワイプを有効にする
-    defaults write com.apple.AppleMultitouchTrackpad.plist TrackpadFourFingerVertSwipeGesture -int 2 && \
-    defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad.plist TrackpadFourFingerVertSwipeGesture -int 2
-    # トラックパッドのナチュラルスクロールをオンにする
-    defaults write NSGlobalDomain com.apple.swipescrolldirection -bool true
-
-    # マウスの動きを高速化
-    defaults write "Apple Global Domain" com.apple.mouse.scaling 4.0
-    # トラックパッドの動きを高速化
-    defaults write "Apple Global Domain" com.apple.trackpad.scaling 4.0
-
-    # クラッシュレポートを無効化する
-    defaults write com.apple.CrashReporter DialogType -string "none"
-    # 未確認のアプリケーションを実行する際のダイアログを無効にする
-    defaults write com.apple.LaunchServices LSQuarantine -bool false
-    # ダウンロードしたファイルを開くときの警告ダイアログをなくしたい
-    defaults write com.apple.LaunchServices LSQuarantine -bool false
-    # 未確認のアプリケーションを実行する際のダイアログを無効にする
-    defaults write com.apple.LaunchServices LSQuarantine -bool false
-    # ダイアログ表示やウィンドウリサイズ速度を高速化する
-    defaults write NSGlobalDomain NSWindowResizeTime -float 0.001
-    # (保存ダイアログのデフォルト表示スタイル) -> true (常に詳細な情報を開いて表示)
-    defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
-    # アクセントカラーをマルチカラーに設定する
-    defaults write NSGlobalDomain AppleAccentColor -int -1
-    # ウィンドウを開閉するときのアニメーションを無効
-    defaults write -g NSAutomaticWindowAnimationsEnabled -bool false
-    # スペルの訂正を無効にする
-    defaults write -g NSAutomaticSpellingCorrectionEnabled -bool false
-    # スクロールバーを常時表示する
-    defaults write -g AppleShowScrollBars -string "Always"
-    # ウィンドウサイズを調整する際の加速再生
-    defaults write -g NSWindowResizeTime -float 0.001
-    # Quick Lookウィンドウのアニメーションをオフ
-    defaults write -g QLPanelAnimationDuration -float 0
-    # テキストエディットをプレーンテキストで使う
-    defaults write com.apple.TextEdit RichText -int 0
-    # terminalでUTF-8のみを使用する
-    defaults write com.apple.terminal StringEncodings -array 4
-    # スクリーンショットをjpgで保存
-    defaults write com.apple.screencapture type jpg
-    # ネットワークディスクで、`.DS_Store` ファイルを作らない
-    defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
-    # 日付表示設定、曜日を表示
-    defaults write com.apple.menuextra.clock 'DateFormat' -string 'EEE H:mm'
-    # Bluetooth ヘッドフォン・ヘッドセットの音質を向上させる
-    defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" -int 40
-
-
-
-
-    # 全ての拡張子のファイルを表示
-    defaults write NSGlobalDomain AppleShowAllExtensions -bool true
-    # ディレクトリのスプリングロードを有効化
-    defaults write NSGlobalDomain com.apple.springing.enabled -bool true
-    # スプリングロード遅延を除去
-    defaults write NSGlobalDomain com.apple.springing.delay -float 0
-    # 新しいウィンドウでデフォルトでホームフォルダを開く
-    defaults write com.apple.finder NewWindowTarget -string "PfDe"
-    defaults write com.apple.finder NewWindowTargetPath -string "file://${HOME}/"
-    # 隠しファイルを常にファインダーに表示する
-    defaults write com.apple.finder AppleShowAllFiles -bool true
-    # Finder のタイトルバーにフルパスを表示する
-    defaults write com.apple.finder _FXShowPosixPathInTitle -bool true
-    # 検索時にデフォルトでカレントディレクトリを検索
-    defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
-    # 拡張子変更時の警告を無効化
-    defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
-    # タブバーを表示する
-    defaults write com.apple.finder ShowTabView -bool true
-    # パスバーを表示する
-    defaults write com.apple.finder ShowPathbar -bool true
-    # ステータスバーを表示する
-    defaults write com.apple.finder ShowStatusBar -bool true
-    # Finderで情報ウィンドウを開くときのアニメーションを無効
-    defaults write com.apple.finder DisableAllAnimations -bool true
-    # ゴミ箱を空にする前の警告の無効化
-    defaults write com.apple.finder WarnOnEmptyTrash -bool false
-
-    # 「新規フォルダ」のショートカットキー設定
-    defaults write com.apple.Finder NSUserKeyEquivalents -dict-add "新規フォルダ" -string "^k"
-    # 「ここに項目を移動」のショートカットキー設定
-    defaults write com.apple.Finder NSUserKeyEquivalents -dict-add "ここに項目を移動" -string "@^v"
-    # 「ゴミ箱に入れる」のショートカットキー設定
-    defaults write com.apple.Finder NSUserKeyEquivalents -dict-add "ゴミ箱に入れる" -string "^d"
-    # 「情報を見る」のショートカットキー設定
-    defaults write com.apple.Finder NSUserKeyEquivalents -dict-add "情報を見る" -string "^l"
-
-    # Spotlight検索を表示を無効化
-    defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 64 "<dict><key>enabled</key><false/><key>value</key><dict><key>parameters</key><array><integer>65535</integer><integer>49</integer><integer>1048576</integer></array><key>type</key><string>standard</string></dict></dict>"
-    # Finderの検索ウインドウを表示を無効化
-    defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 65 "<dict><key>enabled</key><false/><key>value</key><dict><key>parameters</key><array><integer>65535</integer><integer>49</integer><integer>1572864</integer></array><key>type</key><string>standard</string></dict></dict>"
-    # Spotlight検索を表示、Finderの検索ウインドウを表示が無効化になっているか確認する（64、65をチェックすること）
-    defaults read com.apple.symbolichotkeys AppleSymbolicHotKeys
-
-    # sudo networksetup -SetAirportPower en0 on
-    # sudo networksetup -SetAirportNetwork en0 <SSID> <PASSWORD>
-    sudo networksetup -SetDNSServers Wi-Fi 1.1.1.2 1.0.0.2 192.168.0.1
-    # sudo networksetup -SetV6Off Wi-Fi
-    networksetup -ListNetworkServiceOrder
-    nslookup apple.com
-
-    echo 'Rebooting to reflect settings'
-
-    # 再起動
-    for app in \
-        "Activity Monitor" \
-        "Address Book" \
-        "Calendar" \
-        "Contacts" \
-        "Dock" \
-        "Finder" \
-        "Mail" \
-        "Messages" \
-        "Photos" \
-        "Safari" \
-        "Terminal" \
-        "SystemUIServer"; do
-        killall "${app}" > /dev/null 2>&1
-    done
-    fastfetch
+    macos_setup() {
+        echo "macOS setup start..."
+        # user_setup
+        system_setup
+        # app_setup
+        interface_setup
+        window_setup
+        dock_setup
+        finder_setup
+        search_setup
+        network_setup
+        restart
+        echo "macOS setup completed."
+        fastfetch
+    }
+    macos_setup
 
 {{ else if eq .chezmoi.os "linux" -}}
-    echo "desktop setup start..."
 
     # ユーザー名を動的に取得
     USER_NAME=${SUDO_USER:-$(whoami)}
@@ -324,6 +347,7 @@ echo "--------------------------------"
         appimage="${HOME}/Applications/cursor"
         mkdir -p "${HOME}/Applications"
         if ! [ -f "${appimage}" ]; then
+
             if [ "${arch}" = "amd64" ]; then
                 curl -L https://downloader.cursor.sh/inulx -o "${appimage}" || echo "cursor download failed."
             else
@@ -350,7 +374,7 @@ echo "--------------------------------"
 
     # Ruby と Fusuma をインストールおよび設定する関数
     install_ruby_fusuma() {
-        command -v gem >/dev/null || mise use ruby -y || sudo apt-get install -y ruby || echo "ruby install failed."
+        command -v gem >/dev/null || mise use ruby -g -y || sudo apt-get install -y ruby || echo "ruby install failed."
         echo "ruby installed."
 
         if ! command -v fusuma >/dev/null 2>&1; then
@@ -368,8 +392,8 @@ echo "--------------------------------"
     japan_setup() {
         echo "japan setup start..."
         # CRDA設定ファイル内のREGDOMAINをJPに変更（存在しない場合は無視）
-        sudo sed -i 's/^\s*REGDOMAIN=S*/REGDOMAIN=JP/' /etc/default/crda || true
-        setupcon -k --force || true
+        # sudo sed -i 's/^\s*REGDOMAIN=S*/REGDOMAIN=JP/' /etc/default/crda || true
+        # setupcon -k --force || true
         LANG=C xdg-user-dirs-update --force
         # 入力メソッドとしてfcitx5を設定
         im-config -n fcitx5
@@ -377,15 +401,16 @@ echo "--------------------------------"
     }
 
     install_pipewire() {
+        doko=$(pwd)
         sudo apt-get install -y pipewire pipewire-audio libspa-0.2-dev libpipewire-0.3-dev autoconf libtool || echo "pipewire install failed."
         mkdir -p "${HOME}/.config/pipewire"
-        if ! [ -d "${HOME}/.config/pipewire/pulseaudio-module-xrdp" ]; then
+        if [ ! -d "${HOME}/.config/pipewire/pulseaudio-module-xrdp" ]; then
             git clone https://github.com/neutrinolabs/pulseaudio-module-xrdp.git "${HOME}/.config/pipewire/pulseaudio-module-xrdp"
             cd "${HOME}/.config/pipewire/pulseaudio-module-xrdp"
             ./bootstrap
             ./configure
             sudo make install
-            cd "${HOME}"
+            cd "${doko}"
         fi
         echo "pipewire installed."
     }
@@ -414,7 +439,7 @@ echo "--------------------------------"
     }
 
     setup() {
-        echo "desktop setup start..."
+        echo "ubuntu desktop setup start..."
         desktop_setup
         install_snap
         install_brave_browser
@@ -427,19 +452,16 @@ echo "--------------------------------"
         install_pipewire
         japan_setup
         xrdp_setup
-        echo "desktop setup completed."
+        echo "ubuntu desktop setup completed."
         neofetch
     }
     setup
 
 {{ end -}}
-
+echo "--------------------------------"
+echo "desktop setup complete"
 {{ if ne .name "runner" -}}
     # デスクトップ環境の設定
     echo "actions じゃないよ"
 {{ end -}}
-
-echo "--------------------------------"
-echo "desktop setup complete"
-
 echo "--------------------------------"

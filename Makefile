@@ -1,4 +1,4 @@
-.PHONY: dev init up down ipfs exec ubuntu git bw ssh
+.PHONY: dev init up down ipfs exec ubuntu git bw ssh age 
 
 .ONESHELL:
 SHELL = bash
@@ -7,8 +7,7 @@ SHELL = bash
 dev: bw init
 
 init:
-	chmod +x ./install.sh
-	./install.sh | tee ${HOME}/make.log
+	chmod +x ./install.sh && ./install.sh | tee ${HOME}/make.log
 up:
 	docker compose up -f .devcontainer/docker-compose.yaml -d
 down:
@@ -18,7 +17,7 @@ ipfs:
 exec:
 	docker compose -f .devcontainer/docker-compose.yaml exec ubuntu /bin/bash
 ubuntu:
-	multipass launch -n ubuntu -c 4 -m 8G -d 42G  --timeout 3600 --mount ${HOME}/dotfiles:/home/ubuntu/dotfiles --cloud-init $(pwd)/cloud-init/multipass.yaml && multipass exec ubuntu -- tail -2 /var/log/cloud-init.log
+	multipass launch -n ubuntu -c 4 -m 8G -d 42G  --timeout 3600 --mount ${HOME}/dotfiles:/home/ubuntu/dotfiles --cloud-init ./cloud-init/multipass.yaml && multipass exec ubuntu -- tail -2 /var/log/cloud-init.log
 ssh:
 	ssh ubuntu@$(multipass info ubuntu --format json | jq -r '.[0].ipv4[0]')
 git:
@@ -26,4 +25,4 @@ git:
 bw:
 	export BW_SESSION=$(bw unlock --raw)
 age:
-	age-keygen | tee >(age --armor --passphrase > key.txt.age) > publickey.txt
+	age-keygen | age --armor --passphrase > key.txt.age

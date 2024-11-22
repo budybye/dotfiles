@@ -1,5 +1,7 @@
 #! /usr/bin/env bash
 
+echo "run_once_4_keygen.sh.tmpl"
+
 USER_NAME=$(whoami)
 SSH="${HOME}/.ssh"
 KEY_TYPE="ed25519"
@@ -44,9 +46,12 @@ cat "${KEY_PATH}.pub" >>"${SSH}/authorized_keys"
 # 公開鍵をコピー
 # ブラウザでgithubログイン画面を開く
 
-{{/*
+{{/* コメントアウト
 
-{{ if eq .chezmoi.os "darwin" -}}
+{{ if eq .name "runner"}}
+    echo "${KEY_PATH}.pub"
+    cat "${KEY_PATH}.pub"
+{{ else if eq .chezmoi.os "darwin" -}}
     pbcopy <"${KEY_PATH}.pub"
     open "https://github.com/settings/keys"
 {{ else if eq .chezmoi.os "linux" -}}
@@ -84,3 +89,4 @@ echo "${KEY_PATH} done"
 ls -la "${SSH}"
 cat "${SSH}/config"
 cat "${SSH}/authorized_keys"
+echo "--------------------------------"
