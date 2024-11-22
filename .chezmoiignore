@@ -7,7 +7,7 @@
 {{ else if eq (env "REMOTE_CONTAINERS") "true" -}}
     data
 {{ else if eq .chezmoi.username "runner" }}
-    .ssh/id_ed25519
+    .ssh/id_ed25519.age
 {{ else -}}
     .config/*
     data/*
