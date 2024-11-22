@@ -3,7 +3,7 @@
 
 {{ if eq .name "runner" -}}
     .ssh/id_ed25519.age
-
+    .ssh/authorized_keys
 {{ else if eq .name "dev" -}}
     data
 
@@ -14,15 +14,16 @@
 {{ else if eq .chezmoi.os "linux" -}}
     .config/Brewfile*
     .config/karabiner
-{{ else -}}
 
-.config/*
+{{ else -}}
+    .config/*
     data/*
     .devcontainer/*
     cloud-init/*
     *rc
     *profile
     *env
+
 {{ end -}}
 
 README.md
