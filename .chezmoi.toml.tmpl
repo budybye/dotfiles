@@ -4,13 +4,16 @@
 
 # tmpl で参照する変数
 [data]
+# 環境変数で振る舞いを変える .name .flag などの値を設定する
 
-# runner の場合は runner として扱う
-# codespaces の場合は codespaces として扱う
-# devcontainer の場合は devcontainer として扱う
-# docker の場合は dev として扱う
+# runner の場合は runner
+# codespaces の場合は codespaces
+# devcontainer の場合は dev
+# docker の場合は docker
 # ubuntu の場合は budybye
-# その他 Mac の場合は bitwarden のアイテムを参照する
+# hotmilk の場合は bitwarden のアイテムを参照する
+# lisa の場合は slim
+# その他 の場合は username を参照する windows?
 
 {{ if eq (env "GITHUB_ACTIONS") "true" }}
   dotfilesDir = "{{ .chezmoi.homeDir }}/work/dotfiles/dotfiles"
@@ -24,23 +27,35 @@
 
 {{ else if eq (env "REMOTE_CONTAINERS") "true" }}
   dotfilesDir = "{{ .chezmoi.homeDir }}/dotfiles"
-  name = "devcontainer"
+  name = "dev"
   email = "null"
+  flag = "dev"
 
 {{ else if eq (env "DOCKER") "true" }}
   dotfilesDir = {{ .chezmoi.sourceDir | quote }}
   name = "docker"
   email = "null"
 
+{{ else if eq .chezmoi.username "hotmilk" }}
+  dotfilesDir = {{ .chezmoi.sourceDir | quote }}
+  email = {{ (bitwarden "item" "gh").login.password | quote }}
+  name = {{ (bitwarden "item" "gh").login.username | quote }}
+
 {{ else if eq .chezmoi.username "ubuntu" }}
   dotfilesDir = {{ .chezmoi.sourceDir | quote }}
   name = "budybye"
   email = "101wayout@gmail.com"
 
+{{ else if eq .chezmoi.username "lisa" }}
+  dotfilesDir = {{ .chezmoi.sourceDir | quote }}
+  name = "lisa"
+  email = "null"
+  flag = "slim"
+
 {{ else }}{{/* ubuntu, devcontainer, runner, codespaces 以外 */}}
   dotfilesDir = "{{ .chezmoi.homeDir }}/.local/share/chezmoi"
-  email = {{ (bitwarden "item" "gh").login.password | quote }}
-  name = {{ (bitwarden "item" "gh").login.username | quote }}
+  email = "example@email.com"
+  name = {{ .chezmoi.username | quote }}
 
 {{- end }}
 
@@ -57,7 +72,7 @@ umask = 0o022
 
 scriptTempDir = "~/tmp"
 
-{{ if ne .chezmoi.username "runner" }}
+{{ if ne .name "runner" }}
   encryption = "age"
 
   [age]

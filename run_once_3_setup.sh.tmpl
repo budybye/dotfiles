@@ -220,7 +220,7 @@ echo "--------------------------------"
         killall "${app}" > /dev/null 2>&1
     done
     fastfetch
-    
+
 {{ else if eq .chezmoi.os "linux" -}}
     echo "desktop setup start..."
 
@@ -434,8 +434,9 @@ echo "--------------------------------"
 
 {{ end -}}
 
-{{ if ne (env "GITHUB_ACTIONS") "true" -}}
-
+{{ if ne .name "runner" -}}
+    # デスクトップ環境の設定
+    echo "actions じゃないよ"
 {{ end -}}
 
 echo "--------------------------------"

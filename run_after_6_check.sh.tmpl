@@ -18,12 +18,26 @@ echo "--------------------------------"
 echo "${HOME}/.config"
 ls -la "${HOME}/.config"
 echo "--------------------------------"
+echo "${HOME}/.ssh"
+ls -la "${HOME}/.ssh"
+echo "--------------------------------"
 echo "${HOME}/.local/bin"
 ls -la "${HOME}/.local/bin"
 echo "--------------------------------"
 echo "${HOME}/.local/share"
 ls -la "${HOME}/.local/share"
 echo "--------------------------------"
+{{ if eq .chezmoi.os "linux" }}
+    echo "${HOME}/.local/share/themes"
+    ls -la "${HOME}/.local/share/themes"
+    echo "--------------------------------"
+    echo "${HOME}/.local/share/icons"
+    ls -la "${HOME}/.local/share/icons"
+    echo "--------------------------------"
+    echo "${HOME}/.local/share/fonts"
+    ls -la "${HOME}/.local/share/fonts"
+    echo "--------------------------------"
+{{ end }}
 
 # sourceDir 確認
 echo {{.dotfilesDir | quote }}
@@ -32,7 +46,7 @@ echo "--------------------------------"
 
 
 # ~/dotfiles にシンボリックリンク
-{{- if ne .name "devcontainer" }}
+{{- if ne .name "dev" }}
     echo 'Dotfiles symlink ...'
     if [ -d "${HOME}/dotfiles" ]; then
         echo "Dotfiles already exists."
@@ -47,16 +61,18 @@ echo "--------------------------------"
 echo 'Your config git user is ...'
 git config --list
 echo "--------------------------------"
-echo 'userconf update ? (y/n)'
-
+# 対話型にする？
 {{ if eq .chezmoi.username "hotmilk" -}}
-read ans
-if [ "$ans" = "y" ]; then
-    cat "${HOME}/.config/git/config"
-fi
+    echo 'userconf update ? (y/n)'
+    read ans
+    if [ "$ans" = "y" ]; then
+        cat "${HOME}/.config/git/config"
+    fi
+    echo "--------------------------------"
 {{ end -}}
-
-echo "--------------------------------"
 chezmoi data
-echo 'Apply settings done!!'
 echo "--------------------------------"
+echo "Settings check finished"
+echo 'Apply settings done!!'
+echo "Logfile is $(pwd)/make.log"
+date

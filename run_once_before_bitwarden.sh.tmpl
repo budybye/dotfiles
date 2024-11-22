@@ -1,0 +1,47 @@
+#! /usr/bin/env bash
+
+echo "OS: {{ .chezmoi.os | quote }}"
+echo "before bitwarden cli install"
+cd ${HOME}
+
+MISE="${HOME}/.local/bin/mise"
+SHIMS="${HOME}/.local/share/mise"
+VERSION="20.18.1"
+NPM="${SHIMS}/installs/node/${VERSION}/bin/npm"
+
+{{ if eq .chezmoi.os "darwin" -}}
+    if ! command -v mise >/dev/null 2>&1; then
+        brew install mise
+    fi
+    mise use -g node@${VERSION} -y && mise activate bash || echo "node install failed."
+
+{{ else if eq .chezmoi.os "linux" -}}
+    if ! command -v mise >/dev/null 2>&1; then
+        curl https://mise.run | sh
+    fi
+    ${MISE} use -g node@${VERSION} -y && ${MISE} activate bash || echo "node install failed."
+{{ end -}}
+
+export PATH="${SHIMS}/shims:${PATH}"
+if command -v npm >/dev/null 2>&1; then
+    npm install -g @bitwarden/cli || echo "bitwarden cli install failed."
+elif [ -f ${NPM} ]; then
+    ${NPM} install -g @bitwarden/cli || echo "bitwarden cli install failed."
+else
+    echo "bitwarden cli install failed."
+fi
+
+if command -v bw >/dev/null 2>&1; then
+    echo "bw cli in PATH"
+    echo "export BW_SESSION="$(bw unlock --raw)"" >> .env || echo "bw unlock failed."
+
+elif [ -f ${SHIMS}/installs/node/${VERSION}/bin/bw ]; then
+    echo "bw cli not in PATH"
+    echo "export BW_SESSION="$(${SHIMS}/installs/node/${VERSION}/bin/bw unlock --raw)"" >> .env || echo "bw unlock failed."
+
+else
+    echo "bw install failed."
+fi
+
+echo "${PATH}" | tr ':' '\n'
+echo "bw install complete"

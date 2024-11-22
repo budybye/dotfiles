@@ -1,15 +1,22 @@
-{{ if eq .chezmoi.username "runner" -}}
+# 配置されるときの名前にする
+# data は .chezmoi.toml.tmpl を参照
+
+{{ if eq .name "runner" -}}
     .ssh/id_ed25519.age
+
+{{ else if eq .name "dev" -}}
+    data
+
 {{ else if eq .chezmoi.os "darwin" -}}
     .config/fusuma
     .config/fcitx5
+
 {{ else if eq .chezmoi.os "linux" -}}
     .config/Brewfile*
     .config/karabiner
-{{ else if eq (env "REMOTE_CONTAINERS") "true" -}}
-    data
 {{ else -}}
-    .config/*
+
+.config/*
     data/*
     .devcontainer/*
     cloud-init/*

@@ -1,11 +1,13 @@
 #! /usr/bin/env bash
 
-echo "Decrypt-private-key..."
+echo "Decrypt private key..."
 
+# .chezmoi.toml.tmpl と合わせる
 identity="${HOME}/.config/chezmoi/key.txt"
 key_name="key.txt.age"
 key_path="{{ .chezmoi.sourceDir }}/${key_name}"
 
+# age インストール
 {{ if eq .chezmoi.os "darwin" -}}
     command -v age >/dev/null || brew install age || echo "age install failed"
 
@@ -18,7 +20,8 @@ key_path="{{ .chezmoi.sourceDir }}/${key_name}"
 
 {{ end }}
 
-{{ if ne .chezmoi.username "runner" -}}
+# パスフレーズで復号
+{{ if ne .name "runner" -}}
     echo "Please enter your passphrase:"
 
     if [ ! -f ${identity} ]; then
@@ -26,6 +29,5 @@ key_path="{{ .chezmoi.sourceDir }}/${key_name}"
         chezmoi age decrypt --output "${identity}" --passphrase "${key_path}"
         chmod 600 ${identity}
     fi
+    echo "Decrypt-private-key complete."
 {{ end }}
-
-echo "Decrypt-private-key complete."
