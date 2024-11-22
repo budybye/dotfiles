@@ -7,9 +7,12 @@ USER=$(whoami)
 BIN=${HOME}/.local/bin
 DOTFILES=${HOME}/dotfiles
 
+echo "--------------------------------"
+# chezmoi 用の環境変数を指定 例: dev, runner, lisa,  etc...
+export CONTEXT=${USER}
 echo "USER: ${USER}"
 pwd
-
+echo "--------------------------------"
 # chezmoi がインストールされていない場合はインストール
 if ! command -v chezmoi >/dev/null 2>&1; then
     echo "${USER} install chezmoi to ${BIN}..."
@@ -24,6 +27,3 @@ else
     chezmoi init --apply ${AUTHOR}
     # chezmoi init --apply git@github.com:${AUTHOR}/dotfiles.git
 fi
-
-# chezmoi 用の環境変数を指定 例: dev, runner, lisa,  etc...
-export CONTEXT=${USER}

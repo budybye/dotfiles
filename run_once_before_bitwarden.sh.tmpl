@@ -5,6 +5,7 @@ echo "run_once_before_bitwarden.sh.tmpl"
 echo "OS: {{ .chezmoi.os | quote }}"
 echo "before bitwarden cli install"
 cd ${HOME}
+echo "--------------------------------"
 
 MISE="${HOME}/.local/bin/mise"
 SHIMS="${HOME}/.local/share/mise"
@@ -29,7 +30,7 @@ SESSION="{{ .chezmoi.sourceDir }}/.env"
 {{ end -}}
 # mise shims のパスを通す
 export PATH="${SHIMS}/shims:${PATH}"
-
+echo "--------------------------------"
 # npm なければインストール
 if command -v npm >/dev/null 2>&1; then
     npm install -g @bitwarden/cli || echo "bitwarden cli install failed."
@@ -40,7 +41,7 @@ elif [ -f ${NPM} ]; then
 else
     echo "bitwarden cli install failed."
 fi
-
+echo "--------------------------------"
 # bw cli があればロック解除
 if command -v bw >/dev/null 2>&1; then
     echo "export BW_SESSION="$(bw unlock --raw)"" >> ${SESSION} || echo "bw unlock failed."
@@ -51,8 +52,9 @@ elif [ -f ${BW} ]; then
 else
     echo "bw cli not found."
 fi
-
 cat ${SESSION} || echo "${SESSION} not found."
+echo "--------------------------------"
 echo "${PATH}" | tr ':' '\n'
+echo "--------------------------------"
 echo "bw install complete"
 echo "--------------------------------"

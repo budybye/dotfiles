@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 
 echo "run_once_before_decrypt-private-key.sh.tmpl"
-
+echo "--------------------------------"
 # パスフレーズで復号するので事前に用意
 # https://www.chezmoi.io/user-guide/frequently-asked-questions/encryption/
 echo "Decrypt private key..."
@@ -26,12 +26,12 @@ echo "age install..."
 
 {{ end }}
 command -v age || echo "age command not found"
+echo "--------------------------------"
 
-
-echo "key_path: ${key_path}..."
-echo "identity: ${identity}..."
 # パスフレーズで復号
 {{ if ne .name "runner" -}}
+    echo "key_path: ${key_path}..."
+    echo "identity: ${identity}..."
     echo "Please enter your age passphrase:"
 
     if [ ! -f ${identity} ]; then
@@ -40,6 +40,7 @@ echo "identity: ${identity}..."
         chmod 600 ${identity}
     fi
     echo "Decrypt-private-key complete."
+    echo "--------------------------------"
 {{ end }}
 
 cat ${key_path} || echo "${key_path} not found."

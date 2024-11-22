@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 
 echo "run_once_4_keygen.sh.tmpl"
-
+echo "--------------------------------"
 USER_NAME=$(whoami)
 SSH="${HOME}/.ssh"
 KEY_TYPE="ed25519"
@@ -77,16 +77,19 @@ chmod 644 "${KEY_PATH}.pub"
 eval "$(ssh-agent)"
 # SSH鍵をエージェントに登録
 ssh-add "${KEY_PATH}"
+echo "--------------------------------"
 # 登録したSSH鍵の一覧を表示
 ssh-add -l
 # SSHエージェントを停止
 eval "$(ssh-agent -k)"
-
 echo "--------------------------------"
+
 cd "${HOME}"
 echo "${KEY_PATH} done"
-
+echo "--------------------------------"
 ls -la "${SSH}"
+echo "--------------------------------"
 cat "${SSH}/config"
+echo "--------------------------------"
 cat "${SSH}/authorized_keys"
 echo "--------------------------------"

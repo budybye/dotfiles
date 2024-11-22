@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 echo "run_once_5_code.sh.tmpl"
-
+echo "--------------------------------"
 # 管理下の設定ファイルの場所
 FROM="${HOME}/.config/Code"
 
@@ -39,6 +39,7 @@ copy_json_file() {
     sudo ln -sf "${from_file}" "${target_file}"
     echo "新しい ${target_file} を作成しました。"
     cat "${target_file}"
+    echo "--------------------------------"
 }
 
 extensions_json() {
@@ -61,6 +62,7 @@ extensions_json() {
         echo '拡張機能の更新が完了しました!'
     fi
     cat "${CODEX}"
+    echo "--------------------------------"
 }
 
 main() {
@@ -68,9 +70,10 @@ main() {
     copy_json_file "settings"
     copy_json_file "keybindings"
     extensions_json
-    tree "${CODE_DIR}"
     echo "VSCodeの設定が完了しました。"
 }
 
 main
+echo "--------------------------------"
+tree "${CODE_DIR}"
 echo "--------------------------------"
