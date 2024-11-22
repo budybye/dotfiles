@@ -2,13 +2,13 @@
 * {
     background-color: #272822;
     color: whitesmoke;
-    font-family: "monospace";
+    font-family: "RobotoMonoJP", monospace;
 }
 
 /* コードテキスト */
 code,
 pre {
-    font-family: "HackGen35 Console NF" "monospace";
+    font-family: "HackGen35 Console NF", "RobotoMonoJP", monospace;
     background-color: #000;
     color: #0f0;
     padding: 3px;
