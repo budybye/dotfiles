@@ -5,17 +5,46 @@ config:
     #cloud-config
     timezone: Asia/Tokyo
     locale: ja_JP.utf8
-    package_upgrade: true
-    package_update: true
     hostname: vm
     users:
       - name: ubuntu
-        uid: 1001
-        sudo: ALL=(ALL) ALL
         passwd: ubuntu
+        uid: 1001
+        gid: 1001
+        sudo: ALL=(ALL) ALL
+        groups: [users,adm,staff,sudo]
         shell: /bin/bash
         ssh_authorized_keys:
-          - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC9+qnJxEuf/eJrpeGWahUpYh38PVHt+X9nZslctV/enルの中身>
+          - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC9+qnJxEuf/eJrpeGWahUpYh38PVHt+X9nZslctV/en
+    ssh_pwauth: false
+    package_upgrade: true
+    package_update: true
+    packages:
+      - openssh-server
+      - gnupg
+      - wget
+      - zsh
+      - sudo
+      - curl
+      - git
+      - gh
+      - vim
+      - make
+      - byobu
+      - age
+      - gnupg
+      - jq
+      - avahi-daemon
+      - apt-transport-https
+      - libssl-dev
+      - build-essential
+      - pkg-config
+      - xrdp
+      - xfce4
+      - xfce4-goodies
+      - language-pack-ja-base
+      - language-pack-ja
+      - manpages-ja
 description: "ubuntu xrdp"
 devices: {}
 name: vm
