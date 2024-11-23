@@ -14,49 +14,49 @@
 # lisa の場合は slim
 # その他 の場合は username を参照する windows?
 
-{{- if eq (env "GITHUB_ACTIONS") "true" }}
+{{ if eq (env "GITHUB_ACTIONS") "true" }}
   dotfilesDir = "{{ .chezmoi.homeDir }}/work/dotfiles/dotfiles"
   name = "runner"
   email = "null"
 
-{{- else if eq (env "CODESPACES") "true" }}
+{{ else if eq (env "CODESPACES") "true" }}
   dotfilesDir = "{{ .chezmoi.homeDir }}/dotfiles"
   name = "codespaces"
   email = "null"
 
-{{- else if eq (env "REMOTE_CONTAINERS") "true" }}
+{{ else if eq (env "REMOTE_CONTAINERS") "true" }}
   dotfilesDir = "{{ .chezmoi.homeDir }}/dotfiles"
   name = "dev"
   email = "null"
   flag = "dev"
 
-{{- else if eq (env "DOCKER") "true" }}
+{{ else if eq (env "DOCKER") "true" }}
   dotfilesDir = {{ .chezmoi.sourceDir | quote }}
   name = "docker"
   email = "null"
 
-{{- else if eq .chezmoi.username "hotmilk" }}
+{{ else if eq .chezmoi.username "hotmilk" }}
   dotfilesDir = {{ .chezmoi.sourceDir | quote }}
   email = {{ (bitwarden "item" "gh").login.password | quote }}
   name = {{ (bitwarden "item" "gh").login.username | quote }}
 
-{{- else if eq .chezmoi.username "ubuntu" }}
+{{ else if eq .chezmoi.username "ubuntu" }}
   dotfilesDir = {{ .chezmoi.sourceDir | quote }}
   name = "budybye"
   email = "101wayout@gmail.com"
 
-{{- else if eq .chezmoi.username "lisa" }}
+{{ else if eq .chezmoi.username "lisa" }}
   dotfilesDir = {{ .chezmoi.sourceDir | quote }}
   name = "lisa"
   email = "null"
   flag = "slim"
 
-{{- else -}}{{/* ubuntu, devcontainer, runner, codespaces 以外 */}}
+{{ else -}}{{/* ubuntu, devcontainer, runner, codespaces 以外 */}}
   dotfilesDir = "{{ .chezmoi.homeDir }}/.local/share/chezmoi"
   email = "example@email.com"
   name = {{ .chezmoi.username | quote }}
 
-{{- end -}}
+{{ end -}}
 
 [git]
   autoPush = false
@@ -82,7 +82,7 @@ scriptTempDir = "~/tmp"
 mode = "symlink"
 
 # runner 以外の場合は age の設定
-{{- if ne .chezmoi.username "runner" -}}
+{{- if ne .chezmoi.username "runner" }}
   encryption = "age"
 
   [age]
@@ -90,4 +90,4 @@ mode = "symlink"
     recipients = "age1nvdw6x8addcnfwsa26ed8vz7yv8y9425utujnsy7tcj64qs2ddasl2mphg"
     passphrase = true
 
-{{- end -}}
+{{- end }}
