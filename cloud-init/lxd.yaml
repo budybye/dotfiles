@@ -7,7 +7,8 @@ config:
     locale: ja_JP.utf8
     hostname: vm
     users:
-      - name: ubuntu
+      - default:
+        name: ubuntu
         passwd: ubuntu
         uid: 1001
         gid: 1001
@@ -20,33 +21,30 @@ config:
     package_upgrade: true
     package_update: true
     packages:
-    - openssh-server
-    - gnupg
-    - wget
-    - zsh
-    - sudo
-    - curl
-    - git
-    - gh
-    - vim
-    - make
-    - byobu
-    - age
-    - gnupg
-    - jq
-    - avahi-daemon
-    - apt-transport-https
-    - libssl-dev
-    - build-essential
-    - pkg-config
-    # - xrdp
-    # - xfce4
-    # - xfce4-goodies
-    - language-pack-ja-base
-    - language-pack-ja
-    - manpages-ja
+      - openssh-server
+      - gnupg
+      - wget
+      - zsh
+      - sudo
+      - curl
+      - git
+      - gh
+      - vim
+      - make
+      - byobu
+      - age
+      - gnupg
+      - jq
+      - avahi-daemon
+      - apt-transport-https
+      - libssl-dev
+      - build-essential
+      - pkg-config
+      - language-pack-ja-base
+      - language-pack-ja
+      - manpages-ja
     runcmd:
-    - su -c 'sh -c "$(curl -fsSL get.chezmoi.io)" -- -b /usr/local/bin init ubuntu
+      - sudo systemctl daemon-reload
 description: "ubuntu xrdp"
 devices: {}
 name: vm
