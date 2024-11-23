@@ -30,7 +30,7 @@ echo "${HOME}/.local/bin"
 ls -la "${HOME}/.local/bin"
 echo "--------------------------------"
 echo "${HOME}/.local/share"
-tree "${HOME}/.local/share"
+tree -L 5 "${HOME}/.local/share"
 echo "--------------------------------"
 echo "${HOME}/dotfiles ..."
 if [ -d "${HOME}/dotfiles" ]; then
