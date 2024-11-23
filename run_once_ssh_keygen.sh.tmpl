@@ -15,10 +15,10 @@ touch "${SSH}/authorized_keys"
 
 # configファイルにGitHubのホスト情報を設定
 cat <<EOF >>"${SSH}/config"
-Host github github.com
-HostName github.com
-IdentityFile "${KEY_PATH}"
-User git
+Host ${USER_NAME}
+    HostName github.com
+    IdentityFile "${KEY_PATH}"
+    User git
 EOF
 
 ls -la "${SSH}"
