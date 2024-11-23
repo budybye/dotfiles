@@ -1,57 +1,57 @@
 # chezmoi .yaml or .toml or .json file is a configuration file for chezmoi
 # dotfiles/.chezmoi.yaml.tmpl に設定を記述すると.local/share/chezmoi/chezmoi.yamlに反映される
 
-// *.tmpl で参照する変数
+# *.tmpl で参照する変数
 [data]
-// 環境変数で振る舞いを変える .name .flag などの値を設定する
+# 環境変数で振る舞いを変える .name .flag などの値を設定する
 
-// runner の場合は runner
-// codespaces の場合は codespaces
-// devcontainer の場合は dev
-// docker の場合は docker
-// ubuntu の場合は budybye
-// hotmilk の場合は bitwarden のアイテムを参照する
-// lisa の場合は slim
-// その他 の場合は username を参照する windows?
+# runner の場合は runner
+# codespaces の場合は codespaces
+# devcontainer の場合は dev
+# docker の場合は docker
+# ubuntu の場合は budybye
+# hotmilk の場合は bitwarden のアイテムを参照する
+# lisa の場合は slim
+# その他 の場合は username を参照する windows?
 
-{{ if eq (env "GITHUB_ACTIONS") "true" }}
+{{- if eq (env "GITHUB_ACTIONS") "true" }}
   dotfilesDir = "{{ .chezmoi.homeDir }}/work/dotfiles/dotfiles"
   name = "runner"
   email = "null"
 
-{{ else if eq (env "CODESPACES") "true" }}
+{{- else if eq (env "CODESPACES") "true" }}
   dotfilesDir = "{{ .chezmoi.homeDir }}/dotfiles"
   name = "codespaces"
   email = "null"
 
-{{ else if eq (env "REMOTE_CONTAINERS") "true" }}
+{{- else if eq (env "REMOTE_CONTAINERS") "true" }}
   dotfilesDir = "{{ .chezmoi.homeDir }}/dotfiles"
   name = "dev"
   email = "null"
   flag = "dev"
 
-{{ else if eq (env "DOCKER") "true" }}
+{{- else if eq (env "DOCKER") "true" }}
   dotfilesDir = {{ .chezmoi.sourceDir | quote }}
   name = "docker"
   email = "null"
 
-{{ else if eq .chezmoi.username "hotmilk" }}
+{{- else if eq .chezmoi.username "hotmilk" }}
   dotfilesDir = {{ .chezmoi.sourceDir | quote }}
   email = {{ (bitwarden "item" "gh").login.password | quote }}
   name = {{ (bitwarden "item" "gh").login.username | quote }}
 
-{{ else if eq .chezmoi.username "ubuntu" }}
+{{- else if eq .chezmoi.username "ubuntu" }}
   dotfilesDir = {{ .chezmoi.sourceDir | quote }}
   name = "budybye"
   email = "101wayout@gmail.com"
 
-{{ else if eq .chezmoi.username "lisa" }}
+{{- else if eq .chezmoi.username "lisa" }}
   dotfilesDir = {{ .chezmoi.sourceDir | quote }}
   name = "lisa"
   email = "null"
   flag = "slim"
 
-{{ else }}{{/* ubuntu, devcontainer, runner, codespaces 以外 */}}
+{{- else }}{{/* ubuntu, devcontainer, runner, codespaces 以外 */}}
   dotfilesDir = "{{ .chezmoi.homeDir }}/.local/share/chezmoi"
   email = "example@email.com"
   name = {{ .chezmoi.username | quote }}
@@ -67,19 +67,22 @@
   command = "co"
   args = ["--wait"]
 
-// ファイルのパーミッションを変更する
+# ファイルのパーミッションを変更する
 umask = 0o022
 
+# スクリプトを実行するディレクトリ
 scriptTempDir = "~/tmp"
 
+# スクリプト内で参照する変数
 [sctiptEnv]
   SSS = "SouthSideSound"
 
-// シンボリックリンクを作成する
+# シンボリックリンクを作成する
 mode = "symlink"
 
-// runner 以外の場合は age の設定
-{{ if ne .chezmoi.username "runner" }}
+# runner 以外の場合は age の設定
+
+{{- if ne .chezmoi.username "runner" }}
   encryption = "age"
 
   [age]
@@ -91,8 +94,7 @@ mode = "symlink"
 
 {{ else }}
   sourceDir = "/home/runner/work/dotfiles/dotfiles"
-{{ end }}
 
 */}}
 
-{{ end }}
+{{- end }}
