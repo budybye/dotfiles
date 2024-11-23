@@ -1,0 +1,58 @@
+config:
+  security.nesting: "true"
+  security.privileged: "true"
+  user.user-data: |
+    #cloud-config
+    timezone: Asia/Tokyo
+    locale: ja_JP.utf8
+    package_upgrade: true
+    users:
+      - name: ubuntu
+        uid: 1001
+        sudo: ALL=(ALL) ALL
+        passwd: ubuntu
+        shell: /bin/bash
+        ssh_authorized_keys:
+          - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC9+qnJxEuf/eJrpeGWahUpYh38PVHt+X9nZslctV/enルの中身>
+    packages:
+      - openssh-server
+      - gnupg
+      - wget
+      - xrdp
+      - tigervnc-standalone-server
+      - ubuntu-desktop
+      - language-pack-ja-base
+      - language-pack-ja
+      - virt-manager
+      - qemu-system
+    write_files:
+      - path: /etc/polkit-1/localauthority/50-local.d/xrdp-color-manager.pkla
+        content: |
+          [Netowrkmanager]
+          Identity=unix-user:*
+          Action=org.freedesktop.color-manager.create-device
+          ResultAny=no
+          ResultInactive=no
+          ResultActive=yes
+      - path: /etc/skel/.xsessionrc
+        content: |
+          export GNOME_SHELL_SESSION_MODE=ubuntu
+          export XDG_CURRENT_DESKTOP=ubuntu:GNOME
+          export XDG_DATA_DIRS=/usr/share/ubuntu:/usr/local/share:/usr/share:/var/lib/snapd/desktop
+          export XDG_CONFIG_DIRS=/etc/xdg/xdg-ubuntu:/etc/xdg
+    runcmd:
+      - wget -q https://www.ubuntulinux.jp/ubuntu-ja-archive-keyring.gpg -O- | apt-key add -
+      - wget -q https://www.ubuntulinux.jp/ubuntu-jp-ppa-keyring.gpg -O- | apt-key add -
+      - wget https://www.ubuntulinux.jp/sources.list.d/focal.list -O /etc/apt/sources.list.d/ubuntu-ja.list
+      - apt update -y
+      - virsh net-destroy default
+      - virsh net-autostart default --disable
+      - sed -e 's/^#Port 22/Port 41414/' -e 's/^#SyslogFacility AUTH/SyslogFacility AUTH/' -e 's/^#LogLevel INFO/LogLevel INFO/' -e 's/^#PermitRootLogin prohibit-password/PermitRootLogin prohibit-password/' -e 's/^#PermitEmptyPasswords no/PermitEmptyPasswords no/' -i /etc/ssh/sshd_config
+      - sed -e 's/^new_cursors=true/new_cursors=false/g' -i /etc/xrdp/xrdp.ini
+      - systemctl enable --now xrdp
+      - systemctl restart xrdp polkit
+      - systemctl restart ssh
+description: ""
+devices: {}
+name: vm-manager
+used_by: []
