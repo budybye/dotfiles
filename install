@@ -7,10 +7,9 @@ BIN=${HOME}/.local/bin
 DOTFILES=${HOME}/dotfiles
 REPO=https://github.com/${AUTHOR}/dotfiles.git
 
-echo "--------------------------------"
 # chezmoi 用の環境変数を指定 例: dev, runner, lisa,  etc...
 export CONTEXT=${USER}
-echo "--------------------------------"
+
 # chezmoi がインストールされていない場合はインストール
 if ! command -v chezmoi >/dev/null 2>&1; then
     echo "${USER} install chezmoi to ${BIN}..."
