@@ -82,7 +82,8 @@ scriptTempDir = "~/tmp"
 mode = "symlink"
 
 # runner 以外の場合は age の設定
-{{- if ne .chezmoi.username "runner" }}
+
+{{ if ne .chezmoi.username "runner" }}
 encryption = "age"
 
 [age]
