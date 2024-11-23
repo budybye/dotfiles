@@ -219,13 +219,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      # cloud-init-linter
-      - uses: anderssonPeter/cloud-init-linter@v1
-        with:
-          files: |
-            cloud-init/multipass.yaml
-            cloud-init/user-data
-            cloud-init/network-config
 
-      - name: chezmoi
-        run: make init
+      - name: Setup LXD
+        uses: canonical/setup-lxd@v1
+        with:
+          channel: latest/edge
+
+      - name: Launch container
+        run: |
+          lxc launch ubuntu:24.04 ubuntu --config=user.user-data="$(cat cloud-init/multipass.yaml)"
