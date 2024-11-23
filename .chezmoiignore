@@ -37,10 +37,12 @@ install.sh
 .mise.toml
 
 .chezmoiexternal.*
-kye.txt.age
+key.txt.age
 
 .gitignore
 .gitconfig
 .github
 .vscode
 .devcontainer
+
+cloud-init
