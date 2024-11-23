@@ -435,6 +435,7 @@ echo "--------------------------------"
 
         echo "以下のコマンドを実行してパスワードを更新してください"
         echo "sudo passwd ${USER_NAME}"
+        echo "${USER_NAME}:${USER_NAME}" | sudo chpasswd
     }
 
     setup() {

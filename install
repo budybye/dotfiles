@@ -17,7 +17,7 @@ if ! command -v chezmoi >/dev/null 2>&1; then
     export PATH=${BIN}:${PATH}
 fi
 echo "--------------------------------"
-
+echo "Repository: ${REPO}"
 chezmoi init --apply ${AUTHOR}
 # chezmoi init --apply ${REPO}
 # chezmoi init --apply --source-path ${DOTFILES}

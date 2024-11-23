@@ -7,8 +7,8 @@ config:
     locale: ja_JP.utf8
     hostname: vm
     users:
-      - default:
-        name: ubuntu
+      - default
+      - name: ubuntu
         passwd: ubuntu
         uid: 1001
         gid: 1001
@@ -48,7 +48,8 @@ config:
       - wget -q https://www.ubuntulinux.jp/ubuntu-jp-ppa-keyring.gpg -O- | apt-key add -
       - wget https://www.ubuntulinux.jp/sources.list.d/focal.list -O /etc/apt/sources.list.d/ubuntu-ja.list
       - apt update -y
-      - su -c 'sh -c "$(curl -fsSL get.chezmoi.io)" -- -b /usr/local/bin init' ubuntu
+      - su -c 'sh -c "$(curl -fsSL get.chezmoi.io)" -- -b /usr/local/bin' ubuntu
+      - git clone https://github.com/budybye/dotfiles.git ~/dotfiles
       - sudo systemctl daemon-reload
     write_files:
       - path: /etc/apt/sources.list.d/ubuntu-ja.list

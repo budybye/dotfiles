@@ -2,6 +2,7 @@
 
 hostname: vm
 users:
+  - default
   - name: ubuntu
     passwd: ubuntu
     uid: 1001
@@ -16,7 +17,6 @@ users:
     lock_passwd: false
 
 ssh_pwauth: false
-
 timezone: Asia/Tokyo
 locale: ja_JP.utf8
 keyboard:
@@ -90,7 +90,9 @@ runcmd:
 - update-alternatives --install /usr/bin/docker-compose docker-compose /usr/local/bin/docker-compose-v2 1
 - update-alternatives --install /usr/bin/docker-compose docker-compose /usr/local/bin/compose-switch 99
 
-- su -c 'sh -c "$(curl -fsSL get.chezmoi.io)" -- -b /usr/local/bin init --apply budybye' ubuntu
+# - su -c 'sh -c "$(curl -fsSL get.chezmoi.io)" -- -b /usr/local/bin init --apply budybye' ubuntu
+- su -c 'sh -c "$(curl -fsSL get.chezmoi.io)" -- -b /usr/local/bin' ubuntu
+- git clone https://github.com/budybye/dotfiles.git ~/dotfiles
 
 - systemctl daemon-reload
 - systemctl restart docker containerd
