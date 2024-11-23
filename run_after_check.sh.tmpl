@@ -33,14 +33,11 @@ tree -L 3 "${HOME}/.local/share"
 echo "--------------------------------"
 
 {{ if ne .chezmoi.os "linux" -}}
-    echo "${HOME}/.local/share/themes"
-    ls -la "${HOME}/.local/share/themes"
+    tree ${HOME}/.local/share/themes
     echo "--------------------------------"
-    echo "${HOME}/.local/share/fonts"
-    ls -la "${HOME}/.local/share/fonts"
+    tree ${HOME}/.local/share/fonts
     echo "--------------------------------"
-    echo "${HOME}/.local/share/icons"
-    ls -la "${HOME}/.local/share/icons"
+    tree ${HOME}/.local/share/icons
     echo "--------------------------------"
 {{ end -}}
 
@@ -77,5 +74,5 @@ echo "--------------------------------"
 echo "SourceDir: {{ .chezmoi.sourceDir }}"
 echo 'Chezmoi Apply done!!'
 date
-echo "( ﾟДﾟ)y─┛~~😺 ♨ ✨ 🥦 🌈 🚲 🏄 🙏 ☀ 🌕 "
 cat ${HOME}/.config/neofetch/image.txt
+echo "( ﾟДﾟ)y─┛~~♨ 🐈  ✨ 🥦 🌈 🚲 🏄 🙏 ☀ 🌕 🏴‍☠️"
