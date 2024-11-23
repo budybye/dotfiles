@@ -83,6 +83,7 @@ scriptTempDir = "~/tmp"
 mode = "symlink"
 
 {{ if ne (env "GITHUB_ACTIONS") "true" }}
+[chezmoi]
   encryption = "age"
 
   [age]
