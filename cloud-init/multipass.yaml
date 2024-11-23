@@ -7,18 +7,6 @@ users:
     uid: 1024
     gid: 1024
 
-  - name: budybye
-    groups: [users,adm,staff,sudo,docker]
-    passwd: budybye
-    uid: 1188
-    gid: 1188
-
-  - name: lisa
-    groups: [users,adm,staff,sudo,docker]
-    passwd: lisa
-    uid: 1234
-    gid: 1234
-
 system_info:
   default_user:
     name: ubuntu
