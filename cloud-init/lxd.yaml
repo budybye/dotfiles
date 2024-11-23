@@ -20,31 +20,33 @@ config:
     package_upgrade: true
     package_update: true
     packages:
-      - openssh-server
-      - gnupg
-      - wget
-      - zsh
-      - sudo
-      - curl
-      - git
-      - gh
-      - vim
-      - make
-      - byobu
-      - age
-      - gnupg
-      - jq
-      - avahi-daemon
-      - apt-transport-https
-      - libssl-dev
-      - build-essential
-      - pkg-config
-      # - xrdp
-      # - xfce4
-      # - xfce4-goodies
-      - language-pack-ja-base
-      - language-pack-ja
-      - manpages-ja
+    - openssh-server
+    - gnupg
+    - wget
+    - zsh
+    - sudo
+    - curl
+    - git
+    - gh
+    - vim
+    - make
+    - byobu
+    - age
+    - gnupg
+    - jq
+    - avahi-daemon
+    - apt-transport-https
+    - libssl-dev
+    - build-essential
+    - pkg-config
+    - xrdp
+    - xfce4
+    - xfce4-goodies
+    - language-pack-ja-base
+    - language-pack-ja
+    - manpages-ja
+    runcmd:
+    - su -c 'sh -c "$(curl -fsSL get.chezmoi.io)" -- -b /usr/local/bin init --apply budybye' ubuntu
 description: "ubuntu xrdp"
 devices: {}
 name: vm

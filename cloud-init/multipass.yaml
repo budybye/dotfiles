@@ -20,9 +20,9 @@ ssh_pwauth: false
 timezone: Asia/Tokyo
 locale: ja_JP.utf8
 keyboard:
-  - model: pc105
-  - layout: jp
-  - options: ctrl:nocaps
+- model: pc105
+- layout: jp
+- options: ctrl:nocaps
 
 package_update: true
 package_upgrade: true
@@ -36,39 +36,38 @@ apt:
         keyid: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
 
 packages:
-  - sshfs
-  - avahi-daemon
-  - lsb-release
-  - ca-certificates
-  # - docker
-  # - docker.io
-  - docker-ce
-  - docker-ce-cli
-  - docker-compose
-  - containerd.io
+- avahi-daemon
+- openssh-server
+- lsb-release
+- ca-certificates
+# - docker
+# - docker.io
+- docker-ce
+- docker-ce-cli
+- docker-compose
+- containerd.io
 
-  - git
-  - curl
-  - wget
-  - make
-  - zsh
-  - jq
-  - gh
-  - age
-  - vim
-  - cmake
-  - g++
-  - gcc
-  - gnupg
-  - xsel
-  - libssl-dev
-  - pkg-config
-  - apt-transport-https
-  - build-essential
-
-  - language-pack-ja-base
-  - language-pack-ja
-  - manpages-ja
+- git
+- curl
+- wget
+- make
+- zsh
+- jq
+- gh
+- age
+- vim
+- cmake
+- g++
+- gcc
+- gnupg
+- xsel
+- libssl-dev
+- pkg-config
+- apt-transport-https
+- build-essential
+- language-pack-ja-base
+- language-pack-ja
+- manpages-ja
 
   # - xfce4
   # - xfce4-goodies
@@ -76,26 +75,26 @@ packages:
   # - ibus-x11
 
 bootcmd:
-  - printf "[Resolve]\nDNS=1.1.1.1\n" >> /etc/systemd/resolved.conf
-  - [ systemctl, restart, systemd-resolved ]
+- printf "[Resolve]\nDNS=1.1.1.1\n" >> /etc/systemd/resolved.conf
+- [ systemctl, restart, systemd-resolved ]
 
 runcmd:
-  - curl -fsSL -o /usr/local/bin/docker-compose-v2 https://github.com/docker/compose/releases/download/v2.24.6/docker-compose-linux-$(dpkg --print-architecture)
-  - chmod +x /usr/local/bin/docker-compose-v2
+- curl -fsSL -o /usr/local/bin/docker-compose-v2 https://github.com/docker/compose/releases/download/v2.24.6/docker-compose-linux-$(dpkg --print-architecture)
+- chmod +x /usr/local/bin/docker-compose-v2
 
-  - curl -fsSL -o /usr/libexec/docker/cli-plugins/docker-compose https://github.com/docker/compose/releases/download/v2.24.6/docker-compose-linux-$(dpkg --print-architecture)
-  - chmod +x /usr/libexec/docker/cli-plugins/docker-compose
+- curl -fsSL -o /usr/libexec/docker/cli-plugins/docker-compose https://github.com/docker/compose/releases/download/v2.24.6/docker-compose-linux-$(dpkg --print-architecture)
+- chmod +x /usr/libexec/docker/cli-plugins/docker-compose
 
-  - curl -fsSL -o /usr/local/bin/compose-switch https://github.com/docker/compose/releases/download/v2.24.6/docker-compose-linux-x86_64
-  - chmod +x /usr/local/bin/compose-switch
-  - update-alternatives --install /usr/bin/docker-compose docker-compose /usr/local/bin/docker-compose-v2 1
-  - update-alternatives --install /usr/bin/docker-compose docker-compose /usr/local/bin/compose-switch 99
+- curl -fsSL -o /usr/local/bin/compose-switch https://github.com/docker/compose/releases/download/v2.24.6/docker-compose-linux-x86_64
+- chmod +x /usr/local/bin/compose-switch
+- update-alternatives --install /usr/bin/docker-compose docker-compose /usr/local/bin/docker-compose-v2 1
+- update-alternatives --install /usr/bin/docker-compose docker-compose /usr/local/bin/compose-switch 99
 
-  - su -c 'sh -c "$(curl -fsSL get.chezmoi.io)" -- -b /usr/local/bin init --apply budybye' ubuntu
+- su -c 'sh -c "$(curl -fsSL get.chezmoi.io)" -- -b /usr/local/bin init --apply budybye' ubuntu
 
-  - systemctl daemon-reload
-  - systemctl restart docker containerd
-  - sysctl --system
+- systemctl daemon-reload
+- systemctl restart docker containerd
+- sysctl --system
 
 write_files:
   - path: /etc/sysctl.d/local.conf
