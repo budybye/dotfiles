@@ -39,14 +39,14 @@ config:
     - libssl-dev
     - build-essential
     - pkg-config
-    - xrdp
-    - xfce4
-    - xfce4-goodies
+    # - xrdp
+    # - xfce4
+    # - xfce4-goodies
     - language-pack-ja-base
     - language-pack-ja
     - manpages-ja
     runcmd:
-    - su -c 'sh -c "$(curl -fsSL get.chezmoi.io)" -- -b /usr/local/bin init --apply budybye' ubuntu
+    - su -c 'sh -c "$(curl -fsSL get.chezmoi.io)" -- -b /usr/local/bin init ubuntu
 description: "ubuntu xrdp"
 devices: {}
 name: vm
