@@ -50,6 +50,8 @@ WORKDIR $HOME
 
 RUN sudo sh -c "$(curl -fsSL get.chezmoi.io)" -- -b /usr/local/bin
 
+RUN git clone https://github.com/budybye/dotfiles.git $HOME/dotfiles
+
 RUN curl https://mise.run | sh && \
     ${HOME}/.local/bin/mise use -g bun@1.1.36 node@20.18 || echo "mise install failed" && \
     ${HOME}/.local/share/mise/installs/bun/1.1.36/bin/bun i -g @bitwarden/cli || echo "bun install failed" && \
@@ -68,7 +70,7 @@ RUN groupadd -f input && \
 
 EXPOSE 3389 22
 
-CMD git clone https://github.com/budybye/dotfiles.git
+# CMD git clone https://github.com/budybye/dotfiles.git $HOME/dotfiles
 
 # COPY ./bin/setup.sh /usr/bin/
 # RUN mv /usr/bin/setbup.sh /usr/bin/setup.sh
