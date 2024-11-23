@@ -2,28 +2,30 @@
 # data は .chezmoi.toml.tmpl を参照
 
 {{ if eq .name "runner" -}}
-    .ssh/id_ed25519.age
-    .ssh/authorized_keys
+.ssh/id_ed25519.age
+.ssh/authorized_keys
+.ssh/id_rsa.age
+.ssh/id_rsa.pub.age
 
 {{ else if eq .name "dev" -}}
-    data
+data
 
 {{ else if eq .chezmoi.os "darwin" -}}
-    .config/fusuma
-    .config/fcitx5
+.config/fusuma
+.config/fcitx5
 
 {{ else if eq .chezmoi.os "linux" -}}
-    .config/Brewfile*
-    .config/karabiner
+.config/Brewfile*
+.config/karabiner
 
 {{ else -}}
-    .config/*
-    data/*
-    .devcontainer/*
-    cloud-init/*
-    *rc
-    *profile
-    *env
+.config/*
+data/*
+.devcontainer/*
+cloud-init/*
+*rc
+*profile
+*env
 
 {{ end -}}
 
