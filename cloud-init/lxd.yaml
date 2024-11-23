@@ -39,9 +39,9 @@ config:
       - libssl-dev
       - build-essential
       - pkg-config
-      - xrdp
-      - xfce4
-      - xfce4-goodies
+      # - xrdp
+      # - xfce4
+      # - xfce4-goodies
       - language-pack-ja-base
       - language-pack-ja
       - manpages-ja
