@@ -80,3 +80,6 @@ networks:
           gateway: aaaa:bbbb:cccc::1
   # default:
   #   external: true
+
+# volumes:
+#   ipfs:

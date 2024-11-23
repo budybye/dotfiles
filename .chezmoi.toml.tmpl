@@ -1,19 +1,18 @@
 # chezmoi .yaml or .toml or .json file is a configuration file for chezmoi
 # dotfiles/.chezmoi.yaml.tmpl に設定を記述すると.local/share/chezmoi/chezmoi.yamlに反映される
 
-
-# tmpl で参照する変数
+// *.tmpl で参照する変数
 [data]
-# 環境変数で振る舞いを変える .name .flag などの値を設定する
+// 環境変数で振る舞いを変える .name .flag などの値を設定する
 
-# runner の場合は runner
-# codespaces の場合は codespaces
-# devcontainer の場合は dev
-# docker の場合は docker
-# ubuntu の場合は budybye
-# hotmilk の場合は bitwarden のアイテムを参照する
-# lisa の場合は slim
-# その他 の場合は username を参照する windows?
+// runner の場合は runner
+// codespaces の場合は codespaces
+// devcontainer の場合は dev
+// docker の場合は docker
+// ubuntu の場合は budybye
+// hotmilk の場合は bitwarden のアイテムを参照する
+// lisa の場合は slim
+// その他 の場合は username を参照する windows?
 
 {{ if eq (env "GITHUB_ACTIONS") "true" }}
   dotfilesDir = "{{ .chezmoi.homeDir }}/work/dotfiles/dotfiles"
@@ -68,10 +67,18 @@
   command = "co"
   args = ["--wait"]
 
+// ファイルのパーミッションを変更する
 umask = 0o022
 
 scriptTempDir = "~/tmp"
 
+[sctiptEnv]
+  SSS = "SouthSideSound"
+
+// シンボリックリンクを作成する
+mode = "symlink"
+
+// runner 以外の場合は age の設定
 {{ if ne .chezmoi.username "runner" }}
   encryption = "age"
 
@@ -79,4 +86,13 @@ scriptTempDir = "~/tmp"
     identity = "~/config/chezmoi/key.txt"
     recipients = "age1nvdw6x8addcnfwsa26ed8vz7yv8y9425utujnsy7tcj64qs2ddasl2mphg"
     passphrase = true
+
+{{/* sourceDir を runner の場合は
+
+{{ else }}
+  sourceDir = "/home/runner/work/dotfiles/dotfiles"
+{{ end }}
+
+*/}}
+
 {{ end }}

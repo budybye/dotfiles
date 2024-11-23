@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-echo "run_once_5_code.sh.tmpl"
+echo "run_once_vscode_link.sh.tmpl"
 echo "--------------------------------"
 # 管理下の設定ファイルの場所
 FROM="${HOME}/.config/Code"
@@ -70,6 +70,7 @@ main() {
     copy_json_file "settings"
     copy_json_file "keybindings"
     extensions_json
+    ls -la {{ .chezmoi.sourceDir }}/.vscode
     echo "VSCodeの設定が完了しました。"
 }
 

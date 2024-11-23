@@ -1,6 +1,5 @@
 .envrc
 .env
 .gitconfig
-.devcontainer/portainer/*
 *.log
 *.log.*

@@ -5,9 +5,12 @@ echo "--------------------------------"
 echo "Chezmoi apply completed!!"
 echo "USER: $(whoami)"
 echo "SHELL: ${SHELL}"
-echo "pwd: $(pwd)"
-ls -la
+echo "PATH ..."
+echo "${PATH}" | tr ':' '\n'
+echo "--------------------------------"
 echo "File check start!!"
+echo "pwd: $(pwd)"
+tree
 echo "--------------------------------"
 echo "${HOME}"
 ls -la "${HOME}"
@@ -51,7 +54,7 @@ echo "--------------------------------"
     if [ -d "${HOME}/dotfiles" ]; then
         echo "Dotfiles already exists."
     else
-        echo "Dotfiles symlink..."
+        echo "Create symlink..."
         ln -sf "{{ .dotfilesDir }}" "${HOME}/dotfiles"
     fi
     ls -la "${HOME}/dotfiles"
@@ -62,7 +65,9 @@ echo 'Your config git user is ...'
 git config --list
 echo "--------------------------------"
 # 対話型にする？
-{{ if eq .chezmoi.username "hotmilk" -}}
+{{/*
+
+{{ if eq .chezmoi.hostname "101" -}}
     echo 'userconf update ? (y/n)'
     read ans
     if [ "$ans" = "y" ]; then
@@ -71,8 +76,14 @@ echo "--------------------------------"
     echo "--------------------------------"
 {{ end -}}
 
+*/}}
+
 chezmoi data
 echo "--------------------------------"
-echo 'Apply settings done!!'
-date
+chezmoi doctor
 echo "--------------------------------"
+echo "SourceDir: {{ .chezmoi.sourceDir }}"
+date
+echo 'Chezmoi Apply done!!'
+echo "--------------------------------"
+echo "😺♨🥦🌈🚲"

@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-echo "run_once_3_setup.sh.tmpl"
+echo "run_once_setup.sh.tmpl"
 echo "OS: {{ .chezmoi.os | quote }}"
 echo "desktop system setup"
 echo "--------------------------------"
@@ -14,7 +14,6 @@ echo "--------------------------------"
         sudo scutil --set HostName "101"
         sudo scutil --set UserName "hotmilk"
         whoami
-        pwd
     }
 
     system_setup() {
