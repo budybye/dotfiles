@@ -10,6 +10,7 @@ echo "OS info ..."
 uname -a
 echo "SHELL: $SHELL"
 echo "--------------------------------"
+
 # .env の確認と作成
 echo ".env checking..."
 echo {{ .name | quote }}
@@ -17,6 +18,7 @@ echo "export GIT_USER=$USERNAME" >>{{ .dotfilesDir }}/.env
 cat {{ .dotfilesDir }}/.env
 env
 echo "--------------------------------"
+# SSH の設定
 echo "SSH key ..."
 cat /etc/ssh/sshd_config
 echo "--------------------------------"
@@ -37,6 +39,7 @@ echo "--------------------------------"
 echo "SSH Config ..."
 cat ~/.ssh/config
 echo "--------------------------------"
+# git の設定
 echo "git config ..."
 cat ~/.config/git/user.conf
 echo "git config user.name"
@@ -49,6 +52,8 @@ echo "--------------------------------"
 cat ~/.config/git/commit.template
 git config --global commit.template ${HOME}/.config/git/commit.template
 echo "--------------------------------"
+
+# パッケージの更新と確認
 echo "Package update && check start!!"
 echo "--------------------------------"
 

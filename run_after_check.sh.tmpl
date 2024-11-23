@@ -5,11 +5,13 @@ echo "--------------------------------"
 echo "Chezmoi apply completed!!"
 echo "USER: $(whoami)"
 echo "SHELL: ${SHELL}"
+echo "--------------------------------"
 echo "PATH ..."
 echo "${PATH}" | tr ':' '\n'
 echo "--------------------------------"
 echo "File check start!!"
 echo "pwd: $(pwd)"
+echo "SourceDir: {{.dotfilesDir | quote }}"
 tree {{ .dotfilesDir }}
 echo "--------------------------------"
 echo "${HOME}"
@@ -19,7 +21,7 @@ echo "${HOME}/data"
 ls -la "${HOME}/data"
 echo "--------------------------------"
 echo "${HOME}/.config"
-ls -la "${HOME}/.config"
+tree "${HOME}/.config"
 echo "--------------------------------"
 echo "${HOME}/.ssh"
 ls -la "${HOME}/.ssh"
@@ -28,38 +30,17 @@ echo "${HOME}/.local/bin"
 ls -la "${HOME}/.local/bin"
 echo "--------------------------------"
 echo "${HOME}/.local/share"
-ls -la "${HOME}/.local/share"
+tree "${HOME}/.local/share"
 echo "--------------------------------"
-{{ if eq .chezmoi.os "linux" }}
-    echo "${HOME}/.local/share/themes"
-    ls -la "${HOME}/.local/share/themes"
-    echo "--------------------------------"
-    echo "${HOME}/.local/share/icons"
-    ls -la "${HOME}/.local/share/icons"
-    echo "--------------------------------"
-    echo "${HOME}/.local/share/fonts"
-    ls -la "${HOME}/.local/share/fonts"
-    echo "--------------------------------"
-{{ end }}
-
-# sourceDir 確認
-echo {{.dotfilesDir | quote }}
-ls -la {{ .dotfilesDir }}
+echo "${HOME}/dotfiles ..."
+if [ -d "${HOME}/dotfiles" ]; then
+    echo "Dotfiles already exists."
+else
+    echo "Create symlink..."
+    ln -sf "{{ .dotfilesDir }}" "${HOME}/dotfiles"
+fi
+ls -la "${HOME}/dotfiles"
 echo "--------------------------------"
-
-
-# ~/dotfiles にシンボリックリンク
-{{- if ne .name "dev" }}
-    echo 'Dotfiles symlink ...'
-    if [ -d "${HOME}/dotfiles" ]; then
-        echo "Dotfiles already exists."
-    else
-        echo "Create symlink..."
-        ln -sf "{{ .dotfilesDir }}" "${HOME}/dotfiles"
-    fi
-    ls -la "${HOME}/dotfiles"
-    echo "--------------------------------"
-{{- end }}
 
 # 対話型にする？
 {{/*
@@ -67,11 +48,11 @@ echo "--------------------------------"
 {{ if eq .chezmoi.hostname "101" -}}
     echo 'git userconf update ? (y/n)'
     read ans
-    if [ "$ans" = "y" ]; then
+    if [ "$ans" = "y" ] || [ "$ans" = "Y" ]; then
         ${EDITOR} "${HOME}/.config/git/user.conf"
-    elif [ "$ans" = "n" ]; then
+    elif [ "$ans" = "n" ] || [ "$ans" = "N" ]; then
         echo 'Your config git user is ...'
-        git config --list
+        cat ~/.config/git/config
     fi
     echo "--------------------------------"
 {{ end -}}
@@ -83,7 +64,6 @@ echo "--------------------------------"
 chezmoi doctor
 echo "--------------------------------"
 echo "SourceDir: {{ .chezmoi.sourceDir }}"
-date
 echo 'Chezmoi Apply done!!'
-echo "--------------------------------"
-echo "😺 ♨ 🥦 🌈 🚲"
+date
+echo "😺 ♨ ✨ 🥦 🌈 🚲 🏄 🙏 ☀ 🌕 ( ﾟДﾟ)y─┛~~"
