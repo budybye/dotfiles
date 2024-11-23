@@ -61,17 +61,17 @@ echo "--------------------------------"
     echo "--------------------------------"
 {{- end }}
 
-echo 'Your config git user is ...'
-git config --list
-echo "--------------------------------"
 # 対話型にする？
 {{/*
 
 {{ if eq .chezmoi.hostname "101" -}}
-    echo 'userconf update ? (y/n)'
+    echo 'git userconf update ? (y/n)'
     read ans
     if [ "$ans" = "y" ]; then
-        cat "${HOME}/.config/git/config"
+        ${EDITOR} "${HOME}/.config/git/user.conf"
+    elif [ "$ans" = "n" ]; then
+        echo 'Your config git user is ...'
+        git config --list
     fi
     echo "--------------------------------"
 {{ end -}}

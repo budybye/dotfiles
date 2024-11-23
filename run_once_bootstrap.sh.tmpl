@@ -19,7 +19,6 @@ env
 echo "--------------------------------"
 echo "SSH key ..."
 cat /etc/ssh/sshd_config
-q
 echo "--------------------------------"
 chmod 700 ~/.ssh
 chmod 644 ~/.ssh/id_ed25519.pub
@@ -44,7 +43,7 @@ echo "git config user.name"
 git config user.name
 echo "git config user.email"
 git config user.email
-git config --list
+git config --list && q
 git config --global commit.template ${HOME}/.config/git/commit.template
 echo "--------------------------------"
 echo "Package update && check start!!"
