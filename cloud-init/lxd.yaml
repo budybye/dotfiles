@@ -6,6 +6,8 @@ config:
     timezone: Asia/Tokyo
     locale: ja_JP.utf8
     package_upgrade: true
+    package_update: true
+    hostname: vm
     users:
       - name: ubuntu
         uid: 1001
@@ -54,5 +56,5 @@ config:
       - systemctl restart ssh
 description: ""
 devices: {}
-name: vm-manager
+name: vm
 used_by: []

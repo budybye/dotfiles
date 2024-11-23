@@ -227,5 +227,5 @@ jobs:
 
       - name: Launch container
         run: |
-          lxc launch ubuntu:24.04 ubuntu -p default -p cloud-init/lxd.yaml
+          lxc launch ubuntu:24.04 ubuntu -p cloud-init/lxd.yaml
           lxc exec ubuntu -- cloud-init status --wait
