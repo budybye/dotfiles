@@ -2,19 +2,18 @@
 # dotfiles/.chezmoi.yaml.tmpl に設定を記述すると.local/share/chezmoi/chezmoi.yamlに反映される
 
 # runner 以外の場合は age の設定
+[data]
 
 {{ if ne .chezmoi.username "runner" }}
-encryption = "age"
+  encryption = "age"
 
-[age]
-  identity = "~/config/chezmoi/key.txt"
-  recipients = "age1nvdw6x8addcnfwsa26ed8vz7yv8y9425utujnsy7tcj64qs2ddasl2mphg"
-  passphrase = true
-
+  [age]
+    identity = "~/config/chezmoi/key.txt"
+    recipients = "age1nvdw6x8addcnfwsa26ed8vz7yv8y9425utujnsy7tcj64qs2ddasl2mphg"
+    passphrase = true
 {{- end }}
 
 # *.tmpl で参照する変数
-[data]
 # 環境変数で振る舞いを変える .name .flag などの値を設定する
 
 # runner の場合は runner
