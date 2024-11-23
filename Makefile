@@ -1,4 +1,4 @@
-.PHONY: dev init up down ipfs exec ubuntu git bw ssh age 
+.PHONY: dev init up down ipfs exec ubuntu git bw ssh age
 
 .ONESHELL:
 SHELL = bash
@@ -7,7 +7,7 @@ SHELL = bash
 dev: bw init
 
 init:
-	chmod +x ./install.sh && ./install.sh | tee ${HOME}/make.log
+	chmod +x ./install.sh && ./install.sh
 up:
 	docker compose up -f .devcontainer/docker-compose.yaml -d
 down:
