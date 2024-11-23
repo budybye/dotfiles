@@ -44,6 +44,7 @@ config:
       - language-pack-ja
       - manpages-ja
     runcmd:
+      - su -c 'sh -c "$(curl -fsSL get.chezmoi.io)" -- -b /usr/local/bin init' ubuntu
       - sudo systemctl daemon-reload
 description: "ubuntu xrdp"
 devices: {}
