@@ -32,10 +32,10 @@ echo "--------------------------------"
 {{ if ne .name "runner" -}}
     echo "key_path: ${key_path}..."
     echo "identity: ${identity}..."
-    echo "Please enter your age passphrase:"
 
     if [ ! -f ${identity} ]; then
         mkdir -p ${HOME}/.config/chezmoi
+        echo "Please enter your age passphrase:"
         chezmoi age decrypt --output "${identity}" --passphrase "${key_path}"
         chmod 600 ${identity}
     fi
