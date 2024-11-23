@@ -227,8 +227,6 @@ jobs:
 
       - name: Launch container
         run: |
-          lxc remote list
-          lxc remote list | grep cloud
-          # lxc launch ubuntu:24.04 ubuntu --config=user.user-data="$(cat cloud-init/multipass.yaml)"
-          # lxc exec ubuntu -- cloud-init status --wait
-          # lxc info ubuntu
+          lxc launch ubuntu:24.04 ubuntu --config=user.user-data="$(cat cloud-init/multipass.yaml)"
+          lxc exec ubuntu -- cloud-init status --wait
+          lxc info ubuntu
