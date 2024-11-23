@@ -32,7 +32,7 @@ cloud-init/*
 README.md
 style.css
 Makefile
-install.sh
+install*
 
 .env
 .tool-versions
