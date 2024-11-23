@@ -228,4 +228,4 @@ jobs:
       - name: Launch container
         run: |
           lxc launch ubuntu:24.04 ubuntu --config=user.user-data="$(cat cloud-init/multipass.yaml)"
-          lxc exec ubuntu -- tail -2 /var/log/cloud-init.log
+          lxc info ubuntu
