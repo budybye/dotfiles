@@ -32,9 +32,9 @@ jobs:
           - linux/arm64
 
         flavor:
-          - name: dev
-            use_bedrock: false
           - name: slim
+            use_bedrock: false
+          - name: dev
             use_bedrock: true
 
     steps:
@@ -98,6 +98,7 @@ jobs:
           runCmd: |
             env
             ls -la
+            chezmoi init
 
       - name: Export digest
         if: matrix.flavor.name == 'slim'
@@ -230,5 +231,5 @@ jobs:
           lxc profile create bob && cat cloud-init/lxd.yaml | lxc profile edit bob
           lxc launch ubuntu:24.04 ubuntu -p default -p bob
           lxc exec ubuntu -- cloud-init status --wait || true
-          lxc exec ubuntu -- tail -16 /var/log/cloud-init.log
-          # lxc launch ubuntu:24.04 ubuntu --config=user.user-data="$(cat cloud-init/user-data)"
+          lxc exec ubuntu -- tail -4 /var/log/cloud-init.log
+          # lxc launch ubuntu:24.04 ubuntu --config=user.user-data="$(cat cloud-init/multipass.yaml)"

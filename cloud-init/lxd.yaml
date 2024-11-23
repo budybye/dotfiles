@@ -44,8 +44,16 @@ config:
       - language-pack-ja
       - manpages-ja
     runcmd:
+      - wget -q https://www.ubuntulinux.jp/ubuntu-ja-archive-keyring.gpg -O- | apt-key add -
+      - wget -q https://www.ubuntulinux.jp/ubuntu-jp-ppa-keyring.gpg -O- | apt-key add -
+      - wget https://www.ubuntulinux.jp/sources.list.d/focal.list -O /etc/apt/sources.list.d/ubuntu-ja.list
+      - apt update -y
       - su -c 'sh -c "$(curl -fsSL get.chezmoi.io)" -- -b /usr/local/bin init' ubuntu
       - sudo systemctl daemon-reload
+    write_files:
+      - path: /etc/apt/sources.list.d/ubuntu-ja.list
+        content: |
+          deb http://ftp.jp.debian.org/debian/ focal main contrib non-free
 description: "ubuntu xrdp"
 devices: {}
 name: vm
