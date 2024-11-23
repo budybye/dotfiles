@@ -23,6 +23,6 @@ ssh:
 git:
 	git add -A && git commit --allow-empty-message -m "" && git push origin main
 bw:
-	export BW_SESSION=$(bw unlock --raw)
+	@eval $$(bw unlock --raw | awk '{print "export BW_SESSION="$$1}')
 age:
 	age-keygen | age --armor --passphrase > key.txt.age

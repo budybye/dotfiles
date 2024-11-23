@@ -18,9 +18,8 @@ chmod 700 \
     "${HOME}/.config" \
     "${HOME}/.local/share" \
     "${HOME}/.local/state" \
-    "${HOME}/.cache"
-
-chmod 700 "${HOME}/.ssh"
+    "${HOME}/.cache" \
+    "${HOME}/.ssh"
 
 # XDG DIRECTORY
 export XDG_CONFIG_HOME=${HOME}/.config
