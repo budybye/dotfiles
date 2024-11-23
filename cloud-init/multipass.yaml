@@ -75,6 +75,11 @@ packages:
   - language-pack-ja
   - manpages-ja
 
+  # - xfce4
+  # - xfce4-goodies
+  # - xrdp
+  # - ibus-x11
+
 bootcmd:
   - printf "[Resolve]\nDNS=1.1.1.1\n" >> /etc/systemd/resolved.conf
   - [ systemctl, restart, systemd-resolved ]
