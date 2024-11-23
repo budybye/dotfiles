@@ -83,11 +83,11 @@ mode = "symlink"
 
 # runner 以外の場合は age の設定
 {{- if ne .chezmoi.username "runner" }}
-  encryption = "age"
+encryption = "age"
 
-  [age]
-    identity = "~/config/chezmoi/key.txt"
-    recipients = "age1nvdw6x8addcnfwsa26ed8vz7yv8y9425utujnsy7tcj64qs2ddasl2mphg"
-    passphrase = true
+[age]
+  identity = "~/config/chezmoi/key.txt"
+  recipients = "age1nvdw6x8addcnfwsa26ed8vz7yv8y9425utujnsy7tcj64qs2ddasl2mphg"
+  passphrase = true
 
 {{- end }}
