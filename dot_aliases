@@ -94,7 +94,7 @@ fi
 if command -v chezmoi >/dev/null 2>&1; then
     alias che="chezmoi"
     alias ca="chezmoi apply"
-    alias cai="chezmoi init --apply git@github.com:budybye/dotfiles.git"
+    alias cai="chezmoi init --apply https://github.com/budybye/dotfiles.git"
 fi
 
 # bitwarden
