@@ -29,9 +29,21 @@ echo "--------------------------------"
 echo "${HOME}/.local/bin"
 ls -la "${HOME}/.local/bin"
 echo "--------------------------------"
-tree -L 5 "${HOME}/.local/share"
+tree -L 3 "${HOME}/.local/share"
 echo "--------------------------------"
-echo "${HOME}/dotfiles ..."
+
+{{ if ne .chezmoi.os "linux" -}}
+    echo "${HOME}/.local/share/themes"
+    ls -la "${HOME}/.local/share/themes"
+    echo "--------------------------------"
+    echo "${HOME}/.local/share/fonts"
+    ls -la "${HOME}/.local/share/fonts"
+    echo "--------------------------------"
+    echo "${HOME}/.local/share/icons"
+    ls -la "${HOME}/.local/share/icons"
+    echo "--------------------------------"
+{{ end -}}
+
 if [ -d "${HOME}/dotfiles" ]; then
     echo "Dotfiles already exists."
 else
@@ -48,7 +60,7 @@ echo "--------------------------------"
     echo 'git userconf update ? (y/n)'
     read ans
     if [ "$ans" = "y" ] || [ "$ans" = "Y" ]; then
-        ${EDITOR} "${HOME}/.config/git/user.conf"
+        vim "${HOME}/.config/git/user.conf"
     elif [ "$ans" = "n" ] || [ "$ans" = "N" ]; then
         echo 'Your config git user is ...'
         cat ~/.config/git/config

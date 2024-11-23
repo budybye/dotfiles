@@ -230,5 +230,5 @@ jobs:
           lxc profile create bob && cat cloud-init/lxd.yaml | lxc profile edit bob
           lxc launch ubuntu:24.04 ubuntu -p default -p bob
           lxc exec ubuntu -- cloud-init status --wait || true
-          lxc exec ubuntu -- tail -2 /var/log/cloud-init.log
+          lxc exec ubuntu -- tail -8 /var/log/cloud-init.log
           # lxc launch ubuntu:24.04 ubuntu --config=user.user-data="$(cat cloud-init/user-data)"
