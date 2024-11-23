@@ -81,5 +81,5 @@ networks:
   # default:
   #   external: true
 
-# volumes:
-#   ipfs:
+volumes:
+  dev_data:
