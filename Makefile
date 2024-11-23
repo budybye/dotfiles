@@ -7,7 +7,7 @@ SHELL = bash
 dev: bw init
 
 init:
-	chmod +x install && install
+	chmod +x ./install && ./install
 up:
 	docker compose up -f .devcontainer/docker-compose.yaml -d
 down:
