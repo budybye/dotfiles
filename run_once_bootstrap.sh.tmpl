@@ -43,7 +43,10 @@ echo "git config user.name"
 git config user.name
 echo "git config user.email"
 git config user.email
-git config --list && q
+echo "--------------------------------"
+cat ~/.config/git/config
+echo "--------------------------------"
+cat ~/.config/git/commit.template
 git config --global commit.template ${HOME}/.config/git/commit.template
 echo "--------------------------------"
 echo "Package update && check start!!"

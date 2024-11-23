@@ -10,7 +10,7 @@ echo "${PATH}" | tr ':' '\n'
 echo "--------------------------------"
 echo "File check start!!"
 echo "pwd: $(pwd)"
-tree
+tree {{ .dotfilesDir }}
 echo "--------------------------------"
 echo "${HOME}"
 ls -la "${HOME}"
