@@ -1,3 +1,11 @@
+{{ if ne (env "GITHUB_ACTIONS") "true" }}
+encryption = "age"
+[age]
+    identity = "~/config/chezmoi/key.txt"
+    recipients = "age1nvdw6x8addcnfwsa26ed8vz7yv8y9425utujnsy7tcj64qs2ddasl2mphg"
+    passphrase = true
+{{ end -}}
+
 # chezmoi .yaml or .toml or .json file is a configuration file for chezmoi
 # dotfiles/.chezmoi.yaml.tmpl に設定を記述すると.local/share/chezmoi/chezmoi.yamlに反映される
 
@@ -81,12 +89,3 @@ scriptTempDir = "~/tmp"
 
 # シンボリックリンクを作成する
 mode = "symlink"
-
-{{ if ne (env "GITHUB_ACTIONS") "true" }}
-
-encryption = "age"
-[age]
-    identity = "~/config/chezmoi/key.txt"
-    recipients = "age1nvdw6x8addcnfwsa26ed8vz7yv8y9425utujnsy7tcj64qs2ddasl2mphg"
-    passphrase = true
-{{ end -}}
