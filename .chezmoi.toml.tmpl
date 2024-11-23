@@ -51,12 +51,12 @@
   email = "null"
   flag = "slim"
 
-{{- else }}{{/* ubuntu, devcontainer, runner, codespaces 以外 */}}
+{{- else -}}{{/* ubuntu, devcontainer, runner, codespaces 以外 */}}
   dotfilesDir = "{{ .chezmoi.homeDir }}/.local/share/chezmoi"
   email = "example@email.com"
   name = {{ .chezmoi.username | quote }}
 
-{{- end }}
+{{- end -}}
 
 [git]
   autoPush = false
@@ -65,10 +65,10 @@
 
 [edit]
   command = "vim"
-//  command = "co"
-//  args = ["--wait"]
+#  command = "co"
+#  args = ["--wait"]
 
-// sourceDir = "{{ .chezmoi.sourceDir }}"
+# sourceDir = "{{ .chezmoi.sourceDir }}"
 
 # ファイルのパーミッションを変更する
 umask = 0o022
@@ -82,7 +82,7 @@ scriptTempDir = "~/tmp"
 mode = "symlink"
 
 # runner 以外の場合は age の設定
-{{- if ne .chezmoi.username "runner" }}
+{{- if ne .chezmoi.username "runner" -}}
   encryption = "age"
 
   [age]
@@ -90,4 +90,4 @@ mode = "symlink"
     recipients = "age1nvdw6x8addcnfwsa26ed8vz7yv8y9425utujnsy7tcj64qs2ddasl2mphg"
     passphrase = true
 
-{{- end }}
+{{- end -}}
