@@ -15,17 +15,17 @@ key_path="{{ .chezmoi.sourceDir }}/${key_name}"
 age_install() {
     echo "age install..."
 
-{{ if eq .chezmoi.os "darwin" }}
+{{ if eq .chezmoi.os "darwin" -}}
     command -v age >/dev/null || brew install age || echo "age install failed"
 
-{{ else if eq .chezmoi.os "linux" }}
+{{ else if eq .chezmoi.os "linux" -}}
     command -v age >/dev/null || sudo apt-get install -y age || echo "age install failed"
 
-{{ else }}
+{{ else -}}
     echo "Your OS is {{ .chezmoi.os }}"
     curl -sSL https://github.com/FiloSottile/age/releases/download/v1.1.2/age-v1.1.2-darwin-amd64.tar.gz | tar xz
 
-{{ end }}
+{{ end -}}
     command -v age || echo "age command not found"
     echo "--------------------------------"
 }
@@ -33,7 +33,7 @@ age_install() {
 # パスフレーズで復号
 decrypt() {
 
-{{ if ne .name "runner" }}
+{{ if ne .name "runner" -}}
 
     echo "key_path: ${key_path}..."
     echo "identity: ${identity}..."
@@ -47,7 +47,7 @@ decrypt() {
     echo "Decrypt-private-key complete."
     echo "--------------------------------"
 
-{{ end }}
+{{ end -}}
 
 }
 
