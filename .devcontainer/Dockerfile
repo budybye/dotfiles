@@ -23,8 +23,6 @@ RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezo
     echo LC_ALL=${LC_ALL} >> /etc/default/locale && \
     echo keymap=jp106 >> /etc/default/keyboard && \
     echo xkb-keymap=jp106 >> /etc/default/keyboard && \
-    source /etc/default/locale && \
-    source /etc/default/keyboard && \
     im-config -n fcitx5
 
 ENV DEBIAN_FRONTEND=noninteractive
