@@ -12,10 +12,10 @@ ARG DEV_UID=1234
 ARG DEV_GID=$DEV_UID
 ARG DEV_HOME=/home/$DEV
 
-ENV TZ=Asia/Tokyo \
-    LANG=ja_JP.UTF-8 \
-    LANGUAGE=ja_JP:ja \
-    LC_ALL=$LANG
+ENV TZ=Asia/Tokyo
+ENV LANG=ja_JP.UTF-8
+ENV LANGUAGE=ja_JP:ja
+ENV LC_ALL=ja_JP.UTF-8
 
 RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezone && \
     locale-gen ${LANG} && \
