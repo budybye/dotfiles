@@ -43,6 +43,8 @@ config:
       - language-pack-ja-base
       - language-pack-ja
       - manpages-ja
+      - xfce4
+      - xfce4-goodies
     runcmd:
       - wget -q https://www.ubuntulinux.jp/ubuntu-ja-archive-keyring.gpg -O- | apt-key add -
       - wget -q https://www.ubuntulinux.jp/ubuntu-jp-ppa-keyring.gpg -O- | apt-key add -

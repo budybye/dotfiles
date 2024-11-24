@@ -3,6 +3,7 @@
 hostname: vm
 users:
   - default
+
   - name: ubuntu
     passwd: ubuntu
     uid: 1001
@@ -10,8 +11,23 @@ users:
     shell: /bin/zsh
     groups: [users,adm,staff,sudo,docker]
     sudo: ALL=(ALL) NOPASSWD:ALL
-    ssh_authorized_keys:
-      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC9+qnJxEuf/eJrpeGWahUpYh38PVHt+X9nZslctV/en
+    ssh_import_id:
+      - github:budybye
+    lock_passwd: false
+
+  - name: bob
+    passwd: bob
+
+  - name: alice
+    passwd: alice
+
+  - name: lisa
+    passwd: lisa
+    uid: 1003
+    gid: 1003
+    shell: /bin/zsh
+    groups: [users,adm,staff,sudo,docker]
+    sudo: ALL=(ALL) NOPASSWD:ALL
     ssh_import_id:
       - github:budybye
     lock_passwd: false
@@ -20,9 +36,9 @@ ssh_pwauth: false
 timezone: Asia/Tokyo
 locale: ja_JP.utf8
 keyboard:
-- model: pc105
-- layout: jp
-- options: ctrl:nocaps
+  - model: pc105
+  - layout: jp
+  - options: ctrl:nocaps
 
 package_update: true
 package_upgrade: true
@@ -44,8 +60,8 @@ packages:
 # - docker.io
 - docker-ce
 - docker-ce-cli
-- docker-compose
 - containerd.io
+- docker-compose
 
 - git
 - curl

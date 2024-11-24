@@ -13,7 +13,19 @@ VERSION="20.18.1"
 NPM="${SHIMS}/installs/node/${VERSION}/bin/npm"
 BW="${SHIMS}/installs/node/${VERSION}/bin/bw"
 SESSION="{{ .chezmoi.sourceDir }}/.env"
-MASTER="${MASTER:-}"
+
+# マスターパスワードを復号
+{{ if ne .name "runner" -}}
+    SHHH="$(chezmoi decrypt {{ .chezmoi.sourceDir }}/shhh.txt)"
+    echo "export MASTER=${MASTER:-${SHHH}}" >> ${SESSION}
+    MASTER="${MASTER:-${SHHH}}"
+{{ else -}}
+    echo "export MASTER=${MASTER}" >> ${SESSION}
+    MASTER="${MASTER:-}"
+{{ end -}}
+
+# マスターパスワードを暗号化
+# echo "${MASTER}" | chezmoi encrypt > {{ .chezmoi.sourceDir }}/shhh.txt
 
 # mise なければインストール
 {{ if eq .chezmoi.os "darwin" -}}
@@ -43,20 +55,23 @@ else
     echo "bitwarden cli install failed."
 fi
 echo "--------------------------------"
+
 # bw cli があればロック解除
 if command -v bw >/dev/null 2>&1; then
-    echo "export BW_SESSION="$(bw unlock ${MASTER} --raw)"" >> ${SESSION} || echo "bw unlock failed."
+    echo "export BW_SESSION="$(bw unlock ${MASTER} --raw)"" > ${SESSION} || echo "bw unlock failed."
 
 elif [ -f ${BW} ]; then
-    echo "export BW_SESSION="$(${BW} unlock ${MASTER} --raw)"" >> ${SESSION} || echo "bw unlock failed."
+    echo "export BW_SESSION="$(${BW} unlock ${MASTER} --raw)"" > ${SESSION} || echo "bw unlock failed."
 
 else
     echo "bw cli not found."
+    echo "export BW_SESSION=${BW_SESSION:-}" > ${SESSION}
 fi
 cat ${SESSION} || echo "${SESSION} not found."
 echo "--------------------------------"
 echo "PATH ..."
 echo "${PATH}" | tr ':' '\n'
 echo "--------------------------------"
+echo "export DOTFILES=${DOTFILES:-${HOME}/dotfiles}" >> ${SESSION}
 echo "bw install complete"
 echo "--------------------------------"

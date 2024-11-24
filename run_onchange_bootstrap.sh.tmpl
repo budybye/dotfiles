@@ -100,7 +100,7 @@ echo "--------------------------------"
             # ダウンロード URL の作成
             COMPOSE_URL="https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)"
             # Docker Compose のバイナリをダウンロード
-            sudo curl -L "$COMPOSE_URL" -o /usr/local/bin/docker-compose || echo "docker-compose download failed." >> ${HOME}/which
+            sudo curl -L "$COMPOSE_URL" -o /usr/local/bin/docker-compose || echo "docker-compose download failed."
             sudo chmod +x /usr/local/bin/docker-compose
             command -v docker compose >> ${HOME}/which || echo "docker-compose not found" >> ${HOME}/which
             echo "docker-compose installed."
@@ -114,7 +114,7 @@ echo "--------------------------------"
             curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
             echo "deb [arch=${arch} signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
             sudo apt-get update -y
-            sudo apt-get install -y docker-ce docker-ce-cli containerd.io || echo "docker install failed." >> ${HOME}/which
+            sudo apt-get install -y docker-ce docker-ce-cli containerd.io || echo "docker install failed."
             sudo chmod 666 /var/run/docker.sock
             sudo groupadd -f docker
             sudo usermod -aG docker "$USERNAME"
@@ -133,14 +133,14 @@ echo "--------------------------------"
                 sudo install -dm 755 /etc/apt/keyrings
                 wget -qO - https://mise.jdx.dev/gpg-key.pub | gpg --dearmor | sudo tee /etc/apt/keyrings/mise-archive-keyring.gpg 1>/dev/null
                 echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=${arch}] https://mise.jdx.dev/deb stable main" | sudo tee /etc/apt/sources.list.d/mise.list
-                sudo apt-get update -y && sudo apt-get install -y mise || echo "mise install failed." >> ${HOME}/which
+                sudo apt-get update -y && sudo apt-get install -y mise || echo "mise install failed."
             }
         else
             echo "mise already installed."
         fi
         command -v mise >> ${HOME}/which || echo "mise not found"
         # version 指定しないと arm64 でエラーになる
-        mise use -g bun go@1.23.2 -y --verbose || echo "mise use failed."
+        mise use -g bun go@1.23.2 -y || echo "mise use failed."
         mise activate bash >/dev/null
         # mise activate --shims
         export PATH="${HOME}/.local/share/mise/shims:$PATH"
@@ -206,7 +206,8 @@ echo "--------------------------------"
         echo "act install start..."
         if ! command -v act >/dev/null; then
             curl https://raw.githubusercontent.com/nektos/act/master/install.sh | sudo bash || echo "act install failed."
-            sudo mv ./bin/act ${HOME}/.local/bin && chmod +x ${HOME}/.local/bin/act
+            mv -f ./bin/act ${HOME}/.local/bin/act
+            chmod +x ${HOME}/.local/bin/act
         fi
         echo "act installed."
         command -v act >> ${HOME}/which || echo "act not found"
@@ -241,8 +242,6 @@ echo "--------------------------------"
 
 {{- else if eq .chezmoi.os "darwin" }}
 
-    echo "Darwin"
-
     # Xcode コマンドラインツールのインストールおよびパスの設定
     install_xcode_command_line_tools() {
         echo "Xcode command line tools check it..."
@@ -273,7 +272,7 @@ echo "--------------------------------"
         brew --version
         brew tap Homebrew/bundle
         brew install {{ .packages.darwin.brews | join " " }} || echo "brew install failed."
-        brew install {{ .packages.darwin.casks | join " " }} || echo "cask install failed."
+        brew install --cask {{ .packages.darwin.casks | join " " }} || echo "cask install failed."
         brew update
         brew upgrade
         brew autoremove

@@ -22,11 +22,10 @@ Host ${USER_NAME}
 EOF
 
 ls -la "${SSH}"
-
 cd "${SSH}"
 
 if [ -f "${KEY_PATH}.pub" ]; then
-    sudo cp "${KEY_PATH}.pub" "${KEY_PATH}.pub.copy"
+    sudo cp "${KEY_PATH}.pub" "${KEY_PATH}.pub.old"
     rm -rf "${KEY_PATH}.pub"
 fi
 
@@ -35,7 +34,7 @@ if [ ! -f "${KEY_PATH}" ]; then
     ssh-keygen -t "${KEY_TYPE}" -f "${KEY_NAME}" -C "${USER_NAME}" -N ""
 else
     echo "SSH key already exists"
-    sudo cp "${KEY_PATH}" "${KEY_PATH}.copy"
+    sudo cp "${KEY_PATH}" "${KEY_PATH}.old"
     rm -rf "${KEY_PATH}"
     ssh-keygen -t "${KEY_TYPE}" -f "${KEY_NAME}" -C "${USER_NAME}" -N ""
 fi
