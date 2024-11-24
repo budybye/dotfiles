@@ -200,7 +200,7 @@ echo "--------------------------------"
     network_setup() {
         # sudo networksetup -SetAirportPower en0 on
         # sudo networksetup -SetAirportNetwork en0 <SSID> <PASSWORD>
-        sudo networksetup -SetDNSServers Wi-Fi 1.1.1.2 1.0.0.2 192.168.0.1
+        # sudo networksetup -SetDNSServers Wi-Fi 1.1.1.2 1.0.0.2 192.168.0.1
         # sudo networksetup -SetV6Off Wi-Fi
         networksetup -ListNetworkServiceOrder
         nslookup apple.com
@@ -399,6 +399,13 @@ echo "--------------------------------"
         echo "日本語環境の設定が完了しました。"
     }
 
+    # pulseaudio をインストールおよび設定する関数
+    install_pulseaudio() {
+        sudo apt-get install -y pulseaudio libpulse-dev dh-autoreconf dpkg-dev || echo "pulseaudio install failed."
+        echo "pulseaudio installed."
+    }
+
+    # pipewire をインストールおよび設定する関数
     install_pipewire() {
         doko=$(pwd)
         sudo apt-get install -y pipewire pipewire-audio libspa-0.2-dev libpipewire-0.3-dev autoconf libtool || echo "pipewire install failed."
@@ -407,7 +414,8 @@ echo "--------------------------------"
             git clone https://github.com/neutrinolabs/pulseaudio-module-xrdp.git "${HOME}/.config/pipewire/pulseaudio-module-xrdp"
             cd "${HOME}/.config/pipewire/pulseaudio-module-xrdp"
             ./bootstrap
-            ./configure
+            ./configure PULSE_DIR=$(cd ..; pwd)
+            make
             sudo make install
             cd "${doko}"
         fi

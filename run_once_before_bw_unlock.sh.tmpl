@@ -14,16 +14,13 @@ NPM="${SHIMS}/installs/node/${VERSION}/bin/npm"
 BW="${SHIMS}/installs/node/${VERSION}/bin/bw"
 SESSION="{{ .chezmoi.sourceDir }}/.env"
 
+# age のパスフレーズが要求される
 # マスターパスワードを復号
 {{ if ne .name "runner" -}}
-    SHHH="$(chezmoi decrypt {{ .chezmoi.sourceDir }}/shhh.txt)"
-    echo "export MASTER=${MASTER:-${SHHH}}" >> ${SESSION}
-    MASTER="${MASTER:-${SHHH}}"
-{{ else -}}
-    echo "export MASTER=${MASTER}" >> ${SESSION}
-    MASTER="${MASTER:-}"
+    MASTER="$(chezmoi decrypt {{ .chezmoi.sourceDir }}/shhh.txt)"
 {{ end -}}
 
+# age のパスフレーズが要求される
 # マスターパスワードを暗号化
 # echo "${MASTER}" | chezmoi encrypt > {{ .chezmoi.sourceDir }}/shhh.txt
 
@@ -39,12 +36,12 @@ SESSION="{{ .chezmoi.sourceDir }}/.env"
         curl https://mise.run | sh
     fi
     ${MISE} use -g node@${VERSION} -y && ${MISE} activate bash >/dev/null || echo "node install failed."
-
 {{ end -}}
 # mise shims のパスを通す
 export PATH="${SHIMS}/shims:${PATH}"
 echo "--------------------------------"
-# npm なければインストール
+
+# npm で bitwarden cli をインストール
 if command -v npm >/dev/null 2>&1; then
     npm install -g @bitwarden/cli || echo "bitwarden cli install failed."
 
@@ -52,16 +49,16 @@ elif [ -f ${NPM} ]; then
     ${NPM} install -g @bitwarden/cli || echo "bitwarden cli install failed."
 
 else
-    echo "bitwarden cli install failed."
+    echo "npm not found."
 fi
 echo "--------------------------------"
 
 # bw cli があればロック解除
 if command -v bw >/dev/null 2>&1; then
-    echo "export BW_SESSION="$(bw unlock ${MASTER} --raw)"" > ${SESSION} || echo "bw unlock failed."
+    echo "export BW_SESSION="$(bw unlock ${MASTER:-} --raw)"" >> ${SESSION} || echo "bw unlock failed."
 
 elif [ -f ${BW} ]; then
-    echo "export BW_SESSION="$(${BW} unlock ${MASTER} --raw)"" > ${SESSION} || echo "bw unlock failed."
+    echo "export BW_SESSION="$(${BW} unlock ${MASTER:-} --raw)"" >> ${SESSION} || echo "bw unlock failed."
 
 else
     echo "bw cli not found."
@@ -69,6 +66,7 @@ else
 fi
 cat ${SESSION} || echo "${SESSION} not found."
 echo "--------------------------------"
+
 echo "PATH ..."
 echo "${PATH}" | tr ':' '\n'
 echo "--------------------------------"

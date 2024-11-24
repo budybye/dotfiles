@@ -12,8 +12,20 @@ ARG DEV_UID=1234
 ARG DEV_GID=$DEV_UID
 ARG DEV_HOME=/home/$DEV
 
-ENV TZ=Asia/Tokyo
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+ENV TZ=Asia/Tokyo \
+    LANG=ja_JP.UTF-8 \
+    LANGUAGE=ja_JP:ja \
+    LC_ALL=$LANG
+
+RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezone && \
+    locale-gen ${LANG} && \
+    echo LANG=${LANG} >> /etc/default/locale && \
+    echo LANGUAGE=${LANGUAGE} >> /etc/default/locale && \
+    echo LC_ALL=${LC_ALL} >> /etc/default/locale && \
+    localectl set-keymap jp106 && \
+    localectl set-x11-keymap jp && \
+    source /etc/default/locale && \
+    im-config -n fcitx5
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -32,8 +44,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-reco
 RUN groupadd -g $GID -f $USER && \
     useradd --uid $UID --gid $GID -m $USER -G sudo -s /usr/bin/zsh && \
     echo "$USER:$USER" | chpasswd && \
-    echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers && \
-    echo "$USER ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
+    echo "ALL ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
     mkdir -p $HOME && \
     chown -R $USER:$USER $HOME
 
@@ -53,26 +64,24 @@ RUN sudo sh -c "$(curl -fsSL get.chezmoi.io)" -- -b /usr/local/bin
 RUN git clone https://github.com/budybye/dotfiles.git $HOME/dotfiles
 
 RUN curl https://mise.run | sh && \
-    ${HOME}/.local/bin/mise use -g bun@1.1.36 node@20.18 || echo "mise install failed" && \
-    ${HOME}/.local/share/mise/installs/bun/1.1.36/bin/bun i -g @bitwarden/cli || echo "bun install failed" && \
-    ${HOME}/.bun/bin/bw --version || echo "bw is not installed"
+    ${HOME}/.local/bin/mise use -g bun@1.1.36 node@20.18 && \
+    ${HOME}/.local/share/mise/installs/bun/1.1.36/bin/bun i -g @bitwarden/cli && \
+    ${HOME}/.bun/bin/bw --version
 
-RUN im-config -n fcitx5
+EXPOSE 3389
+EXPOSE 22
 
 RUN groupadd -f input && \
     groupadd -f xrdp && \
     groupadd -f audio && \
     groupadd -f ssl-cert && \
-    sudo usermod -aG input,xrdp,audio,ssl-cert $USER && \
+    groupadd -f docker && \
+    sudo usermod -aG input,xrdp,audio,ssl-cert,docker $USER && \
     systemctl enable xrdp && \
-    sudo update-alternatives --set x-session-manager /usr/bin/xfce4-session && \
-    echo "xfce4-session" > ~/.xsession
+    echo "xfce4-session" > ~/.xsession && \
+    sudo update-alternatives --set x-session-manager /usr/bin/xfce4-session
 
-EXPOSE 3389 22
-
-# CMD git clone https://github.com/budybye/dotfiles.git $HOME/dotfiles
-
-# COPY ./bin/setup.sh /usr/bin/
-# RUN mv /usr/bin/setbup.sh /usr/bin/setup.sh
-# RUN chmod +x /usr/bin/setup.sh
-# ENTRYPOINT ["/usr/bin/setup.sh"]
+# COPY ../install $HOME/bin/install
+# RUN chmod +x $HOME/bin/install
+# CMD ["$HOME/bin/install"]
+# ENTRYPOINT ["$HOME/bin/install"]

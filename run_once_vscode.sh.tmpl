@@ -1,37 +1,34 @@
 #!/usr/bin/env bash
 
-echo "run_once_vscode_link.sh.tmpl"
+echo "run_once_vscode.sh.tmpl"
 echo "--------------------------------"
 # 管理下の設定ファイルの場所
 FROM="${HOME}/.config/Code"
 
 # 環境によって変わる 設定ファイルの場所
-if command -v cursor >/dev/null 2>&1; then
-    CODE_DIR="${HOME}/.local/share/Cursor"
-
-elif [ -f "${HOME}/Applications/cursor" ]; then
+if command -v cursor >/dev/null 2>&1 || [ -f "${HOME}/Applications/cursor" ]; then
     CODE_DIR="${HOME}/.local/share/Cursor"
 
 elif command -v codium >/dev/null 2>&1; then
     CODE_DIR="${HOME}/.config/VSCodium"
 
-elif command -v code >/dev/null 2>&1; then
+else
     CODE_DIR="${HOME}/.local/share/Code"
 fi
-
 # VSCodeのUserディレクトリの作成
 sudo mkdir -p "${CODE_DIR}/User"
 
 # 設定ファイルをバックアップし、新しいファイルを作成する汎用関数
 copy_json_file() {
-    local json_type="$1"  # 'settings' または 'keybindings'
+    # 'settings' または 'keybindings'
+    local json_type="$1"
     local from_file="${FROM}/user-data/User/${json_type}.json"
     local target_file="${CODE_DIR}/User/${json_type}.json"
 
     # json_fileが存在する場合はバックアップを作成
     if [ -f "${target_file}" ]; then
-        sudo cp "${target_file}" "${target_file}.copy"
-        echo "バックアップを作成しました: ${target_file}.copy"
+        sudo cp "${target_file}" "${target_file}.old"
+        echo "バックアップを作成しました: ${target_file}.old"
     else
         echo "${target_file}が存在しません。"
     fi
@@ -47,8 +44,8 @@ extensions_json() {
     CODEX="${CODE_DIR}/extensions.json"
     # extensions.jsonが存在する場合はバックアップを作成
     if [ -f "${CODEX}" ]; then
-        sudo cp "${CODEX}" "${CODEX}.copy"
-        echo "バックアップを作成しました: ${CODEX}.copy"
+        sudo cp "${CODEX}" "${CODEX}.old"
+        echo "バックアップを作成しました: ${CODEX}.old"
     fi
 
     if ! command -v "code" >/dev/null 1>&2; then
@@ -70,7 +67,6 @@ main() {
     copy_json_file "settings"
     copy_json_file "keybindings"
     extensions_json
-    ls -la {{ .chezmoi.sourceDir }}/.vscode
     echo "VSCodeの設定が完了しました。"
 }
 

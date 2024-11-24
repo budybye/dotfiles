@@ -7,6 +7,8 @@ SSH="${HOME}/.ssh"
 KEY_TYPE="ed25519"
 KEY_NAME="id_${KEY_TYPE}_${USER_NAME}"
 KEY_PATH="${SSH}/${KEY_NAME}"
+DIR="$(pwd)"
+
 # SSH用のディレクトリを作成
 mkdir -p "${SSH}"
 # authorized_keysとconfigファイルを作成
@@ -83,12 +85,16 @@ ssh-add -l
 eval "$(ssh-agent -k)"
 echo "--------------------------------"
 
-cd "${HOME}"
-echo "${KEY_PATH} done"
-echo "--------------------------------"
 ls -la "${SSH}"
 echo "--------------------------------"
+echo "${SSH}/config"
 cat "${SSH}/config"
 echo "--------------------------------"
+echo "${SSH}/authorized_keys"
 cat "${SSH}/authorized_keys"
 echo "--------------------------------"
+echo "${KEY_PATH} done"
+echo "--------------------------------"
+
+# 元のディレクトリに戻る
+cd "${DIR}"

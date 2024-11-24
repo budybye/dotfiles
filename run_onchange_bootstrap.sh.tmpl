@@ -16,6 +16,7 @@ echo ".env checking..."
 echo {{ .name | quote }}
 echo "export GIT_USER=$USERNAME" >>{{ .dotfilesDir }}/.env
 cat {{ .dotfilesDir }}/.env
+echo "--------------------------------"
 env
 echo "--------------------------------"
 # SSH の設定
@@ -182,7 +183,7 @@ echo "--------------------------------"
         ${HOME}/.local/share/mise/shims/go install github.com/aquaproj/aqua/v2/cmd/aqua@latest || echo "aqua install failed."
         echo "aqua installed."
         # パスが通っていないので直接パスを指定
-        ${HOME}/.local/share/mise/installs/go/1.23.2/bin/aqua init || echo "aqua not found"
+        export PATH="${HOME}/.local/share/mise/installs/go/1.23.2/bin:${PATH}"
         command -v aqua >> ${HOME}/which || echo "aqua not found" >> ${HOME}/which
     }
 
@@ -234,7 +235,6 @@ echo "--------------------------------"
         install_mkcert
         install_act
         install_multipass
-        echo "install completed. please reboot."
         cat ${HOME}/which && rm -f ${HOME}/which
     }
     # スクリプトを実行
