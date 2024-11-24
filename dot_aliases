@@ -143,7 +143,7 @@ fi
 if command -v multipass >/dev/null 2>&1; then
     alias mu="multipass"
     alias md="mu launch docker -c 4 -m 8G -d 40G  --timeout 3600 --mount ${HOME}/apps:/home/ubuntu/apps && mu info docker"
-    alias ml="mu launch -n ubuntu -c 4 -m 8G -d 40G  --timeout 3600 --mount ${HOME}/dotfiles:/home/ubuntu/dotfiles --cloud-init ${HOME}/cloud-init/multipass.yaml && mu info ubuntu"
+    alias ml="mu launch -n ubuntu -c 4 -m 8G -d 40G  --timeout 3600 --mount ${HOME}/dotfiles:/home/ubuntu/dotfiles --cloud-init ${HOME}/dotfiles/cloud-init/multipass.yaml && mu exec ubuntu -- tail -f /var/log/cloud-init.log"
 fi
 
 # kube
