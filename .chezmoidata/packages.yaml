@@ -125,6 +125,7 @@ packages:
       - 'libxcb-xfixes0-dev'
       - 'libxkbcommon-dev'
       - 'ffmpeg'
+      - 'yt-dlp'
       - 'mpd'
       - 'mpc'
       - 'ncmpcpp'

@@ -7,13 +7,14 @@ PLAYLIST_ID="PLMXoRsxtzGfCH7cvhAnzN_T3KvKmdkB3s"
 URL="https://youtube.com/playlist?list=$PLAYLIST_ID"
 OUTPUT_DIR="$PLAYLIST_DIR/%(title)s.%(ext)s"
 
+{{ if ne .name "runner" -}}
+
 # yt-dlpのインストール
 if ! command -v yt-dlp &> /dev/null; then
     {{ if eq .chezmoi.os "Darwin" }}
-        brew install yt-dlp
+        brew install yt-dlp ffmpeg
     {{ else }}
-        sudo wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -O ${HOME}/.local/bin/yt-dlp
-        chmod a+rx ${HOME}/.local/bin/yt-dlp
+        sudo apt-get install -y ffmpeg yt-dlp
     {{ end }}
 fi
 echo "yt-dlp is installed"
@@ -36,3 +37,5 @@ fi
 
 # ダウンロードしたファイルの一覧を表示
 ls -l "$PLAYLIST_DIR"
+
+{{ end }}
