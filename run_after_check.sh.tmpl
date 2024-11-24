@@ -32,7 +32,7 @@ echo "--------------------------------"
 tree -L 3 "${HOME}/.local/share"
 echo "--------------------------------"
 
-{{ if ne .chezmoi.os "linux" -}}
+{{ if eq .chezmoi.os "linux" -}}
     tree ${HOME}/.local/share/themes
     echo "--------------------------------"
     tree ${HOME}/.local/share/fonts

@@ -15,9 +15,9 @@ SESSION="{{ .chezmoi.sourceDir }}/.env"
 
 # age のパスフレーズが要求される
 # マスターパスワードを復号
-{{ if ne .name "runner" -}}
+{{ if ne .name "runner" }}
     MASTER="$(chezmoi decrypt {{ .chezmoi.sourceDir }}/shhh.txt)"
-{{ end -}}
+{{ end }}
 
 # age のパスフレーズが要求される
 # マスターパスワードを暗号化
@@ -56,10 +56,10 @@ bw_install() {
 bw_unlock() {
     # bw cli があればロック解除
     if command -v bw >/dev/null 2>&1; then
-        echo "export BW_SESSION="$(bw unlock ${MASTER:-} --raw)"" >> ${SESSION} || echo "bw unlock failed."
+        echo "export BW_SESSION="$(bw unlock ${MASTER:-} --raw)"" > ${SESSION} || echo "bw unlock failed."
 
     elif [ -f ${BW} ]; then
-        echo "export BW_SESSION="$(${BW} unlock ${MASTER:-} --raw)"" >> ${SESSION} || echo "bw unlock failed."
+        echo "export BW_SESSION="$(${BW} unlock ${MASTER:-} --raw)"" > ${SESSION} || echo "bw unlock failed."
 
     else
         echo "bw cli not found."

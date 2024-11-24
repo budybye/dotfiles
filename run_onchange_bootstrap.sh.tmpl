@@ -12,9 +12,7 @@ echo "SHELL: $SHELL"
 echo "--------------------------------"
 
 # .env の確認と作成
-echo ".env checking..."
-echo {{ .name | quote }}
-echo "export GIT_USER=$USERNAME" >>{{ .dotfilesDir }}/.env
+echo ".env && ENV checking..."
 cat {{ .dotfilesDir }}/.env
 echo "--------------------------------"
 env
