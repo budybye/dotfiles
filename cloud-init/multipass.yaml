@@ -2,7 +2,6 @@
 hostname: vm
 users:
   - default
-
   - name: ubuntu
     passwd: ubuntu
     uid: 1001
@@ -13,12 +12,6 @@ users:
     ssh_import_id:
       - github:budybye
     lock_passwd: false
-
-  - name: bob
-    passwd: bob
-
-  - name: alice
-    passwd: alice
 
   - name: lisa
     passwd: lisa
@@ -44,24 +37,11 @@ package_upgrade: true
 package_autoremove: true
 package_cleanup: true
 package_reboot_if_required: true
-apt:
-  sources:
-    - docker.list:
-        source: deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable
-        keyid: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
-
 packages:
   - avahi-daemon
   - openssh-server
   - lsb-release
   - ca-certificates
-# - docker
-# - docker.io
-  - docker-ce
-  - docker-ce-cli
-  - containerd.io
-  - docker-compose
-
   - git
   - curl
   - wget
@@ -83,51 +63,9 @@ packages:
   - language-pack-ja-base
   - language-pack-ja
   - manpages-ja
-
   - xfce4
   - xfce4-goodies
   - xrdp
   - ibus-x11
-
-bootcmd:
-  - printf "[Resolve]\nDNS=1.1.1.1\n" >> /etc/systemd/resolved.conf
-  - systemctl restart systemd-resolved
-
 runcmd:
-  - curl -fsSL -o /usr/local/bin/docker-compose-v2 https://github.com/docker/compose/releases/download/v2.24.6/docker-compose-linux-$(dpkg --print-architecture)
-  - chmod +x /usr/local/bin/docker-compose-v2
-
-  - curl -fsSL -o /usr/libexec/docker/cli-plugins/docker-compose https://github.com/docker/compose/releases/download/v2.24.6/docker-compose-linux-$(dpkg --print-architecture)
-  - chmod +x /usr/libexec/docker/cli-plugins/docker-compose
-
-  - curl -fsSL -o /usr/local/bin/compose-switch https://github.com/docker/compose/releases/download/v2.24.6/docker-compose-linux-x86_64
-  - chmod +x /usr/local/bin/compose-switch
-  - update-alternatives --install /usr/bin/docker-compose docker-compose /usr/local/bin/docker-compose-v2 1
-  - update-alternatives --install /usr/bin/docker-compose docker-compose /usr/local/bin/compose-switch 99
-
-  - su -c 'sh -c "$(curl -fsSL get.chezmoi.io)" -- -b /usr/local/bin' ubuntu
-  - git clone https://github.com/budybye/dotfiles.git ~/dotfiles
-
-  - systemctl daemon-reload
-  - systemctl restart docker containerd
-  - sysctl --system
-
-write_files:
-  - path: /etc/sysctl.d/local.conf
-    owner: root
-    permissions: 0644
-    content: |
-      fs.inotify.max_user_watches=524288
-
-  - path: /etc/docker/daemon.json
-    owner: root
-    permissions: 0644
-    content: |
-      {
-        "experimental": true,
-        "features": {
-          "buildkit": true
-        },
-        "ipv6": true,
-        "fixed-cidr-v6": "aaaa:bbbb:cccc::/64"
-      }
+  - curl -fsSL get.chezmoi.io | sh -s -- -b /home/ubuntu/local/bin

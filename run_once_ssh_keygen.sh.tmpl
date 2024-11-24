@@ -72,10 +72,10 @@ github_copy() {
         cat "${KEY_PATH}.pub"
     fi
     xdg-open "https://github.com/settings/keys"
-
-{{ end }}
     # GitHubにSSH接続をテスト
     # ssh -T git@github.com
+
+{{ end }}
 }
 
 agent() {

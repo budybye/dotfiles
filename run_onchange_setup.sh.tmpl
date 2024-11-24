@@ -18,9 +18,9 @@ echo "--------------------------------"
 
     system_setup() {
         # (on マシンがフリーズしたら自動的にリスタート)
-        # sudo systemsetup -setrestartfreeze on
+        systemsetup -setrestartfreeze on
         # スリープしない
-        # sudo systemsetup -setcomputersleep Off
+        systemsetup -setcomputersleep Off
         # ネットワーク時刻サーバーを設定
         # sudo systemsetup -setnetworktimeserver time.apple.com
         # タイムゾーンを設定
@@ -264,25 +264,18 @@ echo "--------------------------------"
 
     # Snap をインストールおよび管理する関数
     install_snap() {
-        command -v snap >/dev/null || sudo apt-get install -y snapd || echo "snapd install failed."
-        echo "snapd installed."
+        command -v snap >/dev/null || sudo apt-get install -y snapd && echo "snapd installed." || echo "snapd install failed."
 
-        command -v codium >/dev/null || sudo snap install codium --classic || echo "codium install failed."
-        echo "codium installed."
+        command -v codium >/dev/null || sudo snap install codium --classic && echo "codium installed." || echo "codium install failed."
 
-        command -v speedtest >/dev/null || sudo snap install speedtest || echo "speedtest install failed."
-        echo "speedtest installed."
-
-        command -v alacritty >/dev/null || sudo snap install alacritty --classic || echo "alacritty install failed."
-        echo "alacritty installed."
+        command -v speedtest >/dev/null || sudo snap install speedtest && echo "speedtest installed." || echo "speedtest install failed."
+        command -v alacritty >/dev/null || sudo snap install alacritty --classic && echo "alacritty installed." || echo "alacritty install failed."
 
         if command -v firefox >/dev/null 2>&1; then
-            sudo snap remove firefox || sudo apt remove firefox || echo "firefox uninstall failed."
+            sudo snap remove firefox || sudo apt remove firefox && echo "firefox uninstalled." || echo "firefox uninstall failed."
         fi
-        echo "firefox uninstalled."
 
-        #command -v chromium >/dev/null || sudo snap install chromium || echo "chromium install failed."
-        #echo "chromium installed."
+        #command -v chromium >/dev/null || sudo snap install chromium && echo "chromium installed." || echo "chromium install failed."
 
         echo "snap tools installed."
     }
@@ -450,7 +443,7 @@ echo "--------------------------------"
 
     setup() {
         echo "ubuntu desktop setup start..."
-        desktop_setup
+        # desktop_setup
         install_snap
         install_brave_browser
         install_tabby_terminal
