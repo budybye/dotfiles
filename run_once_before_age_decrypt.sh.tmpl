@@ -33,7 +33,8 @@ age_install() {
 decrypt() {
     # パスフレーズで復号
 
-{{ if ne .name "runner" -}}
+{{ if ne .name "runner" }}
+
     echo "key_path: ${key_path}..."
     echo "identity: ${identity}..."
 
@@ -45,6 +46,7 @@ decrypt() {
     fi
     echo "Decrypt-private-key complete."
     echo "--------------------------------"
+
 {{ end }}
 
 }
