@@ -11,8 +11,8 @@ identity="${HOME}/.config/chezmoi/key.txt"
 key_name="key.txt.age"
 key_path="{{ .chezmoi.sourceDir }}/${key_name}"
 
+# age なければインストール
 age_install() {
-    # age なければインストール
     echo "age install..."
 
 {{ if eq .chezmoi.os "darwin" }}
@@ -30,8 +30,8 @@ age_install() {
     echo "--------------------------------"
 }
 
+# パスフレーズで復号
 decrypt() {
-    # パスフレーズで復号
 
 {{ if ne .name "runner" }}
 
@@ -56,4 +56,5 @@ main() {
     age_install
     decrypt
 }
+
 main
