@@ -18,10 +18,13 @@ ENV LANGUAGE=ja_JP:ja
 ENV LC_ALL=ja_JP.UTF-8
 
 RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezone && \
-    localectl set-locale LANG=${LANG} LANGUAGE=${LANGUAGE} LC_ALL=${LC_ALL} && \
-    localectl set-keymap jp106 && \
-    localectl set-x11-keymap jp && \
+    echo LANG=${LANG} >> /etc/default/locale && \
+    echo LANGUAGE=${LANGUAGE} >> /etc/default/locale && \
+    echo LC_ALL=${LC_ALL} >> /etc/default/locale && \
+    echo keymap=jp106 >> /etc/default/keyboard && \
+    echo xkb-keymap=jp106 >> /etc/default/keyboard && \
     source /etc/default/locale && \
+    source /etc/default/keyboard && \
     im-config -n fcitx5
 
 ENV DEBIAN_FRONTEND=noninteractive
