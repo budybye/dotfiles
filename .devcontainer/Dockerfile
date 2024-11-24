@@ -18,10 +18,7 @@ ENV LANGUAGE=ja_JP:ja
 ENV LC_ALL=ja_JP.UTF-8
 
 RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezone && \
-    locale-gen ${LANG} && \
-    echo LANG=${LANG} >> /etc/default/locale && \
-    echo LANGUAGE=${LANGUAGE} >> /etc/default/locale && \
-    echo LC_ALL=${LC_ALL} >> /etc/default/locale && \
+    localectl set-locale LANG=${LANG} LANGUAGE=${LANGUAGE} LC_ALL=${LC_ALL} && \
     localectl set-keymap jp106 && \
     localectl set-x11-keymap jp && \
     source /etc/default/locale && \
