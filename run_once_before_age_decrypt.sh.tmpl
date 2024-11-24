@@ -32,7 +32,7 @@ age_install() {
 
 # パスフレーズで復号
 decrypt() {
-
+    echo "decrypt..."
 {{- if ne .name "runner" -}}
 
     echo "key_path: ${key_path}..."
