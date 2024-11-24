@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 
 # chezmoi apply が完了したら実行される
-echo "run_after_6_check.sh.tmpl"
+echo "run_after_check.sh.tmpl"
 echo "--------------------------------"
 echo "Chezmoi apply completed!!"
 echo "USER: $(whoami)"
@@ -58,10 +58,8 @@ echo "--------------------------------"
     read ans
     if [ "$ans" = "y" ] || [ "$ans" = "Y" ]; then
         vim "${HOME}/.config/git/user.conf"
-    elif [ "$ans" = "n" ] || [ "$ans" = "N" ]; then
-        echo 'Your config git user is ...'
-        cat ~/.config/git/config
     fi
+    cat ~/.config/git/user.conf
     echo "--------------------------------"
 {{ end -}}
 

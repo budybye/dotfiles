@@ -2,59 +2,69 @@
 
 echo "run_once_ssh_keygen.sh.tmpl"
 echo "--------------------------------"
+DIR="$(pwd)"
 USER_NAME=$(whoami)
 SSH="${HOME}/.ssh"
 KEY_TYPE="ed25519"
 KEY_NAME="id_${KEY_TYPE}_${USER_NAME}"
 KEY_PATH="${SSH}/${KEY_NAME}"
-DIR="$(pwd)"
 
-# SSH用のディレクトリを作成
-mkdir -p "${SSH}"
-# authorized_keysとconfigファイルを作成
-sudo chmod 700 "${SSH}"
-touch "${SSH}/authorized_keys"
+key_gen() {
+    # SSH用のディレクトリを作成
+    mkdir -p "${SSH}"
+    # authorized_keysとconfigファイルを作成
+    sudo chmod 700 "${SSH}"
+    touch "${SSH}/authorized_keys"
 
-# configファイルにGitHubのホスト情報を設定
-cat <<EOF >>"${SSH}/config"
+    # configファイルにGitHubのホスト情報を設定
+    cat <<EOF >>"${SSH}/config"
 Host ${USER_NAME}
     HostName github.com
     IdentityFile "${KEY_PATH}"
     User git
 EOF
 
-ls -la "${SSH}"
-cd "${SSH}"
+    ls -la "${SSH}"
+    cd "${SSH}"
 
-if [ -f "${KEY_PATH}.pub" ]; then
-    sudo cp "${KEY_PATH}.pub" "${KEY_PATH}.pub.old"
-    rm -rf "${KEY_PATH}.pub"
-fi
+    # 公開鍵が存在する場合は古いファイルをリネーム
+    if [ -f "${KEY_PATH}.pub" ]; then
+        sudo cp "${KEY_PATH}.pub" "${KEY_PATH}.pub.old"
+        rm -rf "${KEY_PATH}.pub"
+    fi
 
-# SSH鍵を生成
-if [ ! -f "${KEY_PATH}" ]; then
-    ssh-keygen -t "${KEY_TYPE}" -f "${KEY_NAME}" -C "${USER_NAME}" -N ""
-else
-    echo "SSH key already exists"
-    sudo cp "${KEY_PATH}" "${KEY_PATH}.old"
-    rm -rf "${KEY_PATH}"
-    ssh-keygen -t "${KEY_TYPE}" -f "${KEY_NAME}" -C "${USER_NAME}" -N ""
-fi
+    # SSH鍵を生成
+    # 鍵が存在したら古い鍵をリネーム
+    if [ ! -f "${KEY_PATH}" ]; then
+        ssh-keygen -t "${KEY_TYPE}" -f "${KEY_NAME}" -C "${USER_NAME}" -N ""
+    else
+        echo "SSH key already exists"
+        sudo cp "${KEY_PATH}" "${KEY_PATH}.old"
+        rm -rf "${KEY_PATH}"
+        ssh-keygen -t "${KEY_TYPE}" -f "${KEY_NAME}" -C "${USER_NAME}" -N ""
+    fi
 
-# 公開鍵をauthorized_keysファイルに追加
-cat "${KEY_PATH}.pub" >>"${SSH}/authorized_keys"
+    # 公開鍵をauthorized_keysファイルに追加
+    cat "${KEY_PATH}.pub" >>"${SSH}/authorized_keys"
+    # パーミッションを設定
+    chmod 600 "${KEY_PATH}"
+    chmod 600 "${SSH}/authorized_keys"
+    chmod 644 "${KEY_PATH}.pub"
 
+    cd "${DIR}"
+}
+
+github_key_copy() {
 # 公開鍵をコピー
 # ブラウザでgithubログイン画面を開く
-
-{{/* コメントアウト
-
-{{ if eq .name "runner"}}
+{{ if eq .name "runner" -}}
     echo "${KEY_PATH}.pub"
     cat "${KEY_PATH}.pub"
+
 {{ else if eq .chezmoi.os "darwin" -}}
     pbcopy <"${KEY_PATH}.pub"
     open "https://github.com/settings/keys"
+
 {{ else if eq .chezmoi.os "linux" -}}
     if command -v xsel >/dev/null 2>&1; then
         xsel --clipboard --input <"${KEY_PATH}.pub"
@@ -62,39 +72,42 @@ cat "${KEY_PATH}.pub" >>"${SSH}/authorized_keys"
         cat "${KEY_PATH}.pub"
     fi
     xdg-open "https://github.com/settings/keys"
+
 {{ end }}
+    # GitHubにSSH接続をテスト
+    # ssh -T git@github.com
+}
 
-*/}}
+agent_check() {
+    # SSHエージェントを起動
+    eval "$(ssh-agent)"
+    # SSH鍵をエージェントに登録
+    ssh-add "${KEY_PATH}"
+    echo "--------------------------------"
+    # 登録したSSH鍵の一覧を表示
+    ssh-add -l
+    # SSHエージェントを停止
+    eval "$(ssh-agent -k)"
+    echo "--------------------------------"
+}
 
-chmod 600 "${KEY_PATH}"
-chmod 600 "${SSH}/authorized_keys"
-chmod 644 "${KEY_PATH}.pub"
+show() {
+    ls -la "${SSH}"
+    echo "--------------------------------"
+    echo "${SSH}/config"
+    cat "${SSH}/config"
+    echo "--------------------------------"
+    echo "${SSH}/authorized_keys"
+    cat "${SSH}/authorized_keys"
+    echo "--------------------------------"
+    echo "${KEY_PATH} done"
+    echo "--------------------------------"
+}
 
-# GitHubにSSH接続をテスト
-
-# ssh -T git@github.com
-
-# SSHエージェントを起動
-eval "$(ssh-agent)"
-# SSH鍵をエージェントに登録
-ssh-add "${KEY_PATH}"
-echo "--------------------------------"
-# 登録したSSH鍵の一覧を表示
-ssh-add -l
-# SSHエージェントを停止
-eval "$(ssh-agent -k)"
-echo "--------------------------------"
-
-ls -la "${SSH}"
-echo "--------------------------------"
-echo "${SSH}/config"
-cat "${SSH}/config"
-echo "--------------------------------"
-echo "${SSH}/authorized_keys"
-cat "${SSH}/authorized_keys"
-echo "--------------------------------"
-echo "${KEY_PATH} done"
-echo "--------------------------------"
-
-# 元のディレクトリに戻る
-cd "${DIR}"
+ssh_keygen() {
+    key_gen
+    github_key_copy
+    agent_check
+    show
+}
+ssh_keygen

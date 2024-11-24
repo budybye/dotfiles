@@ -21,7 +21,7 @@ RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezo
     echo LANG=${LANG} >> /etc/default/locale && \
     echo LANGUAGE=${LANGUAGE} >> /etc/default/locale && \
     echo LC_ALL=${LC_ALL} >> /etc/default/locale
-    
+
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends \
@@ -61,7 +61,8 @@ RUN git clone https://github.com/budybye/dotfiles.git $HOME/dotfiles
 RUN curl https://mise.run | sh && \
     ${HOME}/.local/bin/mise use -g bun@1.1.36 node@20.18 && \
     ${HOME}/.local/share/mise/installs/bun/1.1.36/bin/bun i -g @bitwarden/cli && \
-    ${HOME}/.bun/bin/bw --version
+    export PATH=${HOME}/.local/share/mise/shims:${PATH} && \
+    bw --version || echo "bw command not found"
 
 EXPOSE 3389
 EXPOSE 22
