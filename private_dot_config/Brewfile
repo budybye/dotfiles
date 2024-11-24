@@ -133,6 +133,7 @@ brew "whois"
 brew "xdg-ninja"
 #brew "xz"
 #brew "z"
+brew "yt-dlp"
 brew "zlib"
 #brew "zsh"
 #brew "zsh-completions"
@@ -148,6 +149,7 @@ brew "aquaproj/aqua/aqua"
 #brew "yammerjp/tap/pdef"
 #brew "sidneys/homebrew/openssl@1.0"
 #brew "sidneys/homebrew/chntpw"
+# brew "sidneys/homebrew/youtube-dl"
 #brew "d12frosted/emacs-plus/emacs-plus@27", args: ["with-spacemacs-icon"], args: ["with-native-comp"], link: false
 
 #cask

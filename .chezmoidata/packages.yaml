@@ -39,6 +39,7 @@ packages:
       - 'sheldon'
       - 'starship'
       - 'tree'
+      - 'yt-dlp'
     casks:
       - 'appcleaner'
       - 'alacritty'

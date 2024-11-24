@@ -1,0 +1,38 @@
+#! /usr/bin/env bash
+
+PLAYLIST_NAME="riddim"
+PLAYLIST_DIR="$HOME/Music/$PLAYLIST_NAME"
+PLAYLIST_ID="PLMXoRsxtzGfCH7cvhAnzN_T3KvKmdkB3s"
+
+URL="https://youtube.com/playlist?list=$PLAYLIST_ID"
+OUTPUT_DIR="$PLAYLIST_DIR/%(title)s.%(ext)s"
+
+# yt-dlpのインストール
+if ! command -v yt-dlp &> /dev/null; then
+    {{ if eq .chezmoi.os "Darwin" }}
+        brew install yt-dlp
+    {{ else }}
+        sudo wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -O ${HOME}/.local/bin/yt-dlp
+        chmod a+rx ${HOME}/.local/bin/yt-dlp
+    {{ end }}
+fi
+echo "yt-dlp is installed"
+
+# ダウンロード先ディレクトリの存在しなければダウンロード
+if [ ! -d "$PLAYLIST_DIR" ]; then
+    # youtube-dlを使って音声をダウンロード
+    yt-dlp \
+        --ignore-errors \
+        --format bestaudio \
+        --extract-audio \
+        --audio-format mp3 \
+        --audio-quality 0 \
+        --output "$OUTPUT_DIR" \
+        --no-warnings \
+        "$URL"
+
+    echo "ダウンロードが完了しました"
+fi
+
+# ダウンロードしたファイルの一覧を表示
+ls -l "$PLAYLIST_DIR"
