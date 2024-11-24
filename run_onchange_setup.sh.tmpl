@@ -79,12 +79,12 @@ echo "--------------------------------"
     }
 
     dock_setup() {
-        # 自動で隠す
+        # Dock を自動で隠す
         defaults write com.apple.dock autohide -bool true
         # dockの動作を素早くする
-        defaults write com.apple.dock autohide-time-modifier -float 0.15
+        defaults write com.apple.dock autohide-time-modifier -float 0.13
         # Dock が表示されるまでの待ち時間を無効にする
-        defaults write com.apple.dock autohide-delay -float 0
+        defaults write com.apple.dock autohide-delay -float 0.01
         # Dockからアプリを起動するときのアニメーションを無効
         defaults write com.apple.dock launchanim -bool false
         # Automatically hide or show the Dock （Dock を自動的に隠す）
@@ -96,7 +96,7 @@ echo "--------------------------------"
         # Dock 拡大
         defaults write com.apple.dock magnification -bool true
         # Dock 拡大サイズ
-        defaults write com.apple.dock largesize -int 123
+        defaults write com.apple.dock largesize -int 78
         # ウィンドウをアプリケーションアイコンにしまう
         defaults write com.apple.dock minimize-to-application -bool true
         # 最近使ったアプリを Dock に表示しない
@@ -121,11 +121,11 @@ echo "--------------------------------"
         # 未確認のアプリケーションを実行する際のダイアログを無効にする
         defaults write com.apple.LaunchServices LSQuarantine -bool false
         # ダイアログ表示やウィンドウリサイズ速度を高速化する
-        defaults write NSGlobalDomain NSWindowResizeTime -float 0.001
+        defaults write -g NSWindowResizeTime -float 0.001
         # (保存ダイアログのデフォルト表示スタイル) -> true (常に詳細な情報を開いて表示)
-        defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
+        defaults write -g NSNavPanelExpandedStateForSaveMode -bool true
         # アクセントカラーをマルチカラーに設定する
-        defaults write NSGlobalDomain AppleAccentColor -int -1
+        defaults write -g AppleAccentColor -int -1
         # ウィンドウを開閉するときのアニメーションを無効
         defaults write -g NSAutomaticWindowAnimationsEnabled -bool false
         # スペルの訂正を無効にする
@@ -136,6 +136,8 @@ echo "--------------------------------"
         defaults write -g NSWindowResizeTime -float 0.001
         # Quick Lookウィンドウのアニメーションをオフ
         defaults write -g QLPanelAnimationDuration -float 0
+
+        defaults write -g AccountInfoValidationCounter -int 4
         # テキストエディットをプレーンテキストで使う
         defaults write com.apple.TextEdit RichText -int 0
         # terminalでUTF-8のみを使用する

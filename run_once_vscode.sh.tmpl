@@ -63,14 +63,12 @@ extensions_json() {
 }
 
 main() {
-    echo "VSCodeの設定を開始します..."
     copy_json_file "settings"
     copy_json_file "keybindings"
     extensions_json
-    echo "VSCodeの設定が完了しました。"
 }
-
 main
+
 echo "--------------------------------"
 tree "${CODE_DIR}"
 echo "--------------------------------"

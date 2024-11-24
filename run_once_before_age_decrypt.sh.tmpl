@@ -1,10 +1,9 @@
 #! /usr/bin/env bash
 
 echo "run_once_before_age_decrypt.sh.tmpl"
-echo "--------------------------------"
 # パスフレーズで復号するので事前に用意
 # https://www.chezmoi.io/user-guide/frequently-asked-questions/encryption/
-echo "Decrypt private key..."
+echo "--------------------------------"
 
 # .chezmoi.toml.tmpl と合わせる
 identity="${HOME}/.config/chezmoi/key.txt"
@@ -12,23 +11,26 @@ identity="${HOME}/.config/chezmoi/key.txt"
 key_name="key.txt.age"
 key_path="{{ .chezmoi.sourceDir }}/${key_name}"
 
-# age なければインストール
-echo "age install..."
+age_install() {
+    # age なければインストール
+    echo "age install..."
 {{ if eq .chezmoi.os "darwin" -}}
-command -v age >/dev/null || brew install age || echo "age install failed"
+    command -v age >/dev/null || brew install age || echo "age install failed"
 
 {{ else if eq .chezmoi.os "linux" -}}
-command -v age >/dev/null || sudo apt-get install -y age || echo "age install failed"
+    command -v age >/dev/null || sudo apt-get install -y age || echo "age install failed"
 
 {{ else -}}
-echo "Your OS is {{ .chezmoi.os }}"
-curl -sSL https://github.com/FiloSottile/age/releases/download/v1.1.2/age-v1.1.2-darwin-amd64.tar.gz | tar xz
+    echo "Your OS is {{ .chezmoi.os }}"
+    curl -sSL https://github.com/FiloSottile/age/releases/download/v1.1.2/age-v1.1.2-darwin-amd64.tar.gz | tar xz
 
 {{ end -}}
-command -v age || echo "age command not found"
-echo "--------------------------------"
+    command -v age || echo "age command not found"
+    echo "--------------------------------"
+}
 
-# パスフレーズで復号
+decrypt() {
+    # パスフレーズで復号
 {{ if ne .name "runner" -}}
     echo "key_path: ${key_path}..."
     echo "identity: ${identity}..."
@@ -42,6 +44,11 @@ echo "--------------------------------"
     echo "Decrypt-private-key complete."
     echo "--------------------------------"
 {{ end -}}
+}
 
-cat ${key_path} || echo "${key_path} not found."
-echo "--------------------------------"
+main() {
+    echo "Decrypt private key..."
+    age_install
+    decrypt
+}
+main

@@ -54,7 +54,7 @@ EOF
     cd "${DIR}"
 }
 
-github_key_copy() {
+github_copy() {
 # 公開鍵をコピー
 # ブラウザでgithubログイン画面を開く
 {{ if eq .name "runner" -}}
@@ -78,7 +78,7 @@ github_key_copy() {
     # ssh -T git@github.com
 }
 
-agent_check() {
+agent() {
     # SSHエージェントを起動
     eval "$(ssh-agent)"
     # SSH鍵をエージェントに登録
@@ -106,8 +106,8 @@ show() {
 
 ssh_keygen() {
     key_gen
-    github_key_copy
-    agent_check
+    # github_copy
+    agent
     show
 }
 ssh_keygen
