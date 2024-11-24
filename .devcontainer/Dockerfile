@@ -20,10 +20,8 @@ ENV LC_ALL=ja_JP.UTF-8
 RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezone && \
     echo LANG=${LANG} >> /etc/default/locale && \
     echo LANGUAGE=${LANGUAGE} >> /etc/default/locale && \
-    echo LC_ALL=${LC_ALL} >> /etc/default/locale && \
-    echo keymap=jp106 >> /etc/default/keyboard && \
-    echo xkb-keymap=jp106 >> /etc/default/keyboard
-
+    echo LC_ALL=${LC_ALL} >> /etc/default/locale
+    
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends \
