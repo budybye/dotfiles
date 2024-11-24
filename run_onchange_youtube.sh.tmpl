@@ -21,6 +21,7 @@ echo "yt-dlp is installed"
 
 # ダウンロード先ディレクトリの存在しなければダウンロード
 if [ ! -d "$PLAYLIST_DIR" ]; then
+    mkdir -p "$PLAYLIST_DIR"
     # youtube-dlを使って音声をダウンロード
     yt-dlp \
         --ignore-errors \
