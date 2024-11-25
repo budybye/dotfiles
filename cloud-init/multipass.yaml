@@ -63,9 +63,5 @@ packages:
   - language-pack-ja-base
   - language-pack-ja
   - manpages-ja
-  - xfce4
-  - xfce4-goodies
-  - xrdp
-  - ibus-x11
 runcmd:
-  - curl -fsSL get.chezmoi.io | sh -s -- -b /home/ubuntu/local/bin
+  - curl -fsSL get.chezmoi.io | sh -s -- -b /home/ubuntu/.local/bin
