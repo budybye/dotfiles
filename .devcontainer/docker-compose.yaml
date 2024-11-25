@@ -5,9 +5,7 @@ services:
     container_name: ubuntu
     privileged: true
     networks:
-      local:
-        ipv4_address: 10.10.10.13
-        ipv6_address: aaaa:bbbb:cccc::13
+      - local
     ports:
       - 3389:3389 # RDP
     tty: true
@@ -16,9 +14,7 @@ services:
     image: portainer/portainer-ce
     container_name: portainer
     networks:
-      local:
-        ipv4_address: 10.10.10.11
-        ipv6_address: aaaa:bbbb:cccc::11
+      - local
     ports:
       - 8000:8000
       - 9443:9443 # https://localhost:9443
@@ -27,59 +23,39 @@ services:
       - ./portainer:/data
     restart: always
 
-  tunnel-portainer:
+  cloudflared:
     image: cloudflare/cloudflared
-    container_name: tunnel-portainer
-    networks:
-      local:
-        ipv4_address: 10.10.10.12
-        ipv6_address: aaaa:bbbb:cccc::12
-    command: tunnel --url https://portainer:9443
+    container_name: cloudflared
     restart: unless-stopped
-    depends_on:
-      - portainer
-
-  tunnel-ipfs:
-    image: cloudflare/cloudflared
-    container_name: tunnel-ipfs
     networks:
-      local:
-        ipv4_address: 10.10.10.14
-        ipv6_address: aaaa:bbbb:cccc::14
-    command: tunnel --url http://ipfs:5001
-    restart: unless-stopped
-    depends_on:
-      - ipfs
+      - local
+    command:
+      - tunnel
+      - run
+    environment:
+      - TUNNEL_TOKEN=${TUNNEL_TOKEN}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   ipfs:
     image: ipfs/kubo
     container_name: ipfs
     networks:
-      local:
-        ipv4_address: 10.10.10.10
-        ipv6_address: aaaa:bbbb:cccc::10
+      - local
     ports:
       - 4001:4001
       - 8080:8080
       - 5001:5001 # http://localhost:5001/webui
     environment:
       IPFS_PROFILE: server # server modeで起動
-    command: config --json API.HTTPHeaders.Access-Control-Allow-Origin '["*"]'
+    command: daemon
     volumes:
-      - /ipfs:/data/ipfs
+      - ./ipfs:/data/ipfs
     restart: unless-stopped
 
 networks:
   local:
     driver: bridge
-    ipam:
-      config:
-        - subnet: 10.10.10.0/24
-          gateway: 10.10.10.1
-        - subnet: aaaa:bbbb:cccc::/64
-          gateway: aaaa:bbbb:cccc::1
-  # default:
-  #   external: true
 
 volumes:
   dev_data:

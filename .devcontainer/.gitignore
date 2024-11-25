@@ -1,0 +1,4 @@
+portainer/*
+ipfs/*
+
+.env

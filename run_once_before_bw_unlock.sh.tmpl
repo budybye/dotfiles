@@ -1,6 +1,5 @@
 #! /usr/bin/env bash
 
-echo "--------------------------------"
 echo "run_once_before_bw_unlock.sh.tmpl"
 echo "OS: {{ .chezmoi.os | quote }}"
 cd ${HOME}
@@ -36,6 +35,7 @@ mise_npm() {
     ${MISE} use -g node@${VERSION} -y && ${MISE} activate bash >/dev/null || echo "node install failed."
 
 {{ end -}}
+
     # mise shims のパスを通す
     export PATH="${SHIMS}/shims:${PATH}"
     echo "--------------------------------"

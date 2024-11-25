@@ -10,7 +10,7 @@ on:
 
   schedule:
     # 日本時間(UTC+9) 16:20に実行
-    - cron: "20 7 * * 1-5"
+    - cron: "20 7 * * *"
 
 env:
   REGISTRY_IMAGE: ghcr.io/budybye/ubuntu-dev
@@ -125,8 +125,6 @@ jobs:
             ubuntu
             portainer
             ipfs
-            tunnel-portainer
-            tunnel-ipfs
 
       - name: Test
         if: matrix.flavor.name == 'slim'

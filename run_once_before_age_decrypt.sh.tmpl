@@ -26,6 +26,7 @@ age_install() {
     curl -sSL https://github.com/FiloSottile/age/releases/download/v1.1.2/age-v1.1.2-darwin-amd64.tar.gz | tar xz
 
 {{ end -}}
+
     command -v age || echo "age command not found"
     echo "--------------------------------"
 }
@@ -45,4 +46,3 @@ age_install
     echo "--------------------------------"
 
 {{ end -}}
-
