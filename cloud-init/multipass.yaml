@@ -67,4 +67,5 @@ packages:
   - xfce4-goodies
   - xrdp
 runcmd:
-  - curl -fsSL get.chezmoi.io | sudo sh -s -- -b /usr/local/bin
+  - sudo sh -c "$(curl -fsSL get.chezmoi.io) -- -b /usr/local/bin"
+  - sudo systemctl enable xrdp
