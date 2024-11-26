@@ -26,13 +26,13 @@ setopt print_eight_bit      # enable utf-8
 setopt pushd_ignore_dups    # 重複したディレクトリを無視
 setopt prompt_subst         # promptに変数を埋め込む
 
-
 # 色
 autoload -Uz colors && colors
 
 # enable completion
 # autoload -Uz compinit && compinit -d "${HOME}/.cache/zsh/zcompdump-${ZSH_VERSION}"
 
+mkdir -p "${HOME}/.cache/zsh"
 zstyle ':completion:*' cache-path "${HOME}/.cache/zsh/zcompcache"
 
 ## 小文字でも大文字でもマッチさせる
@@ -85,7 +85,9 @@ if command -v sheldon > /dev/null 2>&1; then
 fi
 
 # 重複したPATHを削除
-export PATH="$(printf %s "${PATH}" | awk -v RS=: -v ORS=: '!arr[$0]++')"
+if command -v awk > /dev/null 2>&1;then
+  export PATH="$(printf %s "${PATH}" | awk -v RS=: -v ORS=: '!arr[$0]++')"
+fi
 
 # aliasファイルの読み込み
 if [ -f "${HOME}/.aliases" ]; then

@@ -8,4 +8,9 @@ path=(
   /bin(N-/)
   ${PATH}
 )
+export $PATH
+
 # スクリプトでも必要な最小限の環境変数のみをzshenvに記述
+export ZDOTDIR=${HOME}
+mkdir -p "${HOME}/.cache/zsh"
+mkdir -p "${HOME}/.local/state/zsh"

@@ -42,7 +42,9 @@ if [ -f "${HOME}/.aliases" ]; then
 fi
 
 # 重複したPATHを削除
-export PATH=$(printf %s "$PATH" | awk -v RS=: -v ORS=: '!arr[$0]++')
+if command -v awk > /dev/null 2>&1;then
+  export PATH="$(printf %s "${PATH}" | awk -v RS=: -v ORS=: '!arr[$0]++')"
+fi
 
 # 補完の設定
 if [ -f /etc/bash_completion ]; then
