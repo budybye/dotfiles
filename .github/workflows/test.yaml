@@ -93,22 +93,29 @@ jobs:
           env: |
             USE_BEDROCK: true
             TARGETPLATFORM: ${{ matrix.platform }}
-          push: always
-          # push: never
-          # runCmd: |
-            # env
-            # ls -la
-            # dpkg --print-architecture
-            # uname -a
+          # push: always
+          push: never
+          runCmd: |
+            env
+            ls -la
+            dpkg --print-architecture
+            uname -a
 
-      - name: dev cache
+      - name: Push digest
+        if: matrix.flavor.name == 'dev'
+        run: |
+          /usr/bin/docker push ${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }}-${{ matrix.flavor.name }} | \
+          grep digest | \
+          cut -d':' -f3- | \
+          tr -d ' ' > /tmp/devcontainer-cache
+
+      - name: Cache digest
         if: matrix.flavor.name == 'dev'
         run: |
           mkdir -p /tmp/digests
-          digest="${{ steps.devcontainer.outputs.imageDigest }}"
+          digest=$(cat /tmp/devcontainer-cache)
           echo $digest
-          # ls -la /tmp/devcontainercli-runner/docker-compose
-          # touch "/tmp/digests/${digest#sha256:}"
+          touch "/tmp/digests/${digest}"
 
       - name: Export digest
         if: matrix.flavor.name == 'slim'
