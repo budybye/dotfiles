@@ -6,8 +6,8 @@ users:
     passwd: ubuntu
     uid: 1001
     gid: 1001
-    shell: /bin/zsh
-    groups: [users,adm,staff,sudo,docker]
+    shell: /usr/bin/zsh
+    groups: users,adm,staff,sudo
     sudo: ALL=(ALL) NOPASSWD:ALL
     ssh_authorized_keys:
       - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC9+qnJxEuf/eJrpeGWahUpYh38PVHt+X9nZslctV/en
@@ -17,8 +17,8 @@ users:
     passwd: lisa
     uid: 1024
     gid: 1024
-    shell: /bin/zsh
-    groups: [users,adm,staff,sudo,docker]
+    shell: /usr/bin/zsh
+    groups: users,adm,staff,sudo
     sudo: ALL=(ALL) NOPASSWD:ALL
     ssh_import_id:
       - github:budybye

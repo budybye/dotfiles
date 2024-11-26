@@ -17,7 +17,7 @@ ipfs:
 exec:
 	docker compose -f .devcontainer/docker-compose.yaml exec ubuntu /bin/bash
 ubuntu:
-	multipass launch -n ubuntu -c 4 -m 8G -d 42G  --timeout 3600 --mount ${HOME}/dotfiles:/home/ubuntu/dotfiles --cloud-init ./cloud-init/multipass.yaml && multipass exec ubuntu -- tail -2 /var/log/cloud-init.log
+	multipass launch -n ubuntu -c 4 -m 8G -d 42G  --timeout 3600 --cloud-init ./cloud-init/multipass.yaml && multipass exec ubuntu -- tail -2 /var/log/cloud-init.log
 ssh:
 	ssh ubuntu@$(multipass info ubuntu --format json | jq -r '.[0].ipv4[0]')
 git:

@@ -56,12 +56,13 @@ bw_install() {
 }
 
 bw_unlock() {
+    MASTER="${MASTER:-}"
     # bw cli があればロック解除
     if command -v bw >/dev/null 2>&1; then
-        echo "export BW_SESSION="$(bw unlock ${$MASTER:-} --raw)"" > ${SESSION} || echo "bw unlock failed."
+        echo "export BW_SESSION="$(bw unlock ${MASTER} --raw)"" > ${SESSION} || echo "bw unlock failed."
 
     elif [ -f ${BW} ]; then
-        echo "export BW_SESSION="$(${BW} unlock ${$MASTER:-} --raw)"" > ${SESSION} || echo "bw unlock failed."
+        echo "export BW_SESSION="$(${BW} unlock ${MASTER} --raw)"" > ${SESSION} || echo "bw unlock failed."
 
     else
         echo "bw cli not found."
