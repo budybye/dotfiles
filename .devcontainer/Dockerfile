@@ -58,8 +58,8 @@ RUN git clone https://github.com/budybye/dotfiles.git ${HOME}/dotfiles
 
 RUN curl https://mise.run | sh && \
     ${HOME}/.local/bin/mise use -g bun@1.1.36 node@20.18.1 && \
-    ${HOME}/.local/share/mise/installs/bun/1.1.36/bin/bun i -g @bitwarden/cli && \
-    export PATH=${HOME}/.local/share/mise/shims:${HOME}/.cache/.bun/bin:${PATH} && \
+    ${HOME}/.local/share/mise/installs/node/20.18.1/bin/npm i -g @bitwarden/cli && \
+    export PATH=${HOME}/.local/share/mise/shims:${HOME}/.local/share/mise/installs/node/20.18.1/bin:${PATH} && \
     bw --version || echo "bw command not found"
 
 EXPOSE 3389
@@ -72,11 +72,9 @@ RUN im-config -n fcitx5 && \
     groupadd -f audio && \
     groupadd -f docker && \
     sudo usermod -aG input,xrdp,audio,ssl-cert,docker $USER && \
-    sudo systemctl daemon-reload && \
     sudo systemctl enable xrdp && \
     echo "xfce4-session" > ~/.xsession && \
-    sudo update-alternatives --set x-session-manager /usr/bin/xfce4-session && \
-    sudo systemctl restart xrdp
+    sudo update-alternatives --set x-session-manager /usr/bin/xfce4-session
 
 # COPY ../install $HOME/bin/install
 # RUN chmod +x $HOME/bin/install
