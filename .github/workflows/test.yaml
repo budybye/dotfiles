@@ -52,9 +52,7 @@ jobs:
         with:
           images: ${{ env.REGISTRY_IMAGE }}
           tags: |
-            type=semver,pattern=${{ github.ref_name }}
             type=semver,pattern=${{ github.ref_name }}-${{ env.PLATFORM_PAIR }}-${{ matrix.flavor.name }}
-            type=semver,pattern=${{ github.ref_name }}-${{ matrix.flavor.name }}
           labels: |
             org.opencontainers.image.description=${{ env.PLATFORM_PAIR }}
 
@@ -93,7 +91,7 @@ jobs:
         with:
           imageName: ${{ env.REGISTRY_IMAGE }}
           # imageTag: ${{ env.PLATFORM_PAIR }}-${{ matrix.flavor.name }}
-          platform: ${{ matrix.platform }}
+          platform: linux/amd64,linux/arm64
           # cacheFrom: |
           #   ${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }}-slim
           # env: |
