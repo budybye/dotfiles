@@ -66,8 +66,8 @@ EXPOSE 3389
 EXPOSE 22
 
 RUN im-config -n fcitx5 && \
-groupadd -f xrdp && \
-groupadd -f ssl-cert && \
+    groupadd -f xrdp && \
+    groupadd -f ssl-cert && \
     groupadd -f input && \
     groupadd -f audio && \
     groupadd -f docker && \
