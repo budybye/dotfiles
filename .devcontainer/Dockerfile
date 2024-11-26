@@ -51,7 +51,7 @@ RUN groupadd -g $DEV_GID -f $DEV && \
 
 RUN locale-gen ja_JP.UTF-8 && \
     echo "export LANG=ja_JP.UTF-8" >> ~/.bashrc && \
-    source ~/.bashrc
+    . ~/.bashrc
 
 USER $USER
 WORKDIR $HOME
