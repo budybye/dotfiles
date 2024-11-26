@@ -36,10 +36,6 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-reco
     apt-get clean && \
     rm -rf /var/cache/apt /var/lib/apt/lists/*
 
-RUN locale-gen ja_JP.UTF-8 && \
-    echo "LANG=ja_JP.UTF-8" >> ~/.bashrc && \
-    source ~/.bashrc
-
 RUN groupadd -g $GID -f $USER && \
     useradd --uid $UID --gid $GID -m $USER -G sudo -s /usr/bin/zsh && \
     echo "$USER:$USER" | chpasswd && \
@@ -53,6 +49,10 @@ RUN groupadd -g $DEV_GID -f $DEV && \
     mkdir -p $DEV_HOME && \
     chown -R $DEV:$DEV $DEV_HOME
 
+RUN locale-gen ja_JP.UTF-8 && \
+    echo "export LANG=ja_JP.UTF-8" >> ~/.bashrc && \
+    source ~/.bashrc
+
 USER $USER
 WORKDIR $HOME
 
@@ -61,7 +61,7 @@ RUN sudo sh -c "$(curl -fsSL get.chezmoi.io)" -- -b /usr/local/bin
 RUN git clone https://github.com/budybye/dotfiles.git ${HOME}/dotfiles
 
 RUN curl https://mise.run | sh && \
-    ${HOME}/.local/bin/mise use -g bun@1.1.36 node@20.18.1 && \
+    ${HOME}/.local/bin/mise use -g node@20.18.1 && \
     ${HOME}/.local/share/mise/installs/node/20.18.1/bin/npm i -g @bitwarden/cli && \
     export PATH=${HOME}/.local/share/mise/shims:${HOME}/.local/share/mise/installs/node/20.18.1/bin:${PATH} && \
     bw --version || echo "bw command not found"
