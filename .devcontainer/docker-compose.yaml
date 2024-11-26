@@ -4,7 +4,7 @@ services:
     image: ghcr.io/budybye/ubuntu-dev:main-slim
     container_name: ubuntu
     privileged: true
-    platform: ${PLATFORM_PAIR:-linux/amd64}
+    platform: ${ARCH:-linux/amd64}
     networks:
       - local
     ports:
