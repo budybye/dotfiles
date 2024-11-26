@@ -105,6 +105,8 @@ jobs:
         if: matrix.flavor.name == 'dev'
         run: |
           mkdir -p /tmp/digests
+          ls -la /tmp
+          ls -la /tmp/devcontainercli-runner
           ls -la /tmp/devcontainercli-runner/docker-compose
           # touch "/tmp/digests/${digest#sha256:}"
 
