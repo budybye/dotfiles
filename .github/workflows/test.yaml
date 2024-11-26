@@ -105,9 +105,7 @@ jobs:
         if: matrix.flavor.name == 'dev'
         run: |
           mkdir -p /tmp/digests
-          cat /tmp/devcontainercli-runner/docker-compose/docker-compose.devcontainer.build-1732606397037.yml
-          digest="jq -cr '.services.ubuntu.image' /tmp/devcontainercli-runner/docker-compose/docker-compose.devcontainer.build-1732606397037.yml"
-          echo $digest
+          ls -la /tmp/devcontainercli-runner/docker-compose
           # touch "/tmp/digests/${digest#sha256:}"
 
       - name: Export digest
