@@ -1,7 +1,7 @@
 services:
 
   ubuntu:
-    image: ghcr.io/budybye/ubuntu-dev:${PLATFORM_PAIR:-main}-slim
+    image: ghcr.io/budybye/ubuntu-dev:main-slim
     container_name: ubuntu
     privileged: true
     networks:
