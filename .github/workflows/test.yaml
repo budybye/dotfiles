@@ -95,7 +95,7 @@ jobs:
           imageTag: ${{ env.PLATFORM_PAIR }}-${{ matrix.flavor.name }}
           # platform: ${{ matrix.platform }}
           cacheFrom: |
-            ${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }}-slim
+            ${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }}-${{ matrix.flavor.name }}
           # env: |
           #   USE_BEDROCK: true
           #   TARGETPLATFORM: ${{ matrix.platform }}
