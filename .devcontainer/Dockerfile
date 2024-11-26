@@ -25,7 +25,7 @@ RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezo
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends \
-    xfce4 xfce4-goodies xfce4-session tigervnc-standalone-server xrdp xorgxrdp dbus-x11 gzip xdotool xsel openssh-server ufw sudo \
+    xfce4 xfce4-goodies xfce4-session tigervnc-standalone-server xrdp xorgxrdp dbus-x11 gzip xdotool xsel openssh-server ufw sudo locales \
     language-pack-ja-base language-pack-ja manpages-ja fcitx5-mozc im-config \
     tree ncdu mkcert pwgen gawk neofetch lsd ffmpeg mpd mpc ncmpcpp age \
     build-essential libssl-dev pkg-config apt-transport-https avahi-daemon \
@@ -35,6 +35,10 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-reco
     apt-get autoremove -y && \
     apt-get clean && \
     rm -rf /var/cache/apt /var/lib/apt/lists/*
+
+RUN locale-gen ja_JP.UTF-8 && \
+    echo "LANG=ja_JP.UTF-8" >> ~/.bashrc && \
+    source ~/.bashrc
 
 RUN groupadd -g $GID -f $USER && \
     useradd --uid $UID --gid $GID -m $USER -G sudo -s /usr/bin/zsh && \
