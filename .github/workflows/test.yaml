@@ -92,20 +92,20 @@ jobs:
         uses: devcontainers/ci@v0.3
         with:
           imageName: ${{ env.REGISTRY_IMAGE }}
-          imageTag: ${{ env.PLATFORM_PAIR }}-${{ matrix.flavor.name }}
-          # platform: ${{ matrix.platform }}
+          # imageTag: ${{ env.PLATFORM_PAIR }}-${{ matrix.flavor.name }}
+          platform: ${{ matrix.platform }}
           cacheFrom: |
             ${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }}-slim
           env: |
             USE_BEDROCK: true
             TARGETPLATFORM: ${{ matrix.platform }}
           # push: always
-          push: never
-          runCmd: |
-            env
-            ls -la
-            dpkg --print-architecture
-            uname -a
+          # push: never
+          # runCmd: |
+          #   env
+          #   ls -la
+          #   dpkg --print-architecture
+          #   uname -a
 
       - name: Push digest
         if: matrix.flavor.name == 'dev'
