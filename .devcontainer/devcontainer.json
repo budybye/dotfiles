@@ -5,7 +5,7 @@
     "remoteUser": "dev",
     "workspaceFolder": "/home/dev",
     "forwardPorts": [
-      3000, 4000, 9443, 3389, 8787, 8080, 4001, 5001, 80, 22
+      3389, 3000, 4000, 9443, 8787, 8080, 4001, 5001, 80, 22
     ],
     "initializeCommand": "echo 'Initializing...'",
     "onCreateCommand": "echo 'Creating...'",
@@ -15,7 +15,7 @@
     "shutdownAction": "stopCompose",
     "remoteEnv": {
       "USERNAME": "dev",
-      "GIT_USER": "${GIT_USER}",
+      "GIT_USER": "${GIT_USER:-}",
       "REMOTE_CONTAINERS": "true"
     },
     "features": {

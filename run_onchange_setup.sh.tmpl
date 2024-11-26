@@ -248,12 +248,14 @@ echo "--------------------------------"
 
 {{ else if eq .chezmoi.os "linux" -}}
 
-    # ユーザー名を動的に取得
+    # ユーザー名を取得
     USER_NAME=${SUDO_USER:-$(whoami)}
     # アーキテクチャを取得
     arch="$(dpkg --print-architecture)"
 
     # デスクトップ環境のインストール
+    # package は .chezmoidata/packages.yaml に記載
+    # .packages.linux.gui にはxfceデスクトップ環境をインストールするパッケージを記載
     desktop_setup() {
         sudo apt-get update -y && sudo apt-get upgrade -y
         sudo apt-get install -y {{ .packages.linux.gui | join " " }} || echo "desktop packages install failed."
@@ -266,9 +268,12 @@ echo "--------------------------------"
     install_snap() {
         command -v snap >/dev/null || sudo apt-get install -y snapd && echo "snapd installed." || echo "snapd install failed."
 
-        command -v codium >/dev/null || sudo snap install codium --classic && echo "codium installed." || echo "codium install failed."
+        command -v multipass >/dev/null || sudo snap install multipass && echo "multipass installed." || echo "multipass install failed."
 
         command -v speedtest >/dev/null || sudo snap install speedtest && echo "speedtest installed." || echo "speedtest install failed."
+
+        command -v codium >/dev/null || sudo snap install codium --classic && echo "codium installed." || echo "codium install failed."
+
         command -v alacritty >/dev/null || sudo snap install alacritty --classic && echo "alacritty installed." || echo "alacritty install failed."
 
         if command -v firefox >/dev/null 2>&1; then
@@ -324,7 +329,7 @@ echo "--------------------------------"
         fi
     }
 
-    # GitHub Desktop と Cursor をインストールする関数
+    # GitHub Desktop をインストールする関数
     install_github_desktop() {
         if ! command -v github-desktop >/dev/null 2>&1; then
             sudo curl -L https://github.com/shiftkey/desktop/releases/download/release-3.4.3-linux1/GitHubDesktop-linux-${arch}-3.4.3-linux1.deb -o GitHubDesktop-linux-${arch}-3.4.3-linux1.deb
@@ -396,17 +401,17 @@ echo "--------------------------------"
         echo "日本語環境の設定が完了しました。"
     }
 
-    # pulseaudio をインストールおよび設定する関数
-    install_pulseaudio() {
-        sudo apt-get install -y pulseaudio libpulse-dev dh-autoreconf dpkg-dev || echo "pulseaudio install failed."
-        echo "pulseaudio installed."
-    }
-
     # pipewire をインストールおよび設定する関数
     install_pipewire() {
         doko=$(pwd)
-        sudo apt-get install -y pipewire pipewire-audio libspa-0.2-dev libpipewire-0.3-dev autoconf libtool || echo "pipewire install failed."
+
+        # pulseaudio をインストール
+        sudo apt-get install -y pulseaudio libpulse-dev dh-autoreconf dpkg-dev && echo "pulseaudio installed." || echo "pulseaudio install failed."
+
+        # pipewire をインストール
+        sudo apt-get install -y pipewire pipewire-audio libspa-0.2-dev libpipewire-0.3-dev autoconf libtool && echo "pipewire installed." || echo "pipewire install failed."
         mkdir -p "${HOME}/.config/pipewire"
+
         if [ ! -d "${HOME}/.config/pipewire/pulseaudio-module-xrdp" ]; then
             git clone https://github.com/neutrinolabs/pulseaudio-module-xrdp.git "${HOME}/.config/pipewire/pulseaudio-module-xrdp"
             cd "${HOME}/.config/pipewire/pulseaudio-module-xrdp"
@@ -431,15 +436,18 @@ echo "--------------------------------"
         sudo systemctl restart rsyslog
         # ファイアウォールで3389番ポート（RDP）を許可
         sudo ufw allow 3389
-        # xrdpサービスを有効化し、起動
+        # xrdpサービスを有効化
         sudo systemctl enable xrdp
-        sudo systemctl start xrdp
         # デフォルトのセッションマネージャーをxfce4-sessionに設定
         sudo update-alternatives --set x-session-manager /usr/bin/xfce4-session
+        # xrdpサービスを起動
+        sudo systemctl start xrdp
         echo "xrdp setup completed."
 
         echo "以下のコマンドを実行してパスワードを更新してください"
         echo "sudo passwd ${USER_NAME}"
+        # ログイン後、ubuntuユーザーのパスワードを再設定を推奨
+        # パスワードを再設定しないとログインできない
         echo "${USER_NAME}:${USER_NAME}" | sudo chpasswd
     }
 

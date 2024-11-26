@@ -107,7 +107,7 @@ fi
 
 mkdir -p "${XDG_DATA_HOME}/go"
 export GOPATH="${XDG_DATA_HOME}/go"
-export GOROOT="/usr/local/go"
+export GOROOT="${XDG_DATA_HOME}/go"
 export PATH="${GOPATH}/bin:${PATH}"
 
 mkdir -p "${XDG_DATA_HOME}/cargo" "${XDG_DATA_HOME}/rustup"

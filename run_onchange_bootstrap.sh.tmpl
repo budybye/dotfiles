@@ -194,13 +194,6 @@ echo "--------------------------------"
         command -v mkcert >> ${HOME}/which || echo "mkcert not found"
     }
 
-    install_multipass() {
-        echo "multipass install start..."
-        command -v multipass >/dev/null || sudo snap install multipass || echo "multipass install failed."
-        echo "multipass installed."
-        command -v multipass >> ${HOME}/which || echo "multipass not found"
-    }
-
     install_act() {
         echo "act install start..."
         if ! command -v act >/dev/null; then

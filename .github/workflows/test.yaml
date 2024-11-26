@@ -98,7 +98,17 @@ jobs:
           runCmd: |
             env
             ls -la
-            chezmoi init
+            dpkg --print-architecture
+            uname -a
+
+      - name: dev cache
+        if: matrix.flavor.name == 'dev'
+        run: |
+          mkdir -p /tmp/digests
+          cat /tmp/devcontainercli-runner/docker-compose/docker-compose.devcontainer.build-1732606397037.yml
+          digest="jq -cr '.services.ubuntu.image' /tmp/devcontainercli-runner/docker-compose/docker-compose.devcontainer.build-1732606397037.yml"
+          echo $digest
+          # touch "/tmp/digests/${digest#sha256:}"
 
       - name: Export digest
         if: matrix.flavor.name == 'slim'
@@ -230,4 +240,5 @@ jobs:
           lxc launch ubuntu:24.04 ubuntu -p default -p bob
           lxc exec ubuntu -- cloud-init status --wait || true
           lxc exec ubuntu -- tail -4 /var/log/cloud-init.log
+          lxc exec ubuntu -- ls -la /home/ubuntu/dotfiles
           # lxc launch ubuntu:24.04 ubuntu --config=user.user-data="$(cat cloud-init/multipass.yaml)"
