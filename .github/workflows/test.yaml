@@ -93,21 +93,21 @@ jobs:
           env: |
             USE_BEDROCK: true
             TARGETPLATFORM: ${{ matrix.platform }}
-          # push: always
-          push: never
-          runCmd: |
-            env
-            ls -la
-            dpkg --print-architecture
-            uname -a
+          push: always
+          # push: never
+          # runCmd: |
+            # env
+            # ls -la
+            # dpkg --print-architecture
+            # uname -a
 
       - name: dev cache
         if: matrix.flavor.name == 'dev'
         run: |
           mkdir -p /tmp/digests
-          cat /tmp/devcontainercli-runner/control-manifest.json || true
-          ls -la /tmp/devcontainercli-runner/empty-folder
-          ls -la /tmp/devcontainercli-runner/docker-compose
+          digest="${{ steps.devcontainer.outputs.imageDigest }}"
+          echo $digest
+          # ls -la /tmp/devcontainercli-runner/docker-compose
           # touch "/tmp/digests/${digest#sha256:}"
 
       - name: Export digest

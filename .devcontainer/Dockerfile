@@ -25,7 +25,7 @@ RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezo
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends \
-    xfce4 xfce4-goodies xfce4-session xrdp xorgxrdp dbus-x11 gzip xdotool xsel sshfs ufw sudo \
+    xfce4 xfce4-goodies xfce4-session tigervnc-standalone-server xrdp xorgxrdp dbus-x11 gzip xdotool xsel openssh-server ufw sudo \
     language-pack-ja-base language-pack-ja manpages-ja fcitx5-mozc im-config \
     tree ncdu mkcert pwgen gawk neofetch lsd ffmpeg mpd mpc ncmpcpp age \
     build-essential libssl-dev pkg-config apt-transport-https avahi-daemon \
@@ -74,6 +74,8 @@ RUN im-config -n fcitx5 && \
     sudo usermod -aG input,xrdp,audio,ssl-cert,docker $USER && \
     sudo systemctl enable xrdp && \
     echo "xfce4-session" > ~/.xsession && \
+    echo "dbus-launch --exit-with-session usr/bin/xfce4-session" > ~/.startwm.sh && \
+    chmod 755 ~/.startwm.sh && \
     sudo update-alternatives --set x-session-manager /usr/bin/xfce4-session
 
 # COPY ../install $HOME/bin/install
