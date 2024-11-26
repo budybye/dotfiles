@@ -47,6 +47,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Docker meta
+        if: matrix.flavor.name == 'slim'
         id: meta
         uses: docker/metadata-action@v5
         with:
@@ -90,17 +91,17 @@ jobs:
         uses: devcontainers/ci@v0.3
         with:
           imageName: ${{ env.REGISTRY_IMAGE }}
-          # imageTag: ${{ env.PLATFORM_PAIR }}-${{ matrix.flavor.name }}
-          platform: linux/amd64,linux/arm64
-          # cacheFrom: |
-          #   ${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }}-slim
+          imageTag: ${{ env.PLATFORM_PAIR }}-${{ matrix.flavor.name }}
+          # platform: ${{ matrix.platform }}
+          cacheFrom: |
+            ${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }}-slim
           # env: |
           #   USE_BEDROCK: true
           #   TARGETPLATFORM: ${{ matrix.platform }}
           # push: always
-          # push: never
-          # runCmd: |
-          #   env
+          push: never
+          runCmd: |
+            env
           #   ls -la
           #   dpkg --print-architecture
           #   uname -a
