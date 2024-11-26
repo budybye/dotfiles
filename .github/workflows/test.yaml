@@ -102,9 +102,9 @@ jobs:
           push: never
           runCmd: |
             env
-          #   ls -la
-          #   dpkg --print-architecture
-          #   uname -a
+            ls -la
+            dpkg --print-architecture
+            uname -a
 
       - name: Push digest
         if: matrix.flavor.name == 'dev'
