@@ -184,21 +184,22 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create manifest list and push
+        if: matrix.flavor.name == 'slim'
+        working-directory: /tmp/digests
+        run: |
+          tags=$(jq -cr '.tags | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON")
+          docker buildx imagetools create $tags \
+          $(printf '${{ env.REGISTRY_IMAGE }}@sha256:%s ' *)
+          docker buildx imagetools inspect ${{ env.REGISTRY_IMAGE }}:${{ steps.meta.outputs.version }}
+
+      - name: dev Create manifest list and push
+        if: matrix.flavor.name == 'dev'
         working-directory: /tmp/digests
         run: |
           flavor=${{ matrix.flavor.name }}
           tags=$(jq -cr --arg flavor "$flavor" '.tags | map("-t " + . + "-" + $flavor) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON")
           docker buildx imagetools create $tags \
           $(printf '${{ env.REGISTRY_IMAGE }}@sha256:%s ' *)
-
-      - name: Inspect latest
-        if: matrix.flavor.name == 'slim'
-        run: |
-          docker buildx imagetools inspect ${{ env.REGISTRY_IMAGE }}:${{ steps.meta.outputs.version }}
-
-      - name: Inspect latest
-        if: matrix.flavor.name == 'dev'
-        run: |
           docker buildx imagetools inspect ${{ env.REGISTRY_IMAGE }}:${{ steps.meta.outputs.version }}-dev
 
   ubuntu-test:
