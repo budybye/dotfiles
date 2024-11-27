@@ -7,7 +7,7 @@ on:
 
 jobs:
   test:
-    uses: ./.github/workflows/test.yaml  # テストワークフローを再利用
+    uses: ./.github/workflow/test.yaml  # テストワークフローを再利用
 
   tag:
     needs: test  # テストジョブが成功した後に実行
