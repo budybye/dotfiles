@@ -41,5 +41,5 @@ jobs:
           gh release create "$new_tag" \
             --repo="$GITHUB_REPOSITORY" \
             --title="$new_tag" \
-            --package=ghcr.io/budybye/ubuntu-dev \
+            --latest \
             --generate-notes
