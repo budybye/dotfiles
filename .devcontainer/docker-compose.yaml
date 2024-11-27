@@ -4,7 +4,7 @@ services:
     image: ghcr.io/budybye/ubuntu-dev:main-slim
     container_name: ubuntu
     privileged: true
-    platform: ${ARCH:-"linux/$(dpkg --print-architecture)"}
+    platform: linux/${ARCH:-"$(dpkg --print-architecture)"}
     networks:
       - local
     ports:

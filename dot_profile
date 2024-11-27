@@ -8,9 +8,11 @@ HOSTNAME="$(uname -n)"
 export HOSTNAME
 
 if command -v dpkg >/dev/null 2>&1; then
-    ARCH="linux/$(dpkg --print-architecture)"
+    ARCH="$(dpkg --print-architecture)"
+elif command -v uname >/dev/null 2>&1; then
+    ARCH="$(uname -m)"
 else
-    ARCH="linux/$(uname -m)"
+    ARCH="unknown"
 fi
 export ARCH
 
