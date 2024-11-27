@@ -47,7 +47,6 @@ config:
       - xfce4-goodies
       - xrdp
       - dbus-x11
-      - xorgxrdp
     runcmd:
       - curl -fsSL get.chezmoi.io | sudo sh -s -- -b /usr/local/bin
       - echo "export VM=true" >> ~/.profile && source ~/.profile
