@@ -20,7 +20,7 @@ osc52 = "CopyPaste"
 
 [terminal.shell]
 program = "/bin/zsh"
-args = ["--login"]
+# args = ["--login"]
 
 [window]
 opacity = 0.78
