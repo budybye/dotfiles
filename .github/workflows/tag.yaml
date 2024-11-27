@@ -6,20 +6,24 @@ on:
       - main
 
 jobs:
+  test:
+    uses: ./.github/workflows/test.yaml  # テストワークフローを再利用
+
   tag:
+    needs: test  # テストジョブが成功した後に実行
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # 全履歴を取得するために必要
+          fetch-depth: 0
 
       - name: Get latest tag increment and repush
         id: tag
         run: |
           git fetch --tags
           latest_tag=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
-          version=${latest_tag#v}  # vプレフィックスを削除
+          version=${latest_tag#v}
           IFS='.' read -r major minor patch <<< "$version"
           new_patch=$((patch + 1))
           new_tag="v$major.$minor.$new_patch"
