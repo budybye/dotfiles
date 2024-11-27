@@ -5,7 +5,7 @@ on:
     branches:
       - main
     tags:
-      - "v*.*.*"
+      - "*.*.*"
   workflow_dispatch:
 
   schedule:
@@ -191,15 +191,12 @@ jobs:
           # マニフェストリストを確認
           docker buildx imagetools inspect ${{ env.REGISTRY_IMAGE }}:${{ steps.meta.outputs.version }}
 
-      # dev latest-dev か main-dev にマージされる
       - name: dev Create manifest list and push
         if: matrix.flavor.name == 'dev'
         working-directory: /tmp/digests
         run: |
-          flavor=${{ matrix.flavor.name }}
-          tags=$(jq -cr --arg flavor "$flavor" '.tags | map("-t " + . + "-" + $flavor) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON")
-          docker buildx imagetools create $tags \
+          docker buildx imagetools create -t ${{ env.REGISTRY_IMAGE }}:dev \
            $(printf '${{ env.REGISTRY_IMAGE }}@sha256:%s ' *)
 
           # マニフェストリストを確認
-          docker buildx imagetools inspect ${{ env.REGISTRY_IMAGE }}:${{ steps.meta.outputs.version }}-dev
+          docker buildx imagetools inspect ${{ env.REGISTRY_IMAGE }}:dev

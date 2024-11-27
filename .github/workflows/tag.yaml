@@ -20,15 +20,14 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # タグを取得
-          release_version=$(cat .github/release.yml | yq -r .version)
-          echo "release version: $release_version"
-          new_tag=$release_version
+          new_tag=$(cat .github/release.yml | yq -r .version)
+          echo "new tag: $new_tag"
 
-          # latest_tag=$(git describe --tags --abbrev=0 2>/dev/null || echo "v1.0.1")
-          # version=${latest_tag#v}
-          # IFS='.' read -r major minor patch <<< "$version"
-          # new_patch=$((patch + 1))
-          # new_tag="v$major.$minor.$new_patch"
+          latest_tag=$(git describe --tags --abbrev=0 2>/dev/null || echo "0.0.0")
+          version=${latest_tag#v}
+          IFS='.' read -r major minor patch <<< "$version"
+          new_patch=$((patch + 1))
+          new_tag="v$major.$minor.$new_patch"
 
           # タグを作成してプッシュ
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
@@ -40,5 +39,5 @@ jobs:
           gh release create "$new_tag" \
             --repo="$GITHUB_REPOSITORY" \
             --title="$new_tag" \
-            --latest \
-            --generate-notes
+            # --generate-notes
+            --latest

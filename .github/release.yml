@@ -15,5 +15,3 @@ changelog:
     - title: Other Changes 🎉
       labels:
         - "*"
-
-version: v1.0.14
