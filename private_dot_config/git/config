@@ -82,6 +82,7 @@
 [push]
 	default = simple
 	gpgSign = if-asked
+	followTags = true
 
 [rebase]
 	missingCommitsCheck = warn
