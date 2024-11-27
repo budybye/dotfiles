@@ -1,18 +1,19 @@
 
-
 changelog:
   exclude:
     labels:
       - ignore-for-release
   categories:
-    - tittle: Breaking Changes 🔨
+    - title: Breaking Changes
       labels:
         - Semver-Major
         - breaking-change
-    - tittle: Exciting New Features 🎉
+    - title: Exciting New Features 🎉
       labels:
         - Semver-Minor
         - enhancement
-    - tittle: Other Changes 🎉
+    - title: Other Changes 🎉
       labels:
         - "*"
+
+version: v1.0.13
