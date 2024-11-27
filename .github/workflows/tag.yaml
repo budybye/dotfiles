@@ -21,7 +21,7 @@ jobs:
         run: |
           # タグを取得
           git fetch --tags
-          version=$(git describe --tags --abbrev=0 2>/dev/null || echo "0.0.0-alpha")
+          version=$(git describe --tags --abbrev=0 2>/dev/null || echo "0.0.0")
           IFS='.' read -r major minor patch <<< "$version"
           new_patch=$((patch + 1))
           new_tag="$major.$minor.$new_patch"
@@ -34,7 +34,7 @@ jobs:
 
           # リリースを作成（自動生成されたリリースノート付き）
           gh release create "$new_tag" \
-            --repo="$GITHUB_REPOSITORY" \
+            --repo="${{ github.repository }}" \
             --title="$new_tag" \
             --latest \
             --generate-notes
