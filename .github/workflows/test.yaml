@@ -187,8 +187,9 @@ jobs:
         if: matrix.flavor.name == 'slim'
         working-directory: /tmp/digests
         run: |
-          docker buildx imagetools create ${{ env.REGISTRY_IMAGE }}:${{ steps.meta.outputs.version }} \
-          $(printf '${{ env.REGISTRY_IMAGE }}@sha256:%s ' *)
+          docker buildx imagetools create $(jq -cr '.tags | map("-t " + .) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON") \
+            $(printf '${{ env.REGISTRY_IMAGE }}@sha256:%s ' *)
+          # マニフェストリストを確認
           docker buildx imagetools inspect ${{ env.REGISTRY_IMAGE }}:${{ steps.meta.outputs.version }}
 
       - name: dev Create manifest list and push
