@@ -24,7 +24,6 @@ jobs:
           echo "release version: $release_version"
           new_tag=$release_version
 
-          # git fetch --tags
           # latest_tag=$(git describe --tags --abbrev=0 2>/dev/null || echo "v1.0.1")
           # version=${latest_tag#v}
           # IFS='.' read -r major minor patch <<< "$version"
