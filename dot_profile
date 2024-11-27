@@ -7,6 +7,13 @@
 HOSTNAME="$(uname -n)"
 export HOSTNAME
 
+if command -v dpkg >/dev/null 2>&1; then
+    ARCH="linux/$(dpkg --print-architecture)"
+else
+    ARCH="linux/$(uname -m)"
+fi
+export ARCH
+
 # ${VAR} "${VAR}" "${VAR:-var}" は環境変数
 # ' : ' で区切り
 
