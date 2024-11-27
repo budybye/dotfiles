@@ -1,5 +1,8 @@
 #! /usr/bin/env bash
 
+echo "run_onchange_youtube.sh"
+echo "--------------------------------"
+
 PLAYLIST_NAME="riddim"
 PLAYLIST_DIR="$HOME/Music/$PLAYLIST_NAME"
 PLAYLIST_ID="PLMXoRsxtzGfCH7cvhAnzN_T3KvKmdkB3s"
@@ -34,9 +37,10 @@ if [ ! -d "$PLAYLIST_DIR" ]; then
         "$URL"
 
     echo "ダウンロードが完了しました"
+    echo "--------------------------------"
 fi
 
 # ダウンロードしたファイルの一覧を表示
 ls -l "$PLAYLIST_DIR"
-
+echo "--------------------------------"
 {{ end }}

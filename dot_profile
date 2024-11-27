@@ -112,6 +112,7 @@ fi
 if command -v code >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/Code/user-data/User"
     export VSCODE_PORTABLE="${XDG_CONFIG_HOME}/Code"
+    # export VSCODE_PORTABLE="${XDG_DATA_HOME}/Code"
 fi
 
 if command -v docker >/dev/null 2>&1; then
@@ -156,11 +157,19 @@ if command -v gem >/dev/null 2>&1; then
     export GEM_SPEC_CACHE="${XDG_CACHE_HOME}/gem"
 fi
 
+if command -v python3 >/dev/null 2>&1; then
+    mkdir -p "${XDG_DATA_HOME}/python" "${XDG_CACHE_HOME}/python" "${XDG_CONFIG_HOME}/python" "${XDG_STATE_HOME}/python"
+    export PYTHONUSERBASE="${XDG_DATA_HOME}/python"
+    export PYTHONHISTORY="${XDG_STATE_HOME}/python/history"
+    export PYTHONPYCACHEPREFIX="${XDG_CACHE_HOME}/python"
+    export PYTHONSTARTUP="${XDG_CONFIG_HOME}/python/pythonrc"
+fi
+
 if command -v poetry >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/poetry" "${XDG_CACHE_HOME}/poetry"
     export POETRY_HOME="${XDG_CONFIG_HOME}/poetry"
     export POETRY_CACHE="${XDG_CACHE_HOME}/poetry"
-    # export PYTHONSTARTUP="${HOME}/python/pythonrc"
+    export POETRY_VIRTUALENVS_IN_PROJECT=true
 fi
 
 if command -v jupyter >/dev/null 2>&1; then
