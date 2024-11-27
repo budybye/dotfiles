@@ -167,3 +167,4 @@ packages:
       - 'speedtest-cli'
       - 'chromium'
       - 'bitwarden'
+      - 'multipass'
