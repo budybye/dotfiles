@@ -54,6 +54,9 @@ jobs:
             type=semver,pattern=${{ github.ref_name }}
           labels: |
             org.opencontainers.image.description=${{ matrix.platform }}-${{ matrix.flavor.name }}
+          annotations: |
+            org.opencontainers.image.source=https://github.com/budybye/ubuntu-dev
+            org.opencontainers.image.documentation=https://github.com/budybye/ubuntu-dev/blob/main/README.md
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -77,6 +80,7 @@ jobs:
           cache-from: type=registry,ref=${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }}-${{ matrix.flavor.name }}
           cache-to: type=registry,ref=${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }}-${{ matrix.flavor.name }},mode=max
           labels: ${{ steps.meta.outputs.labels }}
+          annotations: ${{ steps.meta.outputs.annotations }}
           outputs: type=image,name=${{ env.REGISTRY_IMAGE }},push-by-digest=true,name-canonical=true,push=true
 
       - name: Build devcontainer
