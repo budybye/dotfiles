@@ -1,19 +1,18 @@
 # .zshenv は全てのシェルで読み込まれる
+# スクリプトでも必要な最小限の環境変数のみをzshenvに記述
+
 typeset -U PATH path
 path=(
-  ${HOME}/bin(N-/)
   ${HOME}/.local/bin(N-/)
   /usr/local/bin(N-/)
   /usr/bin(N-/)
   /bin(N-/)
   ${PATH}
 )
-export $PATH
 
 # 重複したPATHを削除
 if command -v awk > /dev/null 2>&1;then
   export PATH="$(printf %s "${PATH}" | awk -v RS=: -v ORS=: '!arr[$0]++')"
 fi
 
-# スクリプトでも必要な最小限の環境変数のみをzshenvに記述
 export ZDOTDIR=${HOME}

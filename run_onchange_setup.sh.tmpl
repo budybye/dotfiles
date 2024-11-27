@@ -1,8 +1,7 @@
 #! /usr/bin/env bash
 
 echo "run_once_setup.sh.tmpl"
-echo "OS: {{ .chezmoi.os | quote }}"
-echo "desktop system setup"
+echo "{{ .chezmoi.os }} system setup"
 echo "--------------------------------"
 
 {{ if eq .chezmoi.os "darwin" -}}
@@ -249,7 +248,7 @@ echo "--------------------------------"
 {{ else if eq .chezmoi.os "linux" -}}
 
     # ユーザー名を取得
-    USER_NAME=${SUDO_USER:-$(whoami)}
+    USER_NAME=$(whoami)
     # アーキテクチャを取得
     arch="$(dpkg --print-architecture)"
 
@@ -473,8 +472,4 @@ echo "--------------------------------"
 {{ end -}}
 echo "--------------------------------"
 echo "desktop setup complete"
-{{ if ne .name "runner" -}}
-    # デスクトップ環境の設定
-    echo "actions じゃないよ"
-{{ end -}}
 echo "--------------------------------"
