@@ -5,14 +5,194 @@ on:
       version:
         required: true
         type: string
-
 jobs:
-  date:
-    runs-on: ubuntu-latest
+
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    permissions:
+      contents: read
+      packages: write
+    strategy:
+      fail-fast: false
+      matrix:
+        platform:
+          - linux/amd64
+          - linux/arm64
+        flavor:
+          - name: slim
+          - name: dev
     steps:
-      - uses: actions/checkout@v4
+      - name: Prepare
+        run: |
+          platform=${{ matrix.platform }}
+          echo "PLATFORM_PAIR=${platform//\//-}" >> $GITHUB_ENV
+          echo "ARCH=${platform#linux/}" >> $GITHUB_ENV
+          echo "VERSION=${{ inputs.version }}" >> $GITHUB_ENV
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Docker meta
+        if: matrix.flavor.name == 'slim'
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY_IMAGE }}
+          tags: |
+            type=semver,pattern=${{ inputs.version }}-${{ env.PLATFORM_PAIR }}
+          labels: |
+            org.opencontainers.image.description=${{ matrix.platform }}
+          annotations: |
+            org.opencontainers.image.source=https://github.com/budybye/ubuntu-dev
+            org.opencontainers.image.documentation=https://github.com/budybye/ubuntu-dev/blob/main/README.md
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          use: true
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push by digest
+        if: matrix.flavor.name == 'slim'
+        id: build
+        uses: docker/build-push-action@v6
+        with:
+          context: .devcontainer
+          platforms: ${{ matrix.platform }}
+          cache-from: type=registry,ref=${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }}-${{ matrix.flavor.name }}
+          cache-to: type=registry,ref=${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }}-${{ matrix.flavor.name }},mode=max
+          labels: ${{ steps.meta.outputs.labels }}
+          annotations: ${{ steps.meta.outputs.annotations }}
+          outputs: type=image,name=${{ env.REGISTRY_IMAGE }},push-by-digest=true,name-canonical=true,push=true
+
+      - name: Set slim digest
+        if: matrix.flavor.name == 'slim'
+        run: |
+          mkdir -p /tmp/digests
+          digest="${{ steps.build.outputs.digest }}"
+          touch "/tmp/digests/${digest#sha256:}"
+
+      - name: Build devcontainer
+        if: matrix.flavor.name == 'dev'
+        id: devcontainer
+        uses: devcontainers/ci@v0.3
+        with:
+          imageName: ${{ env.REGISTRY_IMAGE }}
+          imageTag: ${{ env.PLATFORM_PAIR }}-${{ matrix.flavor.name }}
+          cacheFrom: |
+            ${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }}-${{ matrix.flavor.name }}
+          # platform: ${{ matrix.platform }}
+          push: never
+          runCmd: |
+            env
+            uname -a
+
+      - name: Dev push by digest
+        if: matrix.flavor.name == 'dev'
+        run: |
+          /usr/bin/docker push ${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }}-${{ matrix.flavor.name }} | \
+          grep digest | \
+          sed -n 's/^.*digest: sha256:\([a-f0-9]*\).*$/\1/p' > /tmp/devcontainer-cache
+
+      - name: Set devcontainer digest
+        if: matrix.flavor.name == 'dev'
+        run: |
+          mkdir -p /tmp/digests
+          digest=$(cat /tmp/devcontainer-cache)
+          touch "/tmp/digests/${digest}"
+
+      - name: Upload digest
+        uses: actions/upload-artifact@v4
+        with:
+          name: digests-${{ env.PLATFORM_PAIR }}-${{ matrix.flavor.name }}
+          path: /tmp/digests/*
+          if-no-files-found: error
+          retention-days: 1
+
+      - name: Docker compose action
+        if: matrix.flavor.name == 'slim'
+        uses: hoverkraft-tech/compose-action@v2.0.2
+        with:
+          compose-file: .devcontainer/docker-compose.yaml
+          services: |
+            ubuntu
+            portainer
+            ipfs
+
+      - name: Docker compose test
+        if: matrix.flavor.name == 'slim'
+        run: |
+          docker ps -a
+          docker compose -f .devcontainer/docker-compose.yaml exec ubuntu env
+
+  merge:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      packages: write
+    needs:
+      - build
+    strategy:
+      fail-fast: false
+      matrix:
+        flavor:
+          - name: dev
+          - name: slim
+    steps:
+      - name: Download digests
+        uses: actions/download-artifact@v4
+        with:
+          path: /tmp/digests
+          pattern: digests-*-${{ matrix.flavor.name }}
+          merge-multiple: true
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY_IMAGE }}
+          # tags: |
+          #   type=semver,pattern=${{ github.ref_name }}
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+        # slim latest か main にマージされる
+      - name: Create manifest list and push
+        if: matrix.flavor.name == 'slim'
+        working-directory: /tmp/digests
+        run: |
+          docker buildx imagetools create $(jq -cr '.tags | map("-t " + .) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON") \
+            $(printf '${{ env.REGISTRY_IMAGE }}@sha256:%s ' *)
+          # マニフェストリストを確認
+          docker buildx imagetools inspect ${{ env.REGISTRY_IMAGE }}:${{ inputs.version }}
+
+      - name: dev Create manifest list and push
+        if: matrix.flavor.name == 'dev'
+        working-directory: /tmp/digests
+        run: |
+          docker buildx imagetools create -t ${{ env.REGISTRY_IMAGE }}:${{ matrix.flavor.name }} \
+           $(printf '${{ env.REGISTRY_IMAGE }}@sha256:%s ' *)
+
+          # マニフェストリストを確認
+          docker buildx imagetools inspect ${{ env.REGISTRY_IMAGE }}:${{ matrix.flavor.name }}
+
       - run: |
-          echo ${{ inputs.version }}
-          echo ${{ github.ref_name }}
-          echo ${{ env.new_tag }}
           date
