@@ -82,7 +82,7 @@
 [push]
 	default = simple
 	gpgSign = if-asked
-	followTags = false
+	followTags = true
 	autoSetupRemote = true
 
 [rebase]

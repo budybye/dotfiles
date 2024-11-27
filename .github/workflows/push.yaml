@@ -181,6 +181,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+        # slim latest か main にマージされる
       - name: Create manifest list and push
         if: matrix.flavor.name == 'slim'
         working-directory: /tmp/digests
@@ -190,6 +191,7 @@ jobs:
           # マニフェストリストを確認
           docker buildx imagetools inspect ${{ env.REGISTRY_IMAGE }}:${{ steps.meta.outputs.version }}
 
+      # dev latest-dev か main-dev にマージされる
       - name: dev Create manifest list and push
         if: matrix.flavor.name == 'dev'
         working-directory: /tmp/digests
@@ -197,5 +199,7 @@ jobs:
           flavor=${{ matrix.flavor.name }}
           tags=$(jq -cr --arg flavor "$flavor" '.tags | map("-t " + . + "-" + $flavor) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON")
           docker buildx imagetools create $tags \
-          $(printf '${{ env.REGISTRY_IMAGE }}@sha256:%s ' *)
+           $(printf '${{ env.REGISTRY_IMAGE }}@sha256:%s ' *)
+
+          # マニフェストリストを確認
           docker buildx imagetools inspect ${{ env.REGISTRY_IMAGE }}:${{ steps.meta.outputs.version }}-dev
