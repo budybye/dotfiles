@@ -191,9 +191,15 @@ jobs:
           docker buildx imagetools create $tags \
           $(printf '${{ env.REGISTRY_IMAGE }}@sha256:%s ' *)
 
-      - name: Inspect image
+      - name: Inspect latest
+        if: matrix.flavor.name == 'slim'
         run: |
-          docker buildx imagetools inspect ${{ env.REGISTRY_IMAGE }}:${{ steps.meta.outputs.version }}-${{ matrix.flavor.name }}
+          docker buildx imagetools inspect ${{ env.REGISTRY_IMAGE }}:${{ steps.meta.outputs.version }}
+
+      - name: Inspect latest
+        if: matrix.flavor.name == 'dev'
+        run: |
+          docker buildx imagetools inspect ${{ env.REGISTRY_IMAGE }}:${{ steps.meta.outputs.version }}-dev
 
   ubuntu-test:
     runs-on: ubuntu-24.04
