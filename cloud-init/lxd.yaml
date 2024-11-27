@@ -43,8 +43,6 @@ config:
       - language-pack-ja-base
       - language-pack-ja
       - manpages-ja
-      - xfce4
-      - xfce4-goodies
     runcmd:
       - sudo sh -c "$(curl -fsSL get.chezmoi.io)" -- -b /usr/local/bin
       - echo "export VM=true" >> ~/.profile && source ~/.profile

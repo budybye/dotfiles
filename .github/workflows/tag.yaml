@@ -9,8 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write  # リリースを作成するために必要
-    outputs:
-      new_tag: ${{ env.new_tag }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -20,7 +18,6 @@ jobs:
       - name: Create tag and release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_REPOSITORY: ${{ github.repository }}
         run: |
           # タグを取得
           git fetch --tags
@@ -33,19 +30,12 @@ jobs:
           # タグを作成してプッシュ
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
-          git tag -a $new_tag -m "$new_tag"
-          git push origin $new_tag
+          git tag -a ${{ env.new_tag }} -m "${{ env.new_tag }}"
+          git push origin ${{ env.new_tag }}
 
           # リリースを作成（自動生成されたリリースノート付き）
-          gh release create "$new_tag" \
-            --repo="$GITHUB_REPOSITORY" \
-            --title="$new_tag" \
+          gh release create ${{ env.new_tag }} \
+            --repo="${{ github.repository }}" \
+            --title="${{ env.new_tag }}" \
             --latest \
             --generate-notes
-
-  trigger-release:
-    needs:
-      - release
-    uses: ./.github/workflows/date.yaml
-    with:
-      version: ${{ needs.release.outputs.new_tag }}
