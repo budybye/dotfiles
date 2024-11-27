@@ -144,6 +144,7 @@ packages:
       - 'xfce4-goodies'
       - 'xrdp'
       - 'xorgxrdp'
+      - 'dbus-x11'
         # - 'pulseaudio'
       - 'libpulse-dev'
       - 'gnome-keyring'

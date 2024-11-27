@@ -1,5 +1,5 @@
 #cloud-config
-hostname: 101
+hostname: ras
 manage_etc_hosts: true
 packages:
 - avahi-daemon

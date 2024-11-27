@@ -67,5 +67,8 @@ packages:
   - xfce4-goodies
   - xrdp
 runcmd:
+  - sudo chsh -s /usr/bin/zsh ubuntu
   - sudo sh -c "$(curl -fsSL get.chezmoi.io) -- -b /usr/local/bin"
   - sudo systemctl enable xrdp
+  - echo "export VM=true" >> ~/.profile && . ~/.profile
+  - chezmoi init budybye

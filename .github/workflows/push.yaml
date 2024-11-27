@@ -45,6 +45,7 @@ jobs:
         uses: docker/setup-qemu-action@v3
 
       - name: Docker meta
+        if: matrix.flavor.name == 'slim'
         id: meta
         uses: docker/metadata-action@v5
         with:

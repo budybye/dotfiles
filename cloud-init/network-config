@@ -5,5 +5,5 @@ wifis:
         dhcp4: true
         optional: true
         access-points:
-            " { SSID }":
-                password: "{ passward }"
+            "${SSID}":
+                password: "${PASSWORD}"
