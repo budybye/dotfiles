@@ -1,4 +1,4 @@
-name: Tag
+name: Tag and Release
 
 on:
   push:
@@ -9,20 +9,20 @@ jobs:
   test:
     uses: ./.github/workflows/test.yaml
 
-  tags:
-    needs: test  # テストジョブが成功した後に実行
+  release:
+    needs: test
     runs-on: ubuntu-latest
     permissions:
-      contents: read
-      packages: write
+      contents: write  # リリースを作成するために必要
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Get latest tag increment and repush
-        id: tag
+      - name: Create tag and release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git fetch --tags
           latest_tag=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
@@ -30,5 +30,15 @@ jobs:
           IFS='.' read -r major minor patch <<< "$version"
           new_patch=$((patch + 1))
           new_tag="v$major.$minor.$new_patch"
+
+          # タグを作成してプッシュ
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
           git tag -a $new_tag -m "Release $new_tag"
           git push origin $new_tag
+
+          # リリースを作成（自動生成されたリリースノート付き）
+          gh release create "$new_tag" \
+            --repo="$GITHUB_REPOSITORY" \
+            --title="Release $new_tag" \
+            --generate-notes
