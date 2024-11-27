@@ -50,6 +50,16 @@ jobs:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY_IMAGE }}
+          tags: |
+            type=semver,pattern=${{ github.ref_name }}
+          labels: |
+            org.opencontainers.image.description=${{ matrix.platform }}-${{ matrix.flavor.name }}
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
         with:
@@ -69,33 +79,28 @@ jobs:
         with:
           context: .devcontainer
           platforms: ${{ matrix.platform }}
-          build-args: USE_BEDROCK=${{ matrix.flavor.use_bedrock }}
           cache-from: type=registry,ref=${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }}-${{ matrix.flavor.name }}
           cache-to: type=registry,ref=${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }}-${{ matrix.flavor.name }},mode=max
+          labels: ${{ steps.meta.outputs.labels }}
           outputs: type=image,name=${{ env.REGISTRY_IMAGE }},push-by-digest=true,name-canonical=true,push=true
 
-      - name: Build and push devcontainer
+      - name: Build devcontainer
         if: matrix.flavor.name == 'dev'
         id: devcontainer
         uses: devcontainers/ci@v0.3
         with:
           imageName: ${{ env.REGISTRY_IMAGE }}
           imageTag: ${{ env.PLATFORM_PAIR }}-${{ matrix.flavor.name }}
-          # platform: ${{ matrix.platform }}
           cacheFrom: |
             ${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }}-${{ matrix.flavor.name }}
-          # env: |
-          #   USE_BEDROCK: true
-          #   TARGETPLATFORM: ${{ matrix.platform }}
-          # push: always
+          # platform: ${{ matrix.platform }}
           push: never
           runCmd: |
             env
             ls -la
-            dpkg --print-architecture
             uname -a
 
-      - name: Push & tmp devcontainer digest
+      - name: Dev push by digest
         if: matrix.flavor.name == 'dev'
         run: |
           /usr/bin/docker push ${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }}-${{ matrix.flavor.name }} | \
@@ -126,7 +131,7 @@ jobs:
           if-no-files-found: error
           retention-days: 1
 
-      - name: Docker compose test
+      - name: Docker compose action
         if: matrix.flavor.name == 'slim'
         uses: hoverkraft-tech/compose-action@v2.0.2
         with:
@@ -136,7 +141,7 @@ jobs:
             portainer
             ipfs
 
-      - name: Test
+      - name: Docker compose test
         if: matrix.flavor.name == 'slim'
         run: |
           docker ps -a
@@ -171,8 +176,8 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY_IMAGE }}
-          # tags: |
-          #   type=semver,pattern=${{ github.ref_name }}
+          tags: |
+            type=semver,pattern=${{ github.ref_name }}
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
