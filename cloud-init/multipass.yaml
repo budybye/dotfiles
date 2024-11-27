@@ -66,6 +66,8 @@ packages:
   - xfce4
   - xfce4-goodies
   - xrdp
+  - dbus-x11
+  - xorgxrdp
 runcmd:
   - curl -fsSL get.chezmoi.io | sudo sh -s -- -b /usr/local/bin
   - sudo systemctl enable xrdp
