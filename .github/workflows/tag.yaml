@@ -1,5 +1,5 @@
 name: Tag and Release
-# mainブランチにpushされたら release.yml のバージョンを取得してタグを作成してリリースを作成する
+# mainブランチにpushされたら タグを作成してリリースを作成する
 on:
   push:
     branches:
@@ -18,11 +18,8 @@ jobs:
       - name: Create tag and release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
         run: |
-          # タグを取得
-          # new_tag=$(cat .github/release.yml | yq -r .version)
-          # echo "new tag: $new_tag"
-
           # タグを取得
           git fetch --tags
           version=$(git describe --tags --abbrev=0 2>/dev/null || echo "0.0.0")
@@ -40,5 +37,5 @@ jobs:
           gh release create "$new_tag" \
             --repo="$GITHUB_REPOSITORY" \
             --title="$new_tag" \
-            --latest
-            # --generate-notes
+            --latest \
+            --generate-notes

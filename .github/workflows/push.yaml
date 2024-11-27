@@ -51,9 +51,9 @@ jobs:
         with:
           images: ${{ env.REGISTRY_IMAGE }}
           tags: |
-            type=semver,pattern=${{ github.ref_name }}
+            type=semver,pattern=${{ github.ref_name }}-${{ env.PLATFORM_PAIR }}
           labels: |
-            org.opencontainers.image.description=${{ matrix.platform }}-${{ matrix.flavor.name }}
+            org.opencontainers.image.description=${{ matrix.platform }}
           annotations: |
             org.opencontainers.image.source=https://github.com/budybye/ubuntu-dev
             org.opencontainers.image.documentation=https://github.com/budybye/ubuntu-dev/blob/main/README.md

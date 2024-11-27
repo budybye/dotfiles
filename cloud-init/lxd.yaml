@@ -47,9 +47,11 @@ config:
       - xfce4-goodies
       - xrdp
     runcmd:
-      - su -c 'sh -c "$(curl -fsSL get.chezmoi.io)" -- -b /usr/local/bin' ubuntu
-      - git clone https://github.com/budybye/dotfiles.git ~/dotfiles
+      - sudo chsh -s /usr/bin/zsh ubuntu
+      - sudo sh -c "$(curl -fsSL get.chezmoi.io)" -- -b /usr/local/bin
       - sudo systemctl daemon-reload
+      - echo "export VM=true" >> ~/.profile && . ~/.profile
+      - chezmoi init budybye
 description: "ubuntu xrdp"
 devices: {}
 name: lxd

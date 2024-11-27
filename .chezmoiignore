@@ -5,7 +5,6 @@
 .ssh/id_ed25519.age
 .ssh/authorized_keys
 .ssh/id_rsa.age
-.ssh/id_rsa.pub.age
 
 {{ else if eq .name "dev" -}}
 data
@@ -17,6 +16,7 @@ data
 {{ else if eq .chezmoi.os "linux" -}}
 .config/Brewfile*
 .config/karabiner
+.ssh/id_rsa.age
 
 {{ else -}}
 .config/*
