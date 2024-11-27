@@ -13,7 +13,8 @@ on:
     - cron: "20 7 * * *"
 
 env:
-  REGISTRY_IMAGE: ghcr.io/budybye/ubuntu-dev
+#  REGISTRY_IMAGE: ghcr.io/budybye/ubuntu-dev
+  REGISTRY_IMAGE: ghcr.io/budybye/dotfiles/ubuntu-dev
 
 jobs:
 
