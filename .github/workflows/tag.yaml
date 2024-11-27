@@ -12,6 +12,9 @@ jobs:
   tags:
     needs: test  # テストジョブが成功した後に実行
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
