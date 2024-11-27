@@ -43,7 +43,7 @@ jobs:
         with:
           images: ${{ env.REGISTRY_IMAGE }}
           tags: |
-            type=semver,pattern=${{ env.VERSION }}-${{ env.PLATFORM_PAIR }}
+            type=semver,pattern=${{ github.ref_name }}-${{ env.PLATFORM_PAIR }}
           labels: |
             org.opencontainers.image.description=${{ matrix.platform }}
           annotations: |
@@ -69,6 +69,7 @@ jobs:
         with:
           context: .devcontainer
           platforms: ${{ matrix.platform }}
+          tags: ${{ env.VERSION }}-${{ env.PLATFORM_PAIR }}
           cache-from: type=registry,ref=${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }}-${{ matrix.flavor.name }}
           cache-to: type=registry,ref=${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }}-${{ matrix.flavor.name }},mode=max
           labels: ${{ steps.meta.outputs.labels }}
