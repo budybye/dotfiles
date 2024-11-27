@@ -7,7 +7,7 @@ on:
 
 jobs:
   test:
-    uses: ./.github/workflows/test.yaml
+    uses: ./.github/workflows/test.yaml@main
 
   tags:
     needs: test  # テストジョブが成功した後に実行
@@ -30,5 +30,5 @@ jobs:
           IFS='.' read -r major minor patch <<< "$version"
           new_patch=$((patch + 1))
           new_tag="v$major.$minor.$new_patch"
-          git tag $new_tag
+          git tag -a $new_tag -m "Release $new_tag"
           git push origin $new_tag

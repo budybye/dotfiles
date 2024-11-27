@@ -187,10 +187,10 @@ jobs:
         if: matrix.flavor.name == 'slim'
         working-directory: /tmp/digests
         run: |
-          tags=$(jq -cr '.tags | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON")
-          docker buildx imagetools create $tags \
+          tag=$(jq -cr '.tags[0]' <<< "$DOCKER_METADATA_OUTPUT_JSON")
+          docker buildx imagetools create $tag \
           $(printf '${{ env.REGISTRY_IMAGE }}@sha256:%s ' *)
-          docker buildx imagetools inspect ${{ env.REGISTRY_IMAGE }}:${{ steps.meta.outputs.version }}
+          docker buildx imagetools inspect ${{ env.REGISTRY_IMAGE }}:$tag
 
       - name: dev Create manifest list and push
         if: matrix.flavor.name == 'dev'
