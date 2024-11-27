@@ -28,7 +28,7 @@ jobs:
           version=$(git describe --tags --abbrev=0 2>/dev/null || echo "0.0.0")
           IFS='.' read -r major minor patch <<< "$version"
           new_patch=$((patch + 1))
-          new_tag="v$major.$minor.$new_patch"
+          new_tag="$major.$minor.$new_patch"
 
           # タグを作成してプッシュ
           git config --global user.email "github-actions[bot]@users.noreply.github.com"

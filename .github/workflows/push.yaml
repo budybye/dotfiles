@@ -195,8 +195,8 @@ jobs:
         if: matrix.flavor.name == 'dev'
         working-directory: /tmp/digests
         run: |
-          docker buildx imagetools create -t ${{ env.REGISTRY_IMAGE }}:dev \
+          docker buildx imagetools create -t ${{ env.REGISTRY_IMAGE }}:${{ matrix.flavor.name }} \
            $(printf '${{ env.REGISTRY_IMAGE }}@sha256:%s ' *)
 
           # マニフェストリストを確認
-          docker buildx imagetools inspect ${{ env.REGISTRY_IMAGE }}:dev
+          docker buildx imagetools inspect ${{ env.REGISTRY_IMAGE }}:${{ matrix.flavor.name }}
