@@ -6,7 +6,7 @@ on:
       - main
     tags:
       - "*"
-  workflow_dispatch:
+  # workflow_dispatch:
 
   schedule:
     # 日本時間(UTC+9) 16:20に実行
