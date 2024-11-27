@@ -9,6 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write  # リリースを作成するために必要
+    outputs:
+      new_tag: ${{ env.new_tag }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -26,6 +28,7 @@ jobs:
           IFS='.' read -r major minor patch <<< "$version"
           new_patch=$((patch + 1))
           new_tag="$major.$minor.$new_patch"
+          echo "new_tag=$new_tag" >> $GITHUB_OUTPUT
 
           # タグを作成してプッシュ
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
@@ -39,3 +42,10 @@ jobs:
             --title="$new_tag" \
             --latest \
             --generate-notes
+
+  trigger-release:
+    needs:
+      - release
+    uses: ./.github/workflows/date.yaml
+    with:
+      version: ${{ needs.release.outputs.new_tag }}
