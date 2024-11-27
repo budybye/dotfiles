@@ -28,7 +28,7 @@ jobs:
           IFS='.' read -r major minor patch <<< "$version"
           new_patch=$((patch + 1))
           new_tag="$major.$minor.$new_patch"
-          echo "new_tag=$new_tag" >> $GITHUB_OUTPUT
+          echo "new_tag=$new_tag" >> $GITHUB_ENV
 
           # タグを作成してプッシュ
           git config --global user.email "github-actions[bot]@users.noreply.github.com"

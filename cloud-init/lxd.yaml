@@ -46,7 +46,7 @@ config:
       - xfce4
       - xfce4-goodies
     runcmd:
-      - curl -fsSL get.chezmoi.io | sudo sh -s -- -b /usr/local/bin
+      - sudo sh -c "$(curl -fsSL get.chezmoi.io)" -- -b /usr/local/bin
       - echo "export VM=true" >> ~/.profile && source ~/.profile
 description: "ubuntu xrdp"
 devices: {}
