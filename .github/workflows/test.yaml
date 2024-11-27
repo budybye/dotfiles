@@ -83,6 +83,13 @@ jobs:
           annotations: ${{ steps.meta.outputs.annotations }}
           outputs: type=image,name=${{ env.REGISTRY_IMAGE }},push-by-digest=true,name-canonical=true,push=true
 
+      - name: Set slim digest
+        if: matrix.flavor.name == 'slim'
+        run: |
+          mkdir -p /tmp/digests
+          digest="${{ steps.build.outputs.digest }}"
+          touch "/tmp/digests/${digest#sha256:}"
+
       - name: Build devcontainer
         if: matrix.flavor.name == 'dev'
         id: devcontainer
@@ -111,13 +118,6 @@ jobs:
           mkdir -p /tmp/digests
           digest=$(cat /tmp/devcontainer-cache)
           touch "/tmp/digests/${digest}"
-
-      - name: Set slim digest
-        if: matrix.flavor.name == 'slim'
-        run: |
-          mkdir -p /tmp/digests
-          digest="${{ steps.build.outputs.digest }}"
-          touch "/tmp/digests/${digest#sha256:}"
 
       - name: Upload digest
         uses: actions/upload-artifact@v4
