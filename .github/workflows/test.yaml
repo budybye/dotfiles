@@ -23,20 +23,15 @@ jobs:
     permissions:
       contents: read
       packages: write
-
     strategy:
       fail-fast: false
       matrix:
         platform:
           - linux/amd64
           - linux/arm64
-
         flavor:
           - name: slim
-            use_bedrock: false
           - name: dev
-            use_bedrock: true
-
     steps:
       - name: Prepare
         run: |
@@ -97,7 +92,6 @@ jobs:
           push: never
           runCmd: |
             env
-            ls -la
             uname -a
 
       - name: Dev push by digest
@@ -113,7 +107,6 @@ jobs:
           mkdir -p /tmp/digests
           digest=$(cat /tmp/devcontainer-cache)
           touch "/tmp/digests/${digest}"
-          ls -la /tmp/digests
 
       - name: Set slim digest
         if: matrix.flavor.name == 'slim'
@@ -121,7 +114,6 @@ jobs:
           mkdir -p /tmp/digests
           digest="${{ steps.build.outputs.digest }}"
           touch "/tmp/digests/${digest#sha256:}"
-          ls -la /tmp/digests
 
       - name: Upload digest
         uses: actions/upload-artifact@v4
@@ -176,8 +168,8 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY_IMAGE }}
-          tags: |
-            type=semver,pattern=${{ github.ref_name }}
+          # tags: |
+          #   type=semver,pattern=${{ github.ref_name }}
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
