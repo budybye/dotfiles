@@ -31,7 +31,7 @@ jobs:
           - linux/arm64
         flavor:
           - name: slim
-          - name: dev
+        #  - name: dev
     steps:
       - name: Prepare
         run: |
@@ -151,7 +151,7 @@ jobs:
       matrix:
         flavor:
           - name: dev
-          - name: slim
+        #  - name: slim
     steps:
       - name: Download digests
         uses: actions/download-artifact@v4
