@@ -39,5 +39,5 @@ jobs:
           gh release create "$new_tag" \
             --repo="$GITHUB_REPOSITORY" \
             --title="$new_tag" \
-            # --generate-notes
             --latest
+            # --generate-notes
