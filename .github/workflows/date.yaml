@@ -43,7 +43,7 @@ jobs:
         with:
           images: ${{ env.REGISTRY_IMAGE }}
           tags: |
-            type=semver,pattern=${{ inputs.version }}-${{ env.PLATFORM_PAIR }}
+            type=semver,pattern=${{ env.VERSION }}-${{ env.PLATFORM_PAIR }}
           labels: |
             org.opencontainers.image.description=${{ matrix.platform }}
           annotations: |
@@ -182,7 +182,7 @@ jobs:
           docker buildx imagetools create $(jq -cr '.tags | map("-t " + .) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON") \
             $(printf '${{ env.REGISTRY_IMAGE }}@sha256:%s ' *)
           # マニフェストリストを確認
-          docker buildx imagetools inspect ${{ env.REGISTRY_IMAGE }}:${{ inputs.version }}
+          docker buildx imagetools inspect ${{ env.REGISTRY_IMAGE }}:${{ env.VERSION }}
 
       - name: dev Create manifest list and push
         if: matrix.flavor.name == 'dev'
@@ -196,3 +196,4 @@ jobs:
 
       - run: |
           date
+          echo ${{ env.VERSION }}
