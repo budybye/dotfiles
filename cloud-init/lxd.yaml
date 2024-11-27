@@ -45,8 +45,8 @@ config:
       - manpages-ja
     runcmd:
       - sudo sh -c "$(curl -fsSL get.chezmoi.io)" -- -b /usr/local/bin
-      - echo "export VM=true" >> ~/.profile && source ~/.profile
+      - echo "export VM=true" >> ~/.profile && . ~/.profile
 description: "ubuntu xrdp"
 devices: {}
-name: lxd
+name: ubuntu
 used_by: []
