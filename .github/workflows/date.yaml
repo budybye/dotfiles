@@ -3,6 +3,7 @@ on:
   workflow_call:
     inputs:
       version:
+        required: true
         type: string
 
 jobs:
@@ -12,4 +13,6 @@ jobs:
       - uses: actions/checkout@v4
       - run: |
           echo ${{ inputs.version }}
+          echo ${{ github.ref_name }}
+          echo ${{ env.new_tag }}
           date
