@@ -44,8 +44,8 @@ config:
       - language-pack-ja
       - manpages-ja
     runcmd:
-      - sudo sh -c "$(curl -fsSL get.chezmoi.io)" -- -b /usr/local/bin
-      - echo "export VM=true" >> ~/.profile && . ~/.profile
+      - su - ubuntu -c "sh -c \"$(curl -fsSL get.chezmoi.io)\" -- -b /usr/local/bin"
+      - echo 'export VM=true' >> ~/.profile && . ~/.profile
 description: "ubuntu xrdp"
 devices: {}
 name: ubuntu
