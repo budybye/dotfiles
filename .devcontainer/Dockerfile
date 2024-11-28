@@ -85,6 +85,12 @@ RUN apt-get remove -y light-locker xscreensaver && \
     apt-get clean && \
     rm -rf /var/cache/apt /var/lib/apt/lists/*
 
+RUN mkdir -p /var/run/dbus && \
+    cp /etc/X11/xrdp/xorg.conf /etc/X11 && \
+    sed -i "s/console/anybody/g" /etc/X11/Xwrapper.config && \
+    sed -i "s/xrdp\/xorg/xorg/g" /etc/xrdp/sesman.ini && \
+    echo "xfce4-session" >> /etc/skel/.Xsession
+
 ARG USER=docker
 ARG UID=1010
 ARG GID=$UID
@@ -125,12 +131,6 @@ RUN curl https://mise.run | sh && \
 
 EXPOSE 3389
 EXPOSE 22
-
-RUN mkdir -p /var/run/dbus && \
-    sudo cp /etc/X11/xrdp/xorg.conf /etc/X11 && \
-    sudo sed -i "s/console/anybody/g" /etc/X11/Xwrapper.config && \
-    sudo sed -i "s/xrdp\/xorg/xorg/g" /etc/xrdp/sesman.ini && \
-    sudo echo "xfce4-session" >> /etc/skel/.Xsession
 
 RUN im-config -n fcitx5 && \
     groupadd -f xrdp && \
