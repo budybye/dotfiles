@@ -45,6 +45,9 @@ config:
       - manpages-ja
       - xfce4
       - xfce4-goodies
+      - xrdp
+      - xorgxrdp
+      - dbus-x11
     runcmd:
       - curl -fsSL get.chezmoi.io | sudo sh -s -- -b /usr/local/bin
       - git clone https://github.com/budybye/dotfiles.git ~/dotfiles

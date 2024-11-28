@@ -50,7 +50,8 @@ jobs:
           lxc launch ubuntu:24.04 ubuntu -p default -p bob
           lxc exec ubuntu -- cloud-init status --wait || true
           lxc exec ubuntu -- tail -4 /var/log/cloud-init.log
-          lxc exec ubuntu -- cat ./.ssh/authorized_keys
+          lxc exec ubuntu -- cat /home/ubuntu/.ssh/authorized_keys
+          lxc exec ubuntu -- ls -la /home/ubuntu/dotfiles
           lxc exec ubuntu -- echo "$SHELL"
           lxc exec ubuntu -- uname -a
           # lxc launch ubuntu:24.04 ubuntu --config=user.user-data="$(cat cloud-init/multipass.yaml)"
