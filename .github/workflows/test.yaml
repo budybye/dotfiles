@@ -26,15 +26,56 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: wget
-        run: wget -O install.ps1 https://community.chocolatey.org/install.ps1
+      - name: Install winget
+        uses: Cyberboss/install-winget@v1
+        id: stepid
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          wget_release_id: latest
 
-      - name: powershell
+      - name: Install wingetcreate
         run: |
-          Set-ExecutionPolicy RemoteSigned -Scope CurrentUser; ./install.ps1
+          echo '${{ steps.stepid.outputs.winget-version }}'
+          winget install wingetcreate --disable-interactivity --accept-source-agreements
 
-      - name: scoop
-        run: scoop install make curl
+      - uses: Amadevus/pwsh-script@v2
+        id: script
+        with:
+          script: |
+            Write-ActionDebug "Visible only when ACTIONS_STEP_DEBUG secret is set"
+
+            # access full context objects:
+            if ($github.event.repository.full_name -ne $github.repository) {
+              # throwing causes the step to fail
+              throw "something fishy's going on, repos don't match"
+            }
+
+            $someData = Get-MyCustomData
+            # data may contain workflow command strings (e.g. '::warning::...')
+            # prevent runner interpreting these
+            Invoke-ActionNoCommandsBlock -GenerateToken {
+              # this won't result in any workflow commands
+              Write-Host $someData
+              Write-ActionError "not interpreted as error"
+            }
+            # commands work again
+
+            # set env:BE_AWESOME=always here and for the following steps
+            Set-ActionVariable BE_AWESOME always
+
+            # add our custom tool to PATH for the following steps:
+            $toolPath = Resolve-Path ./tools/bin
+            Add-ActionPath $toolPath
+
+            # warn if it's too late for people to work in Greenwich ;)
+            if ([datetime]::UtcNow.Hour -ge 22) {
+              Write-ActionWarning "It's time to go to bed. Don't write code late at night! ⚠"
+            }
+
+      - uses: MinoruSekine/setup-scoop@v4.0.1
+        with:
+          buckets: extras
+          apps: curl make git
 
       # - name: make
         # run: make init || true
@@ -56,7 +97,7 @@ jobs:
           lxc exec ubuntu -- cloud-init status --wait || true
           lxc exec ubuntu -- tail -4 /var/log/cloud-init.log
           lxc exec ubuntu -- cat /home/ubuntu/.ssh/authorized_keys
-          lxc exec ubuntu -- ls -la /home/ubuntu
+          lxc exec ubuntu -- ls -la /home/ubuntu/dotfiles
           lxc exec ubuntu -- echo "$SHELL"
           lxc exec ubuntu -- uname -a
           # lxc launch ubuntu:24.04 ubuntu --config=user.user-data="$(cat cloud-init/multipass.yaml)"
