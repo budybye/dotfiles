@@ -20,7 +20,7 @@ if ! command -v yt-dlp &> /dev/null; then
         sudo apt-get install -y ffmpeg yt-dlp
     {{ end }}
 fi
-echo "yt-dlp is installed"
+echo "yt-dlp installed"
 
 # ダウンロード先ディレクトリの存在しなければダウンロード
 if [ ! -d "$PLAYLIST_DIR" ]; then
@@ -43,4 +43,5 @@ fi
 # ダウンロードしたファイルの一覧を表示
 ls -l "$PLAYLIST_DIR"
 echo "--------------------------------"
+
 {{ end }}
