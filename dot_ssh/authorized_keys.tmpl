@@ -1,6 +1,15 @@
+{{ range gitHubKeys "budybye" }}
+{{- .Key -}}
+{{ end }}
+{{ range gitHubKeys "boborder" }}
+{{- .Key -}}
+{{ end }}
+
+{{/*
 {{ range gitHubKeys "budybye" -}}
 {{   .Key }}
 {{ end -}}
 {{ range gitHubKeys "boborder" -}}
 {{   .Key }}
 {{ end -}}
+*/}}

@@ -7,6 +7,7 @@ services:
     platform: linux/${ARCH:-"$(dpkg --print-architecture)"}
     networks:
       - local
+      - v6
     ports:
       - 3389:3389 # RDP
     tty: true
@@ -16,8 +17,10 @@ services:
     container_name: portainer
     networks:
       - local
+      - v6
     ports:
       - 8000:8000
+      - 9000:9000
       - 9443:9443 # https://localhost:9443
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
@@ -30,6 +33,7 @@ services:
     restart: unless-stopped
     networks:
       - local
+      - v6
     command:
       - tunnel
       - run
@@ -43,6 +47,7 @@ services:
     container_name: ipfs
     networks:
       - local
+      - v6
     ports:
       - 4001:4001
       - 8080:8080
@@ -57,6 +62,11 @@ services:
 networks:
   local:
     driver: bridge
+  v6:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: fffe:1234:ccdd::/32
 
 volumes:
   dev_data:

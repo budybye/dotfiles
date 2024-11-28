@@ -9,15 +9,15 @@ dev: bw init
 init:
 	chmod +x ./install && ./install
 up:
-	docker compose up -f .devcontainer/docker-compose.yaml -d
+	cd .devcontainer && docker compose up -d && cd ..
 down:
-	docker compose down -f .devcontainer/docker-compose.yaml
+	cd .devcontainer && docker compose down && cd ..
 ipfs:
-	docker compose -f .devcontainer/docker-compose.yaml exec ipfs ipfs add -r /data
+	cd .devcontainer && docker compose exec ipfs ipfs add -r $(HOME)/data && cd ..
 exec:
-	docker compose -f .devcontainer/docker-compose.yaml exec ubuntu /bin/bash
+	cd .devcontainer && docker compose exec ubuntu /bin/bash
 ubuntu:
-	multipass launch -n ubuntu -c 4 -m 8G -d 42G  --timeout 3600 --cloud-init ./cloud-init/multipass.yaml && multipass exec ubuntu -- tail -2 /var/log/cloud-init.log
+	multipass launch -n ubuntu -c 4 -m 8G -d 42G  --timeout 3600 --cloud-init cloud-init/multipass.yaml && multipass exec ubuntu -- tail -2 /var/log/cloud-init.log
 ssh:
 	ssh ubuntu@$(multipass info ubuntu --format json | jq -r '.[0].ipv4[0]')
 git:
