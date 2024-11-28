@@ -55,6 +55,7 @@ config:
       - sudo groupadd -f ssl-cert
       - sudo groupadd -f xrdp
       - sudo usermod -aG ssl-cert,xrdp ubuntu
+      - echo "xfce4-session" > ~/.xsession
       - sudo update-alternatives --set x-session-manager /usr/bin/xfce4-session
       - sudo systemctl enable xrdp
 devices: {}

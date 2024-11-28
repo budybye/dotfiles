@@ -76,11 +76,11 @@ RUN im-config -n fcitx5 && \
     groupadd -f audio && \
     groupadd -f docker && \
     sudo usermod -aG input,xrdp,audio,ssl-cert,docker $USER && \
-    sudo systemctl enable xrdp && \
     echo "xfce4-session" > ~/.xsession && \
     echo "dbus-launch --exit-with-session usr/bin/xfce4-session" > ~/.startwm.sh && \
     chmod 755 ~/.startwm.sh && \
-    sudo update-alternatives --set x-session-manager /usr/bin/xfce4-session
+    sudo update-alternatives --set x-session-manager /usr/bin/xfce4-session && \
+    sudo systemctl enable xrdp
 
 # COPY ../install $HOME/bin/install
 # RUN chmod +x $HOME/bin/install
