@@ -45,7 +45,7 @@ config:
       - manpages-ja
     runcmd:
       - curl -fsSL get.chezmoi.io | sudo sh -s -- -b /usr/local/bin
-      - chezmoi init budybye
+      - git clone https://github.com/budybye/dotfiles.git ~/dotfiles
 devices: {}
 name: ubuntu
 used_by: []

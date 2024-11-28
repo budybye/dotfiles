@@ -34,7 +34,7 @@ jobs:
 
           # リリースを作成（自動生成されたリリースノート付き）
           gh release create "$new_tag" \
-            --repo="${{ github.repository }}" \
             --title="$new_tag" \
+            --notes="$(date)" \
             --latest \
             --generate-notes
