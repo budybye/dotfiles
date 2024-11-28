@@ -20,7 +20,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # タグを取得
-          git fetch --tags
+          git fetch --tags origin
           version=$(git describe --tags --abbrev=0 2>/dev/null || echo "0.0.0")
           IFS='.' read -r major minor patch <<< "$version"
           new_patch=$((patch + 1))
@@ -36,5 +36,6 @@ jobs:
           gh release create "$new_tag" \
             --title="$new_tag" \
             --notes="$(date)" \
+            --notes-from-tag \
             --latest \
             --generate-notes

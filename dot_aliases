@@ -22,7 +22,7 @@ fi
 
 if command -v git >/dev/null 2>&1; then
     alias g="git"
-    alias bit='g add -A && g commit --allow-empty-message -m "" && g push origin $(g branch | sed -n -e "s/^\* \(.*\)/\1/p")'
+    alias bit='g add -A && g commit --allow-empty-message -m "♨️" && g push origin $(g branch | sed -n -e "s/^\* \(.*\)/\1/p")'
 fi
 
 if command -v curl >/dev/null 2>&1; then
