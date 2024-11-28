@@ -19,17 +19,24 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # タグを取得
+          # 最新のタグを取得
           git fetch --tags origin
-          version=$(git describe --tags --abbrev=0 2>/dev/null || echo "0.0.0")
-          IFS='.' read -r major minor patch <<< "$version"
+          latest_tag=$(git tag -l | sort -V | tail -n1)
+          if [ -z "$latest_tag" ]; then
+            latest_tag="0.0.0"
+          fi
+          echo "最新のタグ: $latest_tag"
+
+          # バージョン番号を増やす
+          IFS='.' read -r major minor patch <<< "$latest_tag"
           new_patch=$((patch + 1))
           new_tag="$major.$minor.$new_patch"
+          echo "新しいタグ: $new_tag"
 
           # タグを作成してプッシュ
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
-          git tag -a $new_tag -m "$new_tag"
+          git tag $new_tag
           git push origin $new_tag
 
           # リリースを作成（自動生成されたリリースノート付き）
