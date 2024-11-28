@@ -116,20 +116,21 @@ RUN sudo sh -c "$(curl -fsSL get.chezmoi.io)" -- -b /usr/local/bin
 RUN git clone https://github.com/budybye/dotfiles.git ${HOME}/dotfiles
 
 RUN curl https://mise.run | sh && \
-    ${HOME}/.local/bin/mise use -g node@20.18.1 && \
-    ${HOME}/.local/share/mise/installs/node/20.18.1/bin/npm i -g @bitwarden/cli && \
-    export PATH=${HOME}/.local/share/mise/shims:${HOME}/.local/share/mise/installs/node/20.18.1/bin:${PATH} && \
-    echo "${PATH}" >> ~/.bashrc && \
+    export PATH=${HOME}/.local/bin:${PATH} && \
+    mise use -g node@20.18.1 && \
+    export PATH=${HOME}/.local/share/mise/shims:${PATH} && \
+    export PATH=${HOME}/.local/share/mise/installs/node/20.18.1/bin:${PATH} && \
+    npm i -g @bitwarden/cli && \
     bw --version || echo "bw command not found"
 
 EXPOSE 3389
 EXPOSE 22
 
 RUN mkdir -p /var/run/dbus && \
-    cp /etc/X11/xrdp/xorg.conf /etc/X11 && \
-    sed -i "s/console/anybody/g" /etc/X11/Xwrapper.config && \
-    sed -i "s/xrdp\/xorg/xorg/g" /etc/xrdp/sesman.ini && \
-    echo "xfce4-session" >> /etc/skel/.Xsession
+    sudo cp /etc/X11/xrdp/xorg.conf /etc/X11 && \
+    sudo sed -i "s/console/anybody/g" /etc/X11/Xwrapper.config && \
+    sudo sed -i "s/xrdp\/xorg/xorg/g" /etc/xrdp/sesman.ini && \
+    sudo echo "xfce4-session" >> /etc/skel/.Xsession
 
 RUN im-config -n fcitx5 && \
     groupadd -f xrdp && \
