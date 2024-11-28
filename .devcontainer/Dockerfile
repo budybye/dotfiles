@@ -3,16 +3,6 @@ FROM ubuntu:24.04
 ENV DEBIAN_FRONTEND=noninteractive
 ENV DOCKER=true
 
-ENV TZ=Asia/Tokyo
-ENV LANG=ja_JP.UTF-8
-ENV LC_ALL=ja_JP.UTF-8
-ENV LANGUAGE=ja_JP:ja
-
-RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezone && \
-    echo LANGUAGE=${LANGUAGE} >> /etc/default/locale && \
-    echo LANG=${LANG} >> /etc/default/locale && \
-    echo LC_ALL=${LC_ALL} >> /etc/default/locale
-
 RUN apt-get -y update
 RUN apt-get -y upgrade
 
@@ -22,7 +12,19 @@ RUN apt-get install -y \
     manpages-ja \
     tzdata \
     fcitx5-mozc \
-    im-config
+    im-config \
+    locales
+
+ENV TZ=Asia/Tokyo
+ENV LANG=ja_JP.UTF-8
+ENV LC_ALL=ja_JP.UTF-8
+ENV LANGUAGE=ja_JP:ja
+
+RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezone && \
+    locale-gen ja_JP.UTF-8 && \
+    echo LANGUAGE=${LANGUAGE} >> /etc/default/locale && \
+    echo LANG=${LANG} >> /etc/default/locale && \
+    echo LC_ALL=${LC_ALL} >> /etc/default/locale
 
 RUN apt-get install -y \
     xfce4 \
@@ -38,8 +40,7 @@ RUN apt-get install -y \
     xsel \
     openssh-server \
     ufw \
-    sudo \
-    locales
+    sudo
 
 RUN apt-get install -y \
     zsh \
@@ -84,10 +85,6 @@ RUN apt-get remove -y light-locker xscreensaver && \
     apt-get clean && \
     rm -rf /var/cache/apt /var/lib/apt/lists/*
 
-RUN locale-gen ja_JP.UTF-8 && \
-    echo "export LANG=ja_JP.UTF-8" >> ~/.bashrc && \
-    . ~/.bashrc
-
 ARG USER=docker
 ARG UID=1010
 ARG GID=$UID
@@ -128,7 +125,7 @@ RUN curl https://mise.run | sh && \
 EXPOSE 3389
 EXPOSE 22
 
-RUN mkdir /var/run/dbus && \
+RUN mkdir -p /var/run/dbus && \
     cp /etc/X11/xrdp/xorg.conf /etc/X11 && \
     sed -i "s/console/anybody/g" /etc/X11/Xwrapper.config && \
     sed -i "s/xrdp\/xorg/xorg/g" /etc/xrdp/sesman.ini && \
