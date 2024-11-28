@@ -117,17 +117,29 @@ fi
 
 if command -v docker >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/docker" "${XDG_DATA_HOME}/docker/machine"
-    export DOCKER_CONFIG="${XDG_CONFIG_HOME}/docker"
-    # export DOCKER_CONTEXT="default"
-    # export DOCKER_HOST="unix:///var/run/docker.sock"
     export MACHINE_STORAGE_PATH="${XDG_DATA_HOME}/docker/machine"
+    # export DOCKER_CONTEXT="default"
+    export DOCKER_CONFIG="${XDG_CONFIG_HOME}/docker"
+    if [ -f /var/run/docker.sock ]; then
+        export DOCKER_HOST="unix:///var/run/docker.sock"
+    fi
 fi
 
 if command -v npm >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/npm" "${XDG_DATA_HOME}/node"
     export NPM_CONFIG_USERCONFIG="${XDG_CONFIG_HOME}/npm/npmrc"
     export NODE_REPL_HISTORY="${XDG_DATA_HOME}/node/node_repl_history"
-    #export store-dir="${XDG_DATA_HOME}/pnpm-store"
+fi
+
+if command -v pnpm >/dev/null 2>&1; then
+    mkdir -p "${XDG_DATA_HOME}/pnpm"
+    export PNPM_HOME="${XDG_DATA_HOME}/pnpm"
+    export store-dir="${XDG_DATA_HOME}/pnpm-store"
+fi
+
+if command -v bun >/dev/null 2>&1; then
+    mkdir -p "${XDG_DATA_HOME}/bun"
+    export BUN_INSTALL="${XDG_DATA_HOME}/bun"
 fi
 
 if command -v mkcert >/dev/null 2>&1; then
@@ -135,11 +147,18 @@ if command -v mkcert >/dev/null 2>&1; then
     export NODE_EXTRA_CA_CERTS
 fi
 
+if command -v gpg >/dev/null 2>&1; then
+    mkdir -p "${XDG_DATA_HOME}/gnupg"
+    export GNUPGHOME="${XDG_DATA_HOME}/gnupg"
+fi
+
 if command -v go >/dev/null 2>&1; then
-    mkdir -p "${XDG_DATA_HOME}/go"
+    mkdir -p "${XDG_DATA_HOME}/go" "${XDG_CACHE_HOME}/go/mod"
     export GOPATH="${XDG_DATA_HOME}/go"
     # export GOPATH="${HOME}/.go"
     export GOROOT="${GOPATH}"
+    export GOMODCACHE="${XDG_CACHE_HOME}/go/mod"
+    export GOCACHE="${XDG_CACHE_HOME}/go/go-build"
     export PATH="${GOPATH}/bin:${PATH}"
 fi
 
@@ -184,26 +203,34 @@ if command -v java >/dev/null 2>&1; then
     export _JAVA_OPTIONS="-Djava.util.prefs.userRoot=${XDG_CONFIG_HOME}/java"
     export MAVEN_HOME="${XDG_CONFIG_HOME}/maven"
     export MAVEN_CONFIG="${XDG_CONFIG_HOME}/maven"
-    #mvn -gs "${XDG_CONFIG_HOME}/maven/settings.xml"
+    mvn -gs "${XDG_CONFIG_HOME}/maven/settings.xml"
 fi
 
-#mkdir -p "${XDG_CONFIG_HOME}/pg" && mkdir -p "${XDG_CACHE_HOME}/pg"
-#export PSQLRC="${XDG_CONFIG_HOME}/pg/psqlrc"
-#export PGPASSFILE="${XDG_CONFIG_HOME}/pg/pgpass"
-#export PGSERVICEFILE="${XDG_CONFIG_HOME}/pg/pg_service.conf"
-#export PSQL_HISTORY="${XDG_CACHE_HOME}/pg/psql_history"
+if command -v psql >/dev/null 2>&1; then
+    mkdir -p "${XDG_CONFIG_HOME}/pg" "${XDG_CACHE_HOME}/pg"
+    export PSQLRC="${XDG_CONFIG_HOME}/pg/psqlrc"
+    export PGPASSFILE="${XDG_CONFIG_HOME}/pg/pgpass"
+    export PGSERVICEFILE="${XDG_CONFIG_HOME}/pg/pg_service.conf"
+    export PSQL_HISTORY="${XDG_CACHE_HOME}/pg/psql_history"
+fi
 
-#mkdir -p "${XDG_CONFIG_HOME}/redis"
-#export REDISCLI_HISTFILE="${XDG_DATA_HOME}/redis/rediscli_history"
-#export REDISCLI_RCFILE="${XDG_CONFIG_HOME}/redis/redisclirc"
+if command -v redis-cli >/dev/null 2>&1; then
+    mkdir -p "${XDG_CONFIG_HOME}/redis" "${XDG_DATA_HOME}/redis"
+    export REDISCLI_HISTFILE="${XDG_DATA_HOME}/redis/rediscli_history"
+    export REDISCLI_RCFILE="${XDG_CONFIG_HOME}/redis/redisclirc"
+fi
 
-#mkdir -p "${XDG_DATA_HOME}/wineprefixes"
-#export WINEPREFIX="${XDG_DATA_HOME}/wineprefixes/default"
+if command -v wine >/dev/null 2>&1; then
+    mkdir -p "${XDG_DATA_HOME}/wineprefixes"
+    export WINEPREFIX="${XDG_DATA_HOME}/wineprefixes/default"
+fi
 
-#mkdir -p "${XDG_CONFIG_HOME}/android"
-#export ANDROID_HOME="${HOME}/Library/Android/sdk"
-#export ANDROID_USER_HOME="${XDG_CONFIG_HOME}/android"
-# export PATH="${ANDROID_HOME}/bin:${PATH}"
+# if command -v android >/dev/null 2>&1; then
+#     mkdir -p "${XDG_CONFIG_HOME}/android"
+#     export ANDROID_HOME="${HOME}/Library/Android/sdk"
+#     # export ANDROID_USER_HOME="${XDG_CONFIG_HOME}/android"
+#     export PATH="${ANDROID_HOME}/bin:${PATH}"
+# fi
 
 if command -v vim >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/vim" "${XDG_CONFIG_HOME}/nvim"
@@ -211,10 +238,13 @@ if command -v vim >/dev/null 2>&1; then
     export VIMINIT='let $MYVIMRC = !has("nvim") ? "${XDG_CONFIG_HOME}/vim/vimrc" : "${XDG_CONFIG_HOME}/nvim/init.vim" | source $MYVIMRC'
 fi
 
-# mkdir -p "${XDG_CONFIG_HOME}/spacemacs"
-# export SPACEMACSDIR="${XDG_CONFIG_HOME}/spacemacs"
-# mv ~/.spacemacs "$SPACEMACSDIR/init.el"
-
+if command -v spacemacs >/dev/null 2>&1; then
+    mkdir -p "${XDG_CONFIG_HOME}/spacemacs"
+    export SPACEMACSDIR="${XDG_CONFIG_HOME}/spacemacs"
+    if [ -f "${HOME}/.spacemacs" ]; then
+        mv "${HOME}/.spacemacs" "${SPACEMACSDIR}/init.el"
+    fi
+fi
 
 if command -v byobu >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/byobu"
@@ -237,7 +267,65 @@ if command -v zoxide >/dev/null 2>&1; then
     export Z_DATA="${XDG_DATA_HOME}/z"
 fi
 
+if command -v rg >/dev/null 2>&1; then
+    mkdir -p "${XDG_CONFIG_HOME}/ripgrep"
+    export RIPGREP_CONFIG_PATH="${XDG_CONFIG_HOME}/ripgrep/config"
+fi
+
 if command -v ffmpeg >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/ffmpeg"
     export FFMPEG_DATADIR="${XDG_CONFIG_HOME}/ffmpeg"
+fi
+
+if command -v kubectl >/dev/null 2>&1; then
+    mkdir -p "${XDG_CONFIG_HOME}/kube" "${XDG_CACHE_HOME}/kube"
+    export KUBECONFIG="${XDG_CONFIG_HOME}/kube"
+    export KUBECACHEDIR="${XDG_CACHE_HOME}/kube"
+fi
+
+if command -v minikube >/dev/null 2>&1; then
+    mkdir -p "${XDG_DATA_HOME}/minikube"
+    export MINIKUBE_HOME="${XDG_DATA_HOME}/minikube"
+fi
+
+if command -v conan >/dev/null 2>&1; then
+    mkdir -p "${XDG_CONFIG_HOME}/conan"
+    export CONAN_USER_HOME="${XDG_CONFIG_HOME}/conan"
+fi
+
+if [ -z "${XDG_SESSION_TYPE}" == x11 ]; then
+    mkdir -p "${XDG_CACHE_HOME}/x11" "${XDG_CONFIG_HOME}/x11"
+    export USERXSESSION="${XDG_CACHE_HOME}/x11/xsession"
+    export USERXSESSIONRC="${XDG_CONFIG_HOME}/x11/xsessionrc"
+    export ALTUSERXSESSION="${XDG_CACHE_HOME}/x11/Xsession"
+    export ERRFILE="${XDG_CACHE_HOME}/x11/xsession-errors"
+    export XINITRC="${XDG_CONFIG_HOME}/x11/xinitrc"
+    export XSERVERRC="${XDG_CONFIG_HOME}/x11/xserverrc"
+    export ICEAUTHORITY="${XDG_CACHE_HOME}/ICEauthority"
+fi
+
+if [ -f "${HOME}/.Xauthority" ]; then
+    mkdir -p "${XDG_RUNTIME_DIR}"
+    export XAUTHORITY="${XDG_RUNTIME_DIR}/Xauthority"
+    if [ -f "${HOME}/.Xauthority" ]; then
+        mv "${HOME}/.Xauthority" "${XDG_RUNTIME_DIR}/Xauthority"
+    fi
+fi
+
+if command -v discord >/dev/null 2>&1; then
+    mkdir -p "${XDG_DATA_HOME}/discord"
+    export DISCORD_USER_DATA_DIR="${XDG_DATA_HOME}/discord"
+fi
+
+if command -v htop >/dev/null 2>&1; then
+    mkdir -p "${XDG_CONFIG_HOME}/htop"
+    if [ -f "${HOME}/.htoprc" ]; then
+        mv "${HOME}/.htoprc" "${XDG_CONFIG_HOME}/htop/htoprc"
+    fi
+fi
+
+if command -v curl >/dev/null 2>&1; then
+    if [ -f "${HOME}/.curlrc" ]; then
+        mv "${HOME}/.curlrc" "${XDG_CONFIG_HOME}/.curlrc"
+    fi
 fi
