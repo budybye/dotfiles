@@ -147,7 +147,7 @@ RUN im-config -n fcitx5 && \
     sudo update-alternatives --set x-session-manager /usr/bin/xfce4-session && \
     sudo systemctl enable xrdp
 
-COPY ../install $HOME/bin/install
-RUN chmod +x $HOME/bin/install
+# COPY ../install $HOME/bin/install
+# RUN chmod +x $HOME/bin/install
 # CMD ["$HOME/bin/install"]
 # ENTRYPOINT ["$HOME/bin/install"]
