@@ -26,12 +26,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: wget
+        run: wget -O install.ps1 https://community.chocolatey.org/install.ps1
+
       - name: powershell
         run: |
-          Set-ExecutionPolicy RemoteSigned -Scope CurrentUser; iwr -useb https://community.chocolatey.org/install.ps1 | iex
-
-      - name: winget
-        run: winget install --id Git.Git
+          Set-ExecutionPolicy RemoteSigned -Scope CurrentUser; ./install.ps1
 
       - name: scoop
         run: scoop install make curl
