@@ -18,6 +18,11 @@ if ! command -v chezmoi >/dev/null 2>&1; then
 fi
 echo "--------------------------------"
 echo "Repository: ${REPO}"
-chezmoi init --apply ${AUTHOR}
-# chezmoi init --apply ${REPO}
-# chezmoi init --apply --source-path ${DOTFILES}
+
+if [ -f ${DOTFILES}/.chezmoi.toml.tmpl ]; then
+    echo "${DOTFILES} already exists."
+    chezmoi init --apply --source-path ${DOTFILES}
+else
+    chezmoi init --apply ${AUTHOR}
+    # chezmoi init --apply ${REPO}
+fi

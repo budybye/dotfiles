@@ -15,6 +15,7 @@ config:
         sudo: ALL=(ALL) ALL
         groups: [users,adm,staff,sudo]
         shell: /bin/bash
+        home: /home/ubuntu
         ssh_authorized_keys:
           - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC9+qnJxEuf/eJrpeGWahUpYh38PVHt+X9nZslctV/en
     ssh_pwauth: false
@@ -51,6 +52,7 @@ config:
     runcmd:
       - curl -fsSL get.chezmoi.io | sudo sh -s -- -b /usr/local/bin
       - git clone https://github.com/budybye/dotfiles.git /home/ubuntu/dotfiles
+      - sudo systemctl enable xrdp
 devices: {}
 name: ubuntu
 used_by: []
