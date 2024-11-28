@@ -18,6 +18,8 @@ config:
         home: /home/ubuntu
         ssh_authorized_keys:
           - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC9+qnJxEuf/eJrpeGWahUpYh38PVHt+X9nZslctV/en
+        ssh_import_id:
+          - github:budybye
     ssh_pwauth: false
     package_upgrade: true
     package_update: true
