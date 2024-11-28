@@ -1,4 +1,4 @@
-name: Test
+name: Run Test install dotfiles
 
 on:
   push:
@@ -25,14 +25,19 @@ jobs:
     runs-on: windows-2022
     steps:
       - uses: actions/checkout@v4
-      - uses: Vampire/setup-wsl@v3
-        with:
-          distribution: Ubuntu-24.04
 
-      - shell: wsl-bash {0}
+      - name: powershell
         run: |
-          ls -la
-          uname -a
+          Set-ExecutionPolicy RemoteSigned -Scope CurrentUser; iwr -useb https://community.chocolatey.org/install.ps1 | iex
+
+      - name: winget
+        run: winget install --id Git.Git
+
+      - name: scoop
+        run: scoop install make curl
+
+      # - name: make
+        # run: make init || true
 
   cloud-init:
     runs-on: ubuntu-24.04
