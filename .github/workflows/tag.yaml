@@ -36,6 +36,5 @@ jobs:
           gh release create "$new_tag" \
             --title="$new_tag" \
             --notes="$(date)" \
-            --notes-from-tag \
             --latest \
             --generate-notes
