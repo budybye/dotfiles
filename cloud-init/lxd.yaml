@@ -52,6 +52,10 @@ config:
     runcmd:
       - curl -fsSL get.chezmoi.io | sudo sh -s -- -b /usr/local/bin
       - git clone https://github.com/budybye/dotfiles.git /home/ubuntu/dotfiles
+      - sudo groupadd -f ssl-cert
+      - sudo groupadd -f xrdp
+      - sudo usermod -aG ssl-cert,xrdp ubuntu
+      - sudo update-alternatives --set x-session-manager /usr/bin/xfce4-session
       - sudo systemctl enable xrdp
 devices: {}
 name: ubuntu
