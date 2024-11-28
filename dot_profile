@@ -11,10 +11,8 @@ if command -v dpkg >/dev/null 2>&1; then
     ARCH="$(dpkg --print-architecture)"
 elif command -v uname >/dev/null 2>&1; then
     ARCH="$(uname -m)"
-else
-    ARCH="unknown"
 fi
-export ARCH
+export ARCH="${ARCH:-unknown}"
 
 # ${VAR} "${VAR}" "${VAR:-var}" は環境変数
 # ' : ' で区切り
@@ -38,10 +36,12 @@ export XDG_STATE_HOME=${HOME}/.local/state
 export XDG_DATA_HOME=${HOME}/.local/share
 export XDG_CACHE_HOME=${HOME}/.cache
 
-# export XDG_DATA_DIRS="/usr/local/share:/usr/share:${HOME}/data"
-# export XDG_CONFIG_DIRS="/etc/xdg/xdg-ubuntu:/etc/xdg"
-# XDG_RUNTIME_DIR=/run/user/$(id -u)
-# export XDG_RUNTIME_DIR
+export XDG_DATA_DIRS="${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
+export XDG_CONFIG_DIRS="${XDG_CONFIG_DIRS:-/etc/xdg}"
+
+
+XDG_RUNTIME_DIR="/run/user/$(id -u)"
+export XDG_RUNTIME_DIR
 
 mkdir -p \
     "${HOME}/Desktop" \
@@ -61,22 +61,21 @@ export XDG_PICTURES_DIR=${HOME}/Pictures
 export XDG_VIDEOS_DIR=${HOME}/Movies
 export XDG_TEMPLATES_DIR=${HOME}/Templates
 
-#export XDG_SESSION_TYPE=X11
-#export XDG_SESSION_ID=1
+# export XDG_SESSION_TYPE=X11
+# export XDG_SESSION_ID=1
+# export DISPLAY=":0:${DISPLAY}"
 
 export TZ="Asia/Tokyo"
 export LANG="ja_JP.UTF-8"
 export LC_ALL="ja_JP.UTF-8"
 # TUIの表示乱れ防止
 export LC_CTYPE="en_US.UTF-8"
-# export DISPLAY=":0:${DISPLAY}"
 
 export TMPDIR="/tmp"
 export TERM="xterm-256color"
 
 # パスを再設定
-PATH="${PATH}:${HOME}/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
-export PATH
+export PATH="${PATH}:${HOME}/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 
 if command -v cursor >/dev/null 2>&1; then
     export EDITOR="cursor"
