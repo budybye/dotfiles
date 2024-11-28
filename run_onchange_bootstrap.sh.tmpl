@@ -137,13 +137,17 @@ echo "--------------------------------"
         else
             echo "mise already installed."
         fi
+        export PATH="${HOME}/.local/bin:${HOME}/.local/share/mise/shims:$PATH"
+
         command -v mise >> ${HOME}/which || echo "mise not found"
+
         # version 指定しないと arm64 でエラーになる
         mise use -g bun go@1.23.2 -y || echo "mise use failed."
+
         mise activate bash >/dev/null
-        # mise activate --shims
-        export PATH="${HOME}/.local/share/mise/shims:$PATH"
+        mise activate --shims >/dev/null
         echo "mise setup completed."
+
         for cmd in bun go; do
             command -v "$cmd" >> ${HOME}/which || echo "$cmd not found" >> ${HOME}/which
         done
@@ -157,7 +161,7 @@ echo "--------------------------------"
         command -v cargo >> ${HOME}/which || echo "cargo not found"
 
         echo "cargo tools install start..."
-        cargo install cargo-binstall@1.6.9 || echo "cargo-binstall install failed."
+        cargo install cargo-binstall@1.6.9 --locked || echo "cargo-binstall install failed."
         cargo binstall -y starship sheldon fd-find xh bat || echo "cargo tools install failed."
         # cargo binstall starship@1.20.1 sheldon fd-find@9.0.0 xh bat || echo "cargo tools install failed."
         echo "cargo tools installed."

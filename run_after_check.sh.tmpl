@@ -33,11 +33,11 @@ tree -L 3 "${HOME}/.local/share"
 echo "--------------------------------"
 
 {{ if eq .chezmoi.os "linux" -}}
-    tree ${HOME}/.local/share/themes
+    tree -L 3 ${HOME}/.local/share/themes
     echo "--------------------------------"
-    tree ${HOME}/.local/share/fonts
+    tree -L 3 ${HOME}/.local/share/fonts
     echo "--------------------------------"
-    tree ${HOME}/.local/share/icons
+    tree -L 3 ${HOME}/.local/share/icons
     echo "--------------------------------"
 {{ end -}}
 
