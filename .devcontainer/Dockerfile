@@ -91,13 +91,13 @@ RUN mkdir -p /var/run/dbus && \
     sed -i "s/xrdp\/xorg/xorg/g" /etc/xrdp/sesman.ini && \
     echo "xfce4-session" >> /etc/skel/.Xsession
 
-ARG USER=docker
-ARG UID=1010
-ARG GID=$UID
+# ARG USER=budybye
+# ARG UID=1010
+# ARG GID=$UID
+ARG USER=ubuntu
 ARG HOME=/home/$USER
 
-RUN groupadd -g $GID -f $USER && \
-    useradd --uid $UID --gid $GID -m $USER -G sudo -s /usr/bin/zsh && \
+RUN chsh -s /usr/bin/zsh && \
     echo "$USER:$USER" | chpasswd && \
     echo "ALL ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
     mkdir -p $HOME && \
@@ -130,22 +130,19 @@ RUN curl https://mise.run | sh && \
     bw --version || echo "bw command not found"
 
 EXPOSE 3389
-EXPOSE 22
 
 RUN im-config -n fcitx5 && \
     groupadd -f xrdp && \
     groupadd -f ssl-cert && \
     groupadd -f input && \
     groupadd -f audio && \
-    groupadd -f docker && \
-    sudo usermod -aG input,xrdp,audio,ssl-cert,docker $USER && \
+    sudo usermod -aG input,xrdp,audio,ssl-cert $USER && \
     echo "xfce4-session" > ~/.xsession && \
     echo "dbus-launch --exit-with-session usr/bin/xfce4-session" > ~/.startwm.sh && \
     chmod 755 ~/.startwm.sh && \
-    sudo update-alternatives --set x-session-manager /usr/bin/xfce4-session && \
-    sudo systemctl enable xrdp
+    sudo update-alternatives --set x-session-manager /usr/bin/xfce4-session
 
-# COPY ../install $HOME/bin/install
-# RUN chmod +x $HOME/bin/install
-# CMD ["$HOME/bin/install"]
-# ENTRYPOINT ["$HOME/bin/install"]
+COPY ./entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN sudo chmod +x /usr/local/bin/entrypoint.sh
+ENTRYPOINT ["entrypoint.sh"]
+CMD ["/bin/bash"]

@@ -19,10 +19,10 @@ fi
 echo "--------------------------------"
 echo "Repository: ${REPO}"
 
+# ~/dotfiles が存在する場合は source-path を指定
 if [ -f ${DOTFILES}/.chezmoi.toml.tmpl ]; then
     echo "${DOTFILES} already exists."
-    chezmoi init --apply --source-path ${DOTFILES}
+    chezmoi init --apply --source-path .
 else
-    chezmoi init --apply ${AUTHOR}
-    # chezmoi init --apply ${REPO}
+    chezmoi init --apply ${REPO}
 fi

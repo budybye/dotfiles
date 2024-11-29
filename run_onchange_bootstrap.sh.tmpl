@@ -79,7 +79,6 @@ echo "--------------------------------"
     install_packages() {
         sudo dpkg --configure -a
         apt --version
-        # sudo sed -i 's/deb.debian.org/ftp.jp.debian.org/g' /etc/apt/sources.list
         sudo apt-get update -y
         sudo apt-get upgrade -y
         sudo apt-get install -y {{ .packages.linux.cli | join " " }} || echo "apt install failed." >> ${HOME}/which
@@ -101,7 +100,7 @@ echo "--------------------------------"
             # Docker Compose のバイナリをダウンロード
             sudo curl -L "$COMPOSE_URL" -o /usr/local/bin/docker-compose || echo "docker-compose download failed."
             sudo chmod +x /usr/local/bin/docker-compose
-            command -v docker compose >> ${HOME}/which || echo "docker-compose not found" >> ${HOME}/which
+            command -v docker-compose >> ${HOME}/which || echo "docker-compose not found" >> ${HOME}/which
             echo "docker-compose installed."
         fi
     }
@@ -202,8 +201,8 @@ echo "--------------------------------"
         echo "act install start..."
         if ! command -v act >/dev/null; then
             curl https://raw.githubusercontent.com/nektos/act/master/install.sh | sudo bash || echo "act install failed."
-            chmod +x ${HOME}/bin/act
-            sudo mv -f ${HOME}/bin/act ${HOME}/.local/bin
+            sudo chmod +x ./bin/act
+            sudo mv -f ./bin/act ${HOME}/.local/bin
         fi
         echo "act installed."
         command -v act >> ${HOME}/which || echo "act not found"
@@ -229,7 +228,6 @@ echo "--------------------------------"
         # install_volta
         install_mkcert
         install_act
-        install_multipass
         cat ${HOME}/which && rm -f ${HOME}/which
     }
     # スクリプトを実行
