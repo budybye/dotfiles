@@ -19,7 +19,6 @@ jobs:
         id: ipfs
         with:
           path: ./README.md
-          verbose: true
           service: filebase
           pinName: README.md
           filebaseBucket: ${{ secrets.FILEBASE_BUCKET }}
