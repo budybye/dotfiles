@@ -16,5 +16,18 @@ jobs:
 
       - name: Pin to IPFS
         uses: aquiladev/ipfs-action@master
+        id: ipfs
         with:
           path: ./README.md
+          pin: false
+          verbose: true
+          # service: pinata
+          # pinataKey: ${{ secrets.PINATA_KEY }}
+          # pinataSecret: ${{ secrets.PINATA_SECRET }}
+          # pinataPinName: README.md
+
+      - name: Print IPFS Hash
+        run: |
+          echo ${{ steps.ipfs.outputs.hash }}
+          echo ${{ steps.ipfs.outputs.cid }}
+          echo ${{ steps.ipfs.outputs.ipfs }}
