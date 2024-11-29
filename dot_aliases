@@ -27,7 +27,9 @@ fi
 
 if command -v curl >/dev/null 2>&1; then
     alias curl="curl -s"
-    alias weather="curl wttr.in"  # 天気予報を表示
+    alias wt="curl wttr.in"  # 天気予報を表示
+    alias ppp="curl -s https://ip.3322.net"  # パブリックIPアドレスを表示
+    alias xrp="curl -s https://xrp.gl/api/get?name=bob"
 fi
 
 if command -v ping >/dev/null 2>&1; then

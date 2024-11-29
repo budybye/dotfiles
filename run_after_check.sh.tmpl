@@ -6,6 +6,7 @@ echo "--------------------------------"
 echo "Chezmoi apply completed!!"
 echo "USER: $(whoami)"
 echo "SHELL: ${SHELL}"
+uname -a
 echo "--------------------------------"
 echo "PATH ..."
 echo "${PATH}" | tr ':' '\n'
@@ -33,11 +34,11 @@ tree -L 3 "${HOME}/.local/share"
 echo "--------------------------------"
 
 {{ if eq .chezmoi.os "linux" -}}
-    tree -L 3 ${HOME}/.local/share/themes
+    tree -L 2 ${HOME}/.local/share/themes
     echo "--------------------------------"
-    tree -L 3 ${HOME}/.local/share/fonts
+    tree -L 2 ${HOME}/.local/share/fonts
     echo "--------------------------------"
-    tree -L 3 ${HOME}/.local/share/icons
+    tree -L 2 ${HOME}/.local/share/icons
     echo "--------------------------------"
 {{ end -}}
 

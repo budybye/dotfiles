@@ -1,18 +1,24 @@
-<link href="./style.css" rel="stylesheet"></link>
+<!-- <link href="./style.css" rel="stylesheet"></link> -->
 
 # dotfiles
 
-## v.1.0.1
+## 🍍🍕
 
 ### 🏴‍☠ [budybye/dotfiles](https://github.com/budybye/dotfiles)
 
 - このリポジトリは、私、個人の設定ファイルを管理するためのものです。
+- `chezmoi` で管理しています。
 - さまざまなツールや設定ファイルを統合、管理、改善して、効率的に設定された環境を構築することを目的としています。
 - `MacOS` と `Ubuntu` の設定ファイルを管理しています。
-- `Docker` や `Multipass` でも環境設定しています。
-- 複雑でなければ `Ansible` や `Terraform` も追加予定...
-- `.github/workflows/*.yaml` で環境ごとのテストを行っています。
-- `SSH` やシークレットな情報は `.env` `age` `Bitwarden` `chezmoi` で管理しています。
+- `xrdp` 接続できる `Docker` や `Multipass` でも環境設定しています。
+- `Windows` や `WSL2` の設定ファイルも追加予定...
+- `.github/workflows/*.yaml` で環境ごとのテスト、タグ設定、ghcrへpush を行っています。
+- `~/.ssh/*` やシークレットな情報は `.env` `age` `Bitwarden` `chezmoi` で管理しています。
+- `Dockerfile` と `docker-compose.yaml` と `devcontainer.json` で `Docker` コンテナを管理しています。
+- `Github`, `VSCode`, `Cursor` の設定も管理しています。
+- Font, Theme, Wallpaper, 日本語版設定 も管理しています。
+- `Brave`, `Cursor`, `Tabby`, `Xfce4` などデスクトップ環境も管理しています。
+- プログラミング言語開発環境は `mise` で管理しています。
 
 ### 初期設定
 
@@ -30,21 +36,31 @@ cd dotfiles
 make init
 ```
 
+`chezmoi apply` で `run_*` スクリプトが実行されます。
+`install` スクリプトを実行することもできます。
+
+```sh
+sh -c ~/dotfiles/install
+```
+
 ### git グローバル設定
 
 ```sh
-# 環境変数 を設定していたら
+# ~/.config/git/user.conf を分けて設定している
 cat <<EOF >~/.config/git/user.conf
 [user]
-    name = ${GIT_AUTHOR_NAME}
-    email = ${GIT_AUTHOR_EMAIL}
+    name = {{ .name }}
+    email = {{ .email }}
 EOF
+
 # or
-git config --global user.name ${GIT_AUTHOR_NAME}
-git config --global user.email ${GIT_AUTHOR_EMAIL}
+git config --global user.name {{ .name }}
+git config --global user.email {{ .email }}
 # コミットメッセージのテンプレート
 git config --global commit.template ~/.config/git/commit_template
-``` 
+# ~/.config/git/config の設定の確認
+git config --list
+```
 
 ---
 
@@ -53,7 +69,7 @@ git config --global commit.template ~/.config/git/commit_template
 - **Chezmoi**: `chezmoi` でドットファイルを管理しています。
 - **対応OS**: `MacOS` Sequoia、`Ubuntu` 24.04 `chezmoi tmplate` でOSごとの設定を管理しています。
 - **テスト**: `GitHub Actions` を使用して、さまざまなOSでの動作を確認しています。
-- **Makefile**: `Makefile` でシェルスクリプトを管理しています。
+- **Makefile**: `Makefile` で設定管理しています。
 - **今後の計画**: `arm64` 互換と `WSL2` と `Windows` 用の設定ファイルを追加で管理する予定です。
 - **Docker**: `Dockerfile` と `docker-compose.yaml` と `devcontainer.json` で `Docker` コンテナを管理しています。
 
@@ -87,86 +103,125 @@ git config --global commit.template ~/.config/git/commit_template
 - 特に `~/.config` は様々なツールに使用されているので、なるべく採用します。
 
 ```
-~/
-├── .config                         # XDG ディレクトリ構成に基づく設定ファイル
-│   ├── vscode
-│   │   ├── extensions.json         # VSCode の拡張機能の設定ファイル
-│   │   └── User
-│   │       ├── setting.json        # VSCode の設定ファイル
-│   │       └── keybindings.json    # VSCode のキーバインド設定ファイル
-│   ├── git                         
-│   │   ├── config                  # Git の設定ファイル
-│   │   ├── ignore                  # Git の無視ファイルの設定ファイル
-│   │   ├── commit.template         # Git のコミットメッセージのテンプレート
-│   │   └── user.conf               # Git のユーザー設定ファイル
-│   ├── mise                        
-│   │   └── config.toml             # mise の設定ファイル
-│   ├── chezmoi                     
-│   │   └── config.yaml             # chezmoi の設定ファイル
-│   ├── sheldon                    
-│   │   └── plugins.toml            # sheldon のプラグインの設定ファイル
-│   ├── aquaproj-aqua              
-│   │   └── aqua.yaml               # aqua の設定ファイル
-│   ├── byobu                      
-│   │   └── .tmux.conf              # byobu の設定ファイル
-│   ├── tabby                       
-│   │   └── config.yaml             # tabby の設定ファイル
-│   ├── vim                        
-│   │   └── vimrc                   # vim の設定ファイル
-│   ├── fcitx5                      
-│   │   └── config                  # fcitx5 の設定ファイル
-│   ├── fusuma                      
-│   │   └── config.yml              # fusuma の設定ファイル
-│   ├── neofetch                    
-│   │   └── config.conf             # neofetch の設定ファイル
-│   ├── fish
-│   │   └── config.fish             # fish の設定ファイル
-│   ├── mpd
-│   │   └── mpd.conf                # mpd の設定ファイル
-│   ├── ncmpcpp
-│   │   └── config                  # ncmpcpp の設定ファイル
-│   ├── .editorconfig               # editorconfig の設定ファイル
-│   ├── Brewfile                    # Brewfile
-│   └── starship.toml               # starship の設定ファイル
-├── .local                          # ローカルユーザーディレクトリ
-│   ├── share
-│   │   ├── fonts                   # フォントのディレクトリ
-│   │   ├── backgrounds             # 壁紙のディレクトリ
-│   │   └── themes                  # テーマのディレクトリ
-│   └── bin
-│       ├── init.sh                 # Chezmoi の初期化スクリプト make init
-│       ├── install.sh              # Ubuntu のインストールスクリプト make install
-│       ├── setup.sh                # Ubuntu のセットアップスクリプト make setup
-│       ├── bootstrap.sh            # MacOS のブートストラップスクリプト make bootstrap
-│       ├── defaults.sh             # MacOS のデフォルトスクリプト make defaults
-│       └── codex.sh                # VSCode のスクリプト make code
-├── .devcontainer                   
-│    ├── dev                        # Docker volume 用のディレクトリ
-│    ├── .devcontainer.json         # devcontainer の設定ファイル
-│    ├── Dockerfile                 # Dockerfile
-│    └── docker-compose.yaml        # docker-compose の設定ファイル
-├── .github                         
-│    └── workflows                 
-│       └── .test.yaml              # Github Actions のテストの設定ファイル
-├── cloud-init                         
-│    ├── multipass.yaml             # Multipass のcloud-init ファイル
-│    └── user-data.yaml             # cloud-init の設定ファイル
-├── .profile                        # ログインシェルに共通で読み込まれるファイル
-├── .aliases                        # エイリアスの設定ファイル
-├── .zshrc                          # zsh の設定ファイル
-├── .zshenv                         # zsh の環境変数
-├── .bashrc                         # bash の設定ファイル
-├── .bash_profile                   # bash の環境変数
-├── .Makefile                       # Make で シェルスクリプトを設定管理 make sense
-├── .mise.toml                      # mise の設定ファイル .env を読み込む
-├── .env                            # 環境変数の設定ファイル
-├── .chezmoiignore                  # chezmoi の除外ファイル
-├── .chemoi.yaml.tmpl               # ~/.local/share/chezmoi.yaml になる設定ファイル
-├── run_once_update.sh.tmpl         # chezmoi の一度だけ実行するスクリプト
-├── run_onchange_userconf.sh.tmpl   # chezmoi のapply時に実行するスクリプト
-├── data                            # データのディレクトリ
-├── Applications                    # AppImage 系のディレクトリ
-├── etc...                          # その他
+ .
+├──  .chezmoidata                          # chezmoi data のデータファイル
+│   └──  packages.yaml
+├──  .devcontainer                         # Docker の設定ファイル
+│   ├──  ipfs
+│   ├──  portainer
+│   ├──  .env
+│   ├──  .gitignore
+│   ├──  devcontainer.json
+│   ├──  docker-compose.yaml
+│   └──  Dockerfile
+├──  .github                              # Github の設定ファイル
+│   ├──  workflows
+│   │   ├──  push.yaml
+│   │   ├──  tag.yaml
+│   │   └──  test.yaml
+│   └──  release.yml
+├──  .vscode                              # VSCode の設定ファイル
+│   ├──  .DS_Store
+│   └──  extensions.json
+├──  cloud-init                           # cloud-init の設定ファイル
+│   ├──  lxd.yaml
+│   ├──  multipass.yaml
+│   ├──  network-config
+│   └──  user-data
+├──  dot_ssh                              # ssh の設定ファイル
+│   ├──  authorized_keys.tmpl
+│   ├──  config
+│   ├──  encrypted_private_id_ed25519.age # age で暗号化された秘密鍵
+│   ├──  encrypted_private_id_rsa.age     # age で暗号化された秘密鍵
+│   └── 󰌆 id_ed25519.pub                   # 公開鍵
+├──  private_dot_config
+│   ├──  act
+│   │   └──  actrc
+│   ├──  alacritty
+│   │   └──  alacritty.toml
+│   ├──  aquaproj-aqua
+│   │   └──  aqua.yaml
+│   ├──  bat
+│   │   └──  config
+│   ├──  byobu
+│   │   └──  dot_tmux.conf
+│   ├──  Code
+│   │   ├──  user-data
+│   │   └──  extensions.json
+│   ├──  fcitx5
+│   │   └──  config
+│   ├──  fish
+│   │   └──  config.fish
+│   ├──  fusuma
+│   │   └──  config.yml
+│   ├──  gh
+│   │   └──  config.yml
+│   ├──  git
+│   │   ├──  commit.template
+│   │   ├──  config
+│   │   ├──  ignore
+│   │   └──  user.conf.tmpl
+│   ├──  ipfs
+│   │   └──  config
+│   ├──  karabiner
+│   │   └──  karabiner.json
+│   ├──  lsd
+│   │   ├──  colors.yaml
+│   │   ├──  config.yaml
+│   │   └──  icons.yaml
+│   ├──  mise
+│   │   └──  config.toml
+│   ├──  mpd
+│   │   └──  mpd.conf
+│   ├──  ncmpcpp
+│   │   └──  config
+│   ├──  neofetch
+│   │   ├──  config.conf
+│   │   └──  image.txt
+│   ├──  nvim
+│   │   ├──  colors
+│   │   └──  init.vim
+│   ├──  sheldon
+│   │   └──  plugins.toml
+│   ├──  tabby
+│   │   └──  config.yaml
+│   ├──  tmux
+│   │   └──  tmux.conf
+│   ├──  vim
+│   │   └──  vimrc
+│   ├──  wireshark
+│   │   └──  language
+│   ├──  Brewfile
+│   ├──  dot_editorconfig
+│   └──  starship.toml
+├──  .chezmoi.toml.tmpl
+├──  .chezmoiexternal.toml.tmpl
+├──  .chezmoiignore
+├──  .env.example
+├──  .gitignore
+├──  .mise.toml
+├──  .tool-versions
+├──  dot_aliases
+├──  dot_bash_profile
+├──  dot_bashrc
+├──  dot_profile
+├──  dot_zprofile
+├──  dot_zshenv
+├──  dot_zshrc
+├──  install
+├──  key.txt.age
+├──  Makefile
+├──  run_after_check.sh.tmpl             # チェック後に実行するスクリプト
+├──  run_once_before_age_decrypt.sh.tmpl # age で暗号化されたファイルを復号化するスクリプト
+├──  run_once_before_bw_unlock.sh.tmpl   # Bitwarden のロックを解除するスクリプト
+├──  run_once_ssh_keygen.sh.tmpl         # ssh 鍵を生成するスクリプト
+├──  run_once_vscode.sh.tmpl             # VSCode の拡張機能をインストールするスクリプト
+├──  run_onchange_bootstrap.sh.tmpl      # ブートストラップスクリプトを実行するスクリプト
+├──  run_onchange_setup.sh.tmpl          # セットアップスクリプトを実行するスクリプト
+├──  run_onchange_youtube.sh.tmpl        # Youtube のダウンロードを行うスクリプト
+├──  shhh.txt
+└──  etc..
+
 ```
 
 - **シェル設定**: ログインシェルやインタラクティブシェルで読み込まれるファイル。
@@ -204,19 +259,19 @@ flowchart TD
     A --> C[Make]
     A --> D[Docker]
     A --> E[Multipass]
-    
+
     B --> B1[初期化]
     B1 --> B2[設定ファイルを適用]
     B2 --> B3[環境変数を管理]
-    
+
     C --> C1[Makefileを使用]
     C1 --> C2[シェルスクリプトを実行]
     C2 --> C3[環境ごとの設定を管理]
-    
+
     D --> D1[Dockerイメージをビルド]
     D1 --> D2[コンテナを起動]
     D2 --> D3[環境を構築]
-    
+
     E --> E1[MultipassでVMを起動]
     E1 --> E2[cloud-initを使用]
     E2 --> E3[カスタマイズされた環境を構築]
@@ -245,8 +300,8 @@ sequenceDiagram
 
 | OS         | 管理方法               | コメント                           |
 |------------|-----------------------|------------------------------------|
-| macOS      | Make                  | スクリプトの実行や環境設定に適している |
-| Ubuntu     | Make                  | 同上                               |
+| macOS      | Chezmoi               | スクリプトの実行や環境設定に適している |
+| Ubuntu     | Chezmoi               | 同上                               |
 | Windows    | Chezmoi               | Windows特有の設定を管理するのに適している |
 
 ### メリットとデメリット
@@ -258,8 +313,8 @@ sequenceDiagram
 | 依存関係の管理 | 複雑性の増加 |
 
 ### ツールのインストール
-
-|  | MacOS | Ubuntu | Docker  |
+---
+| *OS* | MacOS | Ubuntu | Docker  |
 | --- | :---: | :---: | :---: |
 | Chezmoi | brew | mise | mise |
 | Script | make | make | make |
@@ -272,9 +327,9 @@ sequenceDiagram
 | Docker | brew | apt | apt |
 | Dev Container | ✅ | ✅ | ✅ |
 | Multipass | brew | snap | snap |
-| Homebrew | ✅ |  |  |
-
-| CLI Tool | MacOS | Ubuntu | Docker |
+| Homebrew | ✅ | ❌ | ❌ |
+---
+| *CLI Tool* | MacOS | Ubuntu | Docker |
 | --- | :---: | :---: | :---: |
 | Byobu | brew | apt | apt |
 | Vim | brew | apt | apt |
@@ -282,22 +337,23 @@ sequenceDiagram
 | aqua VM | brew | apt | apt |
 | MPD | brew | apt | apt |
 | Ncmpcpp | brew | apt | apt |
-| fcitx5 |  | apt | apt |
+| fcitx5 | ❌ | apt | apt |
 | Neofetch | fastfetch | apt | apt |
-
-| Rust Tool | MacOS | Ubuntu | Docker |
+---
+| *Rust Tool* | MacOS | Ubuntu | Docker |
 | --- | :---: | :---: | :---: |
 | Mise | brew | curl | curl |
+| cargo-binstall | cargo | cargo | cargo |
 | Starship | brew | mise/cargo | mise/cargo |
 | Sheldon | brew | cargo | cargo |
-| lsd | brew | apt | apt |
-| bat | brew | apt | apt |
-| ripgrep | brew | apt | apt |
-| fzf | brew | apt | apt |
-| zoxide | brew | apt | apt |
-| fd-find | brew | apt | apt |
-
-| Language | MacOS | Ubuntu | Docker |
+| lsd | brew | cargo/apt | apt |
+| bat | brew | cargo/apt | apt |
+| ripgrep | brew | cargo/apt | apt |
+| fzf | brew | cargo/apt | apt |
+| zoxide | brew | cargo/apt | apt |
+| fd-find | brew | cargo/apt | apt |
+---
+| *Language* | MacOS | Ubuntu | Docker |
 | --- | :---: | :---: | :---: |
 | Node.js | mise | mise | mise |
 | Bun | mise | mise | mise |
@@ -307,21 +363,21 @@ sequenceDiagram
 | Java | mise | mise/apt | mise/apt |
 | Rust | mise | mise/apt | mise/apt |
 | Ruby | mise | mise/apt | mise/apt |
-
-| Desktop | MacOS | Ubuntu | Docker |
+---
+| *Desktop* | MacOS | Ubuntu | Docker |
 | --- | :---: | :---: | :---: |
-| Xfce4 |  | apt | apt |
-| Xrdp |  | apt | apt |
-| VSCode | brew |  | apt |
-| VSCodium |  | snap | snap |
+| Xfce4 | ❌ | apt | apt |
+| Xrdp | ❌ | apt | apt |
+| VSCode | brew | ❌ | apt |
+| VSCodium | ❌ | snap | snap |
 | Cursor | brew | AppImage | AppImage |
 | Github Desktop | brew | apt | apt |
 | Tabby | brew | apt | apt |
 | Brave | brew | apt | apt |
 | Cloudflare Warp | brew | apt | apt |
 | Wireshark | brew | apt | apt |
-| Fusuma |  | gem | gem |
-| Karabiner-Elements | brew |  |  |
+| Fusuma | ❌ | gem | gem |
+| Karabiner-Elements | brew | ❌ | ❌ |
 
 ---
 
