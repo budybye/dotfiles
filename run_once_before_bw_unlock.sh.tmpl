@@ -10,19 +10,19 @@ SHIMS="${HOME}/.local/share/mise"
 VERSION="20.18.1"
 NPM="${SHIMS}/installs/node/${VERSION}/bin/npm"
 BW="${SHIMS}/installs/node/${VERSION}/bin/bw"
-SESSION="{{ .chezmoi.sourceDir }}/.env"
+SESSION="{{ .dotfilesDir }}/.env"
 
 # age のパスフレーズが要求される
 # マスターパスワードを復号
 {{ if ne .name "runner" }}
     echo "decrypt shhh.txt"
-    MASTER="$(chezmoi decrypt {{ .chezmoi.sourceDir }}/shhh.txt)"
+    MASTER="$(chezmoi decrypt {{ .dotfilesDir }}/shhh.txt)"
     echo "MASTER: ${MASTER}"
 {{ end }}
 
 # age のパスフレーズが要求される
 # マスターパスワードを暗号化
-# echo "${MASTER}" | chezmoi encrypt > {{ .chezmoi.sourceDir }}/shhh.txt
+# echo "${MASTER}" | chezmoi encrypt > {{ .dotfilesDir }}/shhh.txt
 
 # mise なければインストール
 mise_install() {
