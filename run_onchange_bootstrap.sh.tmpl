@@ -110,8 +110,8 @@ echo "--------------------------------"
         if command -v docker >/dev/null 2>&1; then
             echo "docker already installed."
         else
-            curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-            echo "deb [arch=${arch} signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
+            curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o usr/share/keyrings/docker-archive-keyring.gpg
+            echo "deb [arch=${arch} signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee etc/apt/sources.list.d/docker.list >/dev/null
             sudo apt-get update -y
             sudo apt-get install -y docker-ce docker-ce-cli containerd.io || echo "docker install failed."
             sudo chmod 666 /var/run/docker.sock
@@ -202,8 +202,8 @@ echo "--------------------------------"
         echo "act install start..."
         if ! command -v act >/dev/null; then
             curl https://raw.githubusercontent.com/nektos/act/master/install.sh | sudo bash || echo "act install failed."
-            sudo mv -f ./bin/act ${HOME}/.local/bin/act
-            sudo chmod +x ${HOME}/.local/bin/act
+            chmod +x ${HOME}/bin/act
+            sudo mv -f ${HOME}/bin/act ${HOME}/.local/bin
         fi
         echo "act installed."
         command -v act >> ${HOME}/which || echo "act not found"
