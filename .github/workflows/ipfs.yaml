@@ -1,0 +1,20 @@
+name: Ipfs Pinning
+# mainブランチにpushされたら ipfsにピン留めする
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  ipfs:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Pin to IPFS
+        uses: aquiladev/ipfs-action@master
+        with:
+          path: ./README.md
