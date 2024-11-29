@@ -19,12 +19,12 @@ jobs:
         id: ipfs
         with:
           path: ./README.md
-          pin: false
           verbose: true
-          # service: pinata
-          # pinataKey: ${{ secrets.PINATA_KEY }}
-          # pinataSecret: ${{ secrets.PINATA_SECRET }}
-          # pinataPinName: README.md
+          service: filebase
+          pinName: README.md
+          filebaseBucket: ${{ secrets.FILEBASE_BUCKET }}
+          filebaseKey: ${{ secrets.FILEBASE_KEY }}
+          filebaseSecret: ${{ secrets.FILEBASE_SECRET }}
 
       - name: Print IPFS Hash
         run: |

@@ -58,22 +58,28 @@ npm_install() {
 
 # npm で bitwarden cli をインストール
 bw_install() {
-    if command -v npm >/dev/null 2>&1; then
-        npm install -g @bitwarden/cli || echo "bitwarden cli install failed."
+    if [ ! -f ${BW} ]; then
+        if command -v npm >/dev/null 2>&1; then
+            npm install -g @bitwarden/cli || echo "bitwarden cli install failed."
 
-    elif [ -f ${NPM} ]; then
-        ${NPM} install -g @bitwarden/cli || echo "bitwarden cli install failed."
+        elif [ -f ${NPM} ]; then
+            ${NPM} install -g @bitwarden/cli || echo "bitwarden cli install failed."
+
+        else
+            echo "npm not found."
+        fi
+        export PATH="${SHIMS}/installs/node/${VERSION}/bin:${PATH}"
+        echo "Bitwarden CLI installed."
 
     else
-        echo "npm not found."
+        echo "Bitwarden CLI already installed."
     fi
-    export PATH="${SHIMS}/installs/node/${VERSION}/bin:${PATH}"
-    echo "Bitwarden CLI installed."
     echo "--------------------------------"
 }
 
 bw_unlock() {
     MASTER="${MASTER:-}"
+
     # bw cli があればロック解除
     if command -v bw >/dev/null 2>&1; then
         bw login {{ .email }} ${MASTER} || echo "bw login failed."
@@ -93,6 +99,7 @@ bw_unlock() {
     else
         echo "export BW_SESSION=${BW_SESSION:-}" > ${SESSION} && cat ${SESSION}
     fi
+    MASTER=""
     echo "--------------------------------"
 }
 
@@ -102,7 +109,6 @@ main() {
     npm_install
     bw_install
     bw_unlock
-    MASTER=""
     echo "bitwarden setup complete"
 }
 main
