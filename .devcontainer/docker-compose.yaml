@@ -1,10 +1,10 @@
 services:
 
   ubuntu:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    # image: ghcr.io/budybye/ubuntu-dev:latest
+    # build:
+      # context: .
+      # dockerfile: Dockerfile
+    image: ghcr.io/budybye/ubuntu-dev:latest
     container_name: ubuntu
     hostname: docker
     privileged: true

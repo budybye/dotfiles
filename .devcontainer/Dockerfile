@@ -40,7 +40,8 @@ RUN apt-get install -y \
     xsel \
     openssh-server \
     ufw \
-    sudo
+    sudo \
+    systemd
 
 RUN apt-get install -y \
     zsh \
@@ -68,13 +69,14 @@ RUN apt-get install -y \
     build-essential \
     libssl-dev \
     pkg-config \
-    apt-transport-https \
     avahi-daemon \
     libfreetype6-dev \
     libfontconfig1-dev \
     libxcb-xfixes0-dev \
     libxkbcommon-dev \
     ca-certificates \
+    apt-transport-https \
+    software-properties-common \
     python3 \
     ruby \
     cargo \
