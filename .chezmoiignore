@@ -47,5 +47,6 @@ shhh.txt
 .github
 .vscode
 .devcontainer
+.cursorrules
 
 cloud-init
