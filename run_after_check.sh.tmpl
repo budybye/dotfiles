@@ -9,6 +9,10 @@ echo "SHELL: ${SHELL}"
 uname -a
 echo "--------------------------------"
 echo "PATH ..."
+# 重複したPATHを削除
+if command -v awk > /dev/null 2>&1;then
+    export PATH="$(printf %s "${PATH}" | awk -v RS=: -v ORS=: '!arr[$0]++')"
+fi
 echo "${PATH}" | tr ':' '\n'
 echo "--------------------------------"
 echo "File check start!!"

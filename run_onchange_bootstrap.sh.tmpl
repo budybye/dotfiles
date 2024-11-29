@@ -157,14 +157,22 @@ echo "--------------------------------"
     # Cargo および Rust 関連ツールをインストールする関数
     install_cargo_tools() {
         echo "cargo install start..."
-        command -v cargo >/dev/null || mise use rust -y || sudo apt-get install -y cargo || echo "cargo install failed."
-        echo "cargo installed."
+        if ! command -v cargo >/dev/null; then
+            curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y || mise use rust -y || sudo apt-get install -y cargo || echo "cargo install failed."
+            echo "cargo installed."
+        else
+            echo "cargo already installed."
+        fi
         command -v cargo >> ${HOME}/which || echo "cargo not found"
 
         echo "cargo tools install start..."
-        cargo install cargo-binstall@1.6.9 --locked || echo "cargo-binstall install failed."
+        if ! command -v cargo-binstall >/dev/null; then
+            cargo install cargo-binstall@1.6.9 --locked || cargo install starship@1.20.1 sheldon fd-find@9.0.0 xh bat || echo "cargo tools install failed."
+        else
+            echo "cargo-binstall already installed."
+        fi
         cargo binstall -y starship sheldon fd-find xh bat || echo "cargo tools install failed."
-        # cargo binstall starship@1.20.1 sheldon fd-find@9.0.0 xh bat || echo "cargo tools install failed."
+
         echo "cargo tools installed."
         for cmd in starship sheldon fd xh bat; do
             command -v "$cmd" >> ${HOME}/which || echo "$cmd not found"
@@ -183,19 +191,29 @@ echo "--------------------------------"
         command -v go >/dev/null || mise use -g go@1.23.2 -y || sudo apt-get install -y golang || echo "go install failed."
         command -v go >> ${HOME}/which || echo "go not found" >> ${HOME}/which
 
-        ${HOME}/.local/share/mise/shims/go install github.com/aquaproj/aqua/v2/cmd/aqua@latest || echo "aqua install failed."
-        echo "aqua installed."
-        # パスが通っていないので直接パスを指定
-        export PATH="${HOME}/.local/share/mise/installs/go/1.23.2/bin:${PATH}"
+        if ! command -v aqua >/dev/null; then
+            ${HOME}/.local/share/mise/shims/go install github.com/aquaproj/aqua/v2/cmd/aqua@latest || echo "aqua install failed."
+            echo "aqua installed."
+
+            # パスが通っていないので直接パスを指定
+            export PATH="${HOME}/.local/share/mise/installs/go/1.23.2/bin:${PATH}"
+            echo "aqua installed."
+        else
+            echo "aqua already installed."
+        fi
         command -v aqua >> ${HOME}/which || echo "aqua not found" >> ${HOME}/which
     }
 
     # mkcert をインストールおよび設定する関数
     install_mkcert() {
         echo "mkcert install start..."
-        command -v mkcert >/dev/null || mise use mkcert -y || sudo apt install -y mkcert || echo "mkcert install failed."
-        mkcert -install
-        echo "mkcert installed."
+        if ! command -v mkcert >/dev/null; then
+            mise use mkcert -y || sudo apt install -y mkcert || echo "mkcert install failed."
+            mkcert -install
+            echo "mkcert installed."
+        else
+            echo "mkcert already installed."
+        fi
         command -v mkcert >> ${HOME}/which || echo "mkcert not found"
     }
 
@@ -205,8 +223,10 @@ echo "--------------------------------"
             curl https://raw.githubusercontent.com/nektos/act/master/install.sh | sudo bash || echo "act install failed."
             sudo chmod +x ./bin/act
             sudo mv -f ./bin/act ${HOME}/.local/bin
+            echo "act installed."
+        else
+            echo "act already installed."
         fi
-        echo "act installed."
         command -v act >> ${HOME}/which || echo "act not found"
     }
 

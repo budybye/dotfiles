@@ -1,10 +1,10 @@
 services:
 
   ubuntu:
-    # build:
-      # context: .
-      # dockerfile: Dockerfile
-    image: ghcr.io/budybye/ubuntu-dev:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    # image: ghcr.io/budybye/ubuntu-dev:latest
     container_name: ubuntu
     hostname: docker
     privileged: true
@@ -13,7 +13,7 @@ services:
       - local
       - v6
     ports:
-      - 3389:3389 # RDP
+      - 33389:3389 # RDP
     tty: true
 
   portainer:

@@ -14,6 +14,9 @@ elif command -v uname >/dev/null 2>&1; then
 fi
 export ARCH="${ARCH:-unknown}"
 
+# パスを再設定
+export PATH="${PATH}:${HOME}/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+
 # ${VAR} "${VAR}" "${VAR:-var}" は環境変数
 # ' : ' で区切り
 
@@ -73,9 +76,6 @@ export LC_CTYPE="en_US.UTF-8"
 
 export TMPDIR="/tmp"
 export TERM="xterm-256color"
-
-# パスを再設定
-export PATH="${PATH}:${HOME}/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 
 if command -v cursor >/dev/null 2>&1; then
     export EDITOR="cursor"

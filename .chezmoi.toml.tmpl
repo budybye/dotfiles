@@ -16,7 +16,7 @@ mode = "symlink"
 [data]
 
 # *.tmpl で参照する変数
-# 環境変数で振る舞いを変える .name .flag などの値を設定する
+# 環境変数で振る舞いを変える .name .interactive などの値を設定する
 
 # runner の場合は runner
 # codespaces の場合は codespaces
@@ -28,64 +28,64 @@ mode = "symlink"
 # その他 の場合は username を参照する windows?
 
 {{ if eq (env "GITHUB_ACTIONS") "true" }}
-  dotfilesDir = "{{ .chezmoi.homeDir }}/work/dotfiles/dotfiles"
-  name = "runner"
-  email = "null"
-  flag = "false"
+    dotfilesDir = "{{ .chezmoi.homeDir }}/work/dotfiles/dotfiles"
+    name = "runner"
+    email = "null"
+    interactive = "false"
 
 {{ else if eq (env "CODESPACES") "true" }}
-  dotfilesDir = "{{ .chezmoi.homeDir }}/dotfiles"
-  name = "codespaces"
-  email = "null"
-  flag = "false"
+    dotfilesDir = "{{ .chezmoi.homeDir }}/dotfiles"
+    name = "codespaces"
+    email = "null"
+    interactive = "false"
 
 {{ else if eq (env "REMOTE_CONTAINERS") "true" }}
-  dotfilesDir = "{{ .chezmoi.homeDir }}/dotfiles"
-  name = "dev"
-  email = "null"
-  flag = "false"
+    dotfilesDir = "{{ .chezmoi.homeDir }}/dotfiles"
+    name = "dev"
+    email = "null"
+    interactive = "false"
 
 {{ else if eq (env "DOCKER") "true" }}
-  dotfilesDir = {{ .chezmoi.sourceDir | quote }}
-  name = "docker"
-  email = "null"
-  flag = "false"
-
-{{ else if eq .chezmoi.username "hotmilk" }}
-  dotfilesDir = {{ .chezmoi.sourceDir | quote }}
-  email = {{ (bitwarden "item" "gh").login.password | quote }}
-  name = {{ (bitwarden "item" "gh").login.username | quote }}
-  flag = "true"
+    dotfilesDir = {{ .chezmoi.sourceDir | quote }}
+    name = "docker"
+    email = "null"
+    interactive = "false"
 
 {{ else if eq .chezmoi.username "ubuntu" }}
-  dotfilesDir = {{ .chezmoi.sourceDir | quote }}
-  name = "budybye"
-  email = "101wayout@gmail.com"
-  flag = "true"
+    dotfilesDir = {{ .chezmoi.sourceDir | quote }}
+    name = "budybye"
+    email = "101wayout@gmail.com"
+    flag = "true"
+
+{{ else if eq .chezmoi.username "hotmilk" }}
+    dotfilesDir = {{ .chezmoi.sourceDir | quote }}
+    email = {{ (bitwarden "item" "gh").login.password | quote }}
+    name = {{ (bitwarden "item" "gh").login.username | quote }}
+    interactive = "true"
 
 {{ else if eq .chezmoi.username "lisa" }}
-  dotfilesDir = {{ .chezmoi.sourceDir | quote }}
-  name = "lisa"
-  email = "null"
-  flag = "true"
+    dotfilesDir = {{ .chezmoi.sourceDir | quote }}
+    name = "lisa"
+    email = "null"
+    flag = "true"
 
 {{ else -}}{{/* ubuntu, devcontainer, runner, codespaces 以外 */}}
-  dotfilesDir = "{{ .chezmoi.homeDir }}/.local/share/chezmoi"
-  email = "example@email.com"
-  name = {{ .chezmoi.username | quote }}
-  flag = "false"
+    dotfilesDir = "{{ .chezmoi.homeDir }}/.local/share/chezmoi"
+    email = "example@email.com"
+    name = {{ .chezmoi.username | quote }}
+    flag = "false"
 
 {{ end -}}
 
 [git]
-  autoPush = false
-  autoCommit = false
-  autoAdd = false
+    autoPush = false
+    autoCommit = false
+    autoAdd = false
 
 [edit]
-  command = "vim"
-#  command = "code"
-#  args = ["--wait"]
+    command = "vim"
+#    command = "code"
+#    args = ["--wait"]
 
 # sourceDir = "~/dotfiles"
 
@@ -95,4 +95,4 @@ umask = 0o022
 scriptTempDir = "~/tmp"
 
 [sctiptEnv]
-  SSS = "SouthSideSound"
+    SSS = "SouthSideSound"
