@@ -26,7 +26,4 @@ jobs:
           filebaseSecret: ${{ secrets.FILEBASE_SECRET }}
 
       - name: Print IPFS Hash
-        run: |
-          echo ${{ steps.ipfs.outputs.hash }}
-          echo ${{ steps.ipfs.outputs.cid }}
-          echo ${{ steps.ipfs.outputs.ipfs }}
+        run: echo ${{ steps.ipfs.outputs.hash }}

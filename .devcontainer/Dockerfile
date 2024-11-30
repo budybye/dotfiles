@@ -184,6 +184,7 @@ RUN groupadd -f xrdp && \
 
 # xrdpのポートを公開
 EXPOSE 3389
+EXPOSE 22
 
 # コンテナ起動時に実行するスクリプトを設定 /sbin/initを実行してる
 COPY ./entrypoint.sh /usr/local/bin/entrypoint
