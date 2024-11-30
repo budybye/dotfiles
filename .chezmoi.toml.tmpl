@@ -1,6 +1,4 @@
 {{/* 基本的な機能フラグ */}}
-{{- $name := "budybye" -}}
-{{- $email := "101wayout@gmail.com" -}}
 {{- $ephemeral := false -}}{{/* 一時的なマシン（クラウドやVM）の場合はtrue */}}
 {{- $headless := false -}}{{/* スクリーンとキーボードがない場合はtrue */}}
 {{- $personal := false -}}{{/* 個人用シークレットが必要な場合はtrue */}}
@@ -8,7 +6,17 @@
 {{/* OSとホスト名の検出 */}}
 {{- $osID := .chezmoi.os -}}
 {{- if (and (eq .chezmoi.os "linux") (hasKey .chezmoi.osRelease "id")) -}}
-{{-   $osID = printf "%s-%s" .chezmoi.os .chezmoi.osRelease.id -}}
+{{-     $osID = printf "%s-%s" .chezmoi.os .chezmoi.osRelease.id -}}
+{{- end -}}
+
+{{/* 環境変数とユーザー名の設定 */}}
+{{- $name := "budybye" -}}
+{{- $email := "101wayout@gmail.com" -}}
+
+{{/* detect GitHub codespaces, VSCode remote containers, Docker containers, Multipass VMs, and Vagrant boxes */}}
+{{- if or (env "CODESPACES") (env "REMOTE_CONTAINERS") (env "DOCKER") (env "GITHUB_ACTIONS") (eq .chezmoi.username "root" "ubuntu" "vagrant" "vscode") -}}
+{{- $ephemeral = true -}}
+{{- $headless = true -}}
 {{- end -}}
 
 {{/* 環境の検出 */}}
@@ -80,7 +88,7 @@ encryption = "age"
     ephemeral = {{ $ephemeral }}
     headless = {{ $headless }}
     personal = {{ $personal }}
-    osid = {{ $osID }}
+    osid = {{ $osID | quote }}
 
 [git]
     autoPush = false
