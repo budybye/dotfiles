@@ -314,6 +314,8 @@ echo "--------------------------------"
         install_homebrew
         install_brew_packages
         install_rosetta
+        # ~/.config/mise/config.toml に記載されたパッケージをインストール
+        mise install || echo "mise install failed."
         echo "bootstrap done."
     }
     bootstrap

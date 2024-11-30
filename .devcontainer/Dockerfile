@@ -52,6 +52,7 @@ RUN apt-get remove -y light-locker xscreensaver
 
 # 必須パッケージをインストール
 RUN apt-get install -y \
+    init \
     systemd \
     sudo \
     zsh \
