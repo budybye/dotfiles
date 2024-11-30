@@ -68,6 +68,7 @@
 
 [commit]
 	verbose = true
+	template = /Users/hotmilk/.config/git/commit.template
 
 [diff]
 	algorithm = histogram

@@ -1,63 +1,66 @@
-{{/* 基本的な機能フラグ */}}
-{{- $ephemeral := false -}}{{/* 一時的なマシン（クラウドやVM）の場合はtrue */}}
-{{- $headless := false -}}{{/* スクリーンとキーボードがない場合はtrue */}}
-{{- $personal := false -}}{{/* 個人用シークレットが必要な場合はtrue */}}
+{{/* 対話型シークレット系フラグ */}}
+{{- $bitwarden := false -}}{{/* bitwarden のパスワードを取得する */}}
+{{- $age := false -}}{{/* age 暗号化 */}}
+{{- $github := false -}}{{/* github ユーザー名を設定する */}}
+{{- $ssh := false -}}{{/* ssh AuthorizedKeys をgithubから設定する */}}
 
-{{/* OSとホスト名の検出 */}}
+{{/* OSの検出 */}}
 {{- $osID := .chezmoi.os -}}
 {{- if (and (eq .chezmoi.os "linux") (hasKey .chezmoi.osRelease "id")) -}}
 {{-     $osID = printf "%s-%s" .chezmoi.os .chezmoi.osRelease.id -}}
 {{- end -}}
 
-{{/* 環境変数とユーザー名の設定 */}}
+{{/* github ユーザー名の設定 */}}
 {{- $name := "budybye" -}}
 {{- $email := "101wayout@gmail.com" -}}
 
-{{/* detect GitHub codespaces, VSCode remote containers, Docker containers, Multipass VMs, and Vagrant boxes */}}
-{{- if or (env "CODESPACES") (env "REMOTE_CONTAINERS") (env "DOCKER") (env "GITHUB_ACTIONS") (eq .chezmoi.username "root" "ubuntu" "vagrant" "vscode") -}}
-{{- $ephemeral = true -}}
-{{- $headless = true -}}
+{{/* detect GitHub codespaces, VSCode remote containers, Docker containers, Multipass VMs, and dev container */}}
+{{- if or (env "CODESPACES") (env "REMOTE_CONTAINERS") (env "DOCKER") (env "GITHUB_ACTIONS") (eq .chezmoi.username "root" "ubuntu" "dev" "vscode" "runner") -}}
+{{- $bitwarden = false -}}
+{{- $age = false -}}
+{{- $email = "null" -}}
 {{- end -}}
 
 {{/* 環境の検出 */}}
 {{- if eq (env "GITHUB_ACTIONS") "true" -}}
     {{- $name = "runner" -}}
     {{- $email = "null" -}}
-    {{- $personal = false -}}
-    {{- $ephemeral = true -}}
-    {{- $headless = true -}}
+    {{- $github = true -}}
+    {{- $ssh = false -}}
 {{- else if eq (env "CODESPACES") "true" -}}
     {{- $name = "codespaces" -}}
     {{- $email = "null" -}}
-    {{- $personal = false -}}
-    {{- $ephemeral = true -}}
-    {{- $headless = true -}}
+    {{- $github = true -}}
+    {{- $ssh = true -}}
 {{- else if eq (env "REMOTE_CONTAINERS") "true" -}}
     {{- $name = "dev" -}}
     {{- $email = "null" -}}
-    {{- $personal = false -}}
-    {{- $ephemeral = true -}}
-    {{- $headless = true -}}
+    {{- $github = true -}}
+    {{- $ssh = true -}}
 {{- else if eq (env "DOCKER") "true" -}}
     {{- $name = "docker" -}}
     {{- $email = "null" -}}
-    {{- $ephemeral = true -}}
-    {{- $headless = true -}}
+    {{- $github = true -}}
+    {{- $ssh = true -}}
 {{- else if eq .chezmoi.username "ubuntu" -}}
     {{- $name = "budybye" -}}
     {{- $email = "101wayout@gmail.com" -}}
-    {{- $ephemeral = true -}}
-    {{- $headless = true -}}
-    {{- $personal = true -}}
+    {{- $github = true -}}
+    {{- $ssh = true -}}
 {{- else if eq .chezmoi.username "hotmilk" -}}
     {{- $email = (bitwarden "item" "gh").login.password -}}
     {{- $name = (bitwarden "item" "gh").login.username -}}
-    {{- $ephemeral = true -}}
-    {{- $headless = true -}}
-    {{- $personal = true -}}
+    {{- $bitwarden = true -}}
+    {{- $age = true -}}
+    {{- $github = true -}}
+    {{- $ssh = true -}}
 {{- else -}}
     {{- $name = .chezmoi.username -}}
     {{- $email = "null" -}}
+    {{- $bitwarden = false -}}
+    {{- $age = false -}}
+    {{- $github = false -}}
+    {{- $ssh = true -}}
 {{- end -}}
 
 # シンボリックリンクを作成する
@@ -85,10 +88,11 @@ encryption = "age"
 [data]
     email = {{ $email | quote }}
     name = {{ $name | quote }}
-    ephemeral = {{ $ephemeral }}
-    headless = {{ $headless }}
-    personal = {{ $personal }}
+    bitwarden = {{ $bitwarden }}
     osid = {{ $osID | quote }}
+    age = {{ $age }}
+    github = {{ $github }}
+    ssh = {{ $ssh }}
 
 [git]
     autoPush = false

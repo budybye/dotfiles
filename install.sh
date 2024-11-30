@@ -20,10 +20,18 @@ fi
 # POSIX way to get script's dir: https://stackoverflow.com/a/29834779/12156188
 SCRIPT_DIR="$(cd -P -- "$(dirname -- "$(command -v -- "$0")")" && pwd -P)"
 
+# ARCH 環境変数を設定
 if [ ! -f "$SCRIPT_DIR/.env" ]; then
     echo "No .env file found."
-    echo "export CONTEXT=$(whoami)" > "$SCRIPT_DIR/.env"
+    if [ "$(command -v uname)" ]; then
+        echo "export ARCH=$(uname -m)" >> "$SCRIPT_DIR/.env"
+    elif [ "$(command -v dpkg)" ]; then
+        echo "export ARCH=$(dpkg --print-architecture)" >> "$SCRIPT_DIR/.env"
+    else
+        echo "ARCH is not detected."
+    fi
 fi
+. "$SCRIPT_DIR/.env"
 
 # exec: replace current process with chezmoi init
 exec "$CHEZMOI" init --apply "--source=$SCRIPT_DIR"
