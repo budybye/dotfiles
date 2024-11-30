@@ -17,8 +17,8 @@ echo "${PATH}" | tr ':' '\n'
 echo "--------------------------------"
 echo "File check start!!"
 echo "pwd: $(pwd)"
-echo "SourceDir: {{.dotfilesDir | quote }}"
-tree -L 4 {{ .dotfilesDir }}
+echo "SourceDir: {{.chezmoi.sourceDir | quote }}"
+tree -L 4 {{ .chezmoi.sourceDir }}
 echo "--------------------------------"
 echo "${HOME}"
 ls -la "${HOME}"
@@ -50,7 +50,7 @@ if [ -d "${HOME}/dotfiles" ]; then
     echo "Dotfiles already exists."
 else
     echo "Create symlink..."
-    ln -sf "{{ .dotfilesDir }}" "${HOME}/dotfiles"
+    ln -sf "{{ .chezmoi.sourceDir }}" "${HOME}/dotfiles"
 fi
 ls -la "${HOME}/dotfiles"
 echo "--------------------------------"

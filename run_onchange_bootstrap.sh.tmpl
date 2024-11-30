@@ -4,7 +4,7 @@ echo "run_once_bootstrap.sh.tmpl"
 echo "--------------------------------"
 USERNAME=$(whoami)
 echo "Welcome to my dotfiles!!"
-echo "dotfilesDir: {{ .dotfilesDir }}"
+echo "sourceDir: {{ .chezmoi.sourceDir }}"
 echo "user: $USERNAME"
 echo "OS info ..."
 uname -a
@@ -13,7 +13,7 @@ echo "--------------------------------"
 
 # .env の確認と作成
 echo ".env && ENV checking..."
-cat {{ .dotfilesDir }}/.env
+cat {{ .chezmoi.sourceDir }}/.env
 echo "--------------------------------"
 env
 echo "--------------------------------"
