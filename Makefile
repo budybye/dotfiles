@@ -7,32 +7,39 @@ SHELL = bash
 dev: bw init
 
 init:
-	chmod +x ./install && \
-	./install
+	chmod +x ./install.sh && \
+	./install.sh
+docker:
+	docker \
+		run \
+		--privileged \
+		--rm -it \
+		--name ubuntu \
+		--hostname docker \
+		-p 33389:3389 \
+		-p 2222:22 \
+		-v $(HOME)/data:/data \
+		ghcr.io/budybye/ubuntu-dev \
+		/sbin/init
 up:
-	cd .devcontainer && \
-	docker compose up -d && \
-	cd ..
+	docker compose up -d -f .devcontainer/docker-compose.yaml
 down:
-	cd .devcontainer && \
-	docker compose down && \
-	cd ..
+	docker compose down -f .devcontainer/docker-compose.yaml
 ipfs:
-	cd .devcontainer && \
-	docker compose exec ipfs ipfs add -r $(HOME)/data && \
-	cd ..
+	docker compose up -d ipfs -f .devcontainer/docker-compose.yaml && \
+	docker compose exec ipfs ipfs add -r $(HOME)/data
 exec:
-	cd .devcontainer && \
-	docker compose exec ubuntu /bin/bash
+	docker compose exec ubuntu /sbin/init
 ubuntu:
-	multipass launch \
+	multipass \
+		launch \
 		-n ubuntu \
 		-c 4 \
 		-m 8G \
 		-d 42G \
 		--timeout 3600 \
-		--cloud-init cloud-init/multipass.yaml && \
-	multipass exec ubuntu -- tail -2 /var/log/cloud-init.log
+		--cloud-init cloud-init/multipass.yaml || true && \
+	multipass exec ubuntu -- tail -4 /var/log/cloud-init.log
 ssh:
 	ssh ubuntu@$(multipass info ubuntu --format json | jq -r '.[0].ipv4[0]')
 git:
