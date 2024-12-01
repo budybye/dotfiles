@@ -54,6 +54,13 @@
     {{- $age = true -}}
     {{- $github = true -}}
     {{- $ssh = true -}}
+{{- else if eq .chezmoi.username "budybye" -}}
+    {{- $name = .chezmoi.username -}}
+    {{- $email = "101wayout@gmail.com" -}}
+    {{- $bitwarden = true -}}
+    {{- $age = true -}}
+    {{- $github = true -}}
+    {{- $ssh = true -}}
 {{- else -}}
     {{- $name = .chezmoi.username -}}
     {{- $email = "null" -}}
@@ -88,8 +95,8 @@ encryption = "age"
 [data]
     email = {{ $email | quote }}
     name = {{ $name | quote }}
-    bitwarden = {{ $bitwarden }}
     osid = {{ $osID | quote }}
+    bitwarden = {{ $bitwarden }}
     age = {{ $age }}
     github = {{ $github }}
     ssh = {{ $ssh }}

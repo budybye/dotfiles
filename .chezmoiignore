@@ -7,24 +7,24 @@
 .ssh/id_rsa.age
 {{ end }}
 
-# {{ if eq .bitwarden "false" }}
-# .config/git/user.conf
-# {{ end }}
+{{ if ne .bitwarden }}
+.config/git/user.conf
+{{ end }}
 
-# {{ if eq .github "false" }}
-# .config/git/user.conf
-# {{ end }}
+{{ if ne .github }}
+.config/git/user.conf
+{{ end }}
 
-# {{ if eq .age "false" }}
-# .ssh/id_rsa.age
-# .ssh/id_ed25519.age
-# {{ end }}
+{{ if ne .age }}
+.ssh/id_rsa.age
+.ssh/id_ed25519.age
+{{ end }}
 
-# {{ if eq .ssh "false" }}
-# .ssh/id_rsa.age
-# .ssh/id_ed25519.age
-# .ssh/authorized_keys
-# {{ end }}
+{{ if ne .ssh }}
+.ssh/id_rsa.age
+.ssh/id_ed25519.age
+.ssh/authorized_keys
+{{ end }}
 
 {{ if eq .chezmoi.os "darwin" }}
 .config/Brewfile
