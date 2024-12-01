@@ -7,20 +7,20 @@
 .ssh/id_rsa.age
 {{ end }}
 
-{{ if ne .bitwarden }}
+{{ if eq .bitwarden false }}
 .config/git/user.conf
 {{ end }}
 
-{{ if ne .github }}
+{{ if eq .github false }}
 .config/git/user.conf
 {{ end }}
 
-{{ if ne .age }}
+{{ if eq .age false }}
 .ssh/id_rsa.age
 .ssh/id_ed25519.age
 {{ end }}
 
-{{ if ne .ssh }}
+{{ if eq .ssh false }}
 .ssh/id_rsa.age
 .ssh/id_ed25519.age
 .ssh/authorized_keys
