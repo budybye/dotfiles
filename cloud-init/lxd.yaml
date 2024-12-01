@@ -5,25 +5,23 @@ config:
     #cloud-config
     timezone: Asia/Tokyo
     locale: ja_JP.utf8
-    hostname: vm
+    hostname: ubuntu
     users:
-      - default
-      - name: ubuntu
-        passwd: ubuntu
+      - name: budybye
+        passwd: budybye
         uid: 1001
         gid: 1001
         sudo: ALL=(ALL) ALL
         groups: [users,adm,staff,sudo]
+        home: /home/budybye
         shell: /bin/bash
-        home: /home/ubuntu
-        ssh_authorized_keys:
-          - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC9+qnJxEuf/eJrpeGWahUpYh38PVHt+X9nZslctV/en
-        ssh_import_id:
-          - github:budybye
+    ssh_import_id:
+      - gh:budybye
     ssh_pwauth: false
     package_upgrade: true
     package_update: true
     packages:
+      - ssh-import-id
       - openssh-server
       - gnupg
       - wget
@@ -37,6 +35,7 @@ config:
       - byobu
       - age
       - gnupg
+      - ufw
       - jq
       - avahi-daemon
       - apt-transport-https
@@ -56,7 +55,7 @@ config:
       - git clone https://github.com/budybye/dotfiles.git /home/ubuntu/dotfiles
       - sudo groupadd -f ssl-cert
       - sudo groupadd -f xrdp
-      - sudo usermod -aG ssl-cert,xrdp ubuntu
+      - sudo usermod -aG ssl-cert,xrdp budybye
       - echo "xfce4-session" > ~/.xsession
       - sudo update-alternatives --set x-session-manager /usr/bin/xfce4-session
       - sudo systemctl enable xrdp
