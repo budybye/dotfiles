@@ -1,28 +1,38 @@
 services:
-
+  # docker-compose up -d --build ubuntu ipfs cloudflared portainer
   ubuntu:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    # image: ghcr.io/budybye/ubuntu-dev:latest
+    # build:
+      # context: .
+      # dockerfile: Dockerfile
+    image: ghcr.io/budybye/ubuntu-dev:main
     container_name: ubuntu
     hostname: docker
     privileged: true
-    platform: linux/${ARCH:-"$(dpkg --print-architecture)"}
+    platform: linux/${ARCH}
     networks:
-      - local
+      - v4
       - v6
     ports:
       - 33389:3389/tcp # RDP
       - 2222:22/tcp # SSH
     # command: /sbin/init
     tty: true
-
+  # docker コマンドだと
+  # docker run -rm
+  # --interactive --tty
+  # --privileged
+  # --platform linux/${ARCH}
+  # --network main --network sub
+  # --name ubuntu
+  # -p 33389:3389/tcp -p 2222:22/tcp
+  # ghcr.io/budybye/ubuntu-dev:main
+  # /sbin/init
+  #
   portainer:
     image: portainer/portainer-ce
     container_name: portainer
     networks:
-      - local
+      - v4
       - v6
     ports:
       - 8000:8000
@@ -38,7 +48,7 @@ services:
     container_name: cloudflared
     restart: unless-stopped
     networks:
-      - local
+      - v4
       - v6
     command:
       - tunnel
@@ -52,7 +62,7 @@ services:
     image: ipfs/kubo
     container_name: ipfs
     networks:
-      - local
+      - v4
       - v6
     ports:
       - 4001:4001
@@ -66,9 +76,14 @@ services:
     restart: unless-stopped
 
 networks:
-  local:
+  v4:
+    name: main
     driver: bridge
+    ipam:
+      config:
+        - subnet: 10.0.0.0/8
   v6:
+    name: sub
     driver: bridge
     ipam:
       config:

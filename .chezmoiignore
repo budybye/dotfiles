@@ -1,27 +1,46 @@
 # 配置されるときの名前にする
-# data は .chezmoi.toml.tmpl を参照
+# data は .chezmoi.toml.tmpl
 
-{{ if eq .name "runner" -}}
+{{ if eq .name "runner" }}
 .ssh/id_ed25519.age
 .ssh/authorized_keys
 .ssh/id_rsa.age
+{{ end }}
 
-{{ else if eq .name "dev" -}}
-data
+# {{ if eq .bitwarden "false" }}
+# .config/git/user.conf
+# {{ end }}
 
-{{ else if ne .chezmoi.os "darwin" -}}
-.config/Brewfile*
+# {{ if eq .github "false" }}
+# .config/git/user.conf
+# {{ end }}
+
+# {{ if eq .age "false" }}
+# .ssh/id_rsa.age
+# .ssh/id_ed25519.age
+# {{ end }}
+
+# {{ if eq .ssh "false" }}
+# .ssh/id_rsa.age
+# .ssh/id_ed25519.age
+# .ssh/authorized_keys
+# {{ end }}
+
+{{ if eq .chezmoi.os "darwin" }}
+.config/Brewfile
 .config/karabiner
 .ssh/id_rsa.age
+{{ end }}
 
-{{ else if ne .chezmoi.os "linux" -}}
+{{ if ne .chezmoi.os "linux" }}
 .config/fcitx5
 .config/fusuma
 .local/share/fonts
 .local/share/icons
 .local/share/themes
+{{ end }}
 
-{{ else if ne .chezmoi.os "windows" -}}
+{{ if ne .chezmoi.os "windows" }}
 .config/*
 data/*
 .devcontainer/*
@@ -29,13 +48,7 @@ cloud-init/*
 *rc
 *profile
 *env
-
-{{ end -}}
-
-README.md
-style.css
-Makefile
-install*
+{{ end }}
 
 .env
 .tool-versions
@@ -52,3 +65,8 @@ shhh.txt
 .devcontainer
 .cursorrules
 cloud-init
+
+Makefile
+install*
+README.md
+style.css
