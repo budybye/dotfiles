@@ -50,5 +50,5 @@ jobs:
           lxc exec ubuntu -- cat /home/budybye/.ssh/authorized_keys
           lxc exec ubuntu -- ls -la /home/budybye/dotfiles
           lxc exec ubuntu -- echo "$SHELL"
-          lxc exec ubuntu -- uname -a
+          lxc exec ubuntu -- cat /etc/os-release
           # lxc launch ubuntu:24.04 ubuntu --config=user.user-data="$(cat cloud-init/multipass.yaml)"

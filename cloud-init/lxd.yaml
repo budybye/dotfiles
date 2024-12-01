@@ -52,7 +52,7 @@ config:
       - dbus-x11
     runcmd:
       - curl -fsSL get.chezmoi.io | sudo sh -s -- -b /usr/local/bin
-      - git clone https://github.com/budybye/dotfiles.git /home/ubuntu/dotfiles
+      - git clone https://github.com/budybye/dotfiles.git /home/budybye/dotfiles
       - sudo groupadd -f ssl-cert
       - sudo groupadd -f xrdp
       - sudo usermod -aG ssl-cert,xrdp budybye
