@@ -1,20 +1,20 @@
 services:
   # docker-compose up -d --build ubuntu ipfs cloudflared portainer
   ubuntu:
-    # build:
-      # context: .
-      # dockerfile: Dockerfile
-    image: ghcr.io/budybye/ubuntu-dev:main
+    build:
+      context: .
+      dockerfile: Dockerfile
+    # image: ghcr.io/budybye/ubuntu-dev:main
     container_name: ubuntu
     hostname: docker
     privileged: true
-    platform: linux/${ARCH}
+    platform: linux/${ARCH:-$(dpkg --print-architecture || uname -m)}
     networks:
       - v4
       - v6
     ports:
-      - 33389:3389/tcp # RDP
-      - 2222:22/tcp # SSH
+      - 33389:3389 # RDP
+      - 2222:22 # SSH
     # command: /sbin/init
     tty: true
   # docker コマンドだと

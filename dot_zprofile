@@ -33,6 +33,7 @@ if [ -f "${HOME}/.zshrc" ]; then
   . "${HOME}/.zshrc"
 fi
 
+# byobu
 if command -v byobu > /dev/null 2>&1 && [ ${SHLVL} = 1 ]; then
-    byobu
+  byobu
 fi

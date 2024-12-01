@@ -1,0 +1,25 @@
+HashKnownHosts no
+
+{{- if eq .chezmoi.os "darwin" }}
+
+Host *
+  AddKeysToAgent yes
+  UseKeychain yes
+{{- end }}
+
+Host github.com
+  HostName github.com
+  User git
+  IdentityFile ~/.ssh/id_ed25519
+
+Host ubuntu
+  HostName vm.local
+  User ubuntu
+  IdentityFile ~/.ssh/id_ed25519
+  ServerAliveInterval 60
+
+Host budybye
+  HostName vm.local
+  IdentityFile ~/.ssh/id_ed25519
+  User budybye
+  ServerAliveInterval 60

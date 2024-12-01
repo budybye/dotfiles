@@ -1,10 +1,18 @@
-## history
-mkdir -p "${HOME}/.local/state/zsh"
-HISTFILE="${HOME}/.local/state/zsh/zsh_history"
-HISTSIZE=123456             # メモリ上に保存する履歴のサイズ
-SAVEHIST=123456             # 上述のファイルに保存する履歴のサイズ
+## ZDOTDIR/.zshrc はインタラクティブなシェルで読み込まれるが
+## ZDOTDIR/.zprofile の最後で読み込まれてるのでzshで必ず実行される
 
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="123"
+## history
+# 履歴ファイルのパスを設定
+if [ -d "${HOME}/.local/state/zsh" ]; then
+  HISTFILE="${HOME}/.local/state/zsh/zsh_history"
+  HISTSIZE=123456
+  SAVEHIST=123456
+  ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="123"
+else
+  HISTFILE="${HOME}/.zsh_history"
+  HISTSIZE=123456
+  SAVEHIST=123456
+fi
 
 setopt share_history        # 履歴を他のシェルとリアルタイム共有する
 setopt inc_append_history   # 実行時に履歴をファイルにに追加していく
@@ -30,12 +38,11 @@ setopt prompt_subst         # promptに変数を埋め込む
 # 色
 autoload -Uz colors && colors
 
-mkdir -p "${HOME}/.cache/zsh"
-
-# enable completion
-# autoload -Uz compinit && compinit -d "${HOME}/.cache/zsh/zcompdump-${ZSH_VERSION}"
-
-zstyle ':completion:*' cache-path "${HOME}/.cache/zsh/zcompcache"
+if [ -d "${HOME}/.cache/zsh" ]; then
+  # enable completion sheldonに変更？
+  # autoload -Uz compinit && compinit -d "${HOME}/.cache/zsh/zcompdump-${ZSH_VERSION}"
+  zstyle ':completion:*' cache-path "${HOME}/.cache/zsh/zcompcache"
+fi
 
 ## 小文字でも大文字でもマッチさせる
 zstyle ':completion:*' matcher-list 'm:{:a-z:}={:A-Z:}'
@@ -89,4 +96,9 @@ fi
 # aliasファイルの読み込み
 if [ -f "${HOME}/.aliases" ]; then
   . "${HOME}/.aliases"
+fi
+
+# 重複したPATHを削除
+if command -v awk > /dev/null 2>&1;then
+  export PATH="$(printf %s "${PATH}" | awk -v RS=: -v ORS=: '!arr[$0]++')"
 fi

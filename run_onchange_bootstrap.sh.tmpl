@@ -175,7 +175,7 @@ echo "--------------------------------"
         else
             echo "cargo-binstall already installed."
         fi
-        cargo binstall -y starship sheldon fd-find xh bat || echo "cargo tools install failed."
+        cargo-binstall -y starship sheldon fd-find xh bat || echo "cargo tools install failed."
 
         echo "cargo tools installed."
         for cmd in starship sheldon fd xh bat; do

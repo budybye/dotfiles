@@ -5,7 +5,8 @@ config:
     #cloud-config
     timezone: Asia/Tokyo
     locale: ja_JP.utf8
-    hostname: ubuntu
+    hostname: vm
+    fqdn: vm.local
     users:
       - name: budybye
         passwd: budybye
