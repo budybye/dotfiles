@@ -7,7 +7,7 @@ alias ds='echo $PATH && echo $SHELL'
 alias vv="env | grep"
 alias www="ps aux"
 alias opi="for i in {1..3}; do time ${SHELL} -ic exit;done"
-alias notes="$EDITOR ${HOME}/notes.md"  # ノートを開く
+alias note="${EDITOR:-vim} ${HOME}/note.md"  # ノートを開く
 alias docs="cd ${HOME}/Documents"  # ドキュメントフォルダに移動
 
 # ファイル操作のエイリアス
@@ -207,4 +207,10 @@ fi
 
 if command -v starship >/dev/null 2>&1; then
     alias sex="starship explain"
+fi
+
+if command -v age >/dev/null 2>&1; then
+    if [ -d "${HOME}/.secrets" ]; then
+        alias shhh="age-keygen | age --armor --passphrase > ${HOME}/.secrets/shhh.txt"
+    fi
 fi

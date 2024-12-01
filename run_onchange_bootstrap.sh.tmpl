@@ -146,16 +146,14 @@ echo "--------------------------------"
 
         command -v mise >> ${HOME}/which || echo "mise not found"
 
-        # version 指定しないと arm64 でエラーになる
-        mise use -g bun go@1.23.2 -y || echo "mise use failed."
+        # ~/.config/mise/config.toml に記載されたパッケージをインストール
+        mise install || echo "mise install failed."
 
         mise activate bash >/dev/null
         mise activate --shims >/dev/null
         echo "mise setup completed."
 
-        for cmd in bun go; do
-            command -v "$cmd" >> ${HOME}/which || echo "$cmd not found" >> ${HOME}/which
-        done
+        mise list >> ${HOME}/which || echo "mise list failed."
     }
 
     # Cargo および Rust 関連ツールをインストールする関数

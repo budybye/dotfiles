@@ -3,7 +3,7 @@
 # `mise use -g`で設定できます
 node = "20.18.1"
 go = "1.23.2"
-bun = "latest"
+bun = "1.1.33"
 
 # java = "latest"
 # rust = "latest"
@@ -44,8 +44,7 @@ always_keep_install = false         # デフォルトでは失敗時に削除
 
 # これらのプレフィックスを持つ設定ファイルはデフォルトで信頼されます
 trusted_config_paths = [
-    '~/.dotfiles',
-    '~/.local/share/chezmoi',
+    '{{ .chezmoi.sourceDir }}',
 ]
 
 verbose = false       # trueに設定すると、インストールの全出力が表示されます。`MISE_VERBOSE`を参照

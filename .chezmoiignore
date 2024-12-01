@@ -1,5 +1,5 @@
 # 配置されるときの名前にする
-# data は .chezmoi.toml.tmpl
+# .name などのdata は .chezmoi.toml.tmpl
 
 {{ if eq .name "runner" }}
 .ssh/authorized_keys
@@ -10,6 +10,7 @@
 
 {{ if eq .bitwarden false }}
 .config/git/user.conf
+.ssh/id_ed25519.pub
 {{ end }}
 
 {{ if eq .github false }}

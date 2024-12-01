@@ -11,16 +11,16 @@ init:
 	./install.sh
 docker:
 	docker \
-		run \
-		--privileged \
-		--rm -it \
-		--name ubuntu \
-		--hostname docker \
-		-p 33389:3389 \
-		-p 2222:22 \
-		-v $(HOME)/data:/data \
-		ghcr.io/budybye/ubuntu-dev \
-		/sbin/init
+	run \
+	--privileged \
+	--rm -it \
+	--name ubuntu \
+	--hostname docker \
+	-p 33389:3389 \
+	-p 2222:22 \
+	-v $(HOME)/data:/data \
+	ghcr.io/budybye/ubuntu-dev:main \
+	/sbin/init
 up:
 	docker compose up -d -f .devcontainer/docker-compose.yaml
 down:
@@ -32,14 +32,14 @@ exec:
 	docker compose exec ubuntu /sbin/init
 ubuntu:
 	multipass \
-		launch \
-		-n ubuntu \
-		-c 4 \
-		-m 8G \
-		-d 42G \
-		--timeout 3600 \
-		--cloud-init cloud-init/multipass.yaml || true && \
-	multipass exec ubuntu -- tail -4 /var/log/cloud-init.log
+	launch \
+	-n ubuntu \
+	-c 4 \
+	-m 8G \
+	-d 42G \
+	--timeout 4444 \
+	--cloud-init cloud-init/multipass.yaml && \
+	multipass exec ubuntu -- tail -5 /var/log/cloud-init.log
 ssh:
 	ssh ubuntu@$(multipass info ubuntu --format json | jq -r '.[0].ipv4[0]')
 git:
