@@ -101,5 +101,6 @@
   "commentTranslate.targetLanguage": "ja",
   "cursor.chat.smoothStreaming": true,
   "cursor.chat.alwaysSearchWeb": true,
-  "cursor.preferNotificationsSameAsChat": true
+  "cursor.preferNotificationsSameAsChat": true,
+  "terminal.integrated.env.osx": {}
 }

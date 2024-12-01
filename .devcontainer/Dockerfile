@@ -167,7 +167,7 @@ RUN curl https://mise.run | sh && \
 
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && \
     . ${HOME}/.cargo/env && \
-    cargo install cargo-binstall@1.6.9 --locked && \
+    cargo install cargo-binstall@1.6.9 && \
     cargo binstall -y starship sheldon fd-find xh bat && \
     echo 'export PATH=${HOME}/.cargo/bin:${PATH}' >> ${HOME}/.zshenv
 

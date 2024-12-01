@@ -171,7 +171,7 @@ echo "--------------------------------"
 
         echo "cargo tools install start..."
         if ! command -v cargo-binstall >/dev/null; then
-            cargo install cargo-binstall@1.6.9 --locked || cargo install starship@1.20.1 sheldon fd-find@9.0.0 xh bat || echo "cargo tools install failed."
+            cargo install cargo-binstall@1.6.9 || cargo install starship@1.20.1 sheldon fd-find@9.0.0 xh bat || echo "cargo tools install failed."
         else
             echo "cargo-binstall already installed."
         fi

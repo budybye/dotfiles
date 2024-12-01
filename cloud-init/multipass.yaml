@@ -16,8 +16,6 @@ users:
     shell: /usr/bin/zsh
     groups: users,adm,staff,sudo
     sudo: ALL=(ALL) NOPASSWD:ALL
-    ssh_authorized_keys:
-      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC9+qnJxEuf/eJrpeGWahUpYh38PVHt+X9nZslctV/en
     lock_passwd: false
 
   - name: lisa
@@ -28,13 +26,14 @@ users:
     shell: /usr/bin/zsh
     groups: users,adm,staff,sudo
     sudo: ALL=(ALL) NOPASSWD:ALL
-    ssh_import_id:
-      - github:budybye
     lock_passwd: false
 
-hostname: vm
-# fqdn: vm.local
 ssh_pwauth: false
+ssh_import_id:
+  - gh:budybye
+
+hostname: vm
+fqdn: vm.local
 timezone: Asia/Tokyo
 locale: ja_JP.utf8
 keyboard:
@@ -48,6 +47,7 @@ package_autoremove: true
 package_cleanup: true
 package_reboot_if_required: true
 packages:
+  - ssh-import-id
   - avahi-daemon
   - openssh-server
   - lsb-release
@@ -78,6 +78,8 @@ packages:
   - xrdp
   - xorgxrdp
   - dbus-x11
+  - docker.io
+  - docker
 runcmd:
   - curl -fsSL get.chezmoi.io | sudo sh -s -- -b /usr/local/bin
   - git clone https://github.com/budybye/dotfiles.git /home/ubuntu/dotfiles
