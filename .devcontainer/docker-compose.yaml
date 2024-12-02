@@ -1,6 +1,19 @@
 name: dev
 services:
   # docker-compose up -d --build ubuntu ipfs cloudflared portainer
+  # docker コマンドだと
+  # docker run -rm
+  # --interactive --tty
+  # --privileged
+  # --platform linux/${ARCH}
+  # --network main --network sub
+  # -v ${HOME}/dev:/home/ubuntu/dev
+  # --name ubuntu
+  # --hostname docker
+  # -p 33389:3389 -p 2222:22
+  # ghcr.io/budybye/ubuntu-dev:main
+  # ubuntu ubuntu yes
+  # 127.0.0.1:33389 で RDP
   ubuntu:
     build:
       context: .
@@ -12,29 +25,22 @@ services:
     platform: linux/${ARCH:-$(dpkg --print-architecture || uname -m)}
     networks:
       - v4
-      # - v6
+      - v6
     ports:
       - 33389:3389 # RDP
       - 2222:22 # SSH
     command: ["ubuntu", "ubuntu", "yes"]
     tty: true
-  # docker コマンドだと
-  # docker run -rm
-  # --interactive --tty
-  # --privileged
-  # --platform linux/${ARCH}
-  # --network main --network sub
-  # --name ubuntu
-  # -p 33389:3389 -p 2222:22
-  # ghcr.io/budybye/ubuntu-dev:main
-  # ubuntu ubuntu yes
-  #
+    shm_size: 512m
+    volumes:
+      - ${HOME}/dev:/home/ubuntu/dev
+
   portainer:
     image: portainer/portainer-ce
     container_name: portainer
     networks:
       - v4
-      # - v6
+      - v6
     ports:
       - 8000:8000
       - 9000:9000
@@ -50,7 +56,7 @@ services:
     restart: unless-stopped
     networks:
       - v4
-      # - v6
+      - v6
     command:
       - tunnel
       - run
@@ -64,7 +70,7 @@ services:
     container_name: ipfs
     networks:
       - v4
-      # - v6
+      - v6
     ports:
       - 4001:4001
       - 8080:8080
@@ -83,12 +89,12 @@ networks:
     ipam:
       config:
         - subnet: 10.0.0.0/8
-  # v6:
-  #   name: sub
-  #   driver: bridge
-  #   ipam:
-  #     config:
-  #       - subnet: fffe:1234:ccdd::/32
+  v6:
+    name: sub
+    driver: bridge
+    ipam:
+      config:
+        - subnet: fffe:1234:ccdd::/32
 
 volumes:
   dev_data:
