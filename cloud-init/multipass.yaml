@@ -6,6 +6,14 @@
 # - bob
 # - ....
 # foobar: ...
+# デフォルトユーザーのデフォルト設定
+system_info:
+  default_user:
+    # distro: ubuntu
+    name: ubuntu
+    lock_passwd: true
+    shell: /bin/bash
+    sudo: ALL=(ALL) NOPASSWD:ALL
 users:
   - default
   - name: budybye
@@ -28,12 +36,15 @@ users:
     sudo: ALL=(ALL) NOPASSWD:ALL
     lock_passwd: false
 
+# パスワード認証を無効にする
 ssh_pwauth: false
+# グローバルに github の ssh key を登録する便利 ssh-import-id
 ssh_import_id:
   - gh:budybye
-
+# ホスト名 ssh ubuntu@vm.local でアクセスできるようにする
 hostname: vm
 fqdn: vm.local
+# 日本語環境
 timezone: Asia/Tokyo
 locale: ja_JP.utf8
 keyboard:

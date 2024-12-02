@@ -39,9 +39,27 @@ jobs:
           git tag $new_tag
           git push origin $new_tag
 
+          # ログを収集
+          if [ -z "$latest_tag" ]; then
+            RANGE="HEAD"
+          else
+            RANGE="$latest_tag..HEAD"
+          fi
+
+          # 機能追加
+          FEATURES=$(git log ${RANGE} --pretty=format:"* %s (%h)" --grep="^feat:" --no-merges)
+          # バグ修正
+          FIXES=$(git log ${RANGE} --pretty=format:"* %s (%h)" --grep="^fix:" --no-merges)
+          # その他の変更
+          OTHERS=$(git log ${RANGE} --pretty=format:"* %s (%h)" --grep="^(docs|style|refactor|test|chore):" --no-merges)
+
+          # 主要な統計情報
+          STATS=$(git diff ${RANGE} --shortstat)
+          FILES=$(git diff ${RANGE} --name-only | sort | uniq | wc -l)
+
           # リリースを作成（自動生成されたリリースノート付き）
           gh release create "$new_tag" \
             --title="$new_tag" \
-            --notes="$(date)" \
+            --notes="$RANGE\n$FEATURES\n$FIXES\n$OTHERS\n$STATS\n$FILES\n$(date)" \
             --latest \
             --generate-notes
