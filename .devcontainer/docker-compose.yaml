@@ -4,6 +4,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        USER: dev
+        UID: 1024
     # image: ghcr.io/budybye/ubuntu-dev:main
     container_name: ubuntu
     hostname: docker
@@ -18,8 +21,8 @@ services:
       - 2222:22
     volumes:
       - ${HOME}/dev:/home/ubuntu/dev
-    shm_size: 512m
-    command: ["ubuntu", "ubuntu", "no"]
+    shm_size: 512m # ブラウザ対策
+    command: ["ubuntu", "ubuntu", "yes"]
     tty: true
 
   portainer:

@@ -122,6 +122,7 @@ fi
 if command -v chezmoi >/dev/null 2>&1; then
     alias che="chezmoi"
     alias ca="chezmoi apply"
+    alias cheup="chezmoi update --verbose"
     alias cai="chezmoi init --apply https://github.com/budybye/dotfiles.git"
 fi
 

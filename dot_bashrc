@@ -3,8 +3,10 @@ cd() {
   builtin cd "$@" && ls -la
 }
 
-# ディレクトリ名だけでcdする
-# shopt -s autocd
+# bash 5.2 以上で autocd を有効にする
+if [ $(bash --version | grep -c "5.2") -eq 1 ]; then
+  shopt -s autocd
+fi
 
 # homebrew
 if command -v brew > /dev/null 2>&1; then
@@ -50,4 +52,3 @@ fi
 if [ -f /etc/bash_completion ]; then
   . /etc/bash_completion
 fi
-

@@ -141,8 +141,7 @@ if command -v bun >/dev/null 2>&1; then
     export BUN_INSTALL="${XDG_DATA_HOME}/bun"
 fi
 
-if command -v mkcert >/dev/null 2>&1; then
-    mkdir -p "${XDG_DATA_HOME}/mkcert"
+if [ -f "$(mkcert -CAROOT)/rootCA.pem" ]; then
     NODE_EXTRA_CA_CERTS="$(mkcert -CAROOT)/rootCA.pem"
     export NODE_EXTRA_CA_CERTS
 fi
@@ -308,13 +307,11 @@ if [ "${XDG_SESSION_TYPE}" = "x11" ]; then
     export ICEAUTHORITY="${XDG_CACHE_HOME}/ICEauthority"
 fi
 
-if [ -f "${HOME}/.Xauthority" ]; then
-    mkdir -p "${XDG_RUNTIME_DIR}"
-    export XAUTHORITY="${XDG_RUNTIME_DIR}/Xauthority"
-    if [ -f "${HOME}/.Xauthority" ]; then
-        # mv "${HOME}/.Xauthority" "${XDG_RUNTIME_DIR}/Xauthority"
-    fi
-fi
+# if [ -f "${HOME}/.Xauthority" ]; then
+    # mkdir -p "${XDG_RUNTIME_DIR}"
+    # export XAUTHORITY="${XDG_RUNTIME_DIR}/Xauthority"
+    # mv "${HOME}/.Xauthority" "${XDG_RUNTIME_DIR}/Xauthority"
+# fi
 
 if command -v discord >/dev/null 2>&1; then
     mkdir -p "${XDG_DATA_HOME}/discord"
@@ -324,12 +321,12 @@ fi
 if command -v htop >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/htop"
     if [ -f "${HOME}/.htoprc" ]; then
-        mv "${HOME}/.htoprc" "${XDG_CONFIG_HOME}/htop/htoprc"
+        cp "${HOME}/.htoprc" "${XDG_CONFIG_HOME}/htop/htoprc"
     fi
 fi
 
 if command -v curl >/dev/null 2>&1; then
     if [ -f "${HOME}/.curlrc" ]; then
-        mv "${HOME}/.curlrc" "${XDG_CONFIG_HOME}/.curlrc"
+        cp "${HOME}/.curlrc" "${XDG_CONFIG_HOME}/.curlrc"
     fi
 fi

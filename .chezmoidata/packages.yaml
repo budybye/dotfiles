@@ -138,8 +138,8 @@ packages:
       - 'im-config'
       - 'byobu'
       - 'ruby'
-      - 'cargo'
-      - 'rustc'
+      # - 'cargo'
+      # - 'rustc'
     gui:
       - 'xfce4'
       - 'xfce4-goodies'

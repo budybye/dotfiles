@@ -9,9 +9,9 @@
     ],
     "initializeCommand": "echo 'Dev container initializing...'",
     "onCreateCommand": "echo 'Dev container creating...'",
-    // "postCreateCommand": "echo 'Post created...'",
-    // "postStartCommand": "echo 'Post started...'",
-    // "postAttachCommand": "echo 'Post attached...'",
+    "postCreateCommand": "echo 'Dev container post created...'",
+    "postStartCommand": "echo 'Dev container post started...'",
+    "postAttachCommand": "echo 'Dev container post attached...'",
     "shutdownAction": "stopCompose",
     "remoteEnv": {
       "USERNAME": "dev",
