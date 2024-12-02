@@ -1,19 +1,5 @@
 name: dev
 services:
-  # docker-compose up -d --build ubuntu ipfs cloudflared portainer
-  # docker コマンドだと
-  # docker run -rm
-  # --interactive --tty
-  # --privileged
-  # --platform linux/${ARCH}
-  # --network main --network sub
-  # -v ${HOME}/dev:/home/ubuntu/dev
-  # --name ubuntu
-  # --hostname docker
-  # -p 33389:3389 -p 2222:22
-  # ghcr.io/budybye/ubuntu-dev:main
-  # ubuntu ubuntu yes
-  # 127.0.0.1:33389 で RDP
   ubuntu:
     build:
       context: .
@@ -26,14 +12,15 @@ services:
     networks:
       - v4
       - v6
+    # 127.0.0.1:33389 で RDP
     ports:
-      - 33389:3389 # RDP
-      - 2222:22 # SSH
-    command: ["ubuntu", "ubuntu", "yes"]
-    tty: true
-    shm_size: 512m
+      - 33389:3389
+      - 2222:22
     volumes:
       - ${HOME}/dev:/home/ubuntu/dev
+    shm_size: 512m
+    command: ["ubuntu", "ubuntu", "no"]
+    tty: true
 
   portainer:
     image: portainer/portainer-ce

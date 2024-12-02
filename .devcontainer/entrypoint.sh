@@ -75,14 +75,6 @@ while [ $# -ne 0 ]; do
     shift 3
 done
 
-addgroup dev
-wait
-useradd -m -s /bin/bash -g dev dev
-wait
-echo dev:dev | chpasswd
-wait
-usermod -aG sudo dev
-
 echo -e "starting xrdp services...\n"
 
 trap "stop_xrdp_services" SIGKILL SIGTERM SIGHUP SIGINT EXIT

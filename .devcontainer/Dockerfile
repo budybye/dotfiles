@@ -31,7 +31,19 @@ RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezo
 
 RUN apt-get install -y \
     xfce4 \
-    xfce4-goodies
+    xfce4-clipman-plugin \
+    xfce4-cpugraph-plugin \
+    xfce4-netload-plugin \
+    xfce4-screenshooter \
+    xfce4-taskmanager \
+    xfce4-terminal \
+    xfce4-xkb-plugin
+
+# RUN apt-get install -y \
+#     xfce4-power-manager \
+#     xfce4-pulseaudio-plugin \
+#     xfce4-whiskermenu-plugin \
+#     xfce4-goodies
 
 RUN apt-get install -y \
     dbus-x11
@@ -98,6 +110,13 @@ RUN rm -rf /var/cache/apt /var/lib/apt/lists/*
 
 # chezmoiをインストール
 RUN sh -c "$(curl -fsSL get.chezmoi.io)" -- -b /usr/local/bin
+
+# devユーザーを作成
+RUN groupadd -g 1234 -f dev && \
+    useradd --uid 1234 --gid 1234 -m dev -G sudo -s /usr/bin/zsh && \
+    echo "dev:dev" | chpasswd && \
+    mkdir -p /home/dev && \
+    chown -R dev:dev /home/dev
 
 COPY ./entrypoint.sh /usr/bin/
 RUN ln -s /usr/bin/entrypoint.sh /usr/bin/entrypoint
