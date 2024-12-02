@@ -9,7 +9,7 @@
 # デフォルトユーザーのデフォルト設定
 system_info:
   default_user:
-    # distro: ubuntu
+    distro: ubuntu
     name: ubuntu
     lock_passwd: true
     shell: /bin/bash

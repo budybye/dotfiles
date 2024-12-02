@@ -158,7 +158,7 @@ if command -v docker >/dev/null 2>&1; then
     ## 停止コンテナ、タグ無しイメージ、未使用ボリューム、未使用ネットワーク一括削除
     alias drm="docker system prune -af --volumes"
 
-    alias dev="cd ~/.devcontainer && dc up"
+    alias dev="docker run --rm -it -name ubuntu-dev -hostname docker -v $(pwd):/home/app -p 8080:8080 -p 33389:3389 -p 2222:22 ghcr.io/budybye/ubuntu-dev:dev /bin/bash"
 fi
 
 # brew
@@ -172,10 +172,11 @@ if command -v multipass >/dev/null 2>&1; then
     alias mu="multipass"
     alias md="mu launch docker -c 4 -m 8G -d 40G  --timeout 3600 --mount ${HOME}/apps:/home/ubuntu/apps && mu info docker"
 
-    alias ml="mu launch -n ubuntu 24.04 -c 4 -m 8G -d 44G --timeout 4444 --cloud-init ${HOME}/dotfiles/cloud-init/multipass.yaml && mu exec ubuntu -- tail -7 /var/log/cloud-init.log"
+    alias ml="mu launch -n ubuntu 24.04 -c 4 -m 8G -d 44G --timeout 7200 --cloud-init ${HOME}/dotfiles/cloud-init/multipass.yaml && mu exec ubuntu -- tail -7 /var/log/cloud-init.log"
 
     alias ms="mu stop ubuntu && mu delete -p ubuntu"
-    # alias sm="ssh ubuntu@$(mu info ubuntu --format json | jq -r '.[0].ipv4[0]')"
+    # alias sm="ssh ubuntu@vm.local -i ~/.ssh/id_ed25519"
+    alias sm="ssh ubuntu"
 fi
 
 # kube

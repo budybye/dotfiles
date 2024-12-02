@@ -43,8 +43,8 @@ export XDG_DATA_DIRS="${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
 export XDG_CONFIG_DIRS="${XDG_CONFIG_DIRS:-/etc/xdg}"
 
 
-XDG_RUNTIME_DIR="/run/user/$(id -u)"
-export XDG_RUNTIME_DIR
+# XDG_RUNTIME_DIR="/run/user/$(id -u)"
+# export XDG_RUNTIME_DIR
 
 mkdir -p \
     "${HOME}/Desktop" \
@@ -142,6 +142,7 @@ if command -v bun >/dev/null 2>&1; then
 fi
 
 if command -v mkcert >/dev/null 2>&1; then
+    mkdir -p "${XDG_DATA_HOME}/mkcert"
     NODE_EXTRA_CA_CERTS="$(mkcert -CAROOT)/rootCA.pem"
     export NODE_EXTRA_CA_CERTS
 fi
@@ -311,7 +312,7 @@ if [ -f "${HOME}/.Xauthority" ]; then
     mkdir -p "${XDG_RUNTIME_DIR}"
     export XAUTHORITY="${XDG_RUNTIME_DIR}/Xauthority"
     if [ -f "${HOME}/.Xauthority" ]; then
-        mv "${HOME}/.Xauthority" "${XDG_RUNTIME_DIR}/Xauthority"
+        # mv "${HOME}/.Xauthority" "${XDG_RUNTIME_DIR}/Xauthority"
     fi
 fi
 

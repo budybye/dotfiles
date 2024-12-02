@@ -7,15 +7,17 @@ config:
     locale: ja_JP.utf8
     hostname: vm
     fqdn: vm.local
-    users:
-      - name: budybye
+    system_info:
+      distro: ubuntu
+      default_user:
+        name: budybye
         passwd: budybye
-        uid: 1001
-        gid: 1001
-        sudo: ALL=(ALL) ALL
-        groups: [users,adm,staff,sudo]
         home: /home/budybye
         shell: /bin/bash
+        sudo: ["ALL=(ALL) NOPASSWD:ALL"]
+        groups: [users,adm,staff,sudo,ssl-cert,xrdp]
+        lock_passwd: false
+    groups: [users,adm,sudo,ssl-cert,xrdp]
     ssh_import_id:
       - gh:budybye
     ssh_pwauth: false
@@ -54,9 +56,6 @@ config:
     runcmd:
       - curl -fsSL get.chezmoi.io | sudo sh -s -- -b /usr/local/bin
       - git clone https://github.com/budybye/dotfiles.git /home/budybye/dotfiles
-      - sudo groupadd -f ssl-cert
-      - sudo groupadd -f xrdp
-      - sudo usermod -aG ssl-cert,xrdp budybye
       - echo "xfce4-session" > ~/.xsession
       - sudo update-alternatives --set x-session-manager /usr/bin/xfce4-session
       - sudo systemctl enable xrdp
