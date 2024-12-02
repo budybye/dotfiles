@@ -1,49 +1,4 @@
 #cloud-config
-# デフォルト ユーザーの作成
-# ユーザーを定義しない限り、Ubuntu システムでは従来の権限 (パスワードなしの sudo、ロックされたユーザーなど) を持つ 'ubuntu' ユーザーが作成されます。ただし、他のユーザーに加えて 'ubuntu' ユーザーが必要な場合は、cloud-init にデフォルト ユーザーも必要であることを指示する必要があります。これを行うには、次の構文を使用します:
-# users:
-# - default
-# - bob
-# - ....
-# foobar: ...
-# デフォルトユーザーのデフォルト設定
-system_info:
-  default_user:
-    distro: ubuntu
-    name: ubuntu
-    lock_passwd: true
-    shell: /bin/bash
-    sudo: ALL=(ALL) NOPASSWD:ALL
-users:
-  - default
-  - name: budybye
-    passwd: budybye
-    home: /home/budybye
-    uid: 1001
-    gid: 1001
-    shell: /usr/bin/zsh
-    groups: users,adm,staff,sudo
-    sudo: ALL=(ALL) NOPASSWD:ALL
-    lock_passwd: false
-
-  - name: lisa
-    passwd: lisa
-    home: /home/lisa
-    uid: 1024
-    gid: 1024
-    shell: /usr/bin/zsh
-    groups: users,adm,staff,sudo
-    sudo: ALL=(ALL) NOPASSWD:ALL
-    lock_passwd: false
-
-# パスワード認証を無効にする
-ssh_pwauth: false
-# グローバルに github の ssh key を登録する便利 ssh-import-id
-ssh_import_id:
-  - gh:budybye
-# ホスト名 ssh ubuntu@vm.local でアクセスできるようにする
-hostname: vm
-fqdn: vm.local
 # 日本語環境
 timezone: Asia/Tokyo
 locale: ja_JP.utf8
@@ -51,6 +6,37 @@ keyboard:
   - model: pc105
   - layout: jp
   - options: ctrl:nocaps
+# ホスト名 ssh ubuntu@vm.local でアクセスできるようにする
+hostname: vm
+fqdn: vm.local
+groups: [users,sudo,adm,ssl-cert,xrdp,docker]
+system_info:
+  default_user:
+    distro: ubuntu
+    name: budybye
+    lock_passwd: false
+    passwd: budybye
+    home: /home/budybye
+    uid: 1000
+    gid: 1000
+    groups: [users,sudo,adm,ssl-cert,xrdp,docker]
+    shell: /usr/bin/zsh
+    sudo: ALL=(ALL) NOPASSWD:ALL
+users:
+  - default
+  - name: ubuntu
+    lock_passwd: false
+    passwd: ubuntu
+    home: /home/ubuntu
+    uid: 1001
+    gid: 1001
+    groups: [users,sudo,adm,ssl-cert,xrdp,docker]
+    shell: /bin/bash
+# パスワード認証を無効にする
+ssh_pwauth: false
+# グローバルに github の ssh key を登録する便利 ssh-import-id
+ssh_import_id:
+  - gh:budybye
 
 apt:
   sources:
@@ -174,11 +160,11 @@ packages:
 runcmd:
 - |
   curl -fsSL get.chezmoi.io | sudo sh -s -- -b /usr/local/bin
-  git clone https://github.com/budybye/dotfiles.git /home/ubuntu/dotfiles
+  git clone https://github.com/budybye/dotfiles.git /home/budybye/dotfiles
 - |
   sudo groupadd -f ssl-cert
   sudo groupadd -f xrdp
-  sudo usermod -aG ssl-cert,xrdp ubuntu
+  sudo usermod -aG ssl-cert,xrdp budybye ubuntu
   echo "xfce4-session" > ~/.xsession
   sudo update-alternatives --set x-session-manager /usr/bin/xfce4-session
   sudo systemctl enable xrdp
@@ -187,6 +173,7 @@ runcmd:
 # portainer起動される
 - |
   # add `ubuntu` to the `docker` group
+  adduser budybye docker
   adduser ubuntu docker
 - |
   # disable swap

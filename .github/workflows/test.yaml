@@ -43,10 +43,10 @@ jobs:
 
       - name: Launch container
         run: |
-          lxc profile create bob && cat cloud-init/lxd.yaml | lxc profile edit bob
-          lxc launch ubuntu:24.04 ubuntu -p default -p bob
+          lxc profile create dev && cat cloud-init/lxd.yaml | lxc profile edit dev
+          lxc launch ubuntu:24.04 ubuntu -p default -p dev
           lxc exec ubuntu -- cloud-init status --wait || true
-          lxc exec ubuntu -- tail -4 /var/log/cloud-init.log
+          lxc exec ubuntu -- tail -8 /var/log/cloud-init.log
           lxc exec ubuntu -- cat /home/budybye/.ssh/authorized_keys
           lxc exec ubuntu -- ls -la /home/budybye/dotfiles
           lxc exec ubuntu -- echo "$SHELL"

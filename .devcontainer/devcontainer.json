@@ -2,19 +2,19 @@
     "name": "dev",
     "dockerComposeFile": "docker-compose.yaml",
     "service": "ubuntu",
-    "remoteUser": "ubuntu",
-    "workspaceFolder": "/home/ubuntu",
+    "remoteUser": "dev",
+    "workspaceFolder": "/home/dev",
     "forwardPorts": [
       3389, 22, 3000
     ],
-    // "initializeCommand": "echo 'Initializing...'",
-    // "onCreateCommand": "echo 'Creating...'",
+    "initializeCommand": "echo 'Dev container initializing...'",
+    "onCreateCommand": "echo 'Dev container creating...'",
     // "postCreateCommand": "echo 'Post created...'",
     // "postStartCommand": "echo 'Post started...'",
     // "postAttachCommand": "echo 'Post attached...'",
     "shutdownAction": "stopCompose",
     "remoteEnv": {
-      "USERNAME": "ubuntu",
+      "USERNAME": "dev",
       "GIT_USER": "${GIT_USER:-}",
       "REMOTE_CONTAINERS": "true"
     },

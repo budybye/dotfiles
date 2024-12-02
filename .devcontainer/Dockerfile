@@ -112,11 +112,18 @@ RUN rm -rf /var/cache/apt /var/lib/apt/lists/*
 RUN sh -c "$(curl -fsSL get.chezmoi.io)" -- -b /usr/local/bin
 
 # devユーザーを作成
-RUN groupadd -g 1234 -f dev && \
-    useradd --uid 1234 --gid 1234 -m dev -G sudo -s /usr/bin/zsh && \
-    echo "dev:dev" | chpasswd && \
-    mkdir -p /home/dev && \
-    chown -R dev:dev /home/dev
+ARG USER=dev
+ARG UID=1024
+ARG GROUP=${USER}
+ARG GID=${UID}
+ARG SHELL=/usr/bin/zsh
+
+RUN groupadd -g ${GID} -f ${GROUP} && \
+    useradd --uid ${UID} --gid ${GID} -m ${USER} -G sudo -s ${SHELL} && \
+    echo "${USER}:${USER}" | chpasswd && \
+    echo "${USER} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
+    mkdir -p /home/${USER} && \
+    chown -R ${USER}:${GROUP} /home/${USER}
 
 COPY ./entrypoint.sh /usr/bin/
 RUN ln -s /usr/bin/entrypoint.sh /usr/bin/entrypoint
