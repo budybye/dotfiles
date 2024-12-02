@@ -2,8 +2,8 @@
     "name": "dev",
     "dockerComposeFile": "docker-compose.yaml",
     "service": "ubuntu",
-    "remoteUser": "dev",
-    "workspaceFolder": "/home/dev",
+    "remoteUser": "ubuntu",
+    "workspaceFolder": "/home/ubuntu",
     "forwardPorts": [
       3389, 22, 3000
     ],
@@ -14,7 +14,7 @@
     // "postAttachCommand": "echo 'Post attached...'",
     "shutdownAction": "stopCompose",
     "remoteEnv": {
-      "USERNAME": "dev",
+      "USERNAME": "ubuntu",
       "GIT_USER": "${GIT_USER:-}",
       "REMOTE_CONTAINERS": "true"
     },
