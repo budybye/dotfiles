@@ -20,7 +20,7 @@ else
     CODE_DIR="${HOME}/.local/share/Code"
 fi
 
-{{ range .package.extensions -}}
+{{ range .packages.extensions -}}
 ${CODE} --force --install-extension {{ . }}
 {{ end }}
 
