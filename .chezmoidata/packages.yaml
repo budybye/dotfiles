@@ -40,6 +40,7 @@ packages:
       - 'starship'
       - 'tree'
       - 'yt-dlp'
+
     casks:
       - 'appcleaner'
       - 'alacritty'
@@ -71,6 +72,7 @@ packages:
       - 'tabby'
       - 'wireshark'
       - 'windows-app'
+
   linux:
     cli:
       - 'git'
@@ -140,6 +142,7 @@ packages:
       - 'ruby'
       # - 'cargo'
       # - 'rustc'
+
     gui:
       - 'xfce4'
       - 'xfce4-goodies'
@@ -163,6 +166,7 @@ packages:
       - 'manpages-ja'
       - 'fcitx5-mozc'
       - 'plank'
+
     snap:
       - 'codium'
       - 'postman'
@@ -170,3 +174,24 @@ packages:
       - 'chromium'
       - 'bitwarden'
       - 'multipass'
+
+    extensions:
+      - 'asvetliakov.vscode-neovim'
+      - 'eamodio.gitlens'
+      - 'EditorConfig.EditorConfig'
+      - 'golang.go'
+      - 'jinliming2.vscode-go-template'
+      - 'ms-python.python'
+      - 'ms-vscode-remote.remote-containers'
+      - 'ms-vscode-remote.remote-ssh'
+      - 'ms-vscode-remote.remote-ssh-edit'
+      - 'ms-vscode-remote.vscode-remote-extensionpack'
+      - 'ms-vscode.cpptools'
+      - 'redhat.vscode-yaml'
+      - 'stkb.rewrap'
+      - 'streetsidesoftware.code-spell-checker'
+      - 'tamasfe.even-better-toml'
+      - 'twpayne.vscode-igc'
+      - 'twpayne.vscode-testscript'
+      - 'Tyriar.sort-lines'
+      - 'yzhang.markdown-all-in-one'

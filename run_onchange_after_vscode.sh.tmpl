@@ -4,17 +4,26 @@ echo "run_once_vscode.sh.tmpl"
 echo "--------------------------------"
 # 管理下の設定ファイルの場所
 FROM="${HOME}/.config/Code"
+CODE="code"
 
 # 環境によって変わる 設定ファイルの場所
-if command -v cursor >/dev/null 2>&1 || [ -f "${HOME}/Applications/cursor" ]; then
+if command -v cursor >/dev/null 2>&1; then
     CODE_DIR="${HOME}/.local/share/Cursor"
-
+    CODE="cursor"
+elif [ -f "${HOME}/Applications/cursor" ]; then
+    CODE_DIR="${HOME}/.local/share/Cursor"
+    CODE="cursor --no-sandbox"
 elif command -v codium >/dev/null 2>&1; then
     CODE_DIR="${HOME}/.config/VSCodium"
-
+    CODE="codium"
 else
     CODE_DIR="${HOME}/.local/share/Code"
 fi
+
+{{ range .package.extensions -}}
+${CODE} --force --install-extension {{ . }}
+{{ end }}
+
 # VSCodeのUserディレクトリの作成
 sudo mkdir -p "${CODE_DIR}/User"
 

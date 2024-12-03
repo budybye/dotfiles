@@ -5,14 +5,14 @@
 # 履歴ファイルのパスを設定
 if [ -d "${HOME}/.local/state/zsh" ]; then
   HISTFILE="${HOME}/.local/state/zsh/zsh_history"
-  HISTSIZE=123456
-  SAVEHIST=123456
-  ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="123"
 else
   HISTFILE="${HOME}/.zsh_history"
-  HISTSIZE=123456
-  SAVEHIST=123456
 fi
+HISTSIZE=123456
+SAVEHIST=123456
+HIST_STAMPS="yyyy-mm-dd"
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="123"
+ZSH_DISABLE_COMPFIX=true
 
 setopt share_history        # 履歴を他のシェルとリアルタイム共有する
 setopt inc_append_history   # 実行時に履歴をファイルにに追加していく
