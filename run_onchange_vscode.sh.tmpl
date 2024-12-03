@@ -20,8 +20,12 @@ else
     CODE_DIR="${HOME}/.local/share/Code"
 fi
 
+{{ if ne (env "REMOTE_CONTAINERS") "true" -}}
+
 {{ range .packages.extensions -}}
 ${CODE} --force --install-extension {{ . }}
+{{ end }}
+
 {{ end }}
 
 # VSCodeのUserディレクトリの作成
@@ -57,7 +61,7 @@ extensions_json() {
         echo "バックアップを作成しました: ${CODEX}.old"
     fi
 
-    if ! command -v "code" >/dev/null 1>&2; then
+    if ! command -v "code" >/dev/null 2>&1; then
         echo "VSCodeが存在しません。"
         sudo ln -sf "${FROM}/extensions.json" "${CODEX}"
         echo "新しい ${CODEX} を作成しました。"

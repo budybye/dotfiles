@@ -14,7 +14,7 @@
 {{- $name := "budybye" -}}
 {{- $email := "101wayout@gmail.com" -}}
 
-{{/* detect GitHub codespaces, VSCode remote containers, Docker containers, Multipass VMs, and dev container */}}
+{{/* detect GitHub codespaces, VSCode, runner, Docker, Multipass VMs, and dev container */}}
 {{- if or (env "CODESPACES") (env "REMOTE_CONTAINERS") (env "DOCKER") (env "GITHUB_ACTIONS") (eq .chezmoi.username "root" "ubuntu" "dev" "vscode" "runner") -}}
 {{- $bitwarden = false -}}
 {{- $age = false -}}
@@ -24,22 +24,18 @@
 {{/* 環境の検出 */}}
 {{- if eq (env "GITHUB_ACTIONS") "true" -}}
     {{- $name = "runner" -}}
-    {{- $email = "null" -}}
     {{- $github = true -}}
     {{- $ssh = false -}}
 {{- else if eq (env "CODESPACES") "true" -}}
     {{- $name = "codespaces" -}}
-    {{- $email = "null" -}}
     {{- $github = true -}}
     {{- $ssh = true -}}
 {{- else if eq (env "REMOTE_CONTAINERS") "true" -}}
     {{- $name = "dev" -}}
-    {{- $email = "null" -}}
     {{- $github = true -}}
     {{- $ssh = true -}}
 {{- else if eq (env "DOCKER") "true" -}}
     {{- $name = "docker" -}}
-    {{- $email = "null" -}}
     {{- $github = true -}}
     {{- $ssh = true -}}
 {{- else if eq .chezmoi.username "ubuntu" -}}
@@ -47,17 +43,15 @@
     {{- $email = "101wayout@gmail.com" -}}
     {{- $github = true -}}
     {{- $ssh = true -}}
-{{- else if eq .chezmoi.username "hotmilk" -}}
-    {{- $email = (bitwarden "item" "gh").login.password -}}
-    {{- $name = (bitwarden "item" "gh").login.username -}}
+{{- else if eq .chezmoi.username "budybye" -}}
     {{- $bitwarden = true -}}
     {{- $age = true -}}
     {{- $github = true -}}
     {{- $ssh = true -}}
-{{- else if eq .chezmoi.username "budybye" -}}
-    {{- $name = .chezmoi.username -}}
-    {{- $email = "101wayout@gmail.com" -}}
+{{- else if eq .chezmoi.username "hotmilk" -}}
     {{- $bitwarden = true -}}
+    {{- $email = (bitwarden "item" "gh").login.password -}}
+    {{- $name = (bitwarden "item" "gh").login.username -}}
     {{- $age = true -}}
     {{- $github = true -}}
     {{- $ssh = true -}}

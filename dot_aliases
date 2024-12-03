@@ -122,13 +122,13 @@ fi
 if command -v chezmoi >/dev/null 2>&1; then
     alias che="chezmoi"
     alias ca="chezmoi apply"
-    alias cheup="chezmoi update --verbose"
+    alias cha="chezmoi update --verbose"
     alias cai="chezmoi init --apply https://github.com/budybye/dotfiles.git"
 fi
 
 # bitwarden
 if command -v bw >/dev/null 2>&1; then
-    alias bwbw="export BW_SESSION=$(bw unlock --raw)"
+    alias bwbw='export BW_SESSION=$(bw unlock ${MASTER:-} --raw)'
 fi
 
 # vscode vscodium cursor mac ubuntu arm64
@@ -152,7 +152,7 @@ if command -v docker >/dev/null 2>&1; then
     # イメージ名を引数にビルドし、プッシュする関数のエイリアス
     alias ddd='function _ddd() { IMAGE_NAME="$1"; docker build -t "$IMAGE_NAME" . && docker push "$IMAGE_NAME"; }; _ddd'
 
-    alias dx='docker run --rm -it --privileged --platform linux/${ARCH:-$(dpkg --print-architecture || uname -m)} --hostname docker --name ubuntu-dev -v $(pwd):/home/ubuntu/dev -p 33389:3389 -p 2222:22 ghcr.io/budybye/ubuntu-dev && dps'
+    alias dx='docker run --rm -itd --privileged --platform linux/${ARCH:-$(dpkg --print-architecture || uname -m)} --hostname docker --name ubuntu-dev -v $(pwd):/home/ubuntu/dev -p 33389:3389 -p 2222:22 ghcr.io/budybye/ubuntu-dev ubuntu ubuntu yes && dps'
 
     alias dc="docker compose"
     alias dcb="docker compose build"
@@ -212,8 +212,6 @@ if command -v starship >/dev/null 2>&1; then
     alias sex="starship explain"
 fi
 
-if command -v age >/dev/null 2>&1; then
-    if [ -d "${HOME}/.secrets" ]; then
-        alias shhh="age-keygen | age --armor --passphrase > ${HOME}/.secrets/shhh.txt"
-    fi
+if command -v age >/dev/null 2>&1 && [ -d "${HOME}/.secrets" ]; then
+    alias shhh="age-keygen | age --armor --passphrase > ${HOME}/.secrets/shhh.txt"
 fi

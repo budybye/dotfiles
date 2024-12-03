@@ -14,10 +14,12 @@ SESSION="{{ .chezmoi.sourceDir }}/.env"
 
 # age のパスフレーズが要求される
 # マスターパスワードを復号
-{{ if ne .name "runner" }}
-    echo "decrypt shhh.txt"
-    MASTER="$(chezmoi decrypt {{ .chezmoi.sourceDir }}/shhh.txt)"
-    echo "MASTER: ${MASTER}"
+{{ if ne .name "runner" -}}
+
+echo "decrypt shhh.txt"
+MASTER="$(chezmoi decrypt {{ .chezmoi.sourceDir }}/shhh.txt)"
+echo "MASTER: ${MASTER}"
+
 {{ end }}
 
 # age のパスフレーズが要求される
