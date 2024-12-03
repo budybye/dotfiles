@@ -152,20 +152,14 @@ if command -v docker >/dev/null 2>&1; then
     # イメージ名を引数にビルドし、プッシュする関数のエイリアス
     alias ddd='function _ddd() { IMAGE_NAME="$1"; docker build -t "$IMAGE_NAME" . && docker push "$IMAGE_NAME"; }; _ddd'
 
+    alias dx='docker run --rm -it --privileged --platform linux/${ARCH:-$(dpkg --print-architecture || uname -m)} --hostname docker --name ubuntu-dev -v $(pwd):/home/ubuntu/dev -p 33389:3389 -p 2222:22 ghcr.io/budybye/ubuntu-dev && dps'
+
     alias dc="docker compose"
     alias dcb="docker compose build"
     alias dcu="docker compose up"
     alias dcd="docker compose down"
     ## 停止コンテナ、タグ無しイメージ、未使用ボリューム、未使用ネットワーク一括削除
     alias drm="docker system prune -af --volumes"
-
-    alias dev="docker run --rm -it -name ubuntu-dev -hostname docker -v $(pwd):/home/app -p 8080:8080 -p 33389:3389 -p 2222:22 ghcr.io/budybye/ubuntu-dev:dev /bin/bash"
-fi
-
-# brew
-if command -v brew >/dev/null 2>&1; then
-    alias bs="brew -S"
-    alias bb="brew bundle --file ${HOME}/.config/Brewfile && brew bundle cleanup --force --file ${HOME}/.config/Brewfile && brew update && brew upgrade && brew autoremove && brew doctor"
 fi
 
 # multipass
@@ -176,8 +170,7 @@ if command -v multipass >/dev/null 2>&1; then
     alias ml="mu launch -n ubuntu 24.04 -c 4 -m 8G -d 44G --timeout 7200 --cloud-init ${HOME}/dotfiles/cloud-init/multipass.yaml && mu exec ubuntu -- tail -7 /var/log/cloud-init.log"
 
     alias ms="mu stop ubuntu && mu delete -p ubuntu"
-    # alias sm="ssh ubuntu@vm.local -i ~/.ssh/id_ed25519"
-    alias sm="ssh ubuntu"
+    alias sm="ssh ubuntu@vm.local -i ~/.ssh/id_ed25519"
 fi
 
 # kube
@@ -194,17 +187,25 @@ if command -v apt >/dev/null 2>&1; then
     alias aq="apt search"
 fi
 
+# brew
+if command -v brew >/dev/null 2>&1; then
+    alias bs="brew -S"
+    alias bb="brew bundle --file ${HOME}/.config/Brewfile && brew bundle cleanup --force --file ${HOME}/.config/Brewfile && brew update && brew upgrade && brew autoremove && brew doctor"
+fi
+
 # speedtest
 if command -v speedtest >/dev/null 2>&1; then
     alias st="speedtest"
 fi
 
+# mise
 if command -v mise >/dev/null 2>&1; then
     alias mi="mise"
+    alias asdf="mise"
 fi
 
 if command -v sheldon >/dev/null 2>&1; then
-    alias sl="sheldon lock --update"
+    alias sd="sheldon lock --update"
 fi
 
 if command -v starship >/dev/null 2>&1; then
