@@ -1,6 +1,6 @@
 packages:
   darwin:
-    brews:
+    formula:
       - 'git'
       - 'curl'
       - 'make'
@@ -41,14 +41,14 @@ packages:
       - 'tree'
       - 'yt-dlp'
 
-    casks:
+    cask:
       - 'appcleaner'
       - 'alacritty'
       - 'betterdisplay'
       - 'bitwarden'
       - 'blender'
       - 'brave-browser'
-      - 'cheatsheet'
+      # - 'cheatsheet'
       - 'clipy'
       - 'cloudflare-warp'
       - 'cursor'

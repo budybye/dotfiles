@@ -3,6 +3,8 @@
 echo "run_onchange_youtube.sh"
 echo "--------------------------------"
 
+{{ if ne .name "runner" -}}
+
 PLAYLIST_NAME="riddim"
 PLAYLIST_DIR="$HOME/Music/$PLAYLIST_NAME"
 PLAYLIST_ID="PLMXoRsxtzGfCH7cvhAnzN_T3KvKmdkB3s"
@@ -10,10 +12,8 @@ PLAYLIST_ID="PLMXoRsxtzGfCH7cvhAnzN_T3KvKmdkB3s"
 URL="https://youtube.com/playlist?list=$PLAYLIST_ID"
 OUTPUT_DIR="$PLAYLIST_DIR/%(title)s.%(ext)s"
 
-{{ if ne .name "runner" -}}
-
 # yt-dlpのインストール
-if ! command -v yt-dlp &> /dev/null; then
+if ! command -v yt-dlp > /dev/null 2>&1; then
     {{ if eq .chezmoi.os "Darwin" }}
         brew install yt-dlp ffmpeg
     {{ else }}
@@ -23,7 +23,7 @@ fi
 echo "yt-dlp installed"
 
 # ダウンロード先ディレクトリの存在しなければダウンロード
-if [ ! -d "$PLAYLIST_DIR" ]; then
+if command -v yt-dlp > /dev/null 2>&1 && [ ! -d "$PLAYLIST_DIR" ]; then
     mkdir -p "$PLAYLIST_DIR"
     # youtube-dlを使って音声をダウンロード
     yt-dlp \

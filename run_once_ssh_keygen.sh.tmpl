@@ -2,6 +2,7 @@
 
 echo "run_once_ssh_keygen.sh.tmpl"
 echo "--------------------------------"
+
 DIR="$(pwd)"
 USER_NAME=$(whoami)
 SSH="${HOME}/.ssh"
@@ -55,27 +56,29 @@ EOF
 }
 
 github_copy() {
-# 公開鍵をコピー
-# ブラウザでgithubログイン画面を開く
-{{ if eq .name "runner" -}}
+    # 公開鍵をコピー
+    # ブラウザでgithubログイン画面を開く
+
+    {{ if eq .name "runner" -}}
     echo "${KEY_PATH}.pub"
     cat "${KEY_PATH}.pub"
 
-{{ else if eq .chezmoi.os "darwin" -}}
+    {{ else if eq .chezmoi.os "darwin" -}}
     pbcopy <"${KEY_PATH}.pub"
     open "https://github.com/settings/keys"
 
-{{ else if eq .chezmoi.os "linux" -}}
+    {{ else if eq .chezmoi.os "linux" -}}
     if command -v xsel >/dev/null 2>&1; then
         xsel --clipboard --input <"${KEY_PATH}.pub"
     else
         cat "${KEY_PATH}.pub"
     fi
     xdg-open "https://github.com/settings/keys"
+
     # GitHubにSSH接続をテスト
     # ssh -T git@github.com
 
-{{ end }}
+    {{ end }}
 }
 
 agent() {
@@ -104,10 +107,7 @@ show() {
     echo "--------------------------------"
 }
 
-ssh_keygen() {
-    key_gen
-    # github_copy
-    agent
-    show
-}
-ssh_keygen
+key_gen
+# github_copy
+agent
+show

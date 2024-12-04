@@ -59,278 +59,291 @@ echo "--------------------------------"
 
 {{- end }}
 
-# パッケージの更新と確認
-echo "Package update && check start!!"
-echo "--------------------------------"
-
 {{- if eq .chezmoi.os "linux" }}
 
-    echo "Linux"
-    # アーキテクチャを取得
-    arch="$(dpkg --print-architecture)"
+echo "Linux"
+# アーキテクチャを取得
+arch="$(dpkg --print-architecture)"
 
-    # Zsh をデフォルトシェルに変更する関数
-    change_shell_to_zsh() {
-        # zsh がインストールされているか確認
-        command -v zsh >/dev/null || sudo apt-get install -y zsh || echo "zsh install failed." >> ${HOME}/which
-        # デフォルトシェルを変更
-        zsh_path=$(command -v zsh)
-        sudo chsh -s "${zsh_path}" "${USERNAME}" || echo "zsh default shell change failed." >> ${HOME}/which
-        command -v /bin/zsh >/dev/null || sudo ln -sf /usr/bin/zsh /bin/zsh
-        echo "Your shell is ${SHELL}"
-        echo "zsh default shell changed to ${zsh_path}."
-        command -v zsh >> ${HOME}/which || echo "zsh not found" >> ${HOME}/which
-    }
+# Zsh をデフォルトシェルに変更する関数
+change_shell_to_zsh() {
+    # zsh がインストールされているか確認
+    if command -v zsh >/dev/null; then
+        echo "zsh already installed."
+    else
+        sudo apt-get install -y zsh || echo "zsh install failed." >> ${HOME}/which
+    fi
 
-    # 必要なパッケージをインストールする関数
-    install_packages() {
-        sudo dpkg --configure -a
-        apt --version
+    # デフォルトシェルを変更
+    zsh_path=$(command -v zsh)
+    sudo chsh -s "${zsh_path}" "${USERNAME}" || echo "zsh default shell change failed."
+
+    command -v /bin/zsh >/dev/null || sudo ln -sf /usr/bin/zsh /bin/zsh
+    echo "Your shell is ${SHELL}"
+    echo "zsh default shell changed to ${zsh_path}."
+    command -v zsh >> ${HOME}/which || echo "zsh not found"
+}
+
+install_packages() {
+    sudo dpkg --configure -a
+    apt --version
+    sudo apt-get update -y
+    sudo apt-get upgrade -y
+
+    {{ range .packages.linux.cli -}}
+
+    if ! dpkg -l | grep -q {{ . }}; then
+        sudo apt-get install -y {{ . }} || echo "{{ . }} install failed." >> ${HOME}/which
+    fi
+
+    {{ end }}
+
+    sudo apt-get autoremove -y
+    sudo apt-get autoclean -y
+    sudo rm -rf /var/cache/apt /var/lib/apt/lists/*
+    sudo apt-get check
+    echo "apt install completed."
+}
+
+install_docker_compose() {
+    if command -v docker-compose >/dev/null 2>&1; then
+        echo "docker-compose already installed."
+    else
+        # 最新バージョンを取得
+        COMPOSE_VERSION=$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep tag_name | cut -d '"' -f 4)
+        # ダウンロード URL の作成
+        COMPOSE_URL="https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)"
+        # Docker Compose のバイナリをダウンロード
+        sudo curl -L "$COMPOSE_URL" -o /usr/local/bin/docker-compose || echo "docker-compose download failed."
+        sudo chmod +x /usr/local/bin/docker-compose
+        command -v docker-compose >> ${HOME}/which || echo "docker-compose not found" >> ${HOME}/which
+        echo "docker-compose installed."
+    fi
+}
+
+install_docker() {
+    if command -v docker >/dev/null 2>&1; then
+        echo "docker already installed."
+    else
         sudo apt-get update -y
-        sudo apt-get upgrade -y
-        sudo apt-get install -y {{ .packages.linux.cli | join " " }} || echo "apt install failed." >> ${HOME}/which
-        sudo apt-get autoremove -y
-        sudo apt-get autoclean -y
-        sudo rm -rf /var/cache/apt /var/lib/apt/lists/*
-        sudo apt-get check
-        echo "apt install completed."
-    }
-
-    install_docker_compose() {
-        if command -v docker-compose >/dev/null 2>&1; then
-            echo "docker-compose already installed."
-        else
-            # 最新バージョンを取得
-            COMPOSE_VERSION=$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep tag_name | cut -d '"' -f 4)
-            # ダウンロード URL の作成
-            COMPOSE_URL="https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)"
-            # Docker Compose のバイナリをダウンロード
-            sudo curl -L "$COMPOSE_URL" -o /usr/local/bin/docker-compose || echo "docker-compose download failed."
-            sudo chmod +x /usr/local/bin/docker-compose
-            command -v docker-compose >> ${HOME}/which || echo "docker-compose not found" >> ${HOME}/which
-            echo "docker-compose installed."
+        sudo apt-get install -y apt-transport-https ca-certificates curl gnupg lsb-release software-properties-common || echo "apt install failed."
+        sudo mkdir -p /etc/apt/keyrings
+        sudo install -m 0755 -d /etc/apt/keyrings
+        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.asc
+        sudo chmod a+r /etc/apt/keyrings/docker.asc
+        echo "deb [arch=${arch} signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
+        sudo apt-get update -y
+        sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin || echo "docker install failed."
+        if [ -f /var/run/docker.sock ]; then
+            sudo chmod 666 /var/run/docker.sock
         fi
-    }
+        sudo groupadd -f docker
+        sudo usermod -aG docker "$USERNAME"
+        sudo systemctl enable docker
+        docker info
+        command -v docker >> ${HOME}/which || echo "docker not found" >> ${HOME}/which
+        echo "docker daemon started."
+    fi
+}
 
-    install_docker() {
-        if command -v docker >/dev/null 2>&1; then
-            echo "docker already installed."
-        else
-            for pkg in docker.io docker-doc docker-compose docker-compose-v2 podman-docker containerd runc; do sudo apt-get remove -y $pkg; done
-            sudo apt-get update -y
-            sudo apt-get install -y apt-transport-https ca-certificates curl gnupg lsb-release software-properties-common || echo "apt install failed."
-            sudo mkdir -p /etc/apt/keyrings
-            sudo install -m 0755 -d /etc/apt/keyrings
-            curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.asc
-            sudo chmod a+r /etc/apt/keyrings/docker.asc
-            echo "deb [arch=${arch} signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
-            sudo apt-get update -y
-            sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin || echo "docker install failed."
-            if [ -f /var/run/docker.sock ]; then
-                sudo chmod 666 /var/run/docker.sock
-            fi
-            sudo groupadd -f docker
-            sudo usermod -aG docker "$USERNAME"
-            sudo systemctl enable docker
-            docker info
-            command -v docker >> ${HOME}/which || echo "docker not found" >> ${HOME}/which
-            echo "docker daemon started."
-        fi
-    }
+install_mise() {
+    if command -v mise >/dev/null 2>&1; then
+        echo "mise already installed."
+    else
+        echo "mise install start..."
+        curl https://mise.run | sh || {
+            sudo install -dm 755 /etc/apt/keyrings
+            wget -qO - https://mise.jdx.dev/gpg-key.pub | gpg --dearmor | sudo tee /etc/apt/keyrings/mise-archive-keyring.gpg 1>/dev/null
+            echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=${arch}] https://mise.jdx.dev/deb stable main" | sudo tee /etc/apt/sources.list.d/mise.list
+            sudo apt-get update -y && sudo apt-get install -y mise || echo "mise install failed."
+        }
+    fi
+    export PATH="${HOME}/.local/bin:${HOME}/.local/share/mise/shims:$PATH"
+    command -v mise >> ${HOME}/which || echo "mise not found"
 
-    # mise でインストールする関数
-    install_mise() {
-        if ! command -v mise >/dev/null 2>&1; then
-            echo "mise install start..."
-            curl https://mise.run | sh || {
-                sudo install -dm 755 /etc/apt/keyrings
-                wget -qO - https://mise.jdx.dev/gpg-key.pub | gpg --dearmor | sudo tee /etc/apt/keyrings/mise-archive-keyring.gpg 1>/dev/null
-                echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=${arch}] https://mise.jdx.dev/deb stable main" | sudo tee /etc/apt/sources.list.d/mise.list
-                sudo apt-get update -y && sudo apt-get install -y mise || echo "mise install failed."
-            }
-        else
-            echo "mise already installed."
-        fi
-        export PATH="${HOME}/.local/bin:${HOME}/.local/share/mise/shims:$PATH"
+    # ~/.config/mise/config.toml に記載されたパッケージをインストール
+    mise install || echo "mise install failed."
 
-        command -v mise >> ${HOME}/which || echo "mise not found"
+    mise activate bash >/dev/null
+    mise activate --shims >/dev/null
+    echo "mise setup completed."
 
-        # ~/.config/mise/config.toml に記載されたパッケージをインストール
-        mise install || echo "mise install failed."
+    mise list >> ${HOME}/which || echo "mise list failed."
+}
 
-        mise activate bash >/dev/null
-        mise activate --shims >/dev/null
-        echo "mise setup completed."
-
-        mise list >> ${HOME}/which || echo "mise list failed."
-    }
-
-    # Cargo および Rust 関連ツールをインストールする関数
-    install_cargo_tools() {
-        echo "cargo install start..."
-        if ! command -v cargo >/dev/null; then
-            curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y || mise use rust -y || sudo apt-get install -y cargo || echo "cargo install failed."
-            echo "cargo installed."
-        else
-            echo "cargo already installed."
-        fi
+install_cargo_tools() {
+    echo "cargo install start..."
+    if command -v cargo >/dev/null; then
+        echo "cargo already installed."
+    else
+        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y || mise use rust -y || sudo apt-get install -y cargo || echo "cargo install failed."
         . ${HOME}/.cargo/env
-        command -v cargo >> ${HOME}/which || echo "cargo not found"
+        echo "cargo installed."
+    fi
+    command -v cargo >> ${HOME}/which || echo "cargo not found"
 
-        echo "cargo tools install start..."
-        if ! command -v cargo-binstall >/dev/null; then
-            cargo install cargo-binstall@1.6.9 --locked || cargo install starship@1.20.1 sheldon fd-find@9.0.0 xh bat || echo "cargo tools install failed."
-        else
-            echo "cargo-binstall already installed."
-        fi
-        cargo-binstall -y starship sheldon fd-find xh bat || echo "cargo tools install failed."
+    echo "cargo tools install start..."
+    if command -v cargo-binstall >/dev/null; then
+        echo "cargo-binstall already installed."
+    else
+        cargo install cargo-binstall@1.6.9 --locked || echo "cargo tools install failed."
+    fi
+    cargo-binstall -y starship sheldon fd-find xh bat || cargo install starship@1.20.1 fd-find@9.0.0 xh bat sheldon || echo "cargo tools install failed."
 
-        echo "cargo tools installed."
-        for cmd in starship sheldon fd xh bat; do
-            command -v "$cmd" >> ${HOME}/which || echo "$cmd not found"
-        done
-    }
+    echo "cargo tools installed."
+    for cmd in starship sheldon fd xh bat; do
+        command -v "$cmd" >> ${HOME}/which || echo "$cmd not found"
+    done
+}
 
-    install_flatpak() {
-        command -v flatpak >/dev/null || sudo apt-get install -y flatpak || echo "flatpak install failed."
+install_flatpak() {
+    if command -v flatpak >/dev/null; then
+        echo "flatpak already installed."
+    else
+        sudo apt-get install -y flatpak || echo "flatpak install failed."
         sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
         echo "flatpak installed."
-        command -v flatpak >> ${HOME}/which || echo "flatpak not found"
-    }
+    fi
+    command -v flatpak >> ${HOME}/which || echo "flatpak not found"
+}
 
-    # Go と Aqua をインストールする関数
-    install_go_aqua() {
-        command -v go >/dev/null || mise use -g go@1.23.2 -y || sudo apt-get install -y golang || echo "go install failed."
-        command -v go >> ${HOME}/which || echo "go not found" >> ${HOME}/which
+install_go_aqua() {
+    if command -v go >/dev/null; then
+        echo "go already installed."
+    else
+        mise use -g go@1.23.2 -y || sudo apt-get install -y golang || echo "go install failed."
+        command -v go >> ${HOME}/which || echo "go not found"
+    fi
 
-        if ! command -v aqua >/dev/null; then
-            ${HOME}/.local/share/mise/shims/go install github.com/aquaproj/aqua/v2/cmd/aqua@latest || echo "aqua install failed."
-            echo "aqua installed."
+    if command -v aqua >/dev/null; then
+        echo "aqua already installed."
+    else
+        ${HOME}/.local/share/mise/shims/go install github.com/aquaproj/aqua/v2/cmd/aqua@latest || echo "aqua install failed."
 
-            # パスが通っていないので直接パスを指定
-            export PATH="${HOME}/.local/share/mise/installs/go/1.23.2/bin:${PATH}"
-            echo "aqua installed."
-        else
-            echo "aqua already installed."
-        fi
-        command -v aqua >> ${HOME}/which || echo "aqua not found" >> ${HOME}/which
-    }
+        # パスが通っていないので直接パスを指定
+        export PATH="${HOME}/.local/share/mise/installs/go/1.23.2/bin:${PATH}"
+        echo "aqua installed."
+    fi
+    command -v aqua >> ${HOME}/which || echo "aqua not found"
+}
 
-    # mkcert をインストールおよび設定する関数
-    install_mkcert() {
-        echo "mkcert install start..."
-        if ! command -v mkcert >/dev/null; then
-            mise use mkcert -y || sudo apt install -y mkcert || echo "mkcert install failed."
-            mkcert -install
-            echo "mkcert installed."
-        else
-            echo "mkcert already installed."
-        fi
-        command -v mkcert >> ${HOME}/which || echo "mkcert not found"
-    }
+install_mkcert() {
+    echo "mkcert install start..."
+    if ! command -v mkcert >/dev/null; then
+        mise use mkcert -y || sudo apt install -y mkcert || echo "mkcert install failed."
+        mkcert -install
+        echo "mkcert installed."
+    else
+        echo "mkcert already installed."
+    fi
+    command -v mkcert >> ${HOME}/which || echo "mkcert not found"
+}
 
-    install_act() {
-        echo "act install start..."
-        if ! command -v act >/dev/null; then
-            curl https://raw.githubusercontent.com/nektos/act/master/install.sh | sudo bash || echo "act install failed."
-            sudo chmod +x ./bin/act
-            sudo mv -f ./bin/act ${HOME}/.local/bin
-            echo "act installed."
-        else
-            echo "act already installed."
-        fi
-        command -v act >> ${HOME}/which || echo "act not found"
-    }
+install_act() {
+    echo "act install start..."
+    if ! command -v act >/dev/null; then
+        curl https://raw.githubusercontent.com/nektos/act/master/install.sh | sudo bash || echo "act install failed."
+        sudo chmod +x ./bin/act
+        sudo mv -f ./bin/act ${HOME}/.local/bin
+        echo "act installed."
+    else
+        echo "act already installed."
+    fi
+    command -v act >> ${HOME}/which || echo "act not found"
+}
 
-    install_volta() {
-        echo "volta install start..."
-        command -v volta >/dev/null || curl https://get.volta.sh | bash || echo "volta install failed."
+install_volta() {
+    echo "volta install start..."
+    if command -v volta >/dev/null; then
+        echo "volta already installed."
+    else
+        curl https://get.volta.sh | bash || echo "volta install failed."
         echo "volta installed."
-        command -v volta >> ${HOME}/which || echo "volta not found"
-    }
+    fi
+    command -v volta >> ${HOME}/which || echo "volta not found"
+}
 
-    install_cli_tools() {
-        echo "CLI tools install start..."
-        install_packages
-        change_shell_to_zsh
-        install_mise
-        install_docker
-        install_docker_compose
-        install_cargo_tools
-        install_flatpak
-        install_go_aqua
-        # install_volta
-        install_mkcert
-        install_act
-        cat ${HOME}/which && rm -f ${HOME}/which
-    }
-    # スクリプトを実行
-    install_cli_tools
+echo "CLI tools install start..."
+install_packages
+change_shell_to_zsh
+install_mise
+install_docker
+install_docker_compose
+install_cargo_tools
+install_flatpak
+install_go_aqua
+# install_volta
+install_mkcert
+install_act
+cat ${HOME}/which && rm -f ${HOME}/which
 
 {{- else if eq .chezmoi.os "darwin" }}
 
-    # Xcode コマンドラインツールのインストールおよびパスの設定
-    install_xcode_command_line_tools() {
-        echo "Xcode command line tools check it..."
-        command -v xcode-select -p >/dev/null || xcode-select --install || echo "Xcode command line tools install failed."
+# Xcode コマンドラインツールのインストールおよびパスの設定
+install_xcode_command_line_tools() {
+    echo "Xcode command line tools check it..."
+    if [ "$(command -v xcode-select -p)" ]; then
+        echo "Xcode command line tools already installed."
+    else
+        xcode-select --install || echo "Xcode command line tools install failed."
         echo "Xcode command line tools install done."
-        CURRENT_PATH=$(xcode-select -p)
-        DESIRED_PATH="/Library/Developer/CommandLineTools"
+    fi
+    CURRENT_PATH=$(xcode-select -p)
+    DESIRED_PATH="/Library/Developer/CommandLineTools"
 
-        if [ "$CURRENT_PATH" != "$DESIRED_PATH" ]; then
-            echo "change path to $DESIRED_PATH"
-            sudo xcode-select --switch "$DESIRED_PATH" || {
-                echo "path change failed. reset initial settings."
-                sudo xcode-select --reset
-            }
-        fi
+    if [ "$CURRENT_PATH" != "$DESIRED_PATH" ]; then
+        echo "change path to $DESIRED_PATH"
+        sudo xcode-select --switch "$DESIRED_PATH" || {
+            echo "path change failed. reset initial settings."
+            sudo xcode-select --reset
+        }
         echo "$DESIRED_PATH setup done."
-    }
+    fi
+}
 
-    # Homebrew のインストールおよび設定
-    install_homebrew() {
-        echo "Homebrew install check it..."
-        command -v brew >/dev/null || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" || echo "Homebrew install failed."
+install_homebrew() {
+    echo "Homebrew install check it..."
+    if [ "$(command -v brew)" ]; then
+        echo "Homebrew already installed."
+    else
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" || echo "Homebrew install failed."
         eval "$(/opt/homebrew/bin/brew shellenv)"
-    }
+        echo "Homebrew installed."
+    fi
+}
 
-    # Brewfile を使用してパッケージをインストール
-    install_brew_packages() {
-        brew --version
-        brew tap Homebrew/bundle
-        brew install {{ .packages.darwin.brews | join " " }} || echo "brew install failed."
-        brew install --cask {{ .packages.darwin.casks | join " " }} || echo "cask install failed."
-        brew update
-        brew upgrade
-        brew autoremove
-        brew cleanup
-        brew doctor
-        brew list
-        echo "packages install done."
-    }
+install_brew_packages() {
+    brew --version
+    brew tap Homebrew/bundle
+    brew install {{ .packages.darwin.formula | join " " }} || echo "formula install failed."
+    brew install --cask {{ .packages.darwin.cask | join " " }} || echo "cask install failed."
+    brew update
+    brew upgrade
+    brew autoremove
+    brew cleanup
+    brew doctor
+    brew list
+    echo "packages install done."
+}
 
-    # Rosetta 2 のインストール (Apple Silicon の場合)
-    install_rosetta() {
-        if [[ "$(uname -m)" == "arm64" ]]; then
-            echo "Apple Silicon Mac detected. check Rosetta 2 install..."
-            /usr/bin/pgrep oahd >/dev/null || /usr/sbin/softwareupdate --install-rosetta --agree-to-license || echo "Rosetta 2 install failed."
-        else
-            echo "Rosetta 2 not needed (Intel Mac)."
-        fi
-        echo "Rosetta 2 install done."
-    }
+install_rosetta() {
+    if [[ "$(uname -m)" == "arm64" ]]; then
+        echo "Apple Silicon Mac detected. check Rosetta 2 install..."
+        /usr/bin/pgrep oahd >/dev/null || /usr/sbin/softwareupdate --install-rosetta --agree-to-license || echo "Rosetta 2 install failed."
+    else
+        echo "Rosetta 2 not needed (Intel Mac)."
+    fi
+    echo "Rosetta 2 install done."
+}
 
-    bootstrap() {
-        echo "bootstrap start."
-        install_xcode_command_line_tools
-        install_homebrew
-        install_brew_packages
-        install_rosetta
-        # ~/.config/mise/config.toml に記載されたパッケージをインストール
-        mise install || echo "mise install failed."
-        echo "bootstrap done."
-    }
-    bootstrap
+echo "bootstrap start."
+install_xcode_command_line_tools
+install_homebrew
+install_brew_packages
+install_rosetta
+# ~/.config/mise/config.toml に記載されたパッケージをインストール
+mise install || echo "mise install failed."
+echo "bootstrap done."
 
 {{- end }}
 

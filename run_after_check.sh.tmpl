@@ -10,7 +10,7 @@ uname -a
 echo "--------------------------------"
 echo "PATH ..."
 # 重複したPATHを削除
-if command -v awk > /dev/null 2>&1;then
+if command -v awk > /dev/null 2>&1; then
     export PATH="$(printf %s "${PATH}" | awk -v RS=: -v ORS=: '!arr[$0]++')"
 fi
 echo "${PATH}" | tr ':' '\n'
@@ -38,12 +38,14 @@ tree -L 3 "${HOME}/.local/share"
 echo "--------------------------------"
 
 {{ if eq .chezmoi.os "linux" -}}
-    tree -L 2 ${HOME}/.local/share/themes
-    echo "--------------------------------"
-    tree -L 2 ${HOME}/.local/share/fonts
-    echo "--------------------------------"
-    tree -L 2 ${HOME}/.local/share/icons
-    echo "--------------------------------"
+
+tree -L 2 ${HOME}/.local/share/themes
+echo "--------------------------------"
+tree -L 2 ${HOME}/.local/share/fonts
+echo "--------------------------------"
+tree -L 2 ${HOME}/.local/share/icons
+echo "--------------------------------"
+
 {{ end -}}
 
 if [ -d "${HOME}/dotfiles" ]; then
@@ -57,26 +59,25 @@ echo "--------------------------------"
 
 # 対話型にする？
 {{/*
-
 {{ if eq .chezmoi.hostname "101" -}}
-    echo 'git userconf update ? (y/n)'
-    read ans
-    if [ "$ans" = "y" ] || [ "$ans" = "Y" ]; then
-        vim "${HOME}/.config/git/user.conf"
-    fi
-    cat ~/.config/git/user.conf
-    echo "--------------------------------"
-{{ end -}}
 
+echo 'git userconf update ? (y/n)'
+read ans
+if [ "$ans" = "y" ] || [ "$ans" = "Y" ]; then
+    vim "${HOME}/.config/git/user.conf"
+fi
+cat ~/.config/git/user.conf
+echo "--------------------------------"
+
+{{ end -}}
 */}}
 
 chezmoi data
 echo "--------------------------------"
 chezmoi doctor
 echo "--------------------------------"
-echo "SourceDir: {{ .chezmoi.sourceDir }}"
 echo 'Chezmoi Apply done!!'
 date
-cat ${HOME}/.config/neofetch/image.txt
+cat "${HOME}/.config/neofetch/image.txt"
 echo "https://github.com/budybye/dotfiles"
 echo "( ﾟДﾟ)y─┛~~♨️ 🍍 🍕 🐈 ✨ 🥦 🌈 🚲 🏄 🙏 🌞 🌕 🏴‍☠️"

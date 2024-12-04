@@ -29,7 +29,7 @@
 {{- else if eq (env "CODESPACES") "true" -}}
     {{- $name = "codespaces" -}}
     {{- $github = true -}}
-    {{- $ssh = true -}}
+    {{- $ssh = false -}}
 {{- else if eq (env "REMOTE_CONTAINERS") "true" -}}
     {{- $name = "dev" -}}
     {{- $github = true -}}

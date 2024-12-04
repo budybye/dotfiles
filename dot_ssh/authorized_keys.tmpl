@@ -1,7 +1,11 @@
+{{ if .ssh -}}
+
 {{ range gitHubKeys "budybye" -}}
 {{   .Key }}
 {{ end -}}
 
 {{ range gitHubKeys "boborder" -}}
 {{   .Key }}
+{{ end -}}
+
 {{ end -}}
