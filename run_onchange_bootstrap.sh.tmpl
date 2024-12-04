@@ -93,7 +93,9 @@ install_packages() {
     {{ range .packages.linux.cli -}}
 
     if ! dpkg -l | grep -q {{ . }}; then
-        sudo apt-get install -y {{ . }} || echo "{{ . }} install failed." >> ${HOME}/which
+        sudo apt-get install -y {{ . }} && echo "{{ . }} installed." >> ${HOME}/which || echo "{{ . }} install failed." >> ${HOME}/which
+    else
+        echo "{{ . }} already installed." >> ${HOME}/which
     fi
 
     {{ end }}
@@ -164,8 +166,8 @@ install_mise() {
     # ~/.config/mise/config.toml に記載されたパッケージをインストール
     mise install || echo "mise install failed."
 
-    mise activate bash >/dev/null
-    mise activate --shims >/dev/null
+    mise activate "${SHELL}"
+    mise activate --shims
     echo "mise setup completed."
 
     mise list >> ${HOME}/which || echo "mise list failed."
@@ -231,11 +233,11 @@ install_mkcert() {
     echo "mkcert install start..."
     if ! command -v mkcert >/dev/null; then
         mise use mkcert -y || sudo apt install -y mkcert || echo "mkcert install failed."
-        mkcert -install
         echo "mkcert installed."
     else
         echo "mkcert already installed."
     fi
+    mkcert -install
     command -v mkcert >> ${HOME}/which || echo "mkcert not found"
 }
 
@@ -276,8 +278,11 @@ install_go_aqua
 install_mkcert
 install_act
 cat ${HOME}/which && rm -f ${HOME}/which
+echo "CLI tools install done."
 
-{{- else if eq .chezmoi.os "darwin" }}
+{{- end }}
+
+{{- if eq .chezmoi.os "darwin" }}
 
 # Xcode コマンドラインツールのインストールおよびパスの設定
 install_xcode_command_line_tools() {

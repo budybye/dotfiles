@@ -2,8 +2,10 @@
 
 echo "run_once_vscode.sh.tmpl"
 echo "--------------------------------"
+
 # 管理下の設定ファイルの場所
 FROM="${HOME}/.config/Code"
+CODE_DIR="${HOME}/.local/share/Code"
 CODE="code"
 
 # 環境によって変わる 設定ファイルの場所
@@ -16,20 +18,15 @@ elif [ -f "${HOME}/Applications/cursor" ]; then
 elif command -v codium >/dev/null 2>&1; then
     CODE_DIR="${HOME}/.config/VSCodium"
     CODE="codium"
-else
-    CODE_DIR="${HOME}/.local/share/Code"
 fi
-
-{{ if ne (env "REMOTE_CONTAINERS") "true" -}}
-
-{{ range .packages.extensions -}}
-${CODE} --force --install-extension {{ . }}
-{{ end }}
-
-{{ end }}
-
 # VSCodeのUserディレクトリの作成
 sudo mkdir -p "${CODE_DIR}/User"
+
+{{ if ne (env "REMOTE_CONTAINERS") "true" -}}
+    {{ range .packages.extensions -}}
+    ${CODE} --force --install-extension {{ . }}
+    {{ end }}
+{{ end }}
 
 # 設定ファイルをバックアップし、新しいファイルを作成する汎用関数
 copy_json_file() {
@@ -55,6 +52,7 @@ copy_json_file() {
 extensions_json() {
     # extensions.jsonのパス
     CODEX="${CODE_DIR}/extensions.json"
+
     # extensions.jsonが存在する場合はバックアップを作成
     if [ -f "${CODEX}" ]; then
         sudo cp "${CODEX}" "${CODEX}.old"
@@ -71,17 +69,14 @@ extensions_json() {
         sudo "code" --list-extensions | xargs -I {} sh -c "jq '.recommendations += [\"{}\"]' ${CODEX} | sudo tee temp > /dev/null && sudo mv temp ${CODEX}"
         echo '拡張機能の更新が完了しました!'
     fi
+
     cat "${CODEX}"
     echo "--------------------------------"
 }
 
-main() {
-    copy_json_file "settings"
-    copy_json_file "keybindings"
-    extensions_json
-}
-main
+copy_json_file "settings"
+copy_json_file "keybindings"
+extensions_json
 
-echo "--------------------------------"
-tree "${CODE_DIR}"
+tree -L 3 "${CODE_DIR}"
 echo "--------------------------------"
