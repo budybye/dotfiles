@@ -51,23 +51,6 @@ cloud-init/*
 *env
 {{ end }}
 
-.env
-.tool-versions
-.mise.toml
-
 .chezmoiexternal.*
 key.txt.age
 shhh.txt
-
-.gitignore
-.gitconfig
-.github
-.vscode
-.devcontainer
-.cursorrules
-cloud-init
-
-Makefile
-install*
-README.md
-style.css

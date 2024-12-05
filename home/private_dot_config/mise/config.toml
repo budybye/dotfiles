@@ -11,7 +11,6 @@ bun = "1.1.33"
 # chezmoi = "latest"
 # mkcert = "latest"
 
-# 以下、不安定
 # deno = "latest"
 # pnpm = "latest"
 # poetry = "latest"
@@ -44,7 +43,7 @@ always_keep_install = false         # デフォルトでは失敗時に削除
 
 # これらのプレフィックスを持つ設定ファイルはデフォルトで信頼されます
 trusted_config_paths = [
-    '{{ .chezmoi.sourceDir }}',
+    # '~/dotfiles',
 ]
 
 verbose = false       # trueに設定すると、インストールの全出力が表示されます。`MISE_VERBOSE`を参照
@@ -62,7 +61,7 @@ yes = true            # trueに設定すると、すべてのプロンプトに�
 #disable_default_shorthands = false # デフォルトのショートハンドを無効にする、`MISE_DISABLE_DEFAULT_SHORTHANDS`を参照
 # disable_tools = ['node']           # 特定のツールを無効にする、通常はコアツールをオフにするために使用
 
-# env_file = '.env*' # dotenvファイルから環境変数を読み込む、`MISE_ENV_FILE`を参照
+env_file = '.env' # .env ファイルから環境変数を読み込む、`MISE_ENV_FILE`を参照
 
 experimental = true # 実験的な機能を有効にする
 
