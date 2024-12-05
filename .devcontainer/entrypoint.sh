@@ -81,6 +81,8 @@ while [ $# -ne 0 ]; do
     shift 3
 done
 
+export HOME=/home/$1
+
 echo -e "starting xrdp services...\n"
 
 trap "stop_xrdp_services" SIGKILL SIGTERM SIGHUP SIGINT EXIT

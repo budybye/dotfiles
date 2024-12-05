@@ -1,4 +1,5 @@
-# 配置されるときの名前にする
+# apply で配置されないファイルの指定
+# ファイルの配置されるときの名前にする
 # .name などのdata は .chezmoi.toml.tmpl
 
 {{ if eq .name "runner" }}
@@ -31,6 +32,7 @@
 .config/Brewfile
 .config/karabiner
 .ssh/id_rsa*
+.chezmoiscripts/darwin/**
 {{ end }}
 
 {{ if ne .chezmoi.os "linux" }}
@@ -39,6 +41,7 @@
 .local/share/fonts
 .local/share/icons
 .local/share/themes
+.chezmoiscripts/linux/**
 {{ end }}
 
 {{ if eq .chezmoi.os "windows" }}

@@ -168,7 +168,7 @@ install_mise() {
     # ~/.config/mise/config.toml に記載されたパッケージをインストール
     mise install || echo "mise install failed."
 
-    mise activate "${SHELL}"
+    mise activate bash
     mise activate --shims
     echo "mise setup completed."
 
