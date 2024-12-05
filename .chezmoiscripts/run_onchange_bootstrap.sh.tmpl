@@ -13,6 +13,7 @@ echo "--------------------------------"
 
 # .env の確認と作成
 echo ".env && ENV checking..."
+cat {{ .chezmoi.sourceDir }}/.env
 mise set
 echo "--------------------------------"
 env
@@ -39,6 +40,7 @@ echo "--------------------------------"
 echo "SSH Config ..."
 cat ~/.ssh/config
 echo "--------------------------------"
+
 {{- end }}
 
 {{- if ne .name "runner" }}
@@ -93,7 +95,7 @@ install_packages() {
     {{ range .packages.linux.cli -}}
 
     if ! dpkg -l | grep -q {{ . }}; then
-        sudo apt-get install -y {{ . }} && echo "{{ . }} installed." >> ${HOME}/which || echo "{{ . }} install failed." >> ${HOME}/which
+        sudo apt-get install -y {{ . }} && echo "{{ . }} installed." || echo "{{ . }} install failed."
     else
         echo "{{ . }} already installed." >> ${HOME}/which
     fi

@@ -8,10 +8,10 @@ echo "--------------------------------"
 
 user_setup() {
     # コンピュータ名、ホスト名、ローカルホスト名、ユーザー名を設定
-    sudo scutil --set ComputerName "iCom"
-    sudo scutil --set LocalHostName "101"
-    sudo scutil --set HostName "101"
-    sudo scutil --set UserName "hotmilk"
+    scutil --set ComputerName "iCom"
+    scutil --set LocalHostName "101"
+    scutil --set HostName "101"
+    scutil --set UserName "hotmilk"
     whoami
 }
 
@@ -21,11 +21,11 @@ system_setup() {
     # スリープしない
     systemsetup -setcomputersleep Off
     # ネットワーク時刻サーバーを設定
-    # sudo systemsetup -setnetworktimeserver time.apple.com
+    # systemsetup -setnetworktimeserver time.apple.com
     # タイムゾーンを設定
-    sudo systemsetup -settimezone "Asia/Tokyo"
+    systemsetup -settimezone "Asia/Tokyo"
     # リモートログインを有効化
-    sudo systemsetup -setremotelogin on
+    systemsetup -setremotelogin on
 }
 
 app_setup() {
@@ -60,20 +60,23 @@ interface_setup() {
     defaults write -g KeyRepeat -int 1
     # キー入力の連打を有効化させる
     defaults write -g ApplePressAndHoldEnabled -bool false
-    # Enable `Tap to click` （タップでクリックを有効にする）
-    defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
-    # 三本指でドラッグ
-    defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerDrag -bool true && \
-    defaults write com.apple.AppleMultitouchTrackpad TrackpadThreeFingerDrag -bool true
-    # フルスクリーンアプリケーション感をするために4本指でスワイプを有効にする
-    defaults write com.apple.AppleMultitouchTrackpad.plist TrackpadFourFingerVertSwipeGesture -int 2 && \
-    defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad.plist TrackpadFourFingerVertSwipeGesture -int 2
     # トラックパッドのナチュラルスクロールをオンにする
     defaults write NSGlobalDomain com.apple.swipescrolldirection -bool true
     # マウスの動きを高速化
     defaults write "Apple Global Domain" com.apple.mouse.scaling 4.0
     # トラックパッドの動きを高速化
     defaults write "Apple Global Domain" com.apple.trackpad.scaling 4.0
+
+    # Enable `Tap to click` （タップでクリックを有効にする）
+    defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
+
+    # 三本指でドラッグ
+    defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerDrag -bool true && \
+    defaults write com.apple.AppleMultitouchTrackpad TrackpadThreeFingerDrag -bool true
+
+    # フルスクリーンアプリケーション間を移動するために4本指でスワイプを有効にする
+    defaults write com.apple.AppleMultitouchTrackpad.plist TrackpadFourFingerVertSwipeGesture -int 2 && \
+    defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad.plist TrackpadFourFingerVertSwipeGesture -int 2
 }
 
 dock_setup() {
@@ -200,8 +203,8 @@ search_setup() {
 network_setup() {
     # sudo networksetup -SetAirportPower en0 on
     # sudo networksetup -SetAirportNetwork en0 <SSID> <PASSWORD>
-    # sudo networksetup -SetDNSServers Wi-Fi 1.1.1.2 1.0.0.2 192.168.0.1
     # sudo networksetup -SetV6Off Wi-Fi
+    networksetup -SetDNSServers Wi-Fi 1.1.1.1 1.0.0.1
     networksetup -ListNetworkServiceOrder
     nslookup apple.com
 }
@@ -240,7 +243,9 @@ restart
 echo "macOS setup completed."
 fastfetch
 
-{{ else if eq .chezmoi.os "linux" -}}
+{{ end -}}
+
+{{ if eq .chezmoi.os "linux" -}}
 
 # ユーザー名を取得
 USER_NAME=$(whoami)
@@ -251,7 +256,8 @@ arch="$(dpkg --print-architecture)"
 # package は .chezmoidata/packages.yaml に記載
 # .packages.linux.gui にはxfceデスクトップ環境をインストールするパッケージを記載
 desktop_setup() {
-    sudo apt-get update -y && sudo apt-get upgrade -y
+    sudo apt-get update -y
+    sudo apt-get upgrade -y
 
     {{ range .packages.linux.gui -}}
     if ! dpkg -l | grep -q {{ . }}; then
@@ -260,7 +266,9 @@ desktop_setup() {
     {{ end }}
 
     #sudo apt-get remove -y light-locker xscreensaver &&
-    sudo apt-get autoremove -y && sudo apt-get clean && sudo rm -rf /var/cache/apt /var/lib/apt/lists/*
+    sudo apt-get autoremove -y
+    sudo apt-get clean
+    sudo rm -rf /var/cache/apt /var/lib/apt/lists/*
     echo "desktop packages installed."
 }
 
@@ -270,7 +278,9 @@ install_snap() {
     command -v multipass >/dev/null || sudo snap install multipass && echo "multipass installed." || echo "multipass install failed."
 
     command -v speedtest >/dev/null || sudo snap install speedtest && echo "speedtest installed." || echo "speedtest install failed."
+
     command -v codium >/dev/null || sudo snap install codium --classic && echo "codium installed." || echo "codium install failed."
+
     command -v alacritty >/dev/null || sudo snap install alacritty --classic && echo "alacritty installed." || echo "alacritty install failed."
 
     if command -v firefox >/dev/null 2>&1; then
@@ -403,6 +413,7 @@ japan_setup() {
 
 install_pipewire() {
     doko=$(pwd)
+    pipewire_dir="${HOME}/.config/pipewire/pulseaudio-module-xrdp"
 
     # pulseaudio をインストール
     sudo apt-get install -y pulseaudio libpulse-dev dh-autoreconf dpkg-dev && echo "pulseaudio installed." || echo "pulseaudio install failed."
@@ -411,9 +422,9 @@ install_pipewire() {
     sudo apt-get install -y pipewire pipewire-audio libspa-0.2-dev libpipewire-0.3-dev autoconf libtool && echo "pipewire installed." || echo "pipewire install failed."
     mkdir -p "${HOME}/.config/pipewire"
 
-    if [ ! -d "${HOME}/.config/pipewire/pulseaudio-module-xrdp" ]; then
-        git clone https://github.com/neutrinolabs/pulseaudio-module-xrdp.git "${HOME}/.config/pipewire/pulseaudio-module-xrdp"
-        cd "${HOME}/.config/pipewire/pulseaudio-module-xrdp"
+    if [ ! -d "${pipewire_dir}" ]; then
+        git clone https://github.com/neutrinolabs/pulseaudio-module-xrdp.git "${pipewire_dir}"
+        cd "${pipewire_dir}"
         ./bootstrap
         ./configure PULSE_DIR=$(cd ..; pwd)
         make

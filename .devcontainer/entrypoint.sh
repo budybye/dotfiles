@@ -29,8 +29,8 @@ echo
 users=$(($#/3))
 mod=$(($# % 3))
 
-# echo "users is $users"
-# echo "mod is $mod"
+echo "users is $users"
+echo "mod is $mod"
 
 if [[ $# -eq 0 ]]; then
     echo "No input parameters. exiting..."
@@ -50,7 +50,7 @@ while [ $# -ne 0 ]; do
 
     # グループを作成 ユーザー名と同じグループ名
     addgroup $1
-    # echo "username is $1"
+    echo "username is $1"
     # useradd -m -s /bin/bash -g $1 $1
     if [ $(command -v zsh) ]; then
         useradd -m -s /usr/bin/zsh -g $1 $1

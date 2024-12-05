@@ -108,22 +108,15 @@ RUN apt-get autoremove -y
 RUN apt-get clean
 RUN rm -rf /var/cache/apt /var/lib/apt/lists/*
 
-# chezmoiをインストール
 RUN sh -c "$(curl -fsSL get.chezmoi.io)" -- -b /usr/local/bin
 
-# devユーザーを作成
-ARG USER=dev
-ARG UID=1024
-ARG GROUP=${USER}
-ARG GID=${UID}
-ARG SHELL=/usr/bin/zsh
-
-RUN groupadd -g ${GID} -f ${GROUP} && \
-    useradd --uid ${UID} --gid ${GID} -m ${USER} -G sudo -s ${SHELL} && \
-    echo "${USER}:${USER}" | chpasswd && \
-    echo "${USER} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
-    mkdir -p /home/${USER} && \
-    chown -R ${USER}:${GROUP} /home/${USER}
+# devユーザー設定
+RUN groupadd -g 1024 -f dev && \
+    useradd --uid 1024 --gid 1024 -m dev -G sudo -s /usr/bin/zsh && \
+    echo "dev:dev" | chpasswd && \
+    echo "dev ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
+    mkdir -p /home/dev && \
+    chown -R dev:dev /home/dev
 
 COPY ./entrypoint.sh /usr/bin/
 RUN ln -s /usr/bin/entrypoint.sh /usr/bin/entrypoint

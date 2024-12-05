@@ -114,13 +114,25 @@ if command -v code >/dev/null 2>&1; then
     # export VSCODE_PORTABLE="${XDG_DATA_HOME}/Code"
 fi
 
+if [ -f "${HOME}/.orbstack/shell/init.zsh" ]; then
+    source "${HOME}/.orbstack/shell/init.zsh" 2>/dev/null || :
+    docker context use orbstack
+fi
+
 if command -v docker >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/docker" "${XDG_DATA_HOME}/docker/machine"
     export MACHINE_STORAGE_PATH="${XDG_DATA_HOME}/docker/machine"
-    # export DOCKER_CONTEXT="default"
     export DOCKER_CONFIG="${XDG_CONFIG_HOME}/docker"
-    if [ -f /var/run/docker.sock ]; then
+
+    if [ -f "${HOME}/.orbstack/docker.sock" ]; then
+        export DOCKER_HOST="unix://${HOME}/.orbstack/docker.sock"
+        export DOCKER_CONTEXT="orbstack"
+    elif [ -f /var/run/docker.sock ]; then
         export DOCKER_HOST="unix:///var/run/docker.sock"
+        export DOCKER_CONTEXT="default"
+    elif [ -f "${HOME}/.docker/run/docker.sock" ]; then
+        export DOCKER_HOST="unix://${HOME}/.docker/run/docker.sock"
+        export DOCKER_CONTEXT="desktop-linux"
     fi
 fi
 
@@ -308,7 +320,7 @@ if [ "${XDG_SESSION_TYPE}" = "x11" ]; then
 fi
 
 # if [ -f "${HOME}/.Xauthority" ]; then
-    # mkdir -p "${XDG_RUNTIME_DIR}"
+    # mkdir -p "${XDG_RUNTIME_DIR}/Xauthority"
     # export XAUTHORITY="${XDG_RUNTIME_DIR}/Xauthority"
     # mv "${HOME}/.Xauthority" "${XDG_RUNTIME_DIR}/Xauthority"
 # fi
