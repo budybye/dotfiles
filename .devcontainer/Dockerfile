@@ -108,8 +108,6 @@ RUN apt-get autoremove -y
 RUN apt-get clean
 RUN rm -rf /var/cache/apt /var/lib/apt/lists/*
 
-RUN sh -c "$(curl -fsSL get.chezmoi.io)" -- -b /usr/local/bin
-
 # devユーザー設定
 RUN groupadd -g 1024 -f dev && \
     useradd --uid 1024 --gid 1024 -m dev -G sudo -s /usr/bin/zsh && \
@@ -121,6 +119,9 @@ RUN groupadd -g 1024 -f dev && \
 COPY ./entrypoint.sh /usr/bin/
 RUN ln -s /usr/bin/entrypoint.sh /usr/bin/entrypoint
 RUN chmod +x /usr/bin/entrypoint
+
+RUN git clone https://github.com/budybye/dotfiles.git /home/ubuntu/dotfiles
+USER dev
 
 FROM base
 

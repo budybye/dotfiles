@@ -12,15 +12,17 @@ init:
 docker:
 	docker \
 	run \
+	--rm \
+	--interactive \
+	--tty \
 	--privileged \
-	--rm -it \
 	--name ubuntu \
 	--hostname docker \
 	-p 33389:3389 \
 	-p 2222:22 \
 	-v $(HOME)/data:/data \
-	ghcr.io/budybye/ubuntu-dev:main \
-	/sbin/init
+	ghcr.io/budybye/ubuntu-dev \
+	ubuntu ubuntu yes
 up:
 	docker compose up -d -f .devcontainer/docker-compose.yaml
 down:
@@ -29,7 +31,7 @@ ipfs:
 	docker compose up -d ipfs -f .devcontainer/docker-compose.yaml && \
 	docker compose exec ipfs ipfs add -r $(HOME)/data
 exec:
-	docker compose exec ubuntu /sbin/init
+	docker compose exec ubuntu /bin/bash
 ubuntu:
 	multipass \
 	launch \
@@ -37,11 +39,11 @@ ubuntu:
 	-c 4 \
 	-m 8G \
 	-d 42G \
-	--timeout 4444 \
+	--timeout 7200 \
 	--cloud-init cloud-init/multipass.yaml && \
 	multipass exec ubuntu -- tail -5 /var/log/cloud-init.log
 ssh:
-	ssh ubuntu@$(multipass info ubuntu --format json | jq -r '.[0].ipv4[0]')
+	ssh ubuntu
 git:
 	git add -A && \
 	git commit --allow-empty-message -m "" && \
@@ -49,4 +51,4 @@ git:
 bw:
 	@eval $$(bw unlock --raw | awk '{print "export BW_SESSION="$$1}')
 age:
-	age-keygen | age --armor --passphrase > key.txt.age
+	age-keygen | age --armor --passphrase > ./home/key.txt.age

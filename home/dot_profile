@@ -114,9 +114,9 @@ if command -v code >/dev/null 2>&1; then
     # export VSCODE_PORTABLE="${XDG_DATA_HOME}/Code"
 fi
 
-if [ -f "${HOME}/.orbstack/shell/init.zsh" ]; then
+if command -v orb >/dev/null 2>&1; then
     source "${HOME}/.orbstack/shell/init.zsh" 2>/dev/null || :
-    docker context use orbstack
+    docker context use orbstack >/dev/null
 fi
 
 if command -v docker >/dev/null 2>&1; then
@@ -127,9 +127,11 @@ if command -v docker >/dev/null 2>&1; then
     if [ -f "${HOME}/.orbstack/docker.sock" ]; then
         export DOCKER_HOST="unix://${HOME}/.orbstack/docker.sock"
         export DOCKER_CONTEXT="orbstack"
+
     elif [ -f /var/run/docker.sock ]; then
         export DOCKER_HOST="unix:///var/run/docker.sock"
         export DOCKER_CONTEXT="default"
+
     elif [ -f "${HOME}/.docker/run/docker.sock" ]; then
         export DOCKER_HOST="unix://${HOME}/.docker/run/docker.sock"
         export DOCKER_CONTEXT="desktop-linux"
