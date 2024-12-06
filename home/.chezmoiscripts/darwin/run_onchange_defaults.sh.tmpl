@@ -1,10 +1,8 @@
-#! /usr/bin/env bash
+#!/usr/bin/env bash
 
-echo "run_once_setup.sh.tmpl"
+echo "run_onchange_defaults.sh.tmpl"
 echo "{{ .chezmoi.os }} system setup"
 echo "--------------------------------"
-
-{{ if eq .chezmoi.os "darwin" -}}
 
 user_setup() {
     # コンピュータ名、ホスト名、ローカルホスト名、ユーザー名を設定
@@ -17,15 +15,15 @@ user_setup() {
 
 system_setup() {
     # (on マシンがフリーズしたら自動的にリスタート)
-    systemsetup -setrestartfreeze on
+    sudo systemsetup -setrestartfreeze on
     # スリープしない
-    systemsetup -setcomputersleep Off
+    sudo systemsetup -setcomputersleep Off
     # ネットワーク時刻サーバーを設定
-    # systemsetup -setnetworktimeserver time.apple.com
+    # sudo systemsetup -setnetworktimeserver time.apple.com
     # タイムゾーンを設定
-    systemsetup -settimezone "Asia/Tokyo"
+    sudo systemsetup -settimezone "Asia/Tokyo"
     # リモートログインを有効化
-    systemsetup -setremotelogin on
+    sudo systemsetup -setremotelogin on
 }
 
 app_setup() {
@@ -247,243 +245,7 @@ search_setup
 restart
 echo "macOS setup completed."
 fastfetch
-
-{{ end -}}
-
-{{ if eq .chezmoi.os "linux" -}}
-
-# ユーザー名を取得
-USER_NAME=$(whoami)
-# アーキテクチャを取得
-arch="$(dpkg --print-architecture)"
-
-# デスクトップ環境のインストール
-# package は .chezmoidata/packages.yaml に記載
-# .packages.linux.gui にはxfceデスクトップ環境をインストールするパッケージを記載
-desktop_setup() {
-    sudo apt-get update -y
-    sudo apt-get upgrade -y
-
-    {{ range .packages.linux.gui -}}
-    if ! dpkg -l | grep -q {{ . }}; then
-        sudo apt-get install -y {{ . }} || echo "{{ . }} install failed." >> ${HOME}/which
-    fi
-    {{ end }}
-
-    #sudo apt-get remove -y light-locker xscreensaver &&
-    sudo apt-get autoremove -y
-    sudo apt-get clean
-    sudo rm -rf /var/cache/apt /var/lib/apt/lists/*
-    echo "desktop packages installed."
-}
-
-install_snap() {
-    command -v snap >/dev/null || sudo apt-get install -y snapd && echo "snapd installed." || echo "snapd install failed."
-
-    command -v multipass >/dev/null || sudo snap install multipass && echo "multipass installed." || echo "multipass install failed."
-
-    command -v speedtest >/dev/null || sudo snap install speedtest && echo "speedtest installed." || echo "speedtest install failed."
-
-    command -v codium >/dev/null || sudo snap install codium --classic && echo "codium installed." || echo "codium install failed."
-
-    command -v alacritty >/dev/null || sudo snap install alacritty --classic && echo "alacritty installed." || echo "alacritty install failed."
-
-    if command -v firefox >/dev/null 2>&1; then
-        sudo snap remove firefox || sudo apt remove firefox && echo "firefox uninstalled." || echo "firefox uninstall failed."
-    fi
-
-    #command -v chromium >/dev/null || sudo snap install chromium && echo "chromium installed." || echo "chromium install failed."
-
-    echo "snap tools installed."
-}
-
-install_brave_browser() {
-    if ! command -v brave-browser >/dev/null 2>&1; then
-        sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
-        echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main" | sudo tee /etc/apt/sources.list.d/brave-browser-release.list
-        sudo apt-get update -y
-        sudo apt-get install -y brave-browser || echo "brave browser install failed."
-        echo "brave browser installed."
-    else
-        echo "brave browser already installed."
-    fi
-}
-
-install_tabby_terminal() {
-    if ! command -v tabby >/dev/null 2>&1; then
-        curl https://packagecloud.io/install/repositories/eugeny/tabby/script.deb.sh | sudo bash
-        sudo apt-get update -y
-        sudo apt-get install -y tabby-terminal || echo "tabby terminal install failed."
-        echo "tabby terminal installed."
-    else
-        echo "tabby terminal already installed."
-    fi
-}
-
-install_cloudflare_warp() {
-    if ! command -v warp-cli >/dev/null 2>&1; then
-        sudo curl -fsSL https://pkg.cloudflareclient.com/pubkey.gpg | sudo gpg --yes --dearmor --output /usr/share/keyrings/cloudflare-warp-archive-keyring.gpg
-        echo "deb [signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg] https://pkg.cloudflareclient.com/ $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/cloudflare-client.list
-        sudo apt-get update -y
-        sudo apt-get install -y cloudflare-warp || echo "cloudflare warp install failed."
-        echo "cloudflare warp installed."
-
-        warp-cli --accept-tos registration new
-        warp-cli --accept-tos mode warp
-        warp-cli --accept-tos dns families malware
-        warp-cli --accept-tos connect
-        warp-cli --accept-tos disconnect
-    else
-        echo "cloudflare warp already installed."
-    fi
-}
-
-install_element_desktop() {
-    if ! command -v element-desktop >/dev/null 2>&1; then
-        sudo apt-get install -y wget apt-transport-https
-        sudo wget -O /usr/share/keyrings/element-io-archive-keyring.gpg https://packages.element.io/debian/element-io-archive-keyring.gpg
-        echo "deb [signed-by=/usr/share/keyrings/element-io-archive-keyring.gpg] https://packages.element.io/debian/ default main" | sudo tee /etc/apt/sources.list.d/element-io.list
-        sudo apt-get update -y
-        sudo apt-get install -y element-desktop || echo "element desktop install failed."
-    else
-        echo "element desktop already installed."
-    fi
-}
-
-install_github_desktop() {
-    if ! command -v github-desktop >/dev/null 2>&1; then
-        sudo curl -L https://github.com/shiftkey/desktop/releases/download/release-3.4.3-linux1/GitHubDesktop-linux-${arch}-3.4.3-linux1.deb -o GitHubDesktop-linux-${arch}-3.4.3-linux1.deb
-        sudo dpkg -i GitHubDesktop-linux-${arch}-3.4.3-linux1.deb || echo "github desktop install failed."
-        sudo rm -f GitHubDesktop-linux-${arch}-3.4.3-linux1.deb
-        echo "github desktop installed."
-    else
-        echo "github desktop already installed."
-    fi
-}
-
-install_cursor() {
-    appimage="${HOME}/Applications/cursor"
-    mkdir -p "${HOME}/Applications"
-    if ! [ -f "${appimage}" ]; then
-        if [ "${arch}" = "amd64" ]; then
-            curl -L https://downloader.cursor.sh/inulx -o "${appimage}" || echo "cursor download failed."
-        else
-            curl -L https://github.com/coder/cursor-arm/releases/download/v0.42.2/cursor_0.42.2_linux_arm64.AppImage -o "${appimage}" || echo "cursor download failed."
-        fi
-    fi
-    sudo chmod a+x "${appimage}"
-    sudo apt-get install -y libfuse2 || echo "libfuse2 install failed."
-    echo "${appimage} installed."
-}
-
-install_wireshark() {
-    if ! command -v wireshark >/dev/null 2>&1; then
-        sudo apt install -y wireshark || echo "wireshark install failed."
-        sudo groupadd -f wireshark
-        sudo usermod -aG wireshark "$USER_NAME"
-        sudo chmod +x /usr/bin/dumpcap
-        echo "wireshark installed."
-    else
-        echo "wireshark already installed."
-    fi
-}
-
-install_ruby_fusuma() {
-    command -v gem >/dev/null || mise use ruby -g -y || sudo apt-get install -y ruby || echo "ruby install failed."
-    echo "ruby installed."
-
-    if ! command -v fusuma >/dev/null 2>&1; then
-        sudo gem install fusuma || echo "fusuma install failed."
-        sudo groupadd -f input
-        sudo usermod -aG input "$USER_NAME"
-        fusuma -d
-        echo "fusuma installed."
-    else
-        echo "fusuma already installed."
-    fi
-}
-
-japan_setup() {
-    echo "japan setup start..."
-    #sudo localectl set-locale LANG=ja_JP.UTF-8
-    #sudo localectl set-locale LANGUAGE=ja_JP:ja
-    #sudo localectl set-x11-keymap jp
-    #sudo localectl set-keymap jp106
-    #sudo timedatectl set-timezone Asia/Tokyo
-    LANG=C xdg-user-dirs-update --force
-    # 入力メソッドとしてfcitx5を設定
-    im-config -n fcitx5
-    echo "japan setup completed."
-}
-
-install_pipewire() {
-    doko=$(pwd)
-    pipewire_dir="${HOME}/.config/pipewire/pulseaudio-module-xrdp"
-
-    # pulseaudio をインストール
-    sudo apt-get install -y pulseaudio libpulse-dev dh-autoreconf dpkg-dev && echo "pulseaudio installed." || echo "pulseaudio install failed."
-
-    # pipewire をインストール
-    sudo apt-get install -y pipewire pipewire-audio libspa-0.2-dev libpipewire-0.3-dev autoconf libtool && echo "pipewire installed." || echo "pipewire install failed."
-    mkdir -p "${HOME}/.config/pipewire"
-
-    if [ ! -d "${pipewire_dir}" ]; then
-        git clone https://github.com/neutrinolabs/pulseaudio-module-xrdp.git "${pipewire_dir}"
-        cd "${pipewire_dir}"
-        ./bootstrap
-        ./configure PULSE_DIR=$(cd ..; pwd)
-        make
-        sudo make install
-        cd "${doko}"
-    fi
-    echo "pipewire installed."
-}
-
-xrdp_setup() {
-    echo "xrdp setup start..."
-    sudo groupadd -f ssl-cert
-    sudo groupadd -f xrdp
-    # ubuntuユーザーを必要なグループに追加
-    sudo usermod -aG ssl-cert,xrdp "${USER_NAME}"
-    # サービスの再起動
-    sudo systemctl daemon-reload
-    sudo systemctl restart rsyslog
-    # ファイアウォールで3389番ポート（RDP）を許可
-    sudo ufw allow 3389
-    # xrdpサービスを有効化
-    sudo systemctl enable xrdp
-    # デフォルトのセッションマネージャーをxfce4-sessionに設定
-    sudo update-alternatives --set x-session-manager /usr/bin/xfce4-session
-    # xrdpサービスを起動
-    sudo systemctl start xrdp
-    echo "xrdp setup completed."
-
-    echo "以下のコマンドを実行してパスワードを更新してください"
-    echo "sudo passwd ${USER_NAME}"
-    # ログイン後、ubuntuユーザーのパスワードを再設定を推奨
-    # パスワードを再設定しないとログインできない
-    # echo "${USER_NAME}:${USER_NAME}" | sudo chpasswd
-}
-
-echo "ubuntu desktop setup start..."
-desktop_setup
-install_snap
-install_brave_browser
-install_tabby_terminal
-install_cloudflare_warp
-install_github_desktop
-install_cursor
-install_element_desktop
-install_ruby_fusuma
-# install_wireshark
-install_pipewire
-japan_setup
-xrdp_setup
-echo "ubuntu desktop setup completed."
-neofetch
-
-{{ end -}}
-
 echo "--------------------------------"
+
 echo "desktop setup complete"
 echo "--------------------------------"

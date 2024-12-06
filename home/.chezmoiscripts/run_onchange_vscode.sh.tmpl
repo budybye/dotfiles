@@ -23,8 +23,17 @@ fi
 sudo mkdir -p "${CODE_DIR}/User"
 
 {{ if ne (env "REMOTE_CONTAINERS") "true" -}}
+    # 現在インストールされている拡張機能のリストを取得
+    INSTALLED_EXTENSIONS=$(${CODE} --list-extensions | jq -R -s 'split("\n")[:-1]')
+
     {{ range .packages.extensions -}}
-    ${CODE} --force --install-extension {{ . }}
+    # jqを使用して拡張機能が既にインストールされているかチェック
+    if echo "${INSTALLED_EXTENSIONS}" | jq -e 'contains(["{{ . }}"])' > /dev/null; then
+        echo "{{ . }} already installed."
+    else
+        echo "Installing {{ . }}..."
+        ${CODE} --force --install-extension {{ . }}
+    fi
     {{ end }}
 {{ end }}
 
@@ -39,12 +48,10 @@ copy_json_file() {
     if [ -f "${target_file}" ]; then
         sudo cp "${target_file}" "${target_file}.old"
         echo "バックアップを作成しました: ${target_file}.old"
-    else
-        echo "${target_file}が存在しません。"
     fi
 
     sudo ln -sf "${from_file}" "${target_file}"
-    echo "新しい ${target_file} を作成しました。"
+    echo "new ${target_file} created."
     cat "${target_file}"
     echo "--------------------------------"
 }
@@ -59,15 +66,14 @@ extensions_json() {
         echo "バックアップを作成しました: ${CODEX}.old"
     fi
 
-    if ! command -v "code" >/dev/null 2>&1; then
-        echo "VSCodeが存在しません。"
+    if [ ! -z "${CODE}" ]; then
         sudo ln -sf "${FROM}/extensions.json" "${CODEX}"
-        echo "新しい ${CODEX} を作成しました。"
+        echo "new ${CODEX} created."
     else
         # インストールされている拡張機能を"extensions.json"の形式で出力する
         echo '{"recommendations": [],"unwantedRecommendations":[]}' | sudo tee "${CODEX}" > /dev/null
-        sudo "code" --list-extensions | xargs -I {} sh -c "jq '.recommendations += [\"{}\"]' ${CODEX} | sudo tee temp > /dev/null && sudo mv temp ${CODEX}"
-        echo '拡張機能の更新が完了しました!'
+        sudo "${CODE}" --list-extensions | xargs -I {} sh -c "jq '.recommendations += [\"{}\"]' ${CODEX} | sudo tee temp > /dev/null && sudo mv temp ${CODEX}"
+        echo 'extension update done!'
     fi
 
     cat "${CODEX}"

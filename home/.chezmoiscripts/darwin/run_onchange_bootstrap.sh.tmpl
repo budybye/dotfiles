@@ -1,0 +1,94 @@
+#!/usr/bin/env bash
+
+echo "run_onchange_bootstrap.sh.tmpl"
+echo "--------------------------------"
+
+# Xcode コマンドラインツールのインストールおよびパスの設定
+install_xcode_command_line_tools() {
+    echo "Xcode command line tools check it..."
+    if [ "$(command -v xcode-select -p)" ]; then
+        echo "Xcode command line tools already installed."
+    else
+        xcode-select --install || echo "Xcode command line tools install failed."
+        echo "Xcode command line tools install done."
+    fi
+    CURRENT_PATH=$(xcode-select -p)
+    DESIRED_PATH="/Library/Developer/CommandLineTools"
+
+    if [ "$CURRENT_PATH" != "$DESIRED_PATH" ]; then
+        echo "change path to $DESIRED_PATH"
+        sudo xcode-select --switch "$DESIRED_PATH" || {
+            echo "path change failed. reset initial settings."
+            sudo xcode-select --reset
+        }
+        echo "$DESIRED_PATH setup done."
+    fi
+}
+
+install_rosetta() {
+    if [[ "$(uname -m)" == "arm64" ]]; then
+        echo "Apple Silicon Mac detected. check Rosetta 2 install..."
+        /usr/bin/pgrep oahd >/dev/null || /usr/sbin/softwareupdate --install-rosetta --agree-to-license || echo "Rosetta 2 install failed."
+    else
+        echo "Rosetta 2 not needed (Intel Mac)."
+    fi
+    echo "Rosetta 2 install done."
+}
+
+install_homebrew() {
+    echo "Homebrew install check it..."
+    if [ "$(command -v brew)" ]; then
+        echo "Homebrew already installed."
+    else
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" || echo "Homebrew install failed."
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+        echo "Homebrew installed."
+    fi
+}
+
+install_brew_packages() {
+    brew --version
+    brew tap Homebrew/bundle
+
+    {{ range .packages.darwin.formula -}}
+
+    if ! brew list | grep -q {{ . }}; then
+        brew install {{ . }} || echo "{{ . }} install failed."
+    else
+        echo "{{ . }} already installed."
+    fi
+
+    {{ end }}
+
+    {{ range .packages.darwin.cask -}}
+
+    if ! brew list | grep -q {{ . }}; then
+        brew install --cask {{ . }} || echo "{{ . }} install failed."
+    else
+        echo "{{ . }} already installed."
+    fi
+
+    {{ end }}
+
+    brew update
+    brew upgrade
+    brew autoremove
+    brew cleanup
+    brew doctor
+    brew list
+    echo "packages install done."
+}
+
+echo "bootstrap start."
+install_xcode_command_line_tools
+install_rosetta
+install_homebrew
+install_brew_packages
+# ~/.config/mise/config.toml に記載されたパッケージをインストール
+mise install || echo "mise install failed."
+echo "bootstrap done."
+
+echo "--------------------------------"
+echo "zsh --version $(zsh --version)"
+echo "Package install && update done!!"
+echo "--------------------------------"

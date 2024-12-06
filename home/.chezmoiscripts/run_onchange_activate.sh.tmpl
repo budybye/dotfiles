@@ -1,0 +1,62 @@
+#! /usr/bin/env bash
+
+echo "run_onchange_activate.sh.tmpl"
+echo "--------------------------------"
+USERNAME=$(whoami)
+echo "Welcome to my dotfiles!!"
+echo "sourceDir: {{ .chezmoi.sourceDir }}"
+echo "user: $USERNAME"
+echo "OS info ..."
+uname -mars
+echo "SHELL: $SHELL"
+echo "--------------------------------"
+
+# .env の確認と作成
+echo ".env && ENV checking..."
+cat {{ .chezmoi.sourceDir }}/.env
+mise set
+echo "--------------------------------"
+env
+echo "--------------------------------"
+
+# SSH の設定
+{{- if ne .name "runner" }}
+
+echo "SSH key ..."
+cat /etc/ssh/sshd_config
+echo "--------------------------------"
+chmod 700 ~/.ssh
+chmod 644 ~/.ssh/id_ed25519.pub
+chmod 600 ~/.ssh/id_ed25519
+chmod 600 ~/.ssh/authorized_keys
+echo "authorized_keys..."
+cat ~/.ssh/authorized_keys
+echo "--------------------------------"
+ls -la ~/.ssh
+echo "--------------------------------"
+echo "SSH key pub ..."
+cat ~/.ssh/id_ed25519.pub
+echo "--------------------------------"
+echo "SSH Config ..."
+cat ~/.ssh/config
+echo "--------------------------------"
+
+{{- end }}
+
+{{- if ne .name "runner" }}
+
+# git の設定
+echo "git config ..."
+cat ~/.config/git/user.conf
+echo "git config user.name"
+git config user.name
+echo "git config user.email"
+git config user.email
+echo "--------------------------------"
+cat ~/.config/git/config
+echo "--------------------------------"
+cat ~/.config/git/commit.template
+git config --global commit.template ${HOME}/.config/git/commit.template
+echo "--------------------------------"
+
+{{- end }}

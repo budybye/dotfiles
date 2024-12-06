@@ -1,67 +1,7 @@
 #! /usr/bin/env bash
 
-echo "run_onchange_bootstrap.sh.tmpl"
+echo "run_onchange_cli_install.sh.tmpl"
 echo "--------------------------------"
-USERNAME=$(whoami)
-echo "Welcome to my dotfiles!!"
-echo "sourceDir: {{ .chezmoi.sourceDir }}"
-echo "user: $USERNAME"
-echo "OS info ..."
-uname -mars
-echo "SHELL: $SHELL"
-echo "--------------------------------"
-
-# .env の確認と作成
-echo ".env && ENV checking..."
-cat {{ .chezmoi.sourceDir }}/.env
-mise set
-echo "--------------------------------"
-env
-echo "--------------------------------"
-
-# SSH の設定
-{{- if ne .name "runner" }}
-
-echo "SSH key ..."
-cat /etc/ssh/sshd_config
-echo "--------------------------------"
-chmod 700 ~/.ssh
-chmod 644 ~/.ssh/id_ed25519.pub
-chmod 600 ~/.ssh/id_ed25519
-chmod 600 ~/.ssh/authorized_keys
-echo "authorized_keys..."
-cat ~/.ssh/authorized_keys
-echo "--------------------------------"
-ls -la ~/.ssh
-echo "--------------------------------"
-echo "SSH key pub ..."
-cat ~/.ssh/id_ed25519.pub
-echo "--------------------------------"
-echo "SSH Config ..."
-cat ~/.ssh/config
-echo "--------------------------------"
-
-{{- end }}
-
-{{- if ne .name "runner" }}
-
-# git の設定
-echo "git config ..."
-cat ~/.config/git/user.conf
-echo "git config user.name"
-git config user.name
-echo "git config user.email"
-git config user.email
-echo "--------------------------------"
-cat ~/.config/git/config
-echo "--------------------------------"
-cat ~/.config/git/commit.template
-git config --global commit.template ${HOME}/.config/git/commit.template
-echo "--------------------------------"
-
-{{- end }}
-
-{{- if eq .chezmoi.os "linux" }}
 
 echo "Linux"
 # アーキテクチャを取得
@@ -271,108 +211,22 @@ echo "CLI tools install start..."
 install_packages
 change_shell_to_zsh
 install_mise
+
+{{ if or (ne .name "dev") (ne .name "docker") -}}
+
 install_docker
 install_docker_compose
+install_act
+
+{{ end }}
+
 install_cargo_tools
 install_flatpak
 install_go_aqua
 # install_volta
 install_mkcert
-install_act
 cat ${HOME}/which && rm -f ${HOME}/which
 echo "CLI tools install done."
-
-{{- end }}
-
-{{- if eq .chezmoi.os "darwin" }}
-
-# Xcode コマンドラインツールのインストールおよびパスの設定
-install_xcode_command_line_tools() {
-    echo "Xcode command line tools check it..."
-    if [ "$(command -v xcode-select -p)" ]; then
-        echo "Xcode command line tools already installed."
-    else
-        xcode-select --install || echo "Xcode command line tools install failed."
-        echo "Xcode command line tools install done."
-    fi
-    CURRENT_PATH=$(xcode-select -p)
-    DESIRED_PATH="/Library/Developer/CommandLineTools"
-
-    if [ "$CURRENT_PATH" != "$DESIRED_PATH" ]; then
-        echo "change path to $DESIRED_PATH"
-        sudo xcode-select --switch "$DESIRED_PATH" || {
-            echo "path change failed. reset initial settings."
-            sudo xcode-select --reset
-        }
-        echo "$DESIRED_PATH setup done."
-    fi
-}
-
-install_homebrew() {
-    echo "Homebrew install check it..."
-    if [ "$(command -v brew)" ]; then
-        echo "Homebrew already installed."
-    else
-        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" || echo "Homebrew install failed."
-        eval "$(/opt/homebrew/bin/brew shellenv)"
-        echo "Homebrew installed."
-    fi
-}
-
-install_brew_packages() {
-    brew --version
-    brew tap Homebrew/bundle
-
-    {{ range .packages.darwin.formula -}}
-
-    if ! brew list | grep -q {{ . }}; then
-        brew install {{ . }} || echo "{{ . }} install failed." >> ${HOME}/brews
-    else
-        echo "{{ . }} already installed." >> ${HOME}/brews
-    fi
-
-    {{ end }}
-
-    {{ range .packages.darwin.cask -}}
-
-    if ! brew list | grep -q {{ . }}; then
-        brew install --cask {{ . }} || echo "{{ . }} install failed." >> ${HOME}/brews
-    else
-        echo "{{ . }} already installed." >> ${HOME}/brews
-    fi
-
-    {{ end }}
-
-    brew update
-    brew upgrade
-    brew autoremove
-    brew cleanup
-    brew doctor
-    brew list
-    cat ${HOME}/brews && rm -f ${HOME}/brews
-    echo "packages install done."
-}
-
-install_rosetta() {
-    if [[ "$(uname -m)" == "arm64" ]]; then
-        echo "Apple Silicon Mac detected. check Rosetta 2 install..."
-        /usr/bin/pgrep oahd >/dev/null || /usr/sbin/softwareupdate --install-rosetta --agree-to-license || echo "Rosetta 2 install failed."
-    else
-        echo "Rosetta 2 not needed (Intel Mac)."
-    fi
-    echo "Rosetta 2 install done."
-}
-
-echo "bootstrap start."
-install_xcode_command_line_tools
-install_homebrew
-install_brew_packages
-install_rosetta
-# ~/.config/mise/config.toml に記載されたパッケージをインストール
-mise install || echo "mise install failed."
-echo "bootstrap done."
-
-{{- end }}
 
 echo "--------------------------------"
 echo "zsh --version $(zsh --version)"
