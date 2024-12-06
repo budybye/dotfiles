@@ -4,22 +4,10 @@
 SHELL = bash
 .SHELLFLAGS = -ceuo pipefail
 
-export DOCKER = true
-
-# Get the current user
-CURRENT_USER := $(shell whoami)
-
-# Set sudo to empty if the current user is root
-ifeq ($(CURRENT_USER), root)
-	export sudo =
-else
-	export sudo = sudo
-endif
-
 dev: bw init
 
 init:
-	$(sudo) ./install.sh
+	sh -c "./install.sh"
 docker:
 	docker \
 	run \
