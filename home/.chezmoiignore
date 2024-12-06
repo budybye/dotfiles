@@ -8,21 +8,21 @@
 .ssh/id_rsa*
 {{ end }}
 
-{{ if eq .bitwarden "false" }}
+{{ if eq .bitwarden false }}
 .config/git/user.conf*
 .ssh/id_ed25519*
 {{ end }}
 
-{{ if eq .github "false" }}
+{{ if eq .github false }}
 .config/git/user.conf*
 {{ end }}
 
-{{ if eq .age "false" }}
+{{ if eq .age false }}
 .ssh/id_rsa*
 .ssh/id_ed25519*
 {{ end }}
 
-{{ if eq .ssh "false" }}
+{{ if eq .ssh false }}
 .ssh/authorized_keys*
 .ssh/id_rsa*
 .ssh/id_ed25519*
