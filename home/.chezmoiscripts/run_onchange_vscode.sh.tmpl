@@ -6,25 +6,22 @@ echo "--------------------------------"
 # 管理下の設定ファイルの場所
 FROM="${HOME}/.config/Code"
 CODE_DIR="${HOME}/.local/share/Code"
-CODE="code"
 
 # 環境によって変わる 設定ファイルの場所
 if command -v cursor >/dev/null 2>&1; then
     CODE_DIR="${HOME}/.local/share/Cursor"
-    CODE="cursor"
 elif [ -f "${HOME}/Applications/cursor" ]; then
     CODE_DIR="${HOME}/.local/share/Cursor"
-    CODE="cursor --no-sandbox"
 elif command -v codium >/dev/null 2>&1; then
     CODE_DIR="${HOME}/.config/VSCodium"
-    CODE="codium"
 fi
 # VSCodeのUserディレクトリの作成
 sudo mkdir -p "${CODE_DIR}/User"
 
 {{ if ne (env "REMOTE_CONTAINERS") "true" -}}
+
     # 現在インストールされている拡張機能のリストを取得
-    INSTALLED_EXTENSIONS=$(${CODE} --list-extensions | jq -R -s 'split("\n")[:-1]')
+    INSTALLED_EXTENSIONS=$(code --list-extensions | jq -R -s 'split("\n")[:-1]')
 
     {{ range .packages.extensions -}}
     # jqを使用して拡張機能が既にインストールされているかチェック
@@ -32,9 +29,10 @@ sudo mkdir -p "${CODE_DIR}/User"
         echo "{{ . }} already installed."
     else
         echo "Installing {{ . }}..."
-        ${CODE} --force --install-extension {{ . }}
+        code --force --install-extension {{ . }}
     fi
     {{ end }}
+
 {{ end }}
 
 # 設定ファイルをバックアップし、新しいファイルを作成する汎用関数
@@ -66,13 +64,13 @@ extensions_json() {
         echo "バックアップを作成しました: ${CODEX}.old"
     fi
 
-    if [ ! -z "${CODE}" ]; then
+    if command -v code >/dev/null 2>&1; then
         sudo ln -sf "${FROM}/extensions.json" "${CODEX}"
         echo "new ${CODEX} created."
     else
         # インストールされている拡張機能を"extensions.json"の形式で出力する
         echo '{"recommendations": [],"unwantedRecommendations":[]}' | sudo tee "${CODEX}" > /dev/null
-        sudo "${CODE}" --list-extensions | xargs -I {} sh -c "jq '.recommendations += [\"{}\"]' ${CODEX} | sudo tee temp > /dev/null && sudo mv temp ${CODEX}"
+        sudo code --list-extensions | xargs -I {} sh -c "jq '.recommendations += [\"{}\"]' ${CODEX} | sudo tee temp > /dev/null && sudo mv temp ${CODEX}"
         echo 'extension update done!'
     fi
 

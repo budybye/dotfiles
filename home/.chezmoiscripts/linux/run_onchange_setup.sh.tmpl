@@ -113,6 +113,20 @@ install_github_desktop() {
     fi
 }
 
+install_vscode() {
+    if ! command -v code >/dev/null 2>&1; then
+        sudo wget -qO- https://packages.microsoft.com/keys/microsoft.asc | sudo gpg --dearmor > packages.microsoft.gpg
+        sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
+        echo "deb [arch=${arch} signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" | sudo tee /etc/apt/sources.list.d/vscode.list > /dev/null
+        sudo rm -f packages.microsoft.gpg
+        sudo apt update -y
+        sudo apt install -y code || echo "vscode install failed."
+        echo "vscode installed."
+    else
+        echo "vscode already installed."
+    fi
+}
+
 install_cursor() {
     appimage="${HOME}/Applications/cursor"
     mkdir -p "${HOME}/Applications"
@@ -223,6 +237,7 @@ install_brave_browser
 install_tabby_terminal
 install_cloudflare_warp
 install_github_desktop
+install_vscode
 install_cursor
 install_element_desktop
 install_ruby_fusuma
