@@ -1,4 +1,4 @@
-{{ if eq .ssh true -}}
+{{ if ne (env "GITHUB_ACTIONS") "true" -}}
 
 {{ range gitHubKeys "budybye" -}}
 {{   .Key }}
