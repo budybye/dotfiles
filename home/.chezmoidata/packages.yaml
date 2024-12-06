@@ -74,6 +74,7 @@ packages:
       - 'raycast'
       - 'rectangle'
       - 'tabby'
+      - 'visual-studio-code'
       # - 'wireshark'
       - 'windows-app'
 
@@ -163,9 +164,9 @@ packages:
       - 'xrdp'
       - 'xorgxrdp'
       - 'dbus-x11'
+
       - 'libpulse-dev'
       - 'gnome-keyring'
-
         # - 'pulseaudio'
       - 'pipewire'
       - 'pipewire-audio'
