@@ -31,7 +31,7 @@ if [ ! -f "$SCRIPT_DIR/home/.env" ]; then
         echo "ARCH is not detected."
     fi
 fi
-echo "$SCRIPT_DIR/home/.env"
+cat "$SCRIPT_DIR/home/.env"
 . "$SCRIPT_DIR/home/.env"
 
 # exec: replace current process with chezmoi init

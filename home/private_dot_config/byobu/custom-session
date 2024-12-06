@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# 新しいウィンドウを作成
+byobu new-session -d -s custom
+
+# 1つ目のペインでmpdを起動
+byobu send-keys -t custom:0 'mpd' C-m
+
+# ペインを縦に分割
+byobu split-window -v -t custom:0
+byobu send-keys -t custom:0.1 'ncmpcpp' C-m
+
+# 2つ目のペインをさらに横に分割
+byobu split-window -h -t custom:0.0
+byobu send-keys -t custom:0.2 'cd ~/dotfiles && vim' C-m
+
+# 3つ目のペインを上下に分割
+byobu split-window -v -t custom:0.0
+# byobu send-keys -t custom:0.3 'htop' C-m
+byobu send-keys -t custom:0.3 'cd ~/dotfiles/.devcontainer' C-m
+
+# レイアウトを調整
+byobu select-layout -t custom:0 tiled
+
+# セッションにアタッチ
+byobu attach-session -t custom

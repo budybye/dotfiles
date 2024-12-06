@@ -4,11 +4,22 @@
 SHELL = bash
 .SHELLFLAGS = -ceuo pipefail
 
+export DOCKER = true
+
+# Get the current user
+CURRENT_USER := $(shell whoami)
+
+# Set sudo to empty if the current user is root
+ifeq ($(CURRENT_USER), root)
+	export sudo =
+else
+	export sudo = sudo
+endif
+
 dev: bw init
 
 init:
-	chmod +x ./install.sh && \
-	./install.sh
+	$(sudo) ./install.sh
 docker:
 	docker \
 	run \
@@ -16,13 +27,16 @@ docker:
 	--interactive \
 	--tty \
 	--privileged \
-	--name ubuntu \
+	--name ubuntu-dev \
 	--hostname docker \
+	--env DOCKER=$(DOCKER) \
 	-p 33389:3389 \
 	-p 2222:22 \
 	-v $(HOME)/data:/data \
 	ghcr.io/budybye/ubuntu-dev \
 	ubuntu ubuntu yes
+exec:
+	docker exec ubuntu-dev /bin/bash
 up:
 	docker compose up -d -f .devcontainer/docker-compose.yaml
 down:
@@ -30,8 +44,6 @@ down:
 ipfs:
 	docker compose up -d ipfs -f .devcontainer/docker-compose.yaml && \
 	docker compose exec ipfs ipfs add -r $(HOME)/data
-exec:
-	docker compose exec ubuntu /bin/bash
 ubuntu:
 	multipass \
 	launch \

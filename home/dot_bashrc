@@ -53,5 +53,6 @@ if [ -f /etc/bash_completion ]; then
   . /etc/bash_completion
 fi
 
-# SHELL環境変数をzshに設定
+# SHELL環境変数をzshに再設定
 # export SHELL="$(command -v zsh)"
+# chsh -s $(command -v zsh) $(whoami)
