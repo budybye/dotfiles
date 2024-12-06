@@ -33,7 +33,8 @@ setopt mark_dirs            # match directory as append slash
 setopt list_types           # autocomplete list is render file mark
 setopt print_eight_bit      # enable utf-8
 setopt pushd_ignore_dups    # 重複したディレクトリを無視
-setopt prompt_subst         # promptに変数を埋め込む
+setopt prompt_subst         # prompt内で変数を参照する
+setopt extended_glob        # ワイルドカードを展開
 
 # 色
 autoload -Uz colors && colors
@@ -75,8 +76,8 @@ fi
 
 # mise
 if command -v mise > /dev/null 2>&1; then
-  eval "$(mise activate zsh)"
   eval "$(mise activate --shims)"
+  eval "$(mise activate zsh)"
 fi
 
 # starship
@@ -87,6 +88,11 @@ fi
 if command -v zoxide > /dev/null 2>&1; then
   eval "$(zoxide init zsh --hook prompt)"
 fi
+
+# fzf
+# if command -v fzf > /dev/null 2>&1; then
+#   source "${HOME}/.fzf.zsh"
+# fi
 
 # sheldon
 if command -v sheldon > /dev/null 2>&1; then

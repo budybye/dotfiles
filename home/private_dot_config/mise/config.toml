@@ -4,20 +4,21 @@
 node = "20.18.1"
 go = "1.23.2"
 bun = "1.1.33"
+rust = "1.83.0"
+python = "3.13.1"
 
 # java = "latest"
-# rust = "latest"
 
-# chezmoi = "latest"
 # mkcert = "latest"
 
 # deno = "latest"
 # pnpm = "latest"
-# poetry = "latest"
-# python = "latest"
 # php = "latest"
 # maven = "latest"
 # ruby = "latest"
+
+cargo-binstall = "1.10.15"
+uv = "0.5.6"
 
 # websocat = "latest"
 # sqlite = "latest"
@@ -43,7 +44,7 @@ always_keep_install = false         # デフォルトでは失敗時に削除
 
 # これらのプレフィックスを持つ設定ファイルはデフォルトで信頼されます
 trusted_config_paths = [
-    # '~/dotfiles',
+    '~/dotfiles',
 ]
 
 verbose = false       # trueに設定すると、インストールの全出力が表示されます。`MISE_VERBOSE`を参照
@@ -66,4 +67,13 @@ env_file = '.env' # .env ファイルから環境変数を読み込む、`MISE_E
 experimental = true # 実験的な機能を有効にする
 
 # 設定ファイルを持つディレクトリに入るときに表示されるメッセージを設定
-status = { missing_tools = "if_other_versions_installed", show_env = false, show_tools = false }
+status.missing_tools = "if_other_versions_installed"
+status.show_env = false
+status.show_tools = false
+
+# rust.cargo_home = "~/.cargo"
+# rust.rustup_home = "~/.rustup"
+
+cargo.binstall = true
+pipx.uvx = true
+# npm.bun = true

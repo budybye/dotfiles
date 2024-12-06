@@ -322,8 +322,27 @@ install_homebrew() {
 install_brew_packages() {
     brew --version
     brew tap Homebrew/bundle
-    brew install {{ .packages.darwin.formula | join " " }} || echo "formula install failed."
-    brew install --cask {{ .packages.darwin.cask | join " " }} || echo "cask install failed."
+
+    {{ range .packages.darwin.formula -}}
+
+    if ! brew list | grep -q {{ . }}; then
+        brew install {{ . }} && echo "{{ . }} installed." || echo "{{ . }} install failed."
+    else
+        echo "{{ . }} already installed."
+    fi
+
+    {{ end }}
+
+    {{ range .packages.darwin.cask -}}
+
+    if ! brew list | grep -q {{ . }}; then
+        brew install --cask {{ . }} && echo "{{ . }} installed." || echo "{{ . }} install failed."
+    else
+        echo "{{ . }} already installed."
+    fi
+
+    {{ end }}
+
     brew update
     brew upgrade
     brew autoremove

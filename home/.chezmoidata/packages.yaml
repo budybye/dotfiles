@@ -40,6 +40,9 @@ packages:
       - 'starship'
       - 'tree'
       - 'yt-dlp'
+      - 'fortune-mod'
+      - 'cmatrix'
+      - 'oneko'
 
     cask:
       - 'appcleaner'

@@ -20,8 +20,8 @@ fi
 
 # mise
 if command -v mise > /dev/null 2>&1; then
-  eval "$(mise activate bash)"
   eval "$(mise activate --shims)"
+  eval "$(mise activate bash)"
 fi
 
 # # sheldon
@@ -52,3 +52,6 @@ fi
 if [ -f /etc/bash_completion ]; then
   . /etc/bash_completion
 fi
+
+# SHELL環境変数をzshに設定
+# export SHELL="$(command -v zsh)"

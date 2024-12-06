@@ -55,14 +55,17 @@ fi
 
 if command -v date >/dev/null 2>&1; then
     alias now="date +%Y%m%d%H%M%S"
-    alias bk="cp -t $HOME/data/$(now).bk"
 fi
 
 if command -v tree >/dev/null 2>&1; then
     alias tree="tree -NC"   # N: 文字化け対策 C: 色を付ける
 fi
 
-if command -v xsel >/dev/null 2>&1; then
+if command -v pbcopy >/dev/null 2>&1; then
+    alias cx="pbcopy"
+    alias cv="pbpaste"
+    alias cb="pbcopy"
+elif command -v xsel >/dev/null 2>&1; then
     alias cx="xsel -b -i"  # クリップボードにコピー
     alias cv="xsel -b -o"  # クリップボードの内容をコマンドに渡す
     alias cb="xsel -b"
@@ -214,4 +217,8 @@ fi
 
 if command -v age >/dev/null 2>&1 && [ -d "${HOME}/.secrets" ]; then
     alias shhh="age-keygen | age --armor --passphrase > ${HOME}/.secrets/shhh.txt"
+fi
+
+if command -v byobu >/dev/null 2>&1; then
+    alias tmux="byobu-tmux"
 fi

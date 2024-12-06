@@ -116,7 +116,7 @@ fi
 
 if command -v orb >/dev/null 2>&1; then
     source "${HOME}/.orbstack/shell/init.zsh" 2>/dev/null || :
-    docker context use orbstack >/dev/null
+    # docker context use orbstack >/dev/null
 fi
 
 if command -v docker >/dev/null 2>&1; then

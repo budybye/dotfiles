@@ -26,11 +26,12 @@ path=(
   /snap/bin(N-/)
 )
 
+# プロンプトの設定
 PROMPT='%F{green}%n@%m%f:%F{blue}%~ %f%F{yellow}$%f '
 
 # zshの設定ファイルを読み込む
-if [ -f "${HOME}/.zshrc" ]; then
-  . "${HOME}/.zshrc"
+if [ -f "${ZDOTDIR}/.zshrc" ]; then
+  . "${ZDOTDIR}/.zshrc"
 fi
 
 # byobu
