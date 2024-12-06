@@ -1,5 +1,5 @@
 # 格言を表示
 if command -v fortune > /dev/null 2>&1; then
-  fortune -a
+  fortune
   print
 fi

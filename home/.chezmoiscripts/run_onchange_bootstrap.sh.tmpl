@@ -326,9 +326,9 @@ install_brew_packages() {
     {{ range .packages.darwin.formula -}}
 
     if ! brew list | grep -q {{ . }}; then
-        brew install {{ . }} && echo "{{ . }} installed." || echo "{{ . }} install failed."
+        brew install {{ . }} || echo "{{ . }} install failed." >> ${HOME}/brews
     else
-        echo "{{ . }} already installed."
+        echo "{{ . }} already installed." >> ${HOME}/brews
     fi
 
     {{ end }}
@@ -336,9 +336,9 @@ install_brew_packages() {
     {{ range .packages.darwin.cask -}}
 
     if ! brew list | grep -q {{ . }}; then
-        brew install --cask {{ . }} && echo "{{ . }} installed." || echo "{{ . }} install failed."
+        brew install --cask {{ . }} || echo "{{ . }} install failed." >> ${HOME}/brews
     else
-        echo "{{ . }} already installed."
+        echo "{{ . }} already installed." >> ${HOME}/brews
     fi
 
     {{ end }}
@@ -349,6 +349,7 @@ install_brew_packages() {
     brew cleanup
     brew doctor
     brew list
+    cat ${HOME}/brews && rm -f ${HOME}/brews
     echo "packages install done."
 }
 
