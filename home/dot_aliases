@@ -222,3 +222,8 @@ fi
 if command -v byobu >/dev/null 2>&1; then
     alias tmux="byobu-tmux"
 fi
+
+if command -v trans >/dev/null 2>&1; then
+    alias ja="trans -b -j ja"
+    alias en="trans -b -j en"
+fi
