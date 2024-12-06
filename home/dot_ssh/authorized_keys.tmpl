@@ -1,4 +1,4 @@
-{{ if .ssh -}}
+{{ if eq .ssh true -}}
 
 {{ range gitHubKeys "budybye" -}}
 {{   .Key }}

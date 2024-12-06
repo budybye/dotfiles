@@ -37,5 +37,5 @@ fi
 # byobu
 if command -v byobu > /dev/null 2>&1 && [ ${SHLVL} = 1 ]; then
   # byobu
-  ~/.byobu/custom-session
+  . "${HOME}/.config/byobu/custom-session"
 fi

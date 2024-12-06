@@ -21,33 +21,45 @@
 {{- $email = "null" -}}
 {{- end -}}
 
-{{/* 環境の検出 */}}
+{{/* Actions */}}
 {{- if eq (env "GITHUB_ACTIONS") "true" -}}
     {{- $name = "runner" -}}
     {{- $github = true -}}
     {{- $ssh = false -}}
+
+{{/* Codespaces */}}
 {{- else if eq (env "CODESPACES") "true" -}}
-    {{- $name = "codespaces" -}}
+    {{- $name = "vscode" -}}
     {{- $github = true -}}
     {{- $ssh = false -}}
+
+{{/* Remote Containers */}}
 {{- else if eq (env "REMOTE_CONTAINERS") "true" -}}
     {{- $name = "dev" -}}
     {{- $github = true -}}
     {{- $ssh = true -}}
+
+{{/* Docker */}}
 {{- else if eq (env "DOCKER") "true" -}}
     {{- $name = "docker" -}}
     {{- $github = true -}}
     {{- $ssh = true -}}
+
+{{/* Ubuntu multipass */}}
 {{- else if eq .chezmoi.username "ubuntu" -}}
     {{- $name = "budybye" -}}
     {{- $email = "101wayout@gmail.com" -}}
     {{- $github = true -}}
     {{- $ssh = true -}}
+
+{{/* Ubuntu lxd */}}
 {{- else if eq .chezmoi.username "budybye" -}}
     {{- $bitwarden = true -}}
     {{- $age = true -}}
     {{- $github = true -}}
     {{- $ssh = true -}}
+
+{{/* Mac */}}
 {{- else if eq .chezmoi.username "hotmilk" -}}
     {{- $bitwarden = true -}}
     {{- $email = (bitwarden "item" "gh").login.password -}}
@@ -55,6 +67,8 @@
     {{- $age = true -}}
     {{- $github = true -}}
     {{- $ssh = true -}}
+
+{{/* その他、windows */}}
 {{- else -}}
     {{- $name = .chezmoi.username -}}
     {{- $email = "null" -}}
@@ -75,8 +89,8 @@ mode = "symlink"
 scriptTempDir = "~/tmp"
 
 {{/* age 暗号化 */}}
+{{/* if eq (.age) "false" コメントアウト */}}
 {{ if ne (env "GITHUB_ACTIONS") "true" }}
-
 encryption = "age"
 [age]
     identity = "~/config/chezmoi/key.txt"
@@ -86,6 +100,7 @@ encryption = "age"
 
 {{ end }}
 
+{{/* ".data.***" or ".***" の設定 */}}
 [data]
     email = {{ $email | quote }}
     name = {{ $name | quote }}
@@ -95,18 +110,22 @@ encryption = "age"
     github = {{ $github }}
     ssh = {{ $ssh }}
 
+{{/* git の設定 */}}
 [git]
     autoPush = false
     autoCommit = false
     autoAdd = false
 
+{{/* github の設定 */}}
 [github]
     refreshPeriod = "12h"
 
+{{/* ファイルの編集 */}}
 [edit]
     command = "vim"
     # command = "code"
     # commandArgs = ["--wait"]
 
+{{/* スクリプト環境変数の設定 */}}
 [sctiptEnv]
     SSS = "SouthSideSound"
