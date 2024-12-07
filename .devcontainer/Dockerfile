@@ -108,23 +108,36 @@ RUN apt-get autoremove -y
 RUN apt-get clean
 RUN rm -rf /var/cache/apt /var/lib/apt/lists/*
 
-# devユーザー設定
-RUN groupadd -g 1024 -f dev && \
-    useradd --uid 1024 --gid 1024 -m dev -G sudo -s /usr/bin/zsh && \
-    echo "dev:dev" | chpasswd && \
-    echo "dev ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
-    mkdir -p /home/dev && \
-    chown -R dev:dev /home/dev
+ARG USER=dev
+ARG UID=1024
+ARG HOME=/home/${USER}
 
+# devユーザー設定
+RUN groupadd -g ${UID} -f ${USER} && \
+    useradd --uid ${UID} --gid ${UID} -m ${USER} -G sudo -s /usr/bin/zsh && \
+    echo "${USER}:${USER}" | chpasswd && \
+    echo "${USER} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
+    mkdir -p ${HOME} && \
+    chown -R ${USER}:${USER} ${HOME}
+
+# エントリーポイント　を用意
 COPY ./entrypoint.sh /usr/bin/
 RUN ln -s /usr/bin/entrypoint.sh /usr/bin/entrypoint
 RUN chmod +x /usr/bin/entrypoint
 
-RUN git clone https://github.com/budybye/dotfiles.git /home/ubuntu/dotfiles
-USER dev
+# ホームディレクトリに dotfiles をクローン
+RUN git clone https://github.com/chezmoi/dotfiles.git ${HOME}/dotfiles
+
+# ユーザーを切り替え dotfiles ディレクトリに移動
+USER ${USER}
+WORKDIR ${HOME}/dotfiles
+# dotfiles をインストール
+RUN ./install.sh
 
 FROM base
 
 EXPOSE 3389
+# エントリーポイントを実行
 ENTRYPOINT ["entrypoint"]
+# デフォルトコマンド ユーザー名、パスワード、sudo-no-passwd
 CMD ["ubuntu", "ubuntu", "no"]

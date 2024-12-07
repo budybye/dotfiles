@@ -1,25 +1,29 @@
-{{/* 対話型シークレット系フラグ */}}
+{{/* シークレット系 */}}
 {{- $bitwarden := false -}}{{/* bitwarden のパスワードを取得する */}}
 {{- $age := false -}}{{/* age 暗号化 */}}
+
+{{/* github系 */}}
 {{- $github := false -}}{{/* github ユーザー名を設定する */}}
 {{- $ssh := false -}}{{/* ssh AuthorizedKeys をgithubから設定する */}}
-
-{{/* OSの検出 */}}
-{{- $osID := .chezmoi.os -}}
-{{- if (and (eq .chezmoi.os "linux") (hasKey .chezmoi.osRelease "id")) -}}
-{{-     $osID = printf "%s-%s" .chezmoi.os .chezmoi.osRelease.id -}}
-{{- end -}}
 
 {{/* github ユーザー名の設定 */}}
 {{- $name := "budybye" -}}
 {{- $email := "101wayout@gmail.com" -}}
 
-{{/* detect GitHub codespaces, VSCode, runner, Docker, Multipass VMs, and dev container */}}
+{{/* OSの検出 linuxの場合は distribution を取得する */}}
+{{- $osID := .chezmoi.os -}}
+{{- if (and (eq .chezmoi.os "linux") (hasKey .chezmoi.osRelease "id")) -}}
+{{-     $osID = printf "%s-%s" .chezmoi.os .chezmoi.osRelease.id -}}
+{{- end -}}
+
+{{/* インタラクティブでは実行しない */}}
 {{- if or (env "CODESPACES") (env "REMOTE_CONTAINERS") (env "DOCKER") (env "GITHUB_ACTIONS") (eq .chezmoi.username "root" "ubuntu" "dev" "vscode" "runner") -}}
 {{- $bitwarden = false -}}
 {{- $age = false -}}
 {{- $email = "null" -}}
 {{- end -}}
+
+{{/* 環境毎に name email github ssh を設定する */}}
 
 {{/* Actions */}}
 {{- if eq (env "GITHUB_ACTIONS") "true" -}}

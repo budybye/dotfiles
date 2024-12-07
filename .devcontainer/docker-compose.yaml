@@ -11,18 +11,20 @@ services:
     container_name: ubuntu
     hostname: docker
     privileged: true
+    environment:
+      - Docker=true
+      - REMOTE_CONTAINER=true
     platform: linux/${ARCH:-$(dpkg --print-architecture || uname -m)}
     networks:
       - v4
       - v6
-    # 127.0.0.1:33389 で RDP
     ports:
-      - 33389:3389
+      - 33389:3389 # 127.0.0.1:33389 で RDP
       - 2222:22
     volumes:
       - ${HOME}/dev:/home/ubuntu/dev
     shm_size: 512m # ブラウザ対策
-    command: ["ubuntu", "ubuntu", "yes"]
+    command: ["ubuntu", "ubuntu", "yes"] # user, password, sudo-no-passwd
     tty: true
 
   portainer:

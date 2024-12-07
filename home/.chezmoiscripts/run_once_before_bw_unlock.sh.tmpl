@@ -5,6 +5,19 @@ echo "OS: {{ .chezmoi.os | quote }}"
 cd ${HOME}
 echo "--------------------------------"
 
+# マスターパスワードを暗号化 パスフレーズが要求される
+# echo "${MASTER}" | chezmoi encrypt > {{ .chezmoi.sourceDir }}/shhh.txt
+
+# マスターパスワードを復号 パスフレーズが要求される
+{{ if ne .name "runner" -}}{{/* ノンインタラクティブでは実行しない */}}
+
+echo "decrypt shhh.txt"
+MASTER="$(chezmoi decrypt {{ .chezmoi.sourceDir }}/shhh.txt)"
+echo "MASTER: ${MASTER}"
+echo "--------------------------------"
+
+{{ end }}
+
 MISE="${HOME}/.local/bin/mise"
 SHIMS="${HOME}/.local/share/mise"
 VERSION="20.18.1"
@@ -12,32 +25,28 @@ NPM="${SHIMS}/installs/node/${VERSION}/bin/npm"
 BW="${SHIMS}/installs/node/${VERSION}/bin/bw"
 SESSION="{{ .chezmoi.sourceDir }}/.env"
 
-# age のパスフレーズが要求される
-# マスターパスワードを復号
-{{ if ne .name "runner" -}}
-
-echo "decrypt shhh.txt"
-MASTER="$(chezmoi decrypt {{ .chezmoi.sourceDir }}/shhh.txt)"
-echo "MASTER: ${MASTER}"
-
-{{ end }}
-
-# age のパスフレーズが要求される
-# マスターパスワードを暗号化
-# echo "${MASTER}" | chezmoi encrypt > {{ .chezmoi.sourceDir }}/shhh.txt
-
 # mise なければインストール
 mise_install() {
-{{ if eq .chezmoi.os "darwin" -}}
-    command -v mise >/dev/null || brew install mise
+    if ! command -v mise >/dev/null 2>&1; then
+        echo "mise not found."
 
-{{ else if eq .chezmoi.os "linux" -}}
-    command -v mise >/dev/null || curl https://mise.run | sh
-    export PATH="${HOME}/.local/bin:${PATH}"
+        if command -v brew >/dev/null 2>&1; then
+            brew install mise || echo "mise install failed."
 
-{{ end -}}
+        elif command -v curl >/dev/null 2>&1; then
+            curl https://mise.run | sh || echo "mise install failed."
 
-    echo "mise install complete"
+        else
+            echo "mise install failed."
+            exit 1
+
+        fi
+        export PATH="${HOME}/.local/bin:${PATH}"
+        echo "mise installed"
+
+    else
+        echo "mise already installed."
+    fi
     echo "--------------------------------"
 }
 
@@ -47,20 +56,29 @@ npm_install() {
 
         if command -v mise >/dev/null 2>&1; then
             mise use -g node@${VERSION} -y && mise activate bash >/dev/null || echo "node install failed."
+
         elif [ -f ${MISE} ]; then
             ${MISE} use -g node@${VERSION} -y && ${MISE} activate bash >/dev/null || echo "node install failed."
+
         else
             echo "mise not found."
+            exit 1
+
         fi
-            export PATH="${SHIMS}/shims:${PATH}"
-            export PATH="${SHIMS}/installs/node/${VERSION}/bin:${PATH}"
+        export PATH="${SHIMS}/shims:${PATH}"
+        export PATH="${SHIMS}/installs/node/${VERSION}/bin:${PATH}"
+        echo "node installed"
+
+    else
+        echo "node already installed."
     fi
-    echo "node install complete"
+    echo "--------------------------------"
 }
 
 # npm で bitwarden cli をインストール
 bw_install() {
     if [ ! -f ${BW} ]; then
+
         if command -v npm >/dev/null 2>&1; then
             npm install -g @bitwarden/cli || echo "bitwarden cli install failed."
 
@@ -69,6 +87,8 @@ bw_install() {
 
         else
             echo "npm not found."
+            exit 1
+
         fi
         export PATH="${SHIMS}/installs/node/${VERSION}/bin:${PATH}"
         echo "Bitwarden CLI installed."
@@ -93,24 +113,28 @@ bw_unlock() {
 
     else
         echo "bw cli not found."
+
     fi
 
     # .env 表示
     if [ -f ${SESSION} ]; then
         cat ${SESSION}
+
     else
         echo "export BW_SESSION=${BW_SESSION:-}" > ${SESSION} && cat ${SESSION}
+
     fi
     MASTER=""
     echo "--------------------------------"
 }
 
-main() {
-    echo "bitwarden setup"
-    mise_install
-    npm_install
-    bw_install
-    bw_unlock
-    echo "bitwarden setup complete"
-}
-main
+{{ if eq .bitwarden true -}}
+echo "bitwarden true"
+{{ end }}
+
+echo "bitwarden setup"
+mise_install
+npm_install
+bw_install
+bw_unlock
+echo "bitwarden setup complete"
