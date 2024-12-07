@@ -1,7 +1,33 @@
-#! /usr/bin/env bash
+#!/usr/bin/env bash
 
 echo "run_once_before_age_decrypt.sh.tmpl"
 echo "--------------------------------"
+
+# age なければインストール
+echo "age install..."
+
+if command -v age >/dev/null; then
+    echo "age already installed"
+else
+    if command -v brew >/dev/null; then
+        brew install age || echo "age install failed"
+
+    elif command -v apt-get >/dev/null; then
+        sudo apt-get install -y age || echo "age install failed"
+
+    elif command -v curl >/dev/null; then
+        curl -sSL https://github.com/FiloSottile/age/releases/download/v1.1.2/age-v1.1.2-linux-$(dpkg --print-architecture).tar.gz | tar xz || echo "age install failed"
+
+    else
+        echo "age not installed"
+        exit 1
+    fi
+fi
+age --version || echo "age command not found && exit 1"
+echo "--------------------------------"
+
+{{ if ne .name "runner" -}}
+
 # key.txt をパスフレーズで復号するので事前に用意
 # https://www.chezmoi.io/user-guide/frequently-asked-questions/encryption/
 
@@ -11,29 +37,6 @@ identity="${HOME}/.config/chezmoi/key.txt"
 # age-keygen | age --armor --passphrase ${key_name} で生成したキーのファイル名
 key_name="key.txt.age"
 key_path="{{ .chezmoi.sourceDir }}/${key_name}"
-
-# age なければインストール
-echo "age install..."
-
-{{ if eq .chezmoi.os "darwin" -}}
-
-command -v age >/dev/null || brew install age || echo "age install failed"
-
-{{ else if eq .chezmoi.os "linux" -}}
-
-command -v age >/dev/null || sudo apt-get install -y age || echo "age install failed"
-
-{{ else -}}
-
-echo "Your OS is {{ .chezmoi.os }}"
-curl -sSL https://github.com/FiloSottile/age/releases/download/v1.1.2/age-v1.1.2-darwin-amd64.tar.gz | tar xz
-
-{{ end -}}
-
-command -v age || echo "age command not found && exit 1"
-echo "--------------------------------"
-
-{{ if ne .name "runner" -}}
 
 echo "key_path: ${key_path}..."
 echo "identity: ${identity}..."
