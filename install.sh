@@ -29,6 +29,10 @@ if [ -z "$GITHUB_TOKEN" ]; then
     echo "GITHUB_TOKEN is not set."
 fi
 
+if [ -z "$DOCKER"]; then
+    echo "not docker"
+fi
+
 # exec: replace current process with chezmoi init
 exec "$CHEZMOI" init --apply "--source=$SCRIPT_DIR"
 # exec "$CHEZMOI" init --apply "--source=$SCRIPT_DIR" --verbose
