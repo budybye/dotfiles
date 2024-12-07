@@ -227,3 +227,11 @@ if command -v trans >/dev/null 2>&1; then
     alias ja="trans -b -j ja"
     alias en="trans -b -j en"
 fi
+
+if command -v mpd >/dev/null 2>&1; then
+    alias mpd="mpd ${HOME}/.config/mpd/mpd.conf"
+fi
+
+if command -v ncmpcpp >/dev/null 2>&1; then
+    alias mpc="ncmpcpp"
+fi

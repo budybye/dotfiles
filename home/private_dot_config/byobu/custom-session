@@ -1,9 +1,22 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 DIR="${HOME}/dotfiles"
+
+# セッションの作成
 byobu-tmux new-session -d  -s dotfiles -n dotfiles -c "$DIR"
-byobu-tmux new-window -n cloud-init -c "$DIR/cloud-init"
-byobu-tmux new-window -n home -c "$DIR/home"
-byobu-tmux new-window -n github -c "$DIR/.github"
-byobu-tmux new-window -n devcontainer -c "$DIR/.devcontainer"
+
+# ウィンドウの垂直分割
+byobu-tmux split-window -v -c "$HOME"
+byobu-tmux send-keys -t 2 "mpd" C-m
+
+# ウィンドウの水平分割
+byobu-tmux split-window -h -c "$HOME/Music"
+byobu-tmux send-keys -t 3 "ncmpcpp" C-m
+
+# ウィンドウの選択
+byobu-tmux select-pane -t 1
+
+# ウィンドウの水平分割
+byobu-tmux split-window -h -c "$DIR/.devcontainer"
+
 byobu-tmux attach -t dotfiles

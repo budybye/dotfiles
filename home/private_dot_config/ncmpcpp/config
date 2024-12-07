@@ -11,7 +11,7 @@ ncmpcpp_directory = ~/.config/ncmpcpp
 # lyrics_directory = ~/.config/mpd/lyrics/
 mpd_music_dir = ~/Music
 mpd_host = localhost
-mpd_port = "6600"
+mpd_port = "66600"
 mpd_crossfade_time = 5
 
 # lyrics_fetchers = azlyrics, metrolyrics, musixmatch, genius, sing365, justsomelyrics, jahlyrics, plyrics, tekstowo, zeneszoveg, internet
@@ -19,7 +19,7 @@ mpd_crossfade_time = 5
 autocenter_mode = yes
 centered_cursor = yes
 
-volume_normalization		"yes"
+volume_normalization
 
 # FIFO visualizer
 visualizer_data_source = /tmp/mpd.fifo
@@ -30,7 +30,7 @@ visualizer_type = wave_filled
 # wave/spectrum/wave_filled/ellipse
 # visualizer_look = ●▮
 visualizer_look = "+|"
-visualizer_sync_interval = "30"
+# visualizer_sync_interval = "30"
 
 song_columns_list_format = (40)[yellow]{t|f:Title} (30)[green]{a} (30)[magenta]{b} (7f)[blue]{l}
 

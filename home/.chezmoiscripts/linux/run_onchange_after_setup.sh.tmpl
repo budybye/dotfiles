@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-echo "run_onchange_setup.sh.tmpl"
+echo "run_onchange_after_setup.sh.tmpl"
 echo "{{ .chezmoi.os }} system setup"
 echo "--------------------------------"
 
@@ -243,7 +243,7 @@ install_element_desktop
 install_ruby_fusuma
 # install_wireshark
 
-{{ if or (ne .name "dev") (ne .name "docker") -}}
+{{ if ne (env "DOCKER") "true" -}}
 
 install_snap
 install_pipewire

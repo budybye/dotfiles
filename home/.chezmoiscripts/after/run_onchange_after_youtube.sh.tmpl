@@ -1,9 +1,9 @@
-#! /usr/bin/env bash
+#!/usr/bin/env bash
 
-echo "run_onchange_youtube.sh"
+echo "run_onchange_after_youtube.sh"
 echo "--------------------------------"
 
-{{ if or (ne .name "runner") (ne .name "docker") -}}
+{{ if ne .name "runner" -}}
 
 PLAYLIST_NAME="riddim"
 PLAYLIST_DIR="$HOME/Music/$PLAYLIST_NAME"

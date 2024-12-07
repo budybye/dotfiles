@@ -155,7 +155,7 @@ if command -v bun >/dev/null 2>&1; then
     export BUN_INSTALL="${XDG_DATA_HOME}/bun"
 fi
 
-if [ -f "$(mkcert -CAROOT)/rootCA.pem" ]; then
+if command -v mkcert >/dev/null 2>&1 && [ -f "$(mkcert -CAROOT)/rootCA.pem" ]; then
     NODE_EXTRA_CA_CERTS="$(mkcert -CAROOT)/rootCA.pem"
     export NODE_EXTRA_CA_CERTS
 fi

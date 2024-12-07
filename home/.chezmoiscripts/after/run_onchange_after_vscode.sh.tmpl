@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-echo "run_onchange_vscode.sh.tmpl"
+echo "run_onchange_after_vscode.sh.tmpl"
 echo "--------------------------------"
 
 # 管理下の設定ファイルの場所
@@ -16,18 +16,21 @@ sudo mkdir -p "${CODE_DIR}/User"
 
 {{ if ne (env "REMOTE_CONTAINERS") "true" -}}
 
-    # 現在インストールされている拡張機能のリストを取得
-    INSTALLED_EXTENSIONS=$(code --list-extensions | jq -R -s 'split("\n")[:-1]')
+# 現在インストールされている拡張機能のリストを取得
+INSTALLED_EXTENSIONS=$(code --list-extensions | jq -R -s 'split("\n")[:-1]')
 
-    {{ range .packages.extensions -}}
-    # jqを使用して拡張機能が既にインストールされているかチェック
-    if echo "${INSTALLED_EXTENSIONS}" | jq -e 'contains(["{{ . }}"])' > /dev/null; then
-        echo "{{ . }} already installed."
-    else
-        echo "Installing {{ . }}..."
-        code --force --install-extension {{ . }}
-    fi
-    {{ end }}
+{{ range .packages.extensions -}}
+
+# jqを使用して拡張機能が既にインストールされているかチェック
+if echo "${INSTALLED_EXTENSIONS}" | jq -e 'contains(["{{ . }}"])' > /dev/null; then
+    echo "{{ . }} already installed."
+
+else
+    echo "Installing {{ . }}..."
+    code --force --install-extension {{ . }} || echo "{{ . }} install failed."
+fi
+
+{{ end }}
 
 {{ end }}
 
