@@ -253,7 +253,7 @@ install_volta() {
     volta --version >> ${HOME}/which || echo "volta not found"
 }
 
-{{ if eq .name "docker" -}}
+{{ if eq (env "DOCKER") "true" -}}
 
 echo "CLI tools install start..."
 install_packages
@@ -266,7 +266,7 @@ install_mkcert
 cat ${HOME}/which && rm -f ${HOME}/which
 echo "DOCKER"
 
-{{ else if .name "dev" -}}
+{{ else if eq (env "REMOTE_CONTAINERS") "true" -}}
 
 echo "CLI tools install start..."
 install_packages
