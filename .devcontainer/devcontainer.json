@@ -15,7 +15,6 @@
     "shutdownAction": "stopCompose",
     "remoteEnv": {
       "USERNAME": "dev",
-      "GIT_USER": "${GIT_USER:-}",
       "REMOTE_CONTAINERS": "true",
       "DOCKER": "true"
     },

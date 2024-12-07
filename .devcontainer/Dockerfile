@@ -135,7 +135,7 @@ USER ${USER}
 WORKDIR ${HOME}/dotfiles
 # dotfiles をインストール
 # RUN ./install.sh
-RUN make init
+# RUN make init
 
 FROM base
 
