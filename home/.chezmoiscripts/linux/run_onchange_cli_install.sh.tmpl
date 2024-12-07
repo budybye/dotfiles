@@ -279,7 +279,7 @@ install_mkcert
 cat ${HOME}/which && rm -f ${HOME}/which
 echo "REMOTE_CONTAINERS"
 
-{{ else }}
+{{ else -}}
 
 echo "CLI tools install start..."
 install_packages
@@ -298,7 +298,7 @@ install_mkcert
 cat ${HOME}/which && rm -f ${HOME}/which
 echo "CLI tools install done."
 
-{{ end }}
+{{ end -}}
 
 echo "--------------------------------"
 echo "Package update && check done!!"

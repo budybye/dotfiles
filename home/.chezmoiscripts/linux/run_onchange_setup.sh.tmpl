@@ -210,7 +210,7 @@ xrdp_setup() {
     sudo groupadd -f ssl-cert
     sudo groupadd -f xrdp
     # ubuntuユーザーを必要なグループに追加
-    sudo usermod -aG ssl-cert,xrdp "${USER_NAME}"
+    sudo usermod -aG ssl-cert,xrdp "$(whoami)"
     # サービスの再起動
     sudo systemctl daemon-reload
     sudo systemctl restart rsyslog
@@ -225,10 +225,10 @@ xrdp_setup() {
     echo "xrdp setup completed."
 
     echo "以下のコマンドを実行してパスワードを更新してください"
-    echo "sudo passwd ${USER_NAME}"
+    echo "sudo passwd $(whoami)"
     # ログイン後、ubuntuユーザーのパスワードを再設定を推奨
     # パスワードを再設定しないとログインできない
-    # echo "${USER_NAME}:${USER_NAME}" | sudo chpasswd
+    # echo "$(whoami):$(whoami)" | sudo chpasswd
 }
 
 {{ if eq (env "DOCKER") "true" -}}
@@ -256,7 +256,8 @@ install_vscode
 install_element_desktop
 install_ruby_fusuma
 
-{{ else }}
+{{ else -}}
+
 echo "ubuntu desktop setup start..."
 desktop_setup
 install_brave_browser
@@ -274,7 +275,7 @@ install_pipewire
 japan_setup
 xrdp_setup
 
-{{ end }}
+{{ end -}}
 
 echo "ubuntu desktop setup completed."
 neofetch

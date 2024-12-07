@@ -20,7 +20,6 @@
 {{- if or (env "CODESPACES") (env "REMOTE_CONTAINERS") (env "DOCKER") (env "GITHUB_ACTIONS") (eq .chezmoi.username "root" "ubuntu" "dev" "vscode" "runner") -}}
 {{- $bitwarden = false -}}
 {{- $age = false -}}
-{{- $email = "null" -}}
 {{- end -}}
 
 {{/* 環境毎に name email github ssh を設定する */}}
