@@ -258,7 +258,7 @@ install_packages
 change_shell_to_zsh
 install_mise
 
-{{ if or (ne .name "dev") (ne .name "docker") -}}
+{{ if ne (env "DOCKER") "true" -}}
 
 install_docker
 install_docker_compose
