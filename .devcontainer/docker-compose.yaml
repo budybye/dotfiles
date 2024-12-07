@@ -12,8 +12,8 @@ services:
     hostname: docker
     privileged: true
     environment:
-      - Docker=true
-      - REMOTE_CONTAINER=true
+      - DOCKER=true
+      - REMOTE_CONTAINERS=true
     platform: linux/${ARCH:-$(dpkg --print-architecture || uname -m)}
     networks:
       - v4

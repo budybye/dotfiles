@@ -16,7 +16,8 @@
     "remoteEnv": {
       "USERNAME": "dev",
       "GIT_USER": "${GIT_USER:-}",
-      "REMOTE_CONTAINERS": "true"
+      "REMOTE_CONTAINERS": "true",
+      "DOCKER": "true"
     },
     "features": {
       "ghcr.io/devcontainers/features/node:1": {}

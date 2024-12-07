@@ -127,6 +127,7 @@ if command -v chezmoi >/dev/null 2>&1; then
     alias ca="chezmoi apply"
     alias cha="chezmoi update --verbose"
     alias cai="chezmoi init --apply https://github.com/budybye/dotfiles.git"
+    alias ce="chezmoi chezmoi execute-template"
 fi
 
 # bitwarden

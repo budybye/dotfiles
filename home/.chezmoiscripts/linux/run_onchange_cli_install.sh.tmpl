@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-echo "run_onchange_after_cli_install.sh.tmpl"
+echo "run_onchange_cli_install.sh.tmpl"
 echo "--------------------------------"
 
 echo "Linux"
@@ -253,7 +253,7 @@ install_volta() {
     volta --version >> ${HOME}/which || echo "volta not found"
 }
 
-{{ if eq (env "DOCKER") "true" -}}
+{{ if eq .name "docker" -}}
 
 echo "CLI tools install start..."
 install_packages
@@ -266,7 +266,7 @@ install_mkcert
 cat ${HOME}/which && rm -f ${HOME}/which
 echo "DOCKER"
 
-{{ else if eq (env "REMOTE_CONTAINERS") "true" -}}
+{{ else if .chezmoi.username "dev" -}}
 
 echo "CLI tools install start..."
 install_packages
