@@ -19,9 +19,7 @@
       "REMOTE_CONTAINERS": "true",
       "DOCKER": "true"
     },
-    "features": {
-      "ghcr.io/devcontainers/features/node:1": {}
-    },
+    "features": {},
     "customizations": {
       "vscode": {
         "settings": {
