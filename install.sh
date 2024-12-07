@@ -22,7 +22,7 @@ SCRIPT_DIR="$(cd -P -- "$(dirname -- "$(command -v -- "$0")")" && pwd -P)"
 echo "SCRIPT_DIR: $SCRIPT_DIR"
 
 echo "$PATH" | grep -q "$BIN" || echo "export PATH=\"$BIN:\$PATH\"" >> "$SCRIPT_DIR/.env"
-echo "$PATH" | grep 
+echo "${PATH}" | tr ':' '\n'
 
 # ARCH 環境変数を設定
 if [ ! -f "$SCRIPT_DIR/.env" ]; then
