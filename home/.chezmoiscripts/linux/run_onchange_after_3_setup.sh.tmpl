@@ -231,6 +231,32 @@ xrdp_setup() {
     # echo "${USER_NAME}:${USER_NAME}" | sudo chpasswd
 }
 
+{{ if eq (env "DOCKER") "true" -}}
+
+echo "ubuntu desktop setup start..."
+desktop_setup
+install_brave_browser
+install_tabby_terminal
+install_cloudflare_warp
+install_github_desktop
+install_vscode
+install_cursor
+install_element_desktop
+install_ruby_fusuma
+
+{{ if eq (env "REMOTE_CONTAINERS") "true" -}}
+
+echo "ubuntu desktop setup start..."
+desktop_setup
+install_brave_browser
+install_tabby_terminal
+install_cloudflare_warp
+install_github_desktop
+install_vscode
+install_element_desktop
+install_ruby_fusuma
+
+{{ else }}
 echo "ubuntu desktop setup start..."
 desktop_setup
 install_brave_browser
@@ -242,8 +268,6 @@ install_cursor
 install_element_desktop
 install_ruby_fusuma
 # install_wireshark
-
-{{ if ne (env "DOCKER") "true" -}}
 
 install_snap
 install_pipewire
