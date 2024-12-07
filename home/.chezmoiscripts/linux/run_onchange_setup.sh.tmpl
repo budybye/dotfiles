@@ -231,7 +231,7 @@ xrdp_setup() {
     # echo "$(whoami):$(whoami)" | sudo chpasswd
 }
 
-{{ if eq (env "DOCKER") true -}}
+{{ if eq (env "DOCKER") "true" -}}
 
 echo "ubuntu desktop setup start..."
 desktop_setup
@@ -244,7 +244,7 @@ install_cursor
 install_element_desktop
 install_ruby_fusuma
 
-{{ else if eq (env "REMOTE_CONTAINERS") true -}}
+{{ else if eq (env "REMOTE_CONTAINERS") "true" -}}
 
 echo "ubuntu desktop setup start..."
 desktop_setup
