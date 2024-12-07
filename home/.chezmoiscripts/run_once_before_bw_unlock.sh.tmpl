@@ -128,9 +128,9 @@ bw_unlock() {
     echo "--------------------------------"
 }
 
-{{ if eq .bitwarden true -}}
-echo "bitwarden true"
-{{ end }}
+{{ if eq .bitwarden false -}}
+echo "bitwarden false"
+{{ end -}}
 
 echo "bitwarden setup"
 mise_install
