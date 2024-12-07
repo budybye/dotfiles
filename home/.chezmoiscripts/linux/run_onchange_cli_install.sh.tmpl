@@ -16,14 +16,20 @@ change_shell_to_zsh() {
         sudo apt-get install -y zsh || echo "zsh install failed." >> ${HOME}/which
     fi
 
-    # デフォルトシェルを変更
     zsh_path=$(command -v zsh)
-    sudo chsh -s "${zsh_path}" "${USERNAME}" || echo "zsh default shell change failed."
+    if [ "${SHELL}" != "${zsh_path}" ]; then
+        # デフォルトシェルを変更
+        sudo chsh -s "${zsh_path}" "$(whoami)" || echo "zsh default shell change failed."
+    fi
 
-    command -v /bin/zsh >/dev/null || sudo ln -sf /usr/bin/zsh /bin/zsh
+    # シンボリックリンクを作成
+    if [ ! -f /bin/zsh ] && [ -f /usr/bin/zsh ]; then
+        sudo ln -sf /usr/bin/zsh /bin/zsh
+    fi
+
     echo "Your shell is ${SHELL}"
     echo "zsh default shell changed to ${zsh_path}."
-    command -v zsh >> ${HOME}/which || echo "zsh not found"
+    zsh --version >> ${HOME}/which || echo "zsh not found"
 }
 
 install_packages() {
@@ -51,7 +57,7 @@ install_packages() {
 
 install_docker_compose() {
     if command -v docker-compose >/dev/null 2>&1; then
-        echo "docker-compose already installed."
+        docker-compose --version >> ${HOME}/which
     else
         # 最新バージョンを取得
         COMPOSE_VERSION=$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep tag_name | cut -d '"' -f 4)
@@ -60,14 +66,13 @@ install_docker_compose() {
         # Docker Compose のバイナリをダウンロード
         sudo curl -L "$COMPOSE_URL" -o /usr/local/bin/docker-compose || echo "docker-compose download failed."
         sudo chmod +x /usr/local/bin/docker-compose
-        command -v docker-compose >> ${HOME}/which || echo "docker-compose not found" >> ${HOME}/which
-        echo "docker-compose installed."
+        docker-compose --version >> ${HOME}/which || echo "docker-compose not found" >> ${HOME}/which
     fi
 }
 
 install_docker() {
     if command -v docker >/dev/null 2>&1; then
-        echo "docker already installed."
+        docker --version >> ${HOME}/which
     else
         sudo apt-get update -y
         sudo apt-get install -y apt-transport-https ca-certificates curl gnupg lsb-release software-properties-common || echo "apt install failed."
@@ -82,59 +87,85 @@ install_docker() {
             sudo chmod 666 /var/run/docker.sock
         fi
         sudo groupadd -f docker
-        sudo usermod -aG docker "$USERNAME"
+        sudo usermod -aG docker "$(whoami)"
         sudo systemctl enable docker
         docker info
-        command -v docker >> ${HOME}/which || echo "docker not found" >> ${HOME}/which
-        echo "docker daemon started."
+        docker --version >> ${HOME}/which || echo "docker not found" >> ${HOME}/which
     fi
 }
 
 install_mise() {
     if command -v mise >/dev/null 2>&1; then
         echo "mise already installed."
+
     else
-        echo "mise install start..."
-        curl https://mise.run | sh || {
+        if command -v curl >/dev/null 2>&1; then
+            echo "mise install start..."
+            curl https://mise.run | sh || echo "mise install failed."
+        else
+            echo "curl not found"
             sudo install -dm 755 /etc/apt/keyrings
             wget -qO - https://mise.jdx.dev/gpg-key.pub | gpg --dearmor | sudo tee /etc/apt/keyrings/mise-archive-keyring.gpg 1>/dev/null
             echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=${arch}] https://mise.jdx.dev/deb stable main" | sudo tee /etc/apt/sources.list.d/mise.list
-            sudo apt-get update -y && sudo apt-get install -y mise || echo "mise install failed."
-        }
+            sudo apt-get update -y
+            sudo apt-get install -y mise || echo "mise install failed."
+        fi
     fi
     export PATH="${HOME}/.local/bin:${HOME}/.local/share/mise/shims:$PATH"
-    command -v mise >> ${HOME}/which || echo "mise not found"
+    mise --version >> ${HOME}/which || echo "mise not found" >> ${HOME}/which
 
     # ~/.config/mise/config.toml に記載されたパッケージをインストール
-    mise install || echo "mise install failed."
+    mise install || echo "mise install failed." >> ${HOME}/which
 
-    mise activate bash
     mise activate --shims
+    mise activate bash
     echo "mise setup completed."
 
-    mise list >> ${HOME}/which || echo "mise list failed."
+    mise list >> ${HOME}/which || echo "mise install failed." >> ${HOME}/which
 }
 
 install_cargo_tools() {
     echo "cargo install start..."
     if command -v cargo >/dev/null; then
         echo "cargo already installed."
+
     else
-        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y || mise use rust -y || sudo apt-get install -y cargo || echo "cargo install failed."
+        if command -v mise >/dev/null 2>&1; then
+            mise use -g -y rust cargo-binstall
+
+        elif command -v curl >/dev/null 2>&1; then
+            curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y || echo "cargo install failed."
+
+        else
+            echo "curl not found"
+            sudo apt-get install -y cargo || echo "cargo install failed."
+
+        fi
         . ${HOME}/.cargo/env
         echo "cargo installed."
     fi
-    command -v cargo >> ${HOME}/which || echo "cargo not found"
+    cargo --version >> ${HOME}/which || echo "cargo not found"
 
     echo "cargo tools install start..."
+
     if command -v cargo-binstall >/dev/null; then
         echo "cargo-binstall already installed."
-    else
+
+    elif command -v cargo >/dev/null; then
         cargo install cargo-binstall@1.6.9 --locked || echo "cargo tools install failed."
+
+    elif command -v mise >/dev/null; then
+        mise use -g -y cargo-binstall || echo "cargo tools install failed."
+
+    else
+        echo "cargo not found"
     fi
+
+    # cargo-binstall -y starship sheldon fd-find xh bat lsd ripgrep || cargo install starship@1.20.1 fd-find@9.0.0 xh bat sheldon || echo "cargo tools install failed."
     cargo-binstall -y starship sheldon fd-find xh bat || cargo install starship@1.20.1 fd-find@9.0.0 xh bat sheldon || echo "cargo tools install failed."
 
     echo "cargo tools installed."
+
     for cmd in starship sheldon fd xh bat; do
         command -v "$cmd" >> ${HOME}/which || echo "$cmd not found"
     done
@@ -148,16 +179,21 @@ install_flatpak() {
         sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
         echo "flatpak installed."
     fi
-    command -v flatpak >> ${HOME}/which || echo "flatpak not found"
+    flatpak --version >> ${HOME}/which || echo "flatpak not found"
 }
 
 install_go_aqua() {
     if command -v go >/dev/null; then
         echo "go already installed."
+
+    elif command -v mise >/dev/null; then
+        mise use -g -y go@1.23.2
+
     else
-        mise use -g go@1.23.2 -y || sudo apt-get install -y golang || echo "go install failed."
-        command -v go >> ${HOME}/which || echo "go not found"
+        sudo apt-get install -y golang || echo "go install failed."
+
     fi
+    go version >> ${HOME}/which || echo "go not found"
 
     if command -v aqua >/dev/null; then
         echo "aqua already installed."
@@ -168,43 +204,53 @@ install_go_aqua() {
         export PATH="${HOME}/.local/share/mise/installs/go/1.23.2/bin:${PATH}"
         echo "aqua installed."
     fi
-    command -v aqua >> ${HOME}/which || echo "aqua not found"
+    aqua --version >> ${HOME}/which || echo "aqua not found"
 }
 
 install_mkcert() {
     echo "mkcert install start..."
-    if ! command -v mkcert >/dev/null; then
-        mise use mkcert -y || sudo apt install -y mkcert || echo "mkcert install failed."
-        echo "mkcert installed."
-    else
+    if command -v mkcert >/dev/null; then
         echo "mkcert already installed."
+
+    elif command -v mise >/dev/null; then
+        mise use mkcert -y || echo "mkcert install failed."
+
+    else
+        sudo apt install -y mkcert || echo "mkcert install failed."
     fi
+
     mkcert -install
-    command -v mkcert >> ${HOME}/which || echo "mkcert not found"
+    mkcert --version >> ${HOME}/which || echo "mkcert not found"
 }
 
 install_act() {
     echo "act install start..."
-    if ! command -v act >/dev/null; then
+    if command -v act >/dev/null; then
+        echo "act already installed."
+    elif command -v curl >/dev/null; then
         curl https://raw.githubusercontent.com/nektos/act/master/install.sh | sudo bash || echo "act install failed."
         sudo chmod +x ./bin/act
         sudo mv -f ./bin/act ${HOME}/.local/bin
         echo "act installed."
     else
-        echo "act already installed."
+        echo "act install failed."
     fi
-    command -v act >> ${HOME}/which || echo "act not found"
+    act --version >> ${HOME}/which || echo "act not found"
 }
 
 install_volta() {
     echo "volta install start..."
     if command -v volta >/dev/null; then
         echo "volta already installed."
-    else
+
+    elif command -v curl >/dev/null; then
         curl https://get.volta.sh | bash || echo "volta install failed."
         echo "volta installed."
+    else
+        echo "curl not found"
     fi
-    command -v volta >> ${HOME}/which || echo "volta not found"
+
+    volta --version >> ${HOME}/which || echo "volta not found"
 }
 
 echo "CLI tools install start..."
@@ -227,8 +273,6 @@ install_go_aqua
 install_mkcert
 cat ${HOME}/which && rm -f ${HOME}/which
 echo "CLI tools install done."
-
 echo "--------------------------------"
-echo "zsh --version $(zsh --version)"
 echo "Package update && check done!!"
 echo "--------------------------------"

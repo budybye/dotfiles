@@ -3,7 +3,7 @@
 echo "run_onchange_youtube.sh"
 echo "--------------------------------"
 
-{{ if ne .name "runner" -}}
+{{ if or (ne .name "runner") (ne .name "docker") -}}
 
 PLAYLIST_NAME="riddim"
 PLAYLIST_DIR="$HOME/Music/$PLAYLIST_NAME"
