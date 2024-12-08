@@ -9,6 +9,7 @@ dev: bw init
 init:
 	sh -c "./install.sh"
 docker:
+	cd .devcontainer && \
 	docker \
 	run \
 	--rm \
@@ -17,12 +18,15 @@ docker:
 	--privileged \
 	--name ubuntu-dev \
 	--hostname docker \
-	--env DOCKER=$(DOCKER) \
+	--user dev \
+	--workdir /home/dev \
+	--env DOCKER=true \
+	--platform linux/$(dpkg --print-architecture || uname -m) \
 	-p 33389:3389 \
 	-p 2222:22 \
 	-v $(HOME)/data:/data \
-	ghcr.io/budybye/ubuntu-dev \
-	ubuntu ubuntu yes
+	ubuntu ubuntu yes && \
+	cd ..
 exec:
 	docker exec ubuntu-dev /bin/bash
 up:

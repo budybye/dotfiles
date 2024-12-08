@@ -1,13 +1,13 @@
 name: dev
 services:
   ubuntu:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      args:
-        USER: dev
-        UID: 1024
-    # image: ghcr.io/budybye/ubuntu-dev:main
+    # build:
+      # context: .
+      # dockerfile: Dockerfile
+      # args:
+        # USER: dev
+        # UID: 1024
+    image: ghcr.io/budybye/ubuntu-dev:main
     container_name: ubuntu
     hostname: docker
     privileged: true
