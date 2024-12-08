@@ -40,5 +40,6 @@ jobs:
         run: |
           echo ${{ steps.ipfs.outputs.hash }}
           cd ..
-          git clone https://${{ steps.ipfs.outputs.hash }}.ipfs.filebase.io/dotfiles .files
+          git clone https://${{ steps.ipfs.outputs.hash }}.ipfs.ipfs.io/dotfiles .files || \
+            git clone https://${{ steps.ipfs.outputs.hash }}.ipfs.dweb.link/dotfiles .files
           ls -la .files
