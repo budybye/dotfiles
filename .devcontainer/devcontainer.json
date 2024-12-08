@@ -19,10 +19,6 @@
       "DOCKER": "true"
     },
     "features": {
-      "ghcr.io/devcontainers/features/docker-in-docker:2": {
-        "version": "latest",
-        "moby": true
-      },
       "ghcr.io/eitsupi/devcontainer-features/duckdb-cli:1": {}
     },
     "customizations": {
