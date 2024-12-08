@@ -11,19 +11,34 @@ jobs:
     permissions:
       contents: read
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      # - name: Checkout
+      #   uses: actions/checkout@v4
+      #   with:
+      #     fetch-depth: 0
+
+      - name: create bare clone
+        run: |
+          git clone --mirror https://github.com/budybye/dotfiles.git
+          cd dotfiles
+          git update-server-info
+          mv objects/pack/*.pack .
+          git unpack-objects < *.pack
+          rm -f *.pack objects/pack/*
 
       - name: Pin to IPFS
         uses: aquiladev/ipfs-action@master
         id: ipfs
         with:
-          path: ./README.md
+          path: .
           service: filebase
-          pinName: README.md
+          pinName: dotfiles
           filebaseBucket: ${{ secrets.FILEBASE_BUCKET }}
           filebaseKey: ${{ secrets.FILEBASE_KEY }}
           filebaseSecret: ${{ secrets.FILEBASE_SECRET }}
 
       - name: Print IPFS Hash
-        run: echo ${{ steps.ipfs.outputs.hash }}
+        run: |
+          echo ${{ steps.ipfs.outputs.hash }}
+          cd ..
+          git clone https://${{ steps.ipfs.outputs.hash }}.ipfs.filebase.io/dotfiles .files
+          ls -la .files

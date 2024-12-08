@@ -8,10 +8,10 @@ audio_output {
 }
 
 ncmpcpp_directory = ~/.config/ncmpcpp
-# lyrics_directory = ~/.config/mpd/lyrics/
+# lyrics_directory = ~/.config/ncmpcpp/lyrics
 mpd_music_dir = ~/Music
 mpd_host = localhost
-mpd_port = "66600"
+mpd_port = "6600"
 mpd_crossfade_time = 5
 
 # lyrics_fetchers = azlyrics, metrolyrics, musixmatch, genius, sing365, justsomelyrics, jahlyrics, plyrics, tekstowo, zeneszoveg, internet

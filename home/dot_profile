@@ -344,3 +344,18 @@ if command -v curl >/dev/null 2>&1; then
         cp "${HOME}/.curlrc" "${XDG_CONFIG_HOME}/.curlrc"
     fi
 fi
+
+if command -v mpd >/dev/null 2>&1; then
+    mkdir -p "${XDG_CONFIG_HOME}/mpd/playlists"
+    touch "${XDG_CONFIG_HOME}/mpd/mpd.db"
+    touch "${XDG_CONFIG_HOME}/mpd/mpd.log"
+    touch "${XDG_CONFIG_HOME}/mpd/mpd.pid"
+    touch "${XDG_CONFIG_HOME}/mpd/mpdstate"
+    export MPD_HOST="127.0.0.1"
+    export MPD_PORT="6600"
+fi
+
+if command -v ncmpcpp >/dev/null 2>&1; then
+    mkdir -p "${XDG_CONFIG_HOME}/ncmpcpp/lyrics"
+    export NCMPCPP_CONFIG_DIR="${XDG_CONFIG_HOME}/ncmpcpp"
+fi
