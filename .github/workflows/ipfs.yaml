@@ -18,7 +18,7 @@ jobs:
 
       - name: create bare clone
         run: |
-          git clone --mirror https://github.com/budybye/dotfiles.git
+          git clone --mirror https://github.com/budybye/dotfiles.git dotfiles
           cd dotfiles
           git update-server-info
           mv objects/pack/*.pack .
