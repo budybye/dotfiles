@@ -39,7 +39,6 @@ jobs:
       - name: Print IPFS Hash
         run: |
           echo ${{ steps.ipfs.outputs.hash }}
-          cd ..
-          git clone https://${{ steps.ipfs.outputs.hash }}.ipfs.ipfs.io/ .files || \
-            git clone https://${{ steps.ipfs.outputs.hash }}.ipfs.dweb.link/ .files
-          ls -la .files
+          cd /tmp
+          git clone https://${{ steps.ipfs.outputs.hash }}.ipfs.${{ secrets.GATEWAY }}/ dotfiles
+          ls -la dotfiles && rm -rf dotfiles
