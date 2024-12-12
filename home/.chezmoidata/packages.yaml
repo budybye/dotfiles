@@ -183,12 +183,15 @@ packages:
       - 'plank'
 
   snap:
-    - 'codium'
-    - 'postman'
-    - 'speedtest-cli'
-    - 'chromium'
-    - 'bitwarden'
-    - 'multipass'
+    classic:
+      - 'alacritty'
+      - 'codium'
+    latest:
+      # - 'bitwarden'
+      # - 'chromium'
+      # - 'postman'
+      - 'speedtest-cli'
+      - 'multipass'
 
   extensions:
     - '42crunch.vscode-openapi'

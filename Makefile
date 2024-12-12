@@ -15,6 +15,7 @@ docker:
 	docker build -t ubuntu-dev . && \
 	docker run \
 	--rm \
+	--interactive \
 	--detach \
 	--tty \
 	--privileged \
@@ -26,7 +27,7 @@ docker:
 	--platform linux/${ARCH} \
 	-p 33389:3389 \
 	-p 2222:22 \
-	-v $(HOME)/data:/data \
+	-v $(HOME)/data:/home/dev/data \
 	ubuntu-dev \
 	ubuntu ubuntu yes && \
 	cd ..

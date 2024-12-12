@@ -19,6 +19,8 @@ DOT="${HOME}/dotfiles"
 
 # セッションの作成
 byobu-tmux new-session -d  -s dotfiles -n dotfiles -c "$DOT"
+# dotfilesディレクトリでvimを起動
+byobu-tmux send-keys -t 1 "vim" C-m
 
 # ウィンドウの垂直分割 homeディレクトリを開く
 byobu-tmux split-window -h -c "$HOME"
@@ -30,7 +32,7 @@ byobu-tmux split-window -v -c "$HOME/music"
 # musicディレクトリでncmpcppを起動 pane 3
 byobu-tmux send-keys -t 3 "ncmpcpp" C-m
 
-# ペインの選択 homeディレクトリのペインを選択
+# ペインの選択 dotfilesディレクトリのペインを選択
 byobu-tmux select-pane -t 1
 
 # ウィンドウの水平分割 .devcontainerディレクトリを開く
