@@ -105,126 +105,104 @@ git config --list
 - 環境変数で設定できますが、なるべくデフォルトを使用します。
 - 特に `~/.config` は様々なツールに使用されているので、なるべく採用します。
 
-```
+```:tree
  .
-├──  .chezmoidata                          # chezmoi data のデータファイル
-│   └──  packages.yaml
-├──  .devcontainer                         # Docker の設定ファイル
+├──  .devcontainer
 │   ├──  ipfs
 │   ├──  portainer
 │   ├──  .env
 │   ├──  .gitignore
 │   ├──  devcontainer.json
 │   ├──  docker-compose.yaml
-│   └──  Dockerfile
-├──  .github                              # Github の設定ファイル
+│   ├──  Dockerfile
+│   └──  entrypoint.sh
+├──  .github
 │   ├──  workflows
+│   │   ├──  ipfs.yaml
 │   │   ├──  push.yaml
 │   │   ├──  tag.yaml
 │   │   └──  test.yaml
 │   └──  release.yml
-├──  .vscode                              # VSCode の設定ファイル
-│   ├──  .DS_Store
+├──  .vscode
 │   └──  extensions.json
-├──  cloud-init                           # cloud-init の設定ファイル
+├──  cloud-init
 │   ├──  lxd.yaml
 │   ├──  multipass.yaml
 │   ├──  network-config
 │   └──  user-data
-├──  dot_ssh                              # ssh の設定ファイル
-│   ├──  authorized_keys.tmpl
-│   ├──  config
-│   ├──  encrypted_private_id_ed25519.age # age で暗号化された秘密鍵
-│   ├──  encrypted_private_id_rsa.age     # age で暗号化された秘密鍵
-│   └── 󰌆 id_ed25519.pub                   # 公開鍵
-├──  private_dot_config
-│   ├──  act
-│   │   └──  actrc
-│   ├──  alacritty
-│   │   └──  alacritty.toml
-│   ├──  aquaproj-aqua
-│   │   └──  aqua.yaml
-│   ├──  bat
-│   │   └──  config
-│   ├──  byobu
-│   │   └──  dot_tmux.conf
-│   ├──  Code
-│   │   ├──  user-data
-│   │   └──  extensions.json
-│   ├──  fcitx5
-│   │   └──  config
-│   ├──  fish
-│   │   └──  config.fish
-│   ├──  fusuma
-│   │   └──  config.yml
-│   ├──  gh
-│   │   └──  config.yml
-│   ├──  git
-│   │   ├──  commit.template
-│   │   ├──  config
-│   │   ├──  ignore
-│   │   └──  user.conf.tmpl
-│   ├──  ipfs
-│   │   └──  config
-│   ├──  karabiner
-│   │   └──  karabiner.json
-│   ├──  lsd
-│   │   ├──  colors.yaml
-│   │   ├──  config.yaml
-│   │   └──  icons.yaml
-│   ├──  mise
-│   │   └──  config.toml
-│   ├──  mpd
-│   │   └──  mpd.conf
-│   ├──  ncmpcpp
-│   │   └──  config
-│   ├──  neofetch
-│   │   ├──  config.conf
-│   │   └──  image.txt
-│   ├──  nvim
-│   │   ├──  colors
-│   │   └──  init.vim
-│   ├──  sheldon
-│   │   └──  plugins.toml
-│   ├──  tabby
-│   │   └──  config.yaml
-│   ├──  tmux
-│   │   └──  tmux.conf
-│   ├──  vim
-│   │   └──  vimrc
-│   ├──  wireshark
-│   │   └──  language
-│   ├──  Brewfile
-│   ├──  dot_editorconfig
-│   └──  starship.toml
-├──  .chezmoi.toml.tmpl
-├──  .chezmoiexternal.toml.tmpl
-├──  .chezmoiignore
-├──  .env.example
-├──  .gitignore
+├──  home
+│   ├──  .chezmoidata
+│   │   └──  packages.yaml
+│   ├──  .chezmoiscripts
+│   │   ├──  darwin
+│   │   ├──  linux
+│   │   ├──  run_after_check.sh.tmpl
+│   │   ├──  run_after_once_youtube.sh.tmpl
+│   │   ├──  run_after_xrp.sh
+│   │   ├──  run_once_before_age_decrypt.sh.tmpl
+│   │   ├──  run_once_before_bw_unlock.sh.tmpl
+│   │   ├──  run_once_ssh_keygen.sh.tmpl
+│   │   ├──  run_onchange_activate.sh.tmpl
+│   │   └──  run_onchange_vscode.sh.tmpl
+│   ├──  dot_ssh
+│   │   ├──  authorized_keys.tmpl
+│   │   ├──  config.tmpl
+│   │   ├──  encrypted_private_id_ed25519.age
+│   │   ├──  encrypted_private_id_rsa.age
+│   │   └──  id_ed25519.pub.tmpl
+│   ├──  private_dot_config
+│   │   ├──  act
+│   │   ├──  alacritty
+│   │   ├──  aquaproj-aqua
+│   │   ├──  bat
+│   │   ├──  byobu
+│   │   ├──  Code
+│   │   ├──  element
+│   │   ├──  fcitx5
+│   │   ├──  fish
+│   │   ├──  fusuma
+│   │   ├──  gh
+│   │   ├──  git
+│   │   ├──  ipfs
+│   │   ├──  karabiner
+│   │   ├──  lsd
+│   │   ├──  mise
+│   │   ├──  mpd
+│   │   ├──  ncmpcpp
+│   │   ├──  neofetch
+│   │   ├──  nvim
+│   │   ├──  ripgrep
+│   │   ├──  sheldon
+│   │   ├──  tabby
+│   │   ├──  tmux
+│   │   ├──  vim
+│   │   ├──  wireshark
+│   │   ├──  Brewfile
+│   │   ├──  dot_editorconfig
+│   │   └──  starship.toml
+│   ├──  .chezmoi.toml.tmpl
+│   ├──  .chezmoiexternal.toml.tmpl
+│   ├──  .chezmoiignore
+│   ├──  .env
+│   ├──  dot_aliases
+│   ├──  dot_bash_profile
+│   ├──  dot_bashrc
+│   ├──  dot_profile
+│   ├──  dot_zlogin
+│   ├──  dot_zprofile
+│   ├──  dot_zshenv
+│   ├──  dot_zshrc
+│   ├──  key.txt.age
+│   └──  shhh.txt
+├──  .chezmoiroot
+├──  .cursorrules
 ├──  .mise.toml
 ├──  .tool-versions
-├──  dot_aliases
-├──  dot_bash_profile
-├──  dot_bashrc
-├──  dot_profile
-├──  dot_zprofile
-├──  dot_zshenv
-├──  dot_zshrc
-├──  install
-├──  key.txt.age
+├──  install.sh
 ├──  Makefile
-├──  run_after_check.sh.tmpl             # チェック後に実行するスクリプト
-├──  run_once_before_age_decrypt.sh.tmpl # age で暗号化されたファイルを復号化するスクリプト
-├──  run_once_before_bw_unlock.sh.tmpl   # Bitwarden のロックを解除するスクリプト
-├──  run_once_ssh_keygen.sh.tmpl         # ssh 鍵を生成するスクリプト
-├──  run_once_vscode.sh.tmpl             # VSCode の拡張機能をインストールするスクリプト
-├──  run_onchange_bootstrap.sh.tmpl      # ブートストラップスクリプトを実行するスクリプト
-├──  run_onchange_setup.sh.tmpl          # セットアップスクリプトを実行するスクリプト
-├──  run_onchange_youtube.sh.tmpl        # Youtube のダウンロードを行うスクリプト
-├──  shhh.txt
-└──  etc..
-
+├──  README.md
+├──  style.css
+└──  etc...
 ```
 
 - **シェル設定**: ログインシェルやインタラクティブシェルで読み込まれるファイル。
