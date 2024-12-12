@@ -2,52 +2,93 @@
 
 set -euo pipefail
 
-# XRPL エンドポイント
-# XRPL_ENDPOINT="https://s1.ripple.com:51234/"
-XRPL_ENDPOINT="https://xrplcluster.com/"
-ACCOUNT="rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn"
-# 通貨の発行者 bitstamp
-ISSUER="rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
-LIMIT=1
 
-# book_offers リクエストデータ
+# XRP Ledger public server
+XRPL_SERVER="${XRPL_SERVER:-https://xrpl.ws/}"
+# r3kmLJN5D28dHuH8vZNUZpMC43pEHpaocV
+ACCOUNT="${1:-r3kmLJN5D28dHuH8vZNUZpMC43pEHpaocV}"
+# default bithomp usd
+ISSUER="${2:-rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B}"
+# ISSUER="${2:-rMxCKbEDwqr76QuheSUMdEGf4B9xJ8m5De}"
+# default usd
+CURRENCY="${3:-USD}"
+# CURRENCY="${3:-RLUSD}"
+
+# book_offers xrp/currency grpc request json
 GET_USD_OFFERS='{
     "method": "book_offers",
     "params": [{
         "taker": "'$ACCOUNT'",
         "taker_gets": {"currency": "XRP"},
         "taker_pays": {
-            "currency": "USD",
+            "currency": "'$CURRENCY'",
             "issuer": "'$ISSUER'"
         },
-        "limit": '$LIMIT'
+        "limit": 1
     }]
 }'
 
-# 手数料を取得
-GET_FEE='{
-    "method": "fee",
-    "params": [{}]
-}'
+# fee grpc request json
+GET_FEE='{"method": "fee","params": [{}]}'
 
-# USD/XRP の quality を取得して 1,000,000 倍にする
-USD_XRP_QUALITY=$(curl -s -X POST "$XRPL_ENDPOINT" \
-    -H "Content-Type: application/json" \
-    -d "$GET_USD_OFFERS" | \
-    jq -r '.result.offers[].quality | (tonumber * 1000000)')
+# account_info grpc request json
+GET_ACCOUNT_INFO='{"method": "account_info","params": [{"account": "'$ACCOUNT'"}]}'
 
-# fee リクエストを一度だけ実行し、必要な情報を取得
-FEE_RESPONSE=$(curl -s -X POST "$XRPL_ENDPOINT" \
-    -H "Content-Type: application/json" \
-    -d "$GET_FEE")
+grpc_request() {
+    curl -s -X POST "$XRPL_SERVER" \
+        -H "Content-Type: application/json" \
+        -d "$1"
+}
 
-# LedgerIndex を取得
-LEDGER_INDEX=$(echo "$FEE_RESPONSE" | jq -r '.result.ledger_current_index')
+if command -v curl > /dev/null 2>&1 ; then
+    # get offers
+    OFFER_RESPONSE=$(grpc_request "$GET_USD_OFFERS")
 
-# open_ledger_fee を取得
-OPEN_LEDGER_FEE=$(echo "$FEE_RESPONSE" | jq -r '.result.drops.open_ledger_fee')
+    # get fee
+    FEE_RESPONSE=$(grpc_request "$GET_FEE")
 
-# 結果を表示
-echo "XRP/USD: \$$USD_XRP_QUALITY"
+    # get account info
+    ACCOUNT_INFO_RESPONSE=$(grpc_request "$GET_ACCOUNT_INFO")
+else
+    echo "curl is not installed"
+    exit
+fi
+
+if command -v jq > /dev/null 2>&1 ; then
+    # get quality and multiply by 1,000,000
+    XRP_CURRENCY_QUALITY=$(echo "$OFFER_RESPONSE" | jq -r '.result.offers[].quality | (tonumber * 1000000)')
+
+    # get ledger_current_index
+    LEDGER_INDEX=$(echo "$FEE_RESPONSE" | jq -r '.result.ledger_current_index')
+    # LEDGER_INDEX=$(echo "$OFFER_RESPONSE" | jq -r '.result.ledger_current_index')
+    # LEDGER_INDEX=$(echo "$ACCOUNT_INFO_RESPONSE" | jq -r '.result.ledger_current_index')
+
+    # get open_ledger_fee
+    OPEN_LEDGER_FEE=$(echo "$FEE_RESPONSE" | jq -r '.result.drops.open_ledger_fee')
+
+    # get balance
+    ACCOUNT_BALANCE=$(echo "$ACCOUNT_INFO_RESPONSE" | jq -r '.result.account_data.Balance | (tonumber / 1000000)')
+
+else
+    echo "jq is not installed"
+    exit
+fi
+
+# show price, index, fee, account, balance
+cat << 'EOF'
+__  ______  ____    _             _
+\ \/ /  _ \|  _ \  | |    ___  __| | __ _  ___ _ __
+ \  /| |_) | |_) | | |   / _ \/ _` |/ _` |/ _ \ '__|
+ /  \|  _ <|  __/  | |__|  __/ (_| | (_| |  __/ |
+/_/\_\_| \_\_|     |_____\___|\__,_|\__, |\___|_|
+                                    |___/
+EOF
+
+echo "Rippled: $XRPL_SERVER"
+echo "XRP/$CURRENCY: \$$XRP_CURRENCY_QUALITY"
+# echo "$OFFER_RESPONSE" | jq '.result'
 echo "LedgerIndex: $LEDGER_INDEX"
 echo "Fee: $OPEN_LEDGER_FEE"
+echo "Account: $ACCOUNT"
+echo "Balance: $ACCOUNT_BALANCE XRP"
+# echo "$ACCOUNT_INFO_RESPONSE" | jq '.result'
