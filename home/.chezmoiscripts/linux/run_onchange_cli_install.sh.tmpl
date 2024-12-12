@@ -55,45 +55,6 @@ install_packages() {
     echo "apt install completed."
 }
 
-install_docker_compose() {
-    if command -v docker-compose >/dev/null 2>&1; then
-        docker-compose --version >> ${HOME}/which
-    else
-        # 最新バージョンを取得
-        COMPOSE_VERSION=$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep tag_name | cut -d '"' -f 4)
-        # ダウンロード URL の作成
-        COMPOSE_URL="https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)"
-        # Docker Compose のバイナリをダウンロード
-        sudo curl -L "$COMPOSE_URL" -o /usr/local/bin/docker-compose || echo "docker-compose download failed."
-        sudo chmod +x /usr/local/bin/docker-compose
-        docker-compose --version >> ${HOME}/which || echo "docker-compose not found" >> ${HOME}/which
-    fi
-}
-
-install_docker() {
-    if command -v docker >/dev/null 2>&1; then
-        docker --version >> ${HOME}/which
-    else
-        sudo apt-get update -y
-        sudo apt-get install -y apt-transport-https ca-certificates curl gnupg lsb-release software-properties-common || echo "apt install failed."
-        sudo mkdir -p /etc/apt/keyrings
-        sudo install -m 0755 -d /etc/apt/keyrings
-        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.asc
-        sudo chmod a+r /etc/apt/keyrings/docker.asc
-        echo "deb [arch=${arch} signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
-        sudo apt-get update -y
-        sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin || echo "docker install failed."
-        if [ -f /var/run/docker.sock ]; then
-            sudo chmod 666 /var/run/docker.sock
-        fi
-        sudo groupadd -f docker
-        sudo usermod -aG docker "$(whoami)"
-        sudo systemctl enable docker
-        docker info
-        docker --version >> ${HOME}/which || echo "docker not found" >> ${HOME}/which
-    fi
-}
-
 install_mise() {
     if command -v mise >/dev/null 2>&1; then
         echo "mise already installed."
@@ -223,21 +184,6 @@ install_mkcert() {
     mkcert --version >> ${HOME}/which || echo "mkcert not found"
 }
 
-install_act() {
-    echo "act install start..."
-    if command -v act >/dev/null; then
-        echo "act already installed."
-    elif command -v curl >/dev/null; then
-        curl https://raw.githubusercontent.com/nektos/act/master/install.sh | sudo bash || echo "act install failed."
-        sudo chmod +x ./bin/act
-        sudo mv -f ./bin/act ${HOME}/.local/bin
-        echo "act installed."
-    else
-        echo "act install failed."
-    fi
-    act --version >> ${HOME}/which || echo "act not found"
-}
-
 install_volta() {
     echo "volta install start..."
     if command -v volta >/dev/null; then
@@ -253,43 +199,10 @@ install_volta() {
     volta --version >> ${HOME}/which || echo "volta not found"
 }
 
-{{ if eq (env "DOCKER") "true" -}}
-
 echo "CLI tools install start..."
 install_packages
 change_shell_to_zsh
 install_mise
-install_cargo_tools
-install_flatpak
-install_go_aqua
-install_mkcert
-cat ${HOME}/which && rm -f ${HOME}/which
-echo "DOCKER"
-
-{{ else if eq (env "REMOTE_CONTAINERS") "true" -}}
-
-echo "CLI tools install start..."
-install_packages
-change_shell_to_zsh
-install_mise
-install_cargo_tools
-install_flatpak
-install_go_aqua
-install_mkcert
-cat ${HOME}/which && rm -f ${HOME}/which
-echo "REMOTE_CONTAINERS"
-
-{{ else -}}
-
-echo "CLI tools install start..."
-install_packages
-change_shell_to_zsh
-install_mise
-
-install_docker
-install_docker_compose
-install_act
-
 install_cargo_tools
 install_flatpak
 install_go_aqua
@@ -297,8 +210,6 @@ install_go_aqua
 install_mkcert
 cat ${HOME}/which && rm -f ${HOME}/which
 echo "CLI tools install done."
-
-{{ end -}}
 
 echo "--------------------------------"
 echo "Package update && check done!!"

@@ -1,22 +1,50 @@
 #!/usr/bin/env bash
 
-DIR="${HOME}/dotfiles"
+# attach to window 0 pane 1
+# window 0
+#	------------------------------------------------------------
+#	|	1 $HOME/dotfiles 	|	4 $HOME/dotfiles/.devcontainer 	|
+#	|-----------------------------------------------------------|
+#	|	2 $HOME (mpd)		|	3 $HOME/music (ncmpcpp)			|
+#	------------------------------------------------------------
+
+# window 1
+#	-------------------------
+#	|	1 $HOME/dev 		|
+#	|-----------------------|
+#	|	2 $HOME/data 		|
+#	-------------------------
+
+DOT="${HOME}/dotfiles"
 
 # セッションの作成
-byobu-tmux new-session -d  -s dotfiles -n dotfiles -c "$DIR"
+byobu-tmux new-session -d  -s dotfiles -n dotfiles -c "$DOT"
 
-# ウィンドウの垂直分割
-byobu-tmux split-window -v -c "$HOME"
+# ウィンドウの垂直分割 homeディレクトリを開く
+byobu-tmux split-window -h -c "$HOME"
+# homeディレクトリでmpdを起動 pane 2
 byobu-tmux send-keys -t 2 "mpd" C-m
 
-# ウィンドウの水平分割
-byobu-tmux split-window -h -c "$HOME/Music"
+# ウィンドウの水平分割 musicディレクトリを開く
+byobu-tmux split-window -v -c "$HOME/music"
+# musicディレクトリでncmpcppを起動 pane 3
 byobu-tmux send-keys -t 3 "ncmpcpp" C-m
 
-# ウィンドウの選択
+# ペインの選択 homeディレクトリのペインを選択
 byobu-tmux select-pane -t 1
 
-# ウィンドウの水平分割
-byobu-tmux split-window -h -c "$DIR/.devcontainer"
+# ウィンドウの水平分割 .devcontainerディレクトリを開く
+byobu-tmux split-window -v -c "$DOT/.devcontainer"
+# byobu-tmux send-keys -t 4 "code ." C-m
 
-byobu-tmux attach -t dotfiles
+# もう一つウィンドウの作成
+byobu-tmux new-window -c "$HOME/dev"
+# byobu-tmux send-keys -t 1 "ssh ubuntu@local.dev" C-m
+# ウィンドウの水平分割
+byobu-tmux split-window -h -c "$HOME/data"
+# byobu-tmux send-keys -t 5 "ssh ubuntu@local.dev" C-m
+
+# 最初に開いたウィンドウを選択 0
+byobu-tmux select-window -t 0
+# dotfilesのペインを選択 1
+byobu-tmux select-pane -t 1

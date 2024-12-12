@@ -2,15 +2,15 @@
 # ファイルの配置されるときの名前にする
 # .name などのdata は .chezmoi.toml.tmpl
 
-{{ if eq .name "runner" }}
+{{ if eq (env "GITHUB_ACTIONS") "true" }}
 .ssh/authorized_keys*
 .ssh/id_ed25519*
 .ssh/id_rsa*
 {{ end }}
 
-{{ if eq .name "docker" }}
-.chezmoiscripts/linux/run_onchange_cli_install.sh.tmpl
-.chezmoiscripts/linux/run_onchange_setup.sh.tmpl
+{{ if eq (env "DOCKER") "true" }}
+.chezmoiscripts/linux/run_once_docker_install.sh*
+.chezmoiscripts/linux/run_once_snap.sh*
 {{ end }}
 
 {{ if eq .bitwarden false }}

@@ -26,10 +26,11 @@ if command -v git >/dev/null 2>&1; then
 fi
 
 if command -v curl >/dev/null 2>&1; then
-    alias curl="curl -s"
+    alias curl="curl -s"  # サイレントモード
     alias wt="curl wttr.in"  # 天気予報を表示
-    alias ppp="curl -s https://ip.3322.net"  # パブリックIPアドレスを表示
-    alias xrp="curl -s https://xrp.gl/api/get?name=bob"
+    alias ppp="curl -4 icanhazip.com && curl -6 icanhazip.com"  # パブリックIPアドレスを表示
+    alias xrp="curl https://raw.githubusercontent.com/budybye/dotfiles/refs/heads/main/home/.chezmoiscripts/run_after_xrp.sh | sh"
+    alias qr="curl qrenco.de/${1:-xrp.gl}"
 fi
 
 if command -v ping >/dev/null 2>&1; then
@@ -229,10 +230,23 @@ if command -v trans >/dev/null 2>&1; then
     alias en="trans -b -j en"
 fi
 
-# if command -v mpd >/dev/null 2>&1; then
-#     alias mpd="mpd ~/.config/mpd/mpd.conf"
-# fi
+if command -v mpd >/dev/null 2>&1 && [ -f "${HOME}/.config/mpd/mpd.conf" ]; then
+    alias mpd="mpd ${HOME}/.config/mpd/mpd.conf"
+fi
 
 if command -v ncmpcpp >/dev/null 2>&1; then
     alias ncm="ncmpcpp"
+fi
+
+if command -v warp-cli >/dev/null 2>&1; then
+    alias wp="warp-cli"
+    alias wps="wp status"
+    alias wpc="wp connect"
+    alias wpd="wp disconnect"
+    alias wps="wp mode warp"
+    alias warp="wp registration delete && wp registration new && wp dns families malware && wp mode warp && wp connect"
+fi
+
+if command -v element-desktop >/dev/null 2>&1; then
+    alias el="element-desktop"
 fi
