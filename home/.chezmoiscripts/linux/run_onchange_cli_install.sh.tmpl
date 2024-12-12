@@ -3,10 +3,6 @@
 echo "run_onchange_cli_install.sh.tmpl"
 echo "--------------------------------"
 
-echo "Linux"
-# アーキテクチャを取得
-arch="$(dpkg --print-architecture)"
-
 # Zsh をデフォルトシェルに変更する関数
 change_shell_to_zsh() {
     # zsh がインストールされているか確認
@@ -66,7 +62,7 @@ install_mise() {
         echo "curl not found"
         sudo install -dm 755 /etc/apt/keyrings
         wget -qO - https://mise.jdx.dev/gpg-key.pub | gpg --dearmor | sudo tee /etc/apt/keyrings/mise-archive-keyring.gpg 1>/dev/null
-        echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=${arch}] https://mise.jdx.dev/deb stable main" | sudo tee /etc/apt/sources.list.d/mise.list
+        echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=${dpkg --print-architecture}] https://mise.jdx.dev/deb stable main" | sudo tee /etc/apt/sources.list.d/mise.list
         sudo apt-get update -y
         sudo apt-get install -y mise || echo "mise install failed."
     fi
@@ -163,7 +159,7 @@ install_go_aqua() {
 
     elif command -v go >/dev/null; then
         go install github.com/aquaproj/aqua/v2/cmd/aqua@latest || echo "aqua install failed."
-
+        echo "$GOROOT"
     elif [ -d ${HOME}/.local/share/mise/shims/go ]; then
         ${HOME}/.local/share/mise/shims/go install github.com/aquaproj/aqua/v2/cmd/aqua@latest || echo "aqua install failed."
 

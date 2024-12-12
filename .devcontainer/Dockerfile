@@ -110,14 +110,13 @@ RUN rm -rf /var/cache/apt /var/lib/apt/lists/*
 
 # devユーザー設定
 ARG USER=dev
-ARG PASSWD=$USER
 ARG UID=1024
 ARG GID=$UID
 ARG HOME=/home/${USER}
 
 RUN groupadd -g ${GID} -f ${USER} && \
     useradd --uid ${UID} --gid ${GID} -m ${USER} -G sudo -s /usr/bin/zsh && \
-    echo "${USER}:${PASSWD}" | chpasswd && \
+    echo "${USER}:${USER}" | chpasswd && \
     echo "${USER} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
     mkdir -p ${HOME} && \
     chown -R ${USER}:${USER} ${HOME}

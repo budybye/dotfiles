@@ -1,11 +1,9 @@
 #!/usr/bin/env bash
 
-echo "run_onchange_gui_install.sh.tmpl"
+echo "run_onchange_gui.sh.tmpl"
 echo "{{ .chezmoi.os }} system setup"
 echo "--------------------------------"
 
-# ユーザー名を取得
-USER_NAME=$(whoami)
 # アーキテクチャを取得
 arch="$(dpkg --print-architecture)"
 
@@ -17,9 +15,11 @@ desktop_setup() {
     sudo apt-get upgrade -y
 
     {{ range .packages.linux.gui -}}
+
     if ! dpkg -l | grep -q {{ . }}; then
         sudo apt-get install -y {{ . }} || echo "{{ . }} install failed." >> ${HOME}/which
     fi
+
     {{ end }}
 
     #sudo apt-get remove -y light-locker xscreensaver &&
@@ -146,7 +146,7 @@ install_wireshark() {
     if ! command -v wireshark >/dev/null 2>&1; then
         sudo apt install -y wireshark || echo "wireshark install failed."
         sudo groupadd -f wireshark
-        sudo usermod -aG wireshark "$USER_NAME"
+        sudo usermod -aG wireshark "$(whoami)"
         sudo chmod +x /usr/bin/dumpcap
         echo "wireshark installed."
     else
@@ -161,7 +161,7 @@ install_ruby_fusuma() {
     if ! command -v fusuma >/dev/null 2>&1; then
         sudo gem install fusuma || echo "fusuma install failed."
         sudo groupadd -f input
-        sudo usermod -aG input "$USER_NAME"
+        sudo usermod -aG input "$(whoami)"
         fusuma -d
         echo "fusuma installed."
     else
