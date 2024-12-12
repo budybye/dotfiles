@@ -11,7 +11,9 @@
 
 {{ if eq (env "DOCKER") "true" }}
 .chezmoiscripts/linux/run_once_docker_install.sh*
+.chezmoiscripts/linux/run_once_setup.sh*
 .chezmoiscripts/linux/run_once_snap.sh*
+.chezmoiscripts/linux/run_once_pipewire.sh*
 {{ end }}
 
 {{ if eq .bitwarden false }}
