@@ -15,11 +15,11 @@ install_snapd() {
 
 install_snap() {
 
-    {{ range .packages.linux.snap.classic -}}
+    {{ range .packages.snap.classic -}}
     command -v {{ . }} >/dev/null || $sudo snap install {{ . }} --classic && echo "{{ . }} installed." || echo "{{ . }} install failed."
     {{ end }}
 
-    {{ range .packages.linux.snap.latest -}}
+    {{ range .packages.snap.latest -}}
     command -v {{ . }} >/dev/null || $sudo snap install {{ . }} && echo "{{ . }} installed." || echo "{{ . }} install failed."
     {{ end }}
 
