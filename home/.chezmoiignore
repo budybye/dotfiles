@@ -6,14 +6,14 @@
 .ssh/authorized_keys*
 .ssh/id_ed25519*
 .ssh/id_rsa*
-.chezmoiscripts/run_onchange_youtube.sh*
+.chezmoiscripts/run_after_once_youtube.*
 {{ end }}
 
 {{ if eq (env "DOCKER") "true" }}
-.chezmoiscripts/linux/run_once_docker_install.sh*
-.chezmoiscripts/linux/run_once_setup.sh*
-.chezmoiscripts/linux/run_once_snap.sh*
-.chezmoiscripts/linux/run_once_pipewire.sh*
+.chezmoiscripts/linux/run_once_docker_install.*
+.chezmoiscripts/linux/run_once_setup.*
+.chezmoiscripts/linux/run_once_snap.*
+.chezmoiscripts/linux/run_once_pipewire.*
 {{ end }}
 
 {{ if eq .bitwarden false }}
