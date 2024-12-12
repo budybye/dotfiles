@@ -78,9 +78,12 @@ install_mise() {
 
     mise activate --shims
     mise activate bash
+    mise list
     echo "mise setup completed."
 
-    mise list >> ${HOME}/which || echo "mise install failed." >> ${HOME}/which
+    for cmd in go cargo npm node bun cargo-binstall python; do
+        command -v "$cmd" >> ${HOME}/which || echo "$cmd not found" >> ${HOME}/which
+    done
 }
 
 install_cargo_tools() {
@@ -216,7 +219,6 @@ install_go_aqua
 install_mkcert
 cat ${HOME}/which && rm -f ${HOME}/which
 echo "CLI tools install done."
-
 echo "--------------------------------"
 echo "Package update && check done!!"
 echo "--------------------------------"
