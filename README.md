@@ -24,12 +24,15 @@
 
 - `curl` `git` `make` が必要です。
 
-```install.sh:sh
-sh -c $(curl -fsLS https://chezmoi.io/get) -- -b ${HOME}/.local/bin init --apply budybye
+```sh
+curl -fsLS https://chezmoi.io/get | sh -s -- -b ${HOME}/.local/bin init --apply budybye
 # or
-chezmoi init --apply budybye
+sh -c "$(curl -fsLS https://chezmoi.io/get)" -- -b ${HOME}/.local/bin init --apply budybye
+```
 
-# ~/dotfiles に配置する場合
+~/dotfiles に配置する場合
+
+```sh
 cd ~
 git clone git@github.com:budybye/dotfiles.git
 cd dotfiles

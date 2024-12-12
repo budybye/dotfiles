@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-echo "run_onchange_setup.sh.tmpl"
+echo "run_onchange_gui_install.sh.tmpl"
 echo "{{ .chezmoi.os }} system setup"
 echo "--------------------------------"
 
@@ -169,95 +169,6 @@ install_ruby_fusuma() {
     fi
 }
 
-japan_setup() {
-    echo "japan setup start..."
-    #sudo localectl set-locale LANG=ja_JP.UTF-8
-    #sudo localectl set-locale LANGUAGE=ja_JP:ja
-    #sudo localectl set-x11-keymap jp
-    #sudo localectl set-keymap jp106
-    #sudo timedatectl set-timezone Asia/Tokyo
-    LANG=C xdg-user-dirs-update --force
-    # 入力メソッドとしてfcitx5を設定
-    im-config -n fcitx5
-    echo "japan setup completed."
-}
-
-install_pipewire() {
-    doko=$(pwd)
-    pipewire_dir="${HOME}/.config/pipewire/pulseaudio-module-xrdp"
-
-    # pulseaudio をインストール
-    sudo apt-get install -y pulseaudio libpulse-dev dh-autoreconf dpkg-dev && echo "pulseaudio installed." || echo "pulseaudio install failed."
-
-    # pipewire をインストール
-    sudo apt-get install -y pipewire pipewire-audio libspa-0.2-dev libpipewire-0.3-dev autoconf libtool && echo "pipewire installed." || echo "pipewire install failed."
-    mkdir -p "${HOME}/.config/pipewire"
-
-    if [ ! -d "${pipewire_dir}" ]; then
-        git clone https://github.com/neutrinolabs/pulseaudio-module-xrdp.git "${pipewire_dir}"
-        cd "${pipewire_dir}"
-        ./bootstrap
-        ./configure PULSE_DIR=$(cd ..; pwd)
-        make
-        sudo make install
-        cd "${doko}"
-    fi
-    echo "pipewire installed."
-}
-
-xrdp_setup() {
-    echo "xrdp setup start..."
-    sudo groupadd -f ssl-cert
-    sudo groupadd -f xrdp
-    # ubuntuユーザーを必要なグループに追加
-    sudo usermod -aG ssl-cert,xrdp "$(whoami)"
-    # サービスの再起動
-    sudo systemctl daemon-reload
-    sudo systemctl restart rsyslog
-    # ファイアウォールで3389番ポート（RDP）を許可
-    sudo ufw allow 3389
-    # xrdpサービスを有効化
-    sudo systemctl enable xrdp
-    # デフォルトのセッションマネージャーをxfce4-sessionに設定
-    sudo update-alternatives --set x-session-manager /usr/bin/xfce4-session
-    # xrdpサービスを起動
-    sudo systemctl start xrdp
-    echo "xrdp setup completed."
-
-    echo "以下のコマンドを実行してパスワードを更新してください"
-    echo "sudo passwd $(whoami)"
-    # ログイン後、ubuntuユーザーのパスワードを再設定を推奨
-    # パスワードを再設定しないとログインできない
-    # echo "$(whoami):$(whoami)" | sudo chpasswd
-}
-
-{{ if eq (env "DOCKER") "true" -}}
-
-echo "ubuntu desktop setup start..."
-desktop_setup
-install_brave_browser
-install_tabby_terminal
-install_cloudflare_warp
-install_github_desktop
-install_vscode
-install_cursor
-install_element_desktop
-install_ruby_fusuma
-
-{{ else if eq (env "REMOTE_CONTAINERS") "true" -}}
-
-echo "ubuntu desktop setup start..."
-desktop_setup
-install_brave_browser
-install_tabby_terminal
-install_cloudflare_warp
-install_github_desktop
-install_vscode
-install_element_desktop
-install_ruby_fusuma
-
-{{ else -}}
-
 echo "ubuntu desktop setup start..."
 desktop_setup
 install_brave_browser
@@ -269,14 +180,6 @@ install_cursor
 install_element_desktop
 install_ruby_fusuma
 # install_wireshark
-
-install_snap
-install_pipewire
-japan_setup
-xrdp_setup
-
-{{ end -}}
-
 echo "ubuntu desktop setup completed."
 neofetch
 echo "--------------------------------"

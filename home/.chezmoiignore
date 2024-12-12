@@ -6,6 +6,7 @@
 .ssh/authorized_keys*
 .ssh/id_ed25519*
 .ssh/id_rsa*
+.chezmoiscripts/run_onchange_youtube.sh*
 {{ end }}
 
 {{ if eq (env "DOCKER") "true" }}

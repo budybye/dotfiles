@@ -29,7 +29,7 @@ change_shell_to_zsh() {
 
     echo "Your shell is ${SHELL}"
     echo "zsh default shell changed to ${zsh_path}."
-    zsh --version >> ${HOME}/which || echo "zsh not found"
+    zsh --version >> ${HOME}/which || echo "zsh not found" >> ${HOME}/which
 }
 
 install_packages() {
@@ -41,9 +41,9 @@ install_packages() {
     {{ range .packages.linux.cli -}}
 
     if ! dpkg -l | grep -q {{ . }}; then
-        sudo apt-get install -y {{ . }} && echo "{{ . }} installed." || echo "{{ . }} install failed."
+        sudo apt-get install -y {{ . }} && echo "{{ . }} installed." || echo "{{ . }} install failed." >> ${HOME}/which
     else
-        echo "{{ . }} already installed." >> ${HOME}/which
+        echo "{{ . }} already installed."
     fi
 
     {{ end }}
@@ -59,18 +59,16 @@ install_mise() {
     if command -v mise >/dev/null 2>&1; then
         echo "mise already installed."
 
-    else
-        if command -v curl >/dev/null 2>&1; then
+    elif command -v curl >/dev/null 2>&1; then
             echo "mise install start..."
             curl https://mise.run | sh || echo "mise install failed."
-        else
-            echo "curl not found"
-            sudo install -dm 755 /etc/apt/keyrings
-            wget -qO - https://mise.jdx.dev/gpg-key.pub | gpg --dearmor | sudo tee /etc/apt/keyrings/mise-archive-keyring.gpg 1>/dev/null
-            echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=${arch}] https://mise.jdx.dev/deb stable main" | sudo tee /etc/apt/sources.list.d/mise.list
-            sudo apt-get update -y
-            sudo apt-get install -y mise || echo "mise install failed."
-        fi
+    else
+        echo "curl not found"
+        sudo install -dm 755 /etc/apt/keyrings
+        wget -qO - https://mise.jdx.dev/gpg-key.pub | gpg --dearmor | sudo tee /etc/apt/keyrings/mise-archive-keyring.gpg 1>/dev/null
+        echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=${arch}] https://mise.jdx.dev/deb stable main" | sudo tee /etc/apt/sources.list.d/mise.list
+        sudo apt-get update -y
+        sudo apt-get install -y mise || echo "mise install failed."
     fi
     export PATH="${HOME}/.local/bin:${HOME}/.local/share/mise/shims:$PATH"
     mise --version >> ${HOME}/which || echo "mise not found" >> ${HOME}/which
@@ -105,7 +103,7 @@ install_cargo_tools() {
         . ${HOME}/.cargo/env
         echo "cargo installed."
     fi
-    cargo --version >> ${HOME}/which || echo "cargo not found"
+    cargo --version >> ${HOME}/which || echo "cargo not found" >> ${HOME}/which
 
     echo "cargo tools install start..."
 
@@ -116,10 +114,10 @@ install_cargo_tools() {
         cargo install cargo-binstall@1.6.9 --locked || echo "cargo tools install failed."
 
     elif command -v mise >/dev/null; then
-        mise use -g -y cargo-binstall || echo "cargo tools install failed."
+        mise use -g -y rust cargo-binstall || echo "cargo tools install failed."
 
     else
-        echo "cargo not found"
+        echo "cargo not found" >> ${HOME}/which
     fi
 
     # cargo-binstall -y starship sheldon fd-find xh bat lsd ripgrep || cargo install starship@1.20.1 fd-find@9.0.0 xh bat sheldon || echo "cargo tools install failed."
@@ -128,7 +126,7 @@ install_cargo_tools() {
     echo "cargo tools installed."
 
     for cmd in starship sheldon fd xh bat; do
-        command -v "$cmd" >> ${HOME}/which || echo "$cmd not found"
+        command -v "$cmd" >> ${HOME}/which || echo "$cmd not found" >> ${HOME}/which
     done
 }
 
@@ -140,7 +138,7 @@ install_flatpak() {
         sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
         echo "flatpak installed."
     fi
-    flatpak --version >> ${HOME}/which || echo "flatpak not found"
+    flatpak --version >> ${HOME}/which || echo "flatpak not found" >> ${HOME}/which
 }
 
 install_go_aqua() {
@@ -154,18 +152,26 @@ install_go_aqua() {
         sudo apt-get install -y golang || echo "go install failed."
 
     fi
-    go version >> ${HOME}/which || echo "go not found"
+    go version >> ${HOME}/which || echo "go not found" >> ${HOME}/which
+
 
     if command -v aqua >/dev/null; then
         echo "aqua already installed."
-    else
+
+    elif command -v go >/dev/null; then
+        go install github.com/aquaproj/aqua/v2/cmd/aqua@latest || echo "aqua install failed."
+
+    elif [ -d ${HOME}/.local/share/mise/shims/go ]; then
         ${HOME}/.local/share/mise/shims/go install github.com/aquaproj/aqua/v2/cmd/aqua@latest || echo "aqua install failed."
 
         # パスが通っていないので直接パスを指定
         export PATH="${HOME}/.local/share/mise/installs/go/1.23.2/bin:${PATH}"
         echo "aqua installed."
+    else
+        echo "go not found"
     fi
-    aqua --version >> ${HOME}/which || echo "aqua not found"
+
+    aqua --version >> ${HOME}/which || echo "aqua not found" >> ${HOME}/which
 }
 
 install_mkcert() {
@@ -174,14 +180,14 @@ install_mkcert() {
         echo "mkcert already installed."
 
     elif command -v mise >/dev/null; then
-        mise use mkcert -y || echo "mkcert install failed."
+        mise use -g mkcert -y || echo "mkcert install failed."
 
     else
         sudo apt install -y mkcert || echo "mkcert install failed."
     fi
 
     mkcert -install
-    mkcert --version >> ${HOME}/which || echo "mkcert not found"
+    mkcert --version >> ${HOME}/which || echo "mkcert not found" >> ${HOME}/which
 }
 
 install_volta() {
@@ -196,7 +202,7 @@ install_volta() {
         echo "curl not found"
     fi
 
-    volta --version >> ${HOME}/which || echo "volta not found"
+    volta --version >> ${HOME}/which || echo "volta not found" >> ${HOME}/which
 }
 
 echo "CLI tools install start..."
