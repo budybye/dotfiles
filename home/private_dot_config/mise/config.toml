@@ -17,7 +17,7 @@ python = "3.13.1"
 # maven = "latest"
 # ruby = "latest"
 
-cargo-binstall = "1.10.15"
+cargo-binstall = "1.10.16"
 uv = "0.5.6"
 
 # websocat = "latest"

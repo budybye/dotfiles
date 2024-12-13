@@ -9,7 +9,7 @@
 .chezmoiscripts/run_after_once_download_youtube*
 {{ end }}
 
-{{ if eq (env "DOCKER") "true" }}
+{{ if eq .chezmoi.username "dev" }}
 .chezmoiscripts/linux/run_once_docker_install.*
 .chezmoiscripts/linux/run_once_pipewire.*
 .chezmoiscripts/linux/run_once_setup.*

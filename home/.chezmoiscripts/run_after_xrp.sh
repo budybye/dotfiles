@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-set -euo pipefail
-
-
 # XRP Ledger public server
 XRPL_SERVER="${XRPL_SERVER:-https://xrpl.ws/}"
 # r3kmLJN5D28dHuH8vZNUZpMC43pEHpaocV
