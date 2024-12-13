@@ -7,7 +7,7 @@ dev: bw init
 
 .PHONY: init
 init:
-	sh -c "./install.sh"
+	./install.sh
 
 .PHONY: docker
 docker:

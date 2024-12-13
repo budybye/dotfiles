@@ -6,15 +6,15 @@
 .ssh/authorized_keys*
 .ssh/id_ed25519*
 .ssh/id_rsa*
-.chezmoiscripts/run_after_once_download_youtube.*
+.chezmoiscripts/run_after_once_download_youtube*
 {{ end }}
 
 {{ if eq (env "DOCKER") "true" }}
-.chezmoiscripts/linux/*docker_install.*
-.chezmoiscripts/linux/*pipewire.*
-.chezmoiscripts/linux/*setup.*
-.chezmoiscripts/linux/*snap.*
-.chezmoiscripts/*download_youtube.*
+.chezmoiscripts/linux/*docker_install*
+.chezmoiscripts/linux/*pipewire*
+.chezmoiscripts/linux/*setup*
+.chezmoiscripts/linux/*snap*
+.chezmoiscripts/*download_youtube*
 {{ end }}
 
 {{ if eq .bitwarden false }}
