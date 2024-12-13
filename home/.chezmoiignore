@@ -10,11 +10,11 @@
 {{ end }}
 
 {{ if eq (env "DOCKER") "true" }}
-.chezmoiscripts/linux/*docker_install*
-.chezmoiscripts/linux/*pipewire*
-.chezmoiscripts/linux/*setup*
-.chezmoiscripts/linux/*snap*
-.chezmoiscripts/*download_youtube*
+.chezmoiscripts/linux/run_once_docker_install.*
+.chezmoiscripts/linux/run_once_pipewire.*
+.chezmoiscripts/linux/run_once_setup.*
+.chezmoiscripts/linux/run_onchange_snap.*
+.chezmoiscripts/run_after_once_download_youtube.*
 {{ end }}
 
 {{ if eq .bitwarden false }}
