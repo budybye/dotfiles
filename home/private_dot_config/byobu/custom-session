@@ -17,7 +17,7 @@
 
 DOT="${HOME}/dotfiles"
 
-# セッションの作成
+# セッションの作成 window 0
 byobu-tmux new-session -d  -s dotfiles -n dotfiles -c "$DOT"
 # dotfilesディレクトリでvimを起動
 byobu-tmux send-keys -t 1 "vim" C-m
@@ -35,17 +35,20 @@ byobu-tmux send-keys -t 3 "ncmpcpp" C-m
 # ペインの選択 dotfilesディレクトリのペインを選択
 byobu-tmux select-pane -t 1
 
-# ウィンドウの水平分割 .devcontainerディレクトリを開く
+# ウィンドウの水平分割 .devcontainerディレクトリを開く pane 4
 byobu-tmux split-window -v -c "$DOT/.devcontainer"
 # byobu-tmux send-keys -t 4 "code ." C-m
 
-# もう一つウィンドウの作成
+
+# もう一つウィンドウの作成 window 1
 byobu-tmux new-window -c "$HOME/dev"
 # byobu-tmux send-keys -t 1 "ssh ubuntu@local.dev" C-m
 # ウィンドウの水平分割
 byobu-tmux split-window -h -c "$HOME/data"
 # byobu-tmux send-keys -t 5 "ssh ubuntu@local.dev" C-m
 
+
+# byobu-tmux attach-session -t dotfiles
 # 最初に開いたウィンドウを選択 0
 byobu-tmux select-window -t 0
 # dotfilesのペインを選択 1

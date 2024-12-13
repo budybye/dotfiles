@@ -13,8 +13,8 @@ services:
     privileged: true
     environment:
       - DOCKER=true
-      - REMOTE_CONTAINERS=true
-    platform: linux/${ARCH:-$(dpkg --print-architecture || uname -m)}
+    #   - REMOTE_CONTAINERS=true
+    platform: linux/${ARCH:-$(dpkg --print-architecture || uname -m || arm64)}
     networks:
       - v4
       - v6
