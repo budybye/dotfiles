@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # ユーザーを作成して xrdp サービスを開始する
 # 引数

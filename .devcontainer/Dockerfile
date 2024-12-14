@@ -133,12 +133,12 @@ RUN git clone https://github.com/budybye/dotfiles.git ${HOME}/dotfiles
 USER ${USER}
 WORKDIR ${HOME}/dotfiles
 # dotfiles をインストール
-RUN make init
+# RUN make init
 
 FROM base
 
 EXPOSE 3389
 # エントリーポイントを実行
 ENTRYPOINT ["entrypoint"]
-# デフォルトコマンド ユーザー名、パスワード、sudo-no-passwd
+# デフォルト引数 ユーザー名、パスワード、sudo-no-passwd yes or other
 CMD ["ubuntu", "ubuntu", "no"]
