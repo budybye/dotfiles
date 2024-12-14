@@ -141,7 +141,6 @@ jobs:
         if: matrix.flavor.name == 'slim'
         run: |
           docker ps -a
-          docker compose -f .devcontainer/docker-compose.yaml exec ubuntu env
 
   merge:
     runs-on: ubuntu-24.04
