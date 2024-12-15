@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-echo "run_once_setup.sh.tmpl"
+echo "run_once_after_setup.sh.tmpl"
 echo "--------------------------------"
 
 japan_setup() {
@@ -42,6 +42,30 @@ xrdp_setup() {
     # echo "$(whoami):$(whoami)" | sudo chpasswd
 }
 
+pipewire_setup() {
+    doko=$(pwd)
+    pipewire_dir="${HOME}/.config/pipewire/pulseaudio-module-xrdp"
+
+    # pulseaudio をインストール
+    sudo apt-get install -y pulseaudio libpulse-dev dh-autoreconf dpkg-dev && echo "pulseaudio installed." || echo "pulseaudio install failed."
+
+    # pipewire をインストール
+    sudo apt-get install -y pipewire pipewire-audio libspa-0.2-dev libpipewire-0.3-dev autoconf libtool && echo "pipewire installed." || echo "pipewire install failed."
+    mkdir -p "${HOME}/.config/pipewire"
+
+    if [ ! -d "${pipewire_dir}" ]; then
+        git clone https://github.com/neutrinolabs/pulseaudio-module-xrdp.git "${pipewire_dir}"
+        cd "${pipewire_dir}"
+        ./bootstrap
+        ./configure PULSE_DIR=$(cd ..; pwd)
+        make
+        sudo make install
+        cd "${doko}"
+    fi
+    echo "pipewire installed."
+}
+
 japan_setup
 xrdp_setup
+pipewire_setup
 echo "--------------------------------"

@@ -6,15 +6,12 @@
 .ssh/authorized_keys*
 .ssh/id_ed25519*
 .ssh/id_rsa*
-.chezmoiscripts/run_after_once_download_youtube*
 {{ end }}
 
 {{ if eq .chezmoi.username "dev" }}
-.chezmoiscripts/linux/*docker*
-.chezmoiscripts/linux/*pipewire*
-.chezmoiscripts/linux/*setup*
-.chezmoiscripts/linux/*snap*
-.chezmoiscripts/*youtube*
+.chezmoiscripts/linux/run_once_after_docker.*
+.chezmoiscripts/linux/run_once_after_setup.*
+.chezmoiscripts/linux/run_onchange_after_snap.*
 {{ end }}
 
 {{ if eq .bitwarden false }}
@@ -23,24 +20,24 @@
 {{ end }}
 
 {{ if eq .github false }}
-.config/git/user.conf*
+.config/git/user.*
 {{ end }}
 
 {{ if eq .age false }}
-.ssh/id_rsa*
-.ssh/id_ed25519*
+.ssh/id_rsa.*
+.ssh/id_ed25519.*
 {{ end }}
 
 {{ if eq .ssh false }}
-.ssh/authorized_keys*
-.ssh/id_rsa*
-.ssh/id_ed25519*
+.ssh/authorized_keys.*
+.ssh/id_rsa.*
+.ssh/id_ed25519.*
 {{ end }}
 
 {{ if ne .chezmoi.os "darwin" }}
 .config/Brewfile
 .config/karabiner
-.ssh/id_rsa*
+.ssh/id_rsa.*
 .chezmoiscripts/darwin/**
 {{ end }}
 

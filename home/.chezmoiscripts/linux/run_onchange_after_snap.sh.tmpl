@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-echo "run_onchange_snap.sh.tmpl"
+echo "run_onchange_after_snap.sh.tmpl"
 echo "--------------------------------"
 
 if $(whoami) != "root"; then
@@ -24,7 +24,7 @@ install_snap() {
     {{ end }}
 
     if command -v firefox >/dev/null 2>&1; then
-        sudo snap remove firefox || $sudo apt remove firefox && echo "firefox uninstalled." || echo "firefox uninstall failed."
+        $sudo snap remove firefox || $sudo apt remove firefox && echo "firefox uninstalled." || echo "firefox uninstall failed."
     fi
 
     echo "snap tools installed."

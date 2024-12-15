@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # chezmoi apply が完了したら実行される
-echo "run_after_show.sh.tmpl"
+echo "run_after_with.sh.tmpl"
 echo "--------------------------------"
 echo "Chezmoi apply completed!!"
 echo "USER: $(whoami)"
@@ -77,6 +77,8 @@ echo "--------------------------------"
 chezmoi data
 echo "--------------------------------"
 chezmoi doctor
+echo "--------------------------------"
+chezmoi ignore --list
 echo "--------------------------------"
 echo 'Chezmoi Apply done!!'
 date

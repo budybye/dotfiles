@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
 
-echo "run_after_once_download_youtube.sh.tmpl"
+echo "run_after_once_youtube.sh.tmpl"
 echo "--------------------------------"
-
-{{ if ne .name "runner" -}}
 
 PLAYLIST_NAME="riddim"
 PLAYLIST_DIR="$HOME/Music/$PLAYLIST_NAME"
@@ -43,5 +41,3 @@ fi
 # ダウンロードしたファイルの一覧を表示
 ls -l "$PLAYLIST_DIR"
 echo "--------------------------------"
-
-{{ end }}
