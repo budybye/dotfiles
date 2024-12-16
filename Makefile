@@ -1,6 +1,6 @@
 .ONESHELL:
 SHELL = bash
-.SHELLFLAGS = -ceuo pipefail
+# .SHELLFLAGS = -ceuo pipefail
 
 .PHONY: dev
 dev: bw init
