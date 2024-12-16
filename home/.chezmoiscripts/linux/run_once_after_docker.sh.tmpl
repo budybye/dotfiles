@@ -3,10 +3,9 @@
 echo "run_once_after_docker.sh.tmpl"
 echo "--------------------------------"
 
-if $(whoami) != "root"; then
+sudo=""
+if [ "$(id -u)" -ne 0 ]; then
     sudo="sudo"
-else
-    sudo=""
 fi
 
 install_docker() {

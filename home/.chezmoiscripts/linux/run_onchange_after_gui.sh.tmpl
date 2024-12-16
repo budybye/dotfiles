@@ -7,10 +7,9 @@ echo "--------------------------------"
 # アーキテクチャを取得
 arch="$(dpkg --print-architecture)"
 
-if $(whoami) != "root"; then
+sudo=""
+if [ "$(id -u)" -ne 0 ]; then
     sudo="sudo"
-else
-    sudo=""
 fi
 
 # デスクトップ環境のインストール

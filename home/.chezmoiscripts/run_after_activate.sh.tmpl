@@ -3,7 +3,7 @@
 echo "run_after_activate.sh.tmpl"
 echo "--------------------------------"
 USERNAME=$(whoami)
-echo "Welcome to my dotfiles!!"
+echo "Welcome to $USERNAME dotfiles!!"
 echo "sourceDir: {{ .chezmoi.sourceDir }}"
 echo "user: $USERNAME"
 echo "OS info ..."
@@ -12,15 +12,16 @@ echo "SHELL: $SHELL"
 echo "--------------------------------"
 
 # .env の確認と作成
-echo ".env && ENV checking..."
-cat {{ .chezmoi.sourceDir }}/.env
-mise set
+echo ".env && ENVIRONMENT checking..."
+cat {{ .chezmoi.sourceDir }}/.env || echo "no {{ .chezmoi.sourceDir }}/.env file"
+mise set || echo "mise set failed."
 echo "--------------------------------"
 env
 echo "--------------------------------"
 
 # SSH の設定
-{{- if ne .name "runner" }}
+
+{{- if ne .ssh false }}
 
 echo "SSH key ..."
 cat /etc/ssh/sshd_config
@@ -41,11 +42,15 @@ echo "SSH Config ..."
 cat ~/.ssh/config
 echo "--------------------------------"
 
+{{- else }}
+echo "SSH key not set."
+echo "--------------------------------"
 {{- end }}
 
-{{- if ne .name "runner" }}
-
 # git の設定
+
+{{- if ne .github false }}
+
 echo "git config ..."
 cat ~/.config/git/user.conf
 echo "git config user.name"
@@ -59,4 +64,37 @@ cat ~/.config/git/commit.template
 git config --global commit.template ${HOME}/.config/git/commit.template
 echo "--------------------------------"
 
+{{- else }}
+echo "github config not set."
+echo "--------------------------------"
 {{- end }}
+
+# bitwarden の設定
+
+{{- if ne .bitwarden false }}
+echo "bitwarden yes"
+echo "--------------------------------"
+{{- else }}
+echo "bitwarden no"
+echo "--------------------------------"
+{{- end }}
+
+# age の設定
+
+{{- if ne .age false }}
+echo "age yes"
+echo "--------------------------------"
+{{- else }}
+echo "age no"
+echo "--------------------------------"
+{{- end }}
+
+# Music の確認
+
+if [ -f ~/Music/riddim ]; then
+    ls -la ~/Music/riddim
+    echo "--------------------------------"
+else
+    echo "$HOME/Music/riddim not found."
+    echo "--------------------------------"
+fi

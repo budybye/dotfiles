@@ -3,10 +3,9 @@
 echo "run_onchange_after_snap.sh.tmpl"
 echo "--------------------------------"
 
-if $(whoami) != "root"; then
+sudo=""
+if [ "$(id -u)" -ne 0 ]; then
     sudo="sudo"
-else
-    sudo=""
 fi
 
 install_snapd() {
