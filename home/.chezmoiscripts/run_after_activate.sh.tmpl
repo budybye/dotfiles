@@ -51,6 +51,7 @@ echo "--------------------------------"
 
 {{- if ne .github false }}
 
+echo "github yes"
 echo "git config ..."
 cat ~/.config/git/user.conf
 echo "git config user.name"
@@ -65,28 +66,36 @@ git config --global commit.template ${HOME}/.config/git/commit.template
 echo "--------------------------------"
 
 {{- else }}
-echo "github config not set."
+
+echo "github no"
 echo "--------------------------------"
+
 {{- end }}
 
 # bitwarden の設定
 
 {{- if ne .bitwarden false }}
+
 echo "bitwarden yes"
 echo "--------------------------------"
+
 {{- else }}
 echo "bitwarden no"
 echo "--------------------------------"
+
 {{- end }}
 
 # age の設定
 
 {{- if ne .age false }}
+
 echo "age yes"
 echo "--------------------------------"
+
 {{- else }}
 echo "age no"
 echo "--------------------------------"
+
 {{- end }}
 
 # Music の確認

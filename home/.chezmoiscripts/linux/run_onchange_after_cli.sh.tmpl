@@ -34,7 +34,7 @@ change_shell_to_zsh() {
 }
 
 install_packages() {
-    dpkg --configure -a
+    $sudo dpkg --configure -a
     apt --version
     $sudo apt-get update -y
     $sudo apt-get upgrade -y

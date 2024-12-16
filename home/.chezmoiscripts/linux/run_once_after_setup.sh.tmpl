@@ -62,10 +62,13 @@ pipewire_setup() {
         git clone https://github.com/neutrinolabs/pulseaudio-module-xrdp.git "${pipewire_dir}"
         cd "${pipewire_dir}"
         ./bootstrap
-        ./configure PULSE_DIR=$(cd ..; pwd)
-        # make
-        # $sudo make install
-        make install
+
+        # PULSE_DIR を pulseaudio ソースの正しいディレクトリに設定
+        export PULSE_DIR=$(pkg-config --variable=libdir pulseaudio)
+
+        ./configure PULSE_DIR="${PULSE_DIR}" PULSE_CONFIG_DIR="${PULSE_DIR}"
+        make
+        $sudo make install
         cd "${doko}"
     fi
     echo "pipewire installed."
