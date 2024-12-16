@@ -10,7 +10,7 @@ else
 fi
 
 install_snapd() {
-    command -v snap >/dev/null || $sudo apt-get install -y snapd && echo "snapd installed." || echo "snapd install failed."
+    command -v snap >/dev/null || $sudo apt-get install -y snap snapd && echo "snapd installed." || echo "snapd install failed."
 }
 
 install_snap() {

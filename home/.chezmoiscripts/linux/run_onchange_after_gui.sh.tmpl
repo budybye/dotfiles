@@ -7,24 +7,30 @@ echo "--------------------------------"
 # アーキテクチャを取得
 arch="$(dpkg --print-architecture)"
 
+if $(whoami) != "root"; then
+    sudo="sudo"
+else
+    sudo=""
+fi
+
 # デスクトップ環境のインストール
 # package は .chezmoidata/packages.yaml に記載
 # .packages.linux.gui にはxfceデスクトップ環境をインストールするパッケージを記載
 
 desktop_setup() {
-    sudo apt-get update -y
-    sudo apt-get upgrade -y
+    $sudo apt-get update -y
+    $sudo apt-get upgrade -y
 
     {{ range .packages.linux.gui -}}
     if ! dpkg -l | grep -q {{ . }}; then
-        sudo apt-get install -y {{ . }} || echo "{{ . }} install failed." >> ${HOME}/which
+        $sudo apt-get install -y {{ . }} || echo "{{ . }} install failed." >> ${HOME}/which
     fi
     {{ end }}
 
-    #sudo apt-get remove -y light-locker xscreensaver &&
-    sudo apt-get autoremove -y
-    sudo apt-get clean
-    sudo rm -rf /var/cache/apt /var/lib/apt/lists/*
+    #$sudo apt-get remove -y light-locker xscreensaver &&
+    $sudo apt-get autoremove -y
+    $sudo apt-get clean
+    $sudo rm -rf /var/cache/apt /var/lib/apt/lists/*
     echo "desktop packages installed."
 }
 
@@ -32,10 +38,10 @@ install_brave_browser() {
     if command -v brave-browser >/dev/null 2>&1; then
         echo "brave browser already installed."
     else
-        sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
-        echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main" | sudo tee /etc/apt/sources.list.d/brave-browser-release.list
-        sudo apt-get update -y
-        sudo apt-get install -y brave-browser || echo "brave browser install failed."
+        $sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
+        echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main" | $sudo tee /etc/apt/sources.list.d/brave-browser-release.list
+        $sudo apt-get update -y
+        $sudo apt-get install -y brave-browser || echo "brave browser install failed."
         echo "brave browser installed."
     fi
 }
@@ -44,10 +50,10 @@ install_cloudflare_warp() {
     if command -v warp-cli >/dev/null 2>&1; then
         echo "cloudflare warp already installed."
     else
-        sudo curl -fsSL https://pkg.cloudflareclient.com/pubkey.gpg | sudo gpg --yes --dearmor --output /usr/share/keyrings/cloudflare-warp-archive-keyring.gpg
-        echo "deb [signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg] https://pkg.cloudflareclient.com/ $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/cloudflare-client.list
-        sudo apt-get update -y
-        sudo apt-get install -y cloudflare-warp || echo "cloudflare warp install failed."
+        $sudo curl -fsSL https://pkg.cloudflareclient.com/pubkey.gpg | $sudo gpg --yes --dearmor --output /usr/share/keyrings/cloudflare-warp-archive-keyring.gpg
+        echo "deb [signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg] https://pkg.cloudflareclient.com/ $(lsb_release -cs) main" | $sudo tee /etc/apt/sources.list.d/cloudflare-client.list
+        $sudo apt-get update -y
+        $sudo apt-get install -y cloudflare-warp || echo "cloudflare warp install failed."
         echo "cloudflare warp installed."
 
         warp-cli --accept-tos registration new
@@ -77,7 +83,7 @@ install_cursor() {
     fi
 
     # cursor の実行ファイルに実行権限を付与
-    sudo chmod a+x "${appimage}"
+    $sudo chmod a+x "${appimage}"
 
     # libfuse2 が必要なのでインストール
     sudo apt-get install -y libfuse2 || echo "libfuse2 install failed."
@@ -92,11 +98,11 @@ install_element_desktop() {
     if command -v element-desktop >/dev/null 2>&1; then
         echo "element desktop already installed."
     else
-        sudo apt-get install -y wget apt-transport-https
-        sudo wget -O /usr/share/keyrings/element-io-archive-keyring.gpg https://packages.element.io/debian/element-io-archive-keyring.gpg
-        echo "deb [signed-by=/usr/share/keyrings/element-io-archive-keyring.gpg] https://packages.element.io/debian/ default main" | sudo tee /etc/apt/sources.list.d/element-io.list
-        sudo apt-get update -y
-        sudo apt-get install -y element-desktop || echo "element desktop install failed."
+        $sudo apt-get install -y wget apt-transport-https
+        $sudo wget -O /usr/share/keyrings/element-io-archive-keyring.gpg https://packages.element.io/debian/element-io-archive-keyring.gpg
+        echo "deb [signed-by=/usr/share/keyrings/element-io-archive-keyring.gpg] https://packages.element.io/debian/ default main" | $sudo tee /etc/apt/sources.list.d/element-io.list
+        $sudo apt-get update -y
+        $sudo apt-get install -y element-desktop || echo "element desktop install failed."
         echo "element desktop installed."
     fi
 }
@@ -105,9 +111,9 @@ install_github_desktop() {
     if command -v github-desktop >/dev/null 2>&1; then
         echo "github desktop already installed."
     else
-        sudo curl -L https://github.com/shiftkey/desktop/releases/download/release-3.4.3-linux1/GitHubDesktop-linux-${arch}-3.4.3-linux1.deb -o GitHubDesktop-linux-${arch}-3.4.3-linux1.deb
-        sudo dpkg -i GitHubDesktop-linux-${arch}-3.4.3-linux1.deb || echo "github desktop install failed."
-        sudo rm -f GitHubDesktop-linux-${arch}-3.4.3-linux1.deb
+        $sudo curl -L https://github.com/shiftkey/desktop/releases/download/release-3.4.3-linux1/GitHubDesktop-linux-${arch}-3.4.3-linux1.deb -o GitHubDesktop-linux-${arch}-3.4.3-linux1.deb
+        $sudo dpkg -i GitHubDesktop-linux-${arch}-3.4.3-linux1.deb || echo "github desktop install failed."
+        $sudo rm -f GitHubDesktop-linux-${arch}-3.4.3-linux1.deb
         echo "github desktop installed."
     fi
 }
@@ -129,9 +135,9 @@ install_ruby_fusuma() {
     if command -v fusuma >/dev/null 2>&1; then
         echo "fusuma already installed."
     elif command -v gem >/dev/null; then
-        sudo gem install fusuma || echo "fusuma install failed."
-        sudo groupadd -f input
-        sudo usermod -aG input "$(whoami)"
+        $sudo gem install fusuma || echo "fusuma install failed."
+        $sudo groupadd -f input
+        $sudo usermod -aG input "$(whoami)"
         fusuma -d
         echo "fusuma installed."
     else
@@ -143,9 +149,9 @@ install_tabby_terminal() {
     if command -v tabby >/dev/null 2>&1; then
         echo "tabby terminal already installed."
     else
-        curl https://packagecloud.io/install/repositories/eugeny/tabby/script.deb.sh | sudo bash
-        sudo apt-get update -y
-        sudo apt-get install -y tabby-terminal || echo "tabby terminal install failed."
+        curl https://packagecloud.io/install/repositories/eugeny/tabby/script.deb.sh | $sudo bash
+        $sudo apt-get update -y
+        $sudo apt-get install -y tabby-terminal || echo "tabby terminal install failed."
         echo "tabby terminal installed."
     fi
 }
@@ -154,12 +160,12 @@ install_vscode() {
     if command -v code >/dev/null 2>&1; then
         echo "vscode already installed."
     else
-        sudo wget -qO- https://packages.microsoft.com/keys/microsoft.asc | sudo gpg --dearmor > packages.microsoft.gpg
-        sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
-        echo "deb [arch=${arch} signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" | sudo tee /etc/apt/sources.list.d/vscode.list > /dev/null
-        sudo rm -f packages.microsoft.gpg
-        sudo apt-get update -y
-        sudo apt-get install -y code || echo "vscode install failed."
+        $sudo wget -qO- https://packages.microsoft.com/keys/microsoft.asc | $sudo gpg --dearmor > packages.microsoft.gpg
+        $sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
+        echo "deb [arch=${arch} signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" | $sudo tee /etc/apt/sources.list.d/vscode.list > /dev/null
+        $sudo rm -f packages.microsoft.gpg
+        $sudo apt-get update -y
+        $sudo apt-get install -y code || echo "vscode install failed."
         echo "vscode installed."
     fi
 }
@@ -168,10 +174,10 @@ install_wireshark() {
     if command -v wireshark >/dev/null 2>&1; then
         echo "wireshark already installed."
     else
-        sudo apt install -y wireshark || echo "wireshark install failed."
-        sudo groupadd -f wireshark
-        sudo usermod -aG wireshark "$(whoami)"
-        sudo chmod +x /usr/bin/dumpcap
+        $sudo apt install -y wireshark || echo "wireshark install failed."
+        $sudo groupadd -f wireshark
+        $sudo usermod -aG wireshark "$(whoami)"
+        $sudo chmod +x /usr/bin/dumpcap
         echo "wireshark installed."
     fi
 }

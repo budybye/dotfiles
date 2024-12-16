@@ -3,24 +3,30 @@
 echo "run_onchange_after_cli.sh.tmpl"
 echo "--------------------------------"
 
+if $(whoami) != "root"; then
+    sudo="sudo"
+else
+    sudo=""
+fi
+
 # Zsh をデフォルトシェルに変更する関数
 change_shell_to_zsh() {
     # zsh がインストールされているか確認
     if command -v zsh >/dev/null; then
         echo "zsh already installed."
     else
-        sudo apt-get install -y zsh || echo "zsh install failed." >> ${HOME}/which
+        $sudo apt-get install -y zsh || echo "zsh install failed." >> ${HOME}/which
     fi
 
     zsh_path=$(command -v zsh)
     if [ "${SHELL}" != "${zsh_path}" ]; then
         # デフォルトシェルを変更
-        sudo chsh -s "${zsh_path}" "$(whoami)" || echo "zsh default shell change failed."
+        $sudo chsh -s "${zsh_path}" "$(whoami)" || echo "zsh default shell change failed."
     fi
 
     # シンボリックリンクを作成
     if [ ! -f /bin/zsh ] && [ -f /usr/bin/zsh ]; then
-        sudo ln -sf /usr/bin/zsh /bin/zsh
+        $sudo ln -sf /usr/bin/zsh /bin/zsh
     fi
 
     echo "Your shell is ${SHELL}"
@@ -29,25 +35,25 @@ change_shell_to_zsh() {
 }
 
 install_packages() {
-    sudo dpkg --configure -a
+    $sudo dpkg --configure -a
     apt --version
-    sudo apt-get update -y
-    sudo apt-get upgrade -y
+    $sudo apt-get update -y
+    $sudo apt-get upgrade -y
 
     {{ range .packages.linux.cli -}}
 
     if ! dpkg -l | grep -q {{ . }}; then
-        sudo apt-get install -y {{ . }} && echo "{{ . }} installed." || echo "{{ . }} install failed." >> ${HOME}/which
+        $sudo apt-get install -y {{ . }} && echo "{{ . }} installed." || echo "{{ . }} install failed." >> ${HOME}/which
     else
         echo "{{ . }} already installed."
     fi
 
     {{ end }}
 
-    sudo apt-get autoremove -y
-    sudo apt-get autoclean -y
-    sudo rm -rf /var/cache/apt /var/lib/apt/lists/*
-    sudo apt-get check
+    $sudo apt-get autoremove -y
+    $sudo apt-get autoclean -y
+    $sudo rm -rf /var/cache/apt /var/lib/apt/lists/*
+    $sudo apt-get check
     echo "apt install completed."
 }
 
@@ -56,15 +62,15 @@ install_mise() {
         echo "mise already installed."
 
     elif command -v curl >/dev/null 2>&1; then
-            echo "mise install start..."
-            curl https://mise.run | sh || echo "mise install failed."
+        echo "mise install start..."
+        curl https://mise.run | sh || echo "mise install failed."
     else
         echo "curl not found"
-        sudo install -dm 755 /etc/apt/keyrings
-        wget -qO - https://mise.jdx.dev/gpg-key.pub | gpg --dearmor | sudo tee /etc/apt/keyrings/mise-archive-keyring.gpg 1>/dev/null
-        echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=${dpkg --print-architecture}] https://mise.jdx.dev/deb stable main" | sudo tee /etc/apt/sources.list.d/mise.list
-        sudo apt-get update -y
-        sudo apt-get install -y mise || echo "mise install failed."
+        $sudo install -dm 755 /etc/apt/keyrings
+        wget -qO - https://mise.jdx.dev/gpg-key.pub | $sudo gpg --dearmor | $sudo tee /etc/apt/keyrings/mise-archive-keyring.gpg 1>/dev/null
+        echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=${dpkg --print-architecture}] https://mise.jdx.dev/deb stable main" | $sudo tee /etc/apt/sources.list.d/mise.list
+        $sudo apt-get update -y
+        $sudo apt-get install -y mise || echo "mise install failed."
     fi
     export PATH="${HOME}/.local/bin:${HOME}/.local/share/mise/shims:$PATH"
     mise --version >> ${HOME}/which || echo "mise not found" >> ${HOME}/which
@@ -96,7 +102,7 @@ install_cargo_tools() {
 
         else
             echo "curl not found"
-            sudo apt-get install -y cargo || echo "cargo install failed."
+            $sudo apt-get install -y cargo || echo "cargo install failed."
 
         fi
         . ${HOME}/.cargo/env
@@ -133,8 +139,8 @@ install_flatpak() {
     if command -v flatpak >/dev/null; then
         echo "flatpak already installed."
     else
-        sudo apt-get install -y flatpak || echo "flatpak install failed."
-        sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+        $sudo apt-get install -y flatpak || echo "flatpak install failed."
+        $sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
         echo "flatpak installed."
     fi
     flatpak --version >> ${HOME}/which || echo "flatpak not found" >> ${HOME}/which
@@ -148,7 +154,7 @@ install_go_aqua() {
         mise use -g -y go@1.23.2
 
     else
-        sudo apt-get install -y golang || echo "go install failed."
+        $sudo apt-get install -y golang || echo "go install failed."
 
     fi
     go version >> ${HOME}/which || echo "go not found" >> ${HOME}/which
@@ -182,7 +188,7 @@ install_mkcert() {
         mise use -g mkcert -y || echo "mkcert install failed."
 
     else
-        sudo apt install -y mkcert || echo "mkcert install failed."
+        $sudo apt install -y mkcert || echo "mkcert install failed."
     fi
 
     mkcert -install

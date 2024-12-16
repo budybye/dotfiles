@@ -80,6 +80,7 @@ packages:
 
   linux:
     cli:
+      - 'apt-utils'
       - 'git'
       - 'curl'
       - 'make'
@@ -88,7 +89,6 @@ packages:
       - 'wget'
       - 'build-essential'
       - 'cmake'
-      - 'dbus-x11'
       - 'gnupg'
       - 'g++'
       - 'gh'
