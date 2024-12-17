@@ -52,7 +52,15 @@ pipewire_setup() {
     pipewire_dir="${HOME}/.config/pipewire/pulseaudio-module-xrdp"
 
     # pulseaudio をインストール
-    $sudo apt-get install -y pulseaudio libpulse-dev dh-autoreconf dpkg-dev && echo "pulseaudio installed." || echo "pulseaudio install failed."
+    $sudo apt-get install -y pulseaudio libpulse-dev dh-autoreconf dpkg-dev git && echo "pulseaudio installed." || echo "pulseaudio install failed."
+
+    mkdir -p ~/.config/pulseaudio
+    cd ~/.config/pulseaudio
+    git clone https://github.com/neutrinolabs/pulseaudio-module-xrdp.git
+    cd pulseaudio-module-xrdp
+    $sudo make install
+    ls $(pkg-config --variable=modlibexecdir libpulse) | grep xrdp || echo "pulseaudio xrdp module not found."
+    cd "${doko}"
 
     # pipewire をインストール
     $sudo apt-get install -y pipewire pipewire-audio libspa-0.2-dev libpipewire-0.3-dev autoconf libtool && echo "pipewire installed." || echo "pipewire install failed."
@@ -63,8 +71,8 @@ pipewire_setup() {
         cd "${pipewire_dir}"
         ./bootstrap
 
-        # PULSE_DIR を pulseaudio ソースの正しいディレクトリに設定
-        export PULSE_DIR=$(pkg-config --variable=libdir pulseaudio)
+        # PULSE_DIR を pulseaudio ソースのディレクトリに設定
+        export PULSE_DIR=~/pulseaudio
 
         ./configure PULSE_DIR="${PULSE_DIR}" PULSE_CONFIG_DIR="${PULSE_DIR}"
         make

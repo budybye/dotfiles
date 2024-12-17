@@ -662,6 +662,7 @@ multipass launch \
 - [Monokai-Pro](https://github.com/monokai/monokai-pro)
 - [WhiteSur-GTK-Theme](https://github.com/vinceliuice/WhiteSur-gtk-theme)
 - [Xfce-look](https://xfce-look.org/)
+- [PulseAudio Module for XRDP README](https://github.com/neutrinolabs/pulseaudio-module-xrdp/blob/master/README.md)
 - [awesome](https://github.com/sindresorhus/awesome)
 - [awesome-zsh-plugins](https://github.com/unixorn/awesome-zsh-plugins)
 - [Rhino Linux](https://github.com/rhinolinux)

@@ -84,7 +84,7 @@
 # シンボリックリンクを作成する
 mode = "symlink"
 
-# sourceDir = "~/dotfiles"
+sourceDir = {{ .chezmoi.sourceDir | quote }}
 
 # ファイルのパーミッションを変更する
 # umask = 0o22
@@ -92,7 +92,7 @@ mode = "symlink"
 scriptTempDir = "~/tmp"
 
 {{/* age 暗号化 */}}
-{{/* if eq (.age) "false" コメントアウト */}}
+{{/* if ne (.age) "false" コメントアウト */}}
 {{ if ne (env "GITHUB_ACTIONS") "true" }}
 encryption = "age"
 [age]

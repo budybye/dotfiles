@@ -78,7 +78,7 @@ chezmoi data
 echo "--------------------------------"
 chezmoi doctor
 echo "--------------------------------"
-chezmoi ignore --list
+chezmoi ignored -S {{ .chezmoi.sourceDir }}
 echo "--------------------------------"
 echo 'Chezmoi Apply done!!'
 date
