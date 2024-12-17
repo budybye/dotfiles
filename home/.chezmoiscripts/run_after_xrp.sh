@@ -3,13 +3,13 @@
 # XRP Ledger public server
 XRPL_SERVER="${XRPL_SERVER:-https://xrpl.ws/}"
 # r3kmLJN5D28dHuH8vZNUZpMC43pEHpaocV
-ACCOUNT="${1:-r3kmLJN5D28dHuH8vZNUZpMC43pEHpaocV}"
+ACCOUNT="${1:-r9BUM9z14j7bLFzQHRfurWNdNKYSABdGtE}"
 # default bithomp usd
-# ISSUER="${2:-rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B}"
-ISSUER="${2:-rMxCKbEDwqr76QuheSUMdEGf4B9xJ8m5De}"
+ISSUER="${2:-rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B}"
+# ISSUER="${2:-rMxCKbEDwqr76QuheSUMdEGf4B9xJ8m5De}"
 # default usd
-# CURRENCY="${3:-USD}"
-CURRENCY="${3:-RLUSD}"
+CURRENCY="${3:-USD}"
+# CURRENCY="${3:-RLUSD}"
 
 # book_offers xrp/currency grpc request json
 GET_USD_OFFERS='{
