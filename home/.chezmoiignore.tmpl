@@ -16,13 +16,13 @@
 {{ end }}
 
 {{ if eq .bitwarden false }}
-.config/git/user.*
-.ssh/id_ed25519.*
-.ssh/id_rsa.*
+.config/git/user*
+.ssh/id_ed25519*
+.ssh/id_rsa*
 {{ end }}
 
 {{ if eq .github false }}
-.config/git/user.*
+.config/git/user*
 {{ end }}
 
 {{ if eq .age false }}
@@ -31,15 +31,15 @@
 {{ end }}
 
 {{ if eq .ssh false }}
-.ssh/authorized_keys.*
-.ssh/id_rsa.*
-.ssh/id_ed25519.*
+.ssh/authorized_keys*
+.ssh/id_rsa*
+.ssh/id_ed25519*
 {{ end }}
 
 {{ if ne .chezmoi.os "darwin" }}
 .config/Brewfile
 .config/karabiner
-.ssh/id_rsa.*
+.ssh/id_rsa*
 .chezmoiscripts/darwin/**
 {{ end }}
 
