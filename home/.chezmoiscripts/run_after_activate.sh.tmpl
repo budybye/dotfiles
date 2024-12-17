@@ -107,11 +107,3 @@ else
     echo "$HOME/Music/riddim not found."
     echo "--------------------------------"
 fi
-
-if ! command -v chezmoi >/dev/null 2>&1; then
-    echo "chezmoi command not found."
-	echo "${PATH}" | tr ':' '\n'
-    export PATH=${HOME}/.local/bin:$PATH
-	chezmoi --version
-	echo "--------------------------------"
-fi

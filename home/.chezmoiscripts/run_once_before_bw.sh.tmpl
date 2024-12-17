@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 echo "run_once_before_bw.sh.tmpl"
-echo "OS: {{ .chezmoi.os | quote }}"
 cd ${HOME}
 echo "--------------------------------"
 
@@ -9,13 +8,11 @@ echo "--------------------------------"
 # echo "${MASTER}" | chezmoi encrypt > {{ .chezmoi.sourceDir }}/shhh.txt
 
 # マスターパスワードを復号 パスフレーズが要求される
-{{ if ne .bitwarden false -}}
-
+{{- if ne .bitwarden false -}}
 echo "decrypt shhh.txt"
 MASTER="$(chezmoi decrypt {{ .chezmoi.sourceDir }}/shhh.txt)"
 echo "--------------------------------"
-
-{{ end }}
+{{- end -}}
 
 MISE="${HOME}/.local/bin/mise"
 SHIMS="${HOME}/.local/share/mise"
@@ -26,7 +23,10 @@ SESSION="{{ .chezmoi.sourceDir }}/.env"
 
 # mise なければインストール
 mise_install() {
-    if ! command -v mise >/dev/null 2>&1; then
+    if command -v mise >/dev/null 2>&1; then
+        echo "mise already installed."
+
+    else
         echo "mise not found."
 
         if command -v brew >/dev/null 2>&1; then
@@ -41,16 +41,18 @@ mise_install() {
 
         fi
         export PATH="${HOME}/.local/bin:${PATH}"
+        mise --version || echo "mise command not found."
         echo "mise installed"
-
-    else
-        echo "mise already installed."
     fi
     echo "--------------------------------"
 }
 
+# node なければインストール
 node_install() {
-    if ! command -v npm >/dev/null 2>&1; then
+    if command -v npm >/dev/null 2>&1; then
+        echo "npm already installed."
+
+    else
         echo "npm not found."
 
         if command -v mise >/dev/null 2>&1; then
@@ -61,22 +63,24 @@ node_install() {
 
         else
             echo "mise not found."
-            exit 1
+            exit
 
         fi
         export PATH="${SHIMS}/shims:${PATH}"
         export PATH="${SHIMS}/installs/node/${VERSION}/bin:${PATH}"
+        npm --version || echo "npm command not found."
         echo "node installed"
-
-    else
-        echo "node already installed."
     fi
     echo "--------------------------------"
 }
 
 # npm で bitwarden cli をインストール
 bw_install() {
-    if [ ! -f ${BW} ]; then
+    if command -v bw >/dev/null 2>&1; then
+        echo "bw already installed."
+
+    else
+        echo "bw not found."
 
         if command -v npm >/dev/null 2>&1; then
             npm install -g @bitwarden/cli || echo "bitwarden cli install failed."
@@ -86,14 +90,13 @@ bw_install() {
 
         else
             echo "npm not found."
-            exit 1
+            exit
 
         fi
         export PATH="${SHIMS}/installs/node/${VERSION}/bin:${PATH}"
+        bw --version || echo "bw command not found."
         echo "Bitwarden CLI installed."
 
-    else
-        echo "Bitwarden CLI already installed."
     fi
     echo "--------------------------------"
 }
@@ -120,6 +123,7 @@ bw_unlock() {
         echo "export BW_SESSION=${BW_SESSION:-}" > ${SESSION} && cat ${SESSION}
 
     fi
+
     MASTER=""
     echo "--------------------------------"
 }
@@ -129,9 +133,9 @@ mise_install
 node_install
 bw_install
 
-{{ if ne .bitwarden false -}}
+{{- if ne .bitwarden false -}}
 bw_unlock
-{{ end -}}
+{{- end -}}
 
 echo "bitwarden setup complete"
 echo "--------------------------------"

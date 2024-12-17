@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+echo "run_before_action.sh.tmpl"
+echo "--------------------------------"
+
+if ! command -v chezmoi >/dev/null 2>&1; then
+    echo "chezmoi command not found."
+    export PATH=${HOME}/.local/bin:$PATH
+	chezmoi --version
+	echo "--------------------------------"
+fi
+
+echo "chezmoi sourceDir"
+echo {{ .chezmoi.sourceDir }}
+echo "--------------------------------"
+echo "${PATH}" | tr ':' '\n'
+echo "--------------------------------"

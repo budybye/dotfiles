@@ -3,9 +3,6 @@
 echo "run_once_before_age.sh.tmpl"
 echo "--------------------------------"
 
-# age なければインストール
-echo "age install..."
-
 if command -v age >/dev/null; then
     echo "age already installed"
 else
@@ -26,22 +23,23 @@ fi
 age --version || echo "age command not found && exit 1"
 echo "--------------------------------"
 
-{{ if ne .name "runner" -}}
 
 # key.txt をパスフレーズで復号するので事前に用意
 # https://www.chezmoi.io/user-guide/frequently-asked-questions/encryption/
 
-# .chezmoi.toml.tmpl と合わせる
+{{- if ne .age false -}}
+
+{{- /* .chezmoi.toml.tmpl と合わせる */ -}}
 identity="${HOME}/.config/chezmoi/key.txt"
 
-# age-keygen | age --armor --passphrase ${key_name} で生成したキーのファイル名
+{{- /* age-keygen | age --armor --passphrase ${key_name} で生成したキーのファイル名 */ -}}
 key_name="key.txt.age"
 key_path="{{ .chezmoi.sourceDir }}/${key_name}"
 
 echo "key_path: ${key_path}..."
 echo "identity: ${identity}..."
 
-# ~/.config/chezmoi/key.txt が存在しない場合は復号
+{{- /* ~/.config/chezmoi/key.txt が存在しない場合は復号 */ -}}
 if [ ! -f ${identity} ]; then
     mkdir -p ${HOME}/.config/chezmoi
     echo "Please enter your age passphrase:"
@@ -52,4 +50,4 @@ fi
 echo "Decrypt-private-key complete."
 echo "--------------------------------"
 
-{{ end -}}
+{{- end -}}
