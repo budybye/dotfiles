@@ -9,7 +9,7 @@ echo "--------------------------------"
 # echo "${MASTER}" | chezmoi encrypt > {{ .chezmoi.sourceDir }}/shhh.txt
 
 # マスターパスワードを復号 パスフレーズが要求される
-{{ if ne .name "runner" -}}{{/* ノンインタラクティブでは実行しない */}}
+{{ if ne .bitwarden false -}}
 
 echo "decrypt shhh.txt"
 MASTER="$(chezmoi decrypt {{ .chezmoi.sourceDir }}/shhh.txt)"
