@@ -17,6 +17,12 @@ else
     CHEZMOI=chezmoi
 fi
 
+# PATH に ~/.local/bin がなければ追加
+if ! echo "${PATH}" | grep -q "${BIN}"; then
+    export PATH=${BIN}:$PATH
+    chezmoi --version
+fi
+
 # POSIX way to get script's dir: https://stackoverflow.com/a/29834779/12156188
 SCRIPT_DIR="$(cd -P -- "$(dirname -- "$(command -v -- "$0")")" && pwd -P)"
 echo "SCRIPT_DIR: $SCRIPT_DIR"

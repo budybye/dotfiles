@@ -2,9 +2,6 @@
 SHELL = bash
 .SHELLFLAGS = -ceuo pipefail
 
-.PHONY: dev
-dev: bw init
-
 .PHONY: init
 init:
 	./install.sh

@@ -77,3 +77,15 @@ status.show_tools = false
 cargo.binstall = true
 pipx.uvx = true
 # npm.bun = true
+
+# [[env]]
+# _.file = '.env'
+
+# [[env]]
+# _.source = 'dot_aliases'
+
+# [[env]]
+# _.path = [
+#   '~/.local/bin',
+#   './node_modules/.bin',
+# ]
