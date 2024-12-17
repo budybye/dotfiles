@@ -49,10 +49,11 @@ install_homebrew() {
 install_brew_packages() {
     brew --version
     brew tap Homebrew/bundle
+    brewlist=$(brew list)
 
     {{ range .packages.darwin.formula -}}
 
-    if ! brew list | grep -q {{ . }}; then
+    if ! echo "$brewlist" | grep -q {{ . }}; then
         brew install {{ . }} || echo "{{ . }} install failed."
     else
         echo "{{ . }} already installed."
@@ -62,13 +63,17 @@ install_brew_packages() {
 
     {{ range .packages.darwin.cask -}}
 
-    if ! brew list | grep -q {{ . }}; then
+    if ! echo "$brewlist" | grep -q {{ . }}; then
         brew install --cask {{ . }} || echo "{{ . }} install failed."
     else
         echo "{{ . }} already installed."
     fi
 
     {{ end }}
+
+    if ! command -v tree >/dev/null 2>&1; then
+        brew install tree
+    fi
 
     brew update
     brew upgrade
@@ -87,7 +92,6 @@ install_brew_packages
 # ~/.config/mise/config.toml に記載されたパッケージをインストール
 mise install || echo "mise install failed."
 echo "bootstrap done."
-
 echo "--------------------------------"
 echo "zsh --version $(zsh --version)"
 echo "Package install && update done!!"

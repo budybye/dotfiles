@@ -133,7 +133,7 @@ RUN git clone https://github.com/budybye/dotfiles.git ${HOME}/dotfiles
 USER ${USER}
 WORKDIR ${HOME}/dotfiles
 # dotfiles をインストール
-RUN make init
+# RUN make init
 
 FROM base
 
