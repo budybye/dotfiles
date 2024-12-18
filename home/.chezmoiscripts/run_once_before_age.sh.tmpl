@@ -27,9 +27,9 @@ echo "--------------------------------"
 # key.txt をパスフレーズで復号するので事前に用意
 # https://www.chezmoi.io/user-guide/frequently-asked-questions/encryption/
 
-{{- if ne .age false -}}
+{{ if ne .age false -}}
 
-{{- /* .chezmoi.toml.tmpl と合わせる */ -}}
+{{/* .chezmoi.toml.tmpl と合わせる */}}
 identity="${HOME}/.config/chezmoi/key.txt"
 
 {{- /* age-keygen | age --armor --passphrase ${key_name} で生成したキーのファイル名 */ -}}
@@ -39,7 +39,8 @@ key_path="{{ .chezmoi.sourceDir }}/${key_name}"
 echo "key_path: ${key_path}..."
 echo "identity: ${identity}..."
 
-{{- /* ~/.config/chezmoi/key.txt が存在しない場合は復号 */ -}}
+{{/* ~/.config/chezmoi/key.txt が存在しない場合は復号 */}}
+
 if [ ! -f ${identity} ]; then
     mkdir -p ${HOME}/.config/chezmoi
     echo "Please enter your age passphrase:"
