@@ -9,8 +9,7 @@
 .chezmoiscripts/run_once_after_youtube.*
 {{ end }}
 
-{{ $users := list "ubuntu" "dev" }}
-{{ if eq .chezmoi.username $users }}
+{{ if or (eq .chezmoi.username "ubuntu") (eq .chezmoi.username "dev") }}
 .chezmoiscripts/linux/run_once_after_docker.*
 .chezmoiscripts/linux/run_once_after_setup.*
 .chezmoiscripts/linux/run_onchange_after_snap.*
