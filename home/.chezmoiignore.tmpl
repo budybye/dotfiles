@@ -10,7 +10,7 @@
 {{ end }}
 
 {{ $users := list "ubuntu" "dev" }}
-{{ if in .chezmoi.username $users }}
+{{ if eq .chezmoi.username $users }}
 .chezmoiscripts/linux/run_once_after_docker.*
 .chezmoiscripts/linux/run_once_after_setup.*
 .chezmoiscripts/linux/run_onchange_after_snap.*

@@ -109,13 +109,13 @@ RUN apt-get clean
 RUN rm -rf /var/cache/apt /var/lib/apt/lists/*
 
 # devユーザー設定
-# ARG USER=dev
-# ARG UID=1024
-# ARG GID=$UID
+ARG USER_NAME=dev
+ARG USER_ID=1024
+ARG GROUP_ID=$USER_ID
 
-RUN groupadd -g 1024 -f dev && \
-    useradd --uid 1024 --gid 1024 -m dev -G sudo -s /usr/bin/zsh && \
-    echo "dev:dev" | chpasswd && \
+RUN groupadd -g $GROUP_ID -f $USER_NAME && \
+    useradd --uid $USER_ID --gid $GROUP_ID -m $USER_NAME -G sudo -s /usr/bin/zsh && \
+    echo "$USER_NAME:$USER_NAME" | chpasswd && \
     echo "dev ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
     mkdir -p /home/dev && \
     chown -R dev:dev /home/dev
@@ -136,11 +136,11 @@ RUN git clone https://github.com/budybye/dotfiles.git /home/ubuntu/dotfiles
 
 USER ubuntu
 WORKDIR /home/ubuntu/dotfiles
-RUN make init
+RUN ./install.sh
 
 # ユーザーを切り替え dotfiles ディレクトリに移動
-# USER ${USER}
-# WORKDIR ${HOME}/dotfiles
+# USER ${USER_NAME}
+# WORKDIR /home/${USER_NAME}/dotfiles
 # dotfiles をインストール
 # RUN make init
 
