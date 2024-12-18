@@ -8,11 +8,13 @@ echo "--------------------------------"
 # echo "${MASTER}" | chezmoi encrypt > {{ .chezmoi.sourceDir }}/shhh.txt
 
 # マスターパスワードを復号 パスフレーズが要求される
-{{- if ne .bitwarden false -}}
+{{ if ne .bitwarden false }}
+
 echo "decrypt shhh.txt"
 MASTER="$(chezmoi decrypt {{ .chezmoi.sourceDir }}/shhh.txt)"
 echo "--------------------------------"
-{{- end -}}
+
+{{ end }}
 
 MISE="${HOME}/.local/bin/mise"
 SHIMS="${HOME}/.local/share/mise"
@@ -133,9 +135,9 @@ mise_install
 node_install
 bw_install
 
-{{- if ne .bitwarden false -}}
+{{ if ne .bitwarden false }}
 bw_unlock
-{{- end -}}
+{{ end }}
 
 echo "bitwarden setup complete"
 echo "--------------------------------"

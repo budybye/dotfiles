@@ -9,7 +9,7 @@
 .chezmoiscripts/run_once_after_youtube.*
 {{ end }}
 
-{{ if eq .chezmoi.username "dev" }}
+{{ if eq .chezmoi.hostname "docker" }}
 .chezmoiscripts/linux/run_once_after_docker.*
 .chezmoiscripts/linux/run_once_after_setup.*
 .chezmoiscripts/linux/run_onchange_after_snap.*
