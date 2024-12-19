@@ -20,7 +20,7 @@ DOT="${HOME}/dotfiles"
 # セッションの作成 window 0
 byobu-tmux new-session -d  -s dotfiles -n dotfiles -c "$DOT"
 # dotfilesディレクトリでvimを起動
-byobu-tmux send-keys -t 1 "vim" C-m
+# byobu-tmux send-keys -t 1 "vim" C-m
 
 # ウィンドウの垂直分割 homeディレクトリを開く
 byobu-tmux split-window -h -c "$HOME"
@@ -48,8 +48,8 @@ byobu-tmux split-window -h -c "$HOME/data"
 # byobu-tmux send-keys -t 5 "ssh ubuntu@local.dev" C-m
 
 
-# byobu-tmux attach-session -t dotfiles
+byobu-tmux attach-session -t dotfiles
 # 最初に開いたウィンドウを選択 0
-byobu-tmux select-window -t 0
+# byobu-tmux select-window -t 1
 # dotfilesのペインを選択 1
 byobu-tmux select-pane -t 1

@@ -33,6 +33,7 @@ if command -v curl >/dev/null 2>&1; then
     alias ppp="curl -4 icanhazip.com && curl -6 icanhazip.com"  # パブリックIPアドレスを表示
     alias xrp="curl https://raw.githubusercontent.com/budybye/dotfiles/refs/heads/main/home/.chezmoiscripts/run_after_xrp.sh | sh"
     alias qr="curl qrenco.de/${1:-xrp.gl}"
+    alias bob="curl -X POST -H 'accept: application/json' -H 'Content-Type: application/json' -d '{"name": "maerly"}' https://xrp.gl/bob"
 fi
 
 if command -v ping >/dev/null 2>&1; then
