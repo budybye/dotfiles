@@ -40,13 +40,14 @@ RUN apt-get install -y \
     xfce4-xkb-plugin
 
 RUN apt-get install -y \
+    dbus-x11
+
+RUN apt-get install -y \
     sudo \
     wget \
     xorgxrdp \
-    xrdp \
-    dbus-x11
-
-RUN apt remove -y light-locker xscreensaver
+    xrdp && \
+    apt remove -y light-locker xscreensaver
 
 # 必須パッケージをインストール
 RUN apt-get install -y \
@@ -100,12 +101,12 @@ RUN apt-get install -y \
     fortune-mod \
     figlet \
     cmatrix \
+    command-not-found \
     oneko \
     cowsay \
     lolcat \
     nyancat \
-    translate-shell \
-    command-not-found
+    translate-shell
 
 # 不要なパッケージ キャッシュを削除
 RUN apt-get autoremove -y
@@ -139,7 +140,7 @@ USER ubuntu
 WORKDIR /home/ubuntu
 # ホームディレクトリに dotfiles をクローン
 RUN git clone https://github.com/budybye/dotfiles.git /home/ubuntu/dotfiles
-RUN ./dotfiles/install.sh
+# RUN ./dotfiles/install.sh
 
 # RUN git clone https://github.com/budybye/dotfiles.git
 # ユーザーを切り替え dotfiles ディレクトリに移動
