@@ -9,11 +9,7 @@
 .chezmoiscripts/run_once_after_youtube.*
 {{ end }}
 
-{{ if eq .chezmoi.username "ubuntu" }}
-.chezmoiscripts/linux/docker.sh
-.chezmoiscripts/linux/setup.sh
-.chezmoiscripts/linux/snap.sh
-{{ else if eq .chezmoi.username "dev" }}
+{{ if or (eq .chezmoi.username "ubuntu") (eq .chezmoi.username "dev") }}
 .chezmoiscripts/linux/docker.sh
 .chezmoiscripts/linux/setup.sh
 .chezmoiscripts/linux/snap.sh

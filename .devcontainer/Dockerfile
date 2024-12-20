@@ -14,6 +14,7 @@ RUN apt-get -y upgrade
 
 # 日本語環境を設定
 RUN apt-get install -y \
+    apt-utils \
     language-pack-ja \
     language-pack-ja-base \
     manpages-ja \
@@ -37,23 +38,20 @@ RUN apt-get install -y \
     xfce4-screenshooter \
     xfce4-taskmanager \
     xfce4-terminal \
-    xfce4-xkb-plugin
-
-# RUN apt-get install -y \
-#     xfce4-power-manager \
-#     xfce4-pulseaudio-plugin \
-#     xfce4-whiskermenu-plugin \
-#     xfce4-goodies
-
-RUN apt-get install -y \
-    dbus-x11
+    xfce4-xkb-plugin \
+    xfce4-power-manager \
+    xfce4-pulseaudio-plugin \
+    xfce4-whiskermenu-plugin \
+    xfce4-goodies
 
 RUN apt-get install -y \
     sudo \
     wget \
     xorgxrdp \
-    xrdp && \
-    apt remove -y light-locker xscreensaver
+    xrdp \
+    dbus-x11
+
+RUN apt remove -y light-locker xscreensaver
 
 # 必須パッケージをインストール
 RUN apt-get install -y \
@@ -101,7 +99,18 @@ RUN apt-get install -y \
     software-properties-common \
     python3 \
     ruby \
-    flatpak
+    flatpak \
+    figlet
+
+RUN apt-get install -y \
+    fortune-mod \
+    cmatrix \
+    oneko \
+    cowsay \
+    lolcat \
+    nyancat \
+    translate-shell \
+    command-not-found
 
 # 不要なパッケージ キャッシュを削除
 RUN apt-get autoremove -y
@@ -134,7 +143,7 @@ RUN chmod +x /usr/bin/entrypoint
 USER ubuntu
 WORKDIR /home/ubuntu
 # ホームディレクトリに dotfiles をクローン
-RUN git clone https://github.com/budybye/dotfiles.git
+RUN git clone https://github.com/budybye/dotfiles.git /home/ubuntu/dotfiles
 RUN ./dotfiles/install.sh
 
 # RUN git clone https://github.com/budybye/dotfiles.git
