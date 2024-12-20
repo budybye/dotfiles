@@ -1,6 +1,8 @@
 {
   "name": "dev",
-  "build.context": ".",
+  "dockerComposeFile": "docker-compose.yaml",
+  // "build.context": ".",
+  "service": "ubuntu",
   "containerUser": "ubuntu",
   "remoteUser": "dev",
   "workspaceFolder": "/home/dev",
