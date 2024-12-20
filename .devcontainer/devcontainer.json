@@ -1,8 +1,7 @@
 {
   "name": "dev",
-  "context": ".",
-  // "dockerComposeFile": "docker-compose.yaml",
-  // "service": "ubuntu",
+  "dockerComposeFile": "docker-compose.yaml",
+  "service": "ubuntu",
   "remoteUser": "dev",
   "workspaceFolder": "/home/dev",
   "forwardPorts": [3389, 22],
