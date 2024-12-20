@@ -13,25 +13,25 @@ groups: [users,sudo,adm,ssl-cert,xrdp,docker]
 system_info:
   default_user:
     distro: ubuntu
-    name: budybye
-    lock_passwd: false
-    passwd: budybye
-    home: /home/budybye
-    uid: 1000
-    gid: 1000
-    groups: [users,sudo,adm,ssl-cert,xrdp,docker]
-    shell: /usr/bin/zsh
-    sudo: ALL=(ALL) NOPASSWD:ALL
-users:
-  - default
-  - name: ubuntu
+    name: ubuntu
     lock_passwd: false
     passwd: ubuntu
     home: /home/ubuntu
+    uid: 1000
+    gid: 1000
+    groups: [users,sudo,adm,ssl-cert,xrdp,docker]
+    shell: /bin/bash
+    sudo: ["ALL=(ALL) NOPASSWD:ALL"]
+users:
+  - default
+  - name: budybye
+    lock_passwd: false
+    passwd: budybye
+    home: /home/budybye
     uid: 1001
     gid: 1001
     groups: [users,sudo,adm,ssl-cert,xrdp,docker]
-    shell: /bin/bash
+    shell: /usr/bin/zsh
 # パスワード認証を無効にする
 ssh_pwauth: false
 # グローバルに github の ssh key を登録する便利 ssh-import-id
@@ -160,7 +160,7 @@ packages:
 runcmd:
 - |
   curl -fsSL get.chezmoi.io | sudo sh -s -- -b /usr/local/bin
-  git clone https://github.com/budybye/dotfiles.git /home/budybye/dotfiles
+  git clone https://github.com/budybye/dotfiles.git /home/ubuntu/dotfiles
 - |
   sudo groupadd -f ssl-cert
   sudo groupadd -f xrdp

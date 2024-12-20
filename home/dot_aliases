@@ -33,7 +33,7 @@ if command -v curl >/dev/null 2>&1; then
     alias ppp="curl -4 icanhazip.com && curl -6 icanhazip.com"  # パブリックIPアドレスを表示
     alias xrp="curl https://raw.githubusercontent.com/budybye/dotfiles/refs/heads/main/home/.chezmoiscripts/run_after_xrp.sh | sh"
     alias qr="curl qrenco.de/${1:-xrp.gl}"
-    alias bob="curl -X POST -H 'accept: application/json' -H 'Content-Type: application/json' -d '{"name": "maerly"}' https://xrp.gl/bob"
+    alias bob="curl -X POST -H 'accept: application/json' -H 'Content-Type: application/json' -d '{\"name\": \"marley\"}' https://xrp.gl/bob"
 fi
 
 if command -v ping >/dev/null 2>&1; then
@@ -177,7 +177,7 @@ if command -v multipass >/dev/null 2>&1; then
 
     alias ml="mu launch -n ubuntu 24.04 -c 4 -m 8G -d 44G --timeout 7200 --cloud-init ${HOME}/dotfiles/cloud-init/multipass.yaml && mu exec ubuntu -- tail -7 /var/log/cloud-init.log"
 
-    alias ms="mu stop ubuntu && mu delete -p ubuntu"
+    alias ms="mu stop ubuntu && mu delete -p ubuntu && mu list"
     alias sm="ssh ubuntu@vm.local -i ~/.ssh/id_ed25519"
 fi
 
@@ -229,8 +229,10 @@ if command -v byobu >/dev/null 2>&1; then
 fi
 
 if command -v trans >/dev/null 2>&1; then
-    alias ja="trans -b -j ja"
-    alias en="trans -b -j en"
+    # 基本的な翻訳エイリアス
+    alias ja='trans -b -t ja'    # 任意の言語から日本語へ
+    alias en='trans -b -t en'    # 任意の言語から英語へ
+
 fi
 
 if command -v mpd >/dev/null 2>&1 && [ -f "${HOME}/.config/mpd/mpd.conf" ]; then
