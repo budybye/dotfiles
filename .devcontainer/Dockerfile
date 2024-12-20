@@ -38,9 +38,6 @@ RUN apt-get install -y \
     xfce4-taskmanager \
     xfce4-terminal \
     xfce4-xkb-plugin \
-    xfce4-power-manager \
-    xfce4-pulseaudio-plugin \
-    xfce4-whiskermenu-plugin \
     xfce4-goodies
 
 RUN apt-get install -y \
