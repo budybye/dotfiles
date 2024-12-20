@@ -14,7 +14,6 @@ RUN apt-get -y upgrade
 
 # 日本語環境を設定
 RUN apt-get install -y \
-    apt-utils \
     language-pack-ja \
     language-pack-ja-base \
     manpages-ja \
