@@ -1,11 +1,12 @@
 {
   "name": "dev",
-  "dockerComposeFile": "docker-compose.yaml",
-  "service": "ubuntu",
+  "build.context": ".",
+  "containerUser": "ubuntu",
   "remoteUser": "dev",
   "workspaceFolder": "/home/dev",
   "forwardPorts": [3389, 22],
-
+  "privileged": true,
+  "overrideCommand": "ubuntu ubuntu yes",
   "initializeCommand": "echo 'Dev container initializing...'",
   "onCreateCommand": "echo 'Dev container creating...'",
   "postCreateCommand": "echo 'Dev container post created...'",
