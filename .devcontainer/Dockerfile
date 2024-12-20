@@ -134,7 +134,7 @@ RUN chmod +x /usr/bin/entrypoint
 USER ubuntu
 WORKDIR /home/ubuntu
 # ホームディレクトリに dotfiles をクローン
-RUN git clone https://github.com/budybye/dotfiles.git /home/ubuntu/dotfiles
+RUN git clone https://github.com/budybye/dotfiles.git
 RUN ./dotfiles/install.sh
 
 # RUN git clone https://github.com/budybye/dotfiles.git
