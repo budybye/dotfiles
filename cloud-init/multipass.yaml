@@ -160,7 +160,8 @@ packages:
 runcmd:
 - |
   curl -fsSL get.chezmoi.io | sudo sh -s -- -b /usr/local/bin
-  git clone https://github.com/budybye/dotfiles.git /home/ubuntu/dotfiles
+  # git clone https://github.com/budybye/dotfiles.git /home/ubuntu/dotfiles
+  chezmoi init --apply budybye
 - |
   sudo groupadd -f ssl-cert
   sudo groupadd -f xrdp

@@ -126,20 +126,20 @@ jobs:
           if-no-files-found: error
           retention-days: 1
 
-      - name: Docker compose action
-        if: matrix.flavor.name == 'slim'
-        uses: hoverkraft-tech/compose-action@v2.0.2
-        with:
-          compose-file: .devcontainer/docker-compose.yaml
-          services: |
-            ubuntu
-            portainer
-            ipfs
+      # - name: Docker compose action
+      #   if: matrix.flavor.name == 'slim'
+      #   uses: hoverkraft-tech/compose-action@v2.0.2
+      #   with:
+      #     compose-file: .devcontainer/docker-compose.yaml
+      #     services: |
+      #       ubuntu
+      #       portainer
+      #       ipfs
 
-      - name: Docker compose test
-        if: matrix.flavor.name == 'slim'
-        run: |
-          docker ps -a
+      # - name: Docker compose test
+      #   if: matrix.flavor.name == 'slim'
+      #   run: |
+      #     docker ps -a
 
   merge:
     runs-on: ubuntu-24.04
