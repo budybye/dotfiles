@@ -37,8 +37,7 @@ RUN apt-get install -y \
     xfce4-screenshooter \
     xfce4-taskmanager \
     xfce4-terminal \
-    xfce4-xkb-plugin \
-    xfce4-goodies
+    xfce4-xkb-plugin
 
 RUN apt-get install -y \
     sudo \
@@ -95,11 +94,11 @@ RUN apt-get install -y \
     software-properties-common \
     python3 \
     ruby \
-    flatpak \
-    figlet
+    flatpak
 
 RUN apt-get install -y \
     fortune-mod \
+    figlet \
     cmatrix \
     oneko \
     cowsay \
