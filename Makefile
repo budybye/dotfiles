@@ -58,7 +58,7 @@ ubuntu:
 	-c 4 \
 	-m 8G \
 	-d 42G \
-	--timeout 7200 \
+	--timeout 43200 \
 	--cloud-init cloud-init/multipass.yaml && \
 	multipass exec ubuntu -- tail -5 /var/log/cloud-init.log
 

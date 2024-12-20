@@ -1,6 +1,6 @@
 {
   "name": "dev",
-  "dockerComposeFile": "docker-compose.yaml",
+  "context": ".",
   "service": "ubuntu",
   "remoteUser": "dev",
   "workspaceFolder": "/home/dev",
