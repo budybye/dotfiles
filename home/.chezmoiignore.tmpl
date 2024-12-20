@@ -10,13 +10,13 @@
 {{ end }}
 
 {{ if eq .chezmoi.username "ubuntu" }}
-.chezmoiscripts/linux/run_once_after_docker.*
-.chezmoiscripts/linux/run_once_after_setup.*
-.chezmoiscripts/linux/run_onchange_after_snap.*
+.chezmoiscripts/linux/run_once_after_docker.sh
+.chezmoiscripts/linux/run_once_after_setup.sh
+.chezmoiscripts/linux/run_onchange_after_snap.sh
 {{ else if eq .chezmoi.username "dev" }}
-.chezmoiscripts/linux/run_once_after_docker.*
-.chezmoiscripts/linux/run_once_after_setup.*
-.chezmoiscripts/linux/run_onchange_after_snap.*
+.chezmoiscripts/linux/run_once_after_docker.sh
+.chezmoiscripts/linux/run_once_after_setup.sh
+.chezmoiscripts/linux/run_onchange_after_snap.sh
 {{ end }}
 
 {{ if eq .bitwarden false }}
