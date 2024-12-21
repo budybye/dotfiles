@@ -67,7 +67,6 @@ jobs:
       - name: clean space
         run: |
           df -h
-        run: |
           sudo apt purge -y \
             ansible* \
             aria2* \
