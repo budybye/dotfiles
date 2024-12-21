@@ -136,13 +136,13 @@ COPY ./entrypoint.sh /usr/bin/
 RUN ln -s /usr/bin/entrypoint.sh /usr/bin/entrypoint
 RUN chmod +x /usr/bin/entrypoint
 
-USER ubuntu
-WORKDIR /home/ubuntu
-# ホームディレクトリに dotfiles をクローン
 RUN git clone https://github.com/budybye/dotfiles.git /home/ubuntu/dotfiles
-RUN ./dotfiles/install.sh
+USER ubuntu
+WORKDIR /home/ubuntu/dotfiles
+# ホームディレクトリに dotfiles をクローン
+RUN make init
 
-# RUN git clone https://github.com/budybye/dotfiles.git
+# RUN git clone https://github.com/budybye/dotfiles.git /home/dev/dotfiles
 # ユーザーを切り替え dotfiles ディレクトリに移動
 # USER ${USER_NAME}
 # WORKDIR /home/${USER_NAME}/dotfiles

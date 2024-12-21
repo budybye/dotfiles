@@ -13,7 +13,7 @@ services:
       - v4
       - v6
     ports:
-      - 33389:3389 # 127.0.0.1:33389 で RDP
+      - 33389:3389 # 127.1:33389 で RDP
       - 2222:22
     # volumes:
     #   - ${HOME}/data:/home/ubuntu/data
