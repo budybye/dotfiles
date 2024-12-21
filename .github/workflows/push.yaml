@@ -136,8 +136,8 @@ jobs:
           compose-file: .devcontainer/docker-compose.yaml
           services: |
             ubuntu
-            # portainer
-            # ipfs
+            portainer
+            ipfs
 
       - name: Docker compose test
         if: matrix.flavor.name == 'slim'
