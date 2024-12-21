@@ -140,7 +140,7 @@ USER ubuntu
 WORKDIR /home/ubuntu
 # ホームディレクトリに dotfiles をクローン
 RUN git clone https://github.com/budybye/dotfiles.git /home/ubuntu/dotfiles
-# RUN ./dotfiles/install.sh
+RUN ./dotfiles/install.sh
 
 # RUN git clone https://github.com/budybye/dotfiles.git
 # ユーザーを切り替え dotfiles ディレクトリに移動
