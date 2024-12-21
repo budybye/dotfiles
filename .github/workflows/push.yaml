@@ -67,10 +67,17 @@ jobs:
       - name: clean space
         run: |
           df -h
+          docker image prune --all --force || true
+          sudo rm -rf /opt/* || true
+          sudo rm -rf /usr/share/dotnet || true
+          sudo rm -rf /usr/local/lib/android || true
+          sudo rm -rf /usr/local/share/boost || true
+          sudo rm -rf $AGENT_TOOLSDIRECTORY || true
           sudo apt purge -y \
             ansible* \
             aria2* \
             aspnetcore* \
+            apache2* \
             azure-cli* \
             cabal* \
             clang* \
@@ -85,6 +92,7 @@ jobs:
             kubectl* \
             llvm* \
             mono* \
+            moby* \
             mysql* \
             nginx* \
             node* \
