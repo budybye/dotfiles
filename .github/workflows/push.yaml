@@ -91,6 +91,9 @@ jobs:
           digest="${{ steps.build.outputs.digest }}"
           touch "/tmp/digests/${digest#sha256:}"
 
+      - name: Disk usage
+        run: df -h
+
       - name: Build devcontainer
         if: matrix.flavor.name == 'dev'
         id: devcontainer
@@ -133,8 +136,8 @@ jobs:
           compose-file: .devcontainer/docker-compose.yaml
           services: |
             ubuntu
-            portainer
-            ipfs
+            # portainer
+            # ipfs
 
       - name: Docker compose test
         if: matrix.flavor.name == 'slim'

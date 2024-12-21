@@ -162,12 +162,15 @@ if command -v docker >/dev/null 2>&1; then
 
     alias dx='docker run --rm -itd --privileged --platform linux/${ARCH:-$(dpkg --print-architecture || uname -m)} --hostname docker --name ubuntu-dev -v $(pwd):/home/ubuntu/dev -p 33389:3389 -p 2222:22 ghcr.io/budybye/ubuntu-dev ubuntu ubuntu yes && dps'
 
-    alias dc="docker compose"
-    alias dcb="docker compose build"
-    alias dcu="docker compose up"
-    alias dcd="docker compose down"
     ## 停止コンテナ、タグ無しイメージ、未使用ボリューム、未使用ネットワーク一括削除
     alias drm="docker system prune -af --volumes"
+fi
+
+if command -v docker-compose >/dev/null 2>&1; then
+    alias dc="docker-compose"
+    alias dcb="docker-compose build"
+    alias dcu="docker-compose up"
+    alias dcd="docker-compose down"
 fi
 
 # multipass

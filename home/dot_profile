@@ -136,6 +136,11 @@ if command -v docker >/dev/null 2>&1; then
         export DOCKER_HOST="unix://${HOME}/.docker/run/docker.sock"
         export DOCKER_CONTEXT="desktop-linux"
     fi
+else if command -v podman >/dev/null 2>&1; then
+    PODMAN_SOCKET=`podman machine inspect --format '{{ .ConnectionInfo.SocketPath }}'`
+    export DOCKER_HOST="unix://${PODMAN_SOCKET}"
+    export DOCKER_CONTEXT="podman-machine-default"
+    export DOCKER_BUILDKIT=0
 fi
 
 if command -v npm >/dev/null 2>&1; then
