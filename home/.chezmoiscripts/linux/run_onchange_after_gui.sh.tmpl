@@ -186,12 +186,17 @@ desktop_setup
 install_brave_browser
 install_cloudflare_warp
 install_cursor
+
+{{ if or ( ne .chezmoi.username "ubuntu") ( ne .chezmoi.username "dev") }}
 install_element_desktop
 install_github_desktop
+{{ end }}
+
 install_ruby_fusuma
 install_tabby_terminal
 install_vscode
 # install_wireshark
+
 echo "ubuntu desktop setup completed."
 neofetch
 echo "--------------------------------"
