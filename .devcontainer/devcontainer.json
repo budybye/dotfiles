@@ -1,5 +1,5 @@
 {
-  "name": "dev",
+  "name": "ubuntu-dev",
   // "build.context": ".",
   "dockerComposeFile": "docker-compose.yaml",
   "service": "ubuntu",
@@ -18,9 +18,9 @@
   "remoteEnv": {
     "REMOTE_CONTAINERS": "true"
   },
-  "features": {
-    "ghcr.io/eitsupi/devcontainer-features/duckdb-cli:1": {}
-  },
+  // "features": {
+    // "ghcr.io/eitsupi/devcontainer-features/duckdb-cli:1": {}
+  // },
   "customizations": {
     "vscode": {
       "settings": {
