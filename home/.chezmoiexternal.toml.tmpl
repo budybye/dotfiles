@@ -34,7 +34,7 @@
 
 {{ end }}
 
-{{ if ne (or (.chezmoi.username "ubuntu") (.chezmoi.username "dev")) }}
+{{ if or (ne .chezmoi.username "ubuntu") (ne .chezmoi.username "dev") }}
 
 [".local/share/themes/WhiteSur-gtk-theme-cinnamon-xfce"]
     type = "archive"
@@ -82,4 +82,3 @@
     type = "file"
     url = "https://github.com/mjun0812/RobotoMonoJP/releases/download/v5.0.0/RobotoMonoJP-Regular.ttf"
     refreshPeriod = "168h"
-
