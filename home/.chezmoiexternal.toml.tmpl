@@ -32,6 +32,10 @@
     executable = true
     path = "age/age-keygen"
 
+{{ end }}
+
+{{ if ne (or (.chezmoi.username "ubuntu") (.chezmoi.username "dev")) }}
+
 [".local/share/themes/WhiteSur-gtk-theme-cinnamon-xfce"]
     type = "archive"
     url = "https://github.com/CoolAller/WhiteSur-gtk-theme-cinnamon-xfce/archive/refs/heads/main.zip"
@@ -60,6 +64,8 @@
     stripComponents = 1
     refreshPeriod = "168h"
 
+{{ end }}
+
 [".local/share/fonts"]
     type = "archive"
     url = "https://github.com/yuru7/HackGen/releases/download/v2.9.1/HackGen_NF_v2.9.1.zip"
@@ -77,4 +83,3 @@
     url = "https://github.com/mjun0812/RobotoMonoJP/releases/download/v5.0.0/RobotoMonoJP-Regular.ttf"
     refreshPeriod = "168h"
 
-{{ end }}
