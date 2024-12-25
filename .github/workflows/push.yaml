@@ -147,11 +147,11 @@ jobs:
         with:
           imageName: ${{ env.REGISTRY_IMAGE }}
           imageTag: ${{ env.PLATFORM_PAIR }}-${{ matrix.flavor.name }}
-          # cacheFrom: ${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }}-${{ matrix.flavor.name }}
+          cacheFrom: ${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }}-${{ matrix.flavor.name }}
           push: never
-          runCmd: |
-            env
-            uname -a
+          # runCmd: |
+          #   env
+          #   uname -a
 
       - name: Dev push by digest
         if: matrix.flavor.name == 'dev'
