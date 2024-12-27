@@ -17,6 +17,9 @@
     stripComponents = 1
     refreshPeriod = "168h"
 
+
+{{ if eq .chezmoi.os "linux" }}
+
 [".local/bin/age"]
     type = "archive-file"
     url = {{ gitHubLatestReleaseAssetURL "FiloSottile/age" (printf "age-*-%s-%s.tar.gz" .chezmoi.os .chezmoi.arch) | quote }}
@@ -29,9 +32,6 @@
     executable = true
     path = "age/age-keygen"
 
-# ubuntu にTheme Icon Font をインストール
-{{ if eq .chezmoi.os "linux" }}
-
 [".local/share/themes/WhiteSur-gtk-theme-cinnamon-xfce"]
     type = "archive"
     url = "https://github.com/CoolAller/WhiteSur-gtk-theme-cinnamon-xfce/archive/refs/heads/main.zip"
@@ -39,12 +39,12 @@
     stripComponents = 1
     refreshPeriod = "168h"
 
-# [".local/share/themes/WhiteSur-gtk-theme"]
-#     type = "archive"
-#     url = "https://github.com/vinceliuice/WhiteSur-gtk-theme/archive/refs/heads/master.zip"
-#     exact = true
-#     stripComponents = 1
-#     refreshPeriod = "168h"
+[".local/share/themes/WhiteSur-gtk-theme"]
+    type = "archive"
+    url = "https://github.com/vinceliuice/WhiteSur-gtk-theme/archive/refs/heads/master.zip"
+    exact = true
+    stripComponents = 1
+    refreshPeriod = "168h"
 
 [".local/share/icons/WhiteSur-icon-theme"]
     type = "archive"
