@@ -17,9 +17,6 @@
     stripComponents = 1
     refreshPeriod = "168h"
 
-# ubuntu にTheme Icon Font をインストール
-{{ if eq .chezmoi.os "linux" }}
-
 [".local/bin/age"]
     type = "archive-file"
     url = {{ gitHubLatestReleaseAssetURL "FiloSottile/age" (printf "age-*-%s-%s.tar.gz" .chezmoi.os .chezmoi.arch) | quote }}
@@ -32,9 +29,8 @@
     executable = true
     path = "age/age-keygen"
 
-{{ end }}
-
-{{ if or (ne .chezmoi.username "ubuntu") (ne .chezmoi.username "dev") }}
+# ubuntu にTheme Icon Font をインストール
+{{ if eq .chezmoi.os "linux" }}
 
 [".local/share/themes/WhiteSur-gtk-theme-cinnamon-xfce"]
     type = "archive"
