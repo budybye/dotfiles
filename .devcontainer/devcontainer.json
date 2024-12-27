@@ -8,7 +8,7 @@
   "workspaceFolder": "/home/ubuntu",
   "forwardPorts": [3389, 22],
   "privileged": true,
-  // "overrideCommand": "ubuntu ubuntu yes",
+  "overrideCommand": "ubuntu ubuntu yes",
   "initializeCommand": "echo 'Dev container initializing...'",
   "onCreateCommand": "echo 'Dev container creating...'",
   "postCreateCommand": "echo 'Dev container post created...'",
@@ -18,9 +18,9 @@
   "remoteEnv": {
     "REMOTE_CONTAINERS": "true"
   },
-  // "features": {
-    // "ghcr.io/eitsupi/devcontainer-features/duckdb-cli:1": {}
-  // },
+  "features": {
+    "ghcr.io/eitsupi/devcontainer-features/duckdb-cli:1": {}
+  },
   "customizations": {
     "vscode": {
       "settings": {
