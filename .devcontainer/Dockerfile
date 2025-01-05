@@ -1,5 +1,5 @@
-FROM ubuntu:24.04
-# FROM ubuntu:24.04 AS base
+# FROM ubuntu:24.04
+FROM ubuntu:24.04 AS base
 
 # パッケージのインストールを非対話形式で行う
 ENV DEBIAN_FRONTEND=noninteractive
@@ -150,7 +150,7 @@ RUN make init
 # ホームディレクトリに dotfiles をクローンしてインストール
 # RUN make init
 
-# FROM base
+FROM base
 
 EXPOSE 3389
 # エントリーポイントを実行
