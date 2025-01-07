@@ -8,7 +8,6 @@
   "workspaceFolder": "/home/ubuntu",
   "forwardPorts": [3389, 22],
   "privileged": true,
-  "overrideCommand": "ubuntu ubuntu yes",
   "initializeCommand": "echo 'Dev container initializing...'",
   "onCreateCommand": "echo 'Dev container creating...'",
   "postCreateCommand": "echo 'Dev container post created...'",
