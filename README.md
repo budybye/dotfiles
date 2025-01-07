@@ -277,39 +277,78 @@ sequenceDiagram
     R->>H: chezmoi init --apply <repo>
 ```
 
-### 管理方法
+### Script
 
-| OS         | 管理方法               | コメント                           |
-|------------|-----------------------|------------------------------------|
-| macOS      | Chezmoi               | スクリプトの実行や環境設定に適している |
-| Ubuntu     | Chezmoi               | 同上                               |
-| Windows    | Chezmoi               | Windows特有の設定を管理するのに適している |
+| Chezmoi Script | MacOS | Ubuntu |
+|----------------|:-------:|:--------:|
+| run_once_before_age.sh.tmpl | ✅ | ✅ |
+| run_once_before_bw.sh.tmpl | ✅ | ✅ |
+| run_after_activate.sh.tmpl | ✅ | ✅ |
+| run_onchange_after_bootstrap.sh.tmpl | ✅ | |
+| run_onchange_after_defaults.sh.tmpl | ✅ | |
+| run_onchange_after_cli.sh.tmpl | | ✅ |
+| run_once_after_docker.sh.tmpl | | ✅ |
+| run_onchange_after_gui.sh.tmpl | | ✅ |
+| run_once_after_setup.sh.tmpl | | ✅ |
+| run_onchange_after_snap.sh.tmpl | | ✅ |
+| run_once_after_ssh.sh.tmpl | ✅ | ✅ |
+| run_onchange_after_vscode.sh.tmpl | ✅ | ✅ |
+| run_onchange_after_with.sh.tmpl | ✅ | ✅ |
+| run_onchange_after_xrp.sh.tmpl | ✅ | ✅ |
+| run_once_after_youtube.sh.tmpl | ✅ | ✅ |
 
-### メリットとデメリット
+### Script rule
 
-| メリット | デメリット |
-|----------|-------------|
-| 一貫性のある開発環境 | 学習コストがかかる |
-| 環境の再現性 | リソースの消費 |
-| 依存関係の管理 | 複雑性の増加 |
+- `.tmpl` は `chezmoi apply` でテンプレートとして認識されます。
+- `run_` は `chezmoi apply` で名前順に実行されます。
+- `once_` は `chezmoi apply` 一度だけ実行されます。
+- `onchange_` は 前回の `chezmoi apply` から変更があった場合に実行されます。
+- `before_` は `chezmoi apply` 前に実行されます。
+- `after_` は `chezmoi apply` 後に実行されます。
+- それぞれのscriptは `after_` `before_` `onchange_` `once_` `run_` `.tmpl` などのchezmoi構文を除いた名前になります。
+
+### chezmoiignore
+
+- `chezmoiignore` で `chezmoi apply` で除外するファイルを管理できます。
+- 除外されたファイルは `chezmoi ignored` で確認できます。
+
+```txt:.chezmoiignore
+# templateを使用できます
+
+{{ if ne .chezmoi.os "linux" }}
+.config/fcitx5
+.config/fusuma
+.local/share/fonts
+.local/share/icons
+.local/share/themes
+.chezmoiscripts/linux/**
+{{ end }}
+
+.chezmoiexternal.*
+key.txt.age
+shhh.txt
+```
 
 ### ツールのインストール
+
 ---
+
 | *OS* | MacOS | Ubuntu | Docker  |
 | --- | :---: | :---: | :---: |
-| Chezmoi | brew | mise | mise |
-| Script | make | make | make |
-| Makefile | make | make | make |
-| Zsh | default | apt | apt |
+| Chezmoi | brew | curl/mise | curl/mise |
+| Make | brew | apt | apt |
+| ZSH | brew | apt | apt |
 | Git | brew | apt | apt |
 | Github Actions | ✅ | ✅ | ✅ |
 | Github CLI | brew | apt | apt |
-| Bitwarden CLI | brew | snap/npm | snap/npm |
+| Bitwarden CLI | brew | npm/snap | npm/snap |
 | Docker | brew | apt | apt |
 | Dev Container | ✅ | ✅ | ✅ |
 | Multipass | brew | snap | snap |
 | Homebrew | ✅ | ❌ | ❌ |
+
 ---
+
 | *CLI Tool* | MacOS | Ubuntu | Docker |
 | --- | :---: | :---: | :---: |
 | Byobu | brew | apt | apt |
@@ -319,12 +358,15 @@ sequenceDiagram
 | MPD | brew | apt | apt |
 | Ncmpcpp | brew | apt | apt |
 | fcitx5 | ❌ | apt | apt |
-| Neofetch | fastfetch | apt | apt |
+| Neofetch | ❌ | apt | apt |
+| fastfetch | brew | ❌ | ❌ |
+
 ---
+
 | *Rust Tool* | MacOS | Ubuntu | Docker |
 | --- | :---: | :---: | :---: |
 | Mise | brew | curl | curl |
-| cargo-binstall | cargo | cargo | cargo |
+| cargo-binstall | mise/cargo | mise/cargo | mise/cargo |
 | Starship | brew | mise/cargo | mise/cargo |
 | Sheldon | brew | cargo | cargo |
 | lsd | brew | cargo/apt | apt |
@@ -333,8 +375,10 @@ sequenceDiagram
 | fzf | brew | cargo/apt | apt |
 | zoxide | brew | cargo/apt | apt |
 | fd-find | brew | cargo/apt | apt |
+
 ---
-| *Language* | MacOS | Ubuntu | Docker |
+
+| *Lang/Runtime* | MacOS | Ubuntu | Docker |
 | --- | :---: | :---: | :---: |
 | Node.js | mise | mise | mise |
 | Bun | mise | mise | mise |
@@ -344,7 +388,11 @@ sequenceDiagram
 | Java | mise | mise/apt | mise/apt |
 | Rust | mise | mise/apt | mise/apt |
 | Ruby | mise | mise/apt | mise/apt |
+| PostgreSQL | mise | mise/apt | mise/apt |
+| Redis | mise | mise/apt | mise/apt |
+
 ---
+
 | *Desktop* | MacOS | Ubuntu | Docker |
 | --- | :---: | :---: | :---: |
 | Xfce4 | ❌ | apt | apt |
@@ -371,6 +419,7 @@ sequenceDiagram
 - `chezmoi diff` で差分を確認します。
 - `chezmoi chattr` でファイルの属性を変更します。
 - `chezmoi update` でリモートからの状態を反映します。
+- `chezmoi data` で .chezmoi.* から取得できる情報を表示します。
 
 ```sh
 # インストールされてない場合
@@ -405,47 +454,32 @@ chezmoi data
 
 ## [Makefile](https://.gnu.org/software/make/manual/make.html)
 
-### Makefile でシェルスクリプトを管理。
+### Makefile でよく使うコマンドを管理
 
 ```sh
-# 環境ごとに分けたシェルスクリプトを実行
-make sense
-# シェルスクリプトを実行
+# chezmoi init
 make init
-make install
-make setup
-make bootstrap
-make defaults
-make code
-make link
-make keygen
+# docker
+make docker
+# docker compose up
+make up
+# docker compose down
+make down
+# docker exec
+make exec
+# ubuntu
+make ubuntu
+# ipfs
+make ipfs
+# git
+make git
+# age
+make age
+# ssh
+make ssh
+# bw
+make bw
 ```
-
-```Makefile:Makefile
-ifeq ($(OS),Darwin  )
-    # MacOS の場合
-    sense: init bootstrap
-else ifeq ($(OS),Linux)
-    # Ubuntu の場合
-    sense: init install setup
-endif
-
-# 環境ごとに分けたシェルスクリプトを指定
-install:
-    sh $(HOME)/.local/bin/install.sh
-bootstrap:
-    sh $(HOME)/.local/bin/bootstrap.sh
-setup:
-    sh $(HOME)/.local/bin/setup.sh
-init:
-    curl -sfL https://chezmoi.io/get | sh -s -- init --apply -S .
-...
-```
-
-- `make sense` で環境ごとに分けた初期設定用のシェルスクリプトを実行できます。
-- `chezmoi` と `make` を連携してドットファイルを管理します。
-- `make.log` を出力してログを確認できます。
-- ほとんどの環境でデフォルトで `make` が使えます。
 
 ---
 
@@ -468,11 +502,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       # make 経由でシェルスクリプトを実行
-      - run: make sense
+      - run: make init
     ...
   # macos sequoia でテスト
   macos:
     runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - run: make init
     ...
   # docker でテスト
   docker:
@@ -489,6 +526,7 @@ jobs:
     runs-on: windows-latest
     ...
 ```
+
 ---
 
 ## [Mise](https://mise.jdx.dev/)
@@ -522,8 +560,8 @@ mise set
 ### 設定ファイルを作成
 
 ```sh
-touch ./.mise.toml
-touch ./.env
+mise generate
+vim .env
 ```
 
 ### ./.env に環境変数を記述
@@ -543,10 +581,10 @@ _.file = ".env*"
 
 ### 現在のディレクトリを信頼してファイルを読み込み
 
-```
+```sh
 # 環境変数が反映される
 mise trust
-echo $VAR
+mise set
 
 # 出力 hoge
 ```

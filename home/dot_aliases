@@ -215,7 +215,9 @@ fi
 # mise
 if command -v mise >/dev/null 2>&1; then
     alias mi="mise"
-    alias asdf="mise"
+    alias mir="mise registry"
+    alias mig="mise use -g"
+    alias mil="mise list && mise set"
 fi
 
 if command -v sheldon >/dev/null 2>&1; then
@@ -224,6 +226,10 @@ fi
 
 if command -v starship >/dev/null 2>&1; then
     alias sex="starship explain"
+fi
+
+if command -v asdf >/dev/null 2>&1; then
+    alias asdf="asdf plugin-add"
 fi
 
 if command -v age >/dev/null 2>&1 && [ -d "${HOME}/.secrets" ]; then

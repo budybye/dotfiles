@@ -1,5 +1,4 @@
 [tools]
-# グローバルなツールのバージョンをここに設定します
 # `mise use -g`で設定できます
 node = "20.18.1"
 go = "1.23.4"
@@ -8,9 +7,6 @@ rust = "1.83.0"
 python = "3.13.1"
 
 # java = "latest"
-
-# mkcert = "latest"
-
 # deno = "latest"
 # pnpm = "latest"
 # php = "latest"
@@ -19,7 +15,10 @@ python = "3.13.1"
 
 cargo-binstall = "1.10.16"
 uv = "0.5.10"
+ninja = "1.12.1"
+yq = "4.44.6"
 
+# mkcert = "latest"
 # websocat = "latest"
 # sqlite = "latest"
 # terraform = "latest"
