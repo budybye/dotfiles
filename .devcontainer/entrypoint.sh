@@ -7,6 +7,7 @@
 # $3: スーパーユーザーかどうか yes or other
 
 # root ユーザーで実行された場合は sudo をつけない
+pwd
 sudo="sudo"
 if [ $(whoami) == "root" ]; then
     echo "running root user"

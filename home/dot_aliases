@@ -261,7 +261,7 @@ if command -v warp-cli >/dev/null 2>&1; then
     alias wpc="wp connect"
     alias wpd="wp disconnect"
     alias wps="wp mode warp"
-    alias warp="wp registration delete && wp registration new && wp dns families malware && wp mode warp && wp connect"
+    alias warp="wp registration delete && wp --accept-tos registration new && wp dns families malware && wps && wpc && wps"
 fi
 
 if command -v element-desktop >/dev/null 2>&1; then

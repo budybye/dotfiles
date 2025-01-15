@@ -2,9 +2,15 @@
 
 set -e # -e: exit on error
 
+GH_USER=budybye
+GH_REPO=dotfiles
+DOTFILES=https://github.com/${GH_USER}/${GH_REPO}
+
+# chezmoi がインストールされていない場合はインストール
 if [ ! "$(command -v chezmoi)" ]; then
     BIN="$HOME/.local/bin"
     CHEZMOI="$BIN/chezmoi"
+    # curl か wget がインストールされている場合は chezmoi をインストール
     if [ "$(command -v curl)" ]; then
         sh -c "$(curl -fsSL https://git.io/chezmoi)" -- -b "$BIN"
     elif [ "$(command -v wget)" ]; then
@@ -17,7 +23,6 @@ if [ ! "$(command -v chezmoi)" ]; then
     if ! echo "${PATH}" | grep -q "${BIN}"; then
         export PATH=${BIN}:$PATH
     fi
-    chezmoi --version
 else
     CHEZMOI=chezmoi
 fi
@@ -26,6 +31,11 @@ fi
 SCRIPT_DIR="$(cd -P -- "$(dirname -- "$(command -v -- "$0")")" && pwd -P)"
 echo "SCRIPT_DIR: $SCRIPT_DIR"
 
+$CHEZMOI --version
+echo "Repository: $DOTFILES"
+
 # exec: replace current process with chezmoi init
 exec "$CHEZMOI" init --apply "--source=$SCRIPT_DIR"
 # exec "$CHEZMOI" init --apply "--source=$SCRIPT_DIR" --verbose
+# exec "$CHEZMOI" init --apply "-S $SCRIPT_DIR"
+# exec "$CHEZMOI" init --apply $DOTFILES.git

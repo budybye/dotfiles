@@ -186,9 +186,11 @@ packages:
     classic:
       - 'alacritty'
       - 'codium'
+      # - 'obsidian'
     latest:
       # - 'bitwarden'
       # - 'chromium'
+      # - 'element-desktop'
       # - 'postman'
       - 'speedtest-cli'
       - 'multipass'

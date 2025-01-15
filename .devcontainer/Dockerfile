@@ -155,4 +155,4 @@ EXPOSE 3389
 # エントリーポイントを実行
 ENTRYPOINT ["entrypoint"]
 # デフォルト引数 ユーザー名、パスワード、sudo-no-passwd yes or other
-CMD ["ubuntu", "ubuntu", "no"]
+CMD ["ubuntu", "ubuntu", "yes"]
