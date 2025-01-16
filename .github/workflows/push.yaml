@@ -246,5 +246,4 @@ jobs:
           docker buildx imagetools create -t ${{ env.REGISTRY_IMAGE }}:${{ matrix.flavor.name }} \
            $(printf '${{ env.REGISTRY_IMAGE }}@sha256:%s ' *)
 
-          # マニフェストリストを確認
           docker buildx imagetools inspect ${{ env.REGISTRY_IMAGE }}:${{ matrix.flavor.name }}

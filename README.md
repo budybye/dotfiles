@@ -644,7 +644,7 @@ multipass launch \
 
 ---
 
-## 参考文献
+## 📚 参考文献
 
 - [Chezmoi](https://chezmoi.io/)
 - [Makefile](https://www.gnu.org/software/make/manual/make.html)
@@ -652,10 +652,10 @@ multipass launch \
 - [Multipass](https://multipass.run/)
 - [Docker](https://docker.com/)
 - [Docker Compose](https://docs.docker.com/compose/)
+- [Git](https://git-scm.com/)
 - [Github Actions](https://docs.github.com/en/actions)
 - [Github Desktop](https://desktop.github.com/)
 - [Github CLI](https://cli.github.com/)
-- [Git](https://git-scm.com/)
 - [ghcr](https://github.com/features/packages)
 - [codespaces](https://docs.github.com/en/codespaces)
 - [Dev Container](https://docs.github.com/en/codespaces/setting-up-your-project-for-codespaces/creating-a-dev-container-configuration)

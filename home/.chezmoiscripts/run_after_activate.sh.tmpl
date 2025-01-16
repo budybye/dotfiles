@@ -13,8 +13,12 @@ echo "--------------------------------"
 
 # .env の確認と作成
 echo ".env && ENVIRONMENT checking..."
-cat {{ .chezmoi.sourceDir }}/.env || echo "no {{ .chezmoi.sourceDir }}/.env file"
-mise set || echo "mise set failed."
+if [ -f {{ .chezmoi.sourceDir }}/.env ]; then
+    cat {{ .chezmoi.sourceDir }}/.env
+    mise set
+else
+    echo "no {{ .chezmoi.sourceDir }}/.env file"
+fi
 echo "--------------------------------"
 env
 echo "--------------------------------"
@@ -26,20 +30,40 @@ echo "--------------------------------"
 echo "SSH key ..."
 cat /etc/ssh/sshd_config
 echo "--------------------------------"
-chmod 700 ~/.ssh
-chmod 644 ~/.ssh/id_ed25519.pub
-chmod 600 ~/.ssh/id_ed25519
-chmod 600 ~/.ssh/authorized_keys
-echo "authorized_keys..."
-cat ~/.ssh/authorized_keys
-echo "--------------------------------"
-ls -la ~/.ssh
-echo "--------------------------------"
-echo "SSH key pub ..."
-cat ~/.ssh/id_ed25519.pub
-echo "--------------------------------"
+if [ -d ~/.ssh ]; then
+    chmod 700 ~/.ssh
+    if [ -f ~/.ssh/id_ed25519 ]; then
+      chmod 600 ~/.ssh/id_ed25519
+    else
+      echo "no ~/.ssh/id_ed25519 file"
+    fi
+    echo "authorized_keys..."
+    if [ -f ~/.ssh/authorized_keys ]; then
+        cat ~/.ssh/authorized_keys
+        chmod 600 ~/.ssh/authorized_keys
+    else
+        echo "no ~/.ssh/authorized_keys file"
+    fi
+    echo "--------------------------------"
+    ls -la ~/.ssh
+    echo "SSH key pub ..."
+    if [ -f ~/.ssh/id_ed25519.pub ]; then
+      chmod 644 ~/.ssh/id_ed25519.pub
+      cat ~/.ssh/id_ed25519.pub
+    else
+      echo "no ~/.ssh/id_ed25519.pub file"
+    fi
+    echo "--------------------------------"
 echo "SSH Config ..."
-cat ~/.ssh/config
+if [ -f ~/.ssh/config ]; then
+    cat ~/.ssh/config
+else
+    echo "no ~/.ssh/config file"
+fi
+echo "--------------------------------"
+else
+    echo "no ~/.ssh directory"
+fi
 echo "--------------------------------"
 
 {{- else }}
@@ -53,7 +77,10 @@ echo "--------------------------------"
 
 echo "github yes"
 echo "git config ..."
+ls -la ~/.config/git
+echo "--------------------------------"
 cat ~/.config/git/user.conf
+echo "--------------------------------"
 echo "git config user.name"
 git config user.name
 echo "git config user.email"
@@ -62,6 +89,7 @@ echo "--------------------------------"
 cat ~/.config/git/config
 echo "--------------------------------"
 cat ~/.config/git/commit.template
+echo "--------------------------------"
 git config --global commit.template ${HOME}/.config/git/commit.template
 echo "--------------------------------"
 
@@ -101,7 +129,7 @@ echo "--------------------------------"
 # Music の確認
 
 if [ -f ~/Music/riddim ]; then
-    ls -la ~/Music/riddim
+    ls ~/Music/riddim
     echo "--------------------------------"
 else
     echo "$HOME/Music/riddim not found."

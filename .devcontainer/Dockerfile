@@ -114,16 +114,21 @@ RUN apt-get clean
 RUN rm -rf /var/cache/apt /var/lib/apt/lists/*
 
 # devユーザー設定
-ARG USER_NAME=dev
-ARG USER_ID=1024
-ARG GROUP_ID=$USER_ID
+ARG DEV=dev
 
-RUN groupadd -g $GROUP_ID -f $USER_NAME && \
-    useradd --uid $USER_ID --gid $GROUP_ID -m $USER_NAME -G sudo -s /usr/bin/zsh && \
-    echo "$USER_NAME:$USER_NAME" | chpasswd && \
-    echo "dev ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
-    mkdir -p /home/dev && \
-    chown -R dev:dev /home/dev
+RUN groupadd -g 1024 -f $DEV && \
+    useradd --uid 1024 --gid 1024 -m $DEV -G sudo -s /usr/bin/zsh && \
+    echo "$DEV:$DEV" | chpasswd && \
+    echo "$DEV ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
+    mkdir -p /home/$DEV && \
+    chown -R $DEV:$DEV /home/$DEV
+
+# RUN git clone https://github.com/budybye/dotfiles.git /home/dev/dotfiles
+# USER ${USER_NAME}
+# ユーザーを切り替え dotfiles ディレクトリに移動
+# WORKDIR /home/${USER_NAME}/dotfiles
+# ホームディレクトリに dotfiles をクローンしてインストール
+# RUN make init
 
 # ubuntuユーザー設定
 RUN usermod -aG sudo ubuntu && \
@@ -136,20 +141,14 @@ COPY ./entrypoint.sh /usr/bin/
 RUN ln -s /usr/bin/entrypoint.sh /usr/bin/entrypoint
 RUN chmod +x /usr/bin/entrypoint
 
+# ホームディレクトリに dotfiles をクローン
 RUN git clone https://github.com/budybye/dotfiles.git /home/ubuntu/dotfiles
 USER ubuntu
 WORKDIR /home/ubuntu/dotfiles
-# ホームディレクトリに dotfiles をクローン
 RUN make init
 
-# RUN git clone https://github.com/budybye/dotfiles.git /home/dev/dotfiles
-# ユーザーを切り替え dotfiles ディレクトリに移動
-# USER ${USER_NAME}
-# WORKDIR /home/${USER_NAME}/dotfiles
-# ホームディレクトリに dotfiles をクローンしてインストール
-# RUN make init
-
 FROM base
+# USER root
 
 EXPOSE 3389
 # エントリーポイントを実行
