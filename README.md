@@ -2,7 +2,7 @@
 
 # dotfiles
 
-## 🍍🍕 0.4.1
+## 🍍🍕 0.5.1
 
 ### 🏴‍☠ [budybye/dotfiles](https://github.com/budybye/dotfiles)
 
