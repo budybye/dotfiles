@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 
-# attach to window 0 pane 1
+SES="dotfiles"
+DOT="${HOME}/${SES}"
+
+# attach to "dotfiles" session, window 0, pane 1
+
 # window 0
 #	------------------------------------------------------------
 #	|	1 $HOME/dotfiles 	|	4 $HOME/dotfiles/.devcontainer 	|
@@ -15,41 +19,62 @@
 #	|	2 $HOME/data 		|
 #	-------------------------
 
-DOT="${HOME}/dotfiles"
+# セッションが既に存在する場合は終了
+if byobu list-sessions 2>/dev/null | grep -q "^${SES}"; then
+    byobu-tmux attach-session -t "${SES}"
+fi
 
-# セッションの作成 window 0
-byobu-tmux new-session -d  -s dotfiles -n dotfiles -c "$DOT"
-# dotfilesディレクトリでvimを起動
-# byobu-tmux send-keys -t 1 "vim" C-m
+if [ -d "${DOT}" ]; then
+  # セッションの作成 window 0
+    byobu-tmux new-session -d  -s "${SES}" -n "${SES}" -c "${DOT}"
+    # dotfilesディレクトリでvimを起動
+    # byobu-tmux send-keys -t 1 "vim" C-m
+else
+    echo "${DOT} not found"
+    byobu-tmux new-session -d  -s "${SES}" -n "${SES}" -c "${HOME}"
+fi
 
-# ウィンドウの垂直分割 homeディレクトリを開く
-byobu-tmux split-window -h -c "$HOME"
-# homeディレクトリでmpdを起動 pane 2
-byobu-tmux send-keys -t 2 "mpd" C-m
+if command -v mpd > /dev/null 2>&1; then
+    # ウィンドウの垂直分割 homeディレクトリを開く
+    byobu-tmux split-window -h -c "${HOME}"
+    # homeディレクトリでmpdを起動 pane 2
+    byobu-tmux send-keys -t 2 "mpd" C-m
+fi
 
-# ウィンドウの水平分割 musicディレクトリを開く
-byobu-tmux split-window -v -c "$HOME/music"
-# musicディレクトリでncmpcppを起動 pane 3
-byobu-tmux send-keys -t 3 "ncmpcpp" C-m
-
-# ペインの選択 dotfilesディレクトリのペインを選択
-byobu-tmux select-pane -t 1
-
-# ウィンドウの水平分割 .devcontainerディレクトリを開く pane 4
-byobu-tmux split-window -v -c "$DOT/.devcontainer"
-# byobu-tmux send-keys -t 4 "code ." C-m
-
-
-# もう一つウィンドウの作成 window 1
-byobu-tmux new-window -c "$HOME/dev"
-# byobu-tmux send-keys -t 1 "ssh ubuntu@local.dev" C-m
-# ウィンドウの水平分割
-byobu-tmux split-window -h -c "$HOME/data"
-# byobu-tmux send-keys -t 5 "ssh ubuntu@local.dev" C-m
+if command -v ncmpcpp > /dev/null 2>&1; then
+    # ウィンドウの水平分割 musicディレクトリを開く
+    byobu-tmux split-window -v -c "${HOME}/Music"
+    # musicディレクトリでncmpcppを起動 pane 3
+    byobu-tmux send-keys -t 3 "ncmpcpp" C-m
+fi
 
 
-byobu-tmux attach-session -t dotfiles
+if [ -d "${DOT}/.devcontainer" ]; then
+    # 水平分割する ペイン1 を選択
+    byobu-tmux select-pane -t 1
+    # ウィンドウの水平分割 .devcontainerディレクトリを開く pane 4
+    byobu-tmux split-window -v -c "${DOT}/.devcontainer"
+    # byobu-tmux send-keys -t 4 "code ." C-m
+fi
+
+if command -v ssh > /dev/null 2>&1; then
+    if [ -d "${HOME}/dev" ]; then
+        # ウィンドウの作成 devディレクトリを開く
+        byobu-tmux new-window -c "${HOME}/dev"
+        # byobu-tmux send-keys -t 1 "ssh ubuntu@local.dev" C-m
+    else
+        byobu-tmux new-window -c "${HOME}"
+    fi
+
+    if [ -d "${HOME}/data" ]; then
+        byobu-tmux split-window -h -c "${HOME}/data"
+        # byobu-tmux send-keys -t 2 "ssh ubuntu@local.dev" C-m
+    fi
+fi
+
+# byobu-tmux attach-session -t "${SES}"
 # 最初に開いたウィンドウを選択 0
-# byobu-tmux select-window -t 1
+byobu-tmux select-window -t 1
+
 # dotfilesのペインを選択 1
 byobu-tmux select-pane -t 1

@@ -14,7 +14,7 @@ if [ -f "${HOME}/.bashrc" ]; then
     . "${HOME}/.bashrc"
 fi
 
-# byobu
-if command -v byobu > /dev/null 2>&1 && [ ${SHLVL} = 1 ]; then
-    byobu
+# byobu session management
+if command -v byobu > /dev/null 2>&1 && [ ${SHLVL} = 1 ] && [ -z "$TMUX" ]; then
+  "${HOME}/.config/byobu/custom-session"
 fi

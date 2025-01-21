@@ -317,16 +317,16 @@ if command -v conan >/dev/null 2>&1; then
     export CONAN_USER_HOME="${XDG_CONFIG_HOME}/conan"
 fi
 
-if [ "${XDG_SESSION_TYPE}" = "x11" ]; then
-    mkdir -p "${XDG_CACHE_HOME}/x11" "${XDG_CONFIG_HOME}/x11"
-    export USERXSESSION="${XDG_CACHE_HOME}/x11/xsession"
-    export USERXSESSIONRC="${XDG_CONFIG_HOME}/x11/xsessionrc"
-    export ALTUSERXSESSION="${XDG_CACHE_HOME}/x11/Xsession"
-    export ERRFILE="${XDG_CACHE_HOME}/x11/xsession-errors"
-    export XINITRC="${XDG_CONFIG_HOME}/x11/xinitrc"
-    export XSERVERRC="${XDG_CONFIG_HOME}/x11/xserverrc"
-    export ICEAUTHORITY="${XDG_CACHE_HOME}/ICEauthority"
-fi
+# if [ "${XDG_SESSION_TYPE}" = "x11" ]; then
+#     mkdir -p "${XDG_CACHE_HOME}/x11" "${XDG_CONFIG_HOME}/x11"
+#     export USERXSESSION="${XDG_CACHE_HOME}/x11/xsession"
+#     export USERXSESSIONRC="${XDG_CONFIG_HOME}/x11/xsessionrc"
+#     export ALTUSERXSESSION="${XDG_CACHE_HOME}/x11/Xsession"
+#     export ERRFILE="${XDG_CACHE_HOME}/x11/xsession-errors"
+#     export XINITRC="${XDG_CONFIG_HOME}/x11/xinitrc"
+#     export XSERVERRC="${XDG_CONFIG_HOME}/x11/xserverrc"
+#     export ICEAUTHORITY="${XDG_CACHE_HOME}/ICEauthority"
+# fi
 
 # if [ -f "${HOME}/.Xauthority" ]; then
     # mkdir -p "${XDG_RUNTIME_DIR}/Xauthority"

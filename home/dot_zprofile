@@ -34,8 +34,10 @@ if [ -f "${ZDOTDIR}/.zshrc" ]; then
   . "${ZDOTDIR}/.zshrc"
 fi
 
-# byobu
-if command -v byobu > /dev/null 2>&1 && [ ${SHLVL} = 1 ]; then
+# byobu session management
+if command -v byobu > /dev/null 2>&1 && [ ${SHLVL} = 1 ] && [ -z "$TMUX" ]; then
   # byobu
-  . "${HOME}/.config/byobu/custom-session"
+  if [ -f "${HOME}/.config/byobu/custom-session" ]; then
+    . "${HOME}/.config/byobu/custom-session"
+  fi
 fi
