@@ -198,6 +198,7 @@ packages:
   extensions:
     - '42crunch.vscode-openapi'
     - 'adpyke.codesnap'
+    - 'ambar.bundle-size'
     - 'biomejs.biome'
     - 'bradlc.vscode-tailwindcss'
     - 'christian-kohler.path-intellisense'
@@ -229,6 +230,7 @@ packages:
     - 'mtxr.sqltools'
     - 'naumovs.color-highlight'
     - 'oderwat.indent-rainbow'
+    - 'rphlmr.vscode-drizzle-orm'
     - 'redhat.vscode-yaml'
     - 'shd101wyy.markdown-preview-enhanced'
     - 'stkb.rewrap'

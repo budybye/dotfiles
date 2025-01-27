@@ -281,8 +281,9 @@ if command -v ipfs >/dev/null 2>&1; then
 fi
 
 if command -v starship >/dev/null 2>&1; then
-    mkdir -p "${XDG_CACHE_HOME}/starship"
-    export STARSHIP_CONFIG="${XDG_CONFIG_HOME}/starship.toml"
+    mkdir -p "${XDG_CACHE_HOME}/starship" "${XDG_CONFIG_HOME}/starship"
+    # export STARSHIP_CONFIG="${XDG_CONFIG_HOME}/starship.toml"
+    export STARSHIP_CONFIG="${XDG_CONFIG_HOME}/starship/starship.toml"
     export STARSHIP_CACHE="${XDG_CACHE_HOME}/starship"
 fi
 

@@ -18,10 +18,12 @@ alias cp="cp -i"   # 上書き確認を有効にする
 alias rm="rm -i"   # 削除確認を有効にする
 alias mkdir="mkdir -p"  # 親ディレクトリも作成
 
+# 猫のASCIIアートを表示
 if [ -f "${HOME}/.config/neofetch/image.txt" ]; then
     alias x="cat ${HOME}/.config/neofetch/image.txt"
 fi
 
+# git
 if command -v git >/dev/null 2>&1; then
     alias g="git"
     alias bit='g add -A && g commit --allow-empty-message -m "♨️" && g push origin $(g branch | sed -n -e "s/^\* \(.*\)/\1/p")'
@@ -270,4 +272,8 @@ fi
 
 if command -v element-desktop >/dev/null 2>&1; then
     alias el="element-desktop"
+fi
+
+if command -v openssl >/dev/null 2>&1; then
+    alias sec="echo SECRET=$(openssl rand -base64 32) >> .env"
 fi
