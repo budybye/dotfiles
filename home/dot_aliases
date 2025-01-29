@@ -124,6 +124,7 @@ fi
 
 # tldr
 if command -v tldr >/dev/null 2>&1; then
+    # alias tldr="tldr -L ja"
     alias h="tldr"
 fi
 

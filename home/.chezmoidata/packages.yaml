@@ -157,6 +157,7 @@ packages:
       - 'nyancat'
       - 'translate-shell'
       - 'command-not-found'
+      - 'tldr'
 
     gui:
       - 'xfce4'
