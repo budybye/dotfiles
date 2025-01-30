@@ -131,10 +131,13 @@ fi
 # chezmoi
 if command -v chezmoi >/dev/null 2>&1; then
     alias che="chezmoi"
-    alias ca="chezmoi apply"
-    alias cha="chezmoi update --verbose"
-    alias cai="chezmoi init --apply https://github.com/budybye/dotfiles.git"
-    alias ce="chezmoi chezmoi execute-template"
+    alias cha="che update --verbose"
+    alias ca="che apply"
+    alias cai="che init --apply https://github.com/budybye/dotfiles.git"
+    alias ce="che execute-template"
+    alias cbd="che edit"
+    alias ccc="che edit-config"
+    alias cs="che secret"
 fi
 
 # bitwarden
@@ -208,6 +211,7 @@ if command -v brew >/dev/null 2>&1; then
     alias bs="brew -S"
     alias bi="brew install"
     alias bb="brew bundle --file ${HOME}/.config/Brewfile && brew bundle cleanup --force --file ${HOME}/.config/Brewfile && brew update && brew upgrade && brew autoremove && brew doctor"
+    alias bbb="bb && rm -f ${HOME}/.config/homebrew/Brewfile && brew bundle dump --file ${HOME}/.config/homebrew/Brewfile && cat ${HOME}/.config/homebrew/Brewfile"
 fi
 
 # speedtest
