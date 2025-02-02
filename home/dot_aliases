@@ -280,5 +280,11 @@ if command -v element-desktop >/dev/null 2>&1; then
 fi
 
 if command -v openssl >/dev/null 2>&1; then
-    alias sec="echo SECRET=$(openssl rand -base64 32) >> .env"
+    alias sec="echo SECRET=$(openssl rand -base64 32) >> .env && cat .env"
+fi
+
+if command -v rj >/dev/null 2>&1 && command -v jq >/dev/null 2>&1; then
+    function rq() {
+        rj ${@:-"https://8102.jp/api"} | jq
+    }
 fi
