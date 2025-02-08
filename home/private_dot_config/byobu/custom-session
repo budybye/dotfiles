@@ -1,18 +1,19 @@
 #!/usr/bin/env bash
+# set -e
 
 SES="dotfiles"
 DOT="${HOME}/${SES}"
 
 # attach to "dotfiles" session, window 0, pane 1
 
-# window 0
+# window 0 pane 1~4 square split
 #	------------------------------------------------------------
 #	|	1 $HOME/dotfiles 	|	4 $HOME/dotfiles/.devcontainer 	|
 #	|-----------------------------------------------------------|
 #	|	2 $HOME (mpd)		|	3 $HOME/music (ncmpcpp)			|
 #	------------------------------------------------------------
 
-# window 1
+# window 1 pane 1~2 horizontal split
 #	-------------------------
 #	|	1 $HOME/dev 		|
 #	|-----------------------|

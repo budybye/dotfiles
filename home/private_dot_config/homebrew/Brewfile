@@ -1,0 +1,146 @@
+tap "aquaproj/aqua"
+tap "d12frosted/emacs-plus"
+tap "go-gitea/gitea"
+tap "homebrew/bundle"
+tap "homebrew/services"
+tap "progrhyme/tap"
+tap "sidneys/homebrew"
+tap "yusukebe/tap"
+brew "act"
+brew "age"
+brew "ain"
+brew "jpeg-xl"
+brew "autoconf"
+brew "automake"
+brew "bash"
+brew "bash-completion"
+brew "ca-certificates"
+brew "bat"
+brew "tmux"
+brew "byobu"
+brew "caddy"
+brew "glib"
+brew "python@3.12"
+brew "p11-kit"
+brew "gnutls"
+brew "emacs"
+brew "cask"
+brew "chezmoi"
+brew "harfbuzz"
+brew "openjpeg"
+brew "librist"
+brew "pango"
+brew "ffmpeg"
+brew "cmake"
+brew "cmatrix"
+brew "cowsay"
+brew "fastfetch"
+brew "gcc"
+brew "figlet"
+brew "fortune"
+brew "fzf"
+brew "gdk-pixbuf"
+brew "gh"
+brew "git"
+brew "librsvg"
+brew "graphviz"
+brew "grpc"
+brew "hadolint"
+brew "jq"
+brew "lolcat"
+brew "lsd"
+brew "mackup"
+brew "mas"
+brew "mise"
+brew "mkcert"
+brew "moreutils"
+brew "mpc"
+brew "mpd", restart_service: :changed
+brew "multitail"
+brew "ncmpcpp"
+brew "nmap"
+brew "qemu"
+brew "reattach-to-user-namespace"
+brew "ripgrep"
+brew "sheldon"
+brew "shellcheck"
+brew "speedtest-cli"
+brew "starship"
+brew "tcl-tk"
+brew "tlrc"
+brew "translate-shell"
+brew "tree"
+brew "wget"
+brew "whois"
+brew "xdg-ninja"
+brew "yt-dlp"
+brew "zlib"
+brew "aquaproj/aqua/aqua"
+brew "yusukebe/tap/rj"
+cask "alacritty", args: { appdir: "/Applications" }
+cask "appcleaner", args: { appdir: "/Applications" }
+cask "betterdisplay", args: { appdir: "/Applications" }
+cask "bitwarden"
+cask "blender", args: { appdir: "/Applications" }
+cask "brave-browser", args: { appdir: "/Applications" }
+cask "canva", args: { appdir: "/Applications" }
+cask "clipy", args: { appdir: "/Applications" }
+cask "cloudflare-warp"
+cask "cursor"
+cask "dbeaver-community", args: { appdir: "/Applications" }
+cask "deepl", args: { appdir: "/Applications" }
+cask "discord"
+cask "drawio", args: { appdir: "/Applications" }
+cask "element"
+cask "figma", args: { appdir: "/Applications" }
+cask "font-hackgen-nerd", args: { appdir: "/Applications" }
+cask "font-reggae-one", args: { appdir: "/Applications" }
+cask "font-roboto-mono-nerd-font", args: { appdir: "/Applications" }
+cask "font-sauce-code-pro-nerd-font", args: { appdir: "/Applications" }
+cask "github", args: { appdir: "/Applications" }
+cask "google-chrome", args: { appdir: "/Applications" }
+cask "google-cloud-sdk", args: { appdir: "/Applications" }
+cask "hakuneko", args: { appdir: "/Applications" }
+cask "insomnia", args: { appdir: "/Applications" }
+cask "karabiner-elements", args: { appdir: "/Applications" }
+cask "keyclu"
+cask "ledger-live", args: { appdir: "/Applications" }
+cask "mac-mouse-fix", args: { appdir: "/Applications" }
+cask "mp3gain-express", args: { appdir: "/Applications" }
+cask "mp3tag", args: { appdir: "/Applications" }
+cask "multipass", args: { appdir: "/Applications" }
+cask "musicbrainz-picard", args: { appdir: "/Applications" }
+cask "notion", args: { appdir: "/Applications" }
+cask "obsidian", args: { appdir: "/Applications" }
+cask "onyx", args: { appdir: "/Applications" }
+cask "orbstack"
+cask "postman", args: { appdir: "/Applications" }
+cask "raspberry-pi-imager", args: { appdir: "/Applications" }
+cask "raycast", args: { appdir: "/Applications" }
+cask "rectangle", args: { appdir: "/Applications" }
+cask "tabby", args: { appdir: "/Applications" }
+cask "temurin", args: { appdir: "/Applications" }
+cask "the-unarchiver", args: { appdir: "/Applications" }
+cask "tradingview", args: { appdir: "/Applications" }
+cask "utm", args: { appdir: "/Applications" }
+cask "visual-studio-code", args: { appdir: "/Applications" }
+cask "vlc", args: { appdir: "/Applications" }
+cask "windows-app", args: { appdir: "/Applications" }
+cask "wireshark", args: { appdir: "/Applications" }
+cask "wpsoffice", args: { appdir: "/Applications" }
+cask "xquartz", args: { appdir: "/Applications" }
+cask "zoom"
+mas "Day One", id: 1055511498
+mas "Hidden Bar", id: 1452453066
+mas "Hyper Cursor", id: 1634220679
+mas "LINE", id: 539883307
+mas "Logic Pro", id: 634148309
+mas "Plash", id: 1494023538
+mas "PopClip", id: 445189367
+mas "Remote Ripple", id: 1253403918
+mas "RunCat", id: 1429033973
+mas "Shazam", id: 897118787
+mas "Spark", id: 1176895641
+mas "Speedtest", id: 1153157709
+mas "Telegram", id: 747648890
+mas "そら案内", id: 599799247

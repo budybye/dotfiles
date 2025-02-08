@@ -44,7 +44,7 @@ export XDG_CONFIG_DIRS="${XDG_CONFIG_DIRS:-/etc/xdg}"
 
 
 # XDG_RUNTIME_DIR="/run/user/$(id -u)"
-# export XDG_RUNTIME_DIR
+export XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR}"
 
 mkdir -p \
     "${HOME}/Desktop" \
