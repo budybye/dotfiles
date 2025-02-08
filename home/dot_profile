@@ -77,6 +77,11 @@ export LC_CTYPE="en_US.UTF-8"
 export TMPDIR="/tmp"
 export TERM="xterm-256color"
 
+export TERMINFO="$XDG_DATA_HOME"/terminfo
+export TERMINFO_DIRS="$XDG_DATA_HOME"/terminfo:/usr/share/terminfo
+
+export LESSHISTFILE="$XDG_STATE_HOME"/less/history
+
 if command -v cursor >/dev/null 2>&1; then
     export EDITOR="cursor"
 elif command -v code >/dev/null 2>&1; then
@@ -174,8 +179,8 @@ fi
 
 if command -v go >/dev/null 2>&1; then
     mkdir -p "${XDG_DATA_HOME}/go" "${XDG_CACHE_HOME}/go/mod"
-    export GOPATH="${XDG_DATA_HOME}/go"
     # export GOPATH="${HOME}/.go"
+    export GOPATH="${GOPATH:-${XDG_DATA_HOME}/go}"
     export GOROOT="${GOPATH}"
     export GOMODCACHE="${XDG_CACHE_HOME}/go/mod"
     export GOCACHE="${XDG_CACHE_HOME}/go/go-build"
@@ -275,6 +280,7 @@ if command -v byobu >/dev/null 2>&1; then
     export BYOBU_CONFIG_DIR="${XDG_CONFIG_HOME}/byobu"
 fi
 
+
 if command -v ipfs >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/ipfs"
     export IPFS_PATH="${XDG_CONFIG_HOME}/ipfs"
@@ -289,12 +295,17 @@ fi
 
 if command -v zoxide >/dev/null 2>&1; then
     mkdir -p "${XDG_DATA_HOME}/z"
-    export Z_DATA="${XDG_DATA_HOME}/z"
+    export _Z_DATA="${XDG_DATA_HOME}/z"
 fi
 
 if command -v rg >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/ripgrep"
     export RIPGREP_CONFIG_PATH="${XDG_CONFIG_HOME}/ripgrep/config"
+fi
+
+if command -v tldr >/dev/null 2>&1; then
+    mkdir -p "${XDG_CACHE_HOME}/tldr"
+    export TLDR_CACHE_DIR="${XDG_CACHE_HOME}/tldr"
 fi
 
 if command -v ffmpeg >/dev/null 2>&1; then

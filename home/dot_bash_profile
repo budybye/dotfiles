@@ -2,8 +2,8 @@ if [ -f "${HOME}/.profile" ]; then
     . "${HOME}/.profile"
 fi
 
-mkdir -p "${HOME}/.local/state/bash"
-HISTFILE="${HOME}/.local/state/bash/bash_history"
+mkdir -p "${XDG_STATE_HOME}/bash"
+HISTFILE="${XDG_STATE_HOME}/bash/bash_history"
 
 PS1='\[\e[32m\]\u@\h\[\e[m\]:\[\e[34m\]\w\[\e[m\] \$ '
 
@@ -16,5 +16,7 @@ fi
 
 # byobu session management
 if command -v byobu > /dev/null 2>&1 && [ ${SHLVL} = 1 ] && [ -z "$TMUX" ]; then
-  "${HOME}/.config/byobu/custom-session"
+  if [ -f "${XDG_CONFIG_HOME}/byobu/custom-session" ]; then
+    . "${XDG_CONFIG_HOME}/byobu/custom-session"
+  fi
 fi

@@ -13,13 +13,14 @@ path=(
   /opt/X11/bin(N-/)
   ${HOME}/.local/share/mise/shims(N-/)
   ${HOME}/.console-ninja/.bin(N-/)
-  ${HOME}/.cache/.bun/bin(N-/)
+  ${HOME}/.local/share/bun/bin(N-/)
+  ${HOME}/.cache/bun/bin(N-/)
   ${HOME}/.bun/bin(N-/)
-  ${HOME}/.cargo/bin(N-/)
-  ${HOME}/go/bin(N-/)
-  ${HOME}/.local/share/sheldon/repos/github.com/*/*/bin(N-/)
   ${HOME}/.local/share/go/bin(N-/)
+  ${HOME}/go/bin(N-/)
   ${HOME}/.local/share/cargo/bin(N-/)
+  ${HOME}/.cargo/bin(N-/)
+  ${HOME}/.local/share/sheldon/repos/github.com/*/*/bin(N-/)
   ${HOME}/.local/share/gem/bin(N-/)
   ${HOME}/.local/bin(N-/)
   ${PATH}
@@ -37,7 +38,7 @@ fi
 # byobu session management
 if command -v byobu > /dev/null 2>&1 && [ ${SHLVL} = 1 ] && [ -z "$TMUX" ]; then
   # byobu
-  if [ -f "${HOME}/.config/byobu/custom-session" ]; then
-    . "${HOME}/.config/byobu/custom-session"
+  if [ -f "${XDG_CONFIG_HOME}/byobu/custom-session" ]; then
+    . "${XDG_CONFIG_HOME}/byobu/custom-session"
   fi
 fi

@@ -30,12 +30,18 @@ if command -v git >/dev/null 2>&1; then
 fi
 
 if command -v curl >/dev/null 2>&1; then
-    alias curl="curl -s"  # サイレントモード
+    # alias curl="curl -s"  # サイレントモード
     alias wt="curl wttr.in"  # 天気予報を表示
     alias ppp="curl -4 icanhazip.com && curl -6 icanhazip.com"  # パブリックIPアドレスを表示
     alias xrp="curl https://raw.githubusercontent.com/budybye/dotfiles/refs/heads/main/home/.chezmoiscripts/run_after_xrp.sh | sh"
     alias qr="curl qrenco.de/${1:-xrp.gl}"
     alias bob="curl -X POST -H 'accept: application/json' -H 'Content-Type: application/json' -d '{\"name\": \"marley\"}' https://xrp.gl/bob/"
+
+    function cid() {
+      export IPFS_GATEWAY=${IPFS_GATEWAY:-https://ipfs.io}
+      CID=${@:-bafybeigagd5nmnn2iys2f3doro7ydrevyr2mzarwidgadawmamiteydbzi}
+      curl -L "${IPFS_GATEWAY}/ipfs/${CID}" -o "${CID}"
+    }
 fi
 
 if command -v ping >/dev/null 2>&1; then
@@ -57,6 +63,7 @@ if command -v bun >/dev/null 2>&1; then
     alias npx="bunx"
     alias yarn="bun"
     alias yarnx="bunx"
+    alias dv="bun dev"
 fi
 
 if command -v date >/dev/null 2>&1; then
@@ -264,6 +271,8 @@ fi
 
 if command -v wrangler >/dev/null 2>&1; then
     alias wr="wrangler"
+    alias wrd="wrangler deploy"
+    alias wrs="wrangler secret"
 fi
 
 if command -v warp-cli >/dev/null 2>&1; then
@@ -285,6 +294,6 @@ fi
 
 if command -v rj >/dev/null 2>&1 && command -v jq >/dev/null 2>&1; then
     function rq() {
-        rj ${@:-"https://8102.jp/api"} | jq
+      rj ${@:-"https://8102.jp/api"} | jq
     }
 fi

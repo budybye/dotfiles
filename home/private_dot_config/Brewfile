@@ -34,6 +34,7 @@ brew "bat"
 brew "bash"
 brew "bash-completion"
 brew "byobu"
+brew "biome"
 #brew "bitwarden-cli"
 #brew "blueutil"
 #brew "boost
