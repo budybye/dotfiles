@@ -37,3 +37,7 @@ separator = ,
 [*.dat]
 # データの区切り文字
 separator = \t
+
+# tmpl ファイル
+[*.tmpl]
+indent_size = 2

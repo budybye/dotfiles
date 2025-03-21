@@ -27,7 +27,13 @@ fi
 # git
 if command -v git >/dev/null 2>&1; then
     alias g="git"
-    alias bit='g add -A && g commit --allow-empty-message -m "♨️" && g push origin $(g branch | sed -n -e "s/^\* \(.*\)/\1/p")'
+    function bit() {
+      if [ -z "$1" ]; then
+        g add -A && g commit --allow-empty-message -m "♨️" && g push origin $(g branch | sed -n -e "s/^\* \(.*\)/\1/p")
+      else
+        g add -A && g commit -m "$1" && g push origin $(g branch | sed -n -e "s/^\* \(.*\)/\1/p")
+      fi
+    }
 fi
 
 if command -v gh >/dev/null 2>&1; then
@@ -70,7 +76,7 @@ if command -v bun >/dev/null 2>&1; then
     alias yarn="bun"
     alias yarnx="bunx"
     alias dv="bun dev"
-    alias dep="bun run deploy"
+    alias dep="time bun run deploy"
 fi
 
 if command -v date >/dev/null 2>&1; then

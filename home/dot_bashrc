@@ -56,3 +56,6 @@ fi
 # SHELL環境変数をzshに再設定
 # export SHELL="$(command -v zsh)"
 # chsh -s $(command -v zsh) $(whoami)
+
+# Shopify Hydrogen alias to local projects
+alias h2='$(npm prefix -s)/node_modules/.bin/shopify hydrogen'

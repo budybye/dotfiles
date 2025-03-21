@@ -1,8 +1,6 @@
-## ZDOTDIR/.zshrc はインタラクティブなシェルで読み込まれるが
-## ZDOTDIR/.zprofile の最後で読み込まれてるのでzshで必ず実行される
+# ZDOTDIR/.zshrc はインタラクティブなシェルで読み込まれるが# ZDOTDIR/.zprofile の最後で読み込まれてるのでzshで必ず実行される
 
-## history
-# 履歴ファイルのパスを設定
+# history 履歴ファイルのパスを設定
 if [ -d "${HOME}/.local/state/zsh" ]; then
   HISTFILE="${HOME}/.local/state/zsh/zsh_history"
 else
@@ -52,8 +50,8 @@ zstyle ':completion:*' matcher-list 'm:{:a-z:}={:A-Z:}'
 zstyle ':completion:*' format '%B%F{blue}%d%f%b'
 zstyle ':completion:*' group-name ''
 
-## 補完侯補をメニューから選択する。
-## select=2: 補完候補を一覧から選択する。補完候補が2つ以上なければすぐに補完する。##
+# 補完侯補をメニューから選択する
+# select=2: 補完候補を一覧から選択する。補完候補が2つ以上なければすぐに補完する
 zstyle ':completion:*:default' menu select=2
 
 # 補完キャッシュを有効にする
@@ -108,3 +106,6 @@ fi
 if command -v awk > /dev/null 2>&1;then
   export PATH="$(printf %s "${PATH}" | awk -v RS=: -v ORS=: '!arr[$0]++')"
 fi
+
+# Shopify Hydrogen alias to local projects
+# alias h2='$(npm prefix -s)/node_modules/.bin/shopify hydrogen'

@@ -48,7 +48,6 @@ install_homebrew() {
 
 install_brew_packages() {
     brew --version
-    brew tap Homebrew/bundle
     brewlist=$(brew list)
 
     {{ range .packages.darwin.formula -}}
