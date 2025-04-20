@@ -23,7 +23,9 @@ services:
 
   tunnel:
     image: cloudflare/cloudflared
-    env_file: ./.env
-    command: tunnel run
-    depends_on: [ ubuntu ]
+    command: tunnel --no-autoupdate run
+    environment:
+      - TUNNEL_TOKEN=${TUNNEL_TOKEN:-}
     restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

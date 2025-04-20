@@ -38,15 +38,15 @@ jobs:
           buckets: extras
           apps: curl make git
 
-      - name: winget
-        run: |
-          winget install Microsoft.PowerShell --accept-source-agreements
-          winget install Microsoft.PowerToys --accept-source-agreements
-          winget install vscode --accept-source-agreements
-          winget install Brave.Brave --accept-source-agreements
-          winget install Docker.DockerDesktop --accept-source-agreements
-          winget install jdx.mise --accept-source-agreements
-          winget install twpayne.chezmoi --accept-source-agreements
+      # - name: winget
+      #   run: |
+          # winget install Microsoft.PowerShell --accept-source-agreements
+          # winget install Microsoft.PowerToys --accept-source-agreements
+          # winget install vscode --accept-source-agreements
+          # winget install Brave.Brave --accept-source-agreements
+          # winget install Docker.DockerDesktop --accept-source-agreements
+          # winget install jdx.mise --accept-source-agreements
+          # winget install twpayne.chezmoi --accept-source-agreements
           # winget install Git.Git --accept-source-agreements
           # winget install GitHub.cli --accept-source-agreements
           # winget install GitHub.GitHubDesktop --accept-source-agreements
