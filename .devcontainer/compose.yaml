@@ -1,0 +1,29 @@
+services:
+  ubuntu:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    # image: ghcr.io/budybye/ubuntu-dev:main
+    container_name: ubuntu
+    hostname: docker
+    privileged: true
+    platform: linux/${ARCH:-$(dpkg --print-architecture || uname -m)}
+    ports:
+      - 33389:3389 # 127.1:33389 で RDP
+      - 2222:22
+    # volumes:
+    #   - ${HOME}/data:/home/ubuntu/data
+    environment:
+      REMOTE_CONTAINERS: true
+    shm_size: 512m # ブラウザ対策
+    # entrypoint: ["entrypoint"]
+    command: ["ubuntu", "ubuntu", "yes"]
+    tty: true
+    restart: always
+
+  tunnel:
+    image: cloudflare/cloudflared
+    env_file: ./.env
+    command: tunnel run
+    depends_on: [ ubuntu ]
+    restart: unless-stopped

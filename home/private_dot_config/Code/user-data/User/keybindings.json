@@ -22,4 +22,8 @@
         "command": "workbench.action.nextEditor",
         "when": "editorFocus && vim.mode == 'Normal'"
     },
+    {
+        "key": "cmd+i",
+        "command": "composerMode.agent"
+    },
 ]

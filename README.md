@@ -2,7 +2,7 @@
 
 # dotfiles
 
-## 🍍🍕 0.5.1
+## 🍍🍕 0.5.*
 
 ### 🏴‍☠ [budybye/dotfiles](https://github.com/budybye/dotfiles)
 
@@ -207,7 +207,7 @@ git config --list
 
 - **シェル設定**: ログインシェルやインタラクティブシェルで読み込まれるファイル。
 - **Makefile**: `Makefile` で シェルスクリプトを設定管理。
-- **.local/bin**: 初期設定用などのシェルスクリプトを格納するディレクトリ。
+- **.chezmoiscripts**: 初期設定用などのシェルスクリプトを格納するディレクトリ。
 - **.devcontainer**: `docker` と `devcontainer` 使用する設定ファイル。
 - **.github**: `Github Actions` の設定ファイル。OS 差異のテスト用やイメージビルド用。
 - **~/.config**: 様々なツールやアプリケーションの設定を管理するためのファイル。
@@ -299,6 +299,7 @@ sequenceDiagram
 
 ### Script rule
 
+- `.chezmoiscrips` ディレクトリ内に配置することで `chezmoi apply` 時に実行される
 - `.tmpl` は `chezmoi apply` でテンプレートとして認識されます。
 - `run_` は `chezmoi apply` で名前順に実行されます。
 - `once_` は `chezmoi apply` 一度だけ実行されます。
@@ -313,7 +314,7 @@ sequenceDiagram
 - 除外されたファイルは `chezmoi ignored` で確認できます。
 
 ```txt:.chezmoiignore
-# templateを使用できます
+# template構文を使用できます
 
 {{ if ne .chezmoi.os "linux" }}
 .config/fcitx5
@@ -533,6 +534,8 @@ jobs:
 
 ### Mise を使用してプログラミングツールやCLIツールを管理します。
 
+- `mise` は rust 製の runtime library の バージョン管理ツールです。
+
 ```sh
 # ツールをインストール
 mise use < tool@version >
@@ -546,16 +549,22 @@ mise trust
 mise set
 ```
 
-- `asdf` と 互換性があり `tool-versions` ファイルを使用できます。
+- `mise` は `asdf` と 互換性があり `tool-versions` ファイルを使用できます。
 - ディレクトリ毎にツールや環境変数を管理できます。
-- `mise trust` でファイルを信頼して環境変数を読み込みます。
-- `chezmoi` や `starship` もインストール管理できます。
+- `mise trust` で`.env` ファイルなどから 環境変数を読み込みます。
+- `chezmoi` や `starship` などのライブラリもインストール、管理できます。
 - 依存関係は自動で解決できないことがあるので注意が必要です。
 - ツールのバージョンを指定してインストールしたり複数管理できます。
 - `~/.config/mise/config.toml` でグローバルな設定ができます。
 - `.mise.toml` でローカルな設定ができます。
 
 ## 環境変数
+
+### 説明
+
+- `.env` に必要な環境変数を設定します。
+- `~/.config/mise/config.toml` で自動で読み込むファイル名を指定できます。
+-
 
 ### 設定ファイルを作成
 
@@ -588,11 +597,6 @@ mise set
 
 # 出力 hoge
 ```
-
-### 説明
-
-- `.env` に必要な環境変数を設定します。
-- `~/.config/mise/config.toml` で自動で読み込むファイル名を指定できます。
 
 ---
 
@@ -647,6 +651,7 @@ multipass launch \
 ## 📚 参考文献
 
 - [Chezmoi](https://chezmoi.io/)
+- [chezmoi/example](https://github.com/twpayne/dotfiles)
 - [Makefile](https://www.gnu.org/software/make/manual/make.html)
 - [Mise](https://mise.jdx.dev/)
 - [Multipass](https://multipass.run/)
@@ -729,9 +734,9 @@ multipass launch \
 - [Poetry](https://python-poetry.org/)
 - [Jupyter Notebook](https://jupyter.org/)
 - [Raspberry Pi](https://raspberrypi.org/)
-- [Roboto Mono Nerd Font JP](https://github.com/yuru7/RobotoMonoNerdFontJP)
 - [HackGen Nerd Font](https://github.com/yuru7/HackGenNerdFont)
 - [Reggae One Font](https://fonts.google.com/specimen/Reggae+One)
+- [Roboto Mono Nerd Font JP](https://github.com/yuru7/RobotoMonoNerdFontJP)
 - [Ansible](https://docs.ansible.com/)
 - [Proxmox](https://www.proxmox.com/en/)
 - [Vagrant](https://developer.hashicorp.com/vagrant/docs)

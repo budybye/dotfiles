@@ -136,11 +136,6 @@ RUN usermod -aG sudo ubuntu && \
     mkdir -p /home/ubuntu && \
     chown -R ubuntu:ubuntu /home/ubuntu
 
-# エントリーポイント　を用意
-COPY ./entrypoint.sh /usr/bin/
-RUN ln -s /usr/bin/entrypoint.sh /usr/bin/entrypoint
-RUN chmod +x /usr/bin/entrypoint
-
 # ホームディレクトリに dotfiles をクローン
 RUN git clone https://github.com/budybye/dotfiles.git /home/ubuntu/dotfiles
 USER ubuntu
@@ -151,7 +146,16 @@ FROM base
 # USER root
 
 EXPOSE 3389
+
+# エントリーポイント　を用意
+COPY ./entrypoint.sh /usr/bin/
+RUN ln -s /usr/bin/entrypoint.sh /usr/bin/entrypoint
+RUN chmod +x /usr/bin/entrypoint
+
 # エントリーポイントを実行
 ENTRYPOINT ["entrypoint"]
-# デフォルト引数 ユーザー名、パスワード、sudo-no-passwd yes or other
+# デフォルト引数
 CMD ["ubuntu", "ubuntu", "yes"]
+# $1 ユーザー名
+# $2 パスワード
+# $3 sudo-no-passwd yes or other

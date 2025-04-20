@@ -40,7 +40,7 @@ brew "biome"
 #brew "boost
 # brew "bun"
 brew "ca-certificates"
-brew "caddy"
+# brew "caddy"
 brew "cask"
 brew "chezmoi"
 #brew "cabextract"
@@ -179,7 +179,7 @@ cask "betterdisplay"
 cask "bitwarden"
 cask "blender"
 cask "brave-browser"
-# cask "balenaetcher"
+cask "balenaetcher"
 # cask "bartender"
 #cask "bdash
 #cask "binance"
@@ -199,16 +199,16 @@ cask "canva"
 # cask "cursr"
 #cask "cyberduck"
 #cask "chrome-remote-desktop-host"
-cask "dbeaver-community"
+# cask "dbeaver-community"
 cask "deepl"
 cask "discord"
-cask "drawio"
+# cask "drawio"
 #cask "dash"
 # cask "dropbox"
 #cask "dotnet-sdk"
 # cask "docker"
 #cask "emacs"
-cask "element"
+# cask "element"
 #cask "epic-games"
 #cask "evernote"
 #cask "electron"
@@ -217,7 +217,7 @@ cask "element"
 #cask "ferdium"
 #cask "fl-stufio"
 #cask "fig"
-cask "figma"
+# cask "figma"
 # cask "finch"
 cask "font-hackgen-nerd"
 cask "font-roboto-mono-nerd-font"
@@ -274,7 +274,7 @@ cask "orbstack"
 #cask "pencil"
 #cask "pokerstars"
 # cask "podman-desktop"
-cask "postman"
+# cask "postman"
 #cask "postman-agent"
 #cask "pgadmin4"
 #cask "podman-desktop"
@@ -316,7 +316,7 @@ cask "temurin"
 cask "tradingview"
 #cask "unity"
 #cask "unity-hub"
-cask "utm"
+# cask "utm"
 #cask "veracrypt"
 #cask "vincelwt-chatgpt"
 #cask "visual-studio"
@@ -338,7 +338,7 @@ cask "wpsoffice"
 cask "xquartz"
 #cask "wkhtmltopdf"
 #cask "ytmdesktop-youtube-music"
-cask "zoom"
+# cask "zoom"
 
 # mas
 
@@ -371,11 +371,11 @@ mas "Popclip", id: 445189367
 mas "RunCat", id: 1429033973
 mas "Plash", id: 1494023538
 mas "Spark", id: 1176895641
-mas "Day One", id: 1055511498
-mas "Telegram", id: 747648890
-mas "そらの案内", id: 599799247
 mas "Hidden Bar", id: 1452453066
 mas "Hyper Cursor", id: 1634220679
+# mas "Day One", id: 1055511498
+# mas "Telegram", id: 747648890
+# mas "そらの案内", id: 599799247
 # mas "Remote Ripple", id: 1253403918
 # mas "Jayson", id: 1468691718
 # mas "BetterSnapTools", id: 417375580

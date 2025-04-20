@@ -14,22 +14,8 @@ jobs:
       - name: make
         run: make init
 
-  ubuntu-jammy-amd64:
-    runs-on: ubuntu-22.04
-    steps:
-      - uses: actions/checkout@v4
-      - name: make
-        run: make init
-
   ubuntu-arm64:
     runs-on: ubuntu-24.04-arm
-    steps:
-      - uses: actions/checkout@v4
-      - name: make
-        run: make init
-
-  ubuntu-jammy-arm64:
-    runs-on: ubuntu-22.04-arm
     steps:
       - uses: actions/checkout@v4
       - name: make
@@ -43,7 +29,7 @@ jobs:
         run: make init
 
   windows-test:
-    runs-on: windows-2022
+    runs-on: windows-2025
     steps:
       - uses: actions/checkout@v4
 
@@ -51,6 +37,24 @@ jobs:
         with:
           buckets: extras
           apps: curl make git
+
+      - name: winget
+        run: |
+          winget install Microsoft.PowerShell
+          winget install Microsoft.PowerToys
+          winget install vscode
+          winget install Brave.Brave
+          winget install Docker.DockerDesktop
+          winget install jdx.mise
+          winget install twpayne.chezmoi
+          # winget install Git.Git
+          # winget install GitHub.cli
+          # winget install GitHub.GitHubDesktop
+          # winget install ezports.make
+          # winget install Cloudflare.Warp
+          # winget install Anysphere.Cursor
+          # winget install Eugeny.Tabby
+          # winget install Bitwarden.CLI
 
   cloud-init:
     runs-on: ubuntu-24.04

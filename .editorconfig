@@ -9,10 +9,8 @@ indent_style = space
 indent_size = 2
 insert_final_newline = true
 trim_trailing_whitespace = true
-font_size = 13
-
 # フォントの設定
-[*.{c,h,cpp,py,java,js,ts,sh,rs,go,json,yaml,yml,toml,ini,css,html,sql,txt,md,php,file,dat,csv,xml}]
+font_size = 13
 font_family = "HackGen Console NF", "RobotoMonoJP", "monospace", "Consolas"
 
 # インデント ４
@@ -20,7 +18,7 @@ font_family = "HackGen Console NF", "RobotoMonoJP", "monospace", "Consolas"
 indent_size = 4
 
 # インデント 2
-[*.{c, h, cpp, js, ts, jsx, tsx, sh, json, yaml, yml, toml, ini, css, html, sql, txt, file xml}]
+[*.{c, h, cpp, js, ts, jsx, tsx, sh, json, jsonc, yaml, yml, toml, ini, css, html, sql, txt, file xml, tmpl}]
 indent_size = 2
 
 # Markdownの場合、インデントスタイルをタブに設定
@@ -37,7 +35,3 @@ separator = ,
 [*.dat]
 # データの区切り文字
 separator = \t
-
-# tmpl ファイル
-[*.tmpl]
-indent_size = 2

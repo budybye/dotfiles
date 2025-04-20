@@ -1,5 +1,5 @@
 #cloud-config
-hostname: ras
+hostname: rpi
 manage_etc_hosts: true
 packages:
 - avahi-daemon
