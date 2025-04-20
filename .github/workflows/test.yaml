@@ -40,21 +40,21 @@ jobs:
 
       - name: winget
         run: |
-          winget install Microsoft.PowerShell
-          winget install Microsoft.PowerToys
-          winget install vscode
-          winget install Brave.Brave
-          winget install Docker.DockerDesktop
-          winget install jdx.mise
-          winget install twpayne.chezmoi
-          # winget install Git.Git
-          # winget install GitHub.cli
-          # winget install GitHub.GitHubDesktop
-          # winget install ezports.make
-          # winget install Cloudflare.Warp
-          # winget install Anysphere.Cursor
-          # winget install Eugeny.Tabby
-          # winget install Bitwarden.CLI
+          winget install Microsoft.PowerShell -y
+          winget install Microsoft.PowerToys -y
+          winget install vscode -y
+          winget install Brave.Brave -y
+          winget install Docker.DockerDesktop -y
+          winget install jdx.mise -y
+          winget install twpayne.chezmoi -y
+          # winget install Git.Git -y
+          # winget install GitHub.cli -y
+          # winget install GitHub.GitHubDesktop -y
+          # winget install ezports.make -y
+          # winget install Cloudflare.Warp -y
+          # winget install Anysphere.Cursor -y
+          # winget install Eugeny.Tabby -y
+          # winget install Bitwarden.CLI -y
 
   cloud-init:
     runs-on: ubuntu-24.04
