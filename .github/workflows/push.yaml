@@ -179,7 +179,7 @@ jobs:
         if: matrix.flavor.name == 'slim'
         uses: hoverkraft-tech/compose-action@v2.0.2
         with:
-          compose-file: .devcontainer/docker-compose.yaml
+          compose-file: .devcontainer/compose.yaml
           services: |
             ubuntu
             portainer
