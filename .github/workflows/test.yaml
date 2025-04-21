@@ -40,21 +40,23 @@ jobs:
 
       # - name: winget
       #   run: |
-          # winget install Microsoft.PowerShell --accept-source-agreements
-          # winget install Microsoft.PowerToys --accept-source-agreements
-          # winget install vscode --accept-source-agreements
-          # winget install Brave.Brave --accept-source-agreements
-          # winget install Docker.DockerDesktop --accept-source-agreements
-          # winget install jdx.mise --accept-source-agreements
-          # winget install twpayne.chezmoi --accept-source-agreements
-          # winget install Git.Git --accept-source-agreements
-          # winget install GitHub.cli --accept-source-agreements
-          # winget install GitHub.GitHubDesktop --accept-source-agreements
-          # winget install ezports.make --accept-source-agreements
-          # winget install Cloudflare.Warp --accept-source-agreements
-          # winget install Anysphere.Cursor --accept-source-agreements
-          # winget install Eugeny.Tabby --accept-source-agreements
-          # winget install Bitwarden.CLI --accept-source-agreements
+          # winget install \
+          # Microsoft.PowerShell \
+          # Microsoft.PowerToys \
+          # vscode \
+          # Brave.Brave \
+          # Docker.DockerDesktop \
+          # jdx.mise \
+          # twpayne.chezmoi \
+          # Git.Git \
+          # GitHub.cli \
+          # GitHub.GitHubDesktop \
+          # ezports.make \
+          # Cloudflare.Warp \
+          # Anysphere.Cursor \
+          # Eugeny.Tabby \
+          # Bitwarden.CLI \
+          # --accept-source-agreements
 
   cloud-init:
     runs-on: ubuntu-24.04

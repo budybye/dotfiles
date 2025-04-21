@@ -17,12 +17,13 @@ DOT="${HOME}/${SES}"
 #	-------------------------
 #	|	1 $HOME/dev 		|
 #	|-----------------------|
-#	|	2 $HOME/data 		|
+#	|	2 $HOME/dev/portainer 		|
 #	-------------------------
 
 # セッションが既に存在する場合は終了
 if byobu list-sessions 2>/dev/null | grep -q "^${SES}"; then
     byobu-tmux attach-session -t "${SES}"
+    exit 0
 fi
 
 if [ -d "${DOT}" ]; then
@@ -66,11 +67,11 @@ if command -v ssh > /dev/null 2>&1; then
     else
         byobu-tmux new-window -c "${HOME}"
     fi
+fi
 
-    if [ -d "${HOME}/data" ]; then
-        byobu-tmux split-window -h -c "${HOME}/data"
-        # byobu-tmux send-keys -t 2 "ssh ubuntu@local.dev" C-m
-    fi
+if [ -d "${HOME}/dev/portainer" ]; then
+    byobu-tmux split-window -h -c "${HOME}/dev/portainer"
+  # byobu-tmux send-keys -t 2 "ssh ubuntu@local.dev" C-m
 fi
 
 # byobu-tmux attach-session -t "${SES}"

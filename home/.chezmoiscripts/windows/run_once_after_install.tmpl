@@ -1,0 +1,20 @@
+
+# scoopをインストール
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
+
+# scoopでインストールしていないアプリケーションをインストール
+scoop install \
+  git \
+  curl \
+  make
+
+# インストールしていないアプリケーションをインストール
+winget install \
+  Microsoft.PowerShell \
+  Microsoft.PowerToys \
+  vscode \
+  Brave.Brave \
+  Docker.DockerDesktop \
+  jdx.mise \
+  twpayne.chezmoi

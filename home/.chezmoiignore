@@ -52,6 +52,10 @@
 .chezmoiscripts/linux/**
 {{ end }}
 
+{{ if ne .chezmoi.os "windows" }}
+.chezmoiscripts/windows/**
+{{ end }}
+
 {{ if eq .chezmoi.os "windows" }}
 .config/**
 data/**
