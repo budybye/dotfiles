@@ -1,0 +1,51 @@
+echo "run_once_after_install.sh.tmpl"
+echo "{{ .chezmoi.os }} system setup"
+echo "--------------------------------"
+
+install_scoop() {
+
+  # scoopをインストール
+  if !(Get-Command scoop -ErrorAction SilentlyContinue); then
+    echo "scoop is already installed."
+  else
+    Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+    Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
+  fi
+  scoop -v
+
+  {{ range .packages.windows.scoop -}}
+
+  scoop install {{ . }}
+
+  {{ end }}
+
+  scoop list
+}
+
+install_winget() {
+  winget -v
+
+  {{ range .packages.windows.winget -}}
+
+  winget install {{ . }} --accept-source-agreements --accept-package-agreements
+
+  {{ end }}
+
+  winget list
+}
+
+install_mise() {
+  $shimPath = "$env:USERPROFILE\AppData\Local\mise\shims"
+  $currentPath = [Environment]::GetEnvironmentVariable('Path', 'User')
+  $newPath = $currentPath + ";" + $shimPath
+  [Environment]::SetEnvironmentVariable('Path', $newPath, 'User')
+  mise dr
+}
+
+echo "Installing scoop..."
+install_scoop
+echo "Installing winget..."
+install_winget
+echo "Installing mise..."
+install_mise
+echo "Installation complete."

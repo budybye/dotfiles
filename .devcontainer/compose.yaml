@@ -1,3 +1,4 @@
+name: ubuntu
 services:
   ubuntu:
     build:
@@ -23,9 +24,6 @@ services:
 
   tunnel:
     image: cloudflare/cloudflared
-    command: tunnel --no-autoupdate run
-    environment:
-      - TUNNEL_TOKEN=${TUNNEL_TOKEN:-}
+    command: tunnel run --token ${TUNNEL_TOKEN}
     restart: unless-stopped
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+    extra_hosts: ["host.docker.internal:host-gateway"]

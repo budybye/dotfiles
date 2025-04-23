@@ -254,13 +254,13 @@ packages:
     winget:
       - 'Microsoft.PowerShell'
       - 'Microsoft.PowerToys'
+      - 'twpayne.chezmoi'
       - 'vscode'
       - 'Brave.Brave'
       - 'Docker.DockerDesktop'
-      - 'jdx.mise'
-      - 'twpayne.chezmoi'
 
     scoop:
       - 'git'
       - 'curl'
       - 'make'
+      - 'mise'

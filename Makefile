@@ -43,13 +43,6 @@ down:
 	cd .devcontainer && \
 	docker compose down
 
-.PHONY: ipfs
-ipfs:
-	cd .devcontainer && \
-	docker compose up -d ipfs && \
-	cd .. && \
-	docker compose exec ipfs ipfs add -r $(HOME)/data
-
 .PHONY: ubuntu
 ubuntu:
 	multipass \

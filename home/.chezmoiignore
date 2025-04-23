@@ -58,12 +58,12 @@
 
 {{ if eq .chezmoi.os "windows" }}
 .config/**
-data/**
-.devcontainer/**
-cloud-init/**
 *rc
 *profile
 *env
+*login
+*aliases
+.chezmoiscripts/*.sh
 {{ end }}
 
 .chezmoiexternal.*

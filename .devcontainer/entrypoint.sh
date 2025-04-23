@@ -90,6 +90,7 @@ while [ $# -ne 0 ]; do
 done
 
 echo -e "starting xrdp services...\n"
+echo "PORT is ${PORT:-33389}"
 
 trap "stop_xrdp_services" SIGKILL SIGTERM SIGHUP SIGINT EXIT
 start_xrdp_services
