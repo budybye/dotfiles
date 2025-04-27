@@ -2,7 +2,20 @@
 hostname: rpi
 manage_etc_hosts: true
 packages:
+- ssh-import-id
 - avahi-daemon
+- pkg-config
+- apt-transport-https
+- language-pack-ja-base
+- language-pack-ja
+- manpages-ja
+- xfce4
+- xfce4-goodies
+- xrdp
+- xorgxrdp
+- dbus-x11
+- sddm
+- zsh
 apt:
   conf: |
     Acquire {
@@ -21,7 +34,12 @@ runcmd:
 - sed -i 's/^s*REGDOMAIN=S*/REGDOMAIN=JP/' /etc/default/crda || true
 - localectl set-x11-keymap "jp" pc105
 - setupcon -k --force || true
-
+- sudo groupadd -f ssl-cert
+- sudo groupadd -f xrdp
+- sudo usermod -aG ssl-cert,xrdp ${USER}
+- echo "xfce4-session" > ~/.xsession
+- sudo update-alternatives --set x-session-manager /usr/bin/xfce4-session
+- sudo systemctl enable xrdp
 # This is the user-data configuration file for cloud-init. By default this sets
 # up an initial user called "ubuntu" with password "ubuntu", which must be
 # changed at first login. However, many additional actions can be initiated on

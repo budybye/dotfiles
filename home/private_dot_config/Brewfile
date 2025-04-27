@@ -297,7 +297,7 @@ cask "windows-app"
 #cask "webcatalog"
 # cask "wezterm"
 #cask "wordpresscom"
-cask "wpsoffice"
+# cask "wpsoffice"
 # cask "wine-stable"
 #cask "xbar"
 # cask "xmind"
@@ -324,7 +324,7 @@ cask "xquartz"
 #mas "PhotoScape X - 画像加工, 写真編集", id: 2145173578
 # mas "Capo 3", id: 696977615
 # mas "Microsoft Word", id: 462054704
-# mas "Microsoft Excel", id: 462058435
+mas "Microsoft Excel", id: 462058435
 # mas "Microsoft PowerPoint", id: 462062816
 # mas "ServerCat", id: 1501532023
 # mas "System Designer", id: 1102494854

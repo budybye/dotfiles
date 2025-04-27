@@ -3,9 +3,9 @@
 timezone: Asia/Tokyo
 locale: ja_JP.utf8
 keyboard:
-  - model: pc105
-  - layout: jp
-  - options: ctrl:nocaps
+- model: pc105
+- layout: jp
+- options: ctrl:nocaps
 # ホスト名 ssh ubuntu@vm.local でアクセスできるようにする
 hostname: vm
 fqdn: vm.local
@@ -23,20 +23,20 @@ system_info:
     shell: /bin/bash
     sudo: ["ALL=(ALL) NOPASSWD:ALL"]
 users:
-  - default
-  - name: budybye
-    lock_passwd: false
-    passwd: budybye
-    home: /home/budybye
-    uid: 1001
-    gid: 1001
-    groups: [users,sudo,adm,ssl-cert,xrdp,docker]
-    shell: /usr/bin/zsh
+- default
+- name: budybye
+  lock_passwd: false
+  passwd: budybye
+  home: /home/budybye
+  uid: 1001
+  gid: 1001
+  groups: [users,sudo,adm,ssl-cert,xrdp,docker]
+  shell: /usr/bin/zsh
 # パスワード認証を無効にする
 ssh_pwauth: false
 # グローバルに github の ssh key を登録する便利 ssh-import-id
 ssh_import_id:
-  - gh:budybye
+- gh:budybye
 
 apt:
   sources:
@@ -117,46 +117,46 @@ snap:
     snap install yq
 
 packages:
-  - binfmt-support
-  - docker-ce
-  - docker-ce-cli
-  - docker-compose
-  - containerd.io
-  - jq
-  - qemu-user-static
-  - skopeo
+- binfmt-support
+- docker-ce
+- docker-ce-cli
+- docker-compose
+- containerd.io
+- jq
+- qemu-user-static
+- skopeo
 
-  - ssh-import-id
-  - avahi-daemon
-  - openssh-server
-  - lsb-release
-  - ca-certificates
-  - git
-  - curl
-  - wget
-  - make
-  - zsh
-  - jq
-  - gh
-  - age
-  - vim
-  - cmake
-  - g++
-  - gcc
-  - gnupg
-  - xsel
-  - libssl-dev
-  - pkg-config
-  - apt-transport-https
-  - build-essential
-  - language-pack-ja-base
-  - language-pack-ja
-  - manpages-ja
-  - xfce4
-  - xfce4-goodies
-  - xrdp
-  - xorgxrdp
-  - dbus-x11
+- ssh-import-id
+- avahi-daemon
+- openssh-server
+- lsb-release
+- ca-certificates
+- git
+- curl
+- wget
+- make
+- zsh
+- jq
+- gh
+- age
+- vim
+- cmake
+- g++
+- gcc
+- gnupg
+- xsel
+- libssl-dev
+- pkg-config
+- apt-transport-https
+- build-essential
+- language-pack-ja-base
+- language-pack-ja
+- manpages-ja
+- xfce4
+- xfce4-goodies
+- xrdp
+- xorgxrdp
+- dbus-x11
 runcmd:
 - |
   curl -fsSL get.chezmoi.io | sudo sh -s -- -b /usr/local/bin
