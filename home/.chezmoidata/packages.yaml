@@ -259,3 +259,18 @@ packages:
     - 'curl'
     - 'make'
     - 'mise'
+
+  cargo:
+  - 'starship'
+  - 'sheldon'
+  - 'fd-find'
+  - 'xh'
+  - 'bat'
+  - 'lsd'
+  - 'ripgrep'
+
+  mise:
+  - 'rust'
+  - 'cargo-binstall'
+  - 'bun'
+  - 'node'

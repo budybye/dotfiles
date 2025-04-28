@@ -235,7 +235,7 @@ disabled = false
 command = "uname -m"
 when = """ test $(uname -m) = "x86_64" """
 style = "bold navy"
-format = "[ $output]($style bold)"
+format = "[$output]($style bold) "
 
 [gcloud]
 disabled = true

@@ -65,7 +65,7 @@ node_install() {
 
         else
             echo "mise not found."
-            exit
+            exit 1
 
         fi
         export PATH="${SHIMS}/shims:${PATH}"
@@ -92,7 +92,8 @@ bw_install() {
 
         else
             echo "npm not found."
-            exit
+            # sudo snap install bw
+            # exit 1
 
         fi
         export PATH="${SHIMS}/installs/node/${VERSION}/bin:${PATH}"

@@ -1,7 +1,7 @@
 [tools]
 # `mise use -g`で設定できます
 bun = "1.2.10"
-node = "20.19.0"
+node = "20.19.1"
 go = "1.23.4"
 rust = "1.83.0"
 python = "3.13.3"
@@ -15,8 +15,8 @@ python = "3.13.3"
 
 cargo-binstall = "1.10.16"
 # cargo-binstall = "1.10.21"
-uv = "0.5.10"
-# uv = "0.5.18"
+uv = "0.6.17"
+# uv = "0.6.17"
 ninja = "1.12.1"
 yq = "4.44.6"
 # conan = "2.11.0"
