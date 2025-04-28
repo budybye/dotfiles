@@ -74,6 +74,7 @@ jobs:
           use: true
 
       - name: clean space
+        if: matrix.platform == 'linux/amd64'
         run: |
           df -h
           docker image prune --all --force || true
