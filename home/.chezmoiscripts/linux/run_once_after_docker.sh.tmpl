@@ -39,7 +39,7 @@ install_docker() {
     fi
     docker --version >> ${HOME}/which || \
     echo "docker not found" >> ${HOME}/which
-    docker compose --version >> ${HOME}/which || \
+    docker compose version >> ${HOME}/which || \
     echo "docker compose not found" >> ${HOME}/which
 }
 

@@ -26,12 +26,12 @@ if command -v yt-dlp > /dev/null 2>&1 && [ ! -d "$PLAYLIST_DIR" ]; then
     mkdir -p "$PLAYLIST_DIR"
     # youtube-dlを使って音声をダウンロード
     yt-dlp \
-      --ignore-errors \
-      --format bestaudio \
-      --extract-audio \
       --audio-format mp3 \
+      --format bestaudio \
       --audio-quality 0 \
+      --extract-audio \
       --output "$OUTPUT_DIR" \
+      --ignore-errors \
       --no-warnings \
       "$URL"
 

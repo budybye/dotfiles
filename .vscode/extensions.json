@@ -6,6 +6,7 @@
     "christian-kohler.path-intellisense",
     "corschenzi.mermaid-graphical-editor",
     "dbaeumer.vscode-eslint",
+    "docker.docker",
     "esbenp.prettier-vscode",
     "editorconfig.editorconfig",
     "formulahendry.auto-close-tag",
