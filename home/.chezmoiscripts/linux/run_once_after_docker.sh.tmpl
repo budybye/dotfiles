@@ -18,9 +18,11 @@ install_docker() {
         $sudo install -m 0755 -d /etc/apt/keyrings
         curl -fsSL https://download.docker.com/linux/ubuntu/gpg | $sudo gpg --dearmor -o /etc/apt/keyrings/docker.asc
         $sudo chmod a+r /etc/apt/keyrings/docker.asc
-        echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | $sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
+        # echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | $sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
+        echo "deb [signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | $sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
         $sudo apt-get update -y
         $sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin || echo "docker install failed."
+
         if [ -f /var/run/docker.sock ]; then
             $sudo chmod 666 /var/run/docker.sock
         fi
@@ -49,19 +51,26 @@ install_docker_compose() {
 
 install_act() {
     echo "act install start..."
+    ACT="${HOME}/.local/bin/act"
     if command -v act >/dev/null; then
         echo "act already installed."
+        ACT="act"
     elif command -v curl >/dev/null; then
         curl https://raw.githubusercontent.com/nektos/act/master/install.sh | $sudo bash || echo "act install failed."
         $sudo chmod +x ./bin/act
-        $sudo mv -f ./bin/act ${HOME}/.local/bin
+        $sudo mv -f ./bin/act ${ACT}
+        export PATH="${ACT}:${PATH}"
         echo "act installed."
     else
         echo "act install failed."
     fi
-    act --version >> ${HOME}/which || echo "act not found" >> ${HOME}/which
+    $ACT --version >> ${HOME}/which || echo "act not found" >> ${HOME}/which
 }
 
 install_docker
 install_docker_compose
 install_act
+cat ${HOME}/which && rm -f ${HOME}/which
+echo "--------------------------------"
+echo "Docker setup done!!"
+echo "--------------------------------"

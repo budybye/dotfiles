@@ -11,12 +11,15 @@
     stripComponents = 1
     refreshPeriod = "168h"
 
+{{ if eq .chezmoi.os "darwin" }}
+
 ["Music/riddim"]
     type = "archive"
     url = "https://gateway.pinata.cloud/ipfs/bafybeihcfkghpafqnx7phqvnfm5qhrzmvjcpm3cfgbh45i5lzody6zpf4u"
     stripComponents = 1
     refreshPeriod = "168h"
 
+{{ end }}
 
 {{ if eq .chezmoi.os "linux" }}
 
