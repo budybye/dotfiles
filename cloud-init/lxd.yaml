@@ -24,40 +24,41 @@ config:
     package_upgrade: true
     package_update: true
     packages:
-      - ssh-import-id
-      - openssh-server
-      - gnupg
-      - wget
-      - zsh
-      - sudo
-      - curl
-      - git
-      - gh
-      - vim
-      - make
-      - byobu
-      - age
-      - gnupg
-      - ufw
-      - jq
-      - avahi-daemon
-      - apt-transport-https
-      - libssl-dev
-      - build-essential
-      - pkg-config
-      - language-pack-ja-base
-      - language-pack-ja
-      - manpages-ja
-      - xfce4
-      - xfce4-goodies
-      - xrdp
-      - xorgxrdp
-      - dbus-x11
+    - ssh-import-id
+    - openssh-server
+    - gnupg
+    - wget
+    - zsh
+    - sudo
+    - curl
+    - git
+    - gh
+    - vim
+    - make
+    - byobu
+    - age
+    - gnupg
+    - ufw
+    - jq
+    - avahi-daemon
+    - apt-transport-https
+    - libssl-dev
+    - build-essential
+    - pkg-config
+    - language-pack-ja-base
+    - language-pack-ja
+    - manpages-ja
+    - xfce4
+    - xfce4-goodies
+    - xrdp
+    - xorgxrdp
+    - dbus-x11
     runcmd:
-      - git clone https://github.com/budybye/dotfiles.git /home/budybye/dotfiles
-      - echo "xfce4-session" > ~/.xsession
-      - sudo update-alternatives --set x-session-manager /usr/bin/xfce4-session
-      - sudo systemctl enable xrdp
+    - curl -fsSL get.chezmoi.io | sudo sh -s -- -b /usr/local/bin
+    - git clone https://github.com/budybye/dotfiles.git /home/budybye/dotfiles
+    - echo "xfce4-session" > ~/.xsession
+    - sudo update-alternatives --set x-session-manager /usr/bin/xfce4-session
+    - sudo systemctl enable xrdp
 devices: {}
 name: ubuntu
 used_by: []
