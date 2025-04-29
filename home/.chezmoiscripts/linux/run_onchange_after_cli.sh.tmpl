@@ -42,7 +42,8 @@ install_packages() {
     {{ range .packages.linux.cli -}}
 
     if ! dpkg -l | grep -q {{ . }}; then
-        $sudo apt-get install -y {{ . }} && echo "{{ . }} installed." || echo "{{ . }} install failed." >> ${HOME}/which
+        $sudo apt-get install -y {{ . }} && echo "{{ . }} installed." || \
+        echo "{{ . }} install failed." >> ${HOME}/which
     else
         echo "{{ . }} already installed."
     fi
@@ -194,21 +195,6 @@ install_mkcert() {
     mkcert --version >> ${HOME}/which || echo "mkcert not found" >> ${HOME}/which
 }
 
-install_volta() {
-    echo "volta install start..."
-    if command -v volta >/dev/null; then
-        echo "volta already installed."
-
-    elif command -v curl >/dev/null; then
-        curl https://get.volta.sh | bash || echo "volta install failed."
-        echo "volta installed."
-    else
-        echo "curl not found"
-    fi
-
-    volta --version >> ${HOME}/which || echo "volta not found" >> ${HOME}/which
-}
-
 echo "CLI tools install start..."
 install_packages
 change_shell_to_zsh
@@ -216,8 +202,8 @@ install_mise
 install_cargo_tools
 install_flatpak
 install_go_aqua
-# install_volta
 install_mkcert
+
 cat ${HOME}/which && rm -f ${HOME}/which
 echo "--------------------------------"
 echo "CLI tools install done."

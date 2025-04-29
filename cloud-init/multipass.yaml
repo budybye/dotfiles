@@ -1,12 +1,10 @@
 #cloud-config
-# 日本語環境
 timezone: Asia/Tokyo
 locale: ja_JP.utf8
 keyboard:
-- model: pc105
-- layout: jp
-- options: ctrl:nocaps
-# ホスト名 ssh ubuntu@vm.local でアクセスできるようにする
+  model: pc105
+  layout: jp
+  options: ctrl:nocaps
 hostname: vm
 fqdn: vm.local
 groups: [users,sudo,adm,ssl-cert,xrdp,docker]
@@ -32,7 +30,6 @@ users:
   gid: 1001
   groups: [users,sudo,adm,ssl-cert,xrdp,docker]
   shell: /usr/bin/zsh
-# パスワード認証を無効にする
 ssh_pwauth: false
 # グローバルに github の ssh key を登録する便利 ssh-import-id
 ssh_import_id:
@@ -157,6 +154,7 @@ packages:
 - xrdp
 - xorgxrdp
 - dbus-x11
+
 runcmd:
 - |
   curl -fsSL get.chezmoi.io | sudo sh -s -- -b /usr/local/bin
@@ -169,6 +167,7 @@ runcmd:
   echo "xfce4-session" > ~/.xsession
   sudo update-alternatives --set x-session-manager /usr/bin/xfce4-session
   sudo systemctl enable xrdp
+
 # blueprint docker.yamlのパクリ
 # https://github.com/canonical/multipass-blueprints/blob/main/v1/docker.yaml
 # portainer起動される
@@ -200,9 +199,6 @@ runcmd:
     -v /var/run/docker.sock:/var/run/docker.sock \
     -v portainer_data:/data \
     portainer/portainer-ce
-- |
-  # apt cleanup
-  apt-get autoremove -y
 
 # メッセージ /var/log/cloud-init-output.log に出力される？
 final_message: |

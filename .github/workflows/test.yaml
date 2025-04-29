@@ -67,12 +67,13 @@ jobs:
 
       - name: Launch container
         run: |
-          lxc profile create dev && cat cloud-init/lxd.yaml | lxc profile edit dev
+          lxc profile create dev && \
+          cat cloud-init/lxd.yaml | lxc profile edit dev
           lxc launch ubuntu:24.04 ubuntu -p default -p dev
           lxc exec ubuntu -- cloud-init status --wait || true
           lxc exec ubuntu -- tail -8 /var/log/cloud-init.log
-          lxc exec ubuntu -- cat /home/budybye/.ssh/authorized_keys
-          lxc exec ubuntu -- ls -la /home/budybye/dotfiles
+          lxc exec ubuntu -- cat $HOME/.ssh/authorized_keys
+          lxc exec ubuntu -- ls -la $HOME/dotfiles
           lxc exec ubuntu -- echo "$SHELL"
           lxc exec ubuntu -- cat /etc/os-release
 
@@ -91,5 +92,4 @@ jobs:
           lxc launch ubuntu:24.04 vm --config=user.user-data="$(cat cloud-init/multipass.yaml)"
           lxc exec vm -- cloud-init status --wait || true
           lxc exec vm -- tail -8 /var/log/cloud-init.log
-          lxc exec vm -- echo "$SHELL"
           lxc exec vm -- cat /etc/os-release

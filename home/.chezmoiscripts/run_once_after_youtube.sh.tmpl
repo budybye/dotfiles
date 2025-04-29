@@ -4,6 +4,7 @@ echo "run_once_after_youtube.sh.tmpl"
 echo "--------------------------------"
 
 PLAYLIST_NAME="riddim"
+
 PLAYLIST_DIR="$HOME/Music/$PLAYLIST_NAME"
 PLAYLIST_ID="PLMXoRsxtzGfCH7cvhAnzN_T3KvKmdkB3s"
 
@@ -32,11 +33,13 @@ if command -v yt-dlp > /dev/null 2>&1 && [ ! -d "$PLAYLIST_DIR" ]; then
       --audio-quality 0 \
       --output "$OUTPUT_DIR" \
       --no-warnings \
-      "$URL"
+      "$URL
 
-    echo "ダウンロードが完了しました"
-    echo "--------------------------------"
     # ダウンロードしたファイルの一覧を表示
-    ls -l "$PLAYLIST_DIR"
+    if [ -d "$PLAYLIST_DIR" ]; then
+        ls -l "$PLAYLIST_DIR"
+    else
+        echo "ダウンロード先ディレクトリが存在しません"
+    fi
     echo "--------------------------------"
 fi

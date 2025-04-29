@@ -10,18 +10,8 @@ fi
 
 install_docker() {
     if command -v docker >/dev/null 2>&1; then
-        docker --version >> ${HOME}/which
+        echo "docker already installed."
     else
-        # $sudo apt-get update -y
-        # $sudo apt-get install -y apt-transport-https ca-certificates curl gnupg lsb-release software-properties-common || echo "apt install failed."
-        # $sudo mkdir -p /etc/apt/keyrings
-        # $sudo install -m 0755 -d /etc/apt/keyrings
-        # curl -fsSL https://download.docker.com/linux/ubuntu/gpg | $sudo gpg --dearmor -o /etc/apt/keyrings/docker.asc
-        # $sudo chmod a+r /etc/apt/keyrings/docker.asc
-        # echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | $sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
-        # $sudo apt-get update -y
-        # $sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin || echo "docker install failed."
-
         # Add Docker's official GPG key:
         $sudo apt-get update
         $sudo apt-get install -y ca-certificates curl
@@ -36,7 +26,8 @@ install_docker() {
         $sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
         $sudo apt-get update
 
-        $sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin || echo "docker install failed."
+        $sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin || \
+        echo "docker install failed."
 
         if [ -f /var/run/docker.sock ]; then
             $sudo chmod 666 /var/run/docker.sock
@@ -44,24 +35,12 @@ install_docker() {
         $sudo groupadd -f docker
         $sudo usermod -aG docker "$(whoami)"
         $sudo systemctl enable docker
-        docker info
-        docker --version >> ${HOME}/which || echo "docker not found" >> ${HOME}/which
+        # docker info
     fi
-}
-
-install_docker_compose() {
-    if command -v docker-compose >/dev/null 2>&1; then
-        docker-compose --version >> ${HOME}/which
-    else
-        # 最新バージョンを取得
-        COMPOSE_VERSION=$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep tag_name | cut -d '"' -f 4)
-        # ダウンロード URL の作成
-        COMPOSE_URL="https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)"
-        # Docker Compose のバイナリをダウンロード
-        $sudo curl -L "$COMPOSE_URL" -o /usr/local/bin/docker-compose || echo "docker-compose download failed."
-        $sudo chmod +x /usr/local/bin/docker-compose
-        docker-compose --version >> ${HOME}/which || echo "docker-compose not found" >> ${HOME}/which
-    fi
+    docker --version >> ${HOME}/which || \
+    echo "docker not found" >> ${HOME}/which
+    docker compose --version >> ${HOME}/which || \
+    echo "docker compose not found" >> ${HOME}/which
 }
 
 install_act() {
@@ -83,7 +62,6 @@ install_act() {
 }
 
 install_docker
-# install_docker_compose
 install_act
 cat ${HOME}/which && rm -f ${HOME}/which
 echo "--------------------------------"
