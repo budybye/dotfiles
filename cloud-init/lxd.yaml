@@ -55,7 +55,7 @@ config:
     - dbus-x11
     runcmd:
     - curl -fsSL get.chezmoi.io | sudo sh -s -- -b /usr/local/bin
-    - git clone https://github.com/budybye/dotfiles.git ${HOME}/dotfiles
+    - git clone https://github.com/budybye/dotfiles.git /home/budybye/dotfiles
     - echo "xfce4-session" > ${HOME}/.xsession
     - sudo update-alternatives --set x-session-manager /usr/bin/xfce4-session
     - sudo ufw allow 3389
