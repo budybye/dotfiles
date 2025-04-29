@@ -19,11 +19,6 @@ alias cp="cp -i"   # 上書き確認を有効にする
 alias rm="rm -i"   # 削除確認を有効にする
 alias mkdir="mkdir -p"  # 親ディレクトリも作成
 
-# 猫のASCIIアートを表示
-if [ -f "${HOME}/.config/neofetch/image.txt" ]; then
-    alias x="cat ${HOME}/.config/neofetch/image.txt"
-fi
-
 # git
 if command -v git >/dev/null 2>&1; then
     alias g="git"
@@ -37,7 +32,7 @@ if command -v git >/dev/null 2>&1; then
 fi
 
 if command -v gh >/dev/null 2>&1; then
-    alias gset="gh secret set"
+    alias gs="gh secret set"
 fi
 
 if command -v curl >/dev/null 2>&1; then
@@ -56,8 +51,19 @@ if command -v curl >/dev/null 2>&1; then
 fi
 
 if command -v ping >/dev/null 2>&1; then
-    alias pi="ping -c 5 1.1.1.1"
-    alias ping="ping -c 5"  # 5回だけpingを送信
+    # 3回だけpingを送信
+    # デフォルトは1.1.1.1
+    function pi() {
+      command ping -c 3 ${@:-1.1.1.1}
+    }
+    alias ping="pi"
+fi
+
+if command -v socat > /dev/null 2>&1; then
+  alias ws-listen='socat - UNIX-LISTEN:/tmp/ws.sock,fork'
+  alias ws-connect='socat - UNIX-CONNECT:/tmp/ws.sock'
+  # WebSocketサーバーへの接続
+  alias ws-client='socat - TCP:localhost:8080,nodelay'
 fi
 
 if command -v netstat >/dev/null 2>&1; then
@@ -257,7 +263,7 @@ if command -v sheldon >/dev/null 2>&1; then
 fi
 
 if command -v starship >/dev/null 2>&1; then
-    alias sex="starship explain"
+    alias ss="starship explain"
 fi
 
 if command -v asdf >/dev/null 2>&1; then
@@ -276,7 +282,6 @@ if command -v trans >/dev/null 2>&1; then
     # 基本的な翻訳エイリアス
     alias ja='trans -b -t ja'    # 任意の言語から日本語へ
     alias en='trans -b -t en'    # 任意の言語から英語へ
-
 fi
 
 if command -v mpd >/dev/null 2>&1 && [ -f "${HOME}/.config/mpd/mpd.conf" ]; then
@@ -305,16 +310,28 @@ if command -v warp-cli >/dev/null 2>&1; then
     alias warp="wp registration delete && wp --accept-tos registration new && wp dns families malware && wps && wpc && wps"
 fi
 
+if command -v cloudflared >/dev/null 2>&1; then
+    alias cf="cloudflared"
+    alias rdp="cf access rdp --hostname rdp.tmg-server.com --url localhost:7777"
+fi
+
 if command -v element-desktop >/dev/null 2>&1; then
     alias el="element-desktop"
 fi
 
 if command -v openssl >/dev/null 2>&1; then
-    alias sec="echo SECRET=$(openssl rand -base64 32) >> .env && cat .env"
+    function sec() {
+      echo ${@:-SECRET}=$(openssl rand -base64 32) >> .env && cat .env
+    }
 fi
 
 if command -v rj >/dev/null 2>&1 && command -v jq >/dev/null 2>&1; then
     function rq() {
       rj ${@:-"https://8102.jp/api"} | jq
     }
+fi
+
+# 猫のASCIIアートを表示
+if [ -f "${HOME}/.config/neofetch/image.txt" ]; then
+    alias x="cat ${HOME}/.config/neofetch/image.txt"
 fi

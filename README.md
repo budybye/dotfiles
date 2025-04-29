@@ -334,80 +334,80 @@ shhh.txt
 
 ---
 
-| *OS* | MacOS | Ubuntu | Docker  |
-| --- | :---: | :---: | :---: |
-| Chezmoi | brew | curl/mise | curl/mise |
-| Make | brew | apt | apt |
-| ZSH | brew | apt | apt |
-| Git | brew | apt | apt |
-| Github Actions | ✅ | ✅ | ✅ |
-| Github CLI | brew | apt | apt |
-| Bitwarden CLI | brew | npm/snap | npm/snap |
-| Docker | brew | apt | apt |
-| Dev Container | ✅ | ✅ | ✅ |
-| Multipass | brew | snap | snap |
-| Homebrew | ✅ | ❌ | ❌ |
+| *OS* | MacOS | Ubuntu | Docker | PowerShell | WSL2 |
+| --- | :---: | :---: | :---: | :---: | :---: |
+| Chezmoi | brew | curl/mise | curl/mise | | |
+| Make | brew | apt | apt | | |
+| ZSH | brew | apt | apt | | |
+| Git | brew | apt | apt | | |
+| Github Actions | ✅ | ✅ | ✅ | | |
+| Github CLI | brew | apt | apt | | |
+| Bitwarden CLI | brew | npm/snap | npm/snap | | |
+| Docker | brew | apt | apt | | |
+| Dev Container | ✅ | ✅ | ✅ | | |
+| Multipass | brew | snap | snap | | |
+| Homebrew | ✅ | ❌ | ❌ | | |
 
 ---
 
-| *CLI Tool* | MacOS | Ubuntu | Docker |
-| --- | :---: | :---: | :---: |
-| Byobu | brew | apt | apt |
-| Vim | brew | apt | apt |
-| Fish | brew | apt | apt |
-| aqua VM | brew | apt | apt |
-| MPD | brew | apt | apt |
-| Ncmpcpp | brew | apt | apt |
-| fcitx5 | ❌ | apt | apt |
-| Neofetch | ❌ | apt | apt |
-| fastfetch | brew | ❌ | ❌ |
+| *CLI Tool* | MacOS | Ubuntu | Docker | PowerShell | WSL2 |
+| --- | :---: | :---: | :---: | :---: | :---: |
+| Byobu | brew | apt | apt | | |
+| Vim | brew | apt | apt | | |
+| Fish | brew | apt | apt | | |
+| aqua VM | brew | apt | apt | | |
+| MPD | brew | apt | apt | | |
+| Ncmpcpp | brew | apt | apt | | |
+| fcitx5 | ❌ | apt | apt | | |
+| Neofetch | ❌ | apt | apt | | |
+| fastfetch | brew | ❌ | ❌ | | |
 
 ---
 
-| *Rust Tool* | MacOS | Ubuntu | Docker |
-| --- | :---: | :---: | :---: |
-| Mise | brew | curl | curl |
-| cargo-binstall | mise/cargo | mise/cargo | mise/cargo |
-| Starship | brew | mise/cargo | mise/cargo |
-| Sheldon | brew | cargo | cargo |
-| lsd | brew | cargo/apt | apt |
-| bat | brew | cargo/apt | apt |
-| ripgrep | brew | cargo/apt | apt |
-| fzf | brew | cargo/apt | apt |
-| zoxide | brew | cargo/apt | apt |
-| fd-find | brew | cargo/apt | apt |
+| *Rust Tool* | MacOS | Ubuntu | Docker | PowerShell | WSL2 |
+| --- | :---: | :---: | :---: | :---: | :---: |
+| Mise | brew | curl | curl | | |
+| cargo-binstall | mise/cargo | mise/cargo | mise/cargo | | |
+| Starship | brew | mise/cargo | mise/cargo | | |
+| Sheldon | brew | cargo | cargo | | |
+| lsd | brew | cargo/apt | apt | | |
+| bat | brew | cargo/apt | apt | | |
+| ripgrep | brew | cargo/apt | apt | | |
+| fzf | brew | cargo/apt | apt | | |
+| zoxide | brew | cargo/apt | apt | | |
+| fd-find | brew | cargo/apt | apt | | |
 
 ---
 
-| *Lang/Runtime* | MacOS | Ubuntu | Docker |
-| --- | :---: | :---: | :---: |
-| Node.js | mise | mise | mise |
-| Bun | mise | mise | mise |
-| Deno | mise | mise/snap | mise/snap |
-| Go | mise | mise/snap | mise/snap |
-| Python | mise | mise/apt | mise/apt |
-| Java | mise | mise/apt | mise/apt |
-| Rust | mise | mise/apt | mise/apt |
-| Ruby | mise | mise/apt | mise/apt |
-| PostgreSQL | mise | mise/apt | mise/apt |
-| Redis | mise | mise/apt | mise/apt |
+| *Lang/Runtime* | MacOS | Ubuntu | Docker | PowerShell | WSL2 |
+| --- | :---: | :---: | :---: | :---: | :---: |
+| Node.js | mise | mise | mise | | |
+| Bun | mise | mise | mise | | |
+| Deno | mise | mise/snap | mise/snap | | |
+| Go | mise | mise/snap | mise/snap | | |
+| Python | mise | mise/apt | mise/apt | | |
+| Java | mise | mise/apt | mise/apt | | |
+| Rust | mise | mise/apt | mise/apt | | |
+| Ruby | mise | mise/apt | mise/apt | | |
+| PostgreSQL | mise | mise/apt | mise/apt | | |
+| Redis | mise | mise/apt | mise/apt | | |
 
 ---
 
-| *Desktop* | MacOS | Ubuntu | Docker |
-| --- | :---: | :---: | :---: |
-| Xfce4 | ❌ | apt | apt |
-| Xrdp | ❌ | apt | apt |
-| VSCode | brew | ❌ | apt |
-| VSCodium | ❌ | snap | snap |
-| Cursor | brew | AppImage | AppImage |
-| Github Desktop | brew | apt | apt |
-| Tabby | brew | apt | apt |
-| Brave | brew | apt | apt |
-| Cloudflare Warp | brew | apt | apt |
-| Wireshark | brew | apt | apt |
-| Fusuma | ❌ | gem | gem |
-| Karabiner-Elements | brew | ❌ | ❌ |
+| *Desktop* | MacOS | Ubuntu | Docker | PowerShell | WSL2 |
+| --- | :---: | :---: | :---: | :---: | :---: |
+| Xfce4 | ❌ | apt | apt | | |
+| Xrdp | ❌ | apt | apt | | |
+| VSCode | brew | ❌ | apt | | |
+| VSCodium | ❌ | snap | snap | | |
+| Cursor | brew | AppImage | AppImage | | |
+| Github Desktop | brew | apt | apt | | |
+| Tabby | brew | apt | apt | | |
+| Brave | brew | apt | apt | | |
+| Cloudflare Warp | brew | apt | apt | | |
+| Wireshark | brew | apt | apt | | |
+| Fusuma | ❌ | gem | gem | | |
+| Karabiner-Elements | brew | ❌ | ❌ | | |
 
 ---
 
