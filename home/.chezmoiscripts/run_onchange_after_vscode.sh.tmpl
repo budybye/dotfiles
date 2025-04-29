@@ -11,6 +11,7 @@ CODE_DIR="${HOME}/.local/share/Code"
 if command -v cursor >/dev/null 2>&1 || [ -f "${HOME}/Applications/cursor" ]; then
     CODE_DIR="${HOME}/.config/Cursor"
 fi
+
 # VSCodeのUserディレクトリの作成
 sudo mkdir -p "${CODE_DIR}/User"
 

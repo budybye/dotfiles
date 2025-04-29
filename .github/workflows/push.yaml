@@ -17,9 +17,8 @@ env:
 
 jobs:
   build:
-    # runs-on: ubuntu-24.04
-    # 最初のビルドだとQEMUが遅いので長めに設定 6時間
-    timeout-minutes: 360
+    # 3時間
+    timeout-minutes: 180
     permissions:
       contents: read
       packages: write
@@ -27,18 +26,18 @@ jobs:
       fail-fast: false
       matrix:
         platform:
-          - linux/amd64
-          - linux/arm64
+        - linux/amd64
+        - linux/arm64
         flavor:
-          - name: slim
-          - name: dev
+        - name: slim
+        - name: dev
         include:
-          # ARM64ビルド用の設定
-          - platform: linux/arm64
-            runs-on: ubuntu-24.04-arm
-          # AMD64ビルド用の設定
-          - platform: linux/amd64
-            runs-on: ubuntu-24.04
+        # ARM64ビルド用の設定
+        - platform: linux/arm64
+          runs-on: ubuntu-24.04-arm
+        # AMD64ビルド用の設定
+        - platform: linux/amd64
+          runs-on: ubuntu-24.04
     runs-on: ${{ matrix.runs-on }}
     steps:
       - name: Prepare
@@ -50,7 +49,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # ubuntu-arm64ならQEMUをインストール
       # - name: Set up QEMU
       #   uses: docker/setup-qemu-action@v3
 
@@ -203,14 +201,13 @@ jobs:
     timeout-minutes: 10
     permissions:
       packages: write
-    needs:
-      - build
+    needs: [build]
     strategy:
       fail-fast: false
       matrix:
         flavor:
-          - name: dev
-          - name: slim
+        - name: dev
+        - name: slim
     steps:
       - name: Download digests
         uses: actions/download-artifact@v4

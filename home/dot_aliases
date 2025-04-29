@@ -6,6 +6,7 @@ alias hh="cd ~"
 alias ds='echo $PATH && echo $SHELL'
 alias vv="env | grep"
 alias www="ps aux"
+alias now="date +%Y%m%d%H%M%S"
 alias re="exec ${SHELL} -l"
 alias rl="exec ${SHELL} -l && exec ${SHELL}"
 alias opi="for i in {1..3}; do time ${SHELL} -ic exit;done"
@@ -39,9 +40,11 @@ if command -v curl >/dev/null 2>&1; then
     # alias curl="curl -s"  # サイレントモード
     alias wt="curl wttr.in"  # 天気予報を表示
     alias ppp="curl -4 icanhazip.com && curl -6 icanhazip.com"  # パブリックIPアドレスを表示
-    alias xrp="curl https://raw.githubusercontent.com/budybye/dotfiles/refs/heads/main/home/.chezmoiscripts/run_after_xrp.sh | sh"
     alias qr="curl qrenco.de/${1:-xrp.gl}"
+
     alias bob="curl -X POST -H 'accept: application/json' -H 'Content-Type: application/json' -d '{\"name\": \"marley\"}' https://xrp.gl/bob/"
+
+    alias xrp="curl -s https://raw.githubusercontent.com/budybye/dotfiles/refs/heads/main/home/.chezmoiscripts/run_after_xrp.sh | sh"
 
     function cid() {
       export IPFS_GATEWAY=${IPFS_GATEWAY:-https://ipfs.io}
@@ -83,10 +86,6 @@ if command -v bun >/dev/null 2>&1; then
     alias yarnx="bunx"
     alias dv="bun dev"
     alias dep="time bun run deploy"
-fi
-
-if command -v date >/dev/null 2>&1; then
-    alias now="date +%Y%m%d%H%M%S"
 fi
 
 if command -v tree >/dev/null 2>&1; then

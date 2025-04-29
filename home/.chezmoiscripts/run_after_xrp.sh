@@ -2,14 +2,14 @@
 
 # XRP Ledger public server
 XRPL_SERVER="${XRPL_SERVER:-https://xrpl.ws/}"
-# r3kmLJN5D28dHuH8vZNUZpMC43pEHpaocV
-ACCOUNT="${1:-r9BUM9z14j7bLFzQHRfurWNdNKYSABdGtE}"
+# default account ripple
+ACCOUNT="${1:-${ACCOUNT:-r3kmLJN5D28dHuH8vZNUZpMC43pEHpaocV}}"
+
 # default bithomp usd
-ISSUER="${2:-rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B}"
-# ISSUER="${2:-rMxCKbEDwqr76QuheSUMdEGf4B9xJ8m5De}"
-# default usd
-CURRENCY="${3:-USD}"
-# CURRENCY="${3:-RLUSD}"
+ISSUER="${2:-${ISSUER:-rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B}}"
+CURRENCY="${3:-${CURRENCY:-USD}}"
+# ISSUER="${2:-${ISSUER:-rMxCKbEDwqr76QuheSUMdEGf4B9xJ8m5De}}"
+# CURRENCY="${3:-${CURRENCY:-RLUSD}}"
 
 # book_offers xrp/currency grpc request json
 GET_USD_OFFERS='{
@@ -58,8 +58,6 @@ if command -v jq > /dev/null 2>&1 ; then
 
     # get ledger_current_index
     LEDGER_INDEX=$(echo "$FEE_RESPONSE" | jq -r '.result.ledger_current_index')
-    # LEDGER_INDEX=$(echo "$OFFER_RESPONSE" | jq -r '.result.ledger_current_index')
-    # LEDGER_INDEX=$(echo "$ACCOUNT_INFO_RESPONSE" | jq -r '.result.ledger_current_index')
 
     # get open_ledger_fee
     OPEN_LEDGER_FEE=$(echo "$FEE_RESPONSE" | jq -r '.result.drops.open_ledger_fee')
@@ -72,22 +70,22 @@ else
     exit
 fi
 
+# echo "$FEE_RESPONSE" | jq '.result'
+# echo "$OFFER_RESPONSE" | jq '.result'
+# echo "$ACCOUNT_INFO_RESPONSE" | jq '.result'
+
 # show price, index, fee, account, balance
-cat << 'EOF'
-__  ______  ____    _             _
-\ \/ /  _ \|  _ \  | |    ___  __| | __ _  ___ _ __
- \  /| |_) | |_) | | |   / _ \/ _` |/ _` |/ _ \ '__|
- /  \|  _ <|  __/  | |__|  __/ (_| | (_| |  __/ |
-/_/\_\_| \_\_|     |_____\___|\__,_|\__, |\___|_|
-                                    |___/
-EOF
+echo "__  ______  ____    _             _"
+echo "\ \/ /  _ \|  _ \  | |    ___  __| | __ _  ___ _ __"
+echo " \  /| |_) | |_) | | |   / _ \/ _\` |/ _\` |/ _ \ '__|"
+echo " /  \|  _ <|  __/  | |__|  __/ (_| | (_| |  __/ |"
+echo "/_/\_\_| \_\_|     |_____\___|\__,_|\__, |\___|_|"
+echo "                                    |___/"
 
 echo "Rippled: $XRPL_SERVER"
-echo "XRP/$CURRENCY: \$$XRP_CURRENCY_QUALITY"
-# echo "$OFFER_RESPONSE" | jq '.result'
 echo "LedgerIndex: $LEDGER_INDEX"
-echo "Fee: $OPEN_LEDGER_FEE"
+echo "Fee: $OPEN_LEDGER_FEE drops"
+echo "XRP/$CURRENCY: \$$XRP_CURRENCY_QUALITY"
 echo "Account: $ACCOUNT"
 echo "Balance: $ACCOUNT_BALANCE XRP"
-# echo "$ACCOUNT_INFO_RESPONSE" | jq '.result'
-echo "--------------------------------"
+echo "Time: $(date +%Y%m%d%H%M%S)"
