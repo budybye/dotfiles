@@ -15,19 +15,21 @@
 .chezmoiscripts/linux/snap.sh
 {{ end }}
 
+{{ if eq .github false }}
+.config/git/user*
+{{ end }}
+
 {{ if eq .bitwarden false }}
 .config/git/user*
 .ssh/id_ed25519*
 .ssh/id_rsa*
-{{ end }}
-
-{{ if eq .github false }}
-.config/git/user*
+.chezmoiscripts/bw.sh
 {{ end }}
 
 {{ if eq .age false }}
 .ssh/id_rsa*
 .ssh/id_ed25519*
+.chezmoiscripts/age.sh
 {{ end }}
 
 {{ if eq .ssh false }}

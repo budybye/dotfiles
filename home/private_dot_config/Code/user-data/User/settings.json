@@ -33,6 +33,8 @@
   "editor.minimap.renderCharacters": false,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.accessibilitySupport": "off",
+  "editor.unicodeHighlight.ambiguousCharacters": false,
+  "editor.unicodeHighlight.invisibleCharacters": false,
   "editor.bracketPairColorization.enabled": true,
   "editor.codeActionsOnSave": {
     "quickfix.biome": "explicit",

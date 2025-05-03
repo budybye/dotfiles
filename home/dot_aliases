@@ -37,19 +37,13 @@ fi
 
 if command -v curl >/dev/null 2>&1; then
     # alias curl="curl -s"  # サイレントモード
-    alias wt="curl wttr.in"  # 天気予報を表示
     alias ppp="curl -4 icanhazip.com && curl -6 icanhazip.com"  # パブリックIPアドレスを表示
-    alias qr="curl qrenco.de/${1:-xrp.gl}"
+    alias wt="curl wttr.in"  # 天気予報を表示
+    alias qr="curl qrenco.de/https://${1:-やってるか.みんな}"  # QRコードを表示
 
-    alias bob="curl -X POST -H 'accept: application/json' -H 'Content-Type: application/json' -d '{\"name\": \"marley\"}' https://xrp.gl/bob/"
+    alias bob="curl -X POST -H 'accept: application/json' -H 'Content-Type: application/json' -d '{\"name\": \"marley\"}' xrp.gl/bob/"
 
     alias xrp="curl -s https://raw.githubusercontent.com/budybye/dotfiles/refs/heads/main/home/.chezmoiscripts/run_after_xrp.sh | sh"
-
-    function cid() {
-      export IPFS_GATEWAY=${IPFS_GATEWAY:-https://ipfs.io}
-      CID=${@:-bafybeigagd5nmnn2iys2f3doro7ydrevyr2mzarwidgadawmamiteydbzi}
-      curl -L "${IPFS_GATEWAY}/ipfs/${CID}" -o "${CID}"
-    }
 fi
 
 if command -v ping >/dev/null 2>&1; then
@@ -116,7 +110,7 @@ if command -v arch >/dev/null 2>&1; then
     alias arm="arch -arm64 ${SHELL}"
 fi
 
-# ls lsd
+# ls を lsd に変更
 if command -v lsd >/dev/null 2>&1; then
     alias ls='lsd --group-directories-first'
     alias l='ls -la'
@@ -126,22 +120,22 @@ if command -v lsd >/dev/null 2>&1; then
     alias lt='ls --tree'
 fi
 
-# bat
+# cat を bat に 変更
 if command -v bat >/dev/null 2>&1; then
     alias cat="bat"
 fi
 
-# rg
+# grep を rg に変更
 if command -v rg >/dev/null 2>&1; then
     alias grep="rg"
 fi
 
-# fd
+# find を fd に変更
 if command -v fd >/dev/null 2>&1; then
     alias find="fd"
 fi
 
-# zoxide
+# cd を zoxide に変更
 if command -v zoxide >/dev/null 2>&1; then
     alias cd="z"
 fi
@@ -193,7 +187,10 @@ if command -v docker >/dev/null 2>&1; then
     alias ds="docker stop $(docker ps -q)"
     alias dps="docker ps --format 'table {{.Names}}\t{{.Image}}\t{{.Ports}}\t{{.Status}}'"
     # イメージ名を引数にビルドし、プッシュする関数のエイリアス
-    alias ddd='function _ddd() { IMAGE_NAME="${1:-$(date +%Y%m%d%H%M%S)}"; docker build -t "$IMAGE_NAME" . && docker push "$IMAGE_NAME"; }; _ddd'
+    function ddd() {
+      IMAGE_NAME="${1:-$(date +%Y%m%d%H%M%S)}"
+      docker build -t "$IMAGE_NAME" . && docker push "$IMAGE_NAME"
+    }
 
     alias dx='docker run --rm -itd --privileged --platform linux/${ARCH:-$(dpkg --print-architecture || uname -m)} --hostname docker --name ubuntu-dev -v $(pwd):/home/ubuntu/dev -p 33389:3389 -p 2222:22 ghcr.io/budybye/ubuntu-dev ubuntu ubuntu yes && dps'
 
@@ -244,8 +241,8 @@ if command -v brew >/dev/null 2>&1; then
 fi
 
 # speedtest
-if command -v speedtest >/dev/null 2>&1; then
-    alias st="speedtest"
+if command -v speedtest-cli >/dev/null 2>&1; then
+    alias st="speedtest-cli"
 fi
 
 # mise
@@ -311,6 +308,7 @@ fi
 if command -v cloudflared >/dev/null 2>&1; then
     alias cf="cloudflared"
     alias rdp="cf access rdp --hostname rdp.tmg-server.com --url localhost:7777"
+    alias rpi="cf access rdp --hostname rpi.tmg-server.com --url localhost:33333"
 fi
 
 if command -v element-desktop >/dev/null 2>&1; then
@@ -332,4 +330,11 @@ fi
 # 猫のASCIIアートを表示
 if [ -f "${HOME}/.config/neofetch/image.txt" ]; then
     alias x="cat ${HOME}/.config/neofetch/image.txt"
+fi
+
+# ipfs
+if command -v ipfs >/dev/null 2>&1; then
+    function cid() {
+        ipfs add -r ${@:-.} --cid-version 1 --pin --progress
+    }
 fi
