@@ -77,7 +77,7 @@ jobs:
           lxc exec ubuntu -- echo "$SHELL"
           lxc exec ubuntu -- cat /etc/os-release
 
-  multipass:
+  rpi:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
@@ -89,7 +89,7 @@ jobs:
 
       - name: Launch container
         run: |
-          lxc launch ubuntu:24.04 vm --config=user.user-data="$(cat cloud-init/multipass.yaml)"
-          lxc exec vm -- cloud-init status --wait || true
-          lxc exec vm -- tail -8 /var/log/cloud-init.log
-          lxc exec vm -- cat /etc/os-release
+          lxc launch ubuntu:24.04 rpi --config=user.user-data="$(cat cloud-init/user-data)"
+          lxc exec rpi -- cloud-init status --wait || true
+          lxc exec rpi -- tail -8 /var/log/cloud-init.log
+          lxc exec rpi -- cat /etc/os-release

@@ -249,6 +249,7 @@ packages:
   - 'visualstudioexptteam.vscodeintellicode'
   - 'visualstudioexptteam.intellicode-api-usage-examples'
   - 'wallabyjs.console-ninja'
+  - 'xdebug.php-debug'
   - 'yzhang.markdown-all-in-one'
   - 'bradlc.vscode-tailwindcss'
 
