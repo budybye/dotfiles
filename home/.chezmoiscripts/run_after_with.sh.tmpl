@@ -36,7 +36,7 @@ ls -la "${HOME}/.local/bin"
 echo "--------------------------------"
 tree -L 3 "${HOME}/.local/share"
 echo "--------------------------------"
-tree "${HOME}/Music/riddim"
+tree "${HOME}/Music/riddim" || tree "${HOME}/Music"
 echo "--------------------------------"
 
 {{ if eq .chezmoi.os "linux" -}}
@@ -50,13 +50,14 @@ echo "--------------------------------"
 
 {{ end -}}
 
+# ${HOME}/dotfiles が存在しない場合はシンボリックリンクを作成する
 if [ -d "${HOME}/dotfiles" ]; then
     echo "Dotfiles already exists."
 else
     echo "Create symlink..."
     ln -sf "{{ .chezmoi.sourceDir }}" "${HOME}/dotfiles"
 fi
-ls -la "${HOME}/dotfiles"
+tree "${HOME}/dotfiles"
 echo "--------------------------------"
 
 # 対話型にする？

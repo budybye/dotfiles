@@ -7,11 +7,14 @@ alias ds='echo $PATH && echo $SHELL'
 alias vv="env | grep"
 alias www="ps aux"
 alias now="date +%Y%m%d%H%M%S"
+
 alias rl="exec ${SHELL} -l && exec ${SHELL}"
 alias opi="for i in {1..3}; do time ${SHELL} -ic exit;done"
 alias oppi="for i in {1..3}; do time ${SHELL} -lc exit;done"
-alias note="${EDITOR:-vim} ${HOME}/note.md"  # ノートを開く
+
+alias note="${EDITOR:-vim} ${HOME}/Documents/note.md"  # ノートを開く
 alias docs="cd ${HOME}/Documents"  # ドキュメントフォルダに移動
+alias br="echo '--------------------------------'" # 区切り線
 
 # ファイル操作のエイリアス
 alias mv="mv -i"   # 上書き確認を有効にする
@@ -36,19 +39,15 @@ if command -v gh >/dev/null 2>&1; then
 fi
 
 if command -v curl >/dev/null 2>&1; then
-    # alias curl="curl -s"  # サイレントモード
+    alias curl="curl -s"  # サイレントモード
     alias ppp="curl -4 icanhazip.com && curl -6 icanhazip.com"  # パブリックIPアドレスを表示
     alias wt="curl wttr.in"  # 天気予報を表示
     alias qr="curl qrenco.de/https://${1:-やってるか.みんな}"  # QRコードを表示
-
-    alias bob="curl -X POST -H 'accept: application/json' -H 'Content-Type: application/json' -d '{\"name\": \"marley\"}' xrp.gl/bob/"
-
-    alias xrp="curl -s https://raw.githubusercontent.com/budybye/dotfiles/refs/heads/main/home/.chezmoiscripts/run_after_xrp.sh | sh"
+    alias xrp="curl https://raw.githubusercontent.com/budybye/dotfiles/refs/heads/main/home/.chezmoiscripts/run_after_xrp.sh | sh"
 fi
 
 if command -v ping >/dev/null 2>&1; then
-    # 3回だけpingを送信
-    # デフォルトは1.1.1.1
+    # 3回だけpingを送信 デフォルトは1.1.1.1
     function pi() {
       command ping -c 3 ${@:-1.1.1.1}
     }
@@ -81,10 +80,12 @@ if command -v bun >/dev/null 2>&1; then
     alias dep="time bun run deploy"
 fi
 
+# ツリー表示
 if command -v tree >/dev/null 2>&1; then
     alias tree="tree -NC"   # N: 文字化け対策 C: 色を付ける
 fi
 
+# クリップボード mac linux
 if command -v pbcopy >/dev/null 2>&1; then
     alias cx="pbcopy"
     alias cv="pbpaste"
@@ -98,10 +99,10 @@ fi
 # http://localhost:3000 をブラウザで開く
 if command -v xdg-open >/dev/null 2>&1; then
     alias lh="xdg-open http://localhost:3000"
-    alias ggg="xdg-open https://youtube.com"
+    alias ggg="xdg-open https://youtu.be"
 elif command -v open >/dev/null 2>&1; then
     alias lh="open -na 'Brave Browser' --args --new-window http://localhost:3000"
-    alias ggg="open -na 'Brave Browser' --args --new-window https://youtube.com"
+    alias ggg="open -na 'Brave Browser' --args --new-window https://youtu.be"
 fi
 
 # rosetta2のエイリアス

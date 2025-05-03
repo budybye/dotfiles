@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # XRP Ledger public server
-XRPL_SERVER="${XRPL_SERVER:-https://xrpl.ws/}"
+XRPL_SERVER="${XRPL_SERVER:-https://xrpl.ws}"
 # default account ripple
 ACCOUNT="${1:-${ACCOUNT:-r3kmLJN5D28dHuH8vZNUZpMC43pEHpaocV}}"
 
@@ -88,4 +88,4 @@ echo "Fee: $OPEN_LEDGER_FEE drops"
 echo "XRP/$CURRENCY: \$$XRP_CURRENCY_QUALITY"
 echo "Account: $ACCOUNT"
 echo "Balance: $ACCOUNT_BALANCE XRP"
-echo "Time: $(date +%Y%m%d%H%M%S)"
+# echo "Time: $(date +%Y%m%d%H%M%S)"
