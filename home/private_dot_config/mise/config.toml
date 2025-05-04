@@ -1,33 +1,49 @@
 [tools]
-# `mise use -g`で設定できます
-bun = "1.2.10"
-node = "20.19.1"
-go = "1.23.4"
-rust = "1.83.0"
-python = "3.13.3"
-
-# java = "latest"
+bun = "latest"
+node = "20"
+biome = "latest"
 # deno = "latest"
 # pnpm = "latest"
-# php = "latest"
+
+go = "latest"
+aqua = "latest"
+act = "latest"
+caddy = "latest"
+cloudflared = "latest"
+websocat = "latest"
+
+rust = "stable"
+cargo-binstall = "latest"
+
+python = "latest"
+uv = "latest"
+
+jq = "latest"
+gh = "latest"
+yq = "latest"
+mkcert = "latest"
+
+conan = "latest"
+cmake = "latest"
+ninja = "latest"
+vim = "9.1.1362"
+
+# age = "latest"
+# chezmoi = "latest"
+# bitwarden = "latest"
+
+ffmpeg = "latest"
+yt-dlp = "latest"
+
+# java = "latest"
 # maven = "latest"
+
 # ruby = "latest"
+# php = "latest"
 
-cargo-binstall = "1.10.16"
-# cargo-binstall = "1.10.21"
-uv = "0.6.17"
-# uv = "0.6.17"
-ninja = "1.12.1"
-yq = "4.44.6"
-# conan = "2.11.0"
-
-# mkcert = "latest"
-# websocat = "latest"
 # sqlite = "latest"
 # terraform = "latest"
-# bitwarden = "latest"
 # direnv = "latest"
-# caddy = "latest"
 
 [settings]
 # プラグインは他のバージョン管理ツールのバージョンファイルを読み取ることができます（プラグインが有効な場合）
@@ -46,7 +62,7 @@ always_keep_install = false         # デフォルトでは失敗時に削除
 
 # これらのプレフィックスを持つ設定ファイルはデフォルトで信頼されます
 trusted_config_paths = [
-    '~/dotfiles',
+  '~/dotfiles',
 ]
 
 verbose = false       # trueに設定すると、インストールの全出力が表示されます。`MISE_VERBOSE`を参照

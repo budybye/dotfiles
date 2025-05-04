@@ -76,14 +76,14 @@ install_mise() {
     mise --version >> ${HOME}/which || echo "mise not found" >> ${HOME}/which
 
     # ~/.config/mise/config.toml に記載されたパッケージをインストール
-    mise install || echo "mise install failed." >> ${HOME}/which
+    mise i || echo "mise install failed." >> ${HOME}/which
 
     mise activate --shims
-    mise activate bash
+    mise activate ${SHELL:-bash}
     mise list
     echo "mise setup completed."
 
-    for cmd in go cargo npm node bun cargo-binstall python; do
+    for cmd in go cargo npm node bun cargo-binstall python uv jq gh yq cmake ninja aqua act caddy cloudflared websocat ffmpeg yt-dlp; do
         command -v "$cmd" >> ${HOME}/which || echo "$cmd not found" >> ${HOME}/which
     done
 }
@@ -201,7 +201,7 @@ change_shell_to_zsh
 install_mise
 install_cargo_tools
 install_flatpak
-install_go_aqua
+# install_go_aqua
 install_mkcert
 
 cat ${HOME}/which && rm -f ${HOME}/which

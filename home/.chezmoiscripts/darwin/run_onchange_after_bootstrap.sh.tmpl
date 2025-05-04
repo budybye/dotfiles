@@ -83,13 +83,25 @@ install_brew_packages() {
     echo "packages install done."
 }
 
+install_mise() {
+    if command -v mise >/dev/null; then
+        echo "mise already installed."
+    else
+        brew install mise
+    fi
+    mise i || echo "mise install failed."
+    mise activate --shims
+    mise activate ${SHELL:-zsh}
+    mise list
+    echo "mise setup completed."
+}
+
 echo "bootstrap start."
 install_xcode_command_line_tools
 install_rosetta
 install_homebrew
 install_brew_packages
-# ~/.config/mise/config.toml に記載されたパッケージをインストール
-mise install || echo "mise install failed."
+install_mise
 echo "bootstrap done."
 echo "--------------------------------"
 echo "zsh --version $(zsh --version)"
