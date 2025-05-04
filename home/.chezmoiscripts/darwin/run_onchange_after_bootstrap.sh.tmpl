@@ -91,7 +91,7 @@ install_mise() {
     fi
     mise i || echo "mise install failed."
     mise activate --shims
-    mise activate ${SHELL:-zsh}
+    mise activate bash
     mise list
     echo "mise setup completed."
 }

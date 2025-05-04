@@ -1,13 +1,13 @@
 [tools]
 bun = "latest"
 node = "20"
-biome = "latest"
 # deno = "latest"
 # pnpm = "latest"
 
 go = "latest"
 aqua = "latest"
 act = "latest"
+
 caddy = "latest"
 cloudflared = "latest"
 websocat = "latest"
@@ -23,17 +23,20 @@ gh = "latest"
 yq = "latest"
 mkcert = "latest"
 
-conan = "latest"
 cmake = "latest"
 ninja = "latest"
-vim = "9.1.1362"
+# conan = "latest"
+
+biome = "latest"
+vim = "latest"
+fastfetch = "latest"
 
 # age = "latest"
 # chezmoi = "latest"
 # bitwarden = "latest"
 
-ffmpeg = "latest"
-yt-dlp = "latest"
+# ffmpeg = "latest"
+# yt-dlp = "latest"
 
 # java = "latest"
 # maven = "latest"

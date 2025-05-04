@@ -79,7 +79,7 @@ install_mise() {
     mise i || echo "mise install failed." >> ${HOME}/which
 
     mise activate --shims
-    mise activate ${SHELL:-bash}
+    mise activate bash
     mise list
     echo "mise setup completed."
 
