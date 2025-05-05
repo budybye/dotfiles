@@ -2,13 +2,12 @@
 
 echo "run_after_activate.sh.tmpl"
 echo "--------------------------------"
-USERNAME=$(whoami)
 echo "Welcome to $USERNAME dotfiles!!"
-echo "sourceDir: {{ .chezmoi.sourceDir }}"
-echo "user: $USERNAME"
+echo "sourceDir is {{ .chezmoi.sourceDir }}"
+echo "user is $(whoami)"
 echo "OS info ..."
 uname -mars
-echo "SHELL: $SHELL"
+echo "SHELL is $SHELL"
 echo "--------------------------------"
 
 # .env の確認と作成

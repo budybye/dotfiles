@@ -88,11 +88,19 @@ install_mise() {
         echo "mise already installed."
     else
         brew install mise
+        mise --version || echo "mise install failed."
     fi
-    mise i || echo "mise install failed."
+
+    {{- range .packages.mise -}}
+
+    mise i {{ . }} || echo "{{ . }} install failed."
+    which {{ . }} >> ${HOME}/which || echo "{{ . }} not found" >> ${HOME}/which
+
+    {{- end }}
+
     mise activate --shims
     mise activate bash
-    mise list
+    mise bin-paths
     echo "mise setup completed."
 }
 

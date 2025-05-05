@@ -75,17 +75,17 @@ install_mise() {
     export PATH="${HOME}/.local/bin:${HOME}/.local/share/mise/shims:$PATH"
     mise --version >> ${HOME}/which || echo "mise not found" >> ${HOME}/which
 
-    # ~/.config/mise/config.toml に記載されたパッケージをインストール
-    mise i || echo "mise install failed." >> ${HOME}/which
+    {{- range .packages.mise -}}
+
+    mise use -g -y {{ . }}
+    which {{ . }} >> ${HOME}/which || echo "{{ . }} not found" >> ${HOME}/which
+
+    {{- end }}
 
     mise activate --shims
     mise activate bash
-    mise list
+    mise bin-paths
     echo "mise setup completed."
-
-    for cmd in go cargo npm node bun cargo-binstall python uv jq gh yq cmake ninja aqua act caddy cloudflared websocat ffmpeg yt-dlp; do
-        command -v "$cmd" >> ${HOME}/which || echo "$cmd not found" >> ${HOME}/which
-    done
 }
 
 install_cargo_tools() {
@@ -151,7 +151,7 @@ install_go_aqua() {
         echo "go already installed."
 
     elif command -v mise >/dev/null; then
-        mise use -g -y go@1.23.2
+        mise use -g -y go@latest
 
     else
         $sudo apt-get install -y golang || echo "go install failed."

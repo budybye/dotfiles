@@ -277,8 +277,30 @@ packages:
   - 'ripgrep'
 
   mise:
-  - 'rust'
-  - 'cargo-binstall'
-  - 'bun'
-  - 'node'
-  - 'uv'
+  - 'rust@stable'
+  - 'cargo-binstall@latest'
+
+  - 'bun@latest'
+  - 'node@20'
+
+  - 'python@latest'
+  - 'uv@latest'
+
+  - 'jq@latest'
+  - 'gh@latest'
+  - 'yq@latest'
+  - 'mkcert@latest'
+
+  - 'cmake@latest'
+  - 'ninja@latest'
+  - 'vim@latest'
+
+  - 'websocat@latest'
+  - 'age@latest'
+  - 'act@latest'
+  - 'caddy@latest'
+  - 'cloudflared@latest'
+  - 'fastfetch@latest'
+
+  - 'go@latest'
+  - 'aqua@latest'
