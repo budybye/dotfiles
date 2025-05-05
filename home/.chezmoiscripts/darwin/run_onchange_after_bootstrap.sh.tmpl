@@ -94,7 +94,6 @@ install_mise() {
     {{- range .packages.mise -}}
 
     mise i {{ . }} || echo "{{ . }} install failed."
-    which {{ . }} >> ${HOME}/which || echo "{{ . }} not found" >> ${HOME}/which
 
     {{- end }}
 
