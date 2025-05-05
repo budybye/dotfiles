@@ -54,11 +54,10 @@ if command -v ping >/dev/null 2>&1; then
     alias ping="pi"
 fi
 
-if command -v socat > /dev/null 2>&1; then
-  alias ws-listen='socat - UNIX-LISTEN:/tmp/ws.sock,fork'
-  alias ws-connect='socat - UNIX-CONNECT:/tmp/ws.sock'
-  # WebSocketサーバーへの接続
-  alias ws-client='socat - TCP:localhost:8080,nodelay'
+if command -v websocat >/dev/null 2>&1; then
+    alias ws-listen='websocat - UNIX-LISTEN:/tmp/ws.sock,fork'
+    alias ws-connect='websocat - UNIX-CONNECT:/tmp/ws.sock'
+    alias ws-client='websocat - TCP:localhost:8080,nodelay'
 fi
 
 if command -v netstat >/dev/null 2>&1; then

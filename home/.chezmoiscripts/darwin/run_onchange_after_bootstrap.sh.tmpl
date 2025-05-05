@@ -94,7 +94,7 @@ install_mise() {
     {{- range .packages.mise }}
     mise use -g -y "{{ . }}" || echo "{{ . }} install failed."
     {{- end }}
-    
+
     mise activate --shims
     mise activate bash
     mise bin-paths
