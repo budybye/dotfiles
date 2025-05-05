@@ -77,9 +77,7 @@ install_mise() {
 
     {{- range .packages.mise -}}
 
-    mise use -g -y {{ . }}
-    which {{ . }} >> ${HOME}/which || echo "{{ . }} not found" >> ${HOME}/which
-
+    mise use -g -y {{ . }} || echo "{{ . }} install failed."
     {{- end }}
 
     mise activate --shims

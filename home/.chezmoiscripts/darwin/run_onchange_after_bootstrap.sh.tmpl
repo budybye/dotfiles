@@ -93,7 +93,7 @@ install_mise() {
 
     {{- range .packages.mise -}}
 
-    mise i {{ . }} || echo "{{ . }} install failed."
+    mise use -g -y {{ . }} || echo "{{ . }} install failed."
 
     {{- end }}
 
