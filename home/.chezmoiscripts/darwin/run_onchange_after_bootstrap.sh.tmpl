@@ -50,25 +50,25 @@ install_brew_packages() {
     brew --version
     brewlist=$(brew list)
 
-    {{ range .packages.darwin.formula -}}
-
-    if ! echo "$brewlist" | grep -q {{ . }}; then
-        brew install {{ . }} || echo "{{ . }} install failed."
+    {{- if .packages.darwin.formula }}
+    {{- range .packages.darwin.formula }}
+    if ! echo "$brewlist" | grep -q "{{ . }}"; then
+        brew install "{{ . }}" || echo "{{ . }} install failed."
     else
         echo "{{ . }} already installed."
     fi
+    {{- end }}
+    {{- end }}
 
-    {{ end }}
-
-    {{ range .packages.darwin.cask -}}
-
-    if ! echo "$brewlist" | grep -q {{ . }}; then
-        brew install --cask {{ . }} || echo "{{ . }} install failed."
+    {{- if .packages.darwin.cask }}
+    {{- range .packages.darwin.cask }}
+    if ! echo "$brewlist" | grep -q "{{ . }}"; then
+        brew install --cask "{{ . }}" || echo "{{ . }} install failed."
     else
         echo "{{ . }} already installed."
     fi
-
-    {{ end }}
+    {{- end }}
+    {{- end }}
 
     if ! command -v tree >/dev/null 2>&1; then
         brew install tree
@@ -91,12 +91,10 @@ install_mise() {
         mise --version || echo "mise install failed."
     fi
 
-    {{- range .packages.mise -}}
-
-    mise use -g -y {{ . }} || echo "{{ . }} install failed."
-
+    {{- range .packages.mise }}
+    mise use -g -y "{{ . }}" || echo "{{ . }} install failed."
     {{- end }}
-
+    
     mise activate --shims
     mise activate bash
     mise bin-paths
