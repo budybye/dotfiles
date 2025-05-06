@@ -1,0 +1,7 @@
+if command -v x > /dev/null 2>&1; then
+    x
+fi
+
+if command -v xrp > /dev/null 2>&1; then
+    xrp
+fi

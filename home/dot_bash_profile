@@ -12,8 +12,6 @@ PS1='\[\e[32m\]\u@\h\[\e[m\]:\[\e[34m\]\w\[\e[m\] \$ '
 
 if [ -f "${HOME}/.bashrc" ]; then
     . "${HOME}/.bashrc"
-else
-    echo ".bashrc not found"
 fi
 
 # byobu session management

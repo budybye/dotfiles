@@ -44,6 +44,6 @@ if [ -f /etc/bash_completion ]; then
 fi
 
 # aliasファイルの読み込み
-if [ -f "${HOME}/.config/zsh/aliases" ]; then
-  . "${HOME}/.config/zsh/aliases"
+if [ -f "${HOME}/.config/zsh/.aliases" ]; then
+  . "${HOME}/.config/zsh/.aliases"
 fi

@@ -99,6 +99,6 @@ if command -v sheldon > /dev/null 2>&1; then
 fi
 
 # aliasファイルの読み込み
-if [ -f "${ZDOTDIR}/alias" ]; then
-  . "${ZDOTDIR}/alias"
+if [ -f "${ZDOTDIR}/.aliases" ]; then
+  . "${ZDOTDIR}/.aliases"
 fi
