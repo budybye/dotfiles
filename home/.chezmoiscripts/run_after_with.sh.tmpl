@@ -62,7 +62,7 @@ echo "--------------------------------"
 
 # 対話型にする？
 {{/*
-{{ if eq .chezmoi.hostname "101" -}}
+{{ if eq .chezmoi.hostname "101" }}
 
 echo 'git userconf update ? (y/n)'
 read ans
@@ -72,7 +72,7 @@ fi
 cat ~/.config/git/user.conf
 echo "--------------------------------"
 
-{{ end -}}
+{{ end }}
 */}}
 
 chezmoi data

@@ -18,7 +18,7 @@ echo "--------------------------------"
 
 MISE="${HOME}/.local/bin/mise"
 SHIMS="${HOME}/.local/share/mise"
-VERSION="20.19.1"
+VERSION="20"
 NPM="${SHIMS}/installs/node/${VERSION}/bin/npm"
 BW="${SHIMS}/installs/node/${VERSION}/bin/bw"
 SESSION="{{ .chezmoi.sourceDir }}/.env"
@@ -28,24 +28,20 @@ mise_install() {
     if command -v mise >/dev/null 2>&1; then
         echo "mise already installed."
 
-    else
-        echo "mise not found."
+    elif command -v brew >/dev/null 2>&1; then
+        brew install mise || echo "mise install failed."
 
-        if command -v brew >/dev/null 2>&1; then
-            brew install mise || echo "mise install failed."
-
-        elif command -v curl >/dev/null 2>&1; then
-            curl https://mise.run | sh || echo "mise install failed."
-
-        else
-            echo "mise install failed."
-            exit 1
-
-        fi
+    elif command -v curl >/dev/null 2>&1; then
+        curl https://mise.run | sh || echo "mise install failed."
         export PATH="${HOME}/.local/bin:${PATH}"
-        mise --version || echo "mise command not found."
-        echo "mise installed"
+
+    else
+        echo "mise install failed."
+        exit 1
     fi
+
+    mise --version || echo "mise command not found."
+    echo "mise installed"
     echo "--------------------------------"
 }
 
@@ -54,25 +50,22 @@ node_install() {
     if command -v npm >/dev/null 2>&1; then
         echo "npm already installed."
 
+    elif command -v mise >/dev/null 2>&1; then
+        mise use -g node@${VERSION} -y && mise activate bash >/dev/null || echo "node install failed."
+
+    elif [ -f ${MISE} ]; then
+        ${MISE} use -g node@${VERSION} -y && ${MISE} activate bash >/dev/null || echo "node install failed."
+
     else
-        echo "npm not found."
+        echo "mise not found."
+        exit 1
 
-        if command -v mise >/dev/null 2>&1; then
-            mise use -g node@${VERSION} -y && mise activate bash >/dev/null || echo "node install failed."
-
-        elif [ -f ${MISE} ]; then
-            ${MISE} use -g node@${VERSION} -y && ${MISE} activate bash >/dev/null || echo "node install failed."
-
-        else
-            echo "mise not found."
-            exit 1
-
-        fi
-        export PATH="${SHIMS}/shims:${PATH}"
-        export PATH="${SHIMS}/installs/node/${VERSION}/bin:${PATH}"
-        npm --version || echo "npm command not found."
-        echo "node installed"
     fi
+
+    export PATH="${SHIMS}/shims:${PATH}"
+    export PATH="${SHIMS}/installs/node/${VERSION}/bin:${PATH}"
+    npm --version || echo "npm command not found."
+    echo "node installed"
     echo "--------------------------------"
 }
 
@@ -81,26 +74,21 @@ bw_install() {
     if command -v bw >/dev/null 2>&1; then
         echo "bw already installed."
 
+    elif command -v npm >/dev/null 2>&1; then
+        npm install -g @bitwarden/cli || echo "bitwarden cli install failed."
+
+    elif [ -f ${NPM} ]; then
+        ${NPM} install -g @bitwarden/cli || echo "bitwarden cli install failed."
+
     else
-        echo "bw not found."
-
-        if command -v npm >/dev/null 2>&1; then
-            npm install -g @bitwarden/cli || echo "bitwarden cli install failed."
-
-        elif [ -f ${NPM} ]; then
-            ${NPM} install -g @bitwarden/cli || echo "bitwarden cli install failed."
-
-        else
-            echo "npm not found."
-            # sudo snap install bw
-            # exit 1
-
-        fi
-        export PATH="${SHIMS}/installs/node/${VERSION}/bin:${PATH}"
-        bw --version || echo "bw command not found."
-        echo "Bitwarden CLI installed."
+        echo "npm not found."
+        # sudo snap install bw
+        #exit 1
 
     fi
+    export PATH="${SHIMS}/installs/node/${VERSION}/bin:${PATH}"
+    bw --version || echo "bw command not found."
+    echo "Bitwarden CLI installed."
     echo "--------------------------------"
 }
 
@@ -121,10 +109,8 @@ bw_unlock() {
     # .env 表示
     if [ -f ${SESSION} ]; then
         cat ${SESSION}
-
     else
         echo "export BW_SESSION=${BW_SESSION:-}" > ${SESSION} && cat ${SESSION}
-
     fi
     echo "--------------------------------"
 }

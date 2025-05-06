@@ -39,7 +39,7 @@ install_packages() {
     $sudo apt-get update -y
     $sudo apt-get upgrade -y
 
-    {{ range .packages.linux.cli -}}
+    {{ range .packages.linux.cli }}
 
     if ! dpkg -l | grep -q {{ . }}; then
         $sudo apt-get install -y {{ . }} && echo "{{ . }} installed." || \
@@ -75,11 +75,11 @@ install_mise() {
     export PATH="${HOME}/.local/bin:${HOME}/.local/share/mise/shims:$PATH"
     mise --version >> ${HOME}/which || echo "mise not found" >> ${HOME}/which
 
-    {{- range .packages.mise -}}
+    {{ range .packages.mise }}
 
     mise use -g -y {{ . }} || echo "{{ . }} install failed."
 
-    {{- end }}
+    {{ end }}
 
     mise activate --shims
     mise activate bash

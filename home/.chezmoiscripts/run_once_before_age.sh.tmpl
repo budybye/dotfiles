@@ -5,21 +5,24 @@ echo "--------------------------------"
 
 if command -v age >/dev/null; then
     echo "age already installed"
+
+elif command -v mise >/dev/null; then
+    mise use -g age@latest -y || echo "age install failed"
+
+elif command -v brew >/dev/null; then
+    brew install age || echo "age install failed"
+
+elif command -v apt-get >/dev/null; then
+    sudo apt-get install -y age || echo "age install failed"
+
+elif command -v curl >/dev/null; then
+    curl -sSL https://github.com/FiloSottile/age/releases/download/v1.1.2/age-v1.1.2-linux-$(dpkg --print-architecture).tar.gz | tar xz || echo "age install failed"
+
 else
-    if command -v brew >/dev/null; then
-        brew install age || echo "age install failed"
-
-    elif command -v apt-get >/dev/null; then
-        sudo apt-get install -y age || echo "age install failed"
-
-    elif command -v curl >/dev/null; then
-        curl -sSL https://github.com/FiloSottile/age/releases/download/v1.1.2/age-v1.1.2-linux-$(dpkg --print-architecture).tar.gz | tar xz || echo "age install failed"
-
-    else
-        echo "age not installed"
-        exit 1
-    fi
+    echo "age not installed"
+    exit 1
 fi
+
 age --version || echo "age command not found && exit 1"
 echo "--------------------------------"
 
@@ -27,12 +30,12 @@ echo "--------------------------------"
 # key.txt をパスフレーズで復号するので事前に用意
 # https://www.chezmoi.io/user-guide/frequently-asked-questions/encryption/
 
-{{ if ne .age false -}}
+{{ if ne .age false }}
 
 {{/* .chezmoi.toml.tmpl と合わせる */}}
 identity="${HOME}/.config/chezmoi/key.txt"
 
-{{- /* age-keygen | age --armor --passphrase ${key_name} で生成したキーのファイル名 */ -}}
+{{/* age-keygen | age --armor --passphrase ${key_name} で生成したキーのファイル名 */}}
 key_name="key.txt.age"
 key_path="{{ .chezmoi.sourceDir }}/${key_name}"
 
@@ -51,4 +54,4 @@ fi
 echo "Decrypt-private-key complete."
 echo "--------------------------------"
 
-{{- end -}}
+{{ end }}
