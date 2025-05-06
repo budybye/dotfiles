@@ -23,6 +23,11 @@ change_shell_to_zsh() {
         $sudo chsh -s "${zsh_path}" "$(whoami)" || echo "zsh default shell change failed."
     fi
 
+    # ZDOTDIRを設定
+    if [ -d ${HOME}/.config/zsh ]; then
+        export ZDOTDIR=${HOME}/.config/zsh
+    fi
+
     # シンボリックリンクを作成
     if [ ! -f /bin/zsh ] && [ -f /usr/bin/zsh ]; then
         $sudo ln -sf /usr/bin/zsh /bin/zsh
@@ -64,6 +69,7 @@ install_mise() {
     elif command -v curl >/dev/null 2>&1; then
         echo "mise install start..."
         curl https://mise.run | sh || echo "mise install failed."
+
     else
         echo "curl not found"
         $sudo install -dm 755 /etc/apt/keyrings
@@ -72,6 +78,7 @@ install_mise() {
         $sudo apt-get update -y
         $sudo apt-get install -y mise || echo "mise install failed."
     fi
+
     export PATH="${HOME}/.local/bin:${HOME}/.local/share/mise/shims:$PATH"
     mise --version >> ${HOME}/which || echo "mise not found" >> ${HOME}/which
 
@@ -92,23 +99,21 @@ install_cargo_tools() {
     if command -v cargo >/dev/null; then
         echo "cargo already installed."
 
+    elif command -v mise >/dev/null 2>&1; then
+        mise use -g -y rust@stable || echo "cargo install failed."
+
+    elif command -v curl >/dev/null 2>&1; then
+        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y || echo "cargo install failed."
+
     else
-        if command -v mise >/dev/null 2>&1; then
-            mise use -g -y rust@stable
-
-        elif command -v curl >/dev/null 2>&1; then
-            curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y || echo "cargo install failed."
-
-        else
-            echo "curl not found"
-            $sudo apt-get install -y cargo || echo "cargo install failed."
-        fi
-
-        if [ -f ${HOME}/.cargo/env ]; then
-            . ${HOME}/.cargo/env
-        fi
-        echo "cargo installed."
+        echo "curl not found"
+        $sudo apt-get install -y cargo || echo "cargo install failed."
     fi
+
+    if [ -f ${HOME}/.cargo/env ]; then
+        . ${HOME}/.cargo/env
+    fi
+
     cargo --version >> ${HOME}/which || echo "cargo not found" >> ${HOME}/which
 
     echo "cargo tools install start..."
@@ -116,11 +121,11 @@ install_cargo_tools() {
     if command -v cargo-binstall >/dev/null; then
         echo "cargo-binstall already installed."
 
-    elif command -v cargo >/dev/null; then
-        cargo install cargo-binstall@1.6.9 --locked || echo "cargo tools install failed."
-
     elif command -v mise >/dev/null; then
         mise use -g -y cargo-binstall || echo "cargo tools install failed."
+
+    elif command -v cargo >/dev/null; then
+        cargo install cargo-binstall@1.6.9 --locked || echo "cargo tools install failed."
 
     else
         echo "cargo not found" >> ${HOME}/which
