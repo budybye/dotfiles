@@ -7,7 +7,7 @@ echo "--------------------------------"
 # マスターパスワードを暗号化 パスフレーズが要求される
 # echo "${MASTER}" | chezmoi encrypt > {{ .chezmoi.sourceDir }}/shhh.txt
 
-# マスターパスワードを復号 パスフレーズが要求される
+{{/* マスターパスワードを復号 パスフレーズが要求される */}}
 {{ if ne .bitwarden false }}
 
 echo "decrypt shhh.txt"

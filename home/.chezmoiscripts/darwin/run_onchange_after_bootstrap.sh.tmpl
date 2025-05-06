@@ -91,9 +91,17 @@ install_mise() {
         mise --version || echo "mise install failed."
     fi
 
-    {{- range .packages.mise }}
-    mise use -g -y "{{ . }}" || echo "{{ . }} install failed."
-    {{- end }}
+    if [ -f ${HOME}/.config/mise/config.toml ]; then
+        mise install -g -y
+    else
+
+        {{ range .packages.mise }}
+
+        mise use -g -y "{{ . }}" || echo "{{ . }} install failed."
+
+        {{ end }}
+
+    fi
 
     mise activate --shims
     mise activate bash
