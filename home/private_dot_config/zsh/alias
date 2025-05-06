@@ -1,3 +1,8 @@
+# 重複したPATHを削除
+if command -v awk > /dev/null 2>&1;then
+    export PATH="$(printf %s "${PATH}" | awk -v RS=: -v ORS=: '!arr[$0]++')"
+fi
+
 # よく使うコマンド
 alias q="exit"
 alias c="clear"
@@ -196,7 +201,7 @@ if command -v docker >/dev/null 2>&1; then
       docker build -t "$IMAGE_NAME" . && docker push "$IMAGE_NAME"
     }
 
-    alias dx='docker run --rm -itd --privileged --platform linux/${ARCH:-$(dpkg --print-architecture || uname -m)} --hostname docker --name ubuntu-dev -v $(pwd):/home/ubuntu/dev -p 33389:3389 -p 2222:22 ghcr.io/budybye/ubuntu-dev ubuntu ubuntu yes && dps'
+    alias dx='docker run --rm -itd --privileged --platform linux/${ARCH:-$(dpkg --print-architecture || uname -m)} --hostname docker --name ubuntu-dev -p 33389:3389 -p 2222:22 ghcr.io/budybye/ubuntu-dev ubuntu ubuntu yes && dps'
 
     ## 停止コンテナ、タグ無しイメージ、未使用ボリューム、未使用ネットワーク一括削除
     alias drm="docker system prune -af --volumes"
@@ -207,22 +212,27 @@ if command -v docker-compose >/dev/null 2>&1; then
     alias dcb="docker-compose build"
     alias dcu="docker-compose up"
     alias dcd="docker-compose down"
+    alias dcr="docker-compose restart"
 fi
 
 # multipass
 if command -v multipass >/dev/null 2>&1; then
     alias mu="multipass"
-    alias md="mu launch docker -c 4 -m 8G -d 40G  --timeout 3600 --mount ${HOME}/apps:/home/ubuntu/apps && mu info docker"
-    alias ml="mu launch -n ubuntu 24.04 -c 4 -m 8G -d 44G --timeout 7200 --cloud-init ${HOME}/dotfiles/cloud-init/multipass.yaml && mu exec ubuntu -- tail -7 /var/log/cloud-init.log"
+    alias md="mu launch docker -c 4 -m 8G -d 42G --timeout 3600 && mu info docker"
+    alias ml="mu launch -n ubuntu 24.04 -c 4 -m 8G -d 42G --timeout 7200 --cloud-init ${HOME}/dotfiles/cloud-init/multipass.yaml && mu exec ubuntu -- tail -7 /var/log/cloud-init.log"
     alias ms="mu stop ubuntu && mu delete -p ubuntu && mu list"
-    alias sm="ssh ubuntu@vm.local -i ~/.ssh/id_ed25519"
 fi
 
 # kube
 if command -v kubectl >/dev/null 2>&1; then
     alias k="kubectl"
-    # alias kx="kubectx"
-    # alias kn="kubens"
+    if command -v kubectx >/dev/null 2>&1; then
+        alias kx="kubectx"
+    fi
+
+    if command -v kubens >/dev/null 2>&1; then
+        alias kn="kubens"
+    fi
 fi
 
 if command -v podman >/dev/null 2>&1; then

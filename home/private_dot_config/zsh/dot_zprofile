@@ -35,10 +35,13 @@ if [ -f "${ZDOTDIR}/.zshrc" ]; then
   . "${ZDOTDIR}/.zshrc"
 fi
 
-# byobu session management
-if command -v byobu > /dev/null 2>&1 && [ ${SHLVL} = 1 ] && [ -z "$TMUX" ]; then
-  # byobu
-  if [ -f "${XDG_CONFIG_HOME}/byobu/custom-session" ]; then
-    . "${XDG_CONFIG_HOME}/byobu/custom-session"
-  fi
+# byobu session
+if command -v byobu > /dev/null 2>&1; then
+    # tmuxが起動していない場合
+    if [ ${SHLVL} = 1 ] && [ -z "$TMUX" ]; then
+        # カスタムセッションファイルが存在する場合
+        if [ -f "${XDG_CONFIG_HOME}/byobu/custom-session" ]; then
+            . "${XDG_CONFIG_HOME}/byobu/custom-session"
+        fi
+    fi
 fi

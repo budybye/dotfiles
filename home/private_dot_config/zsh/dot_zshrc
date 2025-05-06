@@ -1,4 +1,5 @@
-# ZDOTDIR/.zshrc はインタラクティブなシェルで読み込まれるが# ZDOTDIR/.zprofile の最後で読み込まれてるのでzshで必ず実行される
+# ${ZDOTDIR}.zshrc はインタラクティブシェルで読み込まれる
+# ${ZDOTDIR}.zprofile の最後で読み込まれてるのでzshで必ず実行される
 
 # history 履歴ファイルのパスを設定
 if [ -d "${HOME}/.local/state/zsh" ]; then
@@ -98,14 +99,6 @@ if command -v sheldon > /dev/null 2>&1; then
 fi
 
 # aliasファイルの読み込み
-if [ -f "${HOME}/.aliases" ]; then
-  . "${HOME}/.aliases"
+if [ -f "${ZDOTDIR}/alias" ]; then
+  . "${ZDOTDIR}/alias"
 fi
-
-# 重複したPATHを削除
-if command -v awk > /dev/null 2>&1;then
-  export PATH="$(printf %s "${PATH}" | awk -v RS=: -v ORS=: '!arr[$0]++')"
-fi
-
-# Shopify Hydrogen alias to local projects
-# alias h2='$(npm prefix -s)/node_modules/.bin/shopify hydrogen'

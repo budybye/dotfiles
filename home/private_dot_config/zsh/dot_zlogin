@@ -1,3 +1,6 @@
+# ${ZDOTDIR}.zlogin はログインシェルで読み込まれる
+# ${ZDOTDIR}.zprofileの読み込み後に読み込まれる
+
 # fortune cowsay lolcat
 if command -v fortune > /dev/null 2>&1 && \
   command -v cowsay > /dev/null 2>&1 && \

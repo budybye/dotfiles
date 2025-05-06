@@ -77,8 +77,8 @@ jobs:
           lxc exec ubuntu -- echo "$SHELL"
           lxc exec ubuntu -- cat /etc/os-release
 
-  rpi:
-    runs-on: ubuntu-24.04
+  cloud-init-rpi:
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 

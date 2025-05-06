@@ -24,7 +24,6 @@ docker:
 	--platform linux/${ARCH} \
 	-p 33389:3389 \
 	-p 2222:22 \
-	-v $(HOME)/dev:/home/ubuntu/dev \
 	ubuntu-dev \
 	ubuntu ubuntu yes && \
 	cd ..
