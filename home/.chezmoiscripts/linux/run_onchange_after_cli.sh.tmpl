@@ -126,7 +126,7 @@ install_cargo_tools() {
         echo "cargo not found" >> ${HOME}/which
     fi
 
-    {{- range .packages.cargo -}}
+    {{ range .packages.cargo -}}
 
     if command -v cargo-binstall >/dev/null; then
         cargo-binstall -y {{ . }} || echo "{{ . }} install failed."
