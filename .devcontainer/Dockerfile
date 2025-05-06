@@ -115,10 +115,11 @@ RUN rm -rf /var/cache/apt /var/lib/apt/lists/*
 
 # devユーザー設定
 ARG DEV=dev
+ARG DEV_PASSWORD=dev
 
 RUN groupadd -g 1024 -f $DEV && \
     useradd --uid 1024 --gid 1024 -m $DEV -G sudo -s /usr/bin/zsh && \
-    echo "$DEV:$DEV" | chpasswd && \
+    echo "$DEV:$DEV_PASSWORD" | chpasswd && \
     echo "$DEV ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
     mkdir -p /home/$DEV && \
     chown -R $DEV:$DEV /home/$DEV
@@ -136,17 +137,20 @@ RUN usermod -aG sudo ubuntu && \
     mkdir -p /home/ubuntu && \
     chown -R ubuntu:ubuntu /home/ubuntu
 
-# エントリーポイント　を用意
+# ENTRYPOINT を/usr/bin/にシンボリックリンク
 COPY ./entrypoint.sh /usr/bin/
 RUN ln -s /usr/bin/entrypoint.sh /usr/bin/entrypoint
 RUN chmod +x /usr/bin/entrypoint
 
+# ubuntuユーザで実行
 # ホームディレクトリに dotfiles をクローン
 RUN git clone https://github.com/budybye/dotfiles.git /home/ubuntu/dotfiles
 USER ubuntu
+# dotfiles へ移動して make init を実行
 WORKDIR /home/ubuntu/dotfiles
 RUN make init
 
+# マルチステージビルド
 FROM base
 # USER root
 

@@ -113,7 +113,7 @@ brew "shellcheck"
 brew "sheldon"
 brew "starship"
 brew "speedtest-cli"
-brew "socat"
+# brew "socat"
 #brew "soci"
 #brew "snappy"
 #brew "sshrc"
@@ -183,7 +183,7 @@ cask "canva"
 #cask "cyberduck"
 #cask "chrome-remote-desktop-host"
 # cask "dbeaver-community"
-cask "deepl"
+# cask "deepl"
 cask "discord"
 # cask "drawio"
 #cask "dash"
@@ -283,7 +283,7 @@ cask "tabby"
 #cask "tableplus"
 cask "the-unarchiver"
 #cask "tor-browser"
-cask "temurin"
+# cask "temurin"
 cask "tradingview"
 #cask "unity"
 #cask "unity-hub"
@@ -340,7 +340,7 @@ mas "RunCat", id: 1429033973
 mas "Plash", id: 1494023538
 mas "Spark", id: 1176895641
 mas "Hidden Bar", id: 1452453066
-mas "Hyper Cursor", id: 1634220679
+# mas "Hyper Cursor", id: 1634220679
 # mas "Day One", id: 1055511498
 # mas "Telegram", id: 747648890
 # mas "そらの案内", id: 599799247

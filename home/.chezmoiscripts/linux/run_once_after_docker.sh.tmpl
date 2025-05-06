@@ -49,6 +49,9 @@ install_act() {
     if command -v act >/dev/null; then
         echo "act already installed."
         ACT="act"
+    elif command -v mise >/dev/null; then
+        mise use -g -y act@latest || echo "act install failed."
+        ACT="${HOME}/.local/share/mise/shims/act"
     elif command -v curl >/dev/null; then
         curl https://raw.githubusercontent.com/nektos/act/master/install.sh | $sudo bash || echo "act install failed."
         $sudo chmod +x ./bin/act
@@ -63,6 +66,7 @@ install_act() {
 
 install_docker
 install_act
+
 cat ${HOME}/which && rm -f ${HOME}/which
 echo "--------------------------------"
 echo "Docker setup done!!"

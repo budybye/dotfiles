@@ -39,7 +39,7 @@ xrdp_setup() {
     echo "以下のコマンドを実行してパスワードを更新してください"
     echo "sudo passwd $(whoami)"
     # ログイン後、ubuntuユーザーのパスワードを再設定を推奨
-    # パスワードを再設定しないとログインできない
+    # パスワードを再設定しないとログインできない?
     # echo "$(whoami):$(whoami)" | $sudo chpasswd
 }
 
@@ -82,6 +82,7 @@ pipewire_setup() {
 japan_setup
 xrdp_setup
 pipewire_setup
+
 echo "--------------------------------"
 echo "GUI setup done!!"
 echo "--------------------------------"

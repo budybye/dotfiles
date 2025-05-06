@@ -78,6 +78,7 @@ install_mise() {
     {{- range .packages.mise -}}
 
     mise use -g -y {{ . }} || echo "{{ . }} install failed."
+
     {{- end }}
 
     mise activate --shims
@@ -93,7 +94,7 @@ install_cargo_tools() {
 
     else
         if command -v mise >/dev/null 2>&1; then
-            mise use -g -y rust cargo-binstall
+            mise use -g -y rust@stable
 
         elif command -v curl >/dev/null 2>&1; then
             curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y || echo "cargo install failed."
@@ -101,9 +102,11 @@ install_cargo_tools() {
         else
             echo "curl not found"
             $sudo apt-get install -y cargo || echo "cargo install failed."
-
         fi
-        . ${HOME}/.cargo/env
+
+        if [ -f ${HOME}/.cargo/env ]; then
+            . ${HOME}/.cargo/env
+        fi
         echo "cargo installed."
     fi
     cargo --version >> ${HOME}/which || echo "cargo not found" >> ${HOME}/which
@@ -117,20 +120,27 @@ install_cargo_tools() {
         cargo install cargo-binstall@1.6.9 --locked || echo "cargo tools install failed."
 
     elif command -v mise >/dev/null; then
-        mise use -g -y rust cargo-binstall || echo "cargo tools install failed."
+        mise use -g -y cargo-binstall || echo "cargo tools install failed."
 
     else
         echo "cargo not found" >> ${HOME}/which
     fi
 
-    # cargo-binstall -y starship sheldon fd-find xh bat lsd ripgrep || cargo install starship@1.20.1 fd-find@9.0.0 xh bat sheldon || echo "cargo tools install failed."
-    cargo-binstall -y starship sheldon fd-find xh bat || cargo install starship@1.20.1 fd-find@9.0.0 xh bat sheldon || echo "cargo tools install failed."
+    {{- range .packages.cargo -}}
+
+    if command -v cargo-binstall >/dev/null; then
+        cargo-binstall -y {{ . }} || echo "{{ . }} install failed."
+    elif command -v cargo >/dev/null; then
+        cargo install -y {{ . }} || echo "{{ . }} install failed."
+    else
+        echo "cargo not found"
+    fi
+
+    echo "$(command -v {{ . }})" >> ${HOME}/which
+
+    {{- end -}}
 
     echo "cargo tools installed."
-
-    for cmd in starship sheldon fd xh bat; do
-        command -v "$cmd" >> ${HOME}/which || echo "$cmd not found" >> ${HOME}/which
-    done
 }
 
 install_flatpak() {
@@ -147,33 +157,22 @@ install_flatpak() {
 install_go_aqua() {
     if command -v go >/dev/null; then
         echo "go already installed."
-
     elif command -v mise >/dev/null; then
-        mise use -g -y go@latest
-
+        mise use -g -y go@latest || echo "go install failed."
     else
         $sudo apt-get install -y golang || echo "go install failed."
-
     fi
     go version >> ${HOME}/which || echo "go not found" >> ${HOME}/which
 
-
     if command -v aqua >/dev/null; then
         echo "aqua already installed."
-
+    elif command -v mise >/dev/null; then
+        mise use -g -y aqua@latest || echo "aqua install failed."
     elif command -v go >/dev/null; then
         go install github.com/aquaproj/aqua/v2/cmd/aqua@latest || echo "aqua install failed."
-        echo "$GOROOT"
-    elif [ -d ${HOME}/.local/share/mise/shims/go ]; then
-        ${HOME}/.local/share/mise/shims/go install github.com/aquaproj/aqua/v2/cmd/aqua@latest || echo "aqua install failed."
-
-        # パスが通っていないので直接パスを指定
-        export PATH="${HOME}/.local/share/mise/installs/go/1.23.2/bin:${PATH}"
-        echo "aqua installed."
     else
         echo "go not found"
     fi
-
     aqua --version >> ${HOME}/which || echo "aqua not found" >> ${HOME}/which
 }
 
@@ -189,17 +188,16 @@ install_mkcert() {
         $sudo apt install -y mkcert || echo "mkcert install failed."
     fi
 
-    mkcert -install
+    mkcert -install || echo "mkcert not setup"
     mkcert --version >> ${HOME}/which || echo "mkcert not found" >> ${HOME}/which
 }
 
-echo "CLI tools install start..."
 install_packages
 change_shell_to_zsh
 install_mise
 install_cargo_tools
 install_flatpak
-# install_go_aqua
+install_go_aqua
 install_mkcert
 
 cat ${HOME}/which && rm -f ${HOME}/which
