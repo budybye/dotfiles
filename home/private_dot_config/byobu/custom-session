@@ -20,7 +20,7 @@ DOT="${HOME}/${SES}"
 #	|	2 $HOME/dev/portainer 		|
 #	-------------------------
 
-# セッションが既に存在する場合は終了
+# セッションが既に存在する場合はattachして終了
 if byobu list-sessions 2>/dev/null | grep -q "^${SES}"; then
     byobu-tmux attach-session -t "${SES}"
     exit 0
@@ -74,7 +74,6 @@ if [ -d "${HOME}/dev/portainer" ]; then
   # byobu-tmux send-keys -t 2 "ssh ubuntu@local.dev" C-m
 fi
 
-# byobu-tmux attach-session -t "${SES}"
 # 最初に開いたウィンドウを選択 0
 byobu-tmux select-window -t 1
 

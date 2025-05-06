@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-# chsh -s /usr/bin/zsh
-
 # 全体的にXDG BASED_DIRECTORYに設定する
 
 HOSTNAME="$(uname -n)"
@@ -17,26 +15,36 @@ export ARCH="${ARCH:-unknown}"
 # パスを再設定
 export PATH="${PATH}:${HOME}/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 
+# SHELL環境変数 と default shellをzshに再設定
+if command -v zsh > /dev/null 2>&1; then
+    export SHELL="$(command -v zsh)"
+    chsh -s $(command -v zsh) $(whoami)
+fi
+
+# sshディレクトリのパーミッションを700に設定
+if [ -d "${HOME}/.ssh" ]; then
+    chmod 700 "${HOME}/.ssh"
+fi
+
 # ${VAR} "${VAR}" "${VAR:-var}" は環境変数
 # ' : ' で区切り
 
 # XDG DIRECTORY を作成して権限を700に設定
 mkdir -p \
-    "${HOME}/.local/share" \
     "${HOME}/.config" \
+    "${HOME}/.local/share" \
     "${HOME}/.local/state" \
     "${HOME}/.cache"
 chmod 700 \
     "${HOME}/.config" \
     "${HOME}/.local/share" \
     "${HOME}/.local/state" \
-    "${HOME}/.cache" \
-    "${HOME}/.ssh"
+    "${HOME}/.cache"
 
 # XDG DIRECTORY
 export XDG_CONFIG_HOME=${HOME}/.config
-export XDG_STATE_HOME=${HOME}/.local/state
 export XDG_DATA_HOME=${HOME}/.local/share
+export XDG_STATE_HOME=${HOME}/.local/state
 export XDG_CACHE_HOME=${HOME}/.cache
 
 export XDG_DATA_DIRS="${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"

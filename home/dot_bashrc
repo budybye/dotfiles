@@ -38,24 +38,17 @@ if command -v zoxide > /dev/null 2>&1; then
   eval "$(zoxide init bash --hook prompt)"
 fi
 
+# 補完の設定
+if [ -f /etc/bash_completion ]; then
+  . /etc/bash_completion
+fi
+
 # aliasファイルの読み込み
-if [ -f "${HOME}/.aliases" ]; then
-    . "${HOME}/.aliases"
+if [ -f "${HOME}/.config/zsh/alias" ]; then
+  . "${HOME}/.config/zsh/alias"
 fi
 
 # 重複したPATHを削除
 if command -v awk > /dev/null 2>&1;then
   export PATH="$(printf %s "${PATH}" | awk -v RS=: -v ORS=: '!arr[$0]++')"
 fi
-
-# 補完の設定
-if [ -f /etc/bash_completion ]; then
-  . /etc/bash_completion
-fi
-
-# SHELL環境変数をzshに再設定
-# export SHELL="$(command -v zsh)"
-# chsh -s $(command -v zsh) $(whoami)
-
-# Shopify Hydrogen alias to local projects
-alias h2='$(npm prefix -s)/node_modules/.bin/shopify hydrogen'

@@ -5,7 +5,8 @@
 export SHELL="$(command -v zsh)"
 
 # ZDOTDIRを設定
-export ZDOTDIR=${HOME}
+# export ZDOTDIR=${HOME}
+export ZDOTDIR=${HOME}/.config/zsh
 
 # PATHを設定
 typeset -U PATH path
