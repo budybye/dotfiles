@@ -83,6 +83,7 @@ install_mise() {
     mise --version >> ${HOME}/which || echo "mise not found" >> ${HOME}/which
 
     if [ -f ${HOME}/.config/mise/config.toml ]; then
+        echo "mise config file found."
         mise i -y
     else
 
@@ -140,9 +141,9 @@ install_cargo_tools() {
     {{ range .packages.cargo }}
 
     if command -v cargo-binstall >/dev/null; then
-        cargo-binstall -y {{ . }} || echo "{{ . }} install failed."
+        cargo-binstall {{ . }} || echo "{{ . }} install failed."
     elif command -v cargo >/dev/null; then
-        cargo install -y {{ . }} || echo "{{ . }} install failed."
+        cargo install {{ . }} || echo "{{ . }} install failed."
     else
         echo "cargo not found"
     fi
