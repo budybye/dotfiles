@@ -72,7 +72,7 @@ jobs:
           lxc exec ubuntu -- cat /etc/os-release
 
   cloud-init-rpi:
-    runs-on: ubuntu-latest-arm
+    runs-on: ubuntu-24.04-arm
     steps:
       - uses: actions/checkout@v4
       - name: Setup LXD
