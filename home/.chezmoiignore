@@ -62,9 +62,7 @@
 .config/**
 *rc
 *profile
-*env
-*login
-*aliases
+.zshenv
 .chezmoiscripts/*.sh
 {{ end }}
 

@@ -11,10 +11,12 @@ packages:
 - manpages-ja
 - fcitx5-mozc
 - zsh
-- task-xfce-desktop
+- xfce4
+- xfce4-goodies
 - xrdp
 - xorgxrdp
 - dbus-x11
+# - task-xfce-desktop
 apt:
   conf: |
     Acquire {
