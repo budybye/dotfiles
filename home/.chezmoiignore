@@ -10,7 +10,6 @@
 {{ end }}
 
 {{ if or (eq .chezmoi.username "ubuntu") (eq .chezmoi.username "dev") }}
-.chezmoiscripts/linux/docker.sh
 .chezmoiscripts/linux/setup.sh
 .chezmoiscripts/linux/snap.sh
 {{ end }}
