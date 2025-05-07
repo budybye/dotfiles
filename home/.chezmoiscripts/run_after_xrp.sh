@@ -7,8 +7,8 @@ ACCOUNT="${1:-${ACCOUNT:-r3kmLJN5D28dHuH8vZNUZpMC43pEHpaocV}}"
 
 # default bithomp usd
 ISSUER="${2:-${ISSUER:-rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B}}"
-CURRENCY="${3:-${CURRENCY:-USD}}"
 # ISSUER="${2:-${ISSUER:-rMxCKbEDwqr76QuheSUMdEGf4B9xJ8m5De}}"
+CURRENCY="${3:-${CURRENCY:-USD}}"
 # CURRENCY="${3:-${CURRENCY:-RLUSD}}"
 
 # book_offers xrp/currency grpc request json
@@ -27,7 +27,6 @@ GET_USD_OFFERS='{
 
 # fee grpc request json
 GET_FEE='{"method": "fee","params": [{}]}'
-
 # account_info grpc request json
 GET_ACCOUNT_INFO='{"method": "account_info","params": [{"account": "'$ACCOUNT'"}]}'
 
@@ -44,13 +43,10 @@ grpc_request() {
 
 # get offers
 OFFER_RESPONSE=$(grpc_request "$GET_USD_OFFERS")
-
 # get fee
 FEE_RESPONSE=$(grpc_request "$GET_FEE")
-
 # get account info
 ACCOUNT_INFO_RESPONSE=$(grpc_request "$GET_ACCOUNT_INFO")
-
 
 if command -v jq > /dev/null 2>&1 ; then
     # get quality and multiply by 1,000,000
@@ -66,7 +62,6 @@ if command -v jq > /dev/null 2>&1 ; then
     # echo "$FEE_RESPONSE" | jq '.result'
     # echo "$OFFER_RESPONSE" | jq '.result'
     # echo "$ACCOUNT_INFO_RESPONSE" | jq '.result'
-
 else
     echo "jq is not installed"
     exit

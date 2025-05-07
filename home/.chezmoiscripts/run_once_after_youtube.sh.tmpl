@@ -14,9 +14,13 @@ OUTPUT_DIR="$PLAYLIST_DIR/%(title)s.%(ext)s"
 # yt-dlpのインストール
 if ! command -v yt-dlp > /dev/null 2>&1; then
     {{ if eq .chezmoi.os "darwin" }}
+
         brew install yt-dlp ffmpeg
+
     {{ else }}
+
         sudo apt-get install -y ffmpeg yt-dlp
+
     {{ end }}
 fi
 echo "yt-dlp installed"

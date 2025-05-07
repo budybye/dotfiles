@@ -15,11 +15,11 @@ user_setup() {
 
 system_setup() {
     # (on マシンがフリーズしたら自動的にリスタート)
-    # sudo systemsetup -setrestartfreeze on
+    sudo systemsetup -setrestartfreeze on
     # スリープしない
-    # sudo systemsetup -setcomputersleep Off
+    sudo systemsetup -setcomputersleep Off
     # ネットワーク時刻サーバーを設定
-    # sudo systemsetup -setnetworktimeserver time.apple.com
+    sudo systemsetup -setnetworktimeserver time.apple.com
     # タイムゾーンを設定
     sudo systemsetup -settimezone "Asia/Tokyo"
     # リモートログインを有効化
@@ -234,7 +234,7 @@ restart() {
 
 echo "macOS setup start..."
 # user_setup
-system_setup
+# system_setup
 # app_setup
 interface_setup
 window_setup
@@ -243,8 +243,8 @@ finder_setup
 search_setup
 # network_setup
 restart
-echo "macOS setup completed."
+
 fastfetch
 echo "--------------------------------"
-echo "desktop setup complete"
+echo "macOS setup complete."
 echo "--------------------------------"

@@ -38,8 +38,8 @@ if command -v byobu > /dev/null 2>&1; then
     # tmuxが起動していない場合
     if [ ${SHLVL} = 1 ] && [ -z "$TMUX" ]; then
         # カスタムセッションファイルが存在する場合
-        if [ -f "${XDG_CONFIG_HOME}/byobu/custom-session" ]; then
-            . "${XDG_CONFIG_HOME}/byobu/custom-session"
+        if [ -f "${XDG_CONFIG_HOME}/byobu/.byoburc" ]; then
+            . "${XDG_CONFIG_HOME}/byobu/.byoburc"
         fi
     fi
 fi

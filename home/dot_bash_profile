@@ -17,8 +17,8 @@ fi
 # byobu session management
 if command -v byobu > /dev/null 2>&1; then
     if [ ${SHLVL} = 1 ] && [ -z "$TMUX" ]; then
-        if [ -f "${XDG_CONFIG_HOME}/byobu/custom-session" ]; then
-            . "${XDG_CONFIG_HOME}/byobu/custom-session"
+        if [ -f "${XDG_CONFIG_HOME}/byobu/.byoburc" ]; then
+            . "${XDG_CONFIG_HOME}/byobu/.byoburc"
         fi
     fi
 fi
