@@ -11,8 +11,6 @@ packages:
 - manpages-ja
 - fcitx5-mozc
 - zsh
-# - xfce4
-# - xfce4-goodies
 - task-xfce-desktop
 - xrdp
 - xorgxrdp
@@ -41,20 +39,9 @@ ssh_pwauth: false
 
 timezone: Asia/Tokyo
 runcmd:
-# - sed -i 's/^s*REGDOMAIN=S*/REGDOMAIN=JP/' /etc/default/crda || true
-# - localectl set-x11-keymap "jp" pc105
-# - setupcon -k --force || true
-
 - echo "xfce4-session" > ~/.xsession
 - sudo update-alternatives --set x-session-manager /usr/bin/xfce4-session
 - sudo systemctl enable xrdp
-
-# On first boot, set the (default) ubuntu user's password to "ubuntu" and
-# expire user passwords
-#chpasswd:
-#  expire: true
-#  list:
-#  - ubuntu:ubuntu
 
 keyboard:
   model: pc105
@@ -62,25 +49,9 @@ keyboard:
   variant:
   options: ctrl:nocaps
 
-## Write arbitrary files to the file-system (including binaries!)
-#write_files:
-#- path: /etc/default/console-setup
-#  content: |
-#    # Consult the console-setup(5) manual page.
-#    ACTIVE_CONSOLES="/dev/tty[1-6]"
-#    CHARMAP="UTF-8"
-#    VIDEOMODE=
-#    FONT="Lat15-Terminus18x10.psf.gz"
-#    FONTFACE=
-#    FONTSIZE=
-#    CODESET="Lat15"
-#  permissions: '0644'
-#  owner: root:root
-#- encoding: gzip
-#  path: /root/Makefile
-#  content: !!binary |
-#    H4sICF2DTWIAA01ha2VmaWxlAFNWCM8syVBILMjPyU/PTC1WKMlXiPB2dlFQNjSx5MpNteLi
-#    dLDiSoRQxYl5KeWZyRkgXrSCkoqKRmaKgm6pppKCbmqhgoFCrIKamkK1QmpyRr6Ckn92YqWS
-#    NdC80uQMBZhOa4VahZoaqIrwjMQSewXfxOxUhcwShcr80qLi1Jw0RSUuAIYfEJmVAAAA
-#  owner: root:root
-#  permissions: '0644'
+# On first boot, set the (default) ubuntu user's password to "ubuntu" and
+# expire user passwords
+#chpasswd:
+#  expire: true
+#  list:
+#  - ubuntu:ubuntu
