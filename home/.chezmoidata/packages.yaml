@@ -62,7 +62,7 @@ packages:
     - 'google-chrome'
     - 'google-cloud-sdk'
     - 'karabiner-elements'
-    - 'mp3tag'
+    - 'musicbrainz-picard'
     - 'notion'
     - 'obsidian'
     - 'onyx'
