@@ -15,11 +15,6 @@ export ARCH="${ARCH:-unknown}"
 # パスを再設定
 export PATH="${PATH}:${HOME}/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 
-# default shellをzshに設定
-# if command -v zsh > /dev/null 2>&1; then
-#     chsh -s $(command -v zsh) $(whoami)
-# fi
-
 # sshディレクトリのパーミッションを700に設定
 if [ -d "${HOME}/.ssh" ]; then
     chmod 700 "${HOME}/.ssh"

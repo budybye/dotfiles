@@ -83,7 +83,7 @@ install_mise() {
     mise --version >> ${HOME}/which || echo "mise not found" >> ${HOME}/which
 
     if [ -f ${HOME}/.config/mise/config.toml ]; then
-        mise install -g -y
+        mise i -y
     else
 
         {{ range .packages.mise }}
