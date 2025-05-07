@@ -1,12 +1,9 @@
 name: Run Test install dotfiles
-
 on:
   push:
     branches:
-      - main
-
+    - main
 jobs:
-
   ubuntu-amd64:
     runs-on: ubuntu-24.04
     steps:
@@ -29,17 +26,16 @@ jobs:
         run: make init
 
   powershell:
-    runs-on: windows-2025
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
-
       - uses: MinoruSekine/setup-scoop@v4.0.1
         with:
           buckets: extras
           apps: curl make git
 
   wsl2:
-    runs-on: windows-latest
+    runs-on: windows-2025
     steps:
       - uses: actions/checkout@v4
       - uses: vedantmgoyal9/setup-wsl2@main
@@ -56,15 +52,13 @@ jobs:
           WSLENV: MY_ENV_VAR
 
   lxd:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: Setup LXD
         uses: canonical/setup-lxd@main
         with:
           channel: latest/edge
-
       - name: Launch container
         run: |
           lxc profile create dev && \
@@ -78,18 +72,16 @@ jobs:
           lxc exec ubuntu -- cat /etc/os-release
 
   cloud-init-rpi:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
-
       - name: Setup LXD
         uses: canonical/setup-lxd@main
         with:
           channel: latest/edge
-
       - name: Launch container
         run: |
           lxc launch ubuntu:24.04 rpi --config=user.user-data="$(cat cloud-init/user-data)"
           lxc exec rpi -- cloud-init status --wait || true
           lxc exec rpi -- tail -8 /var/log/cloud-init.log
-          lxc exec rpi -- cat /etc/os-release
+          lxc exec rpi -- cat /etc/os-release && env

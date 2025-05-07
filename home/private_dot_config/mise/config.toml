@@ -1,38 +1,36 @@
 [tools]
-bun = "1.2.11"
-node = "20.19.1"
+bun = "latest"
+node = "20"
 # deno = "latest"
 # pnpm = "latest"
 
-go = "1.24.2"
-aqua = "2.51.1"
-act = "0.2.77"
+go = "latest"
+aqua = "latest"
+act = "latest"
 
-caddy = "2.10.0"
-cloudflared = "2025.4.2"
-websocat = "1.14.0"
+caddy = "latest"
+cloudflared = "latest"
+websocat = "latest"
 
 rust = "stable"
-cargo-binstall = "1.12.3"
+cargo-binstall = "latest"
 
-python = "3.13.3"
-uv = "0.7.2"
+python = "latest"
+uv = "latest"
 
-gh = "2.72.0"
-jq = "1.7.1"
-yq = "4.45.2"
-mkcert = "1.4.4"
+gh = "latest"
+jq = "latest"
+yq = "latest"
+mkcert = "latest"
 
-cmake = "4.0.2"
-ninja = "1.12.1"
+cmake = "latest"
+ninja = "latest"
 # conan = "latest"
 
 biome = "latest"
-vim = "9.1.1366"
-fastfetch = "2.42.0"
-age = "1.2.1"
+fastfetch = "latest"
+age = "latest"
 
-# age = "latest"
 # chezmoi = "latest"
 # bitwarden = "latest"
 
