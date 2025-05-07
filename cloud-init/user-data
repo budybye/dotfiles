@@ -11,12 +11,12 @@ packages:
 - manpages-ja
 - fcitx5-mozc
 - zsh
-- xfce4
-- xfce4-goodies
+# - xfce4
+# - xfce4-goodies
+- task-xfce-desktop
 - xrdp
 - xorgxrdp
 - dbus-x11
-# - task-xfce-desktop
 apt:
   conf: |
     Acquire {
@@ -41,9 +41,10 @@ ssh_pwauth: false
 
 timezone: Asia/Tokyo
 runcmd:
-- sed -i 's/^s*REGDOMAIN=S*/REGDOMAIN=JP/' /etc/default/crda || true
-- localectl set-x11-keymap "jp" pc105
-- setupcon -k --force || true
+# - sed -i 's/^s*REGDOMAIN=S*/REGDOMAIN=JP/' /etc/default/crda || true
+# - localectl set-x11-keymap "jp" pc105
+# - setupcon -k --force || true
+
 - echo "xfce4-session" > ~/.xsession
 - sudo update-alternatives --set x-session-manager /usr/bin/xfce4-session
 - sudo systemctl enable xrdp
@@ -55,11 +56,11 @@ runcmd:
 #  list:
 #  - ubuntu:ubuntu
 
-#keyboard:
-#  model: pc105
-#  layout: jp
-#  variant:
-#  options: ctrl:nocaps
+keyboard:
+  model: pc105
+  layout: jp
+  variant:
+  options: ctrl:nocaps
 
 ## Write arbitrary files to the file-system (including binaries!)
 #write_files:
