@@ -40,9 +40,7 @@ RUN apt-get install -y \
     xfce4-xkb-plugin
 
 RUN apt-get install -y \
-    dbus-x11
-
-RUN apt-get install -y \
+    dbus-x11 \
     sudo \
     wget \
     xorgxrdp \
@@ -55,7 +53,6 @@ RUN apt-get install -y \
     make \
     curl \
     git \
-    gh \
     gzip \
     age \
     gnupg \
@@ -64,7 +61,6 @@ RUN apt-get install -y \
     xdotool \
     vim \
     tree \
-    jq \
     ncdu \
     pwgen \
     gawk \
@@ -74,7 +70,6 @@ RUN apt-get install -y \
     mpc \
     ncmpcpp \
     neofetch \
-    mkcert \
     ufw \
     openssh-server \
     avahi-daemon
@@ -115,19 +110,19 @@ RUN rm -rf /var/cache/apt /var/lib/apt/lists/*
 
 # devユーザー設定
 ARG DEV=dev
-ARG DEV_PASSWORD=dev
+ARG DEV_PW=dev
 
 RUN groupadd -g 1024 -f $DEV && \
     useradd --uid 1024 --gid 1024 -m $DEV -G sudo -s /usr/bin/zsh && \
-    echo "$DEV:$DEV_PASSWORD" | chpasswd && \
+    echo "$DEV:$DEV_PW" | chpasswd && \
     echo "$DEV ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
     mkdir -p /home/$DEV && \
     chown -R $DEV:$DEV /home/$DEV
 
-# RUN git clone https://github.com/budybye/dotfiles.git /home/dev/dotfiles
-# USER ${USER_NAME}
+# RUN git clone https://github.com/budybye/dotfiles.git /home/${DEV}/dotfiles
+# USER ${DEV}
 # ユーザーを切り替え dotfiles ディレクトリに移動
-# WORKDIR /home/${USER_NAME}/dotfiles
+# WORKDIR /home/${DEV}/dotfiles
 # ホームディレクトリに dotfiles をクローンしてインストール
 # RUN make init
 
@@ -150,12 +145,8 @@ USER ubuntu
 WORKDIR /home/ubuntu/dotfiles
 RUN make init
 
-# マルチステージビルド
 FROM base
-# USER root
-
 EXPOSE 3389
-
 # エントリーポイントを実行
 ENTRYPOINT ["entrypoint"]
 # デフォルト引数
