@@ -279,23 +279,23 @@ sequenceDiagram
 
 ### Script
 
-| Chezmoi Script | MacOS | Ubuntu |
-|----------------|:-------:|:--------:|
-| run_once_before_age.sh.tmpl | ✅ | ✅ |
-| run_once_before_bw.sh.tmpl | ✅ | ✅ |
-| run_after_activate.sh.tmpl | ✅ | ✅ |
-| run_onchange_after_bootstrap.sh.tmpl | ✅ | |
-| run_onchange_after_defaults.sh.tmpl | ✅ | |
-| run_onchange_after_cli.sh.tmpl | | ✅ |
-| run_once_after_docker.sh.tmpl | | ✅ |
-| run_onchange_after_gui.sh.tmpl | | ✅ |
-| run_once_after_setup.sh.tmpl | | ✅ |
-| run_onchange_after_snap.sh.tmpl | | ✅ |
-| run_once_after_ssh.sh.tmpl | ✅ | ✅ |
-| run_onchange_after_vscode.sh.tmpl | ✅ | ✅ |
-| run_onchange_after_with.sh.tmpl | ✅ | ✅ |
-| run_onchange_after_xrp.sh.tmpl | ✅ | ✅ |
-| run_once_after_youtube.sh.tmpl | ✅ | ✅ |
+| Chezmoi Script | MacOS | Ubuntu | wsl | powershell |
+|---------------|:------:|:------:|:------:|:------:|
+| run_once_before_age.sh.tmpl | ✅ | ✅ | | |
+| run_once_before_bw.sh.tmpl | ✅ | ✅ | | |
+| run_after_activate.sh.tmpl | ✅ | ✅ | | |
+| run_onchange_after_bootstrap.sh.tmpl | ✅ | | | |
+| run_onchange_after_defaults.sh.tmpl | ✅ | | | |
+| run_onchange_after_cli.sh.tmpl | | ✅ | | |
+| run_once_after_docker.sh.tmpl | | ✅ | | |
+| run_onchange_after_gui.sh.tmpl | | ✅ | | |
+| run_once_after_setup.sh.tmpl | | ✅ | | |
+| run_onchange_after_snap.sh.tmpl | | ✅ | | |
+| run_once_after_ssh.sh.tmpl | ✅ | ✅ | | |
+| run_onchange_after_vscode.sh.tmpl | ✅ | ✅ | | |
+| run_onchange_after_with.sh.tmpl | ✅ | ✅ | | |
+| run_onchange_after_xrp.sh.tmpl | ✅ | ✅ | | |
+| run_once_after_youtube.sh.tmpl | ✅ | ✅ | | |
 
 ### Script rule
 

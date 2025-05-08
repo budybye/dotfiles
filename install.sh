@@ -31,7 +31,6 @@ fi
 # POSIX way to get script's dir: https://stackoverflow.com/a/29834779/12156188
 SCRIPT_DIR="$(cd -P -- "$(dirname -- "$(command -v -- "$0")")" && pwd -P)"
 echo "SCRIPT_DIR: $SCRIPT_DIR"
-
 $CHEZMOI --version
 echo "Repository: $DOTFILES"
 
