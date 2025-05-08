@@ -159,13 +159,14 @@ packages:
     - 'asahi-audio'
     - 'autoconf'
     - 'libtool'
+    - 'picard'
 
     - 'language-pack-ja-base'
     - 'language-pack-ja'
     - 'manpages-ja'
     - 'fcitx5-mozc'
     - 'plank'
-
+    - 'remmina'
   snap:
     classic:
     - 'alacritty'

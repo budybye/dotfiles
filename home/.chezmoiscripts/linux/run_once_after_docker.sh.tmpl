@@ -35,8 +35,23 @@ install_docker() {
         $sudo groupadd -f docker
         $sudo usermod -aG docker "$(whoami)"
         $sudo systemctl enable docker
-        # docker info
+
+        # Dockerデーモンの起動（systemdを使用しない方法）
+        if [ -f /var/run/docker.pid ]; then
+            echo "Docker daemon is already running."
+        else
+            $sudo dockerd > /dev/null 2>&1 &
+            sleep 5  # デーモンの起動を待機
+        fi
     fi
+
+    # docker-composeコマンドのシンボリックリンクを作成
+    if command -v docker-compose >/dev/null 2>&1; then
+        echo "docker-compose already exists."
+    else
+        $sudo ln -sf "$(which docker)" /usr/local/bin/docker-compose
+    fi
+
     docker --version >> ${HOME}/which || \
     echo "docker not found" >> ${HOME}/which
     docker compose version >> ${HOME}/which || \

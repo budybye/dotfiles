@@ -64,9 +64,7 @@ if command -v ping >/dev/null 2>&1; then
 fi
 
 if command -v websocat >/dev/null 2>&1; then
-    alias ws-listen='websocat - UNIX-LISTEN:/tmp/ws.sock,fork'
-    alias ws-connect='websocat - UNIX-CONNECT:/tmp/ws.sock'
-    alias ws-client='websocat - TCP:localhost:8080,nodelay'
+    alias ws='websocat'
 fi
 
 if command -v netstat >/dev/null 2>&1; then
@@ -341,14 +339,14 @@ if command -v rj >/dev/null 2>&1 && command -v jq >/dev/null 2>&1; then
     }
 fi
 
-# 猫のASCIIアートを表示
-if [ -f "${HOME}/.config/neofetch/image.txt" ]; then
-    alias x="cat ${HOME}/.config/neofetch/image.txt"
-fi
-
 # ipfs
 if command -v ipfs >/dev/null 2>&1; then
     function cid() {
         ipfs add -r -p -q --cid-version 1 ${@:-.}
     }
+fi
+
+# 猫のASCIIアートを表示
+if [ -f "${HOME}/.config/neofetch/image.txt" ]; then
+    alias x="cat ${HOME}/.config/neofetch/image.txt"
 fi

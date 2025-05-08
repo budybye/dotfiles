@@ -33,6 +33,7 @@ biome = "latest"
 # chezmoi = "latest"
 fastfetch = "latest"
 
+# websocat = "latest"
 # vim = "latest"
 # ffmpeg = "latest"
 # yt-dlp = "latest"
