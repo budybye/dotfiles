@@ -10,7 +10,7 @@ act = "latest"
 
 caddy = "latest"
 cloudflared = "latest"
-websocat = "latest"
+# websocat = "latest"
 
 rust = "stable"
 cargo-binstall = "latest"

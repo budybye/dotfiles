@@ -53,6 +53,7 @@ RUN apt-get install -y \
     make \
     curl \
     git \
+    gh \
     gzip \
     age \
     gnupg \
@@ -61,6 +62,7 @@ RUN apt-get install -y \
     xdotool \
     vim \
     tree \
+    jq \
     ncdu \
     pwgen \
     gawk \
@@ -70,6 +72,7 @@ RUN apt-get install -y \
     mpc \
     ncmpcpp \
     neofetch \
+    mkcert \
     ufw \
     openssh-server \
     avahi-daemon
@@ -145,8 +148,12 @@ USER ubuntu
 WORKDIR /home/ubuntu/dotfiles
 RUN make init
 
+# マルチステージビルド
 FROM base
+# USER root
+
 EXPOSE 3389
+
 # エントリーポイントを実行
 ENTRYPOINT ["entrypoint"]
 # デフォルト引数
