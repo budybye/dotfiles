@@ -88,7 +88,6 @@ echo "--------------------------------"
 cat ~/.config/git/config
 echo "--------------------------------"
 cat ~/.config/git/commit.template
-echo "--------------------------------"
 git config --global commit.template ${HOME}/.config/git/commit.template
 echo "--------------------------------"
 
@@ -107,6 +106,7 @@ echo "bitwarden yes"
 echo "--------------------------------"
 
 {{ else }}
+
 echo "bitwarden no"
 echo "--------------------------------"
 
@@ -120,6 +120,7 @@ echo "age yes"
 echo "--------------------------------"
 
 {{ else }}
+
 echo "age no"
 echo "--------------------------------"
 
@@ -129,8 +130,7 @@ echo "--------------------------------"
 
 if [ -f ~/Music/riddim ]; then
     ls ~/Music/riddim
-    echo "--------------------------------"
 else
     echo "$HOME/Music/riddim not found."
-    echo "--------------------------------"
 fi
+echo "--------------------------------"

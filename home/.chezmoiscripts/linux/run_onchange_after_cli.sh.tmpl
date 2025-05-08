@@ -26,6 +26,10 @@ change_shell_to_zsh() {
     # ZDOTDIRを設定
     if [ -d ${HOME}/.config/zsh ]; then
         export ZDOTDIR=${HOME}/.config/zsh
+        ls -la ${HOME}/.config/zsh
+    else
+        echo "zsh config directory not found."
+        export ZDOTDIR=${HOME}
     fi
 
     # シンボリックリンクを作成
@@ -88,9 +92,7 @@ install_mise() {
     else
 
         {{ range .packages.mise }}
-
         mise use -g -y "{{ . }}" || echo "{{ . }} install failed."
-
         {{ end }}
 
     fi
@@ -147,7 +149,6 @@ install_cargo_tools() {
     else
         echo "cargo not found"
     fi
-
     echo "$(command -v {{ . }})" >> ${HOME}/which
 
     {{ end }}

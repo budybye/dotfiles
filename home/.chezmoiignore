@@ -12,6 +12,7 @@
 {{ if or (eq .chezmoi.username "ubuntu") (eq .chezmoi.username "dev") }}
 .chezmoiscripts/linux/setup.sh
 .chezmoiscripts/linux/snap.sh
+.chezmoiscripts/youtube.sh
 {{ end }}
 
 {{ if eq .github false }}
@@ -53,16 +54,14 @@
 .chezmoiscripts/linux/**
 {{ end }}
 
-{{ if ne .chezmoi.os "windows" }}
-.chezmoiscripts/windows/**
-{{ end }}
-
 {{ if eq .chezmoi.os "windows" }}
 .config/**
 *rc
 *profile
 .zshenv
 .chezmoiscripts/*.sh
+{{ else }}
+.chezmoiscripts/windows/**
 {{ end }}
 
 .chezmoiexternal.*

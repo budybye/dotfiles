@@ -27,13 +27,13 @@ cmake = "latest"
 ninja = "latest"
 # conan = "latest"
 
-biome = "latest"
-fastfetch = "latest"
 age = "latest"
-
-# chezmoi = "latest"
+biome = "latest"
 # bitwarden = "latest"
+# chezmoi = "latest"
+fastfetch = "latest"
 
+# vim = "latest"
 # ffmpeg = "latest"
 # yt-dlp = "latest"
 

@@ -263,8 +263,8 @@ packages:
   - 'xh'
   - 'bat'
   - 'lsd'
-  # - 'fd-find'
-  # - 'ripgrep'
+  - 'fd-find'
+  - 'ripgrep'
 
   mise:
   - 'rust@stable'

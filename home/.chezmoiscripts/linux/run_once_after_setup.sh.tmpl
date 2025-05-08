@@ -33,7 +33,6 @@ xrdp_setup() {
     $sudo systemctl daemon-reload
     $sudo systemctl restart rsyslog
     $sudo systemctl enable xrdp
-    $sudo systemctl start xrdp
     echo "xrdp setup completed."
 
     echo "以下のコマンドを実行してパスワードを更新してください"
