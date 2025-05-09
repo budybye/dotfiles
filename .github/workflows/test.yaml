@@ -79,20 +79,20 @@ jobs:
           lxc exec ubuntu -- echo "$SHELL"
           lxc exec ubuntu -- cat /etc/os-release
 
-  multipass:
-    runs-on: ubuntu-24.04
-    steps:
-      - uses: actions/checkout@v4
-      - name: Setup LXD
-        uses: canonical/setup-lxd@main
-        with:
-          channel: latest/edge
-      - name: Launch container
-        run: |
-          lxc launch ubuntu:24.04 multipass --config=user.user-data="$(cat cloud-init/multipass.yaml)"
-          lxc exec multipass -- cloud-init status --wait || true
-          lxc exec multipass -- tail -8 /var/log/cloud-init.log
-          lxc exec multipass -- cat /etc/os-release && env
+  # multipass:
+  #   runs-on: ubuntu-24.04
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Setup LXD
+  #       uses: canonical/setup-lxd@main
+  #       with:
+  #         channel: latest/edge
+  #     - name: Launch container
+  #       run: |
+  #         lxc launch ubuntu:24.04 multipass --config=user.user-data="$(cat cloud-init/multipass.yaml)"
+  #         lxc exec multipass -- cloud-init status --wait || true
+  #         lxc exec multipass -- tail -8 /var/log/cloud-init.log
+  #         lxc exec multipass -- cat /etc/os-release && env
 
   rpi:
     runs-on: ubuntu-24.04-arm

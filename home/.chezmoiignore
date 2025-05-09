@@ -33,13 +33,12 @@
 {{ end }}
 
 {{ if eq .ssh false }}
-.ssh/authorized_keys*
-.ssh/id_rsa*
-.ssh/id_ed25519*
+.ssh/**
 {{ end }}
 
 {{ if ne .chezmoi.os "darwin" }}
 .config/Brewfile
+.config/homebrew
 .config/karabiner
 .ssh/id_rsa*
 .chezmoiscripts/darwin/**
@@ -58,7 +57,7 @@
 .config/**
 *rc
 *profile
-.zshenv
+*env
 .chezmoiscripts/*.sh
 {{ else }}
 .chezmoiscripts/windows/**

@@ -199,7 +199,7 @@ if command -v docker >/dev/null 2>&1; then
       docker build -t "$IMAGE_NAME" . && docker push "$IMAGE_NAME"
     }
 
-    alias dx='docker run --rm -itd --privileged --platform linux/${ARCH:-$(dpkg --print-architecture || uname -m)} --hostname docker --name ubuntu-dev -p 33389:3389 -p 2222:22 ghcr.io/budybye/ubuntu-dev ubuntu ubuntu yes && dps'
+    alias dx='docker run --rm -itd --privileged --platform linux/${ARCH:-$(dpkg --print-architecture || uname -m)} --hostname docker --name ubuntu-dev -p 33389:3389 -p 2222:22 ghcr.io/budybye/ubuntu-dev:main ubuntu ubuntu yes'
 
     ## 停止コンテナ、タグ無しイメージ、未使用ボリューム、未使用ネットワーク一括削除
     alias drm="docker system prune -af --volumes"
