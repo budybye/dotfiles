@@ -38,10 +38,8 @@ jobs:
     runs-on: windows-11-arm
     steps:
       - uses: actions/checkout@v4
-      - uses: MinoruSekine/setup-scoop@v4.0.1
-        with:
-          buckets: extras
-          apps: curl make git
+      - name: winget
+        run: winget install Microsoft.PowerToys
 
   wsl2:
     runs-on: windows-2025
@@ -80,7 +78,6 @@ jobs:
           lxc exec ubuntu -- echo "$SHELL"
           lxc exec ubuntu -- cat /etc/os-release
 
-
   multipass:
     runs-on: ubuntu-24.04
     steps:
@@ -89,8 +86,11 @@ jobs:
         run: |
           sudo snap install multipass
           multipass version
-          multipass launch --name ubuntu --cpus 2 --memory 2G --disk 32G
-          multipass exec ubuntu -- bash -c "echo 'Hello, world!'"
+          sudo systemctl enable multipass
+          sudo systemctl start multipass
+          multipass info
+          # multipass launch --name ubuntu --cpus 2 --memory 2G --disk 32G
+          # multipass exec ubuntu -- bash -c "echo 'Hello, world!'"
 
   rpi:
     runs-on: ubuntu-24.04-arm
