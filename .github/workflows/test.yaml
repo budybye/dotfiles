@@ -35,7 +35,7 @@ jobs:
           apps: curl make git
 
   windows-11-arm64:
-    runs-on: windows-11-arm64
+    runs-on: windows-11-arm
     steps:
       - uses: actions/checkout@v4
       - uses: MinoruSekine/setup-scoop@v4.0.1
