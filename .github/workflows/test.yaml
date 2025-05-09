@@ -38,8 +38,9 @@ jobs:
     runs-on: windows-11-arm
     steps:
       - uses: actions/checkout@v4
-      - name: winget
-        run: winget install Microsoft.PowerToys
+
+      # - name: winget
+      #   run: winget install Microsoft.PowerToys
 
   wsl2:
     runs-on: windows-2025
@@ -82,15 +83,16 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
-      - name: Setup multipass
+      - name: Setup LXD
+        uses: canonical/setup-lxd@main
+        with:
+          channel: latest/edge
+      - name: Launch container
         run: |
-          sudo snap install multipass
-          multipass version
-          sudo systemctl enable multipass
-          sudo systemctl start multipass
-          multipass info
-          # multipass launch --name ubuntu --cpus 2 --memory 2G --disk 32G
-          # multipass exec ubuntu -- bash -c "echo 'Hello, world!'"
+          lxc launch ubuntu:24.04 multipass --config=user.user-data="$(cat cloud-init/multipass.yaml)"
+          lxc exec multipass -- cloud-init status --wait || true
+          lxc exec multipass -- tail -8 /var/log/cloud-init.log
+          lxc exec multipass -- cat /etc/os-release && env
 
   rpi:
     runs-on: ubuntu-24.04-arm
