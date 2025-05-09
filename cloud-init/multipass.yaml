@@ -108,7 +108,7 @@ package_update: true
 package_upgrade: true
 package_autoremove: true
 package_cleanup: true
-package_reboot_if_required: true
+# package_reboot_if_required: true
 snap:
   commands: |
     snap install yq
