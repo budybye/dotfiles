@@ -6,13 +6,13 @@
 .ssh/authorized_keys*
 .ssh/id_ed25519*
 .ssh/id_rsa*
-.chezmoiscripts/youtube.sh
+.chezmoiscripts/tube.sh
 {{ end }}
 
 {{ if or (eq .chezmoi.username "ubuntu") (eq .chezmoi.username "dev") }}
 .chezmoiscripts/linux/setup.sh
 .chezmoiscripts/linux/snap.sh
-.chezmoiscripts/youtube.sh
+.chezmoiscripts/tube.sh
 {{ end }}
 
 {{ if eq .github false }}

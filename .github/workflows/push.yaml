@@ -71,7 +71,7 @@ jobs:
           use: true
 
       - name: clean space
-        if: matrix.platform == 'linux/amd64'
+        # if: matrix.platform == 'linux/amd64'
         run: |
           df -h
           docker image prune --all --force || true
@@ -115,7 +115,7 @@ jobs:
             temurin* \
             tmux* \
             vim* \
-            yarn*
+            yarn* || true
           sudo apt-get autoremove -y >/dev/null 2>&1 || true
           sudo apt-get autoclean -y >/dev/null 2>&1 || true
           df -h
