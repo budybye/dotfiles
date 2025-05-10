@@ -29,11 +29,10 @@ ninja = "latest"
 # conan = "latest"
 
 age = "latest"
-# bitwarden = "latest"
 biome = "latest"
 fastfetch = "latest"
 
-ffmpeg = "latest"
+# ffmpeg = "latest"
 # yt-dlp = "latest"
 
 # java = "latest"

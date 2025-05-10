@@ -8,12 +8,12 @@ PLAYLIST_ID="PLMXoRsxtzGfCH7cvhAnzN_T3KvKmdkB3s"
 
 function install_yt_dlp() {
     if ! command -v yt-dlp > /dev/null 2>&1; then
-        if command -v mise > /dev/null 2>&1; then
-            mise use -g -y yt-dlp
-        elif command -v brew > /dev/null 2>&1; then
+        if command -v brew > /dev/null 2>&1; then
             brew install yt-dlp
         elif command -v apt > /dev/null 2>&1; then
             sudo apt-get install -y yt-dlp
+        elif command -v mise > /dev/null 2>&1; then
+            mise use -g -y yt-dlp
         else
             echo "yt-dlp is not installed"
         fi
@@ -23,12 +23,12 @@ function install_yt_dlp() {
 
 function install_ffmpeg() {
     if ! command -v ffmpeg > /dev/null 2>&1; then
-        if command -v mise > /dev/null 2>&1; then
-            mise use -g -y ffmpeg
-        elif command -v brew > /dev/null 2>&1; then
+        if command -v brew > /dev/null 2>&1; then
             brew install ffmpeg
         elif command -v apt > /dev/null 2>&1; then
             sudo apt-get install -y ffmpeg
+        elif command -v mise > /dev/null 2>&1; then
+            mise use -g -y ffmpeg
         else
             echo "ffmpeg is not installed"
         fi

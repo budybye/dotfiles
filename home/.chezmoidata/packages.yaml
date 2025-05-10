@@ -83,16 +83,16 @@ packages:
     - 'g++'
     - 'sudo'
     - 'flatpak'
+
     - 'tree'
     - 'xsel'
     - 'ncdu'
     - 'xdotool'
     - 'moreutils'
     - 'multitail'
-    - 'neofetch'
     - 'lsd'
     - 'zoxide'
-    - 'direnv'
+    # - 'direnv'
     - 'openssh-server'
     - 'avahi-daemon'
     - 'pkg-config'
@@ -117,6 +117,7 @@ packages:
     - 'libfontconfig1-dev'
     - 'libxcb-xfixes0-dev'
     - 'libxkbcommon-dev'
+
     - 'ffmpeg'
     - 'yt-dlp'
     - 'mpd'
@@ -159,13 +160,14 @@ packages:
     - 'asahi-audio'
     - 'autoconf'
     - 'libtool'
-    - 'picard'
 
     - 'language-pack-ja-base'
     - 'language-pack-ja'
     - 'manpages-ja'
     - 'fcitx5-mozc'
+
     - 'plank'
+    - 'picard'
     - 'remmina'
   snap:
     classic:
@@ -177,7 +179,7 @@ packages:
     # - 'chromium'
     # - 'element-desktop'
     # - 'postman'
-    - 'brave'
+    # - 'brave'
     - 'speedtest-cli'
     - 'multipass'
 
@@ -286,12 +288,16 @@ packages:
   - 'ninja@latest'
   - 'vim@latest'
 
-  - 'websocat@latest'
   - 'age@latest'
+  - 'websocat@latest'
   - 'act@latest'
-  - 'caddy@latest'
-  - 'cloudflared@latest'
   - 'fastfetch@latest'
 
   - 'go@latest'
   - 'aqua@latest'
+  - 'caddy@latest'
+  - 'cloudflared@latest'
+
+  npm:
+  - 'wrangler'
+  - 'bitwarden-cli'

@@ -136,7 +136,6 @@ install_cargo_tools() {
 
     if command -v cargo-binstall >/dev/null; then
         cargo-binstall {{ . }} -y || echo "{{ . }} install failed."
-        # cargo-binstall {{ . }} || echo "{{ . }} install failed."
     elif command -v cargo >/dev/null; then
         cargo install {{ . }} -y || echo "{{ . }} install failed."
     else
@@ -163,10 +162,10 @@ install_flatpak() {
 install_go_aqua() {
     if command -v go >/dev/null; then
         echo "go already installed."
-    elif command -v mise >/dev/null; then
-        mise use -g -y go@latest || echo "go install failed."
     elif command -v apt >/dev/null 2>&1; then
         $sudo apt-get install -y golang || echo "go install failed."
+    elif command -v mise >/dev/null; then
+        mise use -g -y go@latest || echo "go install failed."
     else
         echo "go not found"
     fi
@@ -174,12 +173,12 @@ install_go_aqua() {
 
     if command -v aqua >/dev/null; then
         echo "aqua already installed."
-    elif command -v mise >/dev/null; then
-        mise use -g -y aqua@latest || echo "aqua install failed."
     elif command -v go >/dev/null; then
         go install github.com/aquaproj/aqua/v2/cmd/aqua@latest || echo "aqua install failed."
+    elif command -v mise >/dev/null; then
+        mise use -g -y aqua@latest || echo "aqua install failed."
     else
-        echo "go not found"
+        echo "aqua not found"
     fi
     aqua --version >> ${HOME}/which || echo "aqua not found" >> ${HOME}/which
 }
@@ -187,10 +186,10 @@ install_go_aqua() {
 install_mkcert() {
     if command -v mkcert >/dev/null; then
         echo "mkcert already installed."
-    elif command -v mise >/dev/null; then
-        mise use -g -y mkcert@latest || echo "mkcert install failed."
     elif command -v apt >/dev/null 2>&1; then
         $sudo apt install -y mkcert || echo "mkcert install failed."
+    elif command -v mise >/dev/null; then
+        mise use -g -y mkcert@latest || echo "mkcert install failed."
     else
         echo "mkcert not found"
     fi
