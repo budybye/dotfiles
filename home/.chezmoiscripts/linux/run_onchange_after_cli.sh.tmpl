@@ -68,11 +68,9 @@ install_mise() {
         echo "mise already installed."
 
     elif command -v curl >/dev/null 2>&1; then
-        echo "mise install start..."
         curl https://mise.run | sh || echo "mise install failed."
 
     else
-        echo "curl not found"
         $sudo install -dm 755 /etc/apt/keyrings
         wget -qO - https://mise.jdx.dev/gpg-key.pub | $sudo gpg --dearmor | $sudo tee /etc/apt/keyrings/mise-archive-keyring.gpg 1>/dev/null
         echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=${dpkg --print-architecture}] https://mise.jdx.dev/deb stable main" | $sudo tee /etc/apt/sources.list.d/mise.list
@@ -120,11 +118,11 @@ install_cargo_tools() {
     cargo --version >> ${HOME}/which || echo "cargo not found" >> ${HOME}/which
 
     if command -v cargo-binstall >/dev/null; then
-        echo "cargo-binstall already installed."
-    elif command -v mise >/dev/null; then
-        mise use -g -y cargo-binstall@latest || echo "cargo tools install failed."
+        cargo-binstall -V
     elif command -v cargo >/dev/null; then
         cargo install cargo-binstall || echo "cargo tools install failed."
+    elif command -v mise >/dev/null; then
+        mise use -g -y cargo-binstall@latest || echo "cargo tools install failed."
     else
         echo "cargo not found" >> ${HOME}/which
     fi
@@ -138,9 +136,12 @@ install_cargo_tools() {
     else
         echo "cargo not found"
     fi
-    echo "$(command -v {{ . }})" >> ${HOME}/which || echo "{{ . }} not found" >> ${HOME}/which
 
     {{ end }}
+
+    if [ -d ${HOME}/.cargo/bin ]; then
+        ls -la ${HOME}/.cargo/bin >> ${HOME}/which
+    fi
 
     echo "cargo tools installed."
 }
