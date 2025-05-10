@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
 
-echo "run_onchange_after_gui.sh.tmpl"
-echo "{{ .chezmoi.os }} system setup"
-echo "--------------------------------"
-
 # アーキテクチャを取得
 arch="$(dpkg --print-architecture)"
 
@@ -181,7 +177,10 @@ install_wireshark() {
     fi
 }
 
-echo "ubuntu desktop setup start..."
+echo "gui.sh"
+echo "--------------------------------"
+echo "{{ .chezmoi.os }} system setup"
+echo "--------------------------------"
 desktop_setup
 install_brave_browser
 install_cloudflare_warp
@@ -192,5 +191,6 @@ install_ruby_fusuma
 install_tabby_terminal
 install_vscode
 # install_wireshark
+echo "--------------------------------"
 echo "desktop setup complete"
 echo "--------------------------------"

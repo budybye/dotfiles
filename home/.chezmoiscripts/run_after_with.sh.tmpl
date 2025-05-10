@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # chezmoi apply が完了したら最後に実行される
-echo "run_after_with.sh.tmpl"
+echo "with.sh"
 echo "--------------------------------"
 echo "Chezmoi apply completed!!"
 echo "USER: $(whoami)"
@@ -38,7 +38,7 @@ echo "--------------------------------"
 tree "${HOME}/Music/riddim" || tree "${HOME}/Music"
 echo "--------------------------------"
 
-{{ if eq .chezmoi.os "linux" -}}
+{{- if eq .chezmoi.os "linux" }}
 
 tree -L 2 ${HOME}/.local/share/themes
 echo "--------------------------------"
@@ -85,6 +85,9 @@ fi
 
 if command -v fastfetch > /dev/null 2>&1; then
     fastfetch
-else
-    echo "( ﾟДﾟ)y─┛~~♨️ 🍍 🍕 🐈 ✨ 🥦 🌈 🚲 🏄 🙏 🌞 🌕 🏴‍☠️"
+fi
+echo "( ﾟДﾟ)y─┛~~♨️ 🍍 🍕 🐈 ✨ 🥦 🌈 🚲 🏄 🙏 🌞 🌕 🏴‍☠️"
+
+if command -v xrp > /dev/null 2>&1; then
+    xrp
 fi

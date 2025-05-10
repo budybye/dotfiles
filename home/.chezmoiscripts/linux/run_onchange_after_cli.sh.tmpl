@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-echo "run_onchange_after_cli.sh.tmpl"
-echo "--------------------------------"
-
 sudo=""
 if [ "$(id -u)" -ne 0 ]; then
     sudo="sudo"
@@ -202,6 +199,9 @@ install_mkcert() {
     fi
 }
 
+
+echo "cli.sh"
+echo "--------------------------------"
 install_packages
 change_shell_to_zsh
 install_mise
@@ -209,7 +209,7 @@ install_cargo_tools
 install_flatpak
 install_go_aqua
 install_mkcert
-
+echo "--------------------------------"
 cat ${HOME}/which && rm -f ${HOME}/which
 echo "--------------------------------"
 echo "CLI tools install done."

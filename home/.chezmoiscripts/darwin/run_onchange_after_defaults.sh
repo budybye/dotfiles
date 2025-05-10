@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
 
-echo "run_onchange_after_defaults.sh.tmpl"
-echo "{{ .chezmoi.os }} system setup"
-echo "--------------------------------"
-
 user_setup() {
     # コンピュータ名、ホスト名、ローカルホスト名、ユーザー名を設定
     scutil --set ComputerName "iCom"
@@ -232,7 +228,8 @@ restart() {
     done
 }
 
-echo "macOS setup start..."
+echo "defaults.sh"
+echo "--------------------------------"
 # user_setup
 # system_setup
 # app_setup

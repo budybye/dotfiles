@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-echo "run_once_after_docker.sh.tmpl"
-echo "--------------------------------"
-
 sudo=""
 if [ "$(id -u)" -ne 0 ]; then
     sudo="sudo"
@@ -12,21 +9,23 @@ install_docker() {
     if command -v docker >/dev/null 2>&1; then
         echo "docker already installed."
     else
-        # Add Docker's official GPG key:
         $sudo apt-get update
         $sudo apt-get install -y ca-certificates curl
         $sudo install -m 0755 -d /etc/apt/keyrings
         $sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
         $sudo chmod a+r /etc/apt/keyrings/docker.asc
 
-        # Add the repository to Apt sources:
         echo \
         "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
         $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
         $sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
         $sudo apt-get update
 
-        $sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin || \
+        $sudo apt-get install -y docker-ce \
+        docker-ce-cli \
+        containerd.io \
+        docker-buildx-plugin \
+        docker-compose-plugin || \
         echo "docker install failed."
 
         if [ -f /var/run/docker.sock ]; then
@@ -52,35 +51,33 @@ install_docker() {
         $sudo ln -sf "$(which docker)" /usr/local/bin/docker-compose
     fi
 
-    docker --version >> ${HOME}/which || \
-    echo "docker not found" >> ${HOME}/which
-    docker compose version >> ${HOME}/which || \
-    echo "docker compose not found" >> ${HOME}/which
+    docker --version || echo "docker not found"
+    docker-compose version || echo "docker compose not found"
 }
 
 install_act() {
     if command -v act >/dev/null; then
         echo "act already installed."
         ACT="act"
-    elif command -v curl >/dev/null; then
-        curl https://raw.githubusercontent.com/nektos/act/master/install.sh | $sudo bash || echo "act install failed."
-        $sudo chmod +x ./bin/act
-        $sudo mv -f ./bin/act ${ACT}
-        export PATH="${ACT}:${PATH}"
-        ACT="${HOME}/.local/bin/act"
     elif command -v mise >/dev/null; then
         mise use -g -y act@latest || echo "act install failed."
         ACT="${HOME}/.local/share/mise/shims/act"
+    elif command -v curl >/dev/null; then
+        curl https://raw.githubusercontent.com/nektos/act/master/install.sh | $sudo bash || echo "act install failed."
+        ACT="${HOME}/.local/bin/act"
+        $sudo chmod +x ${ACT}
+        $sudo mv -f ${ACT} ${HOME}/.local/bin/act
+        export PATH="${ACT}:${PATH}"
     else
         echo "act install failed."
     fi
-    $ACT --version >> ${HOME}/which || echo "act not found" >> ${HOME}/which
+    $ACT --version || echo "act not found"
 }
 
+echo "docker.sh"
+echo "--------------------------------"
 install_docker
 install_act
-
-cat ${HOME}/which && rm -f ${HOME}/which
 echo "--------------------------------"
 echo "Docker setup done!!"
 echo "--------------------------------"

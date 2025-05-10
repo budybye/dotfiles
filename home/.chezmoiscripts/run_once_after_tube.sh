@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-echo "run_once_after_youtube.sh"
-echo "--------------------------------"
-
 PLAYLIST_DIR="$HOME/Music/riddim"
 PLAYLIST_ID="PLMXoRsxtzGfCH7cvhAnzN_T3KvKmdkB3s"
 

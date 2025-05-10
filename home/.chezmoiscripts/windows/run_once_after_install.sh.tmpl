@@ -1,6 +1,3 @@
-echo "run_once_after_install.sh.tmpl"
-echo "{{ .chezmoi.os }} system setup"
-echo "--------------------------------"
 
 install_scoop() {
 
@@ -42,10 +39,11 @@ install_mise() {
   mise dr
 }
 
-echo "Installing scoop..."
+echo "install.sh"
+echo "--------------------------------"
 install_scoop
-echo "Installing winget..."
 install_winget
-echo "Installing mise..."
 install_mise
+echo "--------------------------------"
 echo "Installation complete."
+echo "--------------------------------"

@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-echo "run_onchange_after_snap.sh.tmpl"
-echo "--------------------------------"
-
 sudo=""
 if [ "$(id -u)" -ne 0 ]; then
     sudo="sudo"
@@ -29,6 +26,8 @@ install_snap() {
     echo "snap tools installed."
 }
 
+echo "snap.sh"
+echo "--------------------------------"
 install_snapd
 install_snap
 echo "--------------------------------"

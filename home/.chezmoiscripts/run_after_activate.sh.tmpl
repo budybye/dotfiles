@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-echo "run_after_activate.sh.tmpl"
+echo "activate.sh"
 echo "--------------------------------"
 echo "Welcome to $USERNAME dotfiles!!"
 echo "sourceDir is {{ .chezmoi.sourceDir }}"
@@ -66,8 +66,10 @@ fi
 echo "--------------------------------"
 
 {{ else }}
+
 echo "SSH key not set."
 echo "--------------------------------"
+
 {{ end }}
 
 # git の設定
@@ -127,7 +129,6 @@ echo "--------------------------------"
 {{ end }}
 
 # Music の確認
-
 if [ -f ~/Music/riddim ]; then
     ls ~/Music/riddim
 else

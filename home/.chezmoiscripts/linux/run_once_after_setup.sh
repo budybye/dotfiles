@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-echo "run_once_after_setup.sh.tmpl"
-echo "--------------------------------"
-
 sudo=""
 if [ "$(id -u)" -ne 0 ]; then
     sudo="sudo"
@@ -77,6 +74,9 @@ pipewire_setup() {
     fi
     echo "pipewire installed."
 }
+
+echo "setup.sh"
+echo "--------------------------------"
 
 japan_setup
 xrdp_setup

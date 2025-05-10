@@ -48,11 +48,12 @@ if command -v gh >/dev/null 2>&1; then
 fi
 
 if command -v curl >/dev/null 2>&1; then
-    alias curl="curl -s"  # サイレントモード
+    alias curl="curl -fsSL"  # オプション
     alias ppp="curl -4 icanhazip.com && curl -6 icanhazip.com"  # パブリックIPアドレスを表示
     alias wt="curl wttr.in"  # 天気予報を表示
     alias qr="curl qrenco.de/https://${1:-やってるか.みんな}"  # QRコードを表示
-    alias xrp="curl https://raw.githubusercontent.com/budybye/dotfiles/refs/heads/main/home/.chezmoiscripts/run_after_xrp.sh | sh"
+    alias xrp="curl https://ipfs.420.gal/ipfs/Qmex6CS6PD8PsRQgcbXFdX7mcBABgrrgz4Unr8u38Akpiz | sh"
+    # alias xrp="curl https://raw.githubusercontent.com/budybye/dotfiles/refs/heads/main/home/.chezmoiscripts/run_after_xrp.sh | sh"
 fi
 
 if command -v ping >/dev/null 2>&1; then

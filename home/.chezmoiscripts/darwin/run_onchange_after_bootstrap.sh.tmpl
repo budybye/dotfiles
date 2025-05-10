@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-echo "run_onchange_after_bootstrap.sh.tmpl"
-echo "--------------------------------"
-
 # Xcode コマンドラインツールのインストールおよびパスの設定
 install_xcode_command_line_tools() {
     echo "Xcode command line tools check it..."
@@ -109,14 +106,16 @@ install_mise() {
     echo "mise setup completed."
 }
 
-echo "bootstrap start."
+
+echo "bootstrap.sh"
+echo "--------------------------------"
 install_xcode_command_line_tools
 install_rosetta
 install_homebrew
 install_brew_packages
 install_mise
-echo "bootstrap done."
 echo "--------------------------------"
 echo "zsh --version $(zsh --version)"
+echo "--------------------------------"
 echo "Package install && update done!!"
 echo "--------------------------------"
