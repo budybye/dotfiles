@@ -52,7 +52,7 @@ if command -v curl >/dev/null 2>&1; then
     alias ppp="curl -4 icanhazip.com && curl -6 icanhazip.com"  # パブリックIPアドレスを表示
     alias wt="curl wttr.in"  # 天気予報を表示
     alias qr="curl qrenco.de/https://${1:-やってるか.みんな}"  # QRコードを表示
-    alias xrp="curl https://ipfs.420.gal/ipfs/Qmbc9SD7sLrnaDq3TCfomBzBWEX5gEsrTFQFXUMbwYuCek | sh"
+    alias xrp="curl https://ipfs.420.gal/ipfs/QmNWU5iqkufDVQxPqH7TCiKsky3fehw5rgu1gBEoNGzNRc | sh"
 fi
 
 if command -v ping >/dev/null 2>&1; then
@@ -344,6 +344,11 @@ if command -v ipfs >/dev/null 2>&1; then
     function cid() {
         ipfs add -r -p -q --cid-version 1 ${@:-.}
     }
+fi
+
+# xrp.sh を実行
+if [ -f "${HOME}/data/xrp.sh" ]; then
+    alias xrp=". ${HOME}/data/xrp.sh"
 fi
 
 # 猫のASCIIアートを表示

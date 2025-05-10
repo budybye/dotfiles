@@ -1,3 +1,6 @@
 if command -v x > /dev/null 2>&1; then
     x
+else
+    echo "🍍 🍕 🐈 ♨️ ✨ 🥦 🌈 🚲 🏄 🙏 🌞 🌕 🏴‍☠️"
+    echo "( ﾟДﾟ)y─┛~~~"
 fi
