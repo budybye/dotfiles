@@ -7,10 +7,11 @@ node = "20"
 go = "latest"
 aqua = "latest"
 act = "latest"
+chezmoi = "latest"
 
 caddy = "latest"
 cloudflared = "latest"
-# websocat = "latest"
+websocat = "latest"
 
 rust = "stable"
 cargo-binstall = "latest"
@@ -28,14 +29,11 @@ ninja = "latest"
 # conan = "latest"
 
 age = "latest"
-biome = "latest"
 # bitwarden = "latest"
-# chezmoi = "latest"
+biome = "latest"
 fastfetch = "latest"
 
-# websocat = "latest"
-# vim = "latest"
-# ffmpeg = "latest"
+ffmpeg = "latest"
 # yt-dlp = "latest"
 
 # java = "latest"
@@ -44,9 +42,10 @@ fastfetch = "latest"
 # ruby = "latest"
 # php = "latest"
 
+# direnv = "latest"
 # sqlite = "latest"
 # terraform = "latest"
-# direnv = "latest"
+# vim = "latest"
 
 [settings]
 # プラグインは他のバージョン管理ツールのバージョンファイルを読み取ることができます（プラグインが有効な場合）
