@@ -21,19 +21,21 @@ install_docker() {
         $sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
         $sudo apt-get update
 
-        $sudo apt-get install -y docker-ce \
+        $sudo apt-get install -y \
+        docker-ce \
         docker-ce-cli \
         containerd.io \
         docker-buildx-plugin \
         docker-compose-plugin || \
         echo "docker install failed."
 
-        if [ -f /var/run/docker.sock ]; then
-            $sudo chmod 666 /var/run/docker.sock
-        fi
         $sudo groupadd -f docker
         $sudo usermod -aG docker "$(whoami)"
         $sudo systemctl enable docker
+
+        if [ -f /var/run/docker.sock ]; then
+            $sudo chmod 666 /var/run/docker.sock
+        fi
 
         # Dockerデーモンの起動（systemdを使用しない方法）
         if [ -f /var/run/docker.pid ]; then
@@ -52,26 +54,24 @@ install_docker() {
     fi
 
     docker --version || echo "docker not found"
-    docker-compose version || echo "docker compose not found"
+    docker compose version || echo "docker compose not found"
 }
 
 install_act() {
     if command -v act >/dev/null; then
         echo "act already installed."
-        ACT="act"
-    elif command -v mise >/dev/null; then
-        mise use -g -y act@latest || echo "act install failed."
-        ACT="${HOME}/.local/share/mise/shims/act"
     elif command -v curl >/dev/null; then
         curl https://raw.githubusercontent.com/nektos/act/master/install.sh | $sudo bash || echo "act install failed."
-        ACT="${HOME}/.local/bin/act"
+        ACT="${HOME}/bin/act"
         $sudo chmod +x ${ACT}
-        $sudo mv -f ${ACT} ${HOME}/.local/bin/act
+        $sudo mv -f ${ACT} ${HOME}/bin/act
         export PATH="${ACT}:${PATH}"
+    elif command -v mise >/dev/null; then
+        mise use -g -y act@latest || echo "act install failed."
     else
         echo "act install failed."
     fi
-    $ACT --version || echo "act not found"
+    act --version || echo "act not found"
 }
 
 echo "docker.sh"

@@ -8,8 +8,6 @@ HISTFILE="${XDG_STATE_HOME}/bash/bash_history"
 mkdir -p "${XDG_CONFIG_HOME}/bash-completion"
 export BASH_COMPLETION_USER_FILE="${XDG_CONFIG_HOME}/bash-completion/bash_completion"
 
-PS1='\[\e[32m\]\u@\h\[\e[m\]:\[\e[34m\]\w\[\e[m\] \$ '
-
 if [ -f "${HOME}/.bashrc" ]; then
     . "${HOME}/.bashrc"
 fi
