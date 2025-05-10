@@ -3,7 +3,7 @@
 # export SHELL="$(command -v zsh)"
 # chsh -s "$(command -v zsh)" $"(whoami)"
 
-# ZDOTDIR に配置すると読み込まれないので ここで ZDOTDIR を設定する?
+# ＄ZDOTDIR に配置すると読み込まれないので ${HOME}/.zshenv で ZDOTDIR を設定する?
 if [ -d "${HOME}/.config/zsh" ]; then
     export ZDOTDIR=${HOME}/.config/zsh
 else

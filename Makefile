@@ -35,12 +35,14 @@ exec:
 .PHONY: up
 up:
 	cd .devcontainer && \
-	docker compose up -d
+	docker compose up -d && \
+	cd ..
 
 .PHONY: down
 down:
 	cd .devcontainer && \
-	docker compose down
+	docker compose down && \
+	cd ..
 
 .PHONY: ubuntu
 ubuntu:
@@ -50,7 +52,7 @@ ubuntu:
 	-c 4 \
 	-m 8G \
 	-d 42G \
-	--timeout 43200 \
+	--timeout 43210 \
 	--cloud-init cloud-init/multipass.yaml && \
 	multipass exec ubuntu -- tail -5 /var/log/cloud-init.log
 

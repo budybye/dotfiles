@@ -33,9 +33,9 @@ SCRIPT_DIR="$(cd -P -- "$(dirname -- "$(command -v -- "$0")")" && pwd -P)"
 echo "SCRIPT_DIR: $SCRIPT_DIR"
 $CHEZMOI --version
 echo "Repository: $DOTFILES"
-
+# init --apply
+CHE="$CHEZMOI init --apply --source=$SCRIPT_DIR"
+# CHEZMOI="$CHEZMOI init --apply $DOTFILES.git"
+echo "$CHE"
 # exec で新たなプロセスを起動して、現在のプロセスを置き換える
-exec "$CHEZMOI" init --apply "--source=$SCRIPT_DIR"
-# exec "$CHEZMOI" init --apply "--source=$SCRIPT_DIR" --verbose
-# exec "$CHEZMOI" init --apply "-S $SCRIPT_DIR"
-# exec "$CHEZMOI" init --apply $DOTFILES.git
+exec "$CHE"

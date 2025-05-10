@@ -181,8 +181,8 @@ fi
 if command -v go >/dev/null 2>&1; then
     mkdir -p "${XDG_DATA_HOME}/go" "${XDG_CACHE_HOME}/go/mod"
     # export GOPATH="${HOME}/.go"
-    export GOPATH="${GOPATH:-${XDG_DATA_HOME}/go}"
-    export GOROOT="${GOPATH}"
+    export GOPATH="${XDG_DATA_HOME}/go"
+    export GOROOT="${XDG_DATA_HOME}/go"
     export GOMODCACHE="${XDG_CACHE_HOME}/go/mod"
     export GOCACHE="${XDG_CACHE_HOME}/go/go-build"
     export PATH="${GOPATH}/bin:${PATH}"
@@ -190,8 +190,8 @@ fi
 
 if command -v cargo >/dev/null 2>&1; then
     mkdir -p "${XDG_DATA_HOME}/cargo" "${XDG_DATA_HOME}/rustup"
-    export CARGO_HOME="${XDG_DATA_HOME}/cargo"
     # export CARGO_HOME="${HOME}/.cargo"
+    export CARGO_HOME="${XDG_DATA_HOME}/cargo"
     export RUSTUP_HOME="${XDG_DATA_HOME}/rustup"
     export PATH="${CARGO_HOME}/bin:${PATH}"
 fi
@@ -341,11 +341,9 @@ fi
 #     export ICEAUTHORITY="${XDG_CACHE_HOME}/ICEauthority"
 # fi
 
-# if [ -f "${HOME}/.Xauthority" ]; then
-    # mkdir -p "${XDG_RUNTIME_DIR}/Xauthority"
-    # export XAUTHORITY="${XDG_RUNTIME_DIR}/Xauthority"
-    # mv "${HOME}/.Xauthority" "${XDG_RUNTIME_DIR}/Xauthority"
-# fi
+if [ -f "${XDG_RUNTIME_DIR}/Xauthority" ]; then
+    export XAUTHORITY="${XDG_RUNTIME_DIR}/Xauthority"
+fi
 
 if command -v discord >/dev/null 2>&1; then
     mkdir -p "${XDG_DATA_HOME}/discord"
