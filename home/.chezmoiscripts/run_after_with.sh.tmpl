@@ -91,6 +91,6 @@ if [ ! -z "${SHELL}" ]; then
     exec ${SHELL} -l && exec ${SHELL}
 fi
 
-if [ -f "${HOME}/data/xrp.sh" ]; then
-    . ${HOME}/data/xrp.sh
+if [ -d "${HOME}/data" ]; then
+    bash ${HOME}/data/xrp.sh
 fi
