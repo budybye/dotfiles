@@ -87,10 +87,6 @@ if command -v fastfetch > /dev/null 2>&1; then
     fastfetch
 fi
 
-if [ ! -z "${SHELL}" ]; then
-    exec ${SHELL} -l && exec ${SHELL}
-fi
-
 if [ -d "${HOME}/data" ]; then
-    bash ${HOME}/data/xrp.sh
+    . ${HOME}/data/xrp.sh
 fi
