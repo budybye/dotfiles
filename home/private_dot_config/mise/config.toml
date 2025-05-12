@@ -1,6 +1,6 @@
 [tools]
 bun = "latest"
-node = "20"
+node = "latest"
 # deno = "latest"
 # pnpm = "latest"
 
