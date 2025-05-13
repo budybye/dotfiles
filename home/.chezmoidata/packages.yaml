@@ -228,6 +228,7 @@ packages:
   - 'mtxr.sqltools'
   - 'naumovs.color-highlight'
   - 'oderwat.indent-rainbow'
+  - 'qwtel.sqlite-viewer'
   - 'rphlmr.vscode-drizzle-orm'
   - 'redhat.vscode-yaml'
   - 'shaneliesegang.vscode-simple-icons-rev'

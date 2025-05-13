@@ -244,6 +244,10 @@ if command -v apt >/dev/null 2>&1; then
     alias aq="apt search"
 fi
 
+if command -v dpkg  >/dev/null 2>&1; then
+    alias dpkg="dpkg"
+fi
+
 # brew
 if command -v brew >/dev/null 2>&1; then
     alias bs="brew -S"
@@ -341,7 +345,7 @@ fi
 
 # ipfs
 if command -v ipfs >/dev/null 2>&1; then
-    function cid() {
+    function pin() {
         ipfs add -r -p -q --cid-version 1 ${@:-.}
     }
 fi
