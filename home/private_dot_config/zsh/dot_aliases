@@ -350,6 +350,11 @@ if command -v ipfs >/dev/null 2>&1; then
     }
 fi
 
+
+if command -v fastfetch >/dev/null 2>&1; then
+    alias ff="fastfetch"
+fi
+
 # xrp.sh を実行
 if [ -f "${HOME}/data/xrp.sh" ]; then
     alias xrp=". ${HOME}/data/xrp.sh"

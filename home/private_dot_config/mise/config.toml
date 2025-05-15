@@ -35,8 +35,8 @@ fastfetch = "latest"
 # ffmpeg = "latest"
 # yt-dlp = "latest"
 
-# java = "latest"
-# maven = "latest"
+java = "latest"
+maven = "latest"
 
 # ruby = "latest"
 # php = "latest"
