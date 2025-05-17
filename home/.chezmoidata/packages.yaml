@@ -250,10 +250,11 @@ packages:
     winget:
     - 'Microsoft.PowerShell'
     - 'Microsoft.PowerToys'
-    - 'twpayne.chezmoi'
-    - 'vscode'
-    - 'Brave.Brave'
+    - 'Microsoft.VisualStudioCode'
     - 'Docker.DockerDesktop'
+    - 'Brave.Brave'
+    - 'twpayne.chezmoi'
+    - 'fastfetch'
 
     scoop:
     - 'git'

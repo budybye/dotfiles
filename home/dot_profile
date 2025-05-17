@@ -225,22 +225,34 @@ fi
 
 if command -v java >/dev/null 2>&1; then
     # macOSの場合
-    if [ "$(uname)" = "Darwin" ]; then
-        export JAVA_HOME="$(/usr/libexec/java_home)"
+    if [ -z "${JAVA_HOME}" ] && [ "$(uname)" = "Darwin" ]; then # JAVA_HOMEが未設定の場合のみ実行
+        _JAVA_HOME_CANDIDATE="$(/usr/libexec/java_home 2>/dev/null)"
+        if [ -n "${_JAVA_HOME_CANDIDATE}" ]; then
+          export JAVA_HOME="${_JAVA_HOME_CANDIDATE}"
+        fi
     # Linuxの場合
-    elif [ -d "/usr/lib/jvm" ]; then
-        export JAVA_HOME="$(readlink -f /usr/lib/jvm/java-*-openjdk-*)"
+    elif [ -z "${JAVA_HOME}" ] && [ -d "/usr/lib/jvm" ]; then # JAVA_HOMEが未設定の場合のみ実行
+        _JAVA_HOME_CANDIDATE="$(readlink -f /usr/lib/jvm/java-*-openjdk-* 2>/dev/null)"
+        if [ -n "${_JAVA_HOME_CANDIDATE}" ]; then
+          export JAVA_HOME="${_JAVA_HOME_CANDIDATE}"
+        fi
     fi
-    export PATH="${JAVA_HOME}/bin:${PATH}"
+
+    # PATHへの追加もJAVA_HOMEが設定されている場合のみ行う
+    if [ -n "${JAVA_HOME}" ]; then
+        export PATH="${JAVA_HOME}/bin:${PATH}"
+    fi
     mkdir -p "${XDG_CONFIG_HOME}/java"
-    export _JAVA_OPTIONS="-Djava.util.prefs.userRoot=${XDG_CONFIG_HOME}/java"
+    # _JAVA_OPTIONS もJAVA_HOMEが有効な場合のみ設定する
+    if [ -n "${JAVA_HOME}" ]; then
+      export _JAVA_OPTIONS="-Djava.util.prefs.userRoot=${XDG_CONFIG_HOME}/java"
+    fi
 fi
 
 if command -v mvn >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/maven"
-    export MAVEN_HOME="${XDG_CONFIG_HOME}/maven"
     export MAVEN_CONFIG="${XDG_CONFIG_HOME}/maven"
-    mvn -gs "${XDG_CONFIG_HOME}/maven/settings.xml"
+    # mvn -gs "${XDG_CONFIG_HOME}/maven/settings.xml"
 fi
 
 if command -v psql >/dev/null 2>&1; then

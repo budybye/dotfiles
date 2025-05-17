@@ -308,17 +308,17 @@ if command -v wrangler >/dev/null 2>&1; then
     alias wrd="wrangler deploy"
     alias wrs="wrangler secret"
     if [ -f "./dev/vars" ]; then
-        alias wenv="source ./dev/vars && cp ./dev/vars .env"
+        alias wrc="source ./dev/vars && cp ./dev/vars .env"
     fi
 fi
 
 if command -v warp-cli >/dev/null 2>&1; then
     alias wp="warp-cli"
     alias wps="wp status"
+    alias wpm="wp mode warp"
     alias wpc="wp connect"
     alias wpd="wp disconnect"
-    alias wps="wp mode warp"
-    alias warp="wp registration delete && wp --accept-tos registration new && wp dns families malware && wps && wpc && wps"
+    alias warp="wp registration delete && wp --accept-tos registration new && wp dns families malware && wpm && wpc && wps"
 fi
 
 if command -v cloudflared >/dev/null 2>&1; then
@@ -328,18 +328,18 @@ if command -v cloudflared >/dev/null 2>&1; then
 fi
 
 if command -v element-desktop >/dev/null 2>&1; then
-    alias el="element-desktop"
+    alias ele="element-desktop"
 fi
 
 if command -v openssl >/dev/null 2>&1; then
     function sec() {
-      echo ${@:-SECRET}=$(openssl rand -base64 32) >> .env && cat .env
+      echo ${@:-SECRET}=$(openssl rand -base64 32) >> .env && ls -al && cat .env
     }
 fi
 
 if command -v rj >/dev/null 2>&1 && command -v jq >/dev/null 2>&1; then
     function rq() {
-      rj ${@:-"https://8102.jp/api"} | jq
+        rj ${@:-"https://8102.jp/api"} | jq
     }
 fi
 
@@ -352,7 +352,8 @@ fi
 
 
 if command -v fastfetch >/dev/null 2>&1; then
-    alias ff="fastfetch"
+    alias ff="fastfetch -c all"
+    # alias ff="fastfetch -l ${HOME}/data/cat.txt"
 fi
 
 # xrp.sh を実行
@@ -361,6 +362,6 @@ if [ -f "${HOME}/data/xrp.sh" ]; then
 fi
 
 # 猫のASCIIアートを表示
-if [ -f "${HOME}/.config/neofetch/image.txt" ]; then
-    alias x="cat ${HOME}/.config/neofetch/image.txt"
+if [ -f "${HOME}/data/image.txt" ]; then
+    alias x="cat ${HOME}/data/cat.txt"
 fi
