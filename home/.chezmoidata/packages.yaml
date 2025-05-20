@@ -274,32 +274,30 @@ packages:
   mise:
   - 'rust@stable'
   - 'cargo-binstall@latest'
-
+  - 'node@latest'
   - 'bun@latest'
-  - 'node@20'
-
   - 'python@latest'
   - 'uv@latest'
-
   - 'jq@latest'
   - 'gh@latest'
   - 'yq@latest'
   - 'mkcert@latest'
-
   - 'cmake@latest'
   - 'ninja@latest'
   - 'vim@latest'
-
   - 'age@latest'
   - 'websocat@latest'
   - 'act@latest'
   - 'fastfetch@latest'
-
   - 'go@latest'
   - 'aqua@latest'
   - 'caddy@latest'
   - 'cloudflared@latest'
-
+  - 'java@latest'
+  - 'maven@latest'
+  # - 'sqlite@latest
+  # - 'php@latest'
   npm:
   - 'wrangler'
   - 'bitwarden-cli'
+  - 'pm2'

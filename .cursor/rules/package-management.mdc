@@ -1,0 +1,40 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# パッケージ管理ガイド
+
+## Homebrewパッケージ管理
+
+[Brewfile](mdc:home/private_dot_config/Brewfile)で以下のカテゴリのパッケージを管理しています：
+
+### フォーミュラ（コマンドラインツール）
+- 開発ツール（git, vim, etc.）
+- システムユーティリティ（bat, fzf, etc.）
+- ネットワークツール（nmap, whois, etc.）
+
+### アプリケーション（Cask）
+- 開発環境（VSCode, Cursor, etc.）
+- ブラウザ（Brave, Chrome, etc.）
+- ユーティリティ（AppCleaner, Rectangle, etc.）
+- フォント（HackGen Nerd, etc.）
+
+### Mac App Store（mas）
+- 生産性アプリ（Microsoft Excel, etc.）
+- 開発ツール（Xcode, etc.）
+- ユーティリティ（LINE, Shazam, etc.）
+
+## パッケージ追加のガイドライン
+
+1. 新しいパッケージを追加する場合は、適切なセクションに配置してください
+2. コメントアウトされたパッケージは将来の使用のために保持されています
+3. パッケージの説明コメントを追加することを推奨します
+4. 依存関係のあるパッケージは一緒に管理してください
+
+## ベストプラクティス
+
+1. 定期的に`brew update`と`brew upgrade`を実行してください
+2. 不要なパッケージは適切にアンインストールしてください
+3. パッケージのバージョン管理には`.tool-versions`を使用してください
+4. セキュリティ関連のパッケージは定期的に更新してください

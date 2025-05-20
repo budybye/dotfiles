@@ -106,7 +106,9 @@ if command -v mise >/dev/null 2>&1; then
     touch "${MISE_CONFIG_DIR}/shorthands.toml"
     export MISE_SHORTHANDS_FILE="${MISE_CONFIG_DIR}/shorthands.toml"
     # miseディレクトリ全体のパーミッションを修正
-    chmod -R 755 "${XDG_DATA_HOME}/mise/installs"
+    if [ -d "${XDG_DATA_HOME}/mise/installs" ]; then
+        chmod -R 755 "${XDG_DATA_HOME}/mise/installs"
+    fi
 fi
 
 if command -v aqua >/dev/null 2>&1; then
@@ -180,7 +182,6 @@ fi
 
 if command -v go >/dev/null 2>&1; then
     mkdir -p "${XDG_DATA_HOME}/go" "${XDG_CACHE_HOME}/go/mod"
-    # export GOPATH="${HOME}/.go"
     export GOPATH="${XDG_DATA_HOME}/go"
     export GOROOT="${XDG_DATA_HOME}/go"
     export GOMODCACHE="${XDG_CACHE_HOME}/go/mod"
@@ -190,7 +191,6 @@ fi
 
 if command -v cargo >/dev/null 2>&1; then
     mkdir -p "${XDG_DATA_HOME}/cargo" "${XDG_DATA_HOME}/rustup"
-    # export CARGO_HOME="${HOME}/.cargo"
     export CARGO_HOME="${XDG_DATA_HOME}/cargo"
     export RUSTUP_HOME="${XDG_DATA_HOME}/rustup"
     export PATH="${CARGO_HOME}/bin:${PATH}"
@@ -252,7 +252,9 @@ fi
 if command -v mvn >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/maven"
     export MAVEN_CONFIG="${XDG_CONFIG_HOME}/maven"
-    # mvn -gs "${XDG_CONFIG_HOME}/maven/settings.xml"
+    if [ -f "${MAVEN_CONFIG}/settings.xml" ]; then
+        mvn -gs "${MAVEN_CONFIG}/settings.xml"
+    fi
 fi
 
 if command -v psql >/dev/null 2>&1; then
@@ -329,8 +331,10 @@ if command -v tldr >/dev/null 2>&1; then
 fi
 
 if command -v ffmpeg >/dev/null 2>&1; then
-    mkdir -p "${XDG_CONFIG_HOME}/ffmpeg"
-    export FFMPEG_DATADIR="${XDG_CONFIG_HOME}/ffmpeg"
+    mkdir -p "${XDG_DATA_HOME}/ffmpeg"
+    # mkdir -p "${XDG_CONFIG_HOME}/ffmpeg"
+    export FFMPEG_DATADIR="${XDG_DATA_HOME}/ffmpeg"
+    # export FFMPEG_DATADIR="${XDG_CONFIG_HOME}/ffmpeg"
 fi
 
 if command -v kubectl >/dev/null 2>&1; then
@@ -372,13 +376,13 @@ fi
 if command -v htop >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/htop"
     if [ -f "${HOME}/.htoprc" ]; then
-        cp "${HOME}/.htoprc" "${XDG_CONFIG_HOME}/htop/htoprc"
+        mv "${HOME}/.htoprc" "${XDG_CONFIG_HOME}/htop/htoprc"
     fi
 fi
 
 if command -v curl >/dev/null 2>&1; then
     if [ -f "${HOME}/.curlrc" ]; then
-        cp "${HOME}/.curlrc" "${XDG_CONFIG_HOME}/.curlrc"
+        mv "${HOME}/.curlrc" "${XDG_CONFIG_HOME}/.curlrc"
     fi
 fi
 

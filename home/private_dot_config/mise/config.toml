@@ -41,8 +41,8 @@ maven = "latest"
 # ruby = "latest"
 # php = "latest"
 
+sqlite = "latest"
 # direnv = "latest"
-# sqlite = "latest"
 # terraform = "latest"
 # vim = "latest"
 
@@ -91,17 +91,13 @@ status.show_env = false
 status.show_tools = false
 
 # rust.cargo_home = "~/.cargo"
+# rust.cargo_home = "~/.local/share/cargo"
 # rust.rustup_home = "~/.rustup"
+# rust.rustup_home = "~/.local/share/rustup"
 
 cargo.binstall = true
 pipx.uvx = true
 # npm.bun = true
-
-# [[env]]
-# _.file = '.env'
-
-# [[env]]
-# _.source = 'dot_aliases'
 
 # [[env]]
 # _.path = [

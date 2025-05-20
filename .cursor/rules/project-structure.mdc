@@ -1,0 +1,34 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# プロジェクト構造ガイド
+
+このプロジェクトはchezmoiを使用したdotfiles管理システムです。
+
+## 主要なディレクトリとファイル
+
+- `home/`: ホームディレクトリの設定ファイルを含む
+- `.devcontainer/`: 開発コンテナの設定
+- `.vscode/`: VSCodeの設定
+- `.github/`: GitHub関連の設定
+- `cloud-init/`: クラウド初期化スクリプト
+- `Makefile`: ビルドとインストールのタスク
+- `install.sh`: インストールスクリプト
+- `.cursorrules`: Cursor AIの設定
+- `.editorconfig`: エディタの設定
+- `.tool-versions`: asdfのバージョン管理
+
+## 重要なファイルの説明
+
+- [Brewfile](mdc:home/private_dot_config/Brewfile): Homebrewのパッケージ管理
+- [Makefile](mdc:Makefile): ビルドとインストールのタスク定義
+- [install.sh](mdc:install.sh): 初期セットアップスクリプト
+
+## 開発ガイドライン
+
+1. 新しい設定を追加する場合は、適切なディレクトリに配置してください
+2. パッケージの追加はBrewfileで管理します
+3. インストールスクリプトは`install.sh`に追加してください
+4. ビルドタスクは`Makefile`に追加してください
