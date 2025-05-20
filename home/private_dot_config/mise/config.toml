@@ -18,6 +18,7 @@ cargo-binstall = "latest"
 
 python = "latest"
 uv = "latest"
+pipx = "latest"
 
 gh = "latest"
 jq = "latest"

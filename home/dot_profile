@@ -210,6 +210,17 @@ if command -v python3 >/dev/null 2>&1; then
     export PYTHONSTARTUP="${XDG_CONFIG_HOME}/python/pythonrc"
 fi
 
+if command -v pipx >/dev/null 2>&1; then
+    mkdir -p "${XDG_DATA_HOME}/pipx/venvs"
+    export PIPX_HOME="${XDG_DATA_HOME}/pipx"
+fi
+
+if command -v uv >/dev/null 2>&1; then
+    mkdir -p "${XDG_CONFIG_HOME}/uv"
+    touch "${XDG_CONFIG_HOME}/uv/uv.toml"
+    # export UV_CONFIG_DIR="${XDG_CONFIG_HOME}/uv"
+fi
+
 if command -v poetry >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/poetry" "${XDG_CACHE_HOME}/poetry"
     export POETRY_HOME="${XDG_CONFIG_HOME}/poetry"
@@ -301,7 +312,6 @@ if command -v byobu >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/byobu"
     export BYOBU_CONFIG_DIR="${XDG_CONFIG_HOME}/byobu"
 fi
-
 
 if command -v ipfs >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/ipfs"
