@@ -78,8 +78,8 @@ fi
 
 # 宗教問題
 if command -v bun >/dev/null 2>&1; then
-    alias npm="bun"
-    alias npx="bunx"
+    # alias npm="bun"
+    # alias npx="bunx"
     alias yarn="bun"
     alias yarnx="bunx"
     alias dv="bun dev"
@@ -129,7 +129,7 @@ fi
 
 # cat を bat に 変更
 if command -v bat >/dev/null 2>&1; then
-    alias cat="bat"
+    alias cat="bat -p"
 fi
 
 # grep を rg に変更
@@ -362,6 +362,6 @@ if [ -f "${HOME}/data/xrp.sh" ]; then
 fi
 
 # 猫のASCIIアートを表示
-if [ -f "${HOME}/data/image.txt" ]; then
+if [ -f "${HOME}/data/cat.txt" ]; then
     alias x="cat ${HOME}/data/cat.txt"
 fi

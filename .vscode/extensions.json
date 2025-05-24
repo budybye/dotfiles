@@ -2,8 +2,12 @@
   "recommendations": [
     "42crunch.vscode-openapi",
     "adpyke.codesnap",
+    "ambar.bundle-size",
+    "bmewburn.vscode-intelephense-client",
+    "bierner.markdown-emoji",
     "biomejs.biome",
     "bradlc.vscode-tailwindcss",
+    "christian-kohler.npm-intellisense",
     "christian-kohler.path-intellisense",
     "corschenzi.mermaid-graphical-editor",
     "dbaeumer.vscode-eslint",

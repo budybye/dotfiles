@@ -94,6 +94,9 @@
   "[markdown]": {
     "files.trimTrailingWhitespace": false
   },
+  "[php]": {
+    "editor.defaultFormatter": "bmewburn.vscode-intelephense-client"
+  },
 
   "markdown-preview-enhanced.previewTheme": "none.css",
   "eslint.codeActionsOnSave.rules": null,
@@ -121,7 +124,7 @@
     "*.jsx": "${capture}.js",
     "*.tsx": "${capture}.ts",
     "tsconfig.json": "tsconfig.*.json",
-    "package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml, bun.lockb",
+    "package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml, bun.lockb, bun.lock",
     "*.sqlite": "${capture}.${extname}-*",
     "*.db": "${capture}.${extname}-*",
     "*.sqlite3": "${capture}.${extname}-*",
@@ -129,5 +132,8 @@
     "*.sdb": "${capture}.${extname}-*",
     "*.s3db": "${capture}.${extname}-*"
   },
-  "editor.largeFileOptimizations": false
+  "editor.largeFileOptimizations": false,
+  "intelephense.files.maxSize": 5000000,
+  "intelephense.environment.phpVersion": "8.3",
+  "intelephense.format.braces": "k&r"
 }
