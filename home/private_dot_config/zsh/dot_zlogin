@@ -3,12 +3,12 @@
 
 # fortune cowsay lolcat
 if command -v fortune > /dev/null 2>&1 && \
-  command -v cowsay > /dev/null 2>&1 && \
-  command -v lolcat > /dev/null 2>&1; then
-    fortune | cowsay | lolcat
+  command -v cowsay > /dev/null 2>&1; then
+    fortune | cowsay
 fi
 
 # figlet
-if command -v figlet > /dev/null 2>&1; then
-  echo $USER | figlet
+if command -v figlet > /dev/null 2>&1 && \
+  command -v lolcat > /dev/null 2>&1; then
+    echo $USER | figlet | lolcat
 fi

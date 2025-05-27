@@ -74,13 +74,19 @@ export LC_ALL="ja_JP.UTF-8"
 # TUIの表示乱れ防止
 export LC_CTYPE="en_US.UTF-8"
 
-export TMPDIR="/tmp"
 export TERM="xterm-256color"
-
 export TERMINFO="$XDG_DATA_HOME"/terminfo
 export TERMINFO_DIRS="$XDG_DATA_HOME"/terminfo:/usr/share/terminfo
 
 export LESSHISTFILE="$XDG_STATE_HOME"/less/history
+
+if [ -d "/tmp" ]; then
+    export TMPDIR="/tmp"
+fi
+
+if [ "$(uname)" = "Darwin" ]; then
+    mkdir -p "${XDG_DATA_HOME}/trash"
+fi
 
 if command -v cursor >/dev/null 2>&1; then
     export EDITOR="cursor"
@@ -236,13 +242,15 @@ fi
 
 if command -v java >/dev/null 2>&1; then
     # macOSの場合
-    if [ -z "${JAVA_HOME}" ] && [ "$(uname)" = "Darwin" ]; then # JAVA_HOMEが未設定の場合のみ実行
+    if [ -z "${JAVA_HOME}" ] && [ "$(uname)" = "Darwin" ]; then
+        # JAVA_HOMEが未設定の場合のみ実行
         _JAVA_HOME_CANDIDATE="$(/usr/libexec/java_home 2>/dev/null)"
         if [ -n "${_JAVA_HOME_CANDIDATE}" ]; then
           export JAVA_HOME="${_JAVA_HOME_CANDIDATE}"
         fi
     # Linuxの場合
-    elif [ -z "${JAVA_HOME}" ] && [ -d "/usr/lib/jvm" ]; then # JAVA_HOMEが未設定の場合のみ実行
+    elif [ -z "${JAVA_HOME}" ] && [ -d "/usr/lib/jvm" ]; then
+        # JAVA_HOMEが未設定の場合のみ実行
         _JAVA_HOME_CANDIDATE="$(readlink -f /usr/lib/jvm/java-*-openjdk-* 2>/dev/null)"
         if [ -n "${_JAVA_HOME_CANDIDATE}" ]; then
           export JAVA_HOME="${_JAVA_HOME_CANDIDATE}"
@@ -263,6 +271,7 @@ fi
 if command -v mvn >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/maven"
     export MAVEN_CONFIG="${XDG_CONFIG_HOME}/maven"
+    # 設定ファイルが存在する場合は読み込む
     if [ -f "${MAVEN_CONFIG}/settings.xml" ]; then
         mvn -gs "${MAVEN_CONFIG}/settings.xml"
     fi
@@ -325,7 +334,7 @@ if command -v starship >/dev/null 2>&1; then
     export STARSHIP_CACHE="${XDG_CACHE_HOME}/starship"
 fi
 
-if command -v zoxide >/dev/null 2>&1; then
+if command -v z >/dev/null 2>&1; then
     mkdir -p "${XDG_DATA_HOME}/z"
     export _Z_DATA="${XDG_DATA_HOME}/z"
 fi
@@ -342,9 +351,7 @@ fi
 
 if command -v ffmpeg >/dev/null 2>&1; then
     mkdir -p "${XDG_DATA_HOME}/ffmpeg"
-    # mkdir -p "${XDG_CONFIG_HOME}/ffmpeg"
     export FFMPEG_DATADIR="${XDG_DATA_HOME}/ffmpeg"
-    # export FFMPEG_DATADIR="${XDG_CONFIG_HOME}/ffmpeg"
 fi
 
 if command -v kubectl >/dev/null 2>&1; then

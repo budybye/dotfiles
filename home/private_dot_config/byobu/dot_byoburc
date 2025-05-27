@@ -1,8 +1,17 @@
 #!/usr/bin/env bash
-# set -e
+set -e
 
-SES="dotfiles"
-DOT="${HOME}/${SES}"
+SES="session"
+DOT="dotfiles"
+
+W1P1="${HOME}/${DOT}" # dotfiles
+W1P2="${HOME}" # mpd
+W1P3="${HOME}/Music" # ncmpcpp
+W1P4="${HOME}/data" # code
+
+W2P1="${HOME}/dev/portainer" # portainer
+W2P2="${HOME}/dev/app" # app
+# W2P3="${HOME}/dev"
 
 # attach to "dotfiles" session, window 0, pane 1
 
@@ -26,51 +35,56 @@ if byobu list-sessions 2>/dev/null | grep -q "^${SES}"; then
     exit 0
 fi
 
-if [ -d "${DOT}" ]; then
+# dotfilesディレクトリが存在する場合はセッションを作成
+if [ -d "${W1P1}" ]; then
   # セッションの作成 window 0
-    byobu-tmux new-session -d  -s "${SES}" -n "${SES}" -c "${DOT}"
+    byobu-tmux new-session -d  -s "${SES}" -n "${SES}" -c "${W1P1}"
     # dotfilesディレクトリでvimを起動
     # byobu-tmux send-keys -t 1 "vim" C-m
 else
-    echo "${DOT} not found"
+    echo "${W1P1} not found"
     byobu-tmux new-session -d  -s "${SES}" -n "${SES}" -c "${HOME}"
 fi
 
+# mpdがインストールされている場合はウィンドウを垂直分割
 if command -v mpd > /dev/null 2>&1; then
     # ウィンドウの垂直分割 homeディレクトリを開く
-    byobu-tmux split-window -h -c "${HOME}"
+    byobu-tmux split-window -h -c "${W1P2}"
     # homeディレクトリでmpdを起動 pane 2
     byobu-tmux send-keys -t 2 "mpd" C-m
 fi
 
-if command -v ncmpcpp > /dev/null 2>&1; then
+# ncmpcppがインストールされている場合はウィンドウを水平分割
+if command -v ncmpcpp > /dev/null 2>&1 && [ -d "${W1P3}" ]; then
     # ウィンドウの水平分割 musicディレクトリを開く
-    byobu-tmux split-window -v -c "${HOME}/Music"
+    byobu-tmux split-window -v -c "${W1P3}"
     # musicディレクトリでncmpcppを起動 pane 3
     byobu-tmux send-keys -t 3 "ncmpcpp" C-m
 fi
 
-
-if [ -d "${DOT}/.devcontainer" ]; then
+# ${HOME}/dataディレクトリが存在する場合はウィンドウを水平分割
+if [ -d "${W1P4}" ]; then
     # 水平分割する ペイン1 を選択
     byobu-tmux select-pane -t 1
-    # ウィンドウの水平分割 .devcontainerディレクトリを開く pane 4
-    byobu-tmux split-window -v -c "${DOT}/.devcontainer"
+    # ウィンドウの水平分割 dataディレクトリを開く pane 4
+    byobu-tmux split-window -v -c "${W1P4}"
     # byobu-tmux send-keys -t 4 "code ." C-m
 fi
 
+# sshがインストールされている場合はウィンドウを作成
 if command -v ssh > /dev/null 2>&1; then
-    if [ -d "${HOME}/dev" ]; then
-        # ウィンドウの作成 devディレクトリを開く
-        byobu-tmux new-window -c "${HOME}/dev"
+    if [ -d "${W2P1}" ]; then
+        # ウィンドウの作成 dev/portainerディレクトリを開く
+        byobu-tmux new-window -c "${W2P1}"
         # byobu-tmux send-keys -t 1 "ssh ubuntu@local.dev" C-m
     else
         byobu-tmux new-window -c "${HOME}"
     fi
 fi
 
-if [ -d "${HOME}/dev/portainer" ]; then
-    byobu-tmux split-window -h -c "${HOME}/dev/portainer"
+# app
+if [ -d "${W2P2}" ]; then
+    byobu-tmux split-window -h -c "${W2P2}"
   # byobu-tmux send-keys -t 2 "ssh ubuntu@local.dev" C-m
 fi
 

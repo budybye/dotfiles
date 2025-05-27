@@ -8,7 +8,7 @@ alias q="exit"
 alias c="clear"
 alias hg="history | grep"
 alias hh="cd ~"
-alias ds='echo $PATH && echo $SHELL'
+alias sp='echo $PATH && echo $SHELL'
 alias vv="env | grep"
 alias www="ps aux"
 alias now="date +%Y%m%d%H%M%S"
@@ -134,7 +134,8 @@ fi
 
 # grep を rg に変更
 if command -v rg >/dev/null 2>&1; then
-    alias grep="rg"
+    alias grep="rg --color=always"
+    alias vv="env | rg ''"
 fi
 
 # find を fd に変更
@@ -142,10 +143,10 @@ if command -v fd >/dev/null 2>&1; then
     alias find="fd"
 fi
 
-# cd を zoxide に変更
-if command -v zoxide >/dev/null 2>&1; then
-    alias cd="z"
-fi
+# # cd を zoxide に変更
+# if command -v zoxide >/dev/null 2>&1; then
+#     alias zz="z"
+# fi
 
 # tldr
 if command -v tldr >/dev/null 2>&1; then
@@ -267,6 +268,7 @@ if command -v mise >/dev/null 2>&1; then
     alias mir="mise registry"
     alias mig="mise use -g"
     alias mil="mise list && mise set"
+    alias mip="mise plugins ls-remote"
 fi
 
 if command -v sheldon >/dev/null 2>&1; then

@@ -34,6 +34,7 @@ echo "SCRIPT_DIR: $SCRIPT_DIR"
 $CHEZMOI --version
 echo "Repository: $DOTFILES"
 echo "chezmoi init --apply --source=$SCRIPT_DIR"
+
 # exec で新たなプロセスを起動して、現在のプロセスを置き換える
 exec "$CHEZMOI" init --apply "--source=$SCRIPT_DIR"
 # exec "$CHEZMOI" init --apply "--source=$SCRIPT_DIR" --verbose
