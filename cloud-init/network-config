@@ -1,16 +1,16 @@
 version: 2
 wifis:
-    renderer: networkd
-    eth0:
-        dhcp4: true
-        dhcp6: true
-        optional: true
-        addresses:
-            - 192.168.0.101/8
-    wlan0:
-        dhcp4: true
-        dhcp6: true
-        optional: true
-        access-points:
-            "${SSID:-}":
-                password: "${PASSWORD:-}"
+  renderer: networkd
+  eth0:
+    dhcp4: true
+    dhcp6: true
+    optional: true
+    addresses:
+      - 192.168.0.101/8
+  wlan0:
+    dhcp4: true
+    dhcp6: true
+    optional: true
+    access-points:
+      "${SSID:-}":
+        password: "${PASSWORD:-}"

@@ -12,11 +12,15 @@ if [ -f "${HOME}/.bashrc" ]; then
     . "${HOME}/.bashrc"
 fi
 
-# byobu session management
-if command -v byobu > /dev/null 2>&1; then
-    if [ ${SHLVL} = 1 ] && [ -z "$TMUX" ]; then
-        if [ -f "${XDG_CONFIG_HOME}/byobu/.byoburc" ]; then
-            . "${XDG_CONFIG_HOME}/byobu/.byoburc"
-        fi
+# byobu auto-start (ログイン時に自動起動)
+if command -v byobu > /dev/null 2>&1 && \
+    [ "${SHLVL}" -le 2 ] && \
+    [ -z "$TMUX" ] && \
+    [ -z "$BYOBU_BACKEND" ]; then
+    # 設定ファイルが存在する場合は読み込み、なければデフォルトで起動
+    if [ -f "${XDG_CONFIG_HOME}/byobu/.byoburc" ]; then
+        . "${XDG_CONFIG_HOME}/byobu/.byoburc"
+    else
+        exec byobu
     fi
 fi

@@ -13,13 +13,22 @@ alias vv="env | grep"
 alias www="ps aux"
 alias now="date +%Y%m%d%H%M%S"
 
-alias rl="exec ${SHELL} -l && exec ${SHELL}"
-alias opi="for i in {1..3}; do time ${SHELL} -ic exit;done"
-alias oppi="for i in {1..3}; do time ${SHELL} -lc exit;done"
+# システム情報
+alias sysinfo="uname -a && uptime"
+alias meminfo="free -h 2>/dev/null || vm_stat"
+alias diskinfo="df -h"
 
+# シェルの再起動
+alias rl="exec ${SHELL} -l && exec ${SHELL}"
+# シェルのパフォーマンス測定
+alias opi="for i in {1..3}; do time ${SHELL} -ic exit;done"
+alias oppi="for i in {1..3}; do time ${SHELL} -lc exit;done && exec ${SHELL}"
+
+# ドキュメント
 alias note="${EDITOR:-vim} ${HOME}/Documents/note.md"  # ノートを開く
 alias docs="cd ${HOME}/Documents"  # ドキュメントフォルダに移動
-alias br="date +%Y%m%dT%H%M%SZ" # 区切り線
+alias br="--------------------------------" # 区切り線
+alias vv="env | grep" # 環境変数を表示
 
 # ファイル操作のエイリアス
 alias mv="mv -i"   # 上書き確認を有効にする
@@ -71,8 +80,20 @@ if command -v netstat >/dev/null 2>&1; then
     alias ports="netstat -tuln"  # 開いているポートを表示
 fi
 
+# ip を表示
+if command -v ipconfig >/dev/null 2>&1; then
+    alias ip="ipconfig getifaddr en0"
+elif command -v ifconfig >/dev/null 2>&1; then
+    alias ip="ifconfig"
+elif command -v ip >/dev/null 2>&1; then
+    alias ip="ip addr show"
+fi
+
 if command -v python3 >/dev/null 2>&1; then
     alias python="python3"
+fi
+
+if command -v pip3 >/dev/null 2>&1; then
     alias pip="pip3"
 fi
 
@@ -145,12 +166,12 @@ fi
 
 # # cd を zoxide に変更
 # if command -v zoxide >/dev/null 2>&1; then
-#     alias zz="z"
+#     alias cd="z"
 # fi
 
 # tldr
 if command -v tldr >/dev/null 2>&1; then
-    # alias tldr="tldr -L ja"
+    alias tldr="tldr -L ja"
     alias h="tldr"
 fi
 
@@ -246,15 +267,24 @@ if command -v apt >/dev/null 2>&1; then
 fi
 
 if command -v dpkg  >/dev/null 2>&1; then
-    alias dpkg="dpkg"
+    alias pkg="dpkg"
 fi
 
 # brew
 if command -v brew >/dev/null 2>&1; then
     alias bs="brew -S"
     alias bi="brew install"
-    alias bb="brew bundle --file ${HOME}/.config/Brewfile && brew bundle cleanup --force --file ${HOME}/.config/Brewfile && brew update && brew upgrade && brew autoremove && brew doctor"
-    alias bbb="bb && rm -f ${HOME}/.config/homebrew/Brewfile && brew bundle dump --file ${HOME}/.config/homebrew/Brewfile && cat ${HOME}/.config/homebrew/Brewfile"
+    alias bu="brew update && brew upgrade"
+    alias bcl="brew bundle cleanup --force --file ${HOME}/.config/Brewfile && brew autoremove && brew doctor"
+    alias bb="brew bundle --file ${HOME}/.config/Brewfile && bu && bcl"
+    function bbb() {
+      bb
+      if [ -f ${HOME}/.config/homebrew/Brewfile ]; then
+          rm -f ${HOME}/.config/homebrew/Brewfile
+      fi
+      brew bundle dump --file ${HOME}/.config/homebrew/Brewfile
+      cat ${HOME}/.config/homebrew/Brewfile
+    }
 fi
 
 # speedtest
@@ -265,10 +295,11 @@ fi
 # mise
 if command -v mise >/dev/null 2>&1; then
     alias mi="mise"
-    alias mir="mise registry"
-    alias mig="mise use -g"
-    alias mil="mise list && mise set"
-    alias mip="mise plugins ls-remote"
+    alias miu="mi up && mi list"
+    alias mir="mi registry"
+    alias mig="mi use -g"
+    alias mil="mi list && mi set"
+    alias mip="mi plugins ls-remote"
 fi
 
 if command -v sheldon >/dev/null 2>&1; then
@@ -367,3 +398,6 @@ fi
 if [ -f "${HOME}/data/cat.txt" ]; then
     alias x="cat ${HOME}/data/cat.txt"
 fi
+
+# デバッグ・メンテナンス用
+alias reload="exec \${SHELL} -l"

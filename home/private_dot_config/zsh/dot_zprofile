@@ -12,7 +12,7 @@ path=(
   ${HOME}/.local/share/mise/shims(N-/)
   ${HOME}/.console-ninja/.bin(N-/)
   ${HOME}/.local/share/bun/bin(N-/)
-  ${HOME}/.cache/bun/bin(N-/)
+  ${HOME}/.cache/.bun/bin(N-/)
   ${HOME}/.bun/bin(N-/)
   ${HOME}/.local/share/go/bin(N-/)
   ${HOME}/go/bin(N-/)
@@ -33,13 +33,15 @@ if [ -f "${ZDOTDIR}/.zshrc" ]; then
   . "${ZDOTDIR}/.zshrc"
 fi
 
-# byobu session
-if command -v byobu > /dev/null 2>&1; then
-    # tmuxが起動していない場合
-    if [ ${SHLVL} = 1 ] && [ -z "$TMUX" ]; then
-        # カスタムセッションファイルが存在する場合
-        if [ -f "${XDG_CONFIG_HOME}/byobu/.byoburc" ]; then
-            . "${XDG_CONFIG_HOME}/byobu/.byoburc"
-        fi
+# byobu auto-start (ログイン時に自動起動)
+if command -v byobu > /dev/null 2>&1 && \
+    [ "${SHLVL}" -le 2 ] && \
+    [ -z "$TMUX" ] && \
+    [ -z "$BYOBU_BACKEND" ]; then
+    # 設定ファイルが存在する場合は読み込み、なければデフォルトで起動
+    if [ -f "${XDG_CONFIG_HOME}/byobu/.byoburc" ]; then
+        . "${XDG_CONFIG_HOME}/byobu/.byoburc"
+    else
+        exec byobu
     fi
 fi

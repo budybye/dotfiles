@@ -10,8 +10,8 @@ W1P3="${HOME}/Music" # ncmpcpp
 W1P4="${HOME}/data" # code
 
 W2P1="${HOME}/dev/portainer" # portainer
-W2P2="${HOME}/dev/app" # app
-# W2P3="${HOME}/dev"
+W2P2="${HOME}/multipass" # app
+W2P3="${HOME}/dev/app"
 
 # attach to "dotfiles" session, window 0, pane 1
 
@@ -74,7 +74,7 @@ fi
 # sshがインストールされている場合はウィンドウを作成
 if command -v ssh > /dev/null 2>&1; then
     if [ -d "${W2P1}" ]; then
-        # ウィンドウの作成 dev/portainerディレクトリを開く
+        # 新規ウィンドウの作成 dev/portainerディレクトリを開く
         byobu-tmux new-window -c "${W2P1}"
         # byobu-tmux send-keys -t 1 "ssh ubuntu@local.dev" C-m
     else
@@ -82,11 +82,18 @@ if command -v ssh > /dev/null 2>&1; then
     fi
 fi
 
-# app
-if [ -d "${W2P2}" ]; then
-    byobu-tmux split-window -h -c "${W2P2}"
-  # byobu-tmux send-keys -t 2 "ssh ubuntu@local.dev" C-m
+# multipass
+if [ -d "${W2P2}" ] && command -v multipass > /dev/null 2>&1; then
+    byobu-tmux split-window -v -c "${W2P2}"
+    byobu-tmux send-keys -t 4 "multipass shell ubuntu" C-m
 fi
+
+# app
+if [ -d "${W2P3}" ]; then
+    byobu-tmux split-window -h -c "${W2P3}"
+fi
+
+
 
 # 最初に開いたウィンドウを選択 0
 byobu-tmux select-window -t 1

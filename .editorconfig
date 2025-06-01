@@ -18,11 +18,11 @@ font_family = "HackGen Console NF", "RobotoMonoJP", "monospace", "Consolas"
 indent_size = 4
 
 # インデント 2
-[*.{c, h, cpp, js, ts, jsx, tsx, sh, json, jsonc, yaml, yml, toml, ini, css, html, sql, txt, file xml, tmpl}]
+[*.{c, h, cpp, js, ts, jsx, tsx, sh, json, jsonc, yaml, yml, toml, ini, css, html, sql, txt, file, xml, tmpl }]
 indent_size = 2
 
 # Markdownの場合、インデントスタイルをタブに設定
-[*.md]
+[*.md, *.mdx, *.mdc]
 indent_style = tab
 tab_width = 4
 

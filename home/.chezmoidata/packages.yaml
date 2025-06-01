@@ -7,7 +7,7 @@ packages:
     - 'zsh'
     - 'byobu'
     - 'tree'
-    - 'chezmoi'
+    # - 'chezmoi'
     - 'autoconf'
     - 'automake'
     - 'ain'
