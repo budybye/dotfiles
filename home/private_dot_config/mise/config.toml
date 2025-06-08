@@ -1,8 +1,8 @@
 [tools]
 bun = "latest"
 node = "latest"
+pnpm = "latest"
 # deno = "latest"
-# pnpm = "latest"
 
 go = "latest"
 aqua = "latest"
@@ -27,7 +27,7 @@ mkcert = "latest"
 
 cmake = "latest"
 ninja = "latest"
-# conan = "latest"
+conan = "latest"
 
 age = "latest"
 biome = "latest"
@@ -44,7 +44,7 @@ maven = "latest"
 
 sqlite = "latest"
 # direnv = "latest"
-# terraform = "latest"
+terraform = "latest"
 # vim = "latest"
 
 [settings]
