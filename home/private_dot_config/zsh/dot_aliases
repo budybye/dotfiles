@@ -85,13 +85,13 @@ if command -v netstat >/dev/null 2>&1; then
 fi
 
 # ip を表示
-if command -v ipconfig >/dev/null 2>&1; then
-    alias ip="ipconfig getifaddr en0"
-elif command -v ifconfig >/dev/null 2>&1; then
-    alias ip="ifconfig"
-elif command -v ip >/dev/null 2>&1; then
-    alias ip="ip addr show"
-fi
+# if command -v ipconfig >/dev/null 2>&1; then
+#     alias ip="ipconfig getifaddr en0"
+# elif command -v ifconfig >/dev/null 2>&1; then
+#     alias ip="ifconfig"
+# elif command -v ip >/dev/null 2>&1; then
+#     alias ip="ip addr show"
+# fi
 
 if command -v python3 >/dev/null 2>&1; then
     alias python="python3"
