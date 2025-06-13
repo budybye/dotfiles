@@ -8,6 +8,7 @@ go = "latest"
 aqua = "latest"
 act = "latest"
 chezmoi = "latest"
+rclone = "latest"
 
 caddy = "latest"
 cloudflared = "latest"
@@ -32,19 +33,23 @@ conan = "latest"
 age = "latest"
 biome = "latest"
 fastfetch = "latest"
-
-# ffmpeg = "latest"
-# yt-dlp = "latest"
+sqlite = "latest"
+terraform = "latest"
+# lazydocker = "latest"
+# lazygit = "latest"
+# kubectx = "latest"
+# gcloud = "latest"
 
 java = "latest"
 maven = "latest"
+# tomcat = "latest"
 
 # ruby = "latest"
 # php = "latest"
 
-sqlite = "latest"
+# ffmpeg = "latest"
+# yt-dlp = "latest"
 # direnv = "latest"
-terraform = "latest"
 # vim = "latest"
 
 [settings]

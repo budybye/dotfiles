@@ -18,8 +18,12 @@ alias sysinfo="uname -a && uptime"
 alias meminfo="free -h 2>/dev/null || vm_stat"
 alias diskinfo="df -h"
 
+SHELL=${SHELL:-bash}
 # シェルの再起動
-alias rl="exec ${SHELL} -l && exec ${SHELL}"
+alias rl="exec ${SHELL} -l"
+# デバッグ・メンテナンス用
+alias reload="exec ${SHELL} -l && exec ${SHELL} -l"
+
 # シェルのパフォーマンス測定
 alias opi="for i in {1..3}; do time ${SHELL} -ic exit;done"
 alias oppi="for i in {1..3}; do time ${SHELL} -lc exit;done && exec ${SHELL}"
@@ -295,11 +299,12 @@ fi
 # mise
 if command -v mise >/dev/null 2>&1; then
     alias mi="mise"
-    alias miu="mi up && mi list"
-    alias mir="mi registry"
+    alias miu="mi up && mi list && mi prune"
     alias mig="mi use -g"
     alias mil="mi list && mi set"
-    alias mip="mi plugins ls-remote"
+    alias mip="mi p ls-remote"
+    alias mir="mi run"
+    alias mib="mi build"
 fi
 
 if command -v sheldon >/dev/null 2>&1; then
@@ -398,6 +403,3 @@ fi
 if [ -f "${HOME}/data/cat.txt" ]; then
     alias x="cat ${HOME}/data/cat.txt"
 fi
-
-# デバッグ・メンテナンス用
-alias reload="exec \${SHELL} -l"
