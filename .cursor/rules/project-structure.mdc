@@ -3,32 +3,102 @@ description:
 globs:
 alwaysApply: false
 ---
-# プロジェクト構造ガイド
+# Project Structure Guide
 
-このプロジェクトはchezmoiを使用したdotfiles管理システムです。
+This project is a dotfiles management system using chezmoi.
 
-## 主要なディレクトリとファイル
+## Key Directories and Files
 
-- `home/`: ホームディレクトリの設定ファイルを含む
-- `.devcontainer/`: 開発コンテナの設定
-- `.vscode/`: VSCodeの設定
-- `.github/`: GitHub関連の設定
-- `cloud-init/`: クラウド初期化スクリプト
-- `Makefile`: ビルドとインストールのタスク
-- `install.sh`: インストールスクリプト
-- `.cursorrules`: Cursor AIの設定
-- `.editorconfig`: エディタの設定
-- `.tool-versions`: asdfのバージョン管理
+- `home/`: Contains home directory configuration files
+- `.devcontainer/`: Development container configuration
+- `.vscode/`: VSCode configuration
+- `.github/`: GitHub related configuration (workflows, releases)
+- `cloud-init/`: Cloud initialization scripts for VM deployment
+- `Makefile`: Optimized build and installation tasks with categorized commands
+- `install.sh`: Installation script for initial setup
+- `.cursor/`: Cursor AI configuration and development guidelines
+- `.editorconfig`: Editor configuration following project standards
+- `.tool-versions`: Version management file for mise/asdf compatibility
+- `.chezmoiroot`: Chezmoi root directory marker
+- `style.css`: Style sheet for documentation rendering
 
-## 重要なファイルの説明
+## Important File Descriptions
 
-- [Brewfile](mdc:home/private_dot_config/Brewfile): Homebrewのパッケージ管理
-- [Makefile](mdc:Makefile): ビルドとインストールのタスク定義
-- [install.sh](mdc:install.sh): 初期セットアップスクリプト
+- [Brewfile](mdc:home/private_dot_config/Brewfile): Homebrew package management for macOS
+- [Makefile](mdc:Makefile): Optimized build and installation task definitions with help system
+- [install.sh](mdc:install.sh): Initial setup script for dotfiles initialization
+- [.chezmoi.toml.tmpl](mdc:home/.chezmoi.toml.tmpl): Chezmoi configuration template
+- [.chezmoiignore](mdc:home/.chezmoiignore): Files to ignore in chezmoi management
+- [README.md](mdc:README.md): Comprehensive project documentation
 
-## 開発ガイドライン
+## Chezmoi Structure
 
-1. 新しい設定を追加する場合は、適切なディレクトリに配置してください
-2. パッケージの追加はBrewfileで管理します
-3. インストールスクリプトは`install.sh`に追加してください
-4. ビルドタスクは`Makefile`に追加してください
+### Home Directory Template Structure
+- `dot_*`: Files prefixed with `dot_` become dotfiles (e.g., `dot_zshrc` → `.zshrc`)
+- `private_*`: Files prefixed with `private_` have restricted permissions (0600)
+- `encrypted_*`: Files prefixed with `encrypted_` are encrypted using age encryption
+- `executable_*`: Files prefixed with `executable_` become executable scripts
+
+### Scripts Directory Organization
+- `.chezmoiscripts/`: Contains installation and configuration scripts
+  - `darwin/`: macOS-specific scripts
+  - `linux/`: Linux-specific scripts
+- Script naming conventions:
+  - `run_*`: Scripts executed during `chezmoi apply`
+  - `run_once_*`: Scripts executed only once
+  - `run_onchange_*`: Scripts executed when their content changes
+  - `run_before_*`: Scripts executed before file installation
+  - `run_after_*`: Scripts executed after file installation
+
+### Template Variables
+- OS-specific configurations using `{{ if eq .chezmoi.os "darwin" }}`
+- Architecture-specific settings using `{{ .chezmoi.arch }}`
+- User-specific data from `.chezmoidata/` directory
+
+## Makefile Command Structure
+
+The optimized Makefile provides categorized commands:
+
+### Command Categories
+1. **General**: `help`, `version`, `init`, `update`, `apply`, `check`
+2. **Docker**: `docker-build`, `docker-run`, `up`, `down`, `exec`, `logs`
+3. **Virtual Machine**: `vm-create`, `vm-info`, `vm-start`, `vm-stop`, `ssh`
+4. **Git Operations**: `git-commit`, `git-status`
+5. **Security**: `age-keygen`, `bw-unlock`
+6. **Cleanup**: `clean-docker`, `clean-vm`, `clean`
+7. **Information**: `list-vms`, `list-containers`, `system-info`
+
+### Usage Examples
+```sh
+# Display help with color-coded output
+make help
+
+# Initialize dotfiles with progress feedback
+make init
+
+# Create and manage VMs with standardized settings
+make vm-create
+```
+
+## Development Guidelines
+
+1. **File Organization**: Add new configurations to appropriate directories
+2. **Package Management**: Use Brewfile for macOS packages, mise for runtime versions
+3. **Script Management**: Place scripts in `.chezmoiscripts/` with proper naming
+4. **Build Tasks**: Add new tasks to Makefile following category structure
+5. **Template Usage**: Utilize chezmoi templates for OS-specific configurations
+6. **Security**: Keep sensitive data encrypted using age or Bitwarden integration
+7. **Documentation**: Update README.md and .cursor/rules when adding features
+
+## Cross-Platform Compatibility
+
+- **macOS**: Full support with Homebrew integration
+- **Ubuntu/Linux**: Package management via apt and snap
+- **Docker**: Containerized development environment
+- **Windows/WSL2**: Planned support for future releases
+
+## Testing and Validation
+
+- **GitHub Actions**: Automated testing across multiple platforms
+- **Local Testing**: Use `make check` for configuration validation
+- **Container Testing**: Use `make docker-run` for isolated testing

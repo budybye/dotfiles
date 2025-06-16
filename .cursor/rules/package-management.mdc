@@ -3,38 +3,71 @@ description:
 globs:
 alwaysApply: false
 ---
-# パッケージ管理ガイド
+# Package Management Guide
 
-## Homebrewパッケージ管理
+## Package Management Systems
 
-[Brewfile](mdc:home/private_dot_config/Brewfile)で以下のカテゴリのパッケージを管理しています：
+### Homebrew (macOS)
+[Brewfile](mdc:home/private_dot_config/Brewfile) manages packages in the following categories:
 
-### フォーミュラ（コマンドラインツール）
-- 開発ツール（git, vim, etc.）
-- システムユーティリティ（bat, fzf, etc.）
-- ネットワークツール（nmap, whois, etc.）
+#### Formulae (Command Line Tools)
+- Development tools (git, vim, etc.)
+- System utilities (bat, fzf, etc.)
+- Network tools (nmap, whois, etc.)
 
-### アプリケーション（Cask）
-- 開発環境（VSCode, Cursor, etc.）
-- ブラウザ（Brave, Chrome, etc.）
-- ユーティリティ（AppCleaner, Rectangle, etc.）
-- フォント（HackGen Nerd, etc.）
+#### Applications (Cask)
+- Development environment (VSCode, Cursor, etc.)
+- Browsers (Brave, Chrome, etc.)
+- Utilities (AppCleaner, Rectangle, etc.)
+- Fonts (HackGen Nerd, etc.)
 
-### Mac App Store（mas）
-- 生産性アプリ（Microsoft Excel, etc.）
-- 開発ツール（Xcode, etc.）
-- ユーティリティ（LINE, Shazam, etc.）
+#### Mac App Store (mas)
+- Productivity apps (Microsoft Excel, etc.)
+- Development tools (Xcode, etc.)
+- Utilities (LINE, Shazam, etc.)
 
-## パッケージ追加のガイドライン
+### Mise (Runtime Management)
+- [.tool-versions](mdc:.tool-versions): Version management for programming languages
+- Node.js version management
+- Other runtime version management
 
-1. 新しいパッケージを追加する場合は、適切なセクションに配置してください
-2. コメントアウトされたパッケージは将来の使用のために保持されています
-3. パッケージの説明コメントを追加することを推奨します
-4. 依存関係のあるパッケージは一緒に管理してください
+### APT (Ubuntu/Debian)
+- System packages managed through installation scripts
+- Development dependencies
+- GUI applications for Linux
 
-## ベストプラクティス
+## Package Addition Guidelines
 
-1. 定期的に`brew update`と`brew upgrade`を実行してください
-2. 不要なパッケージは適切にアンインストールしてください
-3. パッケージのバージョン管理には`.tool-versions`を使用してください
-4. セキュリティ関連のパッケージは定期的に更新してください
+### Homebrew Packages
+1. Add new packages to the appropriate section in Brewfile
+2. Commented packages are preserved for future use
+3. Add descriptive comments for packages
+4. Manage related packages together
+
+### Runtime Versions
+1. Use `.tool-versions` for version management
+2. Specify exact versions for reproducibility
+3. Test compatibility across different environments
+
+### System Packages
+1. Document dependencies in installation scripts
+2. Check package availability across different OS versions
+3. Provide fallback options when possible
+
+## Best Practices
+
+### Security
+1. Regularly run `brew update` and `brew upgrade`
+2. Keep runtime versions updated for security patches
+3. Verify package sources and maintainers
+
+### Maintenance
+1. Remove unused packages appropriately
+2. Use version management for reproducible environments
+3. Document package purposes and dependencies
+4. Test installation scripts regularly
+
+### Cross-Platform Compatibility
+1. Use OS-specific templates when necessary
+2. Provide alternatives for different platforms
+3. Test installations on different OS versions

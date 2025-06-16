@@ -3,83 +3,83 @@ description:
 globs:
 alwaysApply: false
 ---
-# 参考文献ガイドライン
+# Reference Guidelines
 
-## ドキュメントの優先順位
+## Document Priority
 
-1. プロジェクト固有のドキュメント
+1. Project-specific documents
    - [README.md](mdc:README.md)
    - [.cursorrules](mdc:.cursorrules)
    - [Makefile](mdc:Makefile)
    - [install.sh](mdc:install.sh)
 
-2. フレームワークとライブラリのドキュメント
-   - [chezmoi公式ドキュメント](https://www.chezmoi.io/user-guide/command-overview/)
-   - [Homebrew公式ドキュメント](https://docs.brew.sh/)
-   - [VSCode公式ドキュメント](https://code.visualstudio.com/docs)
-   - [Cursor公式ドキュメント](https://cursor.sh/docs)
+2. Framework and library documentation
+   - [chezmoi official documentation](mdc:https:/www.chezmoi.io/user-guide/command-overview)
+   - [Homebrew official documentation](mdc:https:/docs.brew.sh)
+   - [VSCode official documentation](mdc:https:/code.visualstudio.com/docs)
+   - [Cursor official documentation](mdc:https:/cursor.sh/docs)
 
-3. 一般的な仕様と標準
-   - [EditorConfig仕様](https://editorconfig.org/)
-   - [Git公式ドキュメント](https://git-scm.com/doc)
-   - [Shell Scripting Best Practices](https://google.github.io/styleguide/shellguide.html)
+3. General specifications and standards
+   - [EditorConfig specification](mdc:https:/editorconfig.org)
+   - [Git official documentation](mdc:https:/git-scm.com/doc)
+   - [Shell Scripting Best Practices](mdc:https:/google.github.io/styleguide/shellguide.html)
 
-## ドキュメントの使用方法
+## Documentation Usage
 
-### 参照時のルール
-1. プロジェクト固有のドキュメントを最優先で参照
-2. フレームワークの最新バージョンのドキュメントを参照
-3. 一般的な仕様は最新の安定版を参照
+### Reference Rules
+1. Prioritize project-specific documents
+2. Refer to the latest version of framework documentation
+3. Use the latest stable version for general specifications
 
-### ドキュメントの更新
-1. 定期的に参照ドキュメントの更新を確認
-2. 破壊的変更がある場合は適切に対応
-3. 非推奨機能の使用を避ける
+### Documentation Updates
+1. Regularly check for updates to referenced documents
+2. Handle breaking changes appropriately
+3. Avoid using deprecated features
 
-### ドキュメントの検証
-1. 参照先のドキュメントが有効であることを確認
-2. バージョンの互換性を確認
-3. セキュリティ関連の更新を優先
+### Documentation Validation
+1. Confirm that referenced documents are valid
+2. Check version compatibility
+3. Prioritize security-related updates
 
-## 参考文献の管理
+## Reference Document Management
 
-### 追加時のルール
-1. 関連性の高いドキュメントのみを追加
-2. バージョン情報を明記
-3. 更新日時を記録
+### Addition Rules
+1. Only add documents that are highly related
+2. Note version information
+3. Record update time
 
-### メンテナンス
-1. 定期的なリンクの有効性チェック
-2. 古いバージョンのドキュメントの更新
-3. 不要な参照の削除
+### Maintenance
+1. Regularly check the validity of links
+2. Update old version documents
+3. Remove unnecessary references
 
-## ドキュメントの構造化
+## Documentation Structuring
 
-### カテゴリ分け
-1. プロジェクト固有
-2. フレームワーク
-3. ライブラリ
-4. ツール
-5. 仕様書
-6. ベストプラクティス
+### Category Division
+1. Project-specific
+2. Framework
+3. Library
+4. Tool
+5. Specification
+6. Best Practices
 
-### フォーマット
+### Format
 ```markdown
-## カテゴリ名
-- [タイトル](URL) - バージョン - 最終更新日
-  - 簡単な説明
-  - 主な用途
-  - 注意事項
+## Category Name
+- [Title](mdc:URL) - Version - Last Updated Date
+  - Brief Description
+  - Main Usage
+  - Notes
 ```
 
-## 参考文献の使用例
+## Reference Document Usage Example
 
-### コード生成時
-1. プロジェクトの規約を確認
-2. フレームワークの制約を確認
-3. ベストプラクティスを適用
+### When Generating Code
+1. Check project conventions
+2. Check framework constraints
+3. Apply Best Practices
 
-### コードレビュー時
-1. コーディング規約との整合性を確認
-2. セキュリティガイドラインとの整合性を確認
-3. パフォーマンスガイドラインとの整合性を確認
+### When Reviewing Code
+1. Confirm consistency with coding conventions
+2. Confirm consistency with security guidelines
+3. Confirm consistency with performance guidelines

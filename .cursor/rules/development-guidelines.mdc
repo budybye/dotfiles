@@ -3,49 +3,233 @@ description:
 globs:
 alwaysApply: false
 ---
-# 開発ガイドライン
+# Development Guidelines
 
-## エディタ設定
+## Editor Configuration
 
-### VSCode設定
-- `.vscode/`ディレクトリでVSCodeの設定を管理
-- 推奨拡張機能は`extensions.json`で管理
-- ワークスペース設定は`settings.json`で管理
+### VSCode Configuration
+- [.vscode/](mdc:.vscode) directory manages VSCode settings and extensions
+- [extensions.json](mdc:.vscode/extensions.json): Recommended extensions for optimal development
+- Workspace settings automatically applied for consistent development environment
 
-### Cursor設定
-- `.cursorrules`でCursor AIの動作をカスタマイズ
-- `.cursorignore`で無視するファイルを指定
+### Cursor Configuration
+- [.cursor/rules/](mdc:.cursor/rules) directory contains AI behavior customization files
+- [always-refer.mdc](mdc:.cursor/rules/always-refer.mdc): Documentation reference guidelines
+- [project-structure.mdc](mdc:.cursor/rules/project-structure.mdc): Project organization guide
+- [package-management.mdc](mdc:.cursor/rules/package-management.mdc): Package management strategies
+- [development-guidelines.mdc](mdc:.cursor/rules/development-guidelines.mdc): This development guide
 
-## コードスタイル
+## Code Style and Standards
 
-### エディタ設定
-- `.editorconfig`で基本的なコードスタイルを定義
-- インデント: スペース2文字
-- 文字コード: UTF-8
-- 改行コード: LF
+### Editor Configuration
+- [.editorconfig](mdc:.editorconfig) defines basic code style across all editors
+- **Indentation**: 2 spaces for YAML, JSON, and configuration files
+- **Character encoding**: UTF-8 without BOM
+- **Line endings**: LF (Unix-style)
+- **Trailing whitespace**: Automatically trimmed
 
-### シェルスクリプト
-- シェバンは`#!/bin/bash`を使用
-- 変数は`${VAR}`形式で参照
-- エラーハンドリングを適切に実装
+### Shell Scripts
+- Use `#!/bin/bash` as shebang for compatibility
+- Reference variables with `${VAR}` format for clarity
+- Implement proper error handling with `set -euo pipefail`
+- Follow [Google Shell Style Guide](mdc:https:/google.github.io/styleguide/shellguide.html)
+- Validate scripts with `shellcheck` before committing
 
-## バージョン管理
+### YAML Files
+- Use 2-space indentation consistently
+- Quote strings when they contain special characters
+- Maintain consistent structure across similar files
+- Validate with `yamllint` or similar tools
 
-### Git設定
-- `.gitignore`で無視するファイルを指定
-- コミットメッセージは日本語で記述
-- 機能追加はfeatureブランチで開発
+### Makefile Best Practices
+- Use `:=` for variable assignment to avoid recursive expansion
+- Document all targets with `## Description` comments
+- Group related targets under category headers (`##@ Category`)
+- Use `.PHONY` for all non-file targets
+- Implement proper error handling with `|| true` where appropriate
 
-## 開発環境
+## Version Control
 
-### 開発コンテナ
-- `.devcontainer/`で開発環境を定義
-- 必要なツールは`Dockerfile`で管理
-- コンテナ設定は`devcontainer.json`で管理
+### Git Configuration
+- [.gitignore](mdc:.gitignore) specifies files to ignore in version control
+- Commit messages should be descriptive and follow conventional format
+- Use feature branches for development work
+- Regular rebasing to keep history clean
 
-## テストと品質管理
+### Branching Strategy
+- `main` branch for stable releases and production-ready code
+- Feature branches for new development work
+- Regular merging to avoid long-lived branches
+- Tag releases following semantic versioning
 
-1. シェルスクリプトは`shellcheck`で検証
-2. インストールスクリプトは動作確認を実施
-3. パッケージの依存関係を定期的に確認
-4. セキュリティアップデートを定期的に適用
+### Makefile Git Commands
+```sh
+# Interactive commit with custom message
+make git-commit
+
+# Quick status check
+make git-status
+```
+
+## Development Environment
+
+### Container Development
+- [.devcontainer/](mdc:.devcontainer) defines complete development environment
+- [Dockerfile](mdc:.devcontainer/Dockerfile): Container image definition
+- [devcontainer.json](mdc:.devcontainer/devcontainer.json): VS Code container configuration
+- [docker-compose.yaml](mdc:.devcontainer/docker-compose.yaml): Multi-service orchestration
+
+### Local Development Setup
+```sh
+# Initialize development environment
+make init
+
+# Check configuration integrity
+make check
+
+# Update to latest version
+make update
+```
+
+### Virtual Machine Development
+```sh
+# Create standardized Ubuntu VM
+make vm-create
+
+# Connect to development VM
+make ssh
+
+# Manage VM lifecycle
+make vm-start
+make vm-stop
+make vm-info
+```
+
+## Testing and Quality Assurance
+
+### Automated Testing
+- [GitHub Actions](mdc:.github/workflows) for continuous integration
+- Multi-platform testing (macOS, Ubuntu, Docker)
+- Automated builds and releases
+
+### Local Testing
+```sh
+# Run configuration checks
+make check
+
+# Test in isolated Docker environment
+make docker-run
+
+# Validate chezmoi configuration
+chezmoi diff
+chezmoi doctor
+```
+
+### Code Quality Tools
+- **ShellCheck**: Validate shell scripts for common issues
+- **yamllint**: Validate YAML syntax and style
+- **markdownlint**: Ensure consistent markdown formatting
+- **editorconfig-checker**: Verify editor configuration compliance
+
+## Package Management
+
+### Homebrew (macOS)
+- [Brewfile](mdc:home/private_dot_config/Brewfile): Declarative package management
+- Regular updates with `brew update && brew upgrade`
+- Bundle management with `brew bundle --file=path/to/Brewfile`
+
+### Mise/ASDF Runtime Management
+- [.tool-versions](mdc:.tool-versions): Language runtime versions
+- [mise configuration](mdc:home/private_dot_config/mise): Tool-specific settings
+- Environment-specific tooling with directory-level `.tool-versions`
+
+### System Package Management
+- Ubuntu: APT packages managed through installation scripts
+- Snap packages for cross-distribution compatibility
+- Documentation of dependencies in setup scripts
+
+## Security and Encryption
+
+### Age Encryption
+```sh
+# Generate new encryption keys
+make age-keygen
+
+# Encrypt sensitive files using chezmoi
+chezmoi add --encrypt ~/.ssh/private_key
+```
+
+### Bitwarden Integration
+```sh
+# Unlock vault for secret management
+make bw-unlock
+
+# Integrate with chezmoi for secure secret injection
+```
+
+### Best Practices
+- Never commit unencrypted secrets
+- Use chezmoi templates for environment-specific secrets
+- Regular key rotation and access review
+- Minimal privilege principle for all access
+
+## Documentation Standards
+
+### README Structure
+- [README.md](mdc:README.md): Comprehensive project documentation
+- Clear installation and usage instructions
+- Feature overview with visual examples
+- Troubleshooting section for common issues
+
+### Inline Documentation
+- Comment complex shell scripts and Makefiles
+- Document template variables and their usage
+- Maintain changelog for significant updates
+
+### Markdown Standards
+- Use consistent heading hierarchy
+- Include code blocks with language specification
+- Link to relevant external documentation
+- Keep line length reasonable for readability
+
+## Deployment and Distribution
+
+### Release Management
+- Semantic versioning for all releases
+- Automated release notes generation
+- Tag-based release triggers
+
+### Platform-Specific Considerations
+- Test installations on clean systems
+- Document platform-specific quirks
+- Provide fallback options for unsupported features
+
+### Error Handling and Recovery
+```sh
+# Clean up development resources
+make clean
+
+# Remove Docker resources
+make clean-docker
+
+# Reset VM environment
+make clean-vm
+```
+
+## Monitoring and Maintenance
+
+### System Information
+```sh
+# Display comprehensive system information
+make system-info
+
+# List managed resources
+make list-containers
+make list-vms
+```
+
+### Regular Maintenance Tasks
+- Update dependencies monthly
+- Review and clean unused packages
+- Validate backup and recovery procedures
+- Security audit of encrypted files
