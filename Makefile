@@ -186,57 +186,7 @@ git-commit: ## Add, commit, and push changes
 	@echo "$(GREEN)✓ Changes pushed successfully$(RESET)"
 
 .PHONY: git
-SHELL = bash
-.SHELLFLAGS = -ceuo pipefail
-init:
-.PHONY: docker
-docker:
-  cd .devcontainer && \
-  docker build -t ubuntu-dev . && \
-  --rm \
-  --interactive \
-  --detach \
-  --tty \
-  --privileged \
-  --name ubuntu-dev \
-  --hostname docker \
-  --user dev \
-  --workdir /home/dev \
-  --env DOCKER=true \
-  --platform linux/${ARCH} \
-  -p 33389:3389 \
-  -p 2222:22 \
-  ubuntu-dev \
-  ubuntu ubuntu yes && \
-  cd ..
-.PHONY: exec
-exec:
-  docker exec ubuntu-dev /bin/bash
-up:
-  cd .devcontainer && \
-  docker compose up -d && \
-  cd ..
-down:
-  cd .devcontainer && \
-  docker compose down && \
-  cd ..
-ubuntu:
-  multipass \
-  launch \
-  -n ubuntu \
-  -c 4 \
-  -m 8G \
-  -d 42G \
-  --timeout 43210 \
-  --cloud-init cloud-init/multipass.yaml && \
-  multipass exec ubuntu -- tail -5 /var/log/cloud-init.log
-ssh:
-  ssh ubuntu
-
-git:
-  git add -A && \
-  git commit --allow-empty-message -m "" && \
-  git push origin main
+git: git-commit ## Alias for git-commit
 
 .PHONY: git-status
 git-status: ## Show git status
@@ -259,10 +209,6 @@ bw-unlock: ## Unlock Bitwarden vault
 	@echo "$(GREEN)Unlocking Bitwarden vault...$(RESET)"
 	@eval $$(bw unlock --raw | awk '{print "export BW_SESSION="$$1}')
 	@echo "$(GREEN)✓ Bitwarden vault unlocked$(RESET)"
-
-.PHONY: bw
-bw: ## Unlock Bitwarden vault
-	@eval $$(bw unlock --raw | awk '{print "export BW_SESSION="$$1}')
 
 ##@ Cleanup
 
