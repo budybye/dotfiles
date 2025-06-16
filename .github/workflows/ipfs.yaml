@@ -40,5 +40,5 @@ jobs:
         run: |
           echo ${{ steps.ipfs.outputs.hash }}
           cd /tmp
-          git clone https://${{ steps.ipfs.outputs.hash }}.ipfs.${{ secrets.GATEWAY }}/ dotfiles
+          git clone https://${{ secrets.GATEWAY }}/ipfs/${{ steps.ipfs.outputs.hash }} dotfiles
           ls -la dotfiles && rm -rf dotfiles
