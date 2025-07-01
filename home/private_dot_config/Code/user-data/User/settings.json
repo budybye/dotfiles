@@ -136,5 +136,8 @@
   "intelephense.files.maxSize": 5000000,
   "intelephense.environment.phpVersion": "8.3",
   "intelephense.format.braces": "k&r",
-  "docker.extension.enableComposeLanguageServer": false
+  "docker.extension.enableComposeLanguageServer": false,
+  "markdown.marp.html": "all",
+  "markdown-preview-enhanced.mermaidTheme": "dark",
+  "markdown-preview-enhanced.codeBlockTheme": "monokai.css"
 }

@@ -23,7 +23,13 @@ typeset -U PATH path
 path=(
     ${PATH}
     ${HOME}/.local/bin(N-/)
+    /opt/homebrew/bin(N-/)
+    /opt/homebrew/sbin(N-/)
+    /usr/bin
+    /usr/sbin
+    /bin
+    /sbin
     /usr/local/bin(N-/)
-    /usr/bin(N-/)
-    /bin(N-/)
+    /usr/local/sbin(N-/)
+    /Library/Apple/usr/bin(N-/)
 )

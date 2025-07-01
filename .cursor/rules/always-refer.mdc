@@ -3,83 +3,157 @@ description:
 globs:
 alwaysApply: false
 ---
-# Reference Guidelines
+# Chezmoi Dotfiles Management Reference Guidelines
 
-## Document Priority
+## Documentation Priority
 
-1. Project-specific documents
-   - [README.md](mdc:README.md)
-   - [.cursorrules](mdc:.cursorrules)
-   - [Makefile](mdc:Makefile)
-   - [install.sh](mdc:install.sh)
+### 1. Project-Specific Documentation (Highest Priority)
+- [README.md](mdc:README.md) - Project overview and setup guide
+- [.cursorrules](mdc:.cursorrules) - Cursor AI specific rules
+- [Makefile](mdc:Makefile) - Build and deployment tasks
+- [install.sh](mdc:install.sh) - Initial installation script
+- [.chezmoi.toml.tmpl](mdc:home/.chezmoi.toml.tmpl) - Chezmoi main configuration
+- [.chezmoiexternal.toml.tmpl](mdc:home/.chezmoiexternal.toml.tmpl) - External resource management
+- [.chezmoiignore](mdc:home/.chezmoiignore) - Ignore file patterns
 
-2. Framework and library documentation
-   - [chezmoi official documentation](mdc:https:/www.chezmoi.io/user-guide/command-overview)
-   - [Homebrew official documentation](mdc:https:/docs.brew.sh)
-   - [VSCode official documentation](mdc:https:/code.visualstudio.com/docs)
-   - [Cursor official documentation](mdc:https:/cursor.sh/docs)
+### 2. Chezmoi Framework Documentation (Core Reference)
+- [Chezmoi Official User Guide](https://chezmoi.io/user-guide/command-overview/) - Command overview and workflows
+- [Chezmoi Templating Features](https://chezmoi.io/user-guide/templating/) - Template syntax and best practices
+- [Chezmoi External File Management](https://chezmoi.io/user-guide/include-files-from-elsewhere/) - External resource integration
+- [Chezmoi Machine-to-Machine Differences](https://chezmoi.io/user-guide/manage-machine-to-machine-differences/) - Cross-platform configuration
+- [Chezmoi Script Usage](https://chezmoi.io/user-guide/use-scripts-to-perform-actions/) - Automation scripts
+- [Chezmoi Password Manager Integration](https://chezmoi.io/user-guide/password-managers/) - Secret management
+- [Chezmoi Encryption](https://chezmoi.io/user-guide/encryption/) - Age/GPG encryption
+- [Chezmoi Reference](https://chezmoi.io/reference/) - Complete API reference
 
-3. General specifications and standards
-   - [EditorConfig specification](mdc:https:/editorconfig.org)
-   - [Git official documentation](mdc:https:/git-scm.com/doc)
-   - [Shell Scripting Best Practices](mdc:https:/google.github.io/styleguide/shellguide.html)
+### 3. Package Managers and Tools
+- [Homebrew Official Documentation](https://docs.brew.sh) - macOS package management
+- [Mise Official Documentation](https://mise.jdx.dev/) - Runtime version management
+- [Age Encryption Tool](https://age-encryption.org/) - Modern encryption tool
+- [1Password CLI](https://developer.1password.com/docs/cli/) - 1Password command line integration
+- [Bitwarden CLI](https://bitwarden.com/help/cli/) - Bitwarden command line integration
 
-## Documentation Usage
+### 4. Development Environment and Editors
+- [VSCode Official Documentation](https://code.visualstudio.com/docs) - Visual Studio Code
+- [Cursor Official Documentation](https://cursor.sh/docs) - AI coding editor
+- [Dev Containers](https://containers.dev/) - Development container specification
+- [GitHub Actions](https://docs.github.com/actions) - CI/CD workflows
+
+### 5. General Specifications and Standards (Base Reference)
+- [XDG Base Directory Specification](https://specifications.freedesktop.org/basedir-spec/) - Linux directory standards
+- [EditorConfig Specification](https://editorconfig.org) - Editor configuration standards
+- [Git Official Documentation](https://git-scm.com/doc) - Version control
+- [Shell Scripting Best Practices](https://google.github.io/styleguide/shellguide.html) - Shell script conventions
+- [Docker Official Documentation](https://docs.docker.com/) - Containerization
+- [Multipass](https://multipass.run/docs) - Lightweight VM management
+
+## Documentation Usage Guidelines
 
 ### Reference Rules
-1. Prioritize project-specific documents
-2. Refer to the latest version of framework documentation
-3. Use the latest stable version for general specifications
+1. **Prioritize project-specific documentation** first
+2. **Reference latest version framework documentation**
+3. **Use latest stable version general specifications**
 
-### Documentation Updates
-1. Regularly check for updates to referenced documents
-2. Handle breaking changes appropriately
-3. Avoid using deprecated features
+### Chezmoi Best Practices Reference
+1. [Tom Payne's dotfiles](https://github.com/twpayne/dotfiles) - Reference implementation by Chezmoi creator
+2. [Chezmoi Design Philosophy](https://chezmoi.io/user-guide/frequently-asked-questions/design/) - Design philosophy and constraints
+3. [Chezmoi Templating](https://chezmoi.io/user-guide/templating/) - Advanced templating techniques
+
+### Documentation Update Management
+1. **Handle breaking changes appropriately**
+2. **Avoid using deprecated features**
+3. **Prioritize security-related updates**
 
 ### Documentation Validation
-1. Confirm that referenced documents are valid
-2. Check version compatibility
-3. Prioritize security-related updates
+1. **Ensure referenced documentation is valid**
+2. **Check version compatibility**
+3. **Prioritize security-related updates**
 
 ## Reference Document Management
 
 ### Addition Rules
-1. Only add documents that are highly related
-2. Note version information
-3. Record update time
+1. **Add only highly relevant documents**
+2. **Record version information**
+3. **Record update timestamps**
 
 ### Maintenance
-1. Regularly check the validity of links
-2. Update old version documents
-3. Remove unnecessary references
+1. **Regularly check link validity**
+2. **Update outdated version documentation**
+3. **Remove unnecessary references**
 
-## Documentation Structuring
+## Chezmoi Pattern Reference
 
-### Category Division
-1. Project-specific
-2. Framework
-3. Library
-4. Tool
-5. Specification
-6. Best Practices
+### Template Variable Usage Patterns
+```go
+# OS Detection
+{{ if eq .chezmoi.os "darwin" }}macOS configuration{{ end }}
+{{ if eq .chezmoi.os "linux" }}Linux configuration{{ end }}
+
+# User Environment Detection
+{{ if eq .chezmoi.username "dev" }}Development environment{{ end }}
+
+# Environment Variable Reference
+{{ env "HOME" }}
+{{ env "GITHUB_ACTIONS" }}
+```
+
+### Password Manager Integration Patterns
+```go
+# Bitwarden
+{{ bitwarden "item" "name" }}
+
+# 1Password
+{{ onepassword "vault" "item" "field" }}
+
+# Environment Variable Fallback
+{{ env "SECRET" | default (bitwarden "item" "secret") }}
+```
+
+### External File Management Patterns
+```toml
+# GitHub Release Latest Fetch
+url = {{ gitHubLatestReleaseAssetURL "owner/repo" "pattern" | quote }}
+
+# Regular Update Configuration
+refreshPeriod = "168h"  # 1 week
+
+# Exact Deployment
+exact = true
+stripComponents = 1
+```
+
+## Documentation Structure
+
+### Category Classification
+1. **Project-Specific** - Configuration and rules for this project
+2. **Chezmoi Framework** - Chezmoi-specific features and concepts
+3. **Package Managers** - Homebrew, Mise, and other tools
+4. **Development Environment** - Editors, CI/CD, containers
+5. **System Specifications** - XDG, EditorConfig, and other standards
+6. **Best Practices** - Design patterns and coding conventions
 
 ### Format
 ```markdown
 ## Category Name
-- [Title](mdc:URL) - Version - Last Updated Date
-  - Brief Description
-  - Main Usage
+- [Title](URL) - Version - Last Updated
+  - Brief description
+  - Main usage
   - Notes
 ```
 
-## Reference Document Usage Example
+## Chezmoi Workflow Reference
 
-### When Generating Code
-1. Check project conventions
-2. Check framework constraints
-3. Apply Best Practices
+### During Configuration Generation
+1. **Check project conventions**
+2. **Check Chezmoi template constraints**
+3. **Apply best practices**
 
-### When Reviewing Code
-1. Confirm consistency with coding conventions
-2. Confirm consistency with security guidelines
-3. Confirm consistency with performance guidelines
+### During Configuration Review
+1. **Verify consistency with coding conventions**
+2. **Verify consistency with security guidelines**
+3. **Verify consistency with performance guidelines**
+
+### During Troubleshooting
+1. [Chezmoi FAQ](https://chezmoi.io/user-guide/frequently-asked-questions/) - Common problems and solutions
+2. [Chezmoi Doctor](https://chezmoi.io/reference/commands/doctor/) - Configuration diagnostic tool
+3. [Chezmoi Troubleshooting](https://chezmoi.io/user-guide/frequently-asked-questions/troubleshooting/) - Problem resolution guide
