@@ -42,8 +42,11 @@ export XDG_CACHE_HOME=${HOME}/.cache
 export XDG_DATA_DIRS="${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
 export XDG_CONFIG_DIRS="${XDG_CONFIG_DIRS:-/etc/xdg}"
 
-# XDG_RUNTIME_DIR="/run/user/$(id -u)"
-export XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR}"
+# export XDG_RUNTIME_DIR="/run/user/$(id -u)"
+if [ -d "/run/user/${UID}" ]; then
+    mkdir -p "/run/user/${UID}"
+fi
+export XDG_RUNTIME_DIR="/run/user/${UID}"
 
 mkdir -p \
     "${HOME}/Desktop" \
@@ -131,13 +134,14 @@ fi
 
 if command -v orb >/dev/null 2>&1; then
     source "${HOME}/.orbstack/shell/init.zsh" 2>/dev/null || :
-    # docker context use orbstack >/dev/null
+    # docker context use orbstack >/dev/null 2>&1
 fi
 
 if command -v docker >/dev/null 2>&1; then
-    mkdir -p "${XDG_CONFIG_HOME}/docker" "${XDG_DATA_HOME}/docker/machine"
-    export MACHINE_STORAGE_PATH="${XDG_DATA_HOME}/docker/machine"
+    mkdir -p "${XDG_CONFIG_HOME}/docker"
     export DOCKER_CONFIG="${XDG_CONFIG_HOME}/docker"
+    mkdir -p "${XDG_DATA_HOME}/docker/machine"
+    export MACHINE_STORAGE_PATH="${XDG_DATA_HOME}/docker/machine"
 
     if [ -f "${HOME}/.orbstack/docker.sock" ]; then
         export DOCKER_HOST="unix://${HOME}/.orbstack/docker.sock"
@@ -160,9 +164,11 @@ elif command -v podman >/dev/null 2>&1; then
 fi
 
 if command -v npm >/dev/null 2>&1; then
-    mkdir -p "${XDG_CONFIG_HOME}/npm" "${XDG_DATA_HOME}/node"
+    mkdir -p "${XDG_CONFIG_HOME}/npm"
     export NPM_CONFIG_USERCONFIG="${XDG_CONFIG_HOME}/npm/npmrc"
+    mkdir -p "${XDG_DATA_HOME}/node"
     export NODE_REPL_HISTORY="${XDG_DATA_HOME}/node/node_repl_history"
+
 fi
 
 if command -v pnpm >/dev/null 2>&1; then
@@ -271,8 +277,11 @@ fi
 if command -v mvn >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/maven"
     export MAVEN_CONFIG="${XDG_CONFIG_HOME}/maven"
+    mkdir -p "${XDG_DATA_HOME}/maven/repository"
+    export MAVEN_OPTS="-Dmaven.repo.local=${XDG_DATA_HOME}/maven/repository"
     # 設定ファイルが存在する場合は読み込む
     if [ -f "${MAVEN_CONFIG}/settings.xml" ]; then
+        export MAVEN_ARGS="--settings $XDG_CONFIG_HOME/maven/settings.xml"
         mvn -gs "${MAVEN_CONFIG}/settings.xml"
     fi
 fi
@@ -335,8 +344,12 @@ if command -v starship >/dev/null 2>&1; then
 fi
 
 if command -v z >/dev/null 2>&1; then
-    mkdir -p "${XDG_DATA_HOME}/z"
+    touch "${XDG_DATA_HOME}/z"
     export _Z_DATA="${XDG_DATA_HOME}/z"
+fi
+
+if command -v fzf >/dev/null 2>&1; then
+    mkdir -p "${XDG_CONFIG_HOME}/fzf"
 fi
 
 if command -v rg >/dev/null 2>&1; then
@@ -414,6 +427,13 @@ if command -v mpd >/dev/null 2>&1; then
 fi
 
 if command -v ncmpcpp >/dev/null 2>&1; then
-    mkdir -p "${XDG_CONFIG_HOME}/ncmpcpp/lyrics"
+    mkdir -p "${XDG_CONFIG_HOME}/ncmpcpp"
     export NCMPCPP_CONFIG_DIR="${XDG_CONFIG_HOME}/ncmpcpp"
+    mkdir -p "${XDG_CACHE_HOME}/ncmpcpp-lyrics"
+    # touch "${XDG_CACHE_HOME}/ncmpcpp-lyrics/lyrics"
+fi
+
+if command -v cloudflared >/dev/null 2>&1; then
+    mkdir -p "${XDG_CONFIG_HOME}/cloudflared"
+    export CLOUDFLARED_CONFIG_DIR="${XDG_CONFIG_HOME}/cloudflared"
 fi
