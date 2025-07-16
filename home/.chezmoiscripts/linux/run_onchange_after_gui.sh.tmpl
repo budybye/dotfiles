@@ -22,7 +22,7 @@ desktop_setup() {
     fi
     {{ end }}
 
-    #$sudo apt-get remove -y light-locker xscreensaver &&
+    # $sudo apt-get remove -y light-locker xscreensaver
     $sudo apt-get autoremove -y
     $sudo apt-get clean
     $sudo rm -rf /var/cache/apt /var/lib/apt/lists/*

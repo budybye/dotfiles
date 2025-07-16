@@ -10,8 +10,8 @@ services:
     privileged: true
     platform: linux/${ARCH:-$(dpkg --print-architecture || uname -m)}
     ports:
-      - 33389:3389 # 127.1:33389 で RDP
-      - 2222:22
+      - ${RDP_PORT:-33389}:3389 # 127.1:33389 で RDP
+      - ${SSH_PORT:-2222}:22
     # volumes:
     #   - ${HOME}/data:/home/ubuntu/data
     environment:

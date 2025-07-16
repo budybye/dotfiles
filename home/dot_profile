@@ -91,14 +91,20 @@ if [ "$(uname)" = "Darwin" ]; then
     mkdir -p "${XDG_DATA_HOME}/trash"
 fi
 
+mkdir -p "${HOME}/Applications" "${HOME}/Developer"
+
 if command -v cursor >/dev/null 2>&1; then
     export EDITOR="cursor"
 elif command -v code >/dev/null 2>&1; then
     export EDITOR="code"
 elif command -v codium >/dev/null 2>&1; then
     export EDITOR="codium"
-else
+elif command -v nvim >/dev/null 2>&1; then
+    export EDITOR="nvim"
+elif command -v vim >/dev/null 2>&1; then
     export EDITOR="vim"
+else
+    export EDITOR="${EDITOR:-vi}"
 fi
 
 if command -v brave-browser >/dev/null 2>&1; then
@@ -436,4 +442,10 @@ fi
 if command -v cloudflared >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/cloudflared"
     export CLOUDFLARED_CONFIG_DIR="${XDG_CONFIG_HOME}/cloudflared"
+fi
+
+if command -v sampler >/dev/null 2>&1; then
+    mkdir -p "${XDG_CONFIG_HOME}/sampler"
+    touch "${XDG_CONFIG_HOME}/sampler/config.yaml"
+    alias sampler="sampler --config ${XDG_CONFIG_HOME}/sampler/config.yaml"
 fi

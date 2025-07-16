@@ -32,6 +32,7 @@ packages:
     - 'multitail'
     - 'nmap'
     - 'vim'
+    - 'libasound2-dev'
 
     - 'mise'
     - 'bat'
@@ -98,9 +99,10 @@ packages:
     - 'pkg-config'
     - 'apt-transport-https'
     - 'ca-certificates'
+    - 'lsb-release'
     - 'libssl-dev'
     - 'libfuse2'
-    - 'lsb-release'
+    # - 'libfuse2t64'
     - 'libnss3-tools'
     - 'libinput-tools'
     - 'libdb-dev'
@@ -131,6 +133,7 @@ packages:
     - 'im-config'
     - 'byobu'
     - 'ruby'
+    - 'jq'
 
     - 'figlet'
     - 'fortune-mod'
@@ -172,8 +175,10 @@ packages:
   snap:
     classic:
     - 'alacritty'
-    - 'codium'
-      # - 'obsidian'
+    - 'ghostty'
+    # - 'code' amd64
+    # - 'codium' arm64
+    # - 'obsidian'
     latest:
     # - 'bitwarden'
     # - 'chromium'
@@ -271,6 +276,7 @@ packages:
     - 'mise'
 
   cargo:
+  # - 'alacritty'
   - 'starship'
   - 'sheldon'
   - 'xh'
@@ -278,6 +284,10 @@ packages:
   - 'lsd'
   - 'fd-find'
   - 'ripgrep'
+  # - 'zellij'
+  # - 'fermyon'
+  # - 'cargo-binstall'
+  - ''
 
   mise:
   - 'rust@stable'

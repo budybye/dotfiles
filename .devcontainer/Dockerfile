@@ -150,7 +150,7 @@ RUN make init
 
 # マルチステージビルド
 FROM base
-# USER root
+
 EXPOSE 3389
 
 # エントリーポイントを実行
