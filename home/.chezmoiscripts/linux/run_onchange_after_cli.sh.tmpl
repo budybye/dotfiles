@@ -78,11 +78,10 @@ install_mise() {
         $sudo apt-get install -y mise || echo "mise install failed."
     fi
 
-    export PATH="${HOME}/.local/bin:${HOME}/.local/share/mise/shims:$PATH"
+    export PATH="${HOME}/.local/bin:${HOME}/.local/share/mise/shims:${HOME}/.local/bin:${HOME}/.local/share/mise/installs:$PATH"
     mise --version >> ${HOME}/which || echo "mise not found" >> ${HOME}/which
 
     if [ -f ${HOME}/.config/mise/config.toml ]; then
-        echo "mise config file found."
         mise i -y
     else
 
@@ -102,7 +101,7 @@ install_cargo_tools() {
     if command -v cargo >/dev/null; then
         echo "cargo already installed."
     elif command -v mise >/dev/null 2>&1; then
-        mise use -g -y rust@stable || echo "cargo install failed."
+        mise use -g -y rust@latest || echo "cargo install failed."
     elif command -v curl >/dev/null 2>&1; then
         curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y || echo "cargo install failed."
     elif command -v apt >/dev/null 2>&1; then
@@ -124,7 +123,7 @@ install_cargo_tools() {
     elif command -v mise >/dev/null; then
         mise use -g -y cargo-binstall@latest || echo "cargo tools install failed."
     else
-        echo "cargo not found" >> ${HOME}/which
+        echo "cargo-binstall not found" >> ${HOME}/which
     fi
 
     {{ range .packages.cargo }}
