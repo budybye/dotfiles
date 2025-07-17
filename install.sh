@@ -9,7 +9,7 @@ DOTFILES=https://github.com/${GH_USER}/${GH_REPO}
 
 # chezmoi がインストールされていない場合はインストール
 if [ ! "$(command -v chezmoi)" ]; then
-    BIN="$HOME/.local/bin"
+    BIN="/usr/local/bin"
     CHEZMOI="$BIN/chezmoi"
     # curl か wget がインストールされている場合は chezmoi をインストール
     if [ "$(command -v curl)" ]; then

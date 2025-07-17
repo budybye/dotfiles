@@ -47,7 +47,6 @@ packages:
     - 'alacritty'
     - 'betterdisplay'
     - 'bitwarden'
-    - 'blender'
     - 'brave-browser'
     - 'clipy'
     - 'cloudflare-warp'
@@ -57,7 +56,6 @@ packages:
     - 'font-roboto-mono-nerd-font'
     - 'github'
     - 'google-chrome'
-    - 'google-cloud-sdk'
     - 'karabiner-elements'
     - 'musicbrainz-picard'
     - 'notion'
@@ -290,7 +288,7 @@ packages:
   - ''
 
   mise:
-  - 'rust@stable'
+  - 'rust@latest'
   - 'cargo-binstall@latest'
   - 'node@latest'
   - 'bun@latest'
@@ -302,9 +300,7 @@ packages:
   - 'mkcert@latest'
   - 'cmake@latest'
   - 'ninja@latest'
-  - 'vim@latest'
   - 'age@latest'
-  - 'websocat@latest'
   - 'act@latest'
   - 'fastfetch@latest'
   - 'go@latest'
@@ -313,9 +309,7 @@ packages:
   - 'cloudflared@latest'
   - 'java@latest'
   - 'maven@latest'
-  # - 'sqlite@latest
-  # - 'php@latest'
   npm:
   - 'wrangler'
-  - 'bitwarden-cli'
+  # - 'bitwarden-cli'
   - 'pm2'
