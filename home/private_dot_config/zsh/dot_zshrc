@@ -113,3 +113,5 @@ fi
 if [ -f "${ZDOTDIR}/.aliases" ]; then
   . "${ZDOTDIR}/.aliases"
 fi
+
+[[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path zsh)"

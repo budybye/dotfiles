@@ -57,3 +57,5 @@ fi
 if [ -f "${HOME}/.config/zsh/.aliases" ]; then
   . "${HOME}/.config/zsh/.aliases"
 fi
+
+[[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path bash)"

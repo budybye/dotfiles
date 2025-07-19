@@ -3,8 +3,12 @@ bun = "latest"
 node = "latest"
 pnpm = "latest"
 # deno = "latest"
-# node = "20"
 # bitwarden = "latest"
+# marp-cli = "latest"
+biome = "latest"
+claude = "latest"
+gemini = "latest"
+stripe = "latest"
 
 go = "latest"
 aqua = "latest"
@@ -29,7 +33,6 @@ rust = "latest"
 cargo-binstall = "latest"
 # bat = "latest"
 # fd = "latest"
-# fzf = "latest"
 # lsd = "latest"
 # rg = "latest"
 # starship = "latest"
@@ -47,21 +50,18 @@ conan = "latest"
 # redis = "latest"
 
 age = "latest"
-biome = "latest"
-claude = "latest"
 fastfetch = "latest"
 duckdb = "latest"
 gh = "latest"
 hadolint = "latest"
 jq = "latest"
-# marp-cli = "latest"
 mkcert = "latest"
 ubi = "latest"
-stripe = "latest"
 shellcheck = "latest"
 sqlite = "latest"
 terraform = "latest"
 yq = "latest"
+# fzf = "latest"
 
 java = "latest"
 maven = "latest"
@@ -74,13 +74,14 @@ flutter = "latest"
 # ansible = "latest"
 # android-sdk = "latest"
 # aws = "latest"
-# ffmpeg = "latest"
-# yt-dlp = "latest"
 # direnv = "latest"
-# vim = "latest"
-solidity = "latest"
-neovim = "latest"
+# ffmpeg = "latest"
 # sampler = "latest"
+# vim = "latest"
+# yt-dlp = "latest"
+gum = "latest"
+neovim = "latest"
+solidity = "latest"
 
 [settings]
 # プラグインは他のバージョン管理ツールのバージョンファイルを読み取ることができます（プラグインが有効な場合）
@@ -133,7 +134,7 @@ status.show_tools = false
 
 cargo.binstall = true
 pipx.uvx = true
-# npm.bun = true
+npm.bun = true
 
 # [[env]]
 # _.path = [

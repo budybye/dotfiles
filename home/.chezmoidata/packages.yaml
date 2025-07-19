@@ -183,6 +183,7 @@ packages:
     # - 'element-desktop'
     # - 'postman'
     # - 'brave'
+    - 'clipboard'
     - 'speedtest-cli'
     - 'multipass'
 
@@ -310,6 +311,9 @@ packages:
   - 'java@latest'
   - 'maven@latest'
   npm:
-  - 'wrangler'
-  # - 'bitwarden-cli'
+  - 'claude'
   - 'pm2'
+  - 'wrangler'
+  - 'zx'
+  - '@pipedream/sdk'
+  # - '@bitwarden/cli'

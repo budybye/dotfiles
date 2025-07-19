@@ -77,3 +77,5 @@ function fish_right_prompt
     set_color yellow
     echo (date +'%Y-%m-%d %H:%M:%S')
 end
+
+string match -q "$TERM_PROGRAM" "kiro" and . (kiro --locate-shell-integration-path fish)

@@ -3,6 +3,7 @@ description:
 globs:
 alwaysApply: false
 ---
+
 # Chezmoi Dotfiles Management Project Structure Guide
 
 This project is a dotfile management system using chezmoi. Built based on [twpayne/dotfiles](https://github.com/twpayne/dotfiles) and chezmoi best practices.
@@ -10,48 +11,57 @@ This project is a dotfile management system using chezmoi. Built based on [twpay
 ## Main Directories and Files
 
 ### Core Directories
+
 - `home/`: Home directory configuration files (chezmoi source state)
 - `.chezmoiroot`: Chezmoi root directory marker (points to `home`)
 - `.tool-versions`: mise/asdf compatible version management file
 
 ### Development Environment
+
 - `.devcontainer/`: Development container configuration
 - `.vscode/`: VSCode configuration
 - `.cursor/`: Cursor AI configuration and development guidelines
 - `.editorconfig`: Editor configuration (follows project standards)
 
 ### CI/CD & Deployment
+
 - `.github/`: GitHub-related configuration (workflows, releases)
 - `cloud-init/`: Cloud initialization scripts for VM deployment
 - `Makefile`: Build and installation tasks organized by category
 - `install.sh`: Initial setup script
 
 ### Documentation & Style
+
 - `README.md`: Comprehensive project documentation
 - `style.css`: Stylesheet for document rendering
 
 ## Important File Descriptions
 
 ### Chezmoi Configuration Files
+
 - [.chezmoi.toml.tmpl](mdc:home/.chezmoi.toml.tmpl): Main chezmoi configuration template
 - [.chezmoiexternal.toml.tmpl](mdc:home/.chezmoiexternal.toml.tmpl): External file and archive management
 - [.chezmoiignore](mdc:home/.chezmoiignore): Files to ignore in chezmoi
 - [.chezmoidata/](mdc:home/.chezmoidata/): Template variable data
 
 ### Package Management
+
 - [Brewfile](mdc:home/private_dot_config/Brewfile): macOS Homebrew package management
 - [packages.yaml](mdc:home/.chezmoidata/packages.yaml): OS-specific package definitions
 
 ### Build & Installation
+
 - [Makefile](mdc:Makefile): Categorized task definitions and help system
 - [install.sh](mdc:install.sh): Dotfile initialization script
 
 ## Chezmoi Directory Structure
 
 ### Home Directory Template Structure
+
 Chezmoi embeds metadata in file names to automatically apply appropriate attributes:
 
 #### File Attribute Prefixes
+
 - `dot_*`: `dot_` prefix becomes dotfiles (e.g., `dot_zshrc` → `.zshrc`)
 - `private_*`: `private_` prefix for restricted permissions (0600)
 - `encrypted_*`: `encrypted_` prefix for age encryption
@@ -60,18 +70,22 @@ Chezmoi embeds metadata in file names to automatically apply appropriate attribu
 - `readonly_*`: `readonly_` prefix for read-only (0444)
 
 #### Template Files
+
 - `.tmpl` extension: Processed as chezmoi templates
 - `.chezmoitemplates/`: Shared template components
 
 ### Script Directory Organization
+
 Chezmoi automatically executes scripts in `.chezmoiscripts/`:
 
 #### OS-Specific Scripts
+
 - `darwin/`: macOS-specific scripts
 - `linux/`: Linux-specific scripts
 - `windows/`: Windows-specific scripts
 
 #### Script Naming Conventions
+
 - `run_*`: Execute during `chezmoi apply`
 - `run_once_*`: Execute only once
 - `run_onchange_*`: Execute when content changes
@@ -79,15 +93,18 @@ Chezmoi automatically executes scripts in `.chezmoiscripts/`:
 - `run_after_*`: Execute after file installation
 
 ### External File Management (.chezmoiexternal)
+
 Manage external resources with `.chezmoiexternal.toml.tmpl`:
 
 #### Supported Types
+
 - `file`: Download single file
 - `archive`: Extract archive
 - `archive-file`: Extract specific file from archive
 - `git-repo`: Clone/update Git repository
 
 #### Configuration Examples
+
 ```toml
 [".vim/autoload/plug.vim"]
     type = "file"
@@ -105,17 +122,20 @@ Manage external resources with `.chezmoiexternal.toml.tmpl`:
 ### Template Variable System
 
 #### Built-in Variables
+
 - OS-specific configuration: `{{ if eq .chezmoi.os "darwin" }}`
 - Architecture configuration: `{{ .chezmoi.arch }}`
 - User information: `{{ .chezmoi.username }}`
 - Host information: `{{ .chezmoi.hostname }}`
 
 #### Custom Data
+
 - YAML/TOML/JSON files in `.chezmoidata/` directory
 - `[data]` section in `.chezmoi.toml.tmpl`
 - Environment variables: `{{ env "VAR_NAME" }}`
 
 #### Password Manager Integration
+
 ```go
 {{ bitwarden "item" "name" }}
 {{ onepassword "vault" "item" "field" }}
@@ -127,6 +147,7 @@ Manage external resources with `.chezmoiexternal.toml.tmpl`:
 Optimized Makefile provides categorized commands:
 
 ### Command Categories
+
 1. **General Operations**: `help`, `version`, `init`, `update`, `apply`, `check`
 2. **Docker**: `docker-build`, `docker-run`, `up`, `down`, `exec`, `logs`
 3. **Virtual Machines**: `vm-create`, `vm-info`, `vm-start`, `vm-stop`, `ssh`
@@ -136,6 +157,7 @@ Optimized Makefile provides categorized commands:
 7. **Information Display**: `list-vms`, `list-containers`, `system-info`
 
 ### Usage Examples
+
 ```sh
 # Display colorized help
 make help
@@ -150,6 +172,7 @@ make vm-create
 ## Development Guidelines
 
 ### File Organization Principles
+
 1. **Configuration Classification**: Add new configurations to appropriate directories
 2. **Package Management**: Use Brewfile for macOS, mise for runtime versions
 3. **Script Management**: Place scripts in `.chezmoiscripts/` with proper naming
@@ -159,6 +182,7 @@ make vm-create
 7. **Documentation**: Update README.md and .cursor/rules when adding features
 
 ### Security Best Practices
+
 - Protect sensitive files with age encryption
 - Manage secrets with 1Password/Bitwarden
 - Control sensitive file distribution with `.chezmoiignore`
@@ -167,22 +191,26 @@ make vm-create
 ### Cross-Platform Support
 
 #### Fully Supported OS
+
 - **macOS**: Full Homebrew integration
 - **Ubuntu/Linux**: apt/snap package management
 - **Docker**: Containerized development environment
 
 #### Planned Platforms
+
 - **Windows/WSL2**: Planned support for future releases
 - **FreeBSD**: Considering support for lightweight virtual machines
 
 ## Testing and Validation
 
 ### Automated Testing
+
 - **GitHub Actions**: Multi-platform automated testing
 - **Local Testing**: Configuration validation with `make check`
 - **Container Testing**: Isolated testing with `make docker-run`
 
 ### Quality Assurance Tools
+
 - **shellcheck**: Validate shell scripts for common issues
 - **yamllint**: YAML syntax and style validation
 - **chezmoi doctor**: Chezmoi configuration health check
@@ -191,6 +219,7 @@ make vm-create
 ## Best Practice References
 
 This project is designed based on:
+
 - [twpayne/dotfiles](https://github.com/twpayne/dotfiles): Chezmoi creator's dotfiles
 - [chezmoi.io official documentation](https://chezmoi.io/): Official best practices
 - [XDG Base Directory Specification](https://specifications.freedesktop.org/basedir-spec/): Standard directory structure
@@ -198,6 +227,7 @@ This project is designed based on:
 ## Advanced Configuration Patterns
 
 ### Conditional Configuration
+
 ```go
 # Environment-based configuration
 {{ if eq .chezmoi.hostname "work-laptop" }}
@@ -213,6 +243,7 @@ This project is designed based on:
 ```
 
 ### Multi-Environment Support
+
 ```toml
 # .chezmoi.toml.tmpl
 [data]
@@ -226,6 +257,7 @@ This project is designed based on:
 ```
 
 ### Dynamic External Resources
+
 ```toml
 # Fetch different resources based on architecture
 {{ $arch := .chezmoi.arch }}
@@ -239,6 +271,7 @@ This project is designed based on:
 ```
 
 ### Custom Template Functions
+
 ```go
 # Use custom data for configuration
 {{ .packages.development | toJson }}
@@ -249,12 +282,14 @@ This project is designed based on:
 ## Maintenance and Monitoring
 
 ### Regular Maintenance Tasks
+
 - Monthly dependency updates
 - Review and clean unused packages
 - Verify backup and recovery procedures
 - Security audit of encrypted files
 
 ### Health Monitoring
+
 ```sh
 # Comprehensive system information
 make system-info

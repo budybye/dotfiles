@@ -2,7 +2,7 @@
 
 # dotfiles
 
-## 🍍🍕 0.7
+## 🍍🍕 0.7.*
 
 ### 🏴‍☠ [budybye/dotfiles](https://github.com/budybye/dotfiles)
 
@@ -379,7 +379,7 @@ shhh.txt
 
 ## [Chezmoi](https://chezmoi.io/) の使用
 
-### Chezmoi を使用して Dotfiles を管理します。
+### Chezmoi を使用して Dotfiles を管理します
 
 - `chezmoi init` で初期化して `chezmoi cd` で移動して `chezmoi add` でファイルを追加します。
 - `chezmoi apply` で変更を適用します。
@@ -587,7 +587,7 @@ jobs:
 
 ## [Mise](https://mise.jdx.dev/)
 
-### Mise を使用してプログラミングツールや CLI ツールを管理します。
+### Mise を使用してプログラミングツールや CLI ツールを管理します
 
 - `mise` は rust 製の runtime library の バージョン管理ツールです。
 

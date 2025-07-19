@@ -3,74 +3,83 @@ description:
 globs:
 alwaysApply: false
 ---
+
 # Chezmoi Dotfiles Package Management Guide
 
 ## Package Management Systems
 
 ### Homebrew (macOS)
+
 Manage packages in the following categories via [Brewfile](mdc:home/private_dot_config/Brewfile):
 
 #### Formulae (Command Line Tools)
+
 - Development tools (git, vim, etc.)
 - System utilities (bat, fzf, etc.)
 - Network tools (nmap, whois, etc.)
 
 #### Applications (Cask)
+
 - Development environments (VSCode, Cursor, etc.)
 - Browsers (Brave, Chrome, etc.)
 - Utilities (AppCleaner, Rectangle, etc.)
 - Fonts (HackGen Nerd, etc.)
 
 #### Mac App Store (mas)
+
 - Productivity apps (Microsoft Excel, etc.)
 - Development tools (Xcode, etc.)
 - Utilities (LINE, Shazam, etc.)
 
 ### Mise (Runtime Management)
+
 - [.tool-versions](mdc:.tool-versions): Programming language version management
 - [mise configuration](mdc:home/private_dot_config/mise): Tool-specific configuration
 - Node.js, Python, Go, and other version management
 - Additional runtime version management
 
 ### APT (Ubuntu/Debian)
+
 - Manage system packages via installation scripts
 - Development dependencies
 - GUI applications for Linux
 
 ### Unified Package Data Management
+
 Define cross-platform packages in [packages.yaml](mdc:home/.chezmoidata/packages.yaml):
 
 ```yaml
 packages:
   darwin:
-    formula: ['git', 'curl', 'vim', 'mise', 'bat', 'fzf']
-    cask: ['alacritty', 'cursor', 'brave-browser']
-    mas: ['Microsoft Excel', 'Xcode']
+    formula: ["git", "curl", "vim", "mise", "bat", "fzf"]
+    cask: ["alacritty", "cursor", "brave-browser"]
+    mas: ["Microsoft Excel", "Xcode"]
 
   linux:
-    apt: ['git', 'curl', 'vim', 'build-essential']
-    snap: ['code', 'discord']
+    apt: ["git", "curl", "vim", "build-essential"]
+    snap: ["code", "discord"]
 
   windows:
-    winget: ['Microsoft.PowerShell', 'twpayne.chezmoi']
-    scoop: ['git', 'curl', 'make', 'mise']
+    winget: ["Microsoft.PowerShell", "twpayne.chezmoi"]
+    scoop: ["git", "curl", "make", "mise"]
 
   # Language runtimes (cross-platform)
   mise:
-    - 'node@latest'
-    - 'python@latest'
-    - 'rust@stable'
-    - 'go@latest'
-    - 'java@latest'
+    - "node@latest"
+    - "python@latest"
+    - "rust@stable"
+    - "go@latest"
+    - "java@latest"
 
   # Package manager specific
-  cargo: ['starship', 'bat', 'fd-find', 'ripgrep']
-  npm: ['wrangler', 'bitwarden-cli', 'pm2']
+  cargo: ["starship", "bat", "fd-find", "ripgrep"]
+  npm: ["wrangler", "bitwarden-cli", "pm2"]
 ```
 
 ## Chezmoi Script Integration
 
 ### OS-Specific Installation Scripts
+
 ```bash
 # .chezmoiscripts/darwin/setup.sh.tmpl
 {{- range .packages.darwin.formula }}
@@ -83,6 +92,7 @@ brew install --cask {{ . }}
 ```
 
 ### Conditional Package Installation
+
 ```bash
 # Install only in interactive environments
 {{- if not (or (env "CI") (env "CODESPACES")) }}
@@ -95,22 +105,26 @@ brew install --cask {{ . }}
 ## Package Addition Guidelines
 
 ### Homebrew Packages
+
 1. Add new packages to appropriate section in Brewfile
 2. Keep commented packages for future use
 3. Add descriptive comments to packages
 4. Group related packages together
 
 ### Runtime Versions
+
 1. Manage versions in `.tool-versions` for reproducibility
 2. Specify exact versions for reproducibility
 3. Test compatibility across different environments
 
 ### System Packages
+
 1. Document dependencies in installation scripts
 2. Check package availability across different OS versions
 3. Provide fallback options when possible
 
 ### External Binary Management
+
 Manage binaries directly with `.chezmoiexternal.toml.tmpl`:
 
 ```toml
@@ -133,22 +147,26 @@ Manage binaries directly with `.chezmoiexternal.toml.tmpl`:
 ## Best Practices
 
 ### Security
+
 1. Regular updates with `brew update && brew upgrade`
 2. Keep runtime versions updated for security patches
 3. Verify package sources and maintainers
 
 ### Maintenance
+
 1. Properly remove unused packages
 2. Use version management for reproducible environments
 3. Document package purpose and dependencies
 4. Regularly test installation scripts
 
 ### Cross-Platform Compatibility
+
 1. Use OS-specific templates when needed
 2. Provide alternatives for different platforms
 3. Test installation across different OS versions
 
 ### Chezmoi Template Utilization
+
 ```go
 # OS-specific package management
 {{ if eq .chezmoi.os "darwin" }}
@@ -169,6 +187,7 @@ sudo apt-get install -y {{ . }}
 ```
 
 ### Error Handling
+
 ```bash
 # Error handling for package installation
 if command -v brew >/dev/null; then
@@ -183,17 +202,19 @@ fi
 ## Advanced Package Management
 
 ### Environment-Specific Packages
+
 ```yaml
 packages:
   development:
-    formula: ['docker', 'kubernetes-cli', 'terraform']
-    cask: ['docker', 'postman']
+    formula: ["docker", "kubernetes-cli", "terraform"]
+    cask: ["docker", "postman"]
 
   production:
-    formula: ['monitoring-tools', 'security-tools']
+    formula: ["monitoring-tools", "security-tools"]
 ```
 
 ### Version Pinning Strategies
+
 ```toml
 # .tool-versions with specific versions
 node 18.17.0
@@ -207,20 +228,22 @@ python = "latest"
 ```
 
 ### Package Groups and Dependencies
+
 ```yaml
 groups:
   web-development:
     - node@latest
-    - npm-packages: ['typescript', 'vite', 'eslint']
-    - vscode-extensions: ['ms-vscode.vscode-typescript-next']
+    - npm-packages: ["typescript", "vite", "eslint"]
+    - vscode-extensions: ["ms-vscode.vscode-typescript-next"]
 
   data-science:
     - python@latest
-    - pip-packages: ['jupyter', 'pandas', 'numpy']
-    - conda-packages: ['scipy', 'matplotlib']
+    - pip-packages: ["jupyter", "pandas", "numpy"]
+    - conda-packages: ["scipy", "matplotlib"]
 ```
 
 ### Integration with CI/CD
+
 ```bash
 # GitHub Actions example
 - name: Install packages

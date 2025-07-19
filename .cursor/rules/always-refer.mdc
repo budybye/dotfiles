@@ -1,13 +1,15 @@
 ---
 description:
 globs:
-alwaysApply: false
+alwaysApply: true
 ---
+
 # Chezmoi Dotfiles Management Reference Guidelines
 
 ## Documentation Priority
 
 ### 1. Project-Specific Documentation (Highest Priority)
+
 - [README.md](mdc:README.md) - Project overview and setup guide
 - [.cursorrules](mdc:.cursorrules) - Cursor AI specific rules
 - [Makefile](mdc:Makefile) - Build and deployment tasks
@@ -17,6 +19,7 @@ alwaysApply: false
 - [.chezmoiignore](mdc:home/.chezmoiignore) - Ignore file patterns
 
 ### 2. Chezmoi Framework Documentation (Core Reference)
+
 - [Chezmoi Official User Guide](https://chezmoi.io/user-guide/command-overview/) - Command overview and workflows
 - [Chezmoi Templating Features](https://chezmoi.io/user-guide/templating/) - Template syntax and best practices
 - [Chezmoi External File Management](https://chezmoi.io/user-guide/include-files-from-elsewhere/) - External resource integration
@@ -27,6 +30,7 @@ alwaysApply: false
 - [Chezmoi Reference](https://chezmoi.io/reference/) - Complete API reference
 
 ### 3. Package Managers and Tools
+
 - [Homebrew Official Documentation](https://docs.brew.sh) - macOS package management
 - [Mise Official Documentation](https://mise.jdx.dev/) - Runtime version management
 - [Age Encryption Tool](https://age-encryption.org/) - Modern encryption tool
@@ -34,12 +38,14 @@ alwaysApply: false
 - [Bitwarden CLI](https://bitwarden.com/help/cli/) - Bitwarden command line integration
 
 ### 4. Development Environment and Editors
+
 - [VSCode Official Documentation](https://code.visualstudio.com/docs) - Visual Studio Code
 - [Cursor Official Documentation](https://cursor.sh/docs) - AI coding editor
 - [Dev Containers](https://containers.dev/) - Development container specification
 - [GitHub Actions](https://docs.github.com/actions) - CI/CD workflows
 
 ### 5. General Specifications and Standards (Base Reference)
+
 - [XDG Base Directory Specification](https://specifications.freedesktop.org/basedir-spec/) - Linux directory standards
 - [EditorConfig Specification](https://editorconfig.org) - Editor configuration standards
 - [Git Official Documentation](https://git-scm.com/doc) - Version control
@@ -50,21 +56,25 @@ alwaysApply: false
 ## Documentation Usage Guidelines
 
 ### Reference Rules
+
 1. **Prioritize project-specific documentation** first
 2. **Reference latest version framework documentation**
 3. **Use latest stable version general specifications**
 
 ### Chezmoi Best Practices Reference
+
 1. [Tom Payne's dotfiles](https://github.com/twpayne/dotfiles) - Reference implementation by Chezmoi creator
 2. [Chezmoi Design Philosophy](https://chezmoi.io/user-guide/frequently-asked-questions/design/) - Design philosophy and constraints
 3. [Chezmoi Templating](https://chezmoi.io/user-guide/templating/) - Advanced templating techniques
 
 ### Documentation Update Management
+
 1. **Handle breaking changes appropriately**
 2. **Avoid using deprecated features**
 3. **Prioritize security-related updates**
 
 ### Documentation Validation
+
 1. **Ensure referenced documentation is valid**
 2. **Check version compatibility**
 3. **Prioritize security-related updates**
@@ -72,11 +82,13 @@ alwaysApply: false
 ## Reference Document Management
 
 ### Addition Rules
+
 1. **Add only highly relevant documents**
 2. **Record version information**
 3. **Record update timestamps**
 
 ### Maintenance
+
 1. **Regularly check link validity**
 2. **Update outdated version documentation**
 3. **Remove unnecessary references**
@@ -84,6 +96,7 @@ alwaysApply: false
 ## Chezmoi Pattern Reference
 
 ### Template Variable Usage Patterns
+
 ```go
 # OS Detection
 {{ if eq .chezmoi.os "darwin" }}macOS configuration{{ end }}
@@ -98,6 +111,7 @@ alwaysApply: false
 ```
 
 ### Password Manager Integration Patterns
+
 ```go
 # Bitwarden
 {{ bitwarden "item" "name" }}
@@ -110,6 +124,7 @@ alwaysApply: false
 ```
 
 ### External File Management Patterns
+
 ```toml
 # GitHub Release Latest Fetch
 url = {{ gitHubLatestReleaseAssetURL "owner/repo" "pattern" | quote }}
@@ -125,6 +140,7 @@ stripComponents = 1
 ## Documentation Structure
 
 ### Category Classification
+
 1. **Project-Specific** - Configuration and rules for this project
 2. **Chezmoi Framework** - Chezmoi-specific features and concepts
 3. **Package Managers** - Homebrew, Mise, and other tools
@@ -133,8 +149,10 @@ stripComponents = 1
 6. **Best Practices** - Design patterns and coding conventions
 
 ### Format
+
 ```markdown
 ## Category Name
+
 - [Title](URL) - Version - Last Updated
   - Brief description
   - Main usage
@@ -144,16 +162,19 @@ stripComponents = 1
 ## Chezmoi Workflow Reference
 
 ### During Configuration Generation
+
 1. **Check project conventions**
 2. **Check Chezmoi template constraints**
 3. **Apply best practices**
 
 ### During Configuration Review
+
 1. **Verify consistency with coding conventions**
 2. **Verify consistency with security guidelines**
 3. **Verify consistency with performance guidelines**
 
 ### During Troubleshooting
+
 1. [Chezmoi FAQ](https://chezmoi.io/user-guide/frequently-asked-questions/) - Common problems and solutions
 2. [Chezmoi Doctor](https://chezmoi.io/reference/commands/doctor/) - Configuration diagnostic tool
 3. [Chezmoi Troubleshooting](https://chezmoi.io/user-guide/frequently-asked-questions/troubleshooting/) - Problem resolution guide

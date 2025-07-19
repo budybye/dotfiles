@@ -3,16 +3,19 @@ description:
 globs:
 alwaysApply: false
 ---
+
 # Chezmoi Dotfiles Development Guidelines
 
 ## Editor Configuration
 
 ### VSCode Configuration
+
 - Manage VSCode settings and extensions via [.vscode/](mdc:.vscode) directory
 - [extensions.json](mdc:.vscode/extensions.json): Recommended extensions for optimal development environment
 - Automatically apply consistent development environment through workspace settings
 
 ### Cursor Configuration
+
 - Manage AI behavior customization files via [.cursor/rules/](mdc:.cursor/rules) directory
 - [always-refer.mdc](mdc:.cursor/rules/always-refer.mdc): Documentation reference guidelines
 - [project-structure.mdc](mdc:.cursor/rules/project-structure.mdc): Project organization guide
@@ -21,7 +24,8 @@ alwaysApply: false
 
 ## Code Style and Standards
 
-### Editor Configuration
+### EditorConfiguration
+
 - Define basic code style across all editors with [.editorconfig](mdc:.editorconfig)
 - **Indentation**: 2 spaces for YAML, JSON, and configuration files
 - **Character Encoding**: UTF-8 without BOM
@@ -29,6 +33,7 @@ alwaysApply: false
 - **Trailing Whitespace**: Automatically removed
 
 ### Chezmoi Template Files
+
 - Templates identified by `.tmpl` extension
 - Utilize sprig function library extending Go text/template
 - Use `{{ if eq .chezmoi.os "darwin" }}` pattern for OS-specific configuration
@@ -36,6 +41,7 @@ alwaysApply: false
 - Leverage password manager integration with `{{ bitwarden "item" "name" }}` etc.
 
 ### Shell Scripts
+
 - Use `#!/bin/bash` as shebang for compatibility
 - Reference variables with `${VAR}` format for clarity
 - Implement proper error handling with `set -euo pipefail`
@@ -43,12 +49,14 @@ alwaysApply: false
 - Validate scripts with `shellcheck` before committing
 
 ### YAML Files
+
 - Consistently use 2-space indentation
 - Quote strings containing special characters
 - Maintain consistent structure across similar files
 - Validate with tools like `yamllint`
 
 ### Makefile Best Practices
+
 - Use `:=` for variable assignment to avoid recursive expansion
 - Document all targets with `## Description` comments
 - Group related targets with category headers (`##@ Category`)
@@ -58,6 +66,7 @@ alwaysApply: false
 ## Chezmoi Workflow
 
 ### Daily Operations
+
 ```sh
 # Edit configuration files (with transparent encryption support)
 chezmoi edit ~/.ssh/config
@@ -76,6 +85,7 @@ chezmoi doctor
 ```
 
 ### File Management
+
 ```sh
 # Add new configuration file
 chezmoi add ~/.gitconfig
@@ -91,7 +101,9 @@ chezmoi add --executable ~/.local/bin/script
 ```
 
 ### External File Management
+
 Manage external resources with `.chezmoiexternal.toml.tmpl`:
+
 ```toml
 # Fetch latest binary from GitHub release
 [".local/bin/age"]
@@ -112,18 +124,21 @@ Manage external resources with `.chezmoiexternal.toml.tmpl`:
 ## Version Control
 
 ### Git Configuration
+
 - Specify files to ignore in version control with [.gitignore](mdc:.gitignore)
 - Use descriptive commit messages following conventional format
 - Use feature branches for development work
 - Rebase regularly to keep history clean
 
 ### Branching Strategy
+
 - `main` branch for stable releases and production-ready code
 - Feature branches for new development work
 - Merge regularly to avoid long-lived branches
 - Tag releases following semantic versioning
 
 ### Makefile Git Commands
+
 ```sh
 # Interactive commit with custom message
 make git-commit
@@ -135,12 +150,14 @@ make git-status
 ## Development Environment
 
 ### Container Development
+
 - Define complete development environment with [.devcontainer/](mdc:.devcontainer)
 - [Dockerfile](mdc:.devcontainer/Dockerfile): Container image definition
 - [devcontainer.json](mdc:.devcontainer/devcontainer.json): VS Code container configuration
 - [docker-compose.yaml](mdc:.devcontainer/docker-compose.yaml): Multi-service orchestration
 
 ### Local Development Setup
+
 ```sh
 # Initialize development environment
 make init
@@ -153,6 +170,7 @@ make update
 ```
 
 ### Virtual Machine Development
+
 ```sh
 # Create standardized Ubuntu VM
 make vm-create
@@ -169,11 +187,13 @@ make vm-info
 ## Testing and Quality Assurance
 
 ### Automated Testing
+
 - Continuous integration with [GitHub Actions](mdc:.github/workflows)
 - Multi-platform testing (macOS, Ubuntu, Docker)
 - Automated builds and releases
 
 ### Local Testing
+
 ```sh
 # Run configuration checks
 make check
@@ -188,6 +208,7 @@ chezmoi verify
 ```
 
 ### Code Quality Tools
+
 - **ShellCheck**: Validate shell scripts for common issues
 - **yamllint**: Validate YAML syntax and style
 - **markdownlint**: Ensure consistent markdown formatting
@@ -196,36 +217,42 @@ chezmoi verify
 ## Package Management
 
 ### Homebrew (macOS)
+
 - [Brewfile](mdc:home/private_dot_config/Brewfile): Declarative package management
 - Regular updates with `brew update && brew upgrade`
 - Bundle management with `brew bundle --file=path/to/Brewfile`
 
 ### Mise/ASDF Runtime Management
+
 - [.tool-versions](mdc:.tool-versions): Language runtime versions
 - [mise configuration](mdc:home/private_dot_config/mise): Tool-specific configuration
 - Environment-specific tools with directory-level `.tool-versions`
 
 ### System Package Management
+
 - Ubuntu: APT package management via installation scripts
 - Snap packages for cross-distribution compatibility
 - Document dependencies in setup scripts
 
 ### Package Data Management
+
 Define OS-specific packages in [packages.yaml](mdc:home/.chezmoidata/packages.yaml):
+
 ```yaml
 packages:
   darwin:
-    formula: ['git', 'curl', 'vim']
-    cask: ['alacritty', 'cursor']
+    formula: ["git", "curl", "vim"]
+    cask: ["alacritty", "cursor"]
   linux:
-    apt: ['git', 'curl', 'vim']
-    snap: ['code']
-  mise: ['node@latest', 'python@latest']
+    apt: ["git", "curl", "vim"]
+    snap: ["code"]
+  mise: ["node@latest", "python@latest"]
 ```
 
 ## Security and Encryption
 
 ### Age Encryption
+
 ```sh
 # Generate new encryption key
 make age-keygen
@@ -238,6 +265,7 @@ age --armor --passphrase | age --decrypt --output key.txt
 ```
 
 ### Bitwarden Integration
+
 ```sh
 # Unlock vault for secret management
 make bw-unlock
@@ -247,6 +275,7 @@ make bw-unlock
 ```
 
 ### 1Password Integration
+
 ```toml
 # Configuration example in .chezmoi.toml.tmpl
 [data]
@@ -256,12 +285,14 @@ make bw-unlock
 ## Error Handling and Debugging
 
 ### Common Issues
+
 1. **Template syntax errors**: Check Go template syntax and sprig functions
 2. **Encryption issues**: Verify age key configuration and environment
 3. **Permission problems**: Check file attributes and umask settings
 4. **Path resolution**: Verify template paths and external file URLs
 
 ### Debugging Tools
+
 ```sh
 # Verbose output for troubleshooting
 chezmoi apply --verbose
@@ -277,6 +308,7 @@ chezmoi managed
 ```
 
 ### Best Practices for Reliability
+
 1. **Always test changes** in isolated environment first
 2. **Use version control** for all configuration changes
 3. **Backup sensitive data** before major changes
