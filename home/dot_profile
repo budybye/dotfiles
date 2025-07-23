@@ -45,8 +45,8 @@ export XDG_CONFIG_DIRS="${XDG_CONFIG_DIRS:-/etc/xdg}"
 # export XDG_RUNTIME_DIR="/run/user/$(id -u)"
 if [ -d "/run/user/${UID}" ]; then
     mkdir -p "/run/user/${UID}"
+    export XDG_RUNTIME_DIR="/run/user/${UID}"
 fi
-export XDG_RUNTIME_DIR="/run/user/${UID}"
 
 mkdir -p \
     "${HOME}/Desktop" \
@@ -93,6 +93,7 @@ fi
 
 mkdir -p "${HOME}/Applications" "${HOME}/Developer"
 
+# デフォルトのエディタを設定
 if command -v cursor >/dev/null 2>&1; then
     export EDITOR="cursor"
 elif command -v code >/dev/null 2>&1; then
@@ -109,6 +110,7 @@ fi
 
 if command -v brave-browser >/dev/null 2>&1; then
     export BROWSER="brave-browser"
+    # export BROWSER="chromium"
 fi
 
 if command -v brew >/dev/null 2>&1; then
@@ -174,7 +176,7 @@ if command -v npm >/dev/null 2>&1; then
     export NPM_CONFIG_USERCONFIG="${XDG_CONFIG_HOME}/npm/npmrc"
     mkdir -p "${XDG_DATA_HOME}/node"
     export NODE_REPL_HISTORY="${XDG_DATA_HOME}/node/node_repl_history"
-
+    mkdir -p "${XDG_RUNTIME_DIR}/npm"
 fi
 
 if command -v pnpm >/dev/null 2>&1; then

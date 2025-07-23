@@ -283,10 +283,15 @@ packages:
   - 'lsd'
   - 'fd-find'
   - 'ripgrep'
+  - 'boringtun-cli'
+  - 'sniffnet'
+  - 'coreutils'
+  - 'kmon'
+  - 'onehistory'
+  - 'vaultwarden'
   # - 'zellij'
   # - 'fermyon'
   # - 'cargo-binstall'
-  - ''
 
   mise:
   - 'rust@latest'

@@ -140,5 +140,6 @@
   "markdown.marp.html": "all",
   "markdown-preview-enhanced.mermaidTheme": "dark",
   "markdown-preview-enhanced.codeBlockTheme": "monokai.css",
-  "cursor.windowSwitcher.sidebarHoverCollapsed": true
+  "cursor.windowSwitcher.sidebarHoverCollapsed": true,
+  "cursor.semanticSearch.includePullRequests": false
 }

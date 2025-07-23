@@ -119,9 +119,9 @@ install_cargo_tools() {
     if command -v cargo-binstall >/dev/null; then
         cargo-binstall -V
     elif command -v cargo >/dev/null; then
-        cargo install cargo-binstall || echo "cargo tools install failed."
+        cargo install -f cargo-binstall || echo "cargo-binstall install failed."
     elif command -v mise >/dev/null; then
-        mise use -g -y cargo-binstall@latest || echo "cargo tools install failed."
+        mise use -g -y cargo-binstall@latest || echo "cargo-binstall install failed."
     else
         echo "cargo-binstall not found" >> ${HOME}/which
     fi
@@ -129,9 +129,9 @@ install_cargo_tools() {
     {{ range .packages.cargo }}
 
     if command -v cargo-binstall >/dev/null; then
-        cargo-binstall {{ . }} -y || echo "{{ . }} install failed."
+        cargo-binstall -y {{ . }} || echo "{{ . }} install failed."
     elif command -v cargo >/dev/null; then
-        cargo install {{ . }} -y || echo "{{ . }} install failed."
+        cargo install -f --bins {{ . }} || echo "{{ . }} install failed."
     else
         echo "cargo not found"
     fi

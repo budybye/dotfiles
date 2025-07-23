@@ -4,15 +4,6 @@ cask_args appdir: "/Applications"
 
 tap "yusukebe/tap"
 
-# tap "d12frosted/emacs-plus"
-# tap "progrhyme/tap"
-# tap "sidneys/homebrew"
-# tap "go-gitea/gitea"
-#tap "beeftornado/rmtree"
-#tap "c-bata/kube-prompt"
-#tap "yammerjp/tap"
-#tap "hashicorp/tap"
-
 # formula
 
 # brew "age"
@@ -45,7 +36,7 @@ brew "cask"
 #brew "evernote2md"
 # brew "fastfetch"
 brew "ffmpeg"
-brew "fzf"
+# brew "fzf"
 brew "fortune"
 brew "figlet"
 # brew "gh"
@@ -113,7 +104,7 @@ brew "php"
 #brew "postgresql@16"
 #brew "p11-kit"
 brew "qemu"
-brew "rj"
+brew "rj" # yusukebe/tap
 # brew "shellcheck"
 brew "sheldon"
 brew "starship"
@@ -149,12 +140,6 @@ brew "zlib"
 #brew "zsh-autosuggestions"
 #brew "zsh-navigation-tools"
 #brew "zstd"
-
-#brew "progrhyme/tap/shelp"
-#brew "yammerjp/tap/pdef"
-#brew "sidneys/homebrew/openssl@1.0"
-#brew "sidneys/homebrew/chntpw"
-#brew "d12frosted/emacs-plus/emacs-plus@27", args: ["with-spacemacs-icon"], args: ["with-native-comp"], link: false
 
 #cask
 
@@ -302,7 +287,7 @@ cask "tradingview"
 cask "visual-studio-code"
 cask "vlc"
 #cask "vnc-viewer"
-# cask "wireshark"
+cask "wireshark"
 cask "windows-app"
 #cask "warp"
 #cask "webcatalog"
