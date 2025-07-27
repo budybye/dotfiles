@@ -42,11 +42,11 @@ export XDG_CACHE_HOME=${HOME}/.cache
 export XDG_DATA_DIRS="${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
 export XDG_CONFIG_DIRS="${XDG_CONFIG_DIRS:-/etc/xdg}"
 
+# if [ ! -d "/run/user/${UID}" ]; then
+#     mkdir -p "/run/user/${UID}"
+# fi
+# export XDG_RUNTIME_DIR="/run/user/${UID}"
 # export XDG_RUNTIME_DIR="/run/user/$(id -u)"
-if [ -d "/run/user/${UID}" ]; then
-    mkdir -p "/run/user/${UID}"
-    export XDG_RUNTIME_DIR="/run/user/${UID}"
-fi
 
 mkdir -p \
     "${HOME}/Desktop" \
@@ -176,12 +176,13 @@ if command -v npm >/dev/null 2>&1; then
     export NPM_CONFIG_USERCONFIG="${XDG_CONFIG_HOME}/npm/npmrc"
     mkdir -p "${XDG_DATA_HOME}/node"
     export NODE_REPL_HISTORY="${XDG_DATA_HOME}/node/node_repl_history"
-    mkdir -p "${XDG_RUNTIME_DIR}/npm"
+    mkdir -p "${TMPDIR}/npm"
 fi
 
 if command -v pnpm >/dev/null 2>&1; then
     mkdir -p "${XDG_DATA_HOME}/pnpm"
     export PNPM_HOME="${XDG_DATA_HOME}/pnpm"
+    mkdir -p "${XDG_DATA_HOME}/pnpm-store"
     # export store-dir="${XDG_DATA_HOME}/pnpm-store"
 fi
 
@@ -238,7 +239,7 @@ fi
 if command -v uv >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/uv"
     touch "${XDG_CONFIG_HOME}/uv/uv.toml"
-    # export UV_CONFIG_DIR="${XDG_CONFIG_HOME}/uv"
+    export UV_CONFIG_DIR="${XDG_CONFIG_HOME}/uv"
 fi
 
 if command -v poetry >/dev/null 2>&1; then
@@ -346,7 +347,6 @@ fi
 
 if command -v starship >/dev/null 2>&1; then
     mkdir -p "${XDG_CACHE_HOME}/starship" "${XDG_CONFIG_HOME}/starship"
-    # export STARSHIP_CONFIG="${XDG_CONFIG_HOME}/starship.toml"
     export STARSHIP_CONFIG="${XDG_CONFIG_HOME}/starship/starship.toml"
     export STARSHIP_CACHE="${XDG_CACHE_HOME}/starship"
 fi

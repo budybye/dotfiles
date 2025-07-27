@@ -141,5 +141,7 @@
   "markdown-preview-enhanced.mermaidTheme": "dark",
   "markdown-preview-enhanced.codeBlockTheme": "monokai.css",
   "cursor.windowSwitcher.sidebarHoverCollapsed": true,
-  "cursor.semanticSearch.includePullRequests": false
+  "cursor.semanticSearch.includePullRequests": false,
+  "kiroAgent.configureMCP": "Disabled",
+  "kiroAgent.enableTabAutocomplete": true
 }
