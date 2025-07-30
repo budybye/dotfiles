@@ -58,6 +58,7 @@ fi
 if command -v gh >/dev/null 2>&1; then
     alias gs="gh secret set"
     alias gg="gh repo view --web"
+    alias gql="gh api rate_limit --jq '.resources.core'"
 fi
 
 if command -v curl >/dev/null 2>&1; then

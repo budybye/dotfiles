@@ -43,11 +43,13 @@ setopt extended_glob        # ワイルドカードを展開
 # 色
 autoload -Uz colors && colors
 
-if [ -d "${HOME}/.cache/zsh" ]; then
-  # enable completion sheldonに変更？
-  # autoload -Uz compinit && compinit -d "${HOME}/.cache/zsh/zcompdump-${ZSH_VERSION}"
-  zstyle ':completion:*' cache-path "${HOME}/.cache/zsh/zcompcache"
-fi
+# キャッシュディレクトリの安全な作成
+[ ! -d "${HOME}/.cache/zsh" ] && install -d -m 755 "${HOME}/.cache/zsh"
+zstyle ':completion:*' cache-path "${HOME}/.cache/zsh/zcompcache"
+zstyle ':completion:*' use-cache on
+
+# enable completion
+# autoload -Uz compinit && compinit -d "${HOME}/.cache/zsh/zcompdump-${ZSH_VERSION}"
 
 ## 小文字でも大文字でもマッチさせる
 zstyle ':completion:*' matcher-list 'm:{:a-z:}={:A-Z:}'

@@ -85,6 +85,7 @@ export LESSHISTFILE="$XDG_STATE_HOME"/less/history
 
 if [ -d "/tmp" ]; then
     export TMPDIR="/tmp"
+    chmod 1777 "/tmp"
 fi
 
 if [ "$(uname)" = "Darwin" ]; then
