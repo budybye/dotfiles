@@ -1,2 +1,5 @@
-node        20
+age latest
 bitwarden latest
+chezmoi latest
+gh latest
+node 20

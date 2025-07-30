@@ -32,7 +32,6 @@ packages:
     - 'multitail'
     - 'nmap'
     - 'vim'
-    - 'libasound2-dev'
 
     - 'mise'
     - 'bat'

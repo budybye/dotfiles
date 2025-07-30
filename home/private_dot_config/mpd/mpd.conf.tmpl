@@ -9,21 +9,23 @@ auto_update_depth "2"
 follow_outside_symlinks "yes"
 follow_inside_symlinks "yes"
 
-{{ if ne .chezmoi.os "macos" }}
+{{ if eq .chezmoi.os "macos" }}
+
 audio_output {
     type "osx"
     name "CoreAudio"
     mixer_type "software"
 }
-{{ end }}
 
-{{ if eq .chezmoi.os "linux" }}
+{{ else }}
+
 audio_output {
     type "pipewire"
     name "PipeWire"
-    path "/tmp/mpd.fifo"
+    path "~/.config/mpd/mpd.fifo"
     format "44100:16:2"
 }
+
 {{ end }}
 
 decoder {
@@ -38,7 +40,7 @@ port "6600"
 audio_output {
     type "fifo"
     name "my_fifo"
-    path "/tmp/mpd.fifo"
+    path "~/.config/mpd/mpd.fifo"
     format "44100:16:2"
     auto_resample "no"
     use_mmap "yes"
