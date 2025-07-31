@@ -58,7 +58,7 @@ jobs:
         with:
           images: ${{ env.REGISTRY_IMAGE }}
           tags: |
-            type=semver,pattern=${{ github.ref_name }}-${{ env.PLATFORM_PAIR }}
+            type=sha,prefix=${{ github.ref_name }}-${{ env.PLATFORM_PAIR }}
           labels: |
             org.opencontainers.image.description=${{ matrix.platform }}
           annotations: |
