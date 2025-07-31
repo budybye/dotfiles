@@ -190,6 +190,7 @@ packages:
   - '42crunch.vscode-openapi'
   - 'adpyke.codesnap'
   - 'ambar.bundle-size'
+  - 'anthropic.claude-code'
   - 'biomejs.biome'
   - 'bradlc.vscode-tailwindcss'
   - 'bmewburn.vscode-intelephense-client'
