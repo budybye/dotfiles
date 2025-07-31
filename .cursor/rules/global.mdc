@@ -112,13 +112,13 @@ alwaysApply: true
 
 ## 技術スタック
 
-@technologystack.md
+@docs/technologystack.md
 
 ---
 
 ## ディレクトリ構成
 
-@directorystructure.md
+@docs/directorystructure.md
 
 ---
 
