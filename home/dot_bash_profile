@@ -3,10 +3,11 @@ if [ -f "${HOME}/.profile" ]; then
 fi
 
 mkdir -p "${XDG_STATE_HOME}/bash"
-HISTFILE="${XDG_STATE_HOME}/bash/bash_history"
+export HISTFILE="${XDG_STATE_HOME}/bash/bash_history"
 
 mkdir -p "${XDG_CONFIG_HOME}/bash-completion"
 export BASH_COMPLETION_USER_FILE="${XDG_CONFIG_HOME}/bash-completion/bash_completion"
+export BASH_COMPLETION_COMPAT_DIR="${XDG_CONFIG_HOME}/bash-completion/completions"
 
 if [ -f "${HOME}/.bashrc" ]; then
     . "${HOME}/.bashrc"

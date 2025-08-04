@@ -42,6 +42,7 @@
 .config/karabiner
 .ssh/id_rsa*
 .chezmoiscripts/darwin/**
+Library
 {{ end }}
 
 {{ if ne .chezmoi.os "linux" }}

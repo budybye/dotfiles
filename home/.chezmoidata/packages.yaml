@@ -1,13 +1,14 @@
 packages:
   darwin:
     formula:
+    # 基本系
     - 'git'
     - 'curl'
     - 'make'
     - 'zsh'
     - 'byobu'
     - 'tree'
-    # - 'chezmoi'
+    # 開発系
     - 'autoconf'
     - 'automake'
     - 'ain'
@@ -16,23 +17,23 @@ packages:
     - 'ca-certificates'
     - 'cask'
     - 'mas'
-
+    # ジョーク系コマンド
     - 'cmatrix'
     - 'fortune'
     - 'figlet'
-
+    # 音楽系
     - 'mackup'
     - 'mpd'
     - 'ncmpcpp'
     - 'ffmpeg'
     - 'yt-dlp'
-
+    # 便利コマンド
     - 'translate-shell'
     - 'moreutils'
     - 'multitail'
     - 'nmap'
     - 'vim'
-
+    # rust 系
     - 'mise'
     - 'bat'
     - 'lsd'
@@ -218,6 +219,7 @@ packages:
   - 'ivanarjona.cloudflaretunnel'
   - 'jinliming2.vscode-go-template'
   - 'keploy.keployio'
+  - 'lokalise.i18n-ally'
   - 'monokai.theme-monokai-pro-vscode'
   - 'mattn.lisp'
   - 'matthewpi.caddyfile-support'

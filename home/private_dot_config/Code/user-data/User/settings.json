@@ -143,5 +143,6 @@
   "cursor.windowSwitcher.sidebarHoverCollapsed": true,
   "cursor.semanticSearch.includePullRequests": false,
   "kiroAgent.configureMCP": "Disabled",
-  "kiroAgent.enableTabAutocomplete": true
+  "kiroAgent.enableTabAutocomplete": true,
+  "go.toolsManagement.autoUpdate": true
 }
