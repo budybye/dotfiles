@@ -3,15 +3,16 @@ set -e
 
 SES="session"
 DOT="dotfiles"
-
+# ウィンドウ1 ペイン1~4
 W1P1="${HOME}/${DOT}" # dotfiles
 W1P2="${HOME}" # mpd
 W1P3="${HOME}/Music" # ncmpcpp
 W1P4="${HOME}/data" # code
-
-W2P1="${HOME}/dev/portainer" # portainer
-W2P2="${HOME}/multipass" # app
-W2P3="${HOME}/dev/app"
+# ウィンドウ2 ペイン1~4
+W2P1="${HOME}/Developer" # portainer
+W2P2="${HOME}/Developer" # app
+W2P3="${HOME}/Developer" # app
+W2P4="${HOME}/dev" # app
 
 # attach to "dotfiles" session, window 0, pane 1
 

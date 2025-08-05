@@ -1,7 +1,7 @@
 # EditorConfigはUTF-8を使用することを推奨します
 root = true
 
-# 全てのファイルに適用
+# 全てのファイルに適用(デフォルト設定)
 [*]
 charset = utf-8
 end_of_line = lf
@@ -9,19 +9,34 @@ indent_style = space
 indent_size = 2
 insert_final_newline = true
 trim_trailing_whitespace = true
+
 # フォントの設定
 font_size = 13
 font_family = "HackGen Console NF", "RobotoMonoJP", "monospace", "Consolas"
 
 # インデント ４
-[*.{py, php, java, rs, go}]
+[*.{py, pyi, php, java, rs, go}]
 indent_size = 4
 
 # インデント 2
-[*.{c, h, cpp, js, ts, jsx, tsx, sh, json, jsonc, yaml, yml, toml, ini, css, html, sql, txt, file, xml, tmpl }]
+[*.{c, h, cpp, js, ts, jsx, tsx, json, jsonc, yaml, yml, toml, ini, css, html, sql, txt, file, xml, cnf, conf, rc, sh, vim }]
 indent_size = 2
 
-# Markdownの場合、インデントスタイルをタブに設定
+# chezmoi ファイル dot_ と tmpl
+[{dot_}* ,*.{tmpl}]
+indent_size = 2
+
+# Makefile
+[Makefile]
+indent_style = tab
+indent_size = 4
+
+# Dockerfile
+[Dockerfile]
+indent_style = space
+indent_size = 2
+
+# Markdown
 [*.md, *.mdx, *.mdc]
 indent_style = tab
 tab_width = 4
@@ -35,3 +50,18 @@ separator = ,
 [*.dat]
 # データの区切り文字
 separator = \t
+
+# .env
+[.env]
+indent_style = tab
+indent_size = 4
+
+# wasm
+[*.{wat,wast,wasm}]
+indent_style = tab
+indent_size = 2
+
+# ignore
+[*{ignore}]
+indent_style = tab
+indent_size = 2

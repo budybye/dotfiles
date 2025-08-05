@@ -5,14 +5,16 @@
 - **Chezmoi**: ^2.47.0 - ドットファイル管理システム
 - **Go**: ^1.21.0 - Chezmoi の実行環境
 - **Bash**: ^5.0.0 - シェルスクリプト実行環境
+- **Zsh**: ^5.9.0 - ログインシェル環境
 - **Make**: ^4.0.0 - ビルドツール
 
 ## 対応 OS・プラットフォーム
 
 - **macOS**: Sequoia (14.0+) - プライマリ開発環境
-- **Ubuntu**: 24.04 LTS - Linux 開発環境
+- **Ubuntu**: 24.04 LTS (Noble Numbat) - Linux 開発環境
 - **Docker**: ^24.0.0 - コンテナ化環境
 - **Multipass**: ^1.13.0 - 軽量 VM 管理
+- **WSL2**: Ubuntu 24.04 LTS - Windows Subsystem for Linux 2
 
 ## 開発ツール・エディタ
 
@@ -22,6 +24,7 @@
 - **Neovim**: ^0.9.0 - ターミナルエディタ
 - **Alacritty**: ^0.13.0 - GPU 加速ターミナル
 - **Ghostty**: ^0.3.0 - モダンターミナル
+- **Byobu(tmux)** - ターミナルマルチプレクサ
 
 ## シェル・ターミナル
 
@@ -76,6 +79,8 @@
 
 - **MPD**: ^0.23.0 - 音楽プレーヤーデーモン
 - **NCMPCPP**: ^0.9.0 - MPD クライアント
+- **ffmpeg**: ^6.0.0 - メディアフォーマット管理
+- **yt-dl** - youtube ダウンローダー (使えなくなった)
 
 ## 入力・アクセシビリティ
 
@@ -103,4 +108,5 @@
 - シェルスクリプトは `home/.chezmoiscripts/` に配置
 - 暗号化ファイルは `age` で暗号化
 - OS 別設定は `.chezmoi.toml.tmpl` のテンプレート変数で制御
-- パッケージ管理は `Brewfile` で一元管理
+- パッケージ管理は `.chezmoidata/packages.yaml` `Brewfile` で管理
+- ツール、ランタイムは `mise` `~/.config/mise/config.toml` で管理

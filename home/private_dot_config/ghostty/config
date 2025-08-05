@@ -42,22 +42,35 @@
 # # Just for example:
 # resize-overlay-duration = 4s 200ms
 
+# シェルを指定
+command = $(command -v zsh) -l
+# command = $(command -v byobu)
+# シェル
+# shell-integration = zsh
+
+# テーマを指定
 theme = Monokai Pro
 
-font-family = HackGen35 Console NF
+# フォントを指定
+font-family = "HackGen35 Console NF"
 # フォントを読みやすくする
-font-thicken
+font-size = 13.0
+font-thicken = true
+# font-features = -dlig
 
 # 背景はちょっと透過している紺色
 background = #123
 background-opacity = 0.78
+# background = #092823
+# background-image = "~/data/wallpaper.png"
+foreground = #8c8380
 
 # カーソルはblockで点滅させない
 cursor-style = block
 # cursor-style-blink = false
 
 # タイピング中はマウスカーソルを非表示にする
-mouse-hide-while-typing
+mouse-hide-while-typing = true
 
 # はじめにtmuxを起動する
 # command = /opt/homebrew/bin/tmux
@@ -68,16 +81,17 @@ wait-after-command = true
 # メニューバーのタイトルを非表示にする
 title = " "
 
-window-padding-x = 5
-window-padding-y = 5
+window-padding-x = 8
+window-padding-y = 8
 window-padding-balance = true
 
 # 全画面表示させる
-fullscreen
+fullscreen = true
 # ネイティブの全画面は使いたくない
 macos-non-native-fullscreen = true
 # メニューバーをできれば透過しておきたいな
-macos-titlebar-style = transparent
+# macos-titlebar-style = transparent
+macos-titlebar-style = hidden
 
 # なんとなく色を変えてみる
 macos-icon = custom-style
