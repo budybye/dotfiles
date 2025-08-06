@@ -40,9 +40,9 @@ RUN apt-get install -y \
     xfce4-xkb-plugin
 
 RUN apt-get install -y \
-    dbus-x11 \
     sudo \
     wget \
+    dbus-x11 \
     xorgxrdp \
     xrdp && \
     apt remove -y light-locker xscreensaver

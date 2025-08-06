@@ -21,6 +21,8 @@ xrdp_setup() {
     echo "xrdp setup start..."
     # デフォルトのセッションマネージャーをxfce4-sessionに設定
     $sudo update-alternatives --set x-session-manager /usr/bin/xfce4-session
+    # wayland で起動する場合
+    # startxfce4 --wayland
 
     $sudo groupadd -f ssl-cert
     $sudo groupadd -f xrdp

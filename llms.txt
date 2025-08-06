@@ -1,4 +1,4 @@
-# llms.txt
+# dotfiles
 
 ## Docs
 
@@ -19,27 +19,24 @@
 - [FreeBSD Documentation](https://context7.com/freebsd/freebsd-doc/llms.txt)
 - [Caddy Web Server](https://context7.com/context7/caddyserver/llms.txt)
 - [Nextcloud Documentation](https://context7.com/nextcloud/documentation/llms.txt)
+- [Runner Images](https://context7.com/actions/runner-images/llms.txt)
 
-### Web Development & Frameworks
-- [Hono Web Framework](https://hono.dev/llms-full.txt)
-- [Honox Full-stack Framework](https://context7.com/honojs/honox/llms.txt)
-- [Hono Middleware](https://context7.com/honojs/middleware/llms.txt)
-- [Hono OpenAPI](https://context7.com/rhinobase/hono-openapi/llms.txt)
-- [React Documentation](https://context7.com/reactjs/react.dev/llms.txt)
-- [React Router](https://context7.com/context7/reactrouter/llms.txt)
-- [React Design Patterns](https://context7.com/michelebertoli/react-design-patterns-and-best-practices/llms.txt)
-- [Remix Full-stack Framework](https://context7.com/remix-run/remix/llms.txt)
-- [Go Fiber Web Framework](https://context7.com/gofiber/docs/llms.txt)
-- [Shopify Hydrogen](https://context7.com/shopify/hydrogen/llms.txt)
+### Frontend & Framework
 - [DaisyUI Component Library](https://daisyui.com/llms.txt)
+- [React Documentation](https://context7.com/reactjs/react.dev/llms.txt)
+- [React Design Patterns](https://context7.com/michelebertoli/react-design-patterns-and-best-practices/llms.txt)
+- [React Router](https://context7.com/context7/reactrouter/llms.txt)
 - [Tailwind CSS](https://context7.com/context7/tailwindcss/llms.txt)
 - [Jotai State Management](https://context7.com/pmndrs/jotai/llms.txt)
+- [Remix Full-stack Framework](https://context7.com/remix-run/remix/llms.txt)
+- [Shopify Hydrogen](https://context7.com/shopify/hydrogen/llms.txt)
 - [Workbox Service Workers](https://context7.com/googlechrome/workbox/llms.txt)
+- [SWR](https://context7.com/vercel/swr/llms.txt)
 
 ### Build Tools & Development
+- [Bun JavaScript Runtime](https://bun.com/llms-full.txt)
 - [Vite Build Tool](https://context7.com/vitejs/vite/llms.txt)
 - [Vite PWA Plugin](https://context7.com/context7/vite-pwa-org_netlify_app/llms.txt)
-- [Bun JavaScript Runtime](https://bun.com/llms-full.txt)
 - [UV Python Package Manager](https://context7.com/astral-sh/uv/llms.txt)
 - [Boost C++ Libraries](https://context7.com/boostorg/boost/llms.txt)
 
@@ -51,37 +48,44 @@
 - [MSW Mock Service Worker](https://context7.com/mswjs/msw/llms.txt)
 
 ### Data & Databases
+- [Drizzle ORM](https://orm.drizzle.team/llms-full.txt)
 - [DuckDB Database](https://context7.com/duckdb/duckdb-web/llms.txt)
 - [SQLite Database](https://context7.com/sqlite/sqlite/llms.txt)
 - [Neon Database](https://context7.com/context7/neon/llms.txt)
-- [Drizzle ORM](https://orm.drizzle.team/llms-full.txt)
 
 ### API & Backend
+- [Hono Web Framework](https://hono.dev/llms-full.txt)
+- [Honox Full-stack Framework](https://context7.com/honojs/honox/llms.txt)
+- [Hono Middleware](https://context7.com/honojs/middleware/llms.txt)
+- [Hono OpenAPI](https://context7.com/rhinobase/hono-openapi/llms.txt)
 - [GraphQL Yoga Server](https://context7.com/graphql-hive/graphql-yoga/llms.txt)
 - [RESTful API Guidelines](https://context7.com/zalando/restful-api-guidelines/llms.txt)
 - [OpenAPI Specification](https://context7.com/context7/spec_openapis-oas/llms.txt)
 - [OpenAPI TypeScript](https://context7.com/openapi-ts/openapi-typescript/llms.txt)
 - [Orval API Client Generator](https://context7.com/orval-labs/orval/llms.txt)
-- [Matrix JS SDK](https://context7.com/matrix-org/matrix-js-sdk/llms.txt)
+- [Go Fiber Web Framework](https://context7.com/gofiber/docs/llms.txt)
 - [Websocat WebSocket Tool](https://context7.com/vi/websocat/llms.txt)
-
 
 ### Validation & Forms
 - [Valibot Validation Guides](https://valibot.dev/llms-guides.txt)
 - [Valibot Full Documentation](https://valibot.dev/llms-full.txt)
 - [Conform Form Validation](https://context7.com/edmundhung/conform/llms.txt)
+- [Valimock](https://context7.com/saeris/valimock/llms.txt)
 
 ### Blockchain & Cryptocurrency & IPFS
 - [XRPL Blockchain](https://xrpl.org/llms.txt)
+- [Xaman Wallet Documentation](https://docs.xaman.dev/llms-full.txt)
 - [Rippled XRPL Server](https://context7.com/xrplf/rippled/llms.txt)
 - [XRPL.js Client Library](https://context7.com/xrplf/xrpl.js/llms.txt)
-- [Xaman Wallet Documentation](https://docs.xaman.dev/llms-full.txt)
 - [XRPL Python Library](https://context7.com/xrplf/xrpl-py.git/llms.txt)
+- [XRPScan](https://docs.xrpscan.com/llms-full.txt)
 - [CCXT Cryptocurrency Trading](https://context7.com/ccxt/ccxt/llms.txt)
 - [Open Payments Protocol](https://context7.com/interledger/open-payments/llms.txt)
+- [Interledger Rafiki](https://context7.com/interledger/rafiki/llms.txt)
+- [Interledger Dassie](https://context7.com/justmoon/dassie/llms.txt)
+- [Pinata IPFS Documentation](https://docs.pinata.cloud/llms-full.txt)
 - [IPFS Kubo](https://context7.com/ipfs/kubo/llms.txt)
 - [Helia IPFS Implementation](https://context7.com/ipfs/helia/llms.txt)
-- [Pinata IPFS Documentation](https://docs.pinata.cloud/llms-full.txt)
 
 ### Security & Authentication & Monitoring
 - [Kali Linux Documentation](https://context7.com/context7/kali/llms.txt)
@@ -97,6 +101,7 @@
 - [Bash Shell](https://context7.com/bminor/bash/llms.txt)
 - [Tmux Terminal Multiplexer](https://context7.com/tmux/tmux/llms.txt)
 - [Neovim Text Editor](https://context7.com/neovim/neovim/llms.txt)
+- [Sheldon Plugin Manager](https://context7.com/context7/sheldon_cli_rs/llms.txt)
 - [Starship Shell Prompt](https://context7.com/starship/starship/llms.txt)
 - [Ripgrep Search Tool](https://context7.com/burntsushi/ripgrep/llms.txt)
 - [Chezmoi Dotfiles Manager](https://context7.com/twpayne/chezmoi/llms.txt)
@@ -109,19 +114,19 @@
 - [yt-dlp](https://context7.com/yt-dlp/yt-dlp/llms.txt)
 - [Trading View Documentation](https://context7.com/1of1adam/docs/llms.txt)
 - [Three.js 3D Graphics](https://context7.com/mrdoob/three.js/llms.txt)
+- [Blender](https://context7.com/blender/blender/llms.txt)
 - [Model Viewer 3D](https://context7.com/google/model-viewer/llms.txt)
 - [MCPR Minecraft Protocol](https://context7.com/conikeec/mcpr/llms.txt)
 
 ### Documentation & Diagrams
-- [Marp CLI Presentation](https://context7.com/marp-team/marp-cli/llms.txt)
 - [Mozilla Developer Network](https://context7.com/context7/developer_mozilla-en-us/llms.txt)
 - [GitHub Documentation](https://docs.github.com/llms.txt)
-- [Mermaid Diagram Generator](https://context7.com/jakesteam/mermaid/llms.txt)
 - [Apple Developer](https://context7.com/context7/developer_apple/llms.txt)
-
-### Workflow & Automation
-- [n8n Workflow Automation](https://context7.com/n8n-io/n8n-docs/llms.txt)
 - [i18n-js Internationalization](https://context7.com/fnando/i18n-js/llms.txt)
+- [Mermaid Diagram Generator](https://context7.com/jakesteam/mermaid/llms.txt)
+- [Marp CLI Presentation](https://context7.com/marp-team/marp-cli/llms.txt)
+- [Matrix JS SDK](https://context7.com/matrix-org/matrix-js-sdk/llms.txt)
+- [MDX](https://context7.com/mdx-js/mdx/llms.txt)
 - [Resend](https://context7.com/context7/resend/llms.txt)
 
 ### Programming Languages
@@ -131,8 +136,12 @@
 - [Common LISP](https://context7.com/lisp-docs/lisp-docs.github.io/llms.txt)
 
 ### AI & Machine Learning
-- [Mastra AI Framework](https://context7.com/mastra-ai/mastra/llms.txt)
+- [Mastra AI Framework](https://context7.com/mastra-ai/mastra/llms-full.txt)
 - [Open Router](https://openrouter.ai/docs/llms-full.txt)
+- [21st](https://21st.dev/llms.txt)
+- [n8n Workflow Automation](https://context7.com/n8n-io/n8n-docs/llms.txt)
 - [Anthropic Claude Documentation](https://context7.com/context7/anthropic-en/llms.txt)
 - [Claude Code Sub-agents](https://context7.com/webdevtodayjason/sub-agents/llms.txt)
 - [FastMCP](https://context7.com/punkpeye/fastmcp/llms.txt)
+- [LangGraph](https://context7.com/langchain-ai/langgraph/llms.txt)
+- [AI sdk](https://context7.com/vercel/ai/llms.txt)

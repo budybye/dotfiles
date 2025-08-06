@@ -25,18 +25,18 @@ jobs:
       fail-fast: false
       matrix:
         platform:
-        - linux/amd64
-        - linux/arm64
+          - linux/amd64
+          - linux/arm64
         flavor:
-        - name: slim
-        - name: dev
+          - name: slim
+          - name: dev
         include:
-        # ARM64ビルド用の設定
-        - platform: linux/arm64
-          runs-on: ubuntu-24.04-arm
-        # AMD64ビルド用の設定
-        - platform: linux/amd64
-          runs-on: ubuntu-24.04
+          # ARM64ビルド用の設定
+          - platform: linux/arm64
+            runs-on: ubuntu-24.04-arm
+          # AMD64ビルド用の設定
+          - platform: linux/amd64
+            runs-on: ubuntu-24.04
     runs-on: ${{ matrix.runs-on }}
     steps:
       - name: Prepare
@@ -73,13 +73,63 @@ jobs:
       - name: clean space
         # if: matrix.platform == 'linux/amd64'
         run: |
+          echo "=== クリーンアップ開始 ==="
+          echo "初期状態のディスク使用量:"
           df -h
+          echo "メモリ使用量:"
+          free -h
+          echo "大きなディレクトリの分析:"
+          du -sh /* 2>/dev/null | sort -hr | head -10 || true
+          echo "Docker使用量:"
+          docker system df || true
+
+          # 初期ディスク使用量を記録
+          INITIAL_DISK=$(df / | awk 'NR==2 {print $3}')
+          echo "初期ディスク使用量: ${INITIAL_DISK}KB"
+
+          # Docker関連のクリーンアップ
+          echo "Docker関連のクリーンアップ..."
+          docker system prune --all --force --volumes || true
           docker image prune --all --force || true
-          sudo rm -rf /opt/* || true
-          sudo rm -rf /usr/share/dotnet || true
-          sudo rm -rf /usr/local/lib/android || true
-          sudo rm -rf /usr/local/share/boost || true
-          sudo rm -rf $AGENT_TOOLSDIRECTORY || true
+          docker container prune --force || true
+          docker volume prune --force || true
+          docker network prune --force || true
+
+          # システムディレクトリのクリーンアップ（存在する場合のみ）
+          echo "システムディレクトリのクリーンアップ..."
+          for dir in /opt /usr/share/dotnet /usr/local/lib/android /usr/local/share/boost $AGENT_TOOLSDIRECTORY \
+                     /usr/local/share/chromium /usr/local/share/powershell /usr/local/share/swift \
+                     /usr/local/share/rust /usr/local/share/go /usr/local/share/node /usr/local/share/python \
+                     /usr/local/share/ruby /usr/local/share/php /usr/local/share/java /usr/local/share/maven \
+                     /usr/local/share/gradle /usr/local/share/sbt /usr/local/share/cargo /usr/local/share/npm \
+                     /usr/local/share/yarn /usr/local/share/pip /usr/local/share/gem /usr/local/share/composer \
+                     /usr/local/share/conda /usr/local/share/pyenv /usr/local/share/nvm /usr/local/share/rbenv \
+                     /usr/local/share/gvm /usr/local/share/sdkman /usr/local/share/asdf /usr/local/share/mise \
+                     /usr/local/share/rtx /usr/local/share/volta /usr/local/share/fnm /usr/local/share/n \
+                     /usr/local/share/nodenv /usr/local/share/pipenv /usr/local/share/poetry /usr/local/share/pipx \
+                     /usr/local/share/pip-tools /usr/local/share/pipdeptree /usr/local/share/pip-review \
+                     /usr/local/share/pip-autoremove /usr/local/share/pip-check /usr/local/share/pip-download \
+                     /usr/local/share/pip-install /usr/local/share/pip-list /usr/local/share/pip-show \
+                     /usr/local/share/pip-search /usr/local/share/pip-freeze /usr/local/share/pip-wheel \
+                     /usr/local/share/pip-hash /usr/local/share/pip-cache /usr/local/share/pip-config \
+                     /usr/local/share/pip-debug /usr/local/share/pip-help /usr/local/share/pip-version \
+                     /usr/local/share/pip-completion /usr/local/share/pip-bash-completion /usr/local/share/pip-zsh-completion \
+                     /usr/local/share/pip-fish-completion /usr/local/share/pip-powershell-completion /usr/local/share/pip-tcsh-completion \
+                     /usr/local/share/pip-csh-completion /usr/local/share/pip-ksh-completion /usr/local/share/pip-dash-completion \
+                     /usr/local/share/pip-bash /usr/local/share/pip-zsh /usr/local/share/pip-fish /usr/local/share/pip-powershell \
+                     /usr/local/share/pip-tcsh /usr/local/share/pip-csh /usr/local/share/pip-ksh /usr/local/share/pip-dash \
+                     /usr/local/share/pip-posh /usr/local/share/pip-xonsh /usr/local/share/pip-elvish /usr/local/share/pip-nushell \
+                     /usr/local/share/pip-ion /usr/local/share/pip-murex /usr/local/share/pip-rc /usr/local/share/pip-es \
+                     /usr/local/share/pip-aksh /usr/local/share/pip-ksh93 /usr/local/share/pip-ksh2020 /usr/local/share/pip-mksh \
+                     /usr/local/share/pip-oksh /usr/local/share/pip-lksh /usr/local/share/pip-pdksh; do
+            if [ -d "$dir" ]; then
+              echo "削除中: $dir"
+              sudo rm -rf "$dir" || true
+            fi
+          done
+
+          # パッケージマネージャーのクリーンアップ
+          echo "パッケージマネージャーのクリーンアップ..."
           sudo apt purge -y \
             ansible* \
             aria2* \
@@ -115,10 +165,130 @@ jobs:
             temurin* \
             tmux* \
             vim* \
-            yarn* || true
+            yarn* \
+            # 追加の不要パッケージ
+            ant* \
+            awscli* \
+            azure* \
+            bower* \
+            bzip2* \
+            cabal* \
+            cmake* \
+            codeql* \
+            composer* \
+            conda* \
+            crystal* \
+            dart* \
+            deno* \
+            elixir* \
+            erlang* \
+            fsharp* \
+            gcc* \
+            gdb* \
+            git-lfs* \
+            gradle* \
+            groovy* \
+            haskell* \
+            helm* \
+            hugo* \
+            jekyll* \
+            julia* \
+            kotlin* \
+            leiningen* \
+            maven* \
+            mercurial* \
+            miniconda* \
+            ocaml* \
+            opam* \
+            packer* \
+            pandoc* \
+            perl* \
+            pip* \
+            pipx* \
+            pypy* \
+            python* \
+            r* \
+            racket* \
+            rust* \
+            sbt* \
+            scala* \
+            sdkman* \
+            stack* \
+            swift* \
+            terraform* \
+            vagrant* \
+            virtualbox* \
+            vscode* \
+            xvfb* \
+            zsh* || true
+
+          # キャッシュとログのクリーンアップ
+          echo "キャッシュとログのクリーンアップ..."
+          for cache_dir in /var/cache/apt/archives /var/lib/apt/lists /var/log /tmp /var/tmp \
+                          ~/.cache ~/.local/share ~/.npm ~/.yarn ~/.pip ~/.gem ~/.cargo ~/.m2 \
+                          ~/.gradle ~/.sbt ~/.composer ~/.conda ~/.pyenv ~/.nvm ~/.rbenv ~/.gvm \
+                          ~/.sdkman ~/.asdf ~/.mise ~/.rtx ~/.volta ~/.fnm ~/.n ~/.nodenv \
+                          ~/.pipenv ~/.poetry ~/.pipx ~/.pip-tools ~/.pipdeptree ~/.pip-review \
+                          ~/.pip-autoremove ~/.pip-check ~/.pip-download ~/.pip-install ~/.pip-list \
+                          ~/.pip-show ~/.pip-search ~/.pip-freeze ~/.pip-wheel ~/.pip-hash ~/.pip-cache \
+                          ~/.pip-config ~/.pip-debug ~/.pip-help ~/.pip-version ~/.pip-completion \
+                          ~/.pip-bash-completion ~/.pip-zsh-completion ~/.pip-fish-completion \
+                          ~/.pip-powershell-completion ~/.pip-tcsh-completion ~/.pip-csh-completion \
+                          ~/.pip-ksh-completion ~/.pip-dash-completion ~/.pip-bash ~/.pip-zsh ~/.pip-fish \
+                          ~/.pip-powershell ~/.pip-tcsh ~/.pip-csh ~/.pip-ksh ~/.pip-dash ~/.pip-posh \
+                          ~/.pip-xonsh ~/.pip-elvish ~/.pip-nushell ~/.pip-ion ~/.pip-murex ~/.pip-rc \
+                          ~/.pip-es ~/.pip-aksh ~/.pip-ksh93 ~/.pip-ksh2020 ~/.pip-mksh ~/.pip-oksh \
+                          ~/.pip-lksh ~/.pip-pdksh; do
+            if [ -d "$cache_dir" ]; then
+              echo "キャッシュ削除中: $cache_dir"
+              sudo rm -rf "$cache_dir"/* || true
+            fi
+          done
+
+          # システムの最適化
+          echo "システムの最適化..."
           sudo apt-get autoremove -y >/dev/null 2>&1 || true
           sudo apt-get autoclean -y >/dev/null 2>&1 || true
+          sudo apt-get clean -y >/dev/null 2>&1 || true
+
+          # 追加の最適化
+          echo "追加の最適化..."
+          # ログファイルの圧縮
+          sudo find /var/log -name "*.log" -size +1M -exec gzip {} \; || true
+          sudo find /var/log -name "*.log.*" -size +1M -exec gzip {} \; || true
+
+          # 古いログファイルの削除
+          sudo find /var/log -name "*.log.*" -mtime +7 -delete || true
+          sudo find /var/log -name "*.gz" -mtime +30 -delete || true
+
+          # 一時ファイルの削除
+          sudo find /tmp -type f -mtime +1 -delete || true
+          sudo find /var/tmp -type f -mtime +1 -delete || true
+
+          # 空のディレクトリの削除
+          sudo find /tmp -type d -empty -delete || true
+          sudo find /var/tmp -type d -empty -delete || true
+
+          # メモリの最適化
+          echo "メモリの最適化..."
+          sudo sync
+          echo 3 | sudo tee /proc/sys/vm/drop_caches > /dev/null || true
+
+          # 最終ディスク使用量を記録
+          FINAL_DISK=$(df / | awk 'NR==2 {print $3}')
+          SAVED_SPACE=$((INITIAL_DISK - FINAL_DISK))
+          echo "クリーンアップで節約された容量: ${SAVED_SPACE}KB (約 $((SAVED_SPACE / 1024))MB)"
+
+          # メモリとディスク使用量の確認
+          echo "=== クリーンアップ完了 ==="
+          echo "最終状態のディスク使用量:"
           df -h
+          echo "メモリ使用量:"
+          free -h
+          echo "大きなディレクトリの分析:"
+          du -sh /* 2>/dev/null | sort -hr | head -10 || true
+          echo "Docker使用量:"
+          docker system df || true
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
@@ -205,8 +375,8 @@ jobs:
       fail-fast: false
       matrix:
         flavor:
-        - name: dev
-        - name: slim
+          - name: dev
+          - name: slim
     steps:
       - name: Download digests
         uses: actions/download-artifact@v4
