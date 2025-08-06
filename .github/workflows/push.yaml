@@ -130,97 +130,220 @@ jobs:
 
           # パッケージマネージャーのクリーンアップ
           echo "パッケージマネージャーのクリーンアップ..."
-          sudo apt purge -y \
-            ansible* \
-            aria2* \
-            aspnetcore* \
-            apache2* \
-            azure-cli* \
-            cabal* \
-            clang* \
-            dotnet-* \
-            firefox* \
-            gfortran-* \
-            ghc* \
-            google-chrome-stable* \
-            google-cloud-sdk* \
-            imagemagick* \
-            javascript* \
-            kubectl* \
-            llvm* \
-            mono* \
-            moby* \
-            mysql* \
-            nginx* \
-            node* \
-            npm* \
-            nuget* \
-            php* \
-            postgresql* \
-            powershell* \
-            rpm* \
-            ruby* \
-            sqlite3* \
-            subversion \
-            temurin* \
-            tmux* \
-            vim* \
-            yarn* \
-            # 追加の不要パッケージ
-            ant* \
-            awscli* \
-            azure* \
-            bower* \
-            bzip2* \
-            cabal* \
-            cmake* \
-            codeql* \
-            composer* \
-            conda* \
-            crystal* \
-            dart* \
-            deno* \
-            elixir* \
-            erlang* \
-            fsharp* \
-            gcc* \
-            gdb* \
-            git-lfs* \
-            gradle* \
-            groovy* \
-            haskell* \
-            helm* \
-            hugo* \
-            jekyll* \
-            julia* \
-            kotlin* \
-            leiningen* \
-            maven* \
-            mercurial* \
-            miniconda* \
-            ocaml* \
-            opam* \
-            packer* \
-            pandoc* \
-            perl* \
-            pip* \
-            pipx* \
-            pypy* \
-            python* \
-            r* \
-            racket* \
-            rust* \
-            sbt* \
-            scala* \
-            sdkman* \
-            stack* \
-            swift* \
-            terraform* \
-            vagrant* \
-            virtualbox* \
-            vscode* \
-            xvfb* \
-            zsh* || true
+
+          # アーキテクチャに応じたパッケージ削除
+          ARCH=$(uname -m)
+          echo "現在のアーキテクチャ: $ARCH"
+
+          if [ "$ARCH" = "x86_64" ]; then
+            echo "x86_64環境用のパッケージ削除..."
+            sudo apt purge -y \
+              ansible* \
+              aria2* \
+              aspnetcore* \
+              apache2* \
+              azure-cli* \
+              cabal* \
+              clang* \
+              dotnet-* \
+              firefox* \
+              gfortran-* \
+              ghc* \
+              google-chrome-stable* \
+              google-cloud-sdk* \
+              imagemagick* \
+              javascript* \
+              kubectl* \
+              llvm* \
+              mono* \
+              moby* \
+              mysql* \
+              nginx* \
+              node* \
+              npm* \
+              nuget* \
+              php* \
+              postgresql* \
+              powershell* \
+              rpm* \
+              ruby* \
+              sqlite3* \
+              subversion \
+              temurin* \
+              tmux* \
+              vim* \
+              yarn* \
+              # 追加の不要パッケージ
+              ant* \
+              awscli* \
+              azure* \
+              bower* \
+              bzip2* \
+              cabal* \
+              cmake* \
+              codeql* \
+              composer* \
+              conda* \
+              crystal* \
+              dart* \
+              deno* \
+              elixir* \
+              erlang* \
+              fsharp* \
+              gcc* \
+              gdb* \
+              git-lfs* \
+              gradle* \
+              groovy* \
+              haskell* \
+              helm* \
+              hugo* \
+              jekyll* \
+              julia* \
+              kotlin* \
+              leiningen* \
+              maven* \
+              mercurial* \
+              miniconda* \
+              ocaml* \
+              opam* \
+              packer* \
+              pandoc* \
+              perl* \
+              pip* \
+              pipx* \
+              pypy* \
+              python* \
+              r* \
+              racket* \
+              rust* \
+              sbt* \
+              scala* \
+              sdkman* \
+              stack* \
+              swift* \
+              terraform* \
+              vagrant* \
+              virtualbox* \
+              vscode* \
+              xvfb* \
+              zsh* || true
+          else
+            echo "ARM64環境用のパッケージ削除（Google Chrome/Cloud SDK除外）..."
+            sudo apt purge -y \
+              ansible* \
+              aria2* \
+              aspnetcore* \
+              apache2* \
+              azure-cli* \
+              cabal* \
+              clang* \
+              dotnet-* \
+              firefox* \
+              gfortran-* \
+              ghc* \
+              imagemagick* \
+              javascript* \
+              kubectl* \
+              llvm* \
+              mono* \
+              moby* \
+              mysql* \
+              nginx* \
+              node* \
+              npm* \
+              nuget* \
+              php* \
+              postgresql* \
+              powershell* \
+              rpm* \
+              ruby* \
+              sqlite3* \
+              subversion \
+              temurin* \
+              tmux* \
+              vim* \
+              yarn* \
+              # 追加の不要パッケージ（ARM64対応）
+              ant* \
+              awscli* \
+              azure* \
+              bower* \
+              bzip2* \
+              cabal* \
+              cmake* \
+              codeql* \
+              composer* \
+              conda* \
+              crystal* \
+              dart* \
+              deno* \
+              elixir* \
+              erlang* \
+              fsharp* \
+              gcc* \
+              gdb* \
+              git-lfs* \
+              gradle* \
+              groovy* \
+              haskell* \
+              helm* \
+              hugo* \
+              jekyll* \
+              julia* \
+              kotlin* \
+              leiningen* \
+              maven* \
+              mercurial* \
+              miniconda* \
+              ocaml* \
+              opam* \
+              packer* \
+              pandoc* \
+              perl* \
+              pip* \
+              pipx* \
+              pypy* \
+              python* \
+              r* \
+              racket* \
+              rust* \
+              sbt* \
+              scala* \
+              sdkman* \
+              stack* \
+              swift* \
+              terraform* \
+              vagrant* \
+              virtualbox* \
+              vscode* \
+              xvfb* \
+              zsh* || true
+          fi
+
+          # 個別パッケージの安全な削除（エラーが発生しやすいパッケージ）
+          echo "個別パッケージの安全な削除..."
+          for pkg in google-chrome-stable google-cloud-sdk firefox powershell; do
+            if dpkg -l | grep -q "^ii.*$pkg"; then
+              echo "削除中: $pkg"
+              sudo apt purge -y "$pkg"* || true
+            else
+              echo "スキップ: $pkg (インストールされていません)"
+            fi
+          done
+
+          # ARM64環境での追加の最適化
+          if [ "$ARCH" != "x86_64" ]; then
+            echo "ARM64環境での追加最適化..."
+            # ARM64環境で利用できない可能性のあるパッケージを個別にチェック
+            ARM64_SKIP_PACKAGES="google-chrome-stable google-cloud-sdk firefox powershell virtualbox"
+            for pkg in $ARM64_SKIP_PACKAGES; do
+              if dpkg -l | grep -q "^ii.*$pkg"; then
+                echo "ARM64環境で削除を試行: $pkg"
+                sudo apt purge -y "$pkg"* 2>/dev/null || echo "削除に失敗: $pkg (スキップ)"
+              fi
+            done
+          fi
 
           # キャッシュとログのクリーンアップ
           echo "キャッシュとログのクリーンアップ..."
