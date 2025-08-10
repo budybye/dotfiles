@@ -114,3 +114,5 @@
 
 [credential "https://gist.github.com"]
 	helper = !/usr/bin/gh auth git-credential
+[user]
+	email = 121966396+budybye@users.noreply.github.com
