@@ -177,7 +177,7 @@ if command -v npm >/dev/null 2>&1; then
     export NPM_CONFIG_USERCONFIG="${XDG_CONFIG_HOME}/npm/npmrc"
     mkdir -p "${XDG_DATA_HOME}/node"
     export NODE_REPL_HISTORY="${XDG_DATA_HOME}/node/node_repl_history"
-    mkdir -p "${TMPDIR}/npm"
+    # mkdir -p "${TMPDIR}/npm"
 fi
 
 if command -v pnpm >/dev/null 2>&1; then
@@ -451,4 +451,10 @@ if command -v sampler >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/sampler"
     touch "${XDG_CONFIG_HOME}/sampler/config.yaml"
     alias sampler="sampler --config ${XDG_CONFIG_HOME}/sampler/config.yaml"
+fi
+
+if command -v aws >/dev/null 2>&1; then
+    mkdir -p "${XDG_CONFIG_HOME}/aws"
+    export AWS_SHARED_CREDENTIALS_FILE="$XDG_CONFIG_HOME"/aws/credentials
+    export AWS_CONFIG_FILE="$XDG_CONFIG_HOME"/aws/config
 fi

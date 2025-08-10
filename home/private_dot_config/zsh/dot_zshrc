@@ -117,3 +117,7 @@ if [ -f "${ZDOTDIR}/.aliases" ]; then
 fi
 
 [[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path zsh)"
+
+if command -v cursor-agent >/dev/null 2>&1; then
+  export CURSOR_API_KEY=""
+fi
