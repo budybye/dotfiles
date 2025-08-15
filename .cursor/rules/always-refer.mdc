@@ -20,38 +20,38 @@ alwaysApply: true
 
 ### 2. Chezmoi Framework Documentation (Core Reference)
 
-- [Chezmoi Official User Guide](https://chezmoi.io/user-guide/command-overview/) - Command overview and workflows
-- [Chezmoi Templating Features](https://chezmoi.io/user-guide/templating/) - Template syntax and best practices
-- [Chezmoi External File Management](https://chezmoi.io/user-guide/include-files-from-elsewhere/) - External resource integration
-- [Chezmoi Machine-to-Machine Differences](https://chezmoi.io/user-guide/manage-machine-to-machine-differences/) - Cross-platform configuration
-- [Chezmoi Script Usage](https://chezmoi.io/user-guide/use-scripts-to-perform-actions/) - Automation scripts
-- [Chezmoi Password Manager Integration](https://chezmoi.io/user-guide/password-managers/) - Secret management
-- [Chezmoi Encryption](https://chezmoi.io/user-guide/encryption/) - Age/GPG encryption
-- [Chezmoi Reference](https://chezmoi.io/reference/) - Complete API reference
+- [Chezmoi Official User Guide](mdc:https://chezmoi.io/user-guide/command-overview/) - Command overview and workflows
+- [Chezmoi Templating Features](mdc:https://chezmoi.io/user-guide/templating/) - Template syntax and best practices
+- [Chezmoi External File Management](mdc:https://chezmoi.io/user-guide/include-files-from-elsewhere/) - External resource integration
+- [Chezmoi Machine-to-Machine Differences](mdc:https://chezmoi.io/user-guide/manage-machine-to-machine-differences/) - Cross-platform configuration
+- [Chezmoi Script Usage](mdc:https://chezmoi.io/user-guide/use-scripts-to-perform-actions/) - Automation scripts
+- [Chezmoi Password Manager Integration](mdc:https://chezmoi.io/user-guide/password-managers/) - Secret management
+- [Chezmoi Encryption](mdc:https://chezmoi.io/user-guide/encryption/) - Age/GPG encryption
+- [Chezmoi Reference](mdc:https://chezmoi.io/reference/) - Complete API reference
 
 ### 3. Package Managers and Tools
 
-- [Homebrew Official Documentation](https://docs.brew.sh) - macOS package management
-- [Mise Official Documentation](https://mise.jdx.dev/) - Runtime version management
-- [Age Encryption Tool](https://age-encryption.org/) - Modern encryption tool
-- [1Password CLI](https://developer.1password.com/docs/cli/) - 1Password command line integration
-- [Bitwarden CLI](https://bitwarden.com/help/cli/) - Bitwarden command line integration
+- [Homebrew Official Documentation](mdc:https://docs.brew.sh) - macOS package management
+- [Mise Official Documentation](mdc:https://mise.jdx.dev/) - Runtime version management
+- [Age Encryption Tool](mdc:https://age-encryption.org/) - Modern encryption tool
+- [1Password CLI](mdc:https://developer.1password.com/docs/cli/) - 1Password command line integration
+- [Bitwarden CLI](mdc:https://bitwarden.com/help/cli/) - Bitwarden command line integration
 
 ### 4. Development Environment and Editors
 
-- [VSCode Official Documentation](https://code.visualstudio.com/docs) - Visual Studio Code
-- [Cursor Official Documentation](https://cursor.sh/docs) - AI coding editor
-- [Dev Containers](https://containers.dev/) - Development container specification
-- [GitHub Actions](https://docs.github.com/actions) - CI/CD workflows
+- [VSCode Official Documentation](mdc:https://code.visualstudio.com/docs) - Visual Studio Code
+- [Cursor Official Documentation](mdc:https://cursor.sh/docs) - AI coding editor
+- [Dev Containers](mdc:https://containers.dev/) - Development container specification
+- [GitHub Actions](mdc:https://docs.github.com/actions) - CI/CD workflows
 
 ### 5. General Specifications and Standards (Base Reference)
 
-- [XDG Base Directory Specification](https://specifications.freedesktop.org/basedir-spec/) - Linux directory standards
-- [EditorConfig Specification](https://editorconfig.org) - Editor configuration standards
-- [Git Official Documentation](https://git-scm.com/doc) - Version control
-- [Shell Scripting Best Practices](https://google.github.io/styleguide/shellguide.html) - Shell script conventions
-- [Docker Official Documentation](https://docs.docker.com/) - Containerization
-- [Multipass](https://multipass.run/docs) - Lightweight VM management
+- [XDG Base Directory Specification](mdc:https://specifications.freedesktop.org/basedir-spec/) - Linux directory standards
+- [EditorConfig Specification](mdc:https://editorconfig.org) - Editor configuration standards
+- [Git Official Documentation](mdc:https://git-scm.com/doc) - Version control
+- [Shell Scripting Best Practices](mdc:https://google.github.io/styleguide/shellguide.html) - Shell script conventions
+- [Docker Official Documentation](mdc:https://docs.docker.com/) - Containerization
+- [Multipass](mdc:https://multipass.run/docs) - Lightweight VM management
 
 ## Documentation Usage Guidelines
 
@@ -63,9 +63,9 @@ alwaysApply: true
 
 ### Chezmoi Best Practices Reference
 
-1. [Tom Payne's dotfiles](https://github.com/twpayne/dotfiles) - Reference implementation by Chezmoi creator
-2. [Chezmoi Design Philosophy](https://chezmoi.io/user-guide/frequently-asked-questions/design/) - Design philosophy and constraints
-3. [Chezmoi Templating](https://chezmoi.io/user-guide/templating/) - Advanced templating techniques
+1. [Tom Payne's dotfiles](mdc:https://github.com/twpayne/dotfiles) - Reference implementation by Chezmoi creator
+2. [Chezmoi Design Philosophy](mdc:https://chezmoi.io/user-guide/frequently-asked-questions/design/) - Design philosophy and constraints
+3. [Chezmoi Templating](mdc:https://chezmoi.io/user-guide/templating/) - Advanced templating techniques
 
 ### Documentation Update Management
 
@@ -175,6 +175,6 @@ stripComponents = 1
 
 ### During Troubleshooting
 
-1. [Chezmoi FAQ](https://chezmoi.io/user-guide/frequently-asked-questions/) - Common problems and solutions
-2. [Chezmoi Doctor](https://chezmoi.io/reference/commands/doctor/) - Configuration diagnostic tool
-3. [Chezmoi Troubleshooting](https://chezmoi.io/user-guide/frequently-asked-questions/troubleshooting/) - Problem resolution guide
+1. [Chezmoi FAQ](mdc:https://chezmoi.io/user-guide/frequently-asked-questions/) - Common problems and solutions
+2. [Chezmoi Doctor](mdc:https://chezmoi.io/reference/commands/doctor/) - Configuration diagnostic tool
+3. [Chezmoi Troubleshooting](mdc:https://chezmoi.io/user-guide/frequently-asked-questions/troubleshooting/) - Problem resolution guide

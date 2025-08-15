@@ -45,13 +45,13 @@ if command -v git >/dev/null 2>&1; then
     alias g="git"
     # add all, commit, push
     function bit() {
-      g add -A
+      git add -A
       if [ -z "$1" ]; then
-        g commit --allow-empty-message -m "♨️⛰️♨️"
+        git commit --allow-empty-message -m "♨️⛰️♨️"
       else
-        g commit -m "$1"
+        git commit -m "$1"
       fi
-      g push origin $(g branch | sed -n -e "s/^\* \(.*\)/\1/p")
+      git push origin $(git branch | sed -n -e "s/^\* \(.*\)/\1/p")
     }
 fi
 

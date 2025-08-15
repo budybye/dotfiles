@@ -6,7 +6,7 @@ alwaysApply: false
 
 # Chezmoi Dotfiles Management Project Structure Guide
 
-This project is a dotfile management system using chezmoi. Built based on [twpayne/dotfiles](https://github.com/twpayne/dotfiles) and chezmoi best practices.
+This project is a dotfile management system using chezmoi. Built based on [twpayne/dotfiles](mdc:https://github.com/twpayne/dotfiles) and chezmoi best practices.
 
 ## Main Directories and Files
 
@@ -220,9 +220,9 @@ make vm-create
 
 This project is designed based on:
 
-- [twpayne/dotfiles](https://github.com/twpayne/dotfiles): Chezmoi creator's dotfiles
-- [chezmoi.io official documentation](https://chezmoi.io/): Official best practices
-- [XDG Base Directory Specification](https://specifications.freedesktop.org/basedir-spec/): Standard directory structure
+- [twpayne/dotfiles](mdc:https://github.com/twpayne/dotfiles): Chezmoi creator's dotfiles
+- [chezmoi.io official documentation](mdc:https://chezmoi.io/): Official best practices
+- [XDG Base Directory Specification](mdc:https://specifications.freedesktop.org/basedir-spec/): Standard directory structure
 
 ## Advanced Configuration Patterns
 
