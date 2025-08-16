@@ -458,3 +458,8 @@ if command -v aws >/dev/null 2>&1; then
     export AWS_SHARED_CREDENTIALS_FILE="$XDG_CONFIG_HOME"/aws/credentials
     export AWS_CONFIG_FILE="$XDG_CONFIG_HOME"/aws/config
 fi
+
+if command -v claude >/dev/null 2>&1; then
+    mkdir -p "${XDG_CONFIG_HOME}/claude"
+    export CLAUDE_CONFIG_DIR="${XDG_CONFIG_HOME}/claude"
+fi
