@@ -142,6 +142,9 @@
 - [MobSF](https://context7.com/mobsf/docs/llms.txt)
 - [Bytebase](https://context7.com/bytebase/bytebase/llms.txt)
 - [Make](https://context7.com/context7/apps_make_com-make/llms.txt)
+- [better auth cloudflare](https://context7.com/zpg6/better-auth-cloudflare/llms.txt)
+- [Wireshark](https://context7.com/wireshark/wireshark/llms.txt)
+- [WireGuard](https://context7.com/websites/wireguard/llms.txt)
 
 ### Shell & Terminal
 
@@ -165,13 +168,20 @@
 
 ### Multimedia & Media
 
+- [elasticsearch](https://context7.com/elastic/elasticsearch/llms.txt)
 - [Rclone File Sync](https://context7.com/rclone/rclone/llms.txt)
 - [xrdp](https://context7.com/neutrinolabs/xrdp/llms.txt)
+- [cloudflared](https://context7.com/cloudflare/cloudflared/llms.txt)
+- [wayland](https://context7.com/websites/wayland_freedesktop_html/llms.txt)
 - [MPD](https://context7.com/musicplayerdaemon/mpd/llms.txt)
+- [MPC](https://context7.com/musicplayerdaemon/mpc/llms.txt)
 - [ncmpcpp](https://context7.com/ncmpcpp/ncmpcpp/llms.txt)
 - [pulseaudio](https://context7.com/pulseaudio/pulseaudio/llms.txt)
+- [pipewire](https://context7.com/pipewire/pipewire/llms.txt)
 - [FFmpeg Multimedia](https://context7.com/ffmpeg/ffmpeg/llms.txt)
 - [mp3tag](https://context7.com/websites/mp3tag_js/llms.txt)
+- [ID3editor](https://context7.com/chicio/id3tageditor/llms.txt)
+- [picard](https://context7.com/metabrainz/picard/llms.txt)
 - [yt-dlp](https://context7.com/yt-dlp/yt-dlp/llms.txt)
 - [Trading View Documentation](https://context7.com/1of1adam/docs/llms.txt)
 - [Three.js 3D Graphics](https://context7.com/mrdoob/three.js/llms.txt)
@@ -187,12 +197,19 @@
 - [Discord js](https://context7.com/context7/discord_js_org-docs/llms.txt)
 - [Figma](https://context7.com/websites/help_figma_hc_en-us/llms.txt)
 - [Canva API](https://context7.com/websites/canva_dev/llms.txt)
+- [VLC](https://context7.com/videolan/vlc/llms.txt)
+- [vscode](https://context7.com/microsoft/vscode/llms.txt)
+- [Brave Search API](https://context7.com/websites/api-dashboard_search_brave-app/llms.txt)
+- [LINE Developers](https://context7.com/websites/developers_line_biz-en/llms.txt)
+- [X API](https://context7.com/websites/x/llms.txt)
 
 ### Documentation & Diagrams
 
 - [Mozilla Developer Network](https://context7.com/context7/developer_mozilla-en-us/llms.txt)
 - [Cloudflare Documentation](https://context7.com/cloudflare/cloudflare-docs/llms.txt)
+- [Cloudflare Developers](https://context7.com/websites/developers_cloudflare/llms.txt)
 - [GitHub Documentation](https://docs.github.com/llms.txt)
+- [Visual Studio Code](https://context7.com/microsoft/vscode-docs/llms.txt)
 - [Apple Developer](https://context7.com/context7/developer_apple/llms.txt)
 - [Appke Human Interface](https://context7.com/context7/developer_apple-design-human-interface-guidelines/llms.txt)
 - [i18n-js Internationalization](https://context7.com/fnando/i18n-js/llms.txt)
@@ -226,6 +243,7 @@
 ### AI & Machine Learning
 
 - [modelecontextprotcol](https://context7.com/modelcontextprotocol/modelcontextprotocol/llms.txt)
+- [OpenAI](https://context7.com/websites/platform_openai/llms.txt)
 - [Mastra AI Framework](https://context7.com/mastra-ai/mastra/llms-full.txt)
 - [Open Router](https://openrouter.ai/docs/llms-full.txt)
 - [21st](https://21st.dev/llms.txt)
@@ -242,3 +260,5 @@
 - [fetch ai](https://context7.com/fetchai/docs/llms.txt)
 - [dify](https://context7.com/langgenius/dify/llms.txt)
 - [awesome prompts](https://context7.com/browser-use/awesome-prompts/llms.txt)
+- [Github Copilot](https://context7.com/websites/code_visualstudio/llms.txt)
+- [Blender MCP](https://context7.com/ahujasid/blender-mcp/llms.txt)
