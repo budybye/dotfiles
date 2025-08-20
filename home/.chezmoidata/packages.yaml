@@ -91,7 +91,6 @@ packages:
     - 'multitail'
     - 'lsd'
     - 'zoxide'
-    # - 'direnv'
     - 'openssh-server'
     - 'avahi-daemon'
     - 'pkg-config'

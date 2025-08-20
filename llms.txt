@@ -72,6 +72,8 @@
 - [DuckDB Database](https://context7.com/context7/duckdb-stable/llms.txt)
 - [SQLite Database](https://context7.com/sqlite/sqlite/llms.txt)
 - [Neon Database](https://context7.com/context7/neon/llms.txt)
+- [Redis](https://context7.com/websites/redis_io/llms.txt)
+- [nudb](https://context7.com/cppalliance/nudb/llms.txt)
 
 ### API & Backend
 
@@ -158,6 +160,7 @@
 - [fish](https://context7.com/fish-shell/fish-shell/llms.txt)
 - [Powershell](https://context7.com/microsoftdocs/powershell-docs/llms.txt)
 - [curl](https://context7.com/curl/curl/llms.txt)
+- [fzf](https://context7.com/junegunn/fzf/llms.txt)
 - [GNU](https://context7.com/context7/gnu-doc/llms.txt)
 
 ### Multimedia & Media
@@ -168,6 +171,7 @@
 - [ncmpcpp](https://context7.com/ncmpcpp/ncmpcpp/llms.txt)
 - [pulseaudio](https://context7.com/pulseaudio/pulseaudio/llms.txt)
 - [FFmpeg Multimedia](https://context7.com/ffmpeg/ffmpeg/llms.txt)
+- [mp3tag](https://context7.com/websites/mp3tag_js/llms.txt)
 - [yt-dlp](https://context7.com/yt-dlp/yt-dlp/llms.txt)
 - [Trading View Documentation](https://context7.com/1of1adam/docs/llms.txt)
 - [Three.js 3D Graphics](https://context7.com/mrdoob/three.js/llms.txt)
@@ -181,6 +185,8 @@
 - [vrm4u](https://context7.com/ruyo/vrm4u/llms.txt)
 - [Telegram API](https://context7.com/context7/core_telegram-api/llms.txt)
 - [Discord js](https://context7.com/context7/discord_js_org-docs/llms.txt)
+- [Figma](https://context7.com/websites/help_figma_hc_en-us/llms.txt)
+- [Canva API](https://context7.com/websites/canva_dev/llms.txt)
 
 ### Documentation & Diagrams
 
@@ -194,6 +200,7 @@
 - [Marp CLI Presentation](https://context7.com/marp-team/marp-cli/llms.txt)
 - [MDX](https://context7.com/mdx-js/mdx/llms.txt)
 - [Matrix JS SDK](https://context7.com/matrix-org/matrix-js-sdk/llms.txt)
+- [Homebrew](https://context7.com/homebrew/brew/llms.txt)
 - [Xfce](https://context7.com/xfce-mirror/xfdesktop/llms.txt)
 - [oss-contribution-guide](https://context7.com/suzuki-shunsuke/oss-contribution-guide/llms.txt)
 - [THC](https://context7.com/hackerschoice/thc-tips-tricks-hacks-cheat-sheet/llms.txt)
@@ -218,6 +225,7 @@
 
 ### AI & Machine Learning
 
+- [modelecontextprotcol](https://context7.com/modelcontextprotocol/modelcontextprotocol/llms.txt)
 - [Mastra AI Framework](https://context7.com/mastra-ai/mastra/llms-full.txt)
 - [Open Router](https://openrouter.ai/docs/llms-full.txt)
 - [21st](https://21st.dev/llms.txt)
@@ -233,3 +241,4 @@
 - [AI Shell](https://context7.com/builderio/ai-shell/llms.txt)
 - [fetch ai](https://context7.com/fetchai/docs/llms.txt)
 - [dify](https://context7.com/langgenius/dify/llms.txt)
+- [awesome prompts](https://context7.com/browser-use/awesome-prompts/llms.txt)
