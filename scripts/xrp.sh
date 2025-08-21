@@ -4,6 +4,12 @@ set -e
 
 # XRP Ledger public server
 XRPL_SERVER="${XRPL_SERVER:-https://xrpl.ws}"
+
+# $1: account
+# $2: currency
+# $3: issuer
+# $4: limit
+
 # default account ripple
 ACCOUNT="${1:-${ACCOUNT:-r3kmLJN5D28dHuH8vZNUZpMC43pEHpaocV}}"
 
@@ -61,9 +67,9 @@ if command -v jq > /dev/null 2>&1 ; then
     ACCOUNT_BALANCE=$(echo "$ACCOUNT_INFO_RESPONSE" | jq -r '.result.account_data.Balance | (tonumber / 1000000)')
 
     # json pretty print
-    # echo "$FEE_RESPONSE" | jq '.result'
-    # echo "$OFFER_RESPONSE" | jq '.result'
-    # echo "$ACCOUNT_INFO_RESPONSE" | jq '.result'
+    echo "$FEE_RESPONSE" | jq '.result'
+    echo "$OFFER_RESPONSE" | jq '.result'
+    echo "$ACCOUNT_INFO_RESPONSE" | jq '.result'
 else
     echo "jq is not installed"
     exit
@@ -75,11 +81,12 @@ echo " \  /| |_) | |_) | | |   / _ \/ _\` |/ _\` |/ _ \ '__|"
 echo " /  \|  _ <|  __/  | |__|  __/ (_| | (_| |  __/ |"
 echo "/_/\_\_| \_\_|     |_____\___|\__,_|\__, |\___|_|"
 echo "                                    |___/"
-echo "UTC: $(LC_ALL=C date -u +%Y%m%dT%H%M%SZ)"
+echo "UTC: $(LC_ALL=C; date -u +%Y%m%dT%H%M%SZ)"
 echo "Rippled Server: $XRPL_SERVER"
 echo "LedgerIndex: $LEDGER_INDEX"
 echo "OpenLedgerFee: $OPEN_LEDGER_FEE drops"
 echo "Account: $ACCOUNT"
 echo "XRP/$CURRENCY: \$$XRP_CURRENCY_QUALITY"
 echo "Balance: $ACCOUNT_BALANCE XRP"
-echo "Price(${CURRENCY}): $(echo "$ACCOUNT_BALANCE * $XRP_CURRENCY_QUALITY" | bc) ${CURRENCY}"
+echo "Price($CURRENCY): $(echo "$ACCOUNT_BALANCE * $XRP_CURRENCY_QUALITY" | bc) $CURRENCY"
+# echo "AccountInfo: $(echo "$ACCOUNT_INFO_RESPONSE" | jq '.result.account_data')"
