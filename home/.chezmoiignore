@@ -23,6 +23,8 @@
 .config/git/user*
 .ssh/id_ed25519*
 .ssh/id_rsa*
+.cursor/mcp.json
+.config/claude/settings.json
 .chezmoiscripts/bw.sh
 {{ end }}
 

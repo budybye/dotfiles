@@ -12,9 +12,9 @@ else
   HISTFILE="${HOME}/.zsh_history"
 fi
 HISTSIZE=123456
-SAVEHIST=246543
+SAVEHIST=123456
 HIST_STAMPS="yyyy-mm-dd"
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="123"
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="#123"
 ZSH_DISABLE_COMPFIX=true
 ZLE_REMOVE_SUFFIX_CHARS=$''
 
@@ -88,8 +88,8 @@ fi
 
 # mise
 if command -v mise > /dev/null 2>&1; then
-  eval "$(mise activate --shims)"
   eval "$(mise activate zsh)"
+  eval "$(mise activate --shims)"
 fi
 
 # starship
@@ -116,8 +116,6 @@ if [ -f "${ZDOTDIR}/.aliases" ]; then
   . "${ZDOTDIR}/.aliases"
 fi
 
-[[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path zsh)"
-
-if command -v cursor-agent >/dev/null 2>&1; then
-  export CURSOR_API_KEY=""
+if command -v kiro > /dev/null 2>&1; then
+  [[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path zsh)"
 fi

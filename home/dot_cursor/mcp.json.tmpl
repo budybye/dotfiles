@@ -1,0 +1,24 @@
+{
+	"mcpServers": {
+		"context7": {
+			"url": "https://mcp.context7.com/mcp",
+			"headers": {
+				"CONTEXT7_API_KEY": {{ (bitwardenFields "item" "context7").key.value }}"
+			}
+		},
+		"8102": {
+			"url": "https://8102.jp/mcp"
+		},
+		"n8n-mcp": {
+			"command": "npx",
+			"args": ["n8n-mcp"],
+			"env": {
+				"MCP_MODE": "stdio",
+				"LOG_LEVEL": "error",
+				"DISABLE_CONSOLE_OUTPUT": "true",
+				"N8N_API_URL": "https://n8n.420.gal",
+				"N8N_API_KEY": {{ (bitwardenFields "item" "n8n").api_key.value }}
+			}
+		}
+	}
+}

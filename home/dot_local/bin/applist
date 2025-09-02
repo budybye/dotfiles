@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+
+set -eu
+# MacOS のみ
+# 読み込み先のディレクトリを指定
+RD="/Applications/app"
+# RD="$HOME/Applications/app"
+# 出力するファイル名
+APPLIST="applist.md"
+# 出力先のファイルパス
+APPLIST_FILE="$HOME/Developer/applist/$APPLIST"
+
+# ファイルが存在する場合はバックアップを作成
+if [ -e "$APPLIST_FILE" ]; then
+    cp "$APPLIST_FILE" "$APPLIST_FILE.bak"
+    echo "Copyd $APPLIST.bak"
+fi
+# ファイルを初期化
+echo "# Applist" > "$APPLIST_FILE"
+
+# /Applications/appディレクトリ下のすべてのディレクトリを取得してループ処理を行う
+for DIR in "$RD"/*/
+do
+    # 見出しを追加
+    echo "" >> "$APPLIST_FILE"
+    echo "## $(basename "$DIR")" >> "$APPLIST_FILE"
+
+    # .appファイルをすべて見つけてループ処理する
+    while IFS= read -r app_path; do
+        # アプリ名を取得する
+        app_name="$(basename "$app_path" .app)"
+
+        # info.plistファイルからCrAppModeShortcutURLキーの値を取得する
+        app_url="$(plutil -p "$app_path/Contents/info.plist" | grep CrAppModeShortcutURL | awk '{print $3}' | tr -d '"')"
+
+        # マークダウン形式のリンクを作成してファイルに追加する
+        echo "[$app_name]($app_url)" >> "$APPLIST_FILE"
+
+    done < <(find "$DIR" -name "*.app")
+    echo "$(basename $DIR) ok!"
+done
+
+echo "Done!"
+echo "Created $APPLIST"

@@ -1,6 +1,6 @@
 # llms.txt
 
-## models
+## Models
 
 - ChatGPT: OpenAIの会話型AIで、GPTアーキテクチャに基づいており、対話やタスク支援に広く使用されています。
 - Gemini: GoogleのマルチモーダルAIモデルで、テキスト、画像、その他のデータを処理でき、汎用性を重視して設計されています。
@@ -12,10 +12,9 @@
 - Leo AI: Braveブラウザに統合されたAIアシスタントで、プライバシー保護を重視し、ウェブ検索、コンテンツ要約、コード生成などの機能を提供し、ユーザーのオンライン活動を安全かつ効率的に支援します。
 - LLaVA: 最新モデルのLLaVA-1.5では、Llama2をベースにしており、画像エンコーダのCLIP ViT-L/14を組み合わせて画像入力の理解能力を付与し、それに基づいて適切な文章を生成できます。
 
-
 ## Docs
 
-## Dotfiles
+### Dotfiles
 
 - [My Dotfiles](https://github.com/budybye/dotfiles/blob/main/llms.txt)
 - [Tom Payne's Dotfiles](https://context7.com/twpayne/dotfiles/llms.txt)
@@ -65,15 +64,20 @@
 - [Testing Library](https://context7.com/testing-library/testing-library-docs/llms.txt)
 - [MSW Mock Service Worker](https://context7.com/mswjs/msw/llms.txt)
 - [Cloudflare Playwright](https://context7.com/cloudflare/playwright/llms.txt)
+- [Appwrite](https://context7.com/websites/appwrite_io/llms.txt)
 
 ### Data & Databases
 
 - [Drizzle ORM](https://orm.drizzle.team/llms-full.txt)
 - [DuckDB Database](https://context7.com/context7/duckdb-stable/llms.txt)
-- [SQLite Database](https://context7.com/sqlite/sqlite/llms.txt)
+- [SQLite Database](https://context7.com/websites/www_sqlite_org-docs.html/llms.txt)
+- [better sqlite3](https://context7.com/wiselibs/better-sqlite3/llms.txt)
 - [Neon Database](https://context7.com/context7/neon/llms.txt)
 - [Redis](https://context7.com/websites/redis_io/llms.txt)
 - [nudb](https://context7.com/cppalliance/nudb/llms.txt)
+- [mongodb](https://context7.com/mongodb/mongo/llms.txt)
+- [phpmyadmin](https://context7.com/phpmyadmin/phpmyadmin/llms.txt)
+- [cockroachdb](https://context7.com/cockroachdb/docs/llms.txt)
 
 ### API & Backend
 
@@ -94,6 +98,7 @@
 - [Websocat WebSocket Tool](https://context7.com/vi/websocat/llms.txt)
 - [stripe](https://docs.stripe.com/llms.txt)
 - [Surge](https://context7.com/context7/surge_app-api-reference/llms.txt)
+- [nginx](https://context7.com/websites/nginx_en/llms.txt)
 
 ### Validation & Forms
 
@@ -115,36 +120,47 @@
 - [XRPL Explorer](https://context7.com/ripple/explorer/llms.txt)
 - [Rippled API Spec](https://context7.com/ripple/rippled-api-spec/llms.txt)
 - [CCXT Cryptocurrency Trading](https://context7.com/ccxt/ccxt/llms.txt)
-- [Open Payments Protocol](https://context7.com/interledger/open-payments/llms.txt)
 - [WebMonetization](https://context7.com/websites/webmonetization/llms.txt)
+- [Open Payments Protocol](https://context7.com/interledger/open-payments/llms.txt)
+- [Open Payments API Specification](https://context7.com/interledger/open-payments-specifications/llms.txt)
+- [Open Payments Express](https://context7.com/FinHubSA/open-payments-express/llms.txt)
+- [Interledger Developers](https://context7.com/interledger/interledger.org-developers/llms.txt)
 - [Interledger Rafiki](https://context7.com/interledger/rafiki/llms.txt)
 - [Interledger Dassie](https://context7.com/justmoon/dassie/llms.txt)
 - [Pinata IPFS Documentation](https://docs.pinata.cloud/llms-full.txt)
 - [IPFS Kubo](https://context7.com/ipfs/kubo/llms.txt)
 - [Kubo RPC Client](https://context7.com/ipfs/js-kubo-rpc-client/llms.txt)
 - [Helia IPFS Implementation](https://context7.com/ipfs/helia/llms.txt)
+- [OpenZeppelin](https://context7.com/websites/openzeppelin/llms.txt)
+- [Flare Docs](https://context7.com/flare-foundation/developer-hub/llms.txt)
+- [Flare js](https://context7.com/flare-foundation/flare-js/llms.txt)
+- [go Flare](https://context7.com/flare-foundation/go-flare/llms.txt)
+- [hyperliquid](https://context7.com/nktkas/hyperliquid/llms.txt)
+- [DOKU](https://context7.com/websites/doku/llms.txt)
 
 ### Security & Authentication & Monitoring
 
 - [Better Auth Authentication](https://www.better-auth.com/llms.txt)
+- [better auth cloudflare](https://context7.com/zpg6/better-auth-cloudflare/llms.txt)
 - [Age](https://context7.com/filosottile/age/llms.txt)
 - [Bitwarden Server](https://context7.com/bitwarden/server/llms.txt)
 - [Bitwarden CLI](https://context7.com/bitwarden/cli/llms.txt)
+- [vaultwarden](https://context7.com/dani-garcia/vaultwarden/llms.txt)
+- [JOSE JWT Library](https://context7.com/panva/jose/llms.txt)
+- [JWT](https://context7.com/auth0/node-jsonwebtoken/llms.txt)
 - [Sentry Error Monitoring](https://context7.com/getsentry/sentry-docs/llms.txt)
+- [Grafana](https://context7.com/websites/grafana_grafana/llms.txt)
 - [Prometheus Monitoring](https://context7.com/prometheus/docs/llms.txt)
 - [Fiberplane Observability](https://context7.com/fiberplane/fiberplane/llms.txt)
-- [JOSE JWT Library](https://context7.com/panva/jose/llms.txt)
+- [Wireshark](https://context7.com/wireshark/wireshark/llms.txt)
+- [Kali Linux Documentation](https://context7.com/context7/kali/llms.txt)
 - [Uptime-kuma](https://context7.com/context7/uptime-kuma-api_readthedocs_io-en/llms.txt)
 - [BeautifulSoup](https://context7.com/wention/beautifulsoup4/llms.txt)
-- [Kali Linux Documentation](https://context7.com/context7/kali/llms.txt)
-- [JWT](https://context7.com/auth0/node-jsonwebtoken/llms.txt)
 - [bunkerweb](https://context7.com/bunkerity/bunkerweb/llms.txt)
 - [MobSF](https://context7.com/mobsf/docs/llms.txt)
 - [Bytebase](https://context7.com/bytebase/bytebase/llms.txt)
-- [Make](https://context7.com/context7/apps_make_com-make/llms.txt)
-- [better auth cloudflare](https://context7.com/zpg6/better-auth-cloudflare/llms.txt)
-- [Wireshark](https://context7.com/wireshark/wireshark/llms.txt)
 - [WireGuard](https://context7.com/websites/wireguard/llms.txt)
+- [stripe](https://docs.stripe.com/llms.txt)
 
 ### Shell & Terminal
 
@@ -168,7 +184,6 @@
 
 ### Multimedia & Media
 
-- [elasticsearch](https://context7.com/elastic/elasticsearch/llms.txt)
 - [Rclone File Sync](https://context7.com/rclone/rclone/llms.txt)
 - [xrdp](https://context7.com/neutrinolabs/xrdp/llms.txt)
 - [cloudflared](https://context7.com/cloudflare/cloudflared/llms.txt)
@@ -185,14 +200,15 @@
 - [yt-dlp](https://context7.com/yt-dlp/yt-dlp/llms.txt)
 - [Trading View Documentation](https://context7.com/1of1adam/docs/llms.txt)
 - [Three.js 3D Graphics](https://context7.com/mrdoob/three.js/llms.txt)
-- [Blender](https://context7.com/blender/blender/llms.txt)
 - [Model Viewer 3D](https://context7.com/google/model-viewer/llms.txt)
+- [Blender](https://context7.com/blender/blender/llms.txt)
 - [MCPR Minecraft Protocol](https://context7.com/conikeec/mcpr/llms.txt)
+- [vrm4u](https://context7.com/ruyo/vrm4u/llms.txt)
+- [elasticsearch](https://context7.com/elastic/elasticsearch/llms.txt)
 - [Nautilus Trader](https://context7.com/nautechsystems/nautilus_trader/llms.txt)
 - [Obsidian](https://context7.com/context7/obsidian_md/llms.txt)
 - [Gravator](https://context7.com/context7/gravatar/llms.txt)
 - [広聴 AI / kouchou-ai](https://context7.com/team-mirai/kouchou-ai/llms.txt)
-- [vrm4u](https://context7.com/ruyo/vrm4u/llms.txt)
 - [Telegram API](https://context7.com/context7/core_telegram-api/llms.txt)
 - [Discord js](https://context7.com/context7/discord_js_org-docs/llms.txt)
 - [Figma](https://context7.com/websites/help_figma_hc_en-us/llms.txt)
@@ -200,8 +216,11 @@
 - [VLC](https://context7.com/videolan/vlc/llms.txt)
 - [vscode](https://context7.com/microsoft/vscode/llms.txt)
 - [Brave Search API](https://context7.com/websites/api-dashboard_search_brave-app/llms.txt)
-- [LINE Developers](https://context7.com/websites/developers_line_biz-en/llms.txt)
+- [LINE Developers](https://context7.com/websites/developers_line_biz-ja/llms.txt)
 - [X API](https://context7.com/websites/x/llms.txt)
+- [TradingView API](https://context7.com/mathieu2301/tradingview-api/llms.txt)
+- [strapi](https://context7.com/milathi/strapi-v5/llms.txt)
+- [Chrome Exetension](https://context7.com/websites/developer_chrome_google_cn-extensions/llms.txt)
 
 ### Documentation & Diagrams
 
@@ -219,8 +238,10 @@
 - [Matrix JS SDK](https://context7.com/matrix-org/matrix-js-sdk/llms.txt)
 - [Homebrew](https://context7.com/homebrew/brew/llms.txt)
 - [Xfce](https://context7.com/xfce-mirror/xfdesktop/llms.txt)
+- [cURL](https://context7.com/curl/curl/llms.txt)
 - [oss-contribution-guide](https://context7.com/suzuki-shunsuke/oss-contribution-guide/llms.txt)
 - [THC](https://context7.com/hackerschoice/thc-tips-tricks-hacks-cheat-sheet/llms.txt)
+- [Starlight](https://context7.com/withastro/starlight/llms.txt)
 
 ### Programming Languages
 
@@ -232,33 +253,54 @@
 - [Go Lang](https://context7.com/golang/go/llms.txt)
 - [PHP Documentation](https://context7.com/php/doc-en/llms.txt)
 - [Common LISP](https://context7.com/lisp-docs/lisp-docs.github.io/llms.txt)
-- [Cloudflare Python SDK](https://context7.com/cloudflare/cloudflare-python/llms.txt)
 - [cpp](https://context7.com/microsoftdocs/cpp-docs/llms.txt)
 - [boost](https://context7.com/boostorg/boost/llms.txt)
+- [conan](https://context7.com/conan-io/conan/llms.txt)
 - [rust](https://context7.com/rust-lang/rust/llms.txt66t5)
 - [solidity](https://context7.com/ethereum/solidity/llms.txt)
 - [flutter](https://context7.com/context7/api_flutter_dev/llms.txt)
 - [Ninja Build](https://context7.com/ninja-build/ninja/llms.txt)
+- [jupiter](https://context7.com/jupyter/jupyter/llms.txt)
+- [Cloudflare python](https://context7.com/cloudflare/cloudflare-python/llms.txt)
+- [Cloudflare playwright](https://context7.com/cloudflare/playwright/llms.txt)
+- [Cloudflare vectorize](https://context7.com/llmstxt/developers_cloudflare-vectorize-llms-full.txt/llms.txt)
+- [Cloudflare durable objects](https://context7.com/llmstxt/developers_cloudflare-durable-objects-llms-full.txt/llms.txt)
+- [Cloudflare turnstile](https://context7.com/websites/developers_cloudflare-turnstile/llms.txt)
 
 ### AI & Machine Learning
 
+- [Cursor](https://docs.cursor.com/llms.txt)
+- [AGENTS.md](https://context7.com/openai/agents.md/llms.txt)
 - [modelecontextprotcol](https://context7.com/modelcontextprotocol/modelcontextprotocol/llms.txt)
-- [OpenAI](https://context7.com/websites/platform_openai/llms.txt)
 - [Mastra AI Framework](https://context7.com/mastra-ai/mastra/llms-full.txt)
-- [Open Router](https://openrouter.ai/docs/llms-full.txt)
-- [21st](https://21st.dev/llms.txt)
+- [OpenAI](https://context7.com/websites/platform_openai/llms.txt)
+- [Cloudflare AI](https://context7.com/cloudflare/ai/llms.txt)
 - [Cloudflare Agents](https://context7.com/cloudflare/agents/llms.txt)
+- [Cloudflare AI Gateway](https://context7.com/llmstxt/developers_cloudflare_com-ai-gateway-llms-full.txt/llms.txt)
+- [Cloudflare MCP](https://context7.com/cloudflare/mcp-server-cloudflare/llms.txt)
+- [Cloudflare AutoRAG](https://context7.com/developers.cloudflare.com-30f1da6/llmstxt/llms.txt)
+- [Cloudflare Workers Prompt](https://developers.cloudflare.com/workers/prompt.txt)
 - [n8n Workflow Automation](https://context7.com/n8n-io/n8n-docs/llms.txt)
+- [n8n mcp](https://context7.com/czlonkowski/n8n-mcp/llms.txt)
+- [n8n awesome](https://context7.com/enescingoz/awesome-n8n-templates/llms.txt)
 - [Anthropic Claude Documentation](https://context7.com/context7/anthropic-en/llms.txt)
 - [Claude Code Sub-agents](https://context7.com/webdevtodayjason/sub-agents/llms.txt)
+- [21st](https://21st.dev/llms.txt)
+- [Open Router](https://openrouter.ai/docs/llms-full.txt)
 - [FastMCP](https://context7.com/punkpeye/fastmcp/llms.txt)
-- [LangGraph](https://context7.com/langchain-ai/langgraph/llms.txt)
+- [mcp use](https://context7.com/websites/mcp-use/llms.txt)
 - [AI sdk](https://context7.com/vercel/ai/llms.txt)
+- [LangGraph](https://context7.com/langchain-ai/langgraph/llms.txt)
 - [gpt-oss](https://context7.com/openai/gpt-oss/llms.txt)
-- [Cloudflare Workers Prompt](https://developers.cloudflare.com/workers/prompt.txt)
 - [AI Shell](https://context7.com/builderio/ai-shell/llms.txt)
 - [fetch ai](https://context7.com/fetchai/docs/llms.txt)
 - [dify](https://context7.com/langgenius/dify/llms.txt)
 - [awesome prompts](https://context7.com/browser-use/awesome-prompts/llms.txt)
 - [Github Copilot](https://context7.com/websites/code_visualstudio/llms.txt)
 - [Blender MCP](https://context7.com/ahujasid/blender-mcp/llms.txt)
+- [Vibekit](https://context7.com/superagent-ai/vibekit/llms.txt)
+- [agent.md](https://context7.com/websites/agent_md/llms.txt)
+- [gitrules](https://context7.com/coderamp-labs/gitrules/llms.txt)
+- [SuperClaude](https://context7.com/nomenak/superclaude/llms.txt)
+- [context7](https://context7.com/upstash/context7/llms.txt)
+- [Gemini API](https://context7.com/websites/ai_google_dev_gemini-api/llms.txt)

@@ -290,6 +290,7 @@ packages:
   - 'kmon'
   - 'onehistory'
   - 'vaultwarden'
+  - 'zoxide'
   # - 'zellij'
   # - 'fermyon'
   # - 'cargo-binstall'

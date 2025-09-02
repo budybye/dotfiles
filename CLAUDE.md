@@ -10,7 +10,7 @@
 
 - **Chezmoi**: ドットファイル管理システム
 - **Age**: モダン暗号化ツール
-- **Bitwarden/1Password CLI**: シークレット管理
+- **Bitwarden CLI**: シークレット管理
 - **XDG Base Directory**: 設定ファイル標準
 
 ### 対応環境
@@ -19,6 +19,8 @@
 - **Ubuntu**: 24.04 LTS
 - **Docker**: コンテナ化環境
 - **Multipass**: 軽量 VM 管理
+- **Rasberry Pi**: マイコンサイズの小型PC (arm64)
+- **Windows 11**: PowerShell 対応途中 winget 対応
 
 ## AI 支援開発の重点事項
 
@@ -36,7 +38,7 @@
 
 ### 3. 設定ファイル管理
 
-- 設定ファイルは`home/private_dot_config/`に配置
+- `chezmoi`で管理する設定ファイルは`home/`に配置
 - シェルスクリプトは`home/.chezmoiscripts/`に配置
 - テンプレートファイルは`*.tmpl`拡張子で管理
 
@@ -75,10 +77,3 @@
 - [XDG Base Directory Specification](https://specifications.freedesktop.org/basedir-spec/)
 - [Age 暗号化ツール](https://age-encryption.org/)
 - [Bitwarden CLI](https://bitwarden.com/help/cli/)
-
-## 更新履歴
-
-- **v0.7**: 現在のバージョン
-- 335 回のリリースを重ねて継続改善
-- macOS Sequoia と Ubuntu 24.04 に対応
-- Docker/Multipass 環境での動作確認済み

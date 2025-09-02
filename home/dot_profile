@@ -19,7 +19,7 @@ if [ -d "${HOME}/.ssh" ]; then
 fi
 
 # ${VAR} "${VAR}" "${VAR:-var}" は環境変数
-# ' : ' で区切り
+# ' : ' で区切り "${VAR}:-var" は予備設定
 
 # XDG DIRECTORY を作成して権限を700に設定
 mkdir -p \
@@ -39,8 +39,12 @@ export XDG_DATA_HOME=${HOME}/.local/share
 export XDG_STATE_HOME=${HOME}/.local/state
 export XDG_CACHE_HOME=${HOME}/.cache
 
-export XDG_DATA_DIRS="${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
-export XDG_CONFIG_DIRS="${XDG_CONFIG_DIRS:-/etc/xdg}"
+if [ -d ${XDG_DATA_DIRS:-/usr/local/share:/usr/share} ]; then
+    export XDG_DATA_DIRS="${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
+fi
+if [ -d ${XDG_CONFIG_DIRS:-/etc/xdg} ]; then
+    export XDG_CONFIG_DIRS="${XDG_CONFIG_DIRS:-/etc/xdg}"
+fi
 
 # if [ ! -d "/run/user/${UID}" ]; then
 #     mkdir -p "/run/user/${UID}"
@@ -92,7 +96,7 @@ if [ "$(uname)" = "Darwin" ]; then
     mkdir -p "${XDG_DATA_HOME}/trash"
 fi
 
-mkdir -p "${HOME}/Applications" "${HOME}/Developer"
+mkdir -p "${HOME}/Applications" "${HOME}/Developer" "${HOME}/data"
 
 # デフォルトのエディタを設定
 if command -v cursor >/dev/null 2>&1; then
@@ -116,6 +120,7 @@ fi
 
 if command -v brew >/dev/null 2>&1; then
     export HOMEBREW_PREFIX="/opt/homebrew"
+    export HOMEBREW_NO_AUTO_UPDATE=1
 fi
 
 if command -v mise >/dev/null 2>&1; then
@@ -190,6 +195,7 @@ fi
 if command -v bun >/dev/null 2>&1; then
     mkdir -p "${XDG_DATA_HOME}/bun"
     export BUN_INSTALL="${XDG_DATA_HOME}/bun"
+    export PATH=${BUN_INSTALL}:${PATH}
 fi
 
 if command -v mkcert >/dev/null 2>&1 && [ -f "$(mkcert -CAROOT)/rootCA.pem" ]; then
@@ -316,8 +322,8 @@ if command -v wine >/dev/null 2>&1; then
 fi
 
 # if command -v android >/dev/null 2>&1; then
-#     mkdir -p "${XDG_CONFIG_HOME}/android"
 #     export ANDROID_HOME="${HOME}/Library/Android/sdk"
+#     mkdir -p "${XDG_CONFIG_HOME}/android"
 #     # export ANDROID_USER_HOME="${XDG_CONFIG_HOME}/android"
 #     export PATH="${ANDROID_HOME}/bin:${PATH}"
 # fi
@@ -462,4 +468,14 @@ fi
 if command -v claude >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/claude"
     export CLAUDE_CONFIG_DIR="${XDG_CONFIG_HOME}/claude"
+    # Claude AIを常に日本語応答にする環境変数
+    export CLAUDE_DEFAULT_LANGUAGE="ja_JP"
+    export AI_RESPONSE_LANGUAGE="japanese"
+    export ANTHROPIC_LANGUAGE_PREFERENCE="ja"
+fi
+
+if command -v cursor-agent >/dev/null 2>&1; then
+  export CURSOR_API_KEY="${CURSOR_API_KEY:-}"
+  mkdir -p "${XDG_CONFIG_HOME}/cursor"
+  export CURSOR_CONFIG_DIR="${XDG_CONFIG_HOME}/cursor"
 fi
