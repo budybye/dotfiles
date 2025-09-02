@@ -95,6 +95,7 @@
 - [Orval API Client Generator](https://context7.com/orval-labs/orval/llms.txt)
 - [Caddy Web Server](https://context7.com/context7/caddyserver/llms.txt)
 - [Go Fiber Web Framework](https://context7.com/gofiber/docs/llms.txt)
+- [Go Echo](https://context7.com/websites/echo_labstack_com-docs/llms.txt)
 - [Websocat WebSocket Tool](https://context7.com/vi/websocat/llms.txt)
 - [stripe](https://docs.stripe.com/llms.txt)
 - [Surge](https://context7.com/context7/surge_app-api-reference/llms.txt)
@@ -131,6 +132,7 @@
 - [IPFS Kubo](https://context7.com/ipfs/kubo/llms.txt)
 - [Kubo RPC Client](https://context7.com/ipfs/js-kubo-rpc-client/llms.txt)
 - [Helia IPFS Implementation](https://context7.com/ipfs/helia/llms.txt)
+- [IPFS Docs](https://context7.com/websites/ipfs_tech/llms.txt)
 - [OpenZeppelin](https://context7.com/websites/openzeppelin/llms.txt)
 - [Flare Docs](https://context7.com/flare-foundation/developer-hub/llms.txt)
 - [Flare js](https://context7.com/flare-foundation/flare-js/llms.txt)
@@ -221,6 +223,7 @@
 - [TradingView API](https://context7.com/mathieu2301/tradingview-api/llms.txt)
 - [strapi](https://context7.com/milathi/strapi-v5/llms.txt)
 - [Chrome Exetension](https://context7.com/websites/developer_chrome_google_cn-extensions/llms.txt)
+- [Photprism](https://context7.com/photoprism/photoprism/llms.txt)
 
 ### Documentation & Diagrams
 
@@ -266,6 +269,7 @@
 - [Cloudflare vectorize](https://context7.com/llmstxt/developers_cloudflare-vectorize-llms-full.txt/llms.txt)
 - [Cloudflare durable objects](https://context7.com/llmstxt/developers_cloudflare-durable-objects-llms-full.txt/llms.txt)
 - [Cloudflare turnstile](https://context7.com/websites/developers_cloudflare-turnstile/llms.txt)
+- [VScode extensions](https://context7.com/websites/code_visualstudio_api/llms.txt)
 
 ### AI & Machine Learning
 

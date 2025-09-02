@@ -66,7 +66,6 @@ if command -v curl >/dev/null 2>&1; then
     alias ppp="curl -4 icanhazip.com && curl -6 icanhazip.com"  # パブリックIPアドレスを表示
     alias wt="curl wttr.in"  # 天気予報を表示
     alias qr="curl qrenco.de/https://${1:-やってるか.みんな}"  # QRコードを表示
-    alias xrp="curl https://ipfs.420.gal/ipfs/QmNWU5iqkufDVQxPqH7TCiKsky3fehw5rgu1gBEoNGzNRc | sh"
 fi
 
 if command -v ping >/dev/null 2>&1; then
@@ -307,7 +306,7 @@ fi
 # mise
 if command -v mise >/dev/null 2>&1; then
     alias mi="mise"
-    alias miu="mi up && mi list && mi prune"
+    alias miu="mi up && mi prune && mi list"
     alias mig="mi use -g"
     alias mil="mi list && mi set"
     alias mip="mi p ls-remote"

@@ -1,6 +1,5 @@
 # Makefile for dotfiles management
 # Author: budybye
-# Version: 0.7
 
 .ONESHELL:
 SHELL := bash

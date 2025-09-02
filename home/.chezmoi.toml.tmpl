@@ -13,7 +13,7 @@
 {{/* OSの検出 linuxの場合は distribution を取得する */}}
 {{- $osID := .chezmoi.os -}}
 {{- if (and (eq .chezmoi.os "linux") (hasKey .chezmoi.osRelease "id")) -}}
-{{-     $osID = printf "%s-%s" .chezmoi.os .chezmoi.osRelease.id -}}
+{{- $osID = printf "%s-%s" .chezmoi.os .chezmoi.osRelease.id -}}
 {{- end -}}
 
 {{/* インタラクティブでは実行しない */}}
@@ -64,9 +64,9 @@
 
 {{/* Mac */}}
 {{- else if eq .chezmoi.username "hotmilk" -}}
-    {{- $bitwarden = true -}}
-    {{- $email = (bitwarden "item" "gh").login.password -}}
     {{- $name = (bitwarden "item" "gh").login.username -}}
+    {{- $email = (bitwarden "item" "gh").login.email -}}
+    {{- $bitwarden = true -}}
     {{- $age = true -}}
     {{- $github = true -}}
     {{- $ssh = true -}}
