@@ -2,7 +2,7 @@
   "model": "Haiku",
   "env": {
 			"CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
-      "ANTHROPIC_BASE_URL": {{ (bitwardenFields "item" "claude").key.value }}
+      "ANTHROPIC_BASE_URL": {{ (bitwardenFields "item" "claude").base_url.value }}
 		},
   "permissions": {
     "allow": [],

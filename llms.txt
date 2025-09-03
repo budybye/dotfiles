@@ -125,6 +125,7 @@
 - [Open Payments Protocol](https://context7.com/interledger/open-payments/llms.txt)
 - [Open Payments API Specification](https://context7.com/interledger/open-payments-specifications/llms.txt)
 - [Open Payments Express](https://context7.com/FinHubSA/open-payments-express/llms.txt)
+- [Interledger RFC](https://context7.com/interledger/rfcs/llms.txt)
 - [Interledger Developers](https://context7.com/interledger/interledger.org-developers/llms.txt)
 - [Interledger Rafiki](https://context7.com/interledger/rafiki/llms.txt)
 - [Interledger Dassie](https://context7.com/justmoon/dassie/llms.txt)
@@ -139,6 +140,7 @@
 - [go Flare](https://context7.com/flare-foundation/go-flare/llms.txt)
 - [hyperliquid](https://context7.com/nktkas/hyperliquid/llms.txt)
 - [DOKU](https://context7.com/websites/doku/llms.txt)
+- [mojaloop](https://context7.com/mojaloop/documentation/llms.txt)
 
 ### Security & Authentication & Monitoring
 
@@ -274,6 +276,7 @@
 ### AI & Machine Learning
 
 - [Cursor](https://docs.cursor.com/llms.txt)
+- [Trigger Dev](https://trigger.dev/docs/llms-full.txt)
 - [AGENTS.md](https://context7.com/openai/agents.md/llms.txt)
 - [modelecontextprotcol](https://context7.com/modelcontextprotocol/modelcontextprotocol/llms.txt)
 - [Mastra AI Framework](https://context7.com/mastra-ai/mastra/llms-full.txt)
@@ -308,3 +311,5 @@
 - [SuperClaude](https://context7.com/nomenak/superclaude/llms.txt)
 - [context7](https://context7.com/upstash/context7/llms.txt)
 - [Gemini API](https://context7.com/websites/ai_google_dev_gemini-api/llms.txt)
+- [GraphRAG](https://context7.com/microsoft/graphrag/llms.txt)
+- [Openrouter](https://openrouter.ai/docs/llms-full.txt)

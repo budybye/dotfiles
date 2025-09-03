@@ -239,13 +239,6 @@ if command -v docker-compose >/dev/null 2>&1; then
     alias dcr="docker-compose restart"
 fi
 
-if command -v keploy >/dev/null 2>&1; then
-    alias kr="keploy record -c"
-    alias kt="keploy test --c"
-    alias kc="keploy config"
-    alias km="keploy mock"
-fi
-
 # multipass
 if command -v multipass >/dev/null 2>&1; then
     alias mu="multipass"
@@ -298,6 +291,13 @@ if command -v brew >/dev/null 2>&1; then
     }
 fi
 
+if command -v keploy >/dev/null 2>&1; then
+    alias kr="keploy record -c"
+    alias kt="keploy test --c"
+    alias kc="keploy config"
+    alias km="keploy mock"
+fi
+
 # speedtest
 if command -v speedtest-cli >/dev/null 2>&1; then
     alias st="speedtest-cli"
@@ -314,6 +314,12 @@ if command -v mise >/dev/null 2>&1; then
     alias mib="mi build"
 fi
 
+# shelcheck
+if command -v shellcheck >/dev/null 2>&1; then
+    alias sc="shellcheck"
+fi
+
+# sheldon
 if command -v sheldon >/dev/null 2>&1; then
     alias sd="sheldon lock --update"
 fi
