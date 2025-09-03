@@ -65,7 +65,7 @@
 {{/* Mac */}}
 {{- else if eq .chezmoi.username "hotmilk" -}}
     {{- $name = (bitwarden "item" "gh").login.username -}}
-    {{- $email = (bitwarden "item" "gh").login.email -}}
+    {{- $email = (bitwarden "item" "gh").login.password -}}
     {{- $bitwarden = true -}}
     {{- $age = true -}}
     {{- $github = true -}}
