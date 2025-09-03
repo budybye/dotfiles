@@ -9,7 +9,7 @@ SHELL := bash
 # Variables
 ARCH := $(shell uname -m)
 OS := $(shell uname -s | tr '[:upper:]' '[:lower:]')
-DOTFILES_VERSION := 0.7.54
+DOTFILES_VERSION := 0.8.0
 
 # Docker settings
 DOCKER_IMAGE := ubuntu-dev
