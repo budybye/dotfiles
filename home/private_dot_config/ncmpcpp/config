@@ -8,7 +8,7 @@ audio_output {
 }
 
 ncmpcpp_directory = ~/.config/ncmpcpp
-# lyrics_directory = ~/.config/ncmpcpp/lyrics
+lyrics_directory = ~/Music/lyrics
 mpd_music_dir = ~/Music
 mpd_host = localhost
 mpd_port = "6600"

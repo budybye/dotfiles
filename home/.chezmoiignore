@@ -63,6 +63,7 @@ Library
 *env
 .chezmoiscripts/*.sh
 {{ else }}
+.config/scoop
 .chezmoiscripts/windows/**
 {{ end }}
 

@@ -1,15 +1,20 @@
 {
-  "model": "Haiku",
+  "model": "sonnet",
   "env": {
+      "CLAUDE_CODE_ENABLE_TELEMETRY": "0",
 			"CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
       "ANTHROPIC_BASE_URL": {{ (bitwardenFields "item" "claude").base_url.value | quote}}
 		},
   "permissions": {
     "allow": [],
-    "deny": []
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(./build)"
+    ]
   },
   "hooks": {},
-  "systemPrompt": "あなたは日本語で応答するAIアシスタントです。すべての回答、説明、コメントは日本語で提供してください。技術的な内容であっても、日本語で分かりやすく説明してください。",
+  "systemPrompt": "",
   "statusLine": {
     "type": "command",
     "command": "printf '\\e[32m%s@%s\\e[m:\\e[34m%s\\e[m' \"$(whoami)\" \"$(hostname -s)\" \"$(pwd)\""

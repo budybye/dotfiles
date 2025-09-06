@@ -85,6 +85,7 @@
 - [Honox Full-stack Framework](https://context7.com/honojs/honox/llms.txt)
 - [Hono Middleware](https://context7.com/honojs/middleware/llms.txt)
 - [Hono OpenAPI](https://context7.com/rhinobase/hono-openapi/llms.txt)
+- [Homohub](https://context7.com/rhinobase/docs/llms.txt)
 - [create hono](https://context7.com/honojs/starter/llms.txt)
 - [GraphQL Yoga Server](https://context7.com/graphql-hive/graphql-yoga/llms.txt)
 - [Resend](https://context7.com/context7/resend/llms.txt)
@@ -206,8 +207,10 @@
 - [Three.js 3D Graphics](https://context7.com/mrdoob/three.js/llms.txt)
 - [Model Viewer 3D](https://context7.com/google/model-viewer/llms.txt)
 - [Blender](https://context7.com/blender/blender/llms.txt)
+- [Unity](https://context7.com/websites/unity/llms.txt)
 - [MCPR Minecraft Protocol](https://context7.com/conikeec/mcpr/llms.txt)
 - [vrm4u](https://context7.com/ruyo/vrm4u/llms.txt)
+- [gLTF Transform](https://context7.com/donmccurdy/gltf-transform/llms.txt)
 - [elasticsearch](https://context7.com/elastic/elasticsearch/llms.txt)
 - [Nautilus Trader](https://context7.com/nautechsystems/nautilus_trader/llms.txt)
 - [Obsidian](https://context7.com/context7/obsidian_md/llms.txt)
@@ -272,6 +275,7 @@
 - [Cloudflare durable objects](https://context7.com/llmstxt/developers_cloudflare-durable-objects-llms-full.txt/llms.txt)
 - [Cloudflare turnstile](https://context7.com/websites/developers_cloudflare-turnstile/llms.txt)
 - [VScode extensions](https://context7.com/websites/code_visualstudio_api/llms.txt)
+- [Keploy](https://context7.com/keploy/keploy/llms.txt)
 
 ### AI & Machine Learning
 
@@ -292,6 +296,7 @@
 - [n8n awesome](https://context7.com/enescingoz/awesome-n8n-templates/llms.txt)
 - [Anthropic Claude Documentation](https://context7.com/context7/anthropic-en/llms.txt)
 - [Claude Code Sub-agents](https://context7.com/webdevtodayjason/sub-agents/llms.txt)
+- [Context7](https://context7.com/upstash/context7/llms.txt)
 - [21st](https://21st.dev/llms.txt)
 - [Open Router](https://openrouter.ai/docs/llms-full.txt)
 - [FastMCP](https://context7.com/punkpeye/fastmcp/llms.txt)
@@ -313,3 +318,7 @@
 - [Gemini API](https://context7.com/websites/ai_google_dev_gemini-api/llms.txt)
 - [GraphRAG](https://context7.com/microsoft/graphrag/llms.txt)
 - [Openrouter](https://openrouter.ai/docs/llms-full.txt)
+- [Cherry-Studio](https://context7.com/llmstxt/docs_cherry-ai_com-llms.txt/llms.txt)
+- [kimi k2](https://context7.com/moonshotai/kimi-k2/llms.txt)
+- [lmarena](https://context7.com/lmarena/arena-hard-auto/llms.txt)
+- [Spec kit](https://context7.com/github/spec-kit/llms.txt)
