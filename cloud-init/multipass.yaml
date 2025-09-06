@@ -158,23 +158,23 @@ packages:
 runcmd:
 - |
   curl -fsSL get.chezmoi.io | sudo sh -s -- -b /usr/local/bin
-  # git clone https://github.com/budybye/dotfiles.git /home/ubuntu/dotfiles
   chezmoi init --apply budybye
-- |
-  sudo groupadd -f ssl-cert
-  sudo groupadd -f xrdp
-  sudo usermod -aG ssl-cert,xrdp budybye ubuntu
-  echo "xfce4-session" > ~/.xsession
-  sudo update-alternatives --set x-session-manager /usr/bin/xfce4-session
-  sudo systemctl enable xrdp
+  # git clone https://github.com/budybye/dotfiles.git /home/ubuntu/dotfiles
+# - |
+  # sudo groupadd -f ssl-cert
+  # sudo groupadd -f xrdp
+  # sudo usermod -aG ssl-cert,xrdp budybye ubuntu
+  # echo "xfce4-session" > ~/.xsession
+  # sudo update-alternatives --set x-session-manager /usr/bin/xfce4-session
+  # sudo systemctl enable xrdp
 
 # blueprint docker.yamlのパクリ
 # https://github.com/canonical/multipass-blueprints/blob/main/v1/docker.yaml
 # portainer起動される
 - |
   # add `ubuntu` to the `docker` group
-  adduser budybye docker
-  adduser ubuntu docker
+  # adduser budybye docker
+  # adduser ubuntu docker
 - |
   # disable swap
   sysctl vm.swappiness=0
