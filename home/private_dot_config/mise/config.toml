@@ -62,10 +62,10 @@ duckdb = "latest"
 gh = "latest"
 jq = "latest"
 mkcert = "latest"
-ubi = "latest"
 shellcheck = "latest"
 sqlite = "latest"
 terraform = "latest"
+ubi = "latest"
 yq = "latest"
 
 java = "latest"
@@ -135,9 +135,9 @@ status.show_env = false
 status.show_tools = false
 
 # rust.cargo_home = "~/.cargo"
-# rust.cargo_home = "~/.local/share/cargo"
+rust.cargo_home = "~/.local/share/cargo"
 # rust.rustup_home = "~/.rustup"
-# rust.rustup_home = "~/.local/share/rustup"
+rust.rustup_home = "~/.local/share/rustup"
 
 cargo.binstall = true
 pipx.uvx = true
