@@ -358,9 +358,6 @@ if command -v wrangler >/dev/null 2>&1; then
     alias wr="wrangler"
     alias wrd="wrangler deploy"
     alias wrs="wrangler secret"
-    if [ -f "./dev/vars" ]; then
-        alias wrc="source ./dev/vars && cp ./dev/vars .env"
-    fi
 fi
 
 if command -v warp-cli >/dev/null 2>&1; then
@@ -384,7 +381,7 @@ fi
 
 if command -v openssl >/dev/null 2>&1; then
     function sec() {
-      echo ${@:-SECRET}=$(openssl rand -base64 32) >> .env && ls -al && cat .env
+        echo ${@:-SECRET}=$(openssl rand -base64 32) >> .env && ls -al && cat .env
     }
 fi
 
@@ -401,15 +398,9 @@ if command -v ipfs >/dev/null 2>&1; then
     }
 fi
 
-
 if command -v fastfetch >/dev/null 2>&1; then
     alias ff="fastfetch -c all"
     # alias ff="fastfetch -l ${HOME}/data/cat.txt"
-fi
-
-# xrp.sh を実行
-if [ -f "${HOME}/data/xrp.sh" ]; then
-    alias xrp=". ${HOME}/data/xrp.sh"
 fi
 
 # 猫のASCIIアートを表示

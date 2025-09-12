@@ -56,7 +56,6 @@ progressbar_color              = "red"
 current_item_inactive_column_prefix = "$(white)$r"
 current_item_inactive_column_suffix = "$/r$(end)"
 
-
 ##### song format #####
 ##
 ## For a song format you can use:

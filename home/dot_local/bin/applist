@@ -37,8 +37,7 @@ do
         echo "[$app_name]($app_url)" >> "$APPLIST_FILE"
 
     done < <(find "$DIR" -name "*.app")
-    echo "$(basename $DIR) ok!"
+    echo "$(basename $DIR) Done!"
 done
 
-echo "Done!"
-echo "Created $APPLIST"
+echo "Created $APPLIST_FILE"
