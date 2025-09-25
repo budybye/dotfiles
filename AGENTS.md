@@ -106,7 +106,11 @@
 
 ---
 
-## CLAUDE
+## 仕様書 設計書
+
+docs/design.md
+
+## Claude Code
 
 ./CLAUDE.md
 

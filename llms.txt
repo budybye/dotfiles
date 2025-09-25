@@ -37,8 +37,6 @@
 - [Trigger Dev](https://trigger.dev/docs/llms-full.txt) #automation #workflow #ai #background-jobs
 - [Mastra AI Framework](https://context7.com/mastra-ai/mastra/llms-full.txt) #framework #ai #automation #workflow
 - [OpenAI Platform](https://context7.com/websites/platform_openai/llms.txt) #api #openai #platform #gpt
-- [Cloudflare AI](https://context7.com/cloudflare/ai/llms.txt) #cloudflare #ai #edge #serverless
-- [Cloudflare Agents](https://context7.com/cloudflare/agents/llms.txt) #agents #cloudflare #automation #workflow
 - [n8n Workflow Automation](https://context7.com/n8n-io/n8n-docs/llms.txt) #automation #workflow #nocode #visual-automation
 - [Anthropic Claude Documentation](https://context7.com/context7/anthropic-en/llms.txt) #claude #anthropic #docs #api
 - [Context7](https://context7.com/upstash/context7/llms.txt) #context #documentation #search #rag
@@ -46,6 +44,7 @@
 - [AI SDK](https://context7.com/vercel/ai/llms.txt) #sdk #vercel #ai #react
 - [LangGraph](https://context7.com/langchain-ai/langgraph/llms.txt) #langchain #graph #workflow #agents
 - [GraphRAG](https://context7.com/microsoft/graphrag/llms.txt) #rag #graph #microsoft
+- [Docling](https://context7.com/websites/docling-project_github_io_docling/llms.txt) #document #ai #format
 
 ### MCP・エージェント開発
 
@@ -55,7 +54,8 @@
 - [Awesome MCP Servers](https://context7.com/punkpeye/awesome-mcp-servers/llms.txt) #mcp #servers #awesome #tools
 - [Cloudflare MCP](https://context7.com/cloudflare/mcp-server-cloudflare/llms.txt) #mcp #cloudflare #server #integration
 - [n8n MCP](https://context7.com/czlonkowski/n8n-mcp/llms.txt) #mcp #n8n #integration #workflow
-- [Googlemap MCP](https://context7.com/cablate/mcp-google-map/llms.txt)
+- [Googlemap MCP](https://context7.com/cablate/mcp-google-map/llms.txt) #mcp #map #google
+- [Google Devtools MCP](https://context7.com/ChromeDevTools/chrome-devtools-mcp/llms.txt) #mcp #browser #google
 
 ### AI・ML追加ツール
 
@@ -98,6 +98,7 @@
 - [Cloud-init Cloud Configuration](https://context7.com/canonical/cloud-init/llms.txt) #cloud-init #configuration #automation #provisioning
 - [Runner Images](https://context7.com/actions/runner-images/llms.txt) #github #actions #runners #ci-cd
 - [akamai cli](https://context7.com/akamai/cli/llms.txt) #akamai #cdn #cli #performance
+- [autofix-ci](https://context7.com/websites/autofix_ci/llms.txt)
 
 ### ストレージ・ファイル同期
 
@@ -121,6 +122,7 @@
 - [DaisyUI Component Library](https://daisyui.com/llms.txt) #ui #components #tailwind #design-system
 - [Shadcn UI](https://context7.com/shadcn-ui/ui/llms.txt) #ui #components #design-system #accessibility
 - [Web Components](https://context7.com/mdn/web-components-examples/llms.txt) #web-components #standards #reusable #vanilla-js
+- [react-easy-crop](https://context7.com/ValentinH/react-easy-crop/llms.txt)
 
 ### 状態管理・データ取得
 
@@ -141,6 +143,7 @@
 - [Shopify Hydrogen](https://context7.com/shopify/hydrogen/llms.txt) #shopify #ecommerce #framework #headless
 - [Workbox Service Workers](https://context7.com/googlechrome/workbox/llms.txt) #service-workers #pwa #caching #offline
 - [Appwrite](https://context7.com/websites/appwrite_io/llms.txt) #backend #api #bass
+- [image-resize-compress](https://context7.com/alefduarte/image-resize-compress/llms.txt) #image #resize #webp
 
 ## テスト・品質管理
 
@@ -183,6 +186,7 @@
 - [Hono Web Framework](https://hono.dev/llms-full.txt) #web #framework #lightweight #edge
 - [Honox Full-stack Framework](https://context7.com/honojs/honox/llms.txt) #fullstack #hono #framework #ssr
 - [Hono Middleware](https://context7.com/honojs/middleware/llms.txt) #middleware #hono #extensions #plugins
+- [Hono vite-plugin](https://context7.com/honojs/vite-plugins/llms.txt)
 - [create hono](https://context7.com/honojs/starter/llms.txt) #hono #starter #template #scaffolding
 - [Hono hub](https://context7.com/rhinobase/docs/llms.txt) #hono #hono-openapi #docs
 - [Go Fiber Web Framework](https://context7.com/gofiber/docs/llms.txt) #go #web #framework #express-like
@@ -207,7 +211,6 @@
 - [Caddy Web Server](https://context7.com/context7/caddyserver/llms.txt) #web-server #caddy #automation #https
 - [nginx](https://context7.com/websites/nginx_en/llms.txt) #nginx #web-server #proxy #load-balancer
 - [Surge](https://context7.com/context7/surge_app-api-reference/llms.txt) #surge #deployment #static #cdn
-- [cloudflared](https://context7.com/cloudflare/cloudflared/llms.txt) #cloudflare #tunnel #networking #secure
 - [Apache Kafka](https://context7.com/apache/kafka/llms.txt) #apache #loadbalancer #kafka
 
 ### WebSocket・リアルタイム
@@ -371,6 +374,7 @@
 - [Three.js 3D Graphics](https://context7.com/mrdoob/three.js/llms.txt) #threejs #3d #webgl #graphics
 - [vrm4u](https://context7.com/ruyo/vrm4u/llms.txt) #vrm #unity #avatar #3d
 - [gLTF Transform](https://context7.com/donmccurdy/gltf-transform/llms.txt) #gltf #3d #transform #optimization
+- [Unreal Engine](https://context7.com/websites/dev_epicgames_en-us_unreal-engine/llms.txt)
 
 ### 便利ツール API
 
@@ -445,9 +449,17 @@
 
 - [Cloudflare Developer Platform](https://developers.cloudflare.com/developer-platform/llms-full.txt) #cloudflare #platform #edge-computing #cdn
 - [Cloudflare Workers](https://developers.cloudflare.com/workers/llms-full.txt) #cloudflare #serverless #workers #edge-computing
+- [Cloudflare AI](https://context7.com/cloudflare/ai/llms.txt) #cloudflare #ai #edge #serverless
+- [Cloudflare Agents](https://context7.com/cloudflare/agents/llms.txt) #agents #cloudflare #automation #workflow
 - [Cloudflare python](https://context7.com/cloudflare/cloudflare-python/llms.txt) #cloudflare #python #sdk #api
+- [Cloudflare go](https://context7.com/cloudflare/cloudflare-go/llms.txt) #cloudflare #go #sdk #api
 - [Cloudflare playwright](https://context7.com/cloudflare/playwright/llms.txt) #cloudflare #playwright #testing #automation
 - [Cloudflare vectorize](https://context7.com/llmstxt/developers_cloudflare-vectorize-llms-full.txt/llms.txt) #cloudflare #vectorize #ai #embeddings
 - [Cloudflare durable objects](https://context7.com/llmstxt/developers_cloudflare-durable-objects-llms-full.txt/llms.txt) #cloudflare #durable-objects #stateful #serverless
 - [Cloudflare turnstile](https://context7.com/websites/developers_cloudflare-turnstile/llms.txt) #cloudflare #turnstile #captcha #securit
+- [Cloudflared](https://context7.com/cloudflare/cloudflared/llms.txt) #cloudflare #proxy #security #zerotrust #server
 - [Wrangler Action](https://context7.com/cloudflare/wrangler-action/llms.txt) #wrangler #cloudflare #action #deployment
+- [Cloudflare MCP](https://context7.com/cloudflare/mcp-server-cloudflare/llms.txt)
+- [Cloudflare containers](https://context7.com/cloudflare/containers/llms.txt)
+- [Workers SDK](https://context7.com/cloudflare/workers-sdk/llms.txt)
+- [Workers rs](https://context7.com/cloudflare/workers-rs/llms.txt)

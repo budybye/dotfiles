@@ -76,7 +76,7 @@ make test
 
 ## Dockerコマンド
 
-### 設定
+### Docker設定
 
 - **DOCKER_IMAGE**: `ubuntu-dev`
 - **DOCKER_CONTAINER**: `ubuntu-dev`
@@ -147,7 +147,7 @@ make logs
 
 ## 仮想マシンコマンド (Multipass)
 
-### 設定
+### Multipass設定
 
 - **MP_VM**: `ubuntu`
 - **MP_CPUS**: `4`

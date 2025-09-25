@@ -12,10 +12,10 @@
 
 ## Chezmoi設定ファイル
 
-- [.chezmoi.toml.tmpl](../home/.chezmoi.toml.tmpl): メインchezmoi設定テンプレート
-- [.chezmoiexternal.toml.tmpl](../home/.chezmoiexternal.toml.tmpl): 外部ファイルとアーカイブ管理
-- [.chezmoiignore](../home/.chezmoiignore): chezmoiで無視するファイル
-- [.chezmoidata/](../home/.chezmoidata/): テンプレート変数データ
+- [.chezmoi.toml.tmpl](home/.chezmoi.toml.tmpl): メインchezmoi設定テンプレート
+- [.chezmoiexternal.toml.tmpl](home/.chezmoiexternal.toml.tmpl): 外部ファイルとアーカイブ管理
+- [.chezmoiignore](home/.chezmoiignore): chezmoiで無視するファイル
+- [.chezmoidata/](home/.chezmoidata/): テンプレート変数データ
 
 ## Chezmoiディレクトリ構造
 

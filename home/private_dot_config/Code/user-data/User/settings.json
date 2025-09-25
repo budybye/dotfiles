@@ -144,5 +144,8 @@
   "cursor.semanticSearch.includePullRequests": false,
   "kiroAgent.configureMCP": "Disabled",
   "kiroAgent.enableTabAutocomplete": true,
-  "go.toolsManagement.autoUpdate": true
+  "go.toolsManagement.autoUpdate": true,
+  "[css]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  }
 }
