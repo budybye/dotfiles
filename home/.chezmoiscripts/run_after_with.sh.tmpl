@@ -87,6 +87,8 @@ if command -v fastfetch > /dev/null 2>&1; then
     fastfetch
 fi
 
-if [ -d "${HOME}/data" ]; then
+if command -v xrp > /dev/null 2>&1; then
+    xrp
+elif [ -d "${HOME}/data" ]; then
     . ${HOME}/data/xrp.sh
 fi

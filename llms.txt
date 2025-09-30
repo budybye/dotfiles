@@ -54,8 +54,11 @@
 - [Awesome MCP Servers](https://context7.com/punkpeye/awesome-mcp-servers/llms.txt) #mcp #servers #awesome #tools
 - [Cloudflare MCP](https://context7.com/cloudflare/mcp-server-cloudflare/llms.txt) #mcp #cloudflare #server #integration
 - [n8n MCP](https://context7.com/czlonkowski/n8n-mcp/llms.txt) #mcp #n8n #integration #workflow
+- [figma MPC](https://context7.com/glips/figma-context-mcp/llms.txt) #mpc #figma #tools #design
+- [Playwright MPC](https://context7.com/microsoft/playwright-mcp/llms.txt) #playwright #mpc #design #testing
 - [Googlemap MCP](https://context7.com/cablate/mcp-google-map/llms.txt) #mcp #map #google
 - [Google Devtools MCP](https://context7.com/ChromeDevTools/chrome-devtools-mcp/llms.txt) #mcp #browser #google
+- [Mermaid MPC](https://context7.com/hustcc/mcp-mermaid/llms.txt) #mpc #mermaid #markdown #tools
 
 ### AI・ML追加ツール
 
@@ -115,6 +118,7 @@
 - [Remix Full-stack Framework](https://context7.com/remix-run/remix/llms.txt) #remix #fullstack #framework #ssr
 - [Preact](https://context7.com/preactjs/preact-www/llms.txt) #preact #lightweight #react #performance
 - [Nextjs](https://context7.com/vercel/next.js/llms.txt) #react #next #framework #frontend
+- [Tanstack Router](https://context7.com/websites/tanstack_router/llms.txt) #tanstack #framework
 
 ### UI・スタイリング・デザインシステム
 
@@ -186,7 +190,8 @@
 - [Hono Web Framework](https://hono.dev/llms-full.txt) #web #framework #lightweight #edge
 - [Honox Full-stack Framework](https://context7.com/honojs/honox/llms.txt) #fullstack #hono #framework #ssr
 - [Hono Middleware](https://context7.com/honojs/middleware/llms.txt) #middleware #hono #extensions #plugins
-- [Hono vite-plugin](https://context7.com/honojs/vite-plugins/llms.txt)
+- [Hono vite-plugin](https://context7.com/honojs/vite-plugins/llms.txt) #hono
+- [vite-ssr-components](https://context7.com/yusukebe/vite-ssr-components/llms.txt) #hono
 - [create hono](https://context7.com/honojs/starter/llms.txt) #hono #starter #template #scaffolding
 - [Hono hub](https://context7.com/rhinobase/docs/llms.txt) #hono #hono-openapi #docs
 - [Go Fiber Web Framework](https://context7.com/gofiber/docs/llms.txt) #go #web #framework #express-like
@@ -216,6 +221,7 @@
 ### WebSocket・リアルタイム
 
 - [Websocat WebSocket Tool](https://context7.com/vi/websocat/llms.txt) #websocket #tool #cli #testing
+- [wslay](https://context7.com/tatsuhiro-t/wslay/llms.txt) #websocket
 
 ## バリデーション・フォーム
 
@@ -241,6 +247,8 @@
 - [clio server](https://context7.com/xrplf/clio/llms.txt) #xrpl #clio #server #api
 - [XRPL Explorer](https://context7.com/ripple/explorer/llms.txt) #xrpl #explorer #blockchain #web
 - [Rippled API Spec](https://context7.com/ripple/rippled-api-spec/llms.txt) #xrpl #api #spec #documentation
+- [Xahau JShooks](https://context7.com/xahau/jshooks-alpha/llms.txt) #xahau #dev
+- [Xahau Network](https://context7.com/Xahau/xahaud/llms.txt) #xahau #blockchain
 
 ### Interledger
 
@@ -416,6 +424,7 @@
 
 - [Obsidian](https://context7.com/context7/obsidian_md/llms.txt) #obsidian #notes #markdown #knowledge-management
 - [MDX](https://context7.com/mdx-js/mdx/llms.txt) #mdx #markdown #jsx #documentation
+- [marp](https://context7.com/marp-team/marp/llms.txt) #markdown #tools #documentaion
 - [Starlight](https://context7.com/withastro/starlight/llms.txt) #starlight #astro #docs #documentation
 - [oss-contribution-guide](https://context7.com/suzuki-shunsuke/oss-contribution-guide/llms.txt) #oss #contribution #guide #open-source
 - [i18n-js Internationalization](https://context7.com/fnando/i18n-js/llms.txt) #i18n #internationalization #javascript #localization

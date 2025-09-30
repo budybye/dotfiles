@@ -318,9 +318,14 @@ packages:
   - 'java@latest'
   - 'maven@latest'
   npm:
-  - 'claude'
+  # - 'claude'
   - 'pm2'
-  - 'wrangler'
+  - 'vibekit'
+  # - 'wrangler'
   - 'zx'
   - '@pipedream/sdk'
-  # - '@bitwarden/cli'
+  - '@bitwarden/cli'
+  curl:
+  - 'sh -c "$(curl -fsSL https://git.io/chezmoi)" -- -b ${HOME}/.local/bin'
+  - 'curl https://mise.run | sh'
+  - 'curl -fsSL https://raw.githubusercontent.com/watzon/cursor-linux-installer/main/install.sh | bash -s -- latest'
