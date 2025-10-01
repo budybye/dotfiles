@@ -42,22 +42,22 @@ jobs:
       # - name: winget
       #   run: winget install Microsoft.PowerToys
 
-  wsl2:
-    runs-on: windows-2025
-    steps:
-      - uses: actions/checkout@v4
-      - uses: vedantmgoyal9/setup-wsl2@main
-      - run: apt update && apt upgrade -y
-        shell: wsl-run {0} # add this to run the commands inside linux
-      - run: |
-          ls -al
-          env
-        shell: wsl-run {0} # don't forget to add this
-        env:
-          MY_ENV_VAR: MY_VALUE
-          # WSLENV is a special environment variable to share environment variables between windows and linux
-          # see https://devblogs.microsoft.com/commandline/share-environment-vars-between-wsl-and-windows
-          WSLENV: MY_ENV_VAR
+  # wsl2:
+  #   runs-on: windows-2025
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: vedantmgoyal9/setup-wsl2@main
+  #     - run: apt update && apt upgrade -y
+  #       shell: wsl-run {0} # add this to run the commands inside linux
+  #     - run: |
+  #         ls -al
+  #         env
+  #       shell: wsl-run {0} # don't forget to add this
+  #       env:
+  #         MY_ENV_VAR: MY_VALUE
+  #         # WSLENV is a special environment variable to share environment variables between windows and linux
+  #         # see https://devblogs.microsoft.com/commandline/share-environment-vars-between-wsl-and-windows
+  #         WSLENV: MY_ENV_VAR
 
   lxd:
     runs-on: ubuntu-latest

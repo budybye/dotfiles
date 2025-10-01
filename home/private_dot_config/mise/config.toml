@@ -11,6 +11,7 @@ claude = "latest"
 gemini = "latest"
 stripe = "latest"
 sentry = "latest"
+usage = "latest"
 
 go = "latest"
 aqua = "latest"

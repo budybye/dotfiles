@@ -213,6 +213,7 @@ packages:
   - 'golang.go'
   - 'github.vscode-github-actions'
   - 'hediet.vscode-drawio'
+  - 'hverlin.mise-vscode'
   - 'ibm.output-colorizer'
   - 'intellsmi.comment-translate'
   - 'ivanarjona.cloudflaretunnel'

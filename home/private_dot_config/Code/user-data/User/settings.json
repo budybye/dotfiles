@@ -36,6 +36,7 @@
   "editor.unicodeHighlight.ambiguousCharacters": false,
   "editor.unicodeHighlight.invisibleCharacters": false,
   "editor.bracketPairColorization.enabled": true,
+  "editor.largeFileOptimizations": false,
   "editor.codeActionsOnSave": {
     "quickfix.biome": "explicit",
     "source.organizeImports.biome": "explicit"
@@ -61,6 +62,11 @@
 
   "terminal.integrated.env.linux": {},
   "terminal.integrated.fontSize": 9,
+  "terminal.integrated.env.osx": {},
+  "terminal.integrated.automationProfile.osx": {
+    "path": "/usr/bin/zsh",
+    "args": ["--login"]
+  },
 
   "explorer.confirmDragAndDrop": false,
   "explorer.confirmDelete": false,
@@ -71,22 +77,22 @@
   "git.openRepositoryInParentFolders": "never",
 
   "[json]": {
-    "editor.defaultFormatter": "biomejs.biome"
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[jsonc]": {
-    "editor.defaultFormatter": "biomejs.biome"
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[typescript]": {
-    "editor.defaultFormatter": "biomejs.biome"
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[javascript]": {
-    "editor.defaultFormatter": "biomejs.biome"
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[typescriptreact]": {
-    "editor.defaultFormatter": "biomejs.biome"
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[javascriptreact]": {
-    "editor.defaultFormatter": "biomejs.biome"
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[yaml]": {
     "editor.defaultFormatter": "redhat.vscode-yaml"
@@ -97,56 +103,8 @@
   "[php]": {
     "editor.defaultFormatter": "bmewburn.vscode-intelephense-client"
   },
-
-  "markdown-preview-enhanced.previewTheme": "none.css",
-  "eslint.codeActionsOnSave.rules": null,
-  "json.schemas": [],
-  "python.languageServer": "Default",
-  "hediet.vscode-drawio.resizeImages": null,
-  "code-runner.enableAppInsights": false,
-  "console-ninja.featureSet": "Community",
-  "commentTranslate.hover.enabled": false,
-  "commentTranslate.targetLanguage": "ja",
-  "cursor.chat.smoothStreaming": true,
-  "cursor.chat.alwaysSearchWeb": true,
-  "cursor.preferNotificationsSameAsChat": true,
-  "terminal.integrated.env.osx": {},
-  "mssql.connectionGroups": [
-    {
-      "name": "ROOT",
-      "id": "517D5F92-8344-41A6-8993-D45F8AE4FD30"
-    }
-  ],
-  "mssql.connections": [],
-  "explorer.fileNesting.patterns": {
-    "*.ts": "${capture}.js",
-    "*.js": "${capture}.js.map, ${capture}.min.js, ${capture}.d.ts",
-    "*.jsx": "${capture}.js",
-    "*.tsx": "${capture}.ts",
-    "tsconfig.json": "tsconfig.*.json",
-    "package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml, bun.lockb, bun.lock",
-    "*.sqlite": "${capture}.${extname}-*",
-    "*.db": "${capture}.${extname}-*",
-    "*.sqlite3": "${capture}.${extname}-*",
-    "*.db3": "${capture}.${extname}-*",
-    "*.sdb": "${capture}.${extname}-*",
-    "*.s3db": "${capture}.${extname}-*"
-  },
-  "editor.largeFileOptimizations": false,
-  "intelephense.files.maxSize": 5000000,
-  "intelephense.environment.phpVersion": "8.3",
-  "intelephense.format.braces": "k&r",
-  "docker.extension.enableComposeLanguageServer": false,
-  "markdown.marp.html": "all",
-  "markdown-preview-enhanced.mermaidTheme": "dark",
-  "markdown-preview-enhanced.codeBlockTheme": "monokai.css",
-  "cursor.windowSwitcher.sidebarHoverCollapsed": true,
-  "cursor.semanticSearch.includePullRequests": false,
-  "kiroAgent.configureMCP": "Disabled",
-  "kiroAgent.enableTabAutocomplete": true,
-  "go.toolsManagement.autoUpdate": true,
   "[css]": {
-    "editor.defaultFormatter": "biomejs.biome"
+    "editor.defaultFormatter": "vscode.css-language-features"
   },
   "[dockercompose]": {
     "editor.insertSpaces": true,
@@ -156,5 +114,43 @@
   },
   "[github-actions-workflow]": {
     "editor.defaultFormatter": "redhat.vscode-yaml"
-  }
+  },
+
+  "markdown-preview-enhanced.previewTheme": "none.css",
+  "markdown-preview-enhanced.mermaidTheme": "dark",
+  "markdown-preview-enhanced.codeBlockTheme": "monokai.css",
+  "markdown.marp.html": "all",
+
+  "eslint.codeActionsOnSave.rules": null,
+  "json.schemas": [],
+  "python.languageServer": "Default",
+  "hediet.vscode-drawio.resizeImages": null,
+  "code-runner.enableAppInsights": false,
+  "console-ninja.featureSet": "Community",
+
+  "commentTranslate.hover.enabled": false,
+  "commentTranslate.targetLanguage": "ja",
+
+  "cursor.chat.smoothStreaming": true,
+  "cursor.chat.alwaysSearchWeb": true,
+  "cursor.preferNotificationsSameAsChat": true,
+  "cursor.windowSwitcher.sidebarHoverCollapsed": true,
+  "cursor.semanticSearch.includePullRequests": false,
+
+  "mssql.connectionGroups": [
+    {
+      "name": "ROOT",
+      "id": "517D5F92-8344-41A6-8993-D45F8AE4FD30"
+    }
+  ],
+  "mssql.connections": [],
+
+  "intelephense.files.maxSize": 5000000,
+  "intelephense.environment.phpVersion": "8.3",
+  "intelephense.format.braces": "k&r",
+
+  "docker.extension.enableComposeLanguageServer": false,
+  "kiroAgent.configureMCP": "Disabled",
+  "kiroAgent.enableTabAutocomplete": true,
+  "go.toolsManagement.autoUpdate": true
 }
