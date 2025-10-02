@@ -1,29 +1,50 @@
 [
-    // 実装箇所にコードジャンプ
-    {
-        "key": "ctrl+u ctrl+i",
-        "command": "editor.action.goToImplementation",
-        "when": "editorFocus"
-    },
-    // 宣言箇所に移動
-    {
-        "key": "ctrl+u ctrl+d",
-        "command": "editor.action.goToDeclaration",
-        "when": "editorFocus"
-    },
-    // 手前のエディターに移動
-    {
-        "key": "ctrl+w ctrl+h",
-        "command": "workbench.action.previousEditor",
-        "when": "editorFocus"
-    },
-    {
-        "key": "ctrl+w ctrl+l",
-        "command": "workbench.action.nextEditor",
-        "when": "editorFocus && vim.mode == 'Normal'"
-    },
-    {
-        "key": "cmd+i",
-        "command": "composerMode.agent"
-    }
+  // 実装箇所にコードジャンプ
+  {
+    "key": "ctrl+u ctrl+i",
+    "command": "editor.action.goToImplementation",
+    "when": "editorFocus"
+  },
+  // 宣言箇所に移動
+  {
+    "key": "ctrl+u ctrl+d",
+    "command": "editor.action.goToDeclaration",
+    "when": "editorFocus"
+  },
+  // 型定義に移動
+  {
+    "key": "ctrl+cmd+l",
+    "command": "editor.action.goToTypeDefinition"
+  },
+  // 手前のエディターに移動
+  {
+    "key": "ctrl+w ctrl+h",
+    "command": "workbench.action.previousEditor",
+    "when": "editorFocus"
+  },
+  {
+    "key": "ctrl+w ctrl+l",
+    "command": "workbench.action.nextEditor",
+    "when": "editorFocus && vim.mode == 'Normal'"
+  },
+  {
+    "key": "cmd+i",
+    "command": "composerMode.agent"
+  },
+  // リンクを開く
+  {
+    "key": "ctrl+cmd+enter",
+    "command": "editor.action.openLink"
+  },
+  // hintを表示
+  {
+    "key": "cmd+space",
+    "command": "editor.action.triggerParameterHints",
+    "when": "editorHasSignatureHelpProvider && editorTextFocus"
+  },
+  {
+    "key": "cmd+space",
+    "command": "closeParameterHints",
+    "when": "editorFocus && parameterHintsVisible"
+  }
 ]

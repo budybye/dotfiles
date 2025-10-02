@@ -9,6 +9,10 @@
   "workbench.statusBar.visible": true,
   "workbench.settings.useSplitJSON": true,
   "workbench.editor.enablePreview": false,
+  "workbench.editor.enablePreviewFromQuickOpen": false,
+  "workbench.editor.tabSizing": "shrink",
+  "workbench.tree.renderIndentGuides": "always",
+  "workbench.tree.indent": 16,
   "workbench.colorCustomizations": {
     "minimapSlider.activeBackground": "#06034dc0",
     "minimapSlider.background": "#06034dc0",
@@ -24,6 +28,7 @@
   "editor.formatOnPaste": true,
   "editor.cursorBlinking": "smooth",
   "editor.cursorStyle": "block",
+  "editor.cursorSmoothCaretAnimation": true,
   "editor.renderControlCharacters": true,
   "editor.renderWhitespace": "boundary",
   "editor.renderLineHighlight": "all",
@@ -60,6 +65,8 @@
     "**/.DS_Store": true
   },
 
+  "terminal.integrated.copyOnSelection": true,
+  "terminal.integrated.rightClickBehavior": "paste",
   "terminal.integrated.env.linux": {},
   "terminal.integrated.fontSize": 9,
   "terminal.integrated.env.osx": {},
