@@ -28,7 +28,7 @@
   "editor.formatOnPaste": true,
   "editor.cursorBlinking": "smooth",
   "editor.cursorStyle": "block",
-  "editor.cursorSmoothCaretAnimation": true,
+  "editor.cursorSmoothCaretAnimation": "on",
   "editor.renderControlCharacters": true,
   "editor.renderWhitespace": "boundary",
   "editor.renderLineHighlight": "all",
