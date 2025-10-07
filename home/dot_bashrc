@@ -1,16 +1,18 @@
 # インタラクティブシェルでのみ読み込む
-[ -z "$PS1" ] && return
+[ -z "${PS1}" ] && return
 
 # プロンプトの設定
 PS1='\[\e[32m\]\u@\h\[\e[m\]:\[\e[34m\]\w\[\e[m\] \$ '
 
 # cdコマンド実行後に自動でlsを実行する
 cd() {
-  builtin cd "$@" && ls -la
+  builtin cd "${@}" && ls -la
 }
 
 # bash 5.2 以上で autocd を有効にする
-if [ $(bash --version | grep -c "5.2") -eq 1 ]; then
+BASH_VERSION_MAJOR=$(bash --version | head -n1 | grep -oE '[0-9]+\.[0-9]+' | cut -d. -f1)
+BASH_VERSION_MINOR=$(bash --version | head -n1 | grep -oE '[0-9]+\.[0-9]+' | cut -d. -f2)
+if [ "${BASH_VERSION_MAJOR}" -gt 5 ] || ([ "${BASH_VERSION_MAJOR}" -eq 5 ] && [ "${BASH_VERSION_MINOR}" -ge 2 ]); then
   shopt -s autocd
 fi
 
@@ -58,4 +60,6 @@ if [ -f "${HOME}/.config/zsh/.aliases" ]; then
   . "${HOME}/.config/zsh/.aliases"
 fi
 
-[[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path bash)"
+if command -v kiro > /dev/null 2>&1; then
+  [[ "${TERM_PROGRAM}" == "kiro" ]] && . "$(kiro --locate-shell-integration-path bash)"
+fi

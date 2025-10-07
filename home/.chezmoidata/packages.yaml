@@ -148,6 +148,9 @@ packages:
     - 'xrdp'
     - 'xorgxrdp'
     - 'dbus-x11'
+    - 'lightdm'
+    # - 'sddm'
+    # - 'tasksel'
     # - 'task-xfce-desktop'
 
     - 'libpulse-dev'

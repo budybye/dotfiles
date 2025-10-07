@@ -7,6 +7,10 @@ fi
 
 japan_setup() {
     echo "japan setup start..."
+    $sudo apt-get install -y language-pack-ja-base language-pack-ja manpages-ja
+    $sudo apt-get install -y tzdata
+    $sudo apt-get install -y fcitx5-mozc im-config
+
     $sudo localectl set-locale LANG=ja_JP.UTF-8
     $sudo localectl set-locale LANGUAGE=ja_JP:ja
     $sudo localectl set-x11-keymap jp
@@ -21,17 +25,32 @@ xrdp_setup() {
     echo "xrdp setup start..."
     # デフォルトのセッションマネージャーをxfce4-sessionに設定
     $sudo update-alternatives --set x-session-manager /usr/bin/xfce4-session
+    # $sudo update-alternatives --set x-session-manager /usr/bin/startxfce4
+
     # wayland で起動する場合
     # startxfce4 --wayland
 
-    $sudo groupadd -f ssl-cert
-    $sudo groupadd -f xrdp
-    $sudo usermod -aG ssl-cert,xrdp "$(whoami)"
-    $sudo ufw allow 3389
+    $sudo apt-get install -y lightdm
+    $sudo dpkg-reconfigure lightdm
+    # $sudo apt-get remove -y light-locker xscreensaver
 
+    # $sudo groupadd -f ssl-cert
+    # $sudo groupadd -f xrdp
+    # $sudo usermod -aG ssl-cert,xrdp "$(whoami)"
+    $sudo adduser xrdp ssl-cert
+
+    $sudo ufw allow 3389/tcp
+    $sudo ufw reload
+
+    $sudo systemctl enable xrdp
+    $sudo systemctl start xrdp
+    $sudo systemctl enable lightdm
+    $sudo systemctl start lightdm
     $sudo systemctl daemon-reload
     $sudo systemctl restart rsyslog
-    $sudo systemctl enable xrdp
+    # default session manager
+    $sudo echo "xfce4-session" | tee ${HOME}/.xsession
+    $sudo systemctl restart xrdp
     echo "xrdp setup completed."
 
     echo "以下のコマンドを実行してパスワードを更新してください"

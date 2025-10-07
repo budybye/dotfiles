@@ -8,7 +8,7 @@ fi
 # Zsh をデフォルトシェルに変更する関数
 change_shell_to_zsh() {
     # zsh がインストールされているか確認
-    if command -v zsh >/dev/null 2>&1; then
+    if command -v zsh >/dev/null; then
         echo "zsh already installed."
     else
         $sudo apt-get install -y zsh || echo "zsh install failed." >> ${HOME}/which
@@ -188,17 +188,11 @@ install_mkcert() {
     elif command -v mise >/dev/null 2>&1; then
         mise use -g -y mkcert@latest || echo "mkcert install failed."
     else
-        echo "mkcert not found"
+        echo "mkcert install failed."
     fi
-
-    if command -v mkcert >/dev/null 2>&1; then
-        mkcert -install || echo "mkcert not setup"
-        mkcert --version >> ${HOME}/which || echo "mkcert not found" >> ${HOME}/which
-    else
-        echo "mkcert not found"
-    fi
+    mkcert -install || echo "mkcert not setup"
+    mkcert --version >> ${HOME}/which || echo "mkcert not found" >> ${HOME}/which
 }
-
 
 echo "cli.sh"
 echo "--------------------------------"

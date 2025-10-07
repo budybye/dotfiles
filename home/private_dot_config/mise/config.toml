@@ -50,7 +50,7 @@ uv = "latest"
 pipx = "latest"
 ruff = "latest"
 
-cmake = "latest"
+# cmake = "latest"
 ninja = "latest"
 conan = "latest"
 # postgres = "latest"

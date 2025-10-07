@@ -5,18 +5,18 @@
 
 # ＄ZDOTDIR に配置すると読み込まれないので ${HOME}/.zshenv で ZDOTDIR を設定する?
 if [ -d "${HOME}/.config/zsh" ]; then
-    export ZDOTDIR=${HOME}/.config/zsh
+    export ZDOTDIR="${HOME}/.config/zsh"
 else
-    export ZDOTDIR=${HOME}
+    export ZDOTDIR="${HOME}"
 fi
 
-# ${HOME}/.zshenv
-# ${ZDOTDIR}/.zprofile
-# ${ZDOTDIR}/.zshrc
-# ${ZDOTDIR}/.aliases
-# ${ZDOTDIR}/.zlogin
-# ${ZDOTDIR}/.zlogout
-# の順で読み込まれる
+# ${HOME}/.zshenv 全てのシェルで読まれるので ${ZDOTDIR} の指定
+# ${ZDOTDIR}/.zprofile -> .profile と .zshrc を読み込む
+# ${ZDOTDIR}/.zshrc -> .aliases を読み込む
+# ${ZDOTDIR}/.aliases -> .aliases を読み込む
+# ${ZDOTDIR}/.zlogin -> ログインシェルで読み込まれる
+# ${ZDOTDIR}/.zlogout -> ログアウト時に読み込まれる
+# 上記の順で読み込まれるので注意
 
 # PATHを設定
 typeset -U PATH path

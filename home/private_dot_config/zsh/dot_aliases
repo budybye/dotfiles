@@ -401,7 +401,6 @@ fi
 
 if command -v fastfetch >/dev/null 2>&1; then
     alias ff="fastfetch -c all"
-    # alias ff="fastfetch -l ${HOME}/data/cat.txt"
 fi
 
 # 猫のASCIIアートを表示

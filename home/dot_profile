@@ -1,4 +1,10 @@
+# bash でも zsh でも読み込むので UNIX 互換性を保つ
+# 例 command -v curl >/dev/null 2>&1; or [ -f "${HOME}/.ssh/id_rsa" ];
+# $VAR, ${VAR}, "${VAR}" は変数
+# 変数展開するのに "${VAR}" で統一する
+# ' : ' で区切り "${VAR}:-var" は予備設定
 # 全体的にXDG BASED_DIRECTORYに設定する
+# export は環境変数
 
 HOSTNAME="$(uname -n)"
 export HOSTNAME
@@ -7,8 +13,10 @@ if command -v dpkg >/dev/null 2>&1; then
     ARCH="$(dpkg --print-architecture)"
 elif command -v uname >/dev/null 2>&1; then
     ARCH="$(uname -m)"
+else
+    ARCH="unknown"
 fi
-export ARCH="${ARCH:-unknown}"
+export ARCH
 
 # パスを再設定
 export PATH="${PATH}:${HOME}/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
@@ -17,9 +25,6 @@ export PATH="${PATH}:${HOME}/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/
 if [ -d "${HOME}/.ssh" ]; then
     chmod 700 "${HOME}/.ssh"
 fi
-
-# ${VAR} "${VAR}" "${VAR:-var}" は環境変数
-# ' : ' で区切り "${VAR}:-var" は予備設定
 
 # XDG DIRECTORY を作成して権限を700に設定
 mkdir -p \
@@ -34,15 +39,15 @@ chmod 700 \
     "${HOME}/.cache"
 
 # XDG DIRECTORY
-export XDG_CONFIG_HOME=${HOME}/.config
-export XDG_DATA_HOME=${HOME}/.local/share
-export XDG_STATE_HOME=${HOME}/.local/state
-export XDG_CACHE_HOME=${HOME}/.cache
+export XDG_CONFIG_HOME="${HOME}/.config"
+export XDG_DATA_HOME="${HOME}/.local/share"
+export XDG_STATE_HOME="${HOME}/.local/state"
+export XDG_CACHE_HOME="${HOME}/.cache"
 
-if [ -d ${XDG_DATA_DIRS:-/usr/local/share:/usr/share} ]; then
+if [ -d "${XDG_DATA_DIRS:-/usr/local/share:/usr/share}" ]; then
     export XDG_DATA_DIRS="${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
 fi
-if [ -d ${XDG_CONFIG_DIRS:-/etc/xdg} ]; then
+if [ -d "${XDG_CONFIG_DIRS:-/etc/xdg}" ]; then
     export XDG_CONFIG_DIRS="${XDG_CONFIG_DIRS:-/etc/xdg}"
 fi
 
@@ -62,14 +67,14 @@ mkdir -p \
     "${HOME}/Pictures" \
     "${HOME}/Templates"
 
-export XDG_DESKTOP_DIR=${HOME}/Desktop
-export XDG_DOWNLOAD_DIR=${HOME}/Downloads
-export XDG_DOCUMENTS_DIR=${HOME}/Documents
-export XDG_PUBLICSHARE_DIR=${HOME}/Public
-export XDG_MUSIC_DIR=${HOME}/Music
-export XDG_PICTURES_DIR=${HOME}/Pictures
-export XDG_VIDEOS_DIR=${HOME}/Movies
-export XDG_TEMPLATES_DIR=${HOME}/Templates
+export XDG_DESKTOP_DIR="${HOME}/Desktop"
+export XDG_DOWNLOAD_DIR="${HOME}/Downloads"
+export XDG_DOCUMENTS_DIR="${HOME}/Documents"
+export XDG_PUBLICSHARE_DIR="${HOME}/Public"
+export XDG_MUSIC_DIR="${HOME}/Music"
+export XDG_PICTURES_DIR="${HOME}/Pictures"
+export XDG_VIDEOS_DIR="${HOME}/Movies"
+export XDG_TEMPLATES_DIR="${HOME}/Templates"
 
 # export XDG_SESSION_TYPE=X11
 # export XDG_SESSION_ID=1
@@ -82,10 +87,10 @@ export LC_ALL="ja_JP.UTF-8"
 export LC_CTYPE="en_US.UTF-8"
 
 export TERM="xterm-256color"
-export TERMINFO="$XDG_DATA_HOME"/terminfo
-export TERMINFO_DIRS="$XDG_DATA_HOME"/terminfo:/usr/share/terminfo
+export TERMINFO="${XDG_DATA_HOME}/terminfo"
+export TERMINFO_DIRS="${XDG_DATA_HOME}/terminfo:/usr/share/terminfo"
 
-export LESSHISTFILE="$XDG_STATE_HOME"/less/history
+export LESSHISTFILE="${XDG_STATE_HOME}/less/history"
 
 if [ -d "/tmp" ]; then
     export TMPDIR="/tmp"
@@ -96,7 +101,10 @@ if [ "$(uname)" = "Darwin" ]; then
     mkdir -p "${XDG_DATA_HOME}/trash"
 fi
 
-mkdir -p "${HOME}/Applications" "${HOME}/Developer" "${HOME}/data"
+mkdir -p \
+    "${HOME}/Applications" \
+    "${HOME}/Developer" \
+    "${HOME}/data"
 
 # デフォルトのエディタを設定
 if command -v cursor >/dev/null 2>&1; then
@@ -115,7 +123,8 @@ fi
 
 if command -v brave-browser >/dev/null 2>&1; then
     export BROWSER="brave-browser"
-    # export BROWSER="chromium"
+elif command -v chromium >/dev/null 2>&1; then
+    export BROWSER="chromium"
 fi
 
 if command -v brew >/dev/null 2>&1; then
@@ -136,14 +145,13 @@ fi
 
 if command -v aqua >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/aquaproj-aqua" "${XDG_DATA_HOME}/aquaproj-aqua"
-    export PATH="${XDG_DATA_HOME:-$HOME/.local/share}/aquaproj-aqua/bin:${PATH}"
-    export AQUA_GLOBAL_CONFIG="${AQUA_GLOBAL_CONFIG:-}:${XDG_CONFIG_HOME:-$HOME/.config}/aquaproj-aqua/aqua.yaml"
+    export PATH="${XDG_DATA_HOME:-${HOME}/.local/share}/aquaproj-aqua/bin:${PATH}"
+    export AQUA_GLOBAL_CONFIG="${AQUA_GLOBAL_CONFIG:-}:${XDG_CONFIG_HOME:-${HOME}/.config}/aquaproj-aqua/aqua.yaml"
 fi
 
 if command -v code >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/Code/user-data/User"
     export VSCODE_PORTABLE="${XDG_CONFIG_HOME}/Code"
-    # export VSCODE_PORTABLE="${XDG_DATA_HOME}/Code"
 fi
 
 if command -v docker >/dev/null 2>&1; then
@@ -175,6 +183,17 @@ fi
 if command -v orb >/dev/null 2>&1; then
     source "${HOME}/.orbstack/shell/init.zsh" 2>/dev/null || :
     # docker context use orbstack >/dev/null 2>&1
+fi
+
+if command -v kubectl >/dev/null 2>&1; then
+    mkdir -p "${XDG_CONFIG_HOME}/kube" "${XDG_CACHE_HOME}/kube"
+    export KUBECONFIG="${XDG_CONFIG_HOME}/kube"
+    export KUBECACHEDIR="${XDG_CACHE_HOME}/kube"
+fi
+
+if command -v minikube >/dev/null 2>&1; then
+    mkdir -p "${XDG_DATA_HOME}/minikube"
+    export MINIKUBE_HOME="${XDG_DATA_HOME}/minikube"
 fi
 
 if command -v npm >/dev/null 2>&1; then
@@ -385,17 +404,6 @@ if command -v ffmpeg >/dev/null 2>&1; then
     export FFMPEG_DATADIR="${XDG_DATA_HOME}/ffmpeg"
 fi
 
-if command -v kubectl >/dev/null 2>&1; then
-    mkdir -p "${XDG_CONFIG_HOME}/kube" "${XDG_CACHE_HOME}/kube"
-    export KUBECONFIG="${XDG_CONFIG_HOME}/kube"
-    export KUBECACHEDIR="${XDG_CACHE_HOME}/kube"
-fi
-
-if command -v minikube >/dev/null 2>&1; then
-    mkdir -p "${XDG_DATA_HOME}/minikube"
-    export MINIKUBE_HOME="${XDG_DATA_HOME}/minikube"
-fi
-
 if command -v conan >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/conan"
     export CONAN_USER_HOME="${XDG_CONFIG_HOME}/conan"
@@ -453,9 +461,9 @@ fi
 if command -v aws >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/aws"
     touch "${XDG_CONFIG_HOME}/aws/credentials"
-    export AWS_SHARED_CREDENTIALS_FILE="$XDG_CONFIG_HOME"/aws/credentials
+    export AWS_SHARED_CREDENTIALS_FILE="${XDG_CONFIG_HOME}/aws/credentials"
     touch "${XDG_CONFIG_HOME}/aws/config"
-    export AWS_CONFIG_FILE="$XDG_CONFIG_HOME"/aws/config
+    export AWS_CONFIG_FILE="${XDG_CONFIG_HOME}/aws/config"
 fi
 
 if command -v claude >/dev/null 2>&1; then

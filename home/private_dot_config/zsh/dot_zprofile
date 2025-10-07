@@ -36,10 +36,10 @@ fi
 # byobu auto-start (ログイン時に自動起動)
 if command -v byobu > /dev/null 2>&1 && \
   [ "${SHLVL}" -eq 1 ] && \
-  [ -z "$TMUX" ] && \
-  [ -z "$BYOBU_BACKEND" ] && \
+  [ -z "${TMUX}" ] && \
+  [ -z "${BYOBU_BACKEND}" ] && \
   [ -t 0 ] && \
-  [ -z "$ZSH_AUTOFN" ]; then
+  [ -z "${ZSH_AUTOFN}" ]; then
   # 設定ファイルが存在する場合は読み込み、なければデフォルトで起動
   if [ -f "${XDG_CONFIG_HOME}/byobu/.byoburc" ]; then
     . "${XDG_CONFIG_HOME}/byobu/.byoburc"
