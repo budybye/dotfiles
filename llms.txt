@@ -127,6 +127,7 @@
 - [Shadcn UI](https://context7.com/shadcn-ui/ui/llms.txt) #ui #components #design-system #accessibility
 - [Web Components](https://context7.com/mdn/web-components-examples/llms.txt) #web-components #standards #reusable #vanilla-js
 - [react-easy-crop](https://context7.com/ValentinH/react-easy-crop/llms.txt)
+- [React Aria Components](https://context7.com/zaichaopan/react-aria-components-tailwind-starter/llms.txt) #react #aria #components
 
 ### 状態管理・データ取得
 
@@ -148,6 +149,7 @@
 - [Workbox Service Workers](https://context7.com/googlechrome/workbox/llms.txt) #service-workers #pwa #caching #offline
 - [Appwrite](https://context7.com/websites/appwrite_io/llms.txt) #backend #api #bass
 - [image-resize-compress](https://context7.com/alefduarte/image-resize-compress/llms.txt) #image #resize #webp
+- [searchkit](https://context7.com/searchkit/searchkit/llms.txt) #search #components
 
 ## テスト・品質管理
 
@@ -170,6 +172,7 @@
 - [Neon Database](https://context7.com/context7/neon/llms.txt) #postgresql #serverless #cloud
 - [CockroachDB](https://context7.com/cockroachdb/docs/llms.txt) #database #distributed #postgresql
 - [TiDB](https://context7.com/websites/pingcap/llms.txt) #mysql #cluster #database
+- [PGVector](https://context7.com/pgvector/pgvector/llms.txt) #postgresql #vectorize
 
 ### NoSQL・その他
 
@@ -283,6 +286,7 @@
 
 ### 認証 認可
 
+- [Auht0](https://context7.com/auth0/docs/llms.txt) #auth #saas #authentication
 - [Better Auth Authentication](https://www.better-auth.com/llms.txt) #auth #authentication #security #modern
 - [better auth cloudflare](https://context7.com/zpg6/better-auth-cloudflare/llms.txt) #auth #cloudflare #integration #better-auth
 - [Stripe](https://docs.stripe.com/llms.txt) #stripe #payment #provider
