@@ -12,7 +12,7 @@ trim_trailing_whitespace = true
 
 # フォントの設定
 font_size = 13
-font_family = "HackGen Console NF", "RobotoMonoJP", "monospace", "Consolas"
+font_family = "HackGen35 Console NF", "RobotoMonoJP", "Consolas", "monospace"
 
 # インデント ４
 [*.{py, pyi, php, java, rs, go}]

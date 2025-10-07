@@ -6,17 +6,17 @@ if [ "$(id -u)" -ne 0 ]; then
 fi
 
 install_snapd() {
-    command -v snap >/dev/null || $sudo apt-get install -y snap snapd && echo "snapd installed." || echo "snapd install failed."
+    command -v snap >/dev/null 2>&1 || $sudo apt-get install -y snap snapd && echo "snapd installed." || echo "snapd install failed."
 }
 
 install_snap() {
 
     {{ range .packages.snap.classic }}
-    command -v {{ . }} >/dev/null || $sudo snap install {{ . }} --classic && echo "{{ . }} installed." || echo "{{ . }} install failed."
+    command -v {{ . }} >/dev/null 2>&1 || $sudo snap install {{ . }} --classic && echo "{{ . }} installed." || echo "{{ . }} install failed."
     {{ end }}
 
     {{ range .packages.snap.latest }}
-    command -v {{ . }} >/dev/null || $sudo snap install {{ . }} && echo "{{ . }} installed." || echo "{{ . }} install failed."
+    command -v {{ . }} >/dev/null 2>&1 || $sudo snap install {{ . }} && echo "{{ . }} installed." || echo "{{ . }} install failed."
     {{ end }}
 
     if command -v firefox >/dev/null 2>&1; then

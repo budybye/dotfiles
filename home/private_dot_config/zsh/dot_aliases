@@ -18,6 +18,7 @@ alias sysinfo="uname -a && uptime"
 alias meminfo="free -h 2>/dev/null || vm_stat"
 alias diskinfo="df -h"
 
+# これいらない？
 SHELL=${SHELL:-bash}
 # シェルの再起動
 alias rl="exec ${SHELL} -l"
@@ -157,6 +158,11 @@ if command -v bat >/dev/null 2>&1; then
     alias cat="bat -p"
 fi
 
+# cd を zoxide に変更
+if command -v zoxide >/dev/null 2>&1; then
+    alias cd="z"
+fi
+
 # grep を rg に変更
 if command -v rg >/dev/null 2>&1; then
     alias grep="rg --color=always"
@@ -167,11 +173,6 @@ fi
 if command -v fd >/dev/null 2>&1; then
     alias find="fd"
 fi
-
-# # cd を zoxide に変更
-# if command -v zoxide >/dev/null 2>&1; then
-#     alias cd="z"
-# fi
 
 # tldr
 if command -v tldr >/dev/null 2>&1; then

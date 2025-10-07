@@ -3,19 +3,19 @@
 echo "run_once_before_age.sh.tmpl"
 echo "--------------------------------"
 
-if command -v age >/dev/null; then
+if command -v age >/dev/null 2>&1; then
     echo "age already installed"
 
-elif command -v mise >/dev/null; then
+elif command -v mise >/dev/null 2>&1; then
     mise use -g age@latest -y || echo "age install failed"
 
-elif command -v brew >/dev/null; then
+elif command -v brew >/dev/null 2>&1; then
     brew install age || echo "age install failed"
 
-elif command -v apt-get >/dev/null; then
+elif command -v apt-get >/dev/null 2>&1; then
     sudo apt-get install -y age || echo "age install failed"
 
-elif command -v curl >/dev/null; then
+elif command -v curl >/dev/null 2>&1; then
     curl -sSL https://github.com/FiloSottile/age/releases/download/v1.1.2/age-v1.1.2-linux-$(dpkg --print-architecture).tar.gz | tar xz || echo "age install failed"
 
 else

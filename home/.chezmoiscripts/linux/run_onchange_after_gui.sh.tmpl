@@ -64,7 +64,7 @@ install_cloudflare_warp() {
 ## 代変えインストーラー https://github.com/watzon/cursor-linux-installer
 install_cursor() {
     APP_DIR="${HOME}/Applications"
-    APP_IMAGE="${APP_DIR}/cursor.AppImage"
+    APP_IMAGE="${APP_DIR}/cursor"
     mkdir -p "${APP_DIR}"
 
     # cursor download アーキテクチャに応じて
@@ -82,7 +82,7 @@ install_cursor() {
     $sudo chmod a+x "${APP_IMAGE}"
 
     # libfuse2 が必要なのでインストール
-    sudo apt-get install -y libfuse2 || echo "libfuse2 install failed."
+    $sudo apt-get install -y libfuse2 || echo "libfuse2 install failed."
 
     # cursor の実行方法を表示
     echo 'use command: ${APP_IMAGE} --no-sandbox'
@@ -115,9 +115,9 @@ install_github_desktop() {
 
 install_ruby_fusuma() {
     # ruby のインストール
-    if command -v gem >/dev/null; then
+    if command -v gem >/dev/null 2>&1; then
         echo "ruby already installed."
-    elif command -v mise >/dev/null; then
+    elif command -v mise >/dev/null 2>&1; then
         mise use ruby -g -y || echo "ruby install failed."
         echo "ruby installed."
     else
@@ -129,7 +129,7 @@ install_ruby_fusuma() {
     # fusuma のインストール
     if command -v fusuma >/dev/null 2>&1; then
         echo "fusuma already installed."
-    elif command -v gem >/dev/null; then
+    elif command -v gem >/dev/null 2>&1; then
         $sudo gem install fusuma || echo "fusuma install failed."
         $sudo groupadd -f input
         $sudo usermod -aG input "$(whoami)"

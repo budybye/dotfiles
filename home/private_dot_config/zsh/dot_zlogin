@@ -9,6 +9,6 @@ fi
 
 # figlet
 if command -v figlet > /dev/null 2>&1 && \
-  command -v lolcat > /dev/null 2>&1; then
-    echo $USER | figlet | lolcat
+    command -v lolcat > /dev/null 2>&1; then
+      echo $USER | figlet | lolcat
 fi

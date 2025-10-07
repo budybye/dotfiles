@@ -35,7 +35,7 @@ ls -la "${HOME}/.local/bin"
 echo "--------------------------------"
 tree -L 3 "${HOME}/.local/share"
 echo "--------------------------------"
-tree "${HOME}/Music/riddim" || tree "${HOME}/Music"
+tree "${HOME}/Music/riddim" || ls -la "${HOME}/Music"
 echo "--------------------------------"
 
 {{- if eq .chezmoi.os "linux" }}
@@ -56,10 +56,10 @@ else
     echo "Create symlink..."
     ln -sf "{{ .chezmoi.sourceDir }}" "${HOME}/dotfiles"
 fi
-tree "${HOME}/dotfiles"
+ls -la "${HOME}/dotfiles"
 echo "--------------------------------"
 
-{{/* 対話型にする */}}
+{{/* git の user.conf を対話型にする */}}
 {{ if eq .chezmoi.hostname "589" }}
 
 echo 'git userconf update ? (y/n)'
@@ -89,6 +89,4 @@ fi
 
 if command -v xrp > /dev/null 2>&1; then
     xrp
-elif [ -d "${HOME}/data" ]; then
-    . ${HOME}/data/xrp.sh
 fi

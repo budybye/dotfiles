@@ -8,7 +8,7 @@ fi
 # Zsh をデフォルトシェルに変更する関数
 change_shell_to_zsh() {
     # zsh がインストールされているか確認
-    if command -v zsh >/dev/null; then
+    if command -v zsh >/dev/null 2>&1; then
         echo "zsh already installed."
     else
         $sudo apt-get install -y zsh || echo "zsh install failed." >> ${HOME}/which
@@ -98,7 +98,7 @@ install_mise() {
 }
 
 install_cargo_tools() {
-    if command -v cargo >/dev/null; then
+    if command -v cargo >/dev/null 2>&1; then
         echo "cargo already installed."
     elif command -v mise >/dev/null 2>&1; then
         mise use -g -y rust@latest || echo "cargo install failed."
@@ -116,11 +116,11 @@ install_cargo_tools() {
 
     cargo --version >> ${HOME}/which || echo "cargo not found" >> ${HOME}/which
 
-    if command -v cargo-binstall >/dev/null; then
+    if command -v cargo-binstall >/dev/null 2>&1; then
         cargo-binstall -V
-    elif command -v cargo >/dev/null; then
+    elif command -v cargo >/dev/null 2>&1; then
         cargo install -f cargo-binstall || echo "cargo-binstall install failed."
-    elif command -v mise >/dev/null; then
+    elif command -v mise >/dev/null 2>&1; then
         mise use -g -y cargo-binstall@latest || echo "cargo-binstall install failed."
     else
         echo "cargo-binstall not found" >> ${HOME}/which
@@ -128,9 +128,9 @@ install_cargo_tools() {
 
     {{ range .packages.cargo }}
 
-    if command -v cargo-binstall >/dev/null; then
+    if command -v cargo-binstall >/dev/null 2>&1; then
         cargo-binstall -y {{ . }} || echo "{{ . }} install failed."
-    elif command -v cargo >/dev/null; then
+    elif command -v cargo >/dev/null 2>&1; then
         cargo install -f --bins {{ . }} || echo "{{ . }} install failed."
     else
         echo "cargo not found"
@@ -146,7 +146,7 @@ install_cargo_tools() {
 }
 
 install_flatpak() {
-    if command -v flatpak >/dev/null; then
+    if command -v flatpak >/dev/null 2>&1; then
         echo "flatpak already installed."
     else
         $sudo apt-get install -y flatpak || echo "flatpak install failed."
@@ -157,22 +157,22 @@ install_flatpak() {
 }
 
 install_go_aqua() {
-    if command -v go >/dev/null; then
+    if command -v go >/dev/null 2>&1; then
         echo "go already installed."
     elif command -v apt >/dev/null 2>&1; then
         $sudo apt-get install -y golang || echo "go install failed."
-    elif command -v mise >/dev/null; then
+    elif command -v mise >/dev/null 2>&1; then
         mise use -g -y go@latest || echo "go install failed."
     else
         echo "go not found"
     fi
     go version >> ${HOME}/which || echo "go not found" >> ${HOME}/which
 
-    if command -v aqua >/dev/null; then
+    if command -v aqua >/dev/null 2>&1; then
         echo "aqua already installed."
-    elif command -v go >/dev/null; then
+    elif command -v go >/dev/null 2>&1; then
         go install github.com/aquaproj/aqua/v2/cmd/aqua@latest || echo "aqua install failed."
-    elif command -v mise >/dev/null; then
+    elif command -v mise >/dev/null 2>&1; then
         mise use -g -y aqua@latest || echo "aqua install failed."
     else
         echo "aqua not found"
@@ -181,17 +181,17 @@ install_go_aqua() {
 }
 
 install_mkcert() {
-    if command -v mkcert >/dev/null; then
+    if command -v mkcert >/dev/null 2>&1; then
         echo "mkcert already installed."
     elif command -v apt >/dev/null 2>&1; then
         $sudo apt install -y mkcert || echo "mkcert install failed."
-    elif command -v mise >/dev/null; then
+    elif command -v mise >/dev/null 2>&1; then
         mise use -g -y mkcert@latest || echo "mkcert install failed."
     else
         echo "mkcert not found"
     fi
 
-    if command -v mkcert >/dev/null; then
+    if command -v mkcert >/dev/null 2>&1; then
         mkcert -install || echo "mkcert not setup"
         mkcert --version >> ${HOME}/which || echo "mkcert not found" >> ${HOME}/which
     else
