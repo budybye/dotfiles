@@ -17,6 +17,7 @@ services:
     #   - ${HOME}/data:/home/ubuntu/data
     environment:
       REMOTE_CONTAINERS: true
+      MISE_GITHUB_TOKEN: ${MISE_GITHUB_TOKEN:-}
     shm_size: 512m # ブラウザ対策
     # entrypoint: ["entrypoint"]
     command: ["ubuntu", "ubuntu", "yes"]

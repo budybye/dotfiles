@@ -38,6 +38,8 @@ jobs:
           - platform: linux/amd64
             runs-on: ubuntu-24.04
     runs-on: ${{ matrix.runs-on }}
+    env:
+      MISE_GITHUB_TOKEN: ${{ secrets.MISE_GITHUB_TOKEN }}
     steps:
       - name: Prepare
         run: |

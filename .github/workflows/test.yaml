@@ -6,6 +6,8 @@ on:
 jobs:
   ubuntu-amd64:
     runs-on: ubuntu-24.04
+    env:
+      MISE_GITHUB_TOKEN: ${{ secrets.MISE_GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v4
       - name: make
@@ -13,6 +15,8 @@ jobs:
 
   ubuntu-arm64:
     runs-on: ubuntu-24.04-arm
+    env:
+      MISE_GITHUB_TOKEN: ${{ secrets.MISE_GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v4
       - name: make
@@ -20,6 +24,8 @@ jobs:
 
   darwin:
     runs-on: macos-15
+    env:
+      MISE_GITHUB_TOKEN: ${{ secrets.MISE_GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v4
       - name: make
@@ -38,36 +44,27 @@ jobs:
     runs-on: windows-11-arm
     steps:
       - uses: actions/checkout@v4
-
       # - name: winget
       #   run: winget install Microsoft.PowerToys
 
-  # wsl2:
-  #   runs-on: windows-2025
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - uses: vedantmgoyal9/setup-wsl2@main
-  #     - run: apt update && apt upgrade -y
-  #       shell: wsl-run {0} # add this to run the commands inside linux
-  #     - run: |
-  #         ls -al
-  #         env
-  #       shell: wsl-run {0} # don't forget to add this
-  #       env:
-  #         MY_ENV_VAR: MY_VALUE
-  #         # WSLENV is a special environment variable to share environment variables between windows and linux
-  #         # see https://devblogs.microsoft.com/commandline/share-environment-vars-between-wsl-and-windows
-  #         WSLENV: MY_ENV_VAR
+  wsl2:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v4
+      - uses: Vampire/setup-wsl@v6
+      - run: apt update && apt upgrade -y
+      - shell: wsl-bash {0}
+        run: |
+          ls -al
 
   lxd:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Setup LXD
-        uses: canonical/setup-lxd@main
-        with:
-          channel: latest/edge
-      - name: Launch container
+      - name: Setup Incus
+        uses: bdx0/action-incus@v1
+
+      - name: Launch instance
         run: |
           lxc profile create dev && \
           cat cloud-init/lxd.yaml | lxc profile edit dev
@@ -78,21 +75,6 @@ jobs:
           lxc exec ubuntu -- ls -la /home/budybye/dotfiles
           lxc exec ubuntu -- echo "$SHELL"
           lxc exec ubuntu -- cat /etc/os-release
-
-  # multipass:
-  #   runs-on: ubuntu-24.04
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - name: Setup LXD
-  #       uses: canonical/setup-lxd@main
-  #       with:
-  #         channel: latest/edge
-  #     - name: Launch container
-  #       run: |
-  #         lxc launch ubuntu:24.04 multipass --config=user.user-data="$(cat cloud-init/multipass.yaml)"
-  #         lxc exec multipass -- cloud-init status --wait || true
-  #         lxc exec multipass -- tail -8 /var/log/cloud-init.log
-  #         lxc exec multipass -- cat /etc/os-release && env
 
   rpi:
     runs-on: ubuntu-24.04-arm
