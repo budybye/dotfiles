@@ -242,16 +242,23 @@
 ### XRPL・Ripple
 
 - [XRPL Blockchain](https://xrpl.org/llms.txt) #xrpl #blockchain #ripple #payments
-- [XRPScan](https://docs.xrpscan.com/llms-full.txt) #xrpl #explorer #scan #blockchain
-- [Xaman Wallet Documentation](https://docs.xaman.dev/llms-full.txt) #xrpl #wallet #xaman #mobile
+- [XRPL Standard](https://context7.com/XRPLF/XRPL-Standards/llms.txt) #xrpl #xls
 - [Rippled XRPL Server](https://context7.com/xrplf/rippled/llms.txt) #xrpl #server #rippled #node
+- [clio server](https://context7.com/xrplf/clio/llms.txt) #xrpl #clio #server #api
+- [Xaman Wallet Documentation](https://docs.xaman.dev/llms-full.txt) #xrpl #wallet #xaman #mobile
 - [XRPL.js Client Library](https://context7.com/xrplf/xrpl.js/llms.txt) #xrpl #javascript #client #library
 - [XRPL Python Library](https://context7.com/xrplf/xrpl-py.git/llms.txt) #xrpl #python #client #library
-- [clio server](https://context7.com/xrplf/clio/llms.txt) #xrpl #clio #server #api
+- [XRPL Go](https://context7.com/XRPLF/xrpl-go/llms.txt)
+- [XRPL Java](https://context7.com/XRPLF/xrpl4j/llms.txt)
+- [XRPL-CLI](https://context7.com/XRPLF/xrpl-cli/llms.txt)
 - [XRPL Explorer](https://context7.com/ripple/explorer/llms.txt) #xrpl #explorer #blockchain #web
+- [XRPScan](https://docs.xrpscan.com/llms-full.txt) #xrpl #explorer #scan #blockchain
 - [Rippled API Spec](https://context7.com/ripple/rippled-api-spec/llms.txt) #xrpl #api #spec #documentation
 - [Xahau JShooks](https://context7.com/xahau/jshooks-alpha/llms.txt) #xahau #dev
 - [Xahau Network](https://context7.com/Xahau/xahaud/llms.txt) #xahau #blockchain
+- [XRPL Wallet-Standard](https://context7.com/tequdev/xrpl-wallet-standard/llms.txt)
+- [Xaman-App](https://context7.com/WietseWind/Xaman-App/llms.txt)
+- [docker-rippled](https://context7.com/WietseWind/docker-rippled/llms.txt)
 
 ### Interledger
 
@@ -361,6 +368,7 @@
 - [Matrix JS SDK](https://context7.com/matrix-org/matrix-js-sdk/llms.txt) #matrix #chat #sdk #javascript
 - [strapi](https://context7.com/milathi/strapi-v5/llms.txt) #strapi #cms #headless #api
 - [Yabai](https://context7.com/koekeishiya/yabai/llms.txt) #window #system #macos
+- [Marketing API](https://context7.com/websites/developers_facebook_marketing-api/llms.txt)
 
 ## ミュージック
 

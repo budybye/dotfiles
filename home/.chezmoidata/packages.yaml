@@ -285,23 +285,25 @@ packages:
 
   cargo:
   # - 'alacritty'
-  - 'starship'
-  - 'sheldon'
-  - 'xh'
+  # - 'cargo-binstall'
   - 'bat'
   - 'lsd'
   - 'fd-find'
   - 'ripgrep'
+  - 'sheldon'
+  - 'starship'
+  - 'xh'
+  - 'zoxide'
+
   - 'boringtun-cli'
-  - 'sniffnet'
   - 'coreutils'
+  - 'sniffnet'
+
   - 'kmon'
   - 'onehistory'
   - 'vaultwarden'
-  - 'zoxide'
   # - 'zellij'
   # - 'fermyon'
-  # - 'cargo-binstall'
 
   mise:
   - 'rust@latest'
@@ -314,7 +316,6 @@ packages:
   - 'gh@latest'
   - 'yq@latest'
   - 'mkcert@latest'
-  - 'cmake@latest'
   - 'ninja@latest'
   - 'age@latest'
   - 'act@latest'
@@ -326,13 +327,13 @@ packages:
   - 'java@latest'
   - 'maven@latest'
   npm:
-  # - 'claude'
   - 'pm2'
   - 'vibekit'
-  # - 'wrangler'
-  - 'zx'
-  - '@pipedream/sdk'
-  - '@bitwarden/cli'
+  - 'wrangler'
+  # - 'claude'
+  # - 'zx'
+  # - '@pipedream/sdk'
+  # - '@bitwarden/cli'
   curl:
   - 'sh -c "$(curl -fsSL https://git.io/chezmoi)" -- -b ${HOME}/.local/bin'
   - 'curl https://mise.run | sh'

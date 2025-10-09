@@ -2,11 +2,11 @@
   "editor.formatOnSave": true,
   "makefile.configureOnOpen": false,
   "bun.runtime": "/Users/hotmilk/.local/share/mise/shims/bun",
-  "go.goroot": "/Users/hotmilk/.local/share/mise/installs/go/1.25.1",
+  "go.goroot": "/Users/hotmilk/.local/share/mise/installs/go/1.25.2",
   "debug.javascript.defaultRuntimeExecutable": {
     "pwa-node": "/Users/hotmilk/.local/share/mise/shims/node"
   },
-  "python.defaultInterpreterPath": "/Users/hotmilk/.local/share/mise/installs/python/3.13.7/bin/python",
+  "python.defaultInterpreterPath": "/Users/hotmilk/.local/share/mise/installs/python/3.14.0/bin/python",
   "go.alternateTools": {
     "go": "/Users/hotmilk/.local/share/mise/shims/go",
     "gopls": "/Users/hotmilk/.local/share/mise/shims/gopls"
