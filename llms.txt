@@ -145,6 +145,7 @@
 
 ### その他のフレームワーク・ライブラリ
 
+- [upstash](https://upstash.com/docs/llms-full.txt)
 - [Shopify Hydrogen](https://context7.com/shopify/hydrogen/llms.txt) #shopify #ecommerce #framework #headless
 - [Workbox Service Workers](https://context7.com/googlechrome/workbox/llms.txt) #service-workers #pwa #caching #offline
 - [Appwrite](https://context7.com/websites/appwrite_io/llms.txt) #backend #api #bass
@@ -159,7 +160,6 @@
 - [Playwright Testing](https://context7.com/microsoft/playwright/llms.txt) #testing #playwright #automation
 - [Testing Library](https://context7.com/testing-library/testing-library-docs/llms.txt) #testing #react #dom #accessibility
 - [MSW Mock Service Worker](https://context7.com/mswjs/msw/llms.txt) #testing #mocking #msw
-- [Cloudflare Playwright](https://context7.com/cloudflare/playwright/llms.txt) #testing #playwright #cloudflare
 - [Keploy](https://context7.com/keploy/keploy/llms.txt) #keploy #testing #api #mocking
 
 ## データベース・ストレージ

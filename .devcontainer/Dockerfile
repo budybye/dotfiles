@@ -74,6 +74,7 @@ RUN apt-get install -y \
     neofetch \
     mkcert \
     ufw \
+    byobu \
     openssh-server \
     avahi-daemon
 
@@ -135,7 +136,7 @@ RUN usermod -aG sudo ubuntu && \
     mkdir -p /home/ubuntu && \
     chown -R ubuntu:ubuntu /home/ubuntu
 
-# ENTRYPOINT を/usr/bin/にシンボリックリンク
+# ENTRYPOINT を/usr/bin/にコピーしてシンボリックリンクを作成
 COPY ./entrypoint.sh /usr/bin/
 RUN ln -s /usr/bin/entrypoint.sh /usr/bin/entrypoint
 RUN chmod +x /usr/bin/entrypoint
