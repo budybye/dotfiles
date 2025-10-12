@@ -6,19 +6,19 @@ fi
 # よく使うコマンド
 alias q="exit"
 alias c="clear"
-alias hg="history | grep"
 alias hh="cd ~"
-alias sp='echo $PATH && echo $SHELL'
-alias vv="env | grep"
 alias www="ps aux"
 alias now="date +%Y%m%d%H%M%S"
+
+# grep系エイリアス
+alias vv="env | grep"
+alias hg="history | grep"
 
 # システム情報
 alias sysinfo="uname -a && uptime"
 alias meminfo="free -h 2>/dev/null || vm_stat"
 alias diskinfo="df -h"
 
-# これいらない？
 SHELL=${SHELL:-bash}
 # シェルの再起動
 alias rl="exec ${SHELL} -l"
@@ -32,8 +32,7 @@ alias oppi="for i in {1..3}; do time ${SHELL} -lc exit;done && exec ${SHELL}"
 # ドキュメント
 alias note="${EDITOR:-vim} ${HOME}/Documents/note.md"  # ノートを開く
 alias docs="cd ${HOME}/Documents"  # ドキュメントフォルダに移動
-alias br="--------------------------------" # 区切り線
-alias vv="env | grep" # 環境変数を表示
+alias br="echo -------------------------------------" # 区切り線
 
 # ファイル操作のエイリアス
 alias mv="mv -i"   # 上書き確認を有効にする
@@ -158,11 +157,6 @@ if command -v bat >/dev/null 2>&1; then
     alias cat="bat -p"
 fi
 
-# cd を zoxide に変更
-if command -v zoxide >/dev/null 2>&1; then
-    alias cd="z"
-fi
-
 # grep を rg に変更
 if command -v rg >/dev/null 2>&1; then
     alias grep="rg --color=always"
@@ -172,6 +166,11 @@ fi
 # find を fd に変更
 if command -v fd >/dev/null 2>&1; then
     alias find="fd"
+fi
+
+# cd を zoxide に変更
+if command -v zoxide >/dev/null 2>&1; then
+    alias cd="z"
 fi
 
 # tldr

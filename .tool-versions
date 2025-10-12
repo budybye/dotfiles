@@ -1,4 +1,8 @@
-age     latest
-bitwarden latest
-chezmoi latest
-gh      latest
+age           latest
+bitwarden     latest
+chezmoi       latest
+doppler       latest
+elasticsearch latest
+fastfetch     latest
+gh            latest
+hadolint      latest

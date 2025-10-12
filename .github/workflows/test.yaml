@@ -44,8 +44,8 @@ jobs:
     runs-on: windows-11-arm
     steps:
       - uses: actions/checkout@v4
-      # - name: winget
-      #   run: winget install Microsoft.PowerToys
+      - run: |
+          winget install Microsoft.PowerToys
 
   wsl2:
     runs-on: windows-2022
@@ -54,10 +54,10 @@ jobs:
       - uses: Vampire/setup-wsl@v6
       - shell: wsl-bash {0}
         run: |
-          # sudo apt-get update -y
-          # sudo apt-get upgrade -y
-          # sudo apt-get autoremove -y
-          # sudo apt-get clean
+          apt-get update -y
+          # apt-get upgrade -y
+          # apt-get autoremove -y
+          # apt-get clean
           ls -al
 
   lxd:
@@ -80,6 +80,7 @@ jobs:
           lxc exec ubuntu -- ls -la /home/budybye/dotfiles
           lxc exec ubuntu -- echo "$SHELL"
           lxc exec ubuntu -- cat /etc/os-release
+          lxc config set core.https_address :8443
 
   rpi:
     runs-on: ubuntu-24.04-arm
@@ -89,9 +90,11 @@ jobs:
         uses: canonical/setup-lxd@main
         with:
           channel: latest/edge
+
       - name: Launch container
         run: |
           lxc launch ubuntu:24.04 rpi --config=user.user-data="$(cat cloud-init/user-data)"
           lxc exec rpi -- cloud-init status --wait || true
           lxc exec rpi -- tail -8 /var/log/cloud-init.log
-          lxc exec rpi -- cat /etc/os-release && env
+          lxc exec rpi -- cat /etc/os-release
+          lxc config set core.https_address :8443

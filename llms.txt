@@ -21,15 +21,15 @@
 
 ### 主要LLMモデル
 
-- ChatGPT: OpenAIの会話型AIで、GPTアーキテクチャに基づいており、対話やタスク支援に広く使用されています。 #llm #openai #chatgpt #conversational
-- Gemini: GoogleのマルチモーダルAIモデルで、テキスト、画像、その他のデータを処理でき、汎用性を重視して設計されています。 #llm #google #gemini #multimodal
-- Apple Intelligence: Appleが開発したプライバシー重視のAIシステムで、デバイス上での処理を基本とし、Siri、メッセージ、写真、Safariなどのアプリケーションに統合されて、ユーザーの日常的なタスクを支援します。 #llm #apple #privacy #on-device
-- Llama: Meta AIによる言語モデルファミリーで、自然言語タスクでの効率性で知られ、主に研究目的で使用されます。 #llm #meta #research #efficient
-- Github Copilot: MicrosoftとGitHubが共同開発したAIプログラミングアシスタントで、コードの自動補完、関数の提案、バグの修正提案など、開発者の生産性向上を支援します。 #copilot #ai-coding #microsoft #productivity
-- Grok: xAIによって作成され、有用で真実の回答を提供するように設計されており、「銀河ヒッチハイク・ガイド」と「アイアンマン」のJARVISにインスパイアされています。 #llm #xai #humor #truthful
-- Claude: Anthropicによって構築され、安全性と解釈可能性に焦点を当てており、ChatGPTなどのモデルと競合しています。 #llm #anthropic #safety #interpretable
-- Leo AI: Braveブラウザに統合されたAIアシスタントで、プライバシー保護を重視し、ウェブ検索、コンテンツ要約、コード生成などの機能を提供し、ユーザーのオンライン活動を安全かつ効率的に支援します。 #llm #brave #privacy #browser-integrated
-- LLaVA: 最新モデルのLLaVA-1.5では、Llama2をベースにしており、画像エンコーダのCLIP ViT-L/14を組み合わせて画像入力の理解能力を付与し、それに基づいて適切な文章を生成できます。 #llm #multimodal #vision #image-understanding
+- **ChatGPT**: OpenAIの会話型AIで、GPTアーキテクチャに基づいており、対話やタスク支援に広く使用されています。 #llm #openai #chatgpt #conversational
+- **Gemini**: GoogleのマルチモーダルAIモデルで、テキスト、画像、その他のデータを処理でき、汎用性を重視して設計されています。 #llm #google #gemini #multimodal
+- **Apple Intelligence**: Appleが開発したプライバシー重視のAIシステムで、デバイス上での処理を基本とし、Siri、メッセージ、写真、Safariなどのアプリケーションに統合されて、ユーザーの日常的なタスクを支援します。 #llm #apple #privacy #on-device
+- **Llama**: Meta AIによる言語モデルファミリーで、自然言語タスクでの効率性で知られ、主に研究目的で使用されます。 #llm #meta #research #efficient
+- **Github Copilot**: MicrosoftとGitHubが共同開発したAIプログラミングアシスタントで、コードの自動補完、関数の提案、バグの修正提案など、開発者の生産性向上を支援します。 #copilot #ai-coding #microsoft #productivity
+- **Grok**: xAIによって作成され、有用で真実の回答を提供するように設計されており、「銀河ヒッチハイク・ガイド」と「アイアンマン」のJARVISにインスパイアされています。 #llm #xai #humor #truthful
+- **Claude**: Anthropicによって構築され、安全性と解釈可能性に焦点を当てており、ChatGPTなどのモデルと競合しています。 #llm #anthropic #safety #interpretable
+- **Leo AI**: Braveブラウザに統合されたAIアシスタントで、プライバシー保護を重視し、ウェブ検索、コンテンツ要約、コード生成などの機能を提供し、ユーザーのオンライン活動を安全かつ効率的に支援します。 #llm #brave #privacy #browser-integrated
+- **LLaVA**: 最新モデルのLLaVA-1.5では、Llama2をベースにしており、画像エンコーダのCLIP ViT-L/14を組み合わせて画像入力の理解能力を付与し、それに基づいて適切な文章を生成できます。 #llm #multimodal #vision #image-understanding
 
 ### AI開発・フレームワーク
 
@@ -88,6 +88,9 @@
 - [Podman](https://context7.com/containers/podman/llms.txt) #podman #containers #docker-alternative #rootless
 - [Incus VM Container](https://context7.com/lxc/incus/llms.txt) #incus #containers #lxc #system-containers
 - [Docker OSX](https://context7.com/sickcodes/docker-osx/llms.txt) #docker #macos #virtualization #apple-silicon
+- [lxd UI](https://context7.com/canonical/lxd-ui/llms.txt)
+- [microcloud](https://context7.com/canonical/microcloud/llms.txt)
+- [microk8s](https://context7.com/canonical/microk8s/llms.txt)
 
 ### サーバー・OS
 
@@ -95,6 +98,7 @@
 - [FreeBSD Documentation](https://context7.com/freebsd/freebsd-doc/llms.txt) #freebsd #unix #server #zfs
 - [Proxmox VE Documentation](https://context7.com/proxmox/pve-docs/llms.txt) #proxmox #virtualization #hypervisor #kvm
 - [Kali Linux Documentation](https://context7.com/context7/kali/llms.txt) #security #pentesting #kali #linux
+- [Multipass](https://context7.com/canonical/multipass/llms.txt) #vm #ubuntu #linux
 
 ### 設定・デプロイ・CI/CD
 
@@ -173,6 +177,8 @@
 - [CockroachDB](https://context7.com/cockroachdb/docs/llms.txt) #database #distributed #postgresql
 - [TiDB](https://context7.com/websites/pingcap/llms.txt) #mysql #cluster #database
 - [PGVector](https://context7.com/pgvector/pgvector/llms.txt) #postgresql #vectorize
+- [dblite](https://context7.com/canonical/dqlite/llms.txt)
+- [SQLC](https://context7.com/websites/sqlc_dev/llms.txt)
 
 ### NoSQL・その他
 
@@ -200,6 +206,7 @@
 - [Go Fiber Web Framework](https://context7.com/gofiber/docs/llms.txt) #go #web #framework #express-like
 - [Go Echo](https://context7.com/websites/echo_labstack_com-docs/llms.txt) #go #web #framework #minimal
 - [Jenkins](https://context7.com/jenkinsci/jenkins/llms.txt) #java #framework #web
+- [Supabase](https://context7.com/supabase/supabase/llms.txt)
 
 ### API・GraphQL
 
@@ -360,6 +367,7 @@
 - [Xfce](https://context7.com/xfce-mirror/xfdesktop/llms.txt) #xfce #desktop #environment #linux
 - [xrdp](https://context7.com/neutrinolabs/xrdp/llms.txt) #xrdp #remote-desktop #linux #rdp
 - [wayland](https://context7.com/websites/wayland_freedesktop_html/llms.txt) #wayland #display #server #modern
+- [lightdm](https://context7.com/canonical/lightdm/llms.txt)
 - [Chrome Exetension](https://context7.com/websites/developer_chrome_google_cn-extensions/llms.txt) #chrome #extension #browser #development
 - [Stack](https://context7.com/websites/slack_dev/llms.txt) #slack #chat #message
 - [Discord js](https://context7.com/context7/discord_js_org-docs/llms.txt) #discord #javascript #api #bot
@@ -470,17 +478,25 @@
 
 - [Cloudflare Developer Platform](https://developers.cloudflare.com/developer-platform/llms-full.txt) #cloudflare #platform #edge-computing #cdn
 - [Cloudflare Workers](https://developers.cloudflare.com/workers/llms-full.txt) #cloudflare #serverless #workers #edge-computing
+
 - [Cloudflare AI](https://context7.com/cloudflare/ai/llms.txt) #cloudflare #ai #edge #serverless
 - [Cloudflare Agents](https://context7.com/cloudflare/agents/llms.txt) #agents #cloudflare #automation #workflow
+- [Cloudflare MCP](https://context7.com/cloudflare/mcp-server-cloudflare/llms.txt)
+- [Cloudflare vibesdk](https://context7.com/cloudflare/vibesdk/llms.txt)
+- [langchain-cloudflare](https://context7.com/cloudflare/langchain-cloudflare/llms.txt)
+
 - [Cloudflare python](https://context7.com/cloudflare/cloudflare-python/llms.txt) #cloudflare #python #sdk #api
 - [Cloudflare go](https://context7.com/cloudflare/cloudflare-go/llms.txt) #cloudflare #go #sdk #api
+- [Workers rs](https://context7.com/cloudflare/workers-rs/llms.txt)
+
 - [Cloudflare playwright](https://context7.com/cloudflare/playwright/llms.txt) #cloudflare #playwright #testing #automation
-- [Cloudflare vectorize](https://context7.com/llmstxt/developers_cloudflare-vectorize-llms-full.txt/llms.txt) #cloudflare #vectorize #ai #embeddings
 - [Cloudflare durable objects](https://context7.com/llmstxt/developers_cloudflare-durable-objects-llms-full.txt/llms.txt) #cloudflare #durable-objects #stateful #serverless
+- [Cloudflare vectorize](https://context7.com/llmstxt/developers_cloudflare-vectorize-llms-full.txt/llms.txt) #cloudflare #vectorize #ai #embeddings
 - [Cloudflare turnstile](https://context7.com/websites/developers_cloudflare-turnstile/llms.txt) #cloudflare #turnstile #captcha #securit
 - [Cloudflared](https://context7.com/cloudflare/cloudflared/llms.txt) #cloudflare #proxy #security #zerotrust #server
-- [Wrangler Action](https://context7.com/cloudflare/wrangler-action/llms.txt) #wrangler #cloudflare #action #deployment
-- [Cloudflare MCP](https://context7.com/cloudflare/mcp-server-cloudflare/llms.txt)
 - [Cloudflare containers](https://context7.com/cloudflare/containers/llms.txt)
+- [Wrangler Action](https://context7.com/cloudflare/wrangler-action/llms.txt) #wrangler #cloudflare #action #deployment
 - [Workers SDK](https://context7.com/cloudflare/workers-sdk/llms.txt)
-- [Workers rs](https://context7.com/cloudflare/workers-rs/llms.txt)
+- [Partykit](https://context7.com/cloudflare/partykit/llms.txt)
+- [cfssl](https://context7.com/cloudflare/cfssl/llms.txt)
+- [Cloudflare email](https://developers.cloudflare.com/email-routing/llms-full.txt)
