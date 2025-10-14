@@ -1,5 +1,5 @@
-age           latest
-bitwarden     latest
+age           1.2.1
+bitwarden     2025.9
 chezmoi       latest
 doppler       latest
 elasticsearch latest

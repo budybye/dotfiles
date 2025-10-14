@@ -45,6 +45,7 @@
 - [LangGraph](https://context7.com/langchain-ai/langgraph/llms.txt) #langchain #graph #workflow #agents
 - [GraphRAG](https://context7.com/microsoft/graphrag/llms.txt) #rag #graph #microsoft
 - [Docling](https://context7.com/websites/docling-project_github_io_docling/llms.txt) #document #ai #format
+- [Pipedream](https://context7.com/websites/pipedream/llms.txt)
 
 ### MCP・エージェント開発
 
