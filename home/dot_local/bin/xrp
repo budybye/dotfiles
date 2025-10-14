@@ -99,7 +99,11 @@ if command -v jq > /dev/null 2>&1 ; then
     # get balance
     ACCOUNT_BALANCE=$(echo "$ACCOUNT_INFO_RESPONSE" | jq -r '.result.account_data.Balance | (tonumber / 1000000)')
     # get account calc price
-    ACCOUNT_CALC_PRICE=$(echo "$ACCOUNT_BALANCE * $XRP_CURRENCY_QUALITY" | bc)
+    if command -v bc > /dev/null 2>&1 ; then
+        ACCOUNT_CALC_PRICE=$(echo "$ACCOUNT_BALANCE * $XRP_CURRENCY_QUALITY" | bc)
+    else
+        ACCOUNT_CALC_PRICE=$(echo "$ACCOUNT_BALANCE * $XRP_CURRENCY_QUALITY" | awk '{printf "%.2f", $1 * $2}')
+    fi
 
     # json pretty print (verbose only)
     if [ "$VERBOSE" -eq 1 ]; then

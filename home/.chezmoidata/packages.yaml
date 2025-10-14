@@ -83,7 +83,6 @@ packages:
     - 'sudo'
     - 'flatpak'
 
-    - 'bc'
     - 'tree'
     - 'xsel'
     - 'ncdu'
