@@ -66,6 +66,8 @@ GET_USD_OFFERS='{
     }]
 }'
 
+# server info grpc request json
+GET_SERVER_INFO='{"method": "server_info","params": [{}]}'
 # fee grpc request json
 GET_FEE='{"method": "fee","params": [{}]}'
 # account_info grpc request json
@@ -84,6 +86,8 @@ grpc_request() {
 
 # get offers
 OFFER_RESPONSE=$(grpc_request "$GET_USD_OFFERS")
+# get server info
+SERVER_INFO_RESPONSE=$(grpc_request "$GET_SERVER_INFO")
 # get fee
 FEE_RESPONSE=$(grpc_request "$GET_FEE")
 # get account info
@@ -98,15 +102,12 @@ if command -v jq > /dev/null 2>&1 ; then
     XRP_CURRENCY_QUALITY=$(echo "$OFFER_RESPONSE" | jq -r '.result.offers[].quality | (tonumber * 1000000)')
     # get balance
     ACCOUNT_BALANCE=$(echo "$ACCOUNT_INFO_RESPONSE" | jq -r '.result.account_data.Balance | (tonumber / 1000000)')
-    # get account calc price
-    if command -v bc > /dev/null 2>&1 ; then
-        ACCOUNT_CALC_PRICE=$(echo "$ACCOUNT_BALANCE * $XRP_CURRENCY_QUALITY" | bc)
-    else
-        ACCOUNT_CALC_PRICE=$(echo "$ACCOUNT_BALANCE * $XRP_CURRENCY_QUALITY" | awk '{printf "%.2f", $1 * $2}')
-    fi
+
+    ACCOUNT_CALC_PRICE=$(awk -v balance="$ACCOUNT_BALANCE" -v quality="$XRP_CURRENCY_QUALITY" 'BEGIN {printf "%.2f", balance * quality}')
 
     # json pretty print (verbose only)
     if [ "$VERBOSE" -eq 1 ]; then
+        echo "$SERVER_INFO_RESPONSE" | jq '.result'
         echo "$FEE_RESPONSE" | jq '.result'
         echo "$OFFER_RESPONSE" | jq '.result'
         echo "$ACCOUNT_INFO_RESPONSE" | jq '.result'

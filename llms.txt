@@ -39,17 +39,19 @@
 - [OpenAI Platform](https://context7.com/websites/platform_openai/llms.txt) #api #openai #platform #gpt
 - [n8n Workflow Automation](https://context7.com/n8n-io/n8n-docs/llms.txt) #automation #workflow #nocode #visual-automation
 - [Anthropic Claude Documentation](https://context7.com/context7/anthropic-en/llms.txt) #claude #anthropic #docs #api
-- [Context7](https://context7.com/upstash/context7/llms.txt) #context #documentation #search #rag
 - [Open Router](https://openrouter.ai/docs/llms-full.txt) #api #router #llm #multi-provider
 - [AI SDK](https://context7.com/vercel/ai/llms.txt) #sdk #vercel #ai #react
 - [LangGraph](https://context7.com/langchain-ai/langgraph/llms.txt) #langchain #graph #workflow #agents
 - [GraphRAG](https://context7.com/microsoft/graphrag/llms.txt) #rag #graph #microsoft
 - [Docling](https://context7.com/websites/docling-project_github_io_docling/llms.txt) #document #ai #format
 - [Pipedream](https://context7.com/websites/pipedream/llms.txt)
+- [Openspce](https://context7.com/fission-ai/openspec/llms.txt)
+- [agent-spce](https://context7.com/websites/oracle_github_io_agent-spec/llms.txt)
 
 ### MCP・エージェント開発
 
 - [Model Context Protocol](https://context7.com/modelcontextprotocol/modelcontextprotocol/llms.txt) #mcp #protocol #standard #agents
+- [Context7](https://context7.com/upstash/context7/llms.txt) #context #documentation #search #rag
 - [FastMCP](https://context7.com/punkpeye/fastmcp/llms.txt) #mcp #fast #development #tools
 - [MCP Use](https://context7.com/websites/mcp-use/llms.txt) #mcp #tools #resources #documentation
 - [Awesome MCP Servers](https://context7.com/punkpeye/awesome-mcp-servers/llms.txt) #mcp #servers #awesome #tools
@@ -71,6 +73,7 @@
 - [Spec kit](https://context7.com/github/spec-kit/llms.txt) #ai #spec #development #tools
 - [OpenCode](https://context7.com/sst/opencode/llms.txt) #ai #coding #assistant #development
 - [awesome MCP server](https://context7.com/punkpeye/awesome-mcp-servers/llms.txt) #mcp #servers #awesome #tools
+- [chatkit-js](https://context7.com/openai/chatkit-js/llms.txt)
 
 ## ドキュメント・参考資料
 
@@ -140,6 +143,7 @@
 - [SWR](https://context7.com/vercel/swr/llms.txt) #data-fetching #caching #react #hooks
 - [Zustand](https://context7.com/pmndrs/zustand/llms.txt) #state #management #frontend
 - [Remix Utils](https://context7.com/sergiodxa/remix-utils/llms.txt)
+- [legend-state](https://context7.com/legendapp/legend-state/llms.txt)
 
 ### ビルドツール・開発環境
 
@@ -156,6 +160,9 @@
 - [Appwrite](https://context7.com/websites/appwrite_io/llms.txt) #backend #api #bass
 - [image-resize-compress](https://context7.com/alefduarte/image-resize-compress/llms.txt) #image #resize #webp
 - [searchkit](https://context7.com/searchkit/searchkit/llms.txt) #search #components
+- [vcard4](https://context7.com/kelseykm/vcard4/llms.txt) #vcard #identity #phone #addressbook
+- [VRChat](https://context7.com/websites/vrchat/llms.txt)
+- [dicebear](https://github.com/dicebear/dicebear)
 
 ## テスト・品質管理
 
@@ -428,9 +435,10 @@
 
 ### 公式ドキュメント
 
-- [Web Standard Docs](https://context7.com/context7/developer_mozilla-en-us/llms.txt) #mdn #web #docs #standards
+- [Web Standard Docs](https://context7.com/websites/developer_mozilla_org-ja-docs-web/llms.txt) #mdn #web #docs #standards
+- [MDN](https://context7.com/mdn/content/llms.txt)
 - [Cloudflare Documentation](https://context7.com/cloudflare/cloudflare-docs/llms.txt) #cloudflare #docs #cdn #security
-- [Cloudflare Developers](https://context7.com/websites/developers_cloudflare/llms.txt) #cloudflare #developers #platform #edge
+- [Cloudflare Developers](https://developers.cloudflare.com/llms.txt) #cloudflare #developers #platform #edge
 - [GitHub Documentation](https://docs.github.com/llms.txt) #github #docs #git #collaboration
 - [Apple Developer](https://context7.com/context7/developer_apple/llms.txt) #apple #developer #ios #macos
 - [Appke Human Interface](https://context7.com/context7/developer_apple-design-human-interface-guidelines/llms.txt) #apple #design #guidelines #ui
@@ -479,6 +487,7 @@
 
 - [Cloudflare Developer Platform](https://developers.cloudflare.com/developer-platform/llms-full.txt) #cloudflare #platform #edge-computing #cdn
 - [Cloudflare Workers](https://developers.cloudflare.com/workers/llms-full.txt) #cloudflare #serverless #workers #edge-computing
+- [Cloudflare Workers Prompt](https://developers.cloudflare.com/workers/prompt.txt) #cloudflare #serverless #workers #edge-computing
 
 - [Cloudflare AI](https://context7.com/cloudflare/ai/llms.txt) #cloudflare #ai #edge #serverless
 - [Cloudflare Agents](https://context7.com/cloudflare/agents/llms.txt) #agents #cloudflare #automation #workflow
@@ -490,12 +499,14 @@
 - [Cloudflare go](https://context7.com/cloudflare/cloudflare-go/llms.txt) #cloudflare #go #sdk #api
 - [Workers rs](https://context7.com/cloudflare/workers-rs/llms.txt)
 
-- [Cloudflare playwright](https://context7.com/cloudflare/playwright/llms.txt) #cloudflare #playwright #testing #automation
-- [Cloudflare durable objects](https://context7.com/llmstxt/developers_cloudflare-durable-objects-llms-full.txt/llms.txt) #cloudflare #durable-objects #stateful #serverless
-- [Cloudflare vectorize](https://context7.com/llmstxt/developers_cloudflare-vectorize-llms-full.txt/llms.txt) #cloudflare #vectorize #ai #embeddings
-- [Cloudflare turnstile](https://context7.com/websites/developers_cloudflare-turnstile/llms.txt) #cloudflare #turnstile #captcha #securit
+- [Cloudflare durable objects](https://developers.cloudflare.com/durable-objects/llms-full.txt) #cloudflare #durable-objects #stateful #serverless
+- [Cloudflare vectorize](https://developers.cloudflare.com/vectorize/llms-full.txt) #cloudflare #vectorize #ai #embeddings
+- [Cloudflare turnstile](https://developers.cloudflare.com/turnstile/llms-full.txt) #cloudflare #turnstile #captcha #securit
+-
 - [Cloudflared](https://context7.com/cloudflare/cloudflared/llms.txt) #cloudflare #proxy #security #zerotrust #server
+- [Cloudflare playwright](https://context7.com/cloudflare/playwright/llms.txt) #cloudflare #playwright #testing #automation
 - [Cloudflare containers](https://context7.com/cloudflare/containers/llms.txt)
+- [Sandbox](https://developers.cloudflare.com/sandbox/llms-full.txt)
 - [Wrangler Action](https://context7.com/cloudflare/wrangler-action/llms.txt) #wrangler #cloudflare #action #deployment
 - [Workers SDK](https://context7.com/cloudflare/workers-sdk/llms.txt)
 - [Partykit](https://context7.com/cloudflare/partykit/llms.txt)
