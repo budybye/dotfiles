@@ -47,9 +47,12 @@
 - [Pipedream](https://context7.com/websites/pipedream/llms.txt)
 - [Openspce](https://context7.com/fission-ai/openspec/llms.txt)
 - [agent-spce](https://context7.com/websites/oracle_github_io_agent-spec/llms.txt)
+- [emdash](https://context7.com/generalaction/emdash/llms.txt)
 
 ### MCP・エージェント開発
 
+- [claude agent sdk](https://context7.com/anthropics/claude-agent-sdk-typescript/llms.txt)
+- [serena](https://context7.com/oraios/serena/llms.txt)
 - [Model Context Protocol](https://context7.com/modelcontextprotocol/modelcontextprotocol/llms.txt) #mcp #protocol #standard #agents
 - [Context7](https://context7.com/upstash/context7/llms.txt) #context #documentation #search #rag
 - [FastMCP](https://context7.com/punkpeye/fastmcp/llms.txt) #mcp #fast #development #tools
@@ -74,6 +77,8 @@
 - [OpenCode](https://context7.com/sst/opencode/llms.txt) #ai #coding #assistant #development
 - [awesome MCP server](https://context7.com/punkpeye/awesome-mcp-servers/llms.txt) #mcp #servers #awesome #tools
 - [chatkit-js](https://context7.com/openai/chatkit-js/llms.txt)
+- [amp code](https://sourcegraph.com/docs/llms.txt)
+- [anthropic skills](https://context7.com/anthropics/skills/llms.txt)
 
 ## ドキュメント・参考資料
 
@@ -95,6 +100,7 @@
 - [lxd UI](https://context7.com/canonical/lxd-ui/llms.txt)
 - [microcloud](https://context7.com/canonical/microcloud/llms.txt)
 - [microk8s](https://context7.com/canonical/microk8s/llms.txt)
+- [vCluster](https://context7.com/loft-sh/vcluster/llms.txt)
 
 ### サーバー・OS
 
@@ -103,6 +109,7 @@
 - [Proxmox VE Documentation](https://context7.com/proxmox/pve-docs/llms.txt) #proxmox #virtualization #hypervisor #kvm
 - [Kali Linux Documentation](https://context7.com/context7/kali/llms.txt) #security #pentesting #kali #linux
 - [Multipass](https://context7.com/canonical/multipass/llms.txt) #vm #ubuntu #linux
+- [GhostBSD](https://context7.com/ghostbsd/ghostbsd-src/llms.txt)
 
 ### 設定・デプロイ・CI/CD
 
@@ -136,6 +143,7 @@
 - [Web Components](https://context7.com/mdn/web-components-examples/llms.txt) #web-components #standards #reusable #vanilla-js
 - [react-easy-crop](https://context7.com/ValentinH/react-easy-crop/llms.txt)
 - [React Aria Components](https://context7.com/zaichaopan/react-aria-components-tailwind-starter/llms.txt) #react #aria #components
+- [tamagui](https://tamagui.dev/llms.txt)
 
 ### 状態管理・データ取得
 
@@ -144,6 +152,9 @@
 - [Zustand](https://context7.com/pmndrs/zustand/llms.txt) #state #management #frontend
 - [Remix Utils](https://context7.com/sergiodxa/remix-utils/llms.txt)
 - [legend-state](https://context7.com/legendapp/legend-state/llms.txt)
+- [tanstack-query](https://context7.com/websites/tanstack_query_v5/llms.txt)
+- [jotai-tanstack-query](https://context7.com/jotaijs/jotai-tanstack-query/llms.txt)
+- [tRPC](https://context7.com/trpc/trpc/llms.txt)
 
 ### ビルドツール・開発環境
 
@@ -154,6 +165,7 @@
 
 ### その他のフレームワーク・ライブラリ
 
+- [hono cli](https://context7.com/honojs/cli/llms.txt) #hono #cli #test #server
 - [upstash](https://upstash.com/docs/llms-full.txt)
 - [Shopify Hydrogen](https://context7.com/shopify/hydrogen/llms.txt) #shopify #ecommerce #framework #headless
 - [Workbox Service Workers](https://context7.com/googlechrome/workbox/llms.txt) #service-workers #pwa #caching #offline
@@ -163,6 +175,9 @@
 - [vcard4](https://context7.com/kelseykm/vcard4/llms.txt) #vcard #identity #phone #addressbook
 - [VRChat](https://context7.com/websites/vrchat/llms.txt)
 - [dicebear](https://github.com/dicebear/dicebear)
+- [pattycake](https://context7.com/aidenybai/pattycake/llms.txt)
+- [g6](https://context7.com/antvis/g6/llms.txt)
+- [templ](https://context7.com/websites/templ_guide/llms.txt)
 
 ## テスト・品質管理
 
@@ -187,6 +202,7 @@
 - [PGVector](https://context7.com/pgvector/pgvector/llms.txt) #postgresql #vectorize
 - [dblite](https://context7.com/canonical/dqlite/llms.txt)
 - [SQLC](https://context7.com/websites/sqlc_dev/llms.txt)
+- [mooncake](https://context7.com/mooncake-labs/pg_mooncake/llms.txt)
 
 ### NoSQL・その他
 
@@ -199,6 +215,7 @@
 ### ORM・クエリビルダー
 
 - [Drizzle ORM](https://orm.drizzle.team/llms-full.txt) #orm #typescript #sql
+- [prisma postgres](https://www.prisma.io/docs/llms-full.txt)
 
 ## バックエンド・API
 
@@ -215,6 +232,7 @@
 - [Go Echo](https://context7.com/websites/echo_labstack_com-docs/llms.txt) #go #web #framework #minimal
 - [Jenkins](https://context7.com/jenkinsci/jenkins/llms.txt) #java #framework #web
 - [Supabase](https://context7.com/supabase/supabase/llms.txt)
+- [T4app](https://context7.com/timothymiller/t4-app/llms.txt)
 
 ### API・GraphQL
 
@@ -238,6 +256,9 @@
 
 ### WebSocket・リアルタイム
 
+- [Pusher-js](https://context7.com/pusher/pusher-js/llms.txt)
+- [Pusher](https://context7.com/websites/pusher/llms.txt)
+- [pusher concorde](https://context7.com/matfire/concorde/llms.txt)
 - [Websocat WebSocket Tool](https://context7.com/vi/websocat/llms.txt) #websocket #tool #cli #testing
 - [wslay](https://context7.com/tatsuhiro-t/wslay/llms.txt) #websocket
 
@@ -367,6 +388,9 @@
 - [xdg-ninja](https://context7.com/b3nj5m1n/xdg-ninja/llms.txt) #xdg #cleanup #dotfiles #organization
 - [curl](https://context7.com/curl/curl/llms.txt) #curl #http #client #command-line
 - [GNU](https://context7.com/context7/gnu-doc/llms.txt) #gnu #free #software #foundation
+- [termshark](https://context7.com/gcla/termshark/llms.txt)
+- [tldr](https://context7.com/tldr-pages/tldr/llms.txt)
+- [jujutsu](https://context7.com/jj-vcs/jj/llms.txt)
 
 ## メディア・便利ツール
 
@@ -400,6 +424,7 @@
 - [yt-dlp](https://context7.com/yt-dlp/yt-dlp/llms.txt) #yt-dlp #youtube #downloader #video
 - [Youtube API](https://context7.com/websites/developers_google-youtube/llms.txt) #youtube #google #movie
 - [VLC](https://context7.com/videolan/vlc/llms.txt) #vlc #media #player #cross-platform
+- [yt-x](https://context7.com/Benexl/yt-x/llms.txt)
 
 ### 3D
 
@@ -423,6 +448,9 @@
 - [Canva API](https://context7.com/websites/canva_dev/llms.txt) #canva #design #api #graphics
 - [広聴 AI / kouchou-ai](https://context7.com/team-mirai/kouchou-ai/llms.txt) #kouchou #ai #japanese #voice
 - [waifu2x](https://context7.com/nagadomi/waifu2x/llms.txt)
+- [crossnote](https://context7.com/curvenote/docs/llms.txt)
+- [fx](https://context7.com/antonmedv/fx/llms.txt)
+- [ripsecrets](https://context7.com/sirwart/ripsecrets/llms.txt)
 
 ### トレード・ファイナンス
 
@@ -430,6 +458,7 @@
 - [TradingView API](https://context7.com/mathieu2301/tradingview-api/llms.txt) #tradingview #api #trading #finance
 - [CCXT Cryptocurrency Trading](https://context7.com/ccxt/ccxt/llms.txt) #crypto #trading #exchange #api
 - [Nautilus Trader](https://context7.com/nautechsystems/nautilus_trader/llms.txt) #nautilus #trading #python #finance
+- [tradestation](https://context7.com/tradestation/api-docs/llms.txt)
 
 ## ドキュメント・図表・開発者リソース
 
@@ -437,12 +466,14 @@
 
 - [Web Standard Docs](https://context7.com/websites/developer_mozilla_org-ja-docs-web/llms.txt) #mdn #web #docs #standards
 - [MDN](https://context7.com/mdn/content/llms.txt)
+- [WCAG](https://context7.com/w3c/wcag/llms.txt)
 - [Cloudflare Documentation](https://context7.com/cloudflare/cloudflare-docs/llms.txt) #cloudflare #docs #cdn #security
 - [Cloudflare Developers](https://developers.cloudflare.com/llms.txt) #cloudflare #developers #platform #edge
 - [GitHub Documentation](https://docs.github.com/llms.txt) #github #docs #git #collaboration
 - [Apple Developer](https://context7.com/context7/developer_apple/llms.txt) #apple #developer #ios #macos
 - [Appke Human Interface](https://context7.com/context7/developer_apple-design-human-interface-guidelines/llms.txt) #apple #design #guidelines #ui
 - [Visual Studio Code](https://context7.com/microsoft/vscode-docs/llms.txt) #vscode #docs #ide #microsoft
+- [Go project-layout ](https://context7.com/golang-standards/project-layout/llms.txt)
 
 ### 図表・プレゼンテーション
 
@@ -475,7 +506,7 @@
 - [cpp](https://context7.com/microsoftdocs/cpp-docs/llms.txt) #cpp #c++ #system #programming
 - [boost](https://context7.com/boostorg/boost/llms.txt) #boost #cpp #library #extensions
 - [conan](https://context7.com/conan-io/conan/llms.txt) #conan #cpp #package #manager
-- [rust](https://context7.com/rust-lang/rust/llms.txt66t5) #rust #systems #programming #memory-safe
+- [rust](https://context7.com/rust-lang/rust/llms.txt) #rust #systems #programming #memory-safe
 - [Ninja Build](https://context7.com/ninja-build/ninja/llms.txt) #ninja #build #system #fast
 - [PHP Documentation](https://context7.com/php/doc-en/llms.txt) #php #web #server-side #scripting
 - [Common LISP](https://context7.com/lisp-docs/lisp-docs.github.io/llms.txt) #lisp #functional #programming #ai
@@ -502,13 +533,13 @@
 - [Cloudflare durable objects](https://developers.cloudflare.com/durable-objects/llms-full.txt) #cloudflare #durable-objects #stateful #serverless
 - [Cloudflare vectorize](https://developers.cloudflare.com/vectorize/llms-full.txt) #cloudflare #vectorize #ai #embeddings
 - [Cloudflare turnstile](https://developers.cloudflare.com/turnstile/llms-full.txt) #cloudflare #turnstile #captcha #securit
+- [Cloudflare email](https://developers.cloudflare.com/email-routing/llms-full.txt)
+- [Sandbox](https://developers.cloudflare.com/sandbox/llms-full.txt)
 -
 - [Cloudflared](https://context7.com/cloudflare/cloudflared/llms.txt) #cloudflare #proxy #security #zerotrust #server
 - [Cloudflare playwright](https://context7.com/cloudflare/playwright/llms.txt) #cloudflare #playwright #testing #automation
 - [Cloudflare containers](https://context7.com/cloudflare/containers/llms.txt)
-- [Sandbox](https://developers.cloudflare.com/sandbox/llms-full.txt)
 - [Wrangler Action](https://context7.com/cloudflare/wrangler-action/llms.txt) #wrangler #cloudflare #action #deployment
 - [Workers SDK](https://context7.com/cloudflare/workers-sdk/llms.txt)
 - [Partykit](https://context7.com/cloudflare/partykit/llms.txt)
 - [cfssl](https://context7.com/cloudflare/cfssl/llms.txt)
-- [Cloudflare email](https://developers.cloudflare.com/email-routing/llms-full.txt)

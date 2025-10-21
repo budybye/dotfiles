@@ -50,6 +50,11 @@ if command -v zoxide > /dev/null 2>&1; then
   eval "$(zoxide init bash --hook prompt)"
 fi
 
+# thefuck
+if command -v thefuck > /dev/null 2>&1; then
+  eval $(thefuck --alias)
+fi
+
 # 補完の設定
 mkdir -p "${XDG_CONFIG_HOME}/bash-completion"
 export BASH_COMPLETION_USER_FILE="${XDG_CONFIG_HOME}/bash-completion/bash_completion"

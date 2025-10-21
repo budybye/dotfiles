@@ -29,6 +29,7 @@ packages:
     - 'yt-dlp'
     # 便利コマンド
     - 'translate-shell'
+    - 'termshark'
     - 'moreutils'
     - 'multitail'
     - 'nmap'
@@ -125,6 +126,7 @@ packages:
     - 'net-tools'
     - 'nmap'
     - 'snapd'
+    - 'termshark'
     - 'ufw'
     - 'rsyslog'
     - 'im-config'
@@ -286,6 +288,8 @@ packages:
   cargo:
   # - 'alacritty'
   # - 'cargo-binstall'
+  # - 'jj'
+  # - 'navi'
   - 'bat'
   - 'lsd'
   - 'fd-find'
@@ -325,11 +329,12 @@ packages:
   - 'caddy@latest'
   - 'cloudflared@latest'
   - 'java@latest'
-  - 'maven@latest'
+  - 'jj@latest'
   npm:
   - 'pm2'
   - 'vibekit'
   - 'wrangler'
+  - '@hono/cli'
   # - 'claude'
   # - 'zx'
   # - '@pipedream/sdk'
@@ -338,3 +343,20 @@ packages:
   - 'sh -c "$(curl -fsSL https://git.io/chezmoi)" -- -b ${HOME}/.local/bin'
   - 'curl https://mise.run | sh'
   - 'curl -fsSL https://raw.githubusercontent.com/watzon/cursor-linux-installer/main/install.sh | bash -s -- latest'
+  - 'curl -sL "https://raw.githubusercontent.com/Benexl/yt-x/refs/heads/master/yt-x" -o ${HOME}/.local/bin/yt-x && chmod +x ${HOME}/.local/bin/yt-x'
+
+  go:
+  - 'act'
+  - 'age'
+  - 'aqua'
+  - 'caddy'
+  - 'chezmoi'
+  - 'docker'
+  - 'hammer'
+  - 'rclone'
+  - 'websocat'
+  - 'jjui'
+
+  python:
+  - 'navi'
+  - 'ragas'

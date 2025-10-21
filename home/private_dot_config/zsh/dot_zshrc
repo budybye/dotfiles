@@ -111,6 +111,11 @@ if command -v sheldon > /dev/null 2>&1; then
   eval "$(sheldon source)"
 fi
 
+# thefuck
+if command -v thefuck >/dev/null 2>&1; then
+    eval $(thefuck --alias)
+fi
+
 # aliasファイルの読み込み
 if [ -f "${ZDOTDIR}/.aliases" ]; then
   . "${ZDOTDIR}/.aliases"

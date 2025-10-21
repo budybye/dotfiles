@@ -2,6 +2,15 @@
 
 set -e
 
+# curl jq required
+if ! command -v curl > /dev/null 2>&1 ; then
+    echo "curl is not installed"
+    exit 1
+elif ! command -v jq > /dev/null 2>&1 ; then
+    echo "jq is not installed"
+    exit 1
+fi
+
 # verbose option parsing (-v anywhere)
 VERBOSE=0
 POSITIONAL=()
@@ -50,73 +59,64 @@ ISSUER="${2:-${ISSUER:-rMxCKbEDwqr76QuheSUMdEGf4B9xJ8m5De}}"
 CURRENCY="${3:-${CURRENCY:-RLUSD}}"
 CURRENCY_CODE="${4:-${CURRENCY_CODE:-524C555344000000000000000000000000000000}}"
 
-LIMIT="${5:-${LIMIT:-1}}"
-
-# book_offers xrp/currency grpc request json
-GET_USD_OFFERS='{
-    "method": "book_offers",
-    "params": [{
-        "taker": "'$ACCOUNT'",
-        "taker_gets": {"currency": "XRP"},
-        "taker_pays": {
-            "currency": "'$CURRENCY_CODE'",
-            "issuer": "'$ISSUER'"
-        },
-        "limit": '$LIMIT'
-    }]
-}'
+OFFER_LIMIT="${5:-${OFFER_LIMIT:-1}}"
 
 # server info grpc request json
 GET_SERVER_INFO='{"method": "server_info","params": [{}]}'
 # fee grpc request json
 GET_FEE='{"method": "fee","params": [{}]}'
 # account_info grpc request json
-GET_ACCOUNT_INFO='{"method": "account_info","params": [{"account": "'$ACCOUNT'"}]}'
+GET_ACCOUNT_INFO='{"method": "account_info","params": [{"account": "'${ACCOUNT}'"}]}'
+# book_offers xrp/currency grpc request json
+GET_USD_OFFERS='{
+    "method": "book_offers",
+    "params": [{
+        "taker": "'${ACCOUNT}'",
+        "taker_gets": {"currency": "XRP"},
+        "taker_pays": {
+            "currency": "'${CURRENCY_CODE}'",
+            "issuer": "'${ISSUER}'"
+        },
+        "limit": '${OFFER_LIMIT}'
+    }]
+}'
 
+# curl request to rippled server
 grpc_request() {
-    if command -v curl > /dev/null 2>&1 ; then
-        curl -s -X POST "$XRPL_SERVER" \
-            -H "Content-Type: application/json" \
-            -d "$1"
-    else
-        echo "curl is not installed"
-        exit
-    fi
+    curl -s -X POST "${XRPL_SERVER}" \
+        -H "Content-Type: application/json" \
+        -d "${1}"
 }
 
-# get offers
-OFFER_RESPONSE=$(grpc_request "$GET_USD_OFFERS")
 # get server info
-SERVER_INFO_RESPONSE=$(grpc_request "$GET_SERVER_INFO")
+SERVER_INFO_RESPONSE=$(grpc_request "${GET_SERVER_INFO}")
 # get fee
-FEE_RESPONSE=$(grpc_request "$GET_FEE")
+FEE_RESPONSE=$(grpc_request "${GET_FEE}")
 # get account info
-ACCOUNT_INFO_RESPONSE=$(grpc_request "$GET_ACCOUNT_INFO")
+ACCOUNT_INFO_RESPONSE=$(grpc_request "${GET_ACCOUNT_INFO}")
+# get offers
+OFFER_RESPONSE=$(grpc_request "${GET_USD_OFFERS}")
 
-if command -v jq > /dev/null 2>&1 ; then
-    # get ledger_current_index
-    LEDGER_INDEX=$(echo "$FEE_RESPONSE" | jq -r '.result.ledger_current_index')
-    # get open_ledger_fee
-    OPEN_LEDGER_FEE=$(echo "$FEE_RESPONSE" | jq -r '.result.drops.open_ledger_fee')
-    # get quality and multiply by 1,000,000
-    XRP_CURRENCY_QUALITY=$(echo "$OFFER_RESPONSE" | jq -r '.result.offers[].quality | (tonumber * 1000000)')
-    # get balance
-    ACCOUNT_BALANCE=$(echo "$ACCOUNT_INFO_RESPONSE" | jq -r '.result.account_data.Balance | (tonumber / 1000000)')
+# get ledger_current_index
+LEDGER_INDEX=$(echo "${FEE_RESPONSE}" | jq -r '.result.ledger_current_index')
+# get open_ledger_fee
+OPEN_LEDGER_FEE=$(echo "${FEE_RESPONSE}" | jq -r '.result.drops.open_ledger_fee')
+# get balance
+ACCOUNT_BALANCE=$(echo "${ACCOUNT_INFO_RESPONSE}" | jq -r '.result.account_data.Balance | (tonumber / 1000000)')
+# get quality and multiply by 1,000,000
+XRP_CURRENCY_QUALITY=$(echo "${OFFER_RESPONSE}" | jq -r '.result.offers[].quality | (tonumber * 1000000)')
+# calculate total price with 3 decimal places
+ACCOUNT_CALC_PRICE=$(awk -v balance="${ACCOUNT_BALANCE}" -v quality="${XRP_CURRENCY_QUALITY}" 'BEGIN {printf "%.3f", balance * quality}')
 
-    ACCOUNT_CALC_PRICE=$(awk -v balance="$ACCOUNT_BALANCE" -v quality="$XRP_CURRENCY_QUALITY" 'BEGIN {printf "%.2f", balance * quality}')
-
-    # json pretty print (verbose only)
-    if [ "$VERBOSE" -eq 1 ]; then
-        echo "$SERVER_INFO_RESPONSE" | jq '.result'
-        echo "$FEE_RESPONSE" | jq '.result'
-        echo "$OFFER_RESPONSE" | jq '.result'
-        echo "$ACCOUNT_INFO_RESPONSE" | jq '.result'
-    fi
-else
-    echo "jq is not installed"
-    exit
+# json pretty print (verbose only)
+if [ "${VERBOSE}" -eq 1 ]; then
+    echo "${SERVER_INFO_RESPONSE}"
+    echo "${FEE_RESPONSE}"
+    echo "${ACCOUNT_INFO_RESPONSE}"
+    echo "${OFFER_RESPONSE}"
 fi
 
+# print summary
 echo "__  ______  ____    _             _"
 echo "\ \/ /  _ \|  _ \  | |    ___  __| | __ _  ___ _ ___"
 echo " \  /| |_) | |_) | | |   / _ \/ _\` |/ _\` |/ _ \ '__|"
@@ -124,17 +124,18 @@ echo " /  \|  _ <|  __/  | |__|  __/ (_| | (_| |  __/ |"
 echo "/_/\_\_| \_\_|     |_____\___|\__,_|\__, |\___|_|"
 echo "                                    |___/"
 echo "UTC: $(LC_ALL=C; date -u +%Y%m%dT%H%M%SZ)"
-echo "Rippled Server: $XRPL_SERVER"
-echo "LedgerIndex: $LEDGER_INDEX"
-echo "OpenLedgerFee: $OPEN_LEDGER_FEE (drops)"
+echo "Rippled Server: ${XRPL_SERVER}"
+echo "LedgerIndex: ${LEDGER_INDEX}"
+echo "OpenLedgerFee: ${OPEN_LEDGER_FEE} (drops)"
 echo "------------------------------------------------------"
-echo "Issuer: $ISSUER"
-echo "Currency: $CURRENCY"
-echo "CurrencyCode: $CURRENCY_CODE"
-echo "Limit: $LIMIT"
+echo "Issuer: ${ISSUER}"
+echo "Currency: ${CURRENCY}"
+echo "CurrencyCode: ${CURRENCY_CODE}"
+echo "XRP/${CURRENCY}: \$${XRP_CURRENCY_QUALITY}"
+# echo "Limit: ${OFFER_LIMIT}"
 echo "------------------------------------------------------"
-echo "Account: $ACCOUNT"
-echo "Balance: $ACCOUNT_BALANCE XRP"
-echo "XRP/$CURRENCY: \$$XRP_CURRENCY_QUALITY"
-echo "Price($CURRENCY): $ACCOUNT_CALC_PRICE $CURRENCY"
+echo "Account: ${ACCOUNT}"
+echo "Balance: ${ACCOUNT_BALANCE} XRP"
+# echo "XRP/${CURRENCY}: \$${XRP_CURRENCY_QUALITY}"
+echo "Total Price(${CURRENCY}): ${ACCOUNT_CALC_PRICE} ${CURRENCY}"
 echo "------------------------------------------------------"
