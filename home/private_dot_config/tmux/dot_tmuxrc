@@ -1,0 +1,130 @@
+#!/usr/bin/env bash
+set -e
+
+# ログインシェルでのみ実行されることを確認
+# SHLVL=1: ログインシェル
+# TMUX未設定: tmuxセッション内でない
+# ターミナルが存在: インタラクティブセッション
+if [ "${SHLVL:-0}" -ne 1 ] || [ -n "${TMUX:-}" ] || [ ! -t 0 ]; then
+    exit 0
+fi
+
+# tmux/byobuコマンドの確認と設定
+TMUX_CMD=""
+if command -v byobu-tmux >/dev/null 2>&1; then
+    TMUX_CMD="byobu-tmux"
+elif command -v tmux >/dev/null 2>&1; then
+    TMUX_CMD="tmux"
+else
+    exit 0
+fi
+
+SES="session"
+DOT="dotfiles"
+# ウィンドウ1 ペイン1~4
+W1P1="${HOME}/${DOT}" # dotfiles
+W1P2="${HOME}" # mpd
+W1P3="${HOME}/Music" # ncmpcpp
+W1P4="${HOME}/data" # code
+# ウィンドウ2 ペイン1~4
+W2P1="${HOME}/Developer" # app1
+W2P2="${HOME}/Developer" # app2
+W2P3="${HOME}/Developer" # app3
+W2P4="${HOME}/dev" #app4
+
+# attach to "dotfiles" session, window 0, pane 1
+
+# window 1 pane 1~4 square split
+#	------------------------------------------------------------
+#	|	1 $HOME/dotfiles 	|	4 $HOME/dotfiles/.devcontainer 	|
+#	|-----------------------------------------------------------|
+#	|	2 $HOME (mpd)		|	3 $HOME/music (ncmpcpp)			|
+#	------------------------------------------------------------
+
+# window 2 pane 1~2 horizontal split
+#	-------------------------
+#	|	1 $HOME/dev 		|
+#	|-----------------------|
+#	|	2 $HOME/dev/portainer 		|
+#	-------------------------
+
+# セッションが既に存在する場合はattachして終了
+if ${TMUX_CMD} list-sessions 2>/dev/null | grep -q "^${SES}:"; then
+    exec ${TMUX_CMD} attach-session -t "${SES}"
+fi
+
+# セッション作成関数
+create_session() {
+    # セッションの作成
+    if ! ${TMUX_CMD} new-session -d -s "${SES}" -n "${SES}" -c "${W1P1}"; then
+        echo "Failed to create session" >&2
+        return 1
+    fi
+
+    # ウィンドウ1のペイン分割
+    setup_window1
+
+    # ウィンドウ2の作成とペイン分割
+    if [ -d "${W2P1}" ]; then
+        setup_window2
+    fi
+
+    # 初期状態に戻す
+    ${TMUX_CMD} select-window -t 1
+    ${TMUX_CMD} select-pane -t 1
+}
+
+# ウィンドウ1のセットアップ
+setup_window1() {
+    # mpdペインの追加
+    if command -v mpd >/dev/null 2>&1; then
+        ${TMUX_CMD} split-window -h -c "${W1P2}" && \
+        ${TMUX_CMD} send-keys -t 2 "mpd" C-m
+    fi
+
+    # ncmpcppペインの追加
+    if command -v ncmpcpp >/dev/null 2>&1 && [ -d "${W1P3}" ]; then
+        ${TMUX_CMD} split-window -v -c "${W1P3}" && \
+        ${TMUX_CMD} send-keys -t 3 "ncmpcpp" C-m
+    fi
+
+    # dataペインの追加
+    if [ -d "${W1P4}" ]; then
+        ${TMUX_CMD} select-pane -t 1 && \
+        ${TMUX_CMD} split-window -v -c "${W1P4}"
+    fi
+}
+
+# ウィンドウ2のセットアップ
+setup_window2() {
+    if ! ${TMUX_CMD} new-window -c "${W2P1}"; then
+        echo "Failed to create window 2" >&2
+        return 1
+    fi
+    # ${TMUX_CMD} send-keys -t 1 "ssh ubuntu" C-m && \
+
+    # multipassペインの追加
+    if command -v multipass >/dev/null 2>&1; then
+        ${TMUX_CMD} split-window -h -c "${W2P2}"]
+        # ${TMUX_CMD} send-keys -t 2 "multipass" C-m
+    fi
+
+    # その他のペイン分割
+    ${TMUX_CMD} split-window -v -c "${W2P3}" && \
+    # ${TMUX_CMD} send-keys -t 2 "code" C-m && \
+
+    ${TMUX_CMD} select-pane -t 1 && \
+    ${TMUX_CMD} split-window -v -c "${W2P4}"
+}
+
+# セッション作成とアタッチ
+if create_session; then
+    exec ${TMUX_CMD} attach-session -t "${SES}"
+else
+    # フォールバック処理
+    if command -v byobu >/dev/null 2>&1; then
+        exec byobu
+    else
+        exec ${TMUX_CMD}
+    fi
+fi

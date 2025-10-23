@@ -20,7 +20,7 @@ if [ ! "$(command -v chezmoi)" ]; then
         echo "To install chezmoi, you must have curl or wget installed." >&2
         exit 1
     fi
-    # PATH に ~/.local/bin がなければ追加
+    # $PATH に ~/.local/bin がなければ追加
     if ! echo "${PATH}" | grep -q "${BIN}"; then
         export PATH=${BIN}:$PATH
     fi

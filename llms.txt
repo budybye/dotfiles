@@ -79,6 +79,9 @@
 - [chatkit-js](https://context7.com/openai/chatkit-js/llms.txt)
 - [amp code](https://sourcegraph.com/docs/llms.txt)
 - [anthropic skills](https://context7.com/anthropics/skills/llms.txt)
+- [cc-sdd](https://context7.com/gotalab/cc-sdd/llms.txt)
+- [ccflare](https://context7.com/snipeship/ccflare/llms.txt)
+- [coderabbit](https://context7.com/coderabbitai/coderabbit-docs/llms.txt)
 
 ## ドキュメント・参考資料
 
@@ -87,6 +90,7 @@
 - [My Dotfiles](https://github.com/budybye/dotfiles/blob/main/llms.txt) #dotfiles #personal #reference
 - [Tom Payne's Dotfiles](https://context7.com/twpayne/dotfiles/llms.txt) #dotfiles #chezmoi #reference
 - [Mathias Bynens Dotfiles](https://context7.com/mathiasbynens/dotfiles/llms.txt) #dotfiles #reference #best-practices
+- [coderabbit dotfiles](https://context7.com/coderabbitai/dotfiles/llms.txt)
 
 ## クラウド・インフラストラクチャ
 
@@ -206,8 +210,8 @@
 
 ### NoSQL・その他
 
-- [MongoDB](https://context7.com/mongodb/mongo/llms.txt) #mongodb #nosql #document
-- [Redis](https://context7.com/websites/redis_io/llms.txt) #redis #cache #nosql
+- [MongoDB](https://context7.com/mongodb/docs/llms.txt) #mongodb #nosql #document
+- [Redis](https://redis.io/llms.txt) #redis #cache #nosql
 - [Neo4j](https://context7.com/neo4j/neo4j/llms.txt) #graph #database #neo4j
 - [nudb](https://context7.com/cppalliance/nudb/llms.txt) #database #cpp #embedded
 - [Bytebase](https://context7.com/bytebase/bytebase/llms.txt) #database #devops #schema-management #collaboration
@@ -215,7 +219,7 @@
 ### ORM・クエリビルダー
 
 - [Drizzle ORM](https://orm.drizzle.team/llms-full.txt) #orm #typescript #sql
-- [prisma postgres](https://www.prisma.io/docs/llms-full.txt)
+- [prisma](https://prisma.io/docs/llms-full.txt)
 
 ## バックエンド・API
 
@@ -324,6 +328,7 @@
 - [hyperliquid](https://context7.com/nktkas/hyperliquid/llms.txt) #hyperliquid #defi #trading #blockchain
 - [DOKU](https://context7.com/websites/doku/llms.txt) #doku #payments #indonesia #fintech
 - [mojaloop](https://context7.com/mojaloop/documentation/llms.txt) #mojaloop #payments #open-source #financial-inclusion
+- [ccxt](https://context7.com/websites/ccxt/llms.txt)
 
 ## セキュリティ
 
@@ -371,6 +376,7 @@
 - [Powershell](https://context7.com/microsoftdocs/powershell-docs/llms.txt) #powershell #microsoft #shell #cross-platform
 - [Tmux Terminal Multiplexer](https://context7.com/tmux/tmux/llms.txt) #tmux #terminal #multiplexer #session-management
 - [Ghostty](https://context7.com/ghostty-org/ghostty/llms.txt) #ghostty #terminal #emulator #modern
+- [byobu](https://context7.com/dustinkirkland/byobu/llms.txt)
 
 ### テキストエディタ・IDE
 
@@ -391,6 +397,7 @@
 - [termshark](https://context7.com/gcla/termshark/llms.txt)
 - [tldr](https://context7.com/tldr-pages/tldr/llms.txt)
 - [jujutsu](https://context7.com/jj-vcs/jj/llms.txt)
+- [jjui](https://context7.com/idursun/jjui/llms.txt)
 
 ## メディア・便利ツール
 
@@ -408,6 +415,7 @@
 - [Matrix JS SDK](https://context7.com/matrix-org/matrix-js-sdk/llms.txt) #matrix #chat #sdk #javascript
 - [strapi](https://context7.com/milathi/strapi-v5/llms.txt) #strapi #cms #headless #api
 - [Yabai](https://context7.com/koekeishiya/yabai/llms.txt) #window #system #macos
+- [fusuma](https://context7.com/iberianpig/fusuma/llms.txt)
 - [Marketing API](https://context7.com/websites/developers_facebook_marketing-api/llms.txt)
 
 ## ミュージック

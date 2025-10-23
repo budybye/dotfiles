@@ -1,5 +1,4 @@
 age                       latest
-bun                       latest
 bitwarden                 latest
 bitwarden-secrets-manager latest
 chezmoi                   latest
@@ -8,3 +7,6 @@ elasticsearch             latest
 fastfetch                 latest
 gh                        latest
 hadolint                  latest
+infracost                 latest
+jj                        latest
+jq                        latest

@@ -57,8 +57,26 @@ fi
 
 if command -v gh >/dev/null 2>&1; then
     alias gs="gh secret set"
-    alias gg="gh repo view --web"
+    alias gg="gh repo view --web ${1:-budybye/dotfiles}"
     alias gql="gh api rate_limit --jq '.resources.core'"
+    alias gsh="gh repo view budybye/dotfiles --json ssh_url -q '.ssh_url'"
+fi
+
+if command -v jj >/dev/null 2>&1; then
+    alias jj="jj"
+fi
+
+if command -v jjui >/dev/null 2>&1; then
+    alias jju="jjui"
+fi
+
+# vim nvim
+if command -v nvim >/dev/null 2>&1; then
+    alias v="nvim"
+elif command -v vim >/dev/null 2>&1; then
+    alias v="vim"
+else
+    alias v=${EDITOR:-vi}
 fi
 
 if command -v curl >/dev/null 2>&1; then
@@ -105,10 +123,10 @@ fi
 if command -v bun >/dev/null 2>&1; then
     # alias npm="bun"
     # alias npx="bunx"
-    alias yarn="bun"
-    alias yarnx="bunx"
+    # alias yarn="bun"
+    # alias yarnx="bunx"
     alias dv="bun dev"
-    alias dep="time bun run deploy"
+    alias de="time bun run deploy"
 fi
 
 # ツリー表示
@@ -176,7 +194,7 @@ fi
 # tldr
 if command -v tldr >/dev/null 2>&1; then
     alias tldr="tldr -L ja"
-    alias h="tldr"
+    alias h="tldr ${1:-curl}"
 fi
 
 # chezmoi
@@ -225,7 +243,8 @@ if command -v docker >/dev/null 2>&1; then
       docker build -t "$IMAGE_NAME" . && docker push "$IMAGE_NAME"
     }
 
-    alias dx='docker run --rm -itd --privileged --platform linux/${ARCH:-$(dpkg --print-architecture || uname -m)} --hostname docker --name ubuntu-dev -p 33389:3389 -p 2222:22 ghcr.io/budybye/ubuntu-dev:main ubuntu ubuntu yes'
+    ARCH=${ARCH:-$(dpkg --print-architecture || uname -m)}
+    alias dx="docker run --rm -itd --privileged --platform linux/${ARCH} --hostname docker --name ubuntu-dev -p 33389:3389 -p 2222:22 ghcr.io/budybye/ubuntu-dev:main ubuntu ubuntu yes"
 
     ## 停止コンテナ、タグ無しイメージ、未使用ボリューム、未使用ネットワーク一括削除
     alias drm="docker system prune -af --volumes"
@@ -237,6 +256,7 @@ if command -v docker-compose >/dev/null 2>&1; then
     alias dcu="docker-compose up"
     alias dcd="docker-compose down"
     alias dcr="docker-compose restart"
+    alias dcl="docker-compose logs"
 fi
 
 # multipass
@@ -265,8 +285,8 @@ fi
 
 # apt
 if command -v apt >/dev/null 2>&1; then
-    alias agi="sudo apt install -y"
-    alias agu="sudo apt update -y && sudo apt upgrade -y"
+    alias agi="apt install -y"
+    alias agu="apt update -y && apt upgrade -y"
     alias aq="apt search"
 fi
 
@@ -276,18 +296,21 @@ fi
 
 # brew
 if command -v brew >/dev/null 2>&1; then
-    alias bs="brew -S"
+    alias bs="brew -S ${1:-make}"
     alias bi="brew install"
     alias bu="brew update && brew upgrade"
     alias bcl="brew bundle cleanup --force --file ${HOME}/.config/Brewfile && brew autoremove && brew doctor"
-    alias bb="brew bundle --file ${HOME}/.config/Brewfile && bu && bcl"
+    alias bf="brew bundle --file ${HOME}/.config/Brewfile"
+    alias bb="bf && bu && bcl"
     function bbb() {
-      bb
-      if [ -f ${HOME}/.config/homebrew/Brewfile ]; then
-          rm -f ${HOME}/.config/homebrew/Brewfile
-      fi
-      brew bundle dump --file ${HOME}/.config/homebrew/Brewfile
-      cat ${HOME}/.config/homebrew/Brewfile
+        bb
+        dumpfile=${HOME}/.config/homebrew/Brewfile
+        if [ -f ${dumpfile} ]; then
+            cp ${dumpfile} ${dumpfile}.bak
+            rm -f ${dumpfile}
+        fi
+        brew bundle dump --file ${dumpfile}
+        cat ${dumpfile}
     }
 fi
 
@@ -362,17 +385,23 @@ fi
 
 if command -v warp-cli >/dev/null 2>&1; then
     alias wp="warp-cli"
-    alias wps="wp status"
-    alias wpm="wp mode warp"
-    alias wpc="wp connect"
     alias wpd="wp disconnect"
-    alias warp="wp registration delete && wp --accept-tos registration new && wp dns families malware && wpm && wpc && wps"
+    alias wpr="wp registration delete && wp --accept-tos registration new"
+    alias wpm="wp dns families malware"
+    alias wpw="wp mode warp"
+    alias wpc="wp connect"
+    alias wps="wp status"
+    alias warp="wpr && wpm && wpw && wpc && wps"
 fi
 
 if command -v cloudflared >/dev/null 2>&1; then
     alias cf="cloudflared"
-    alias rdp="cf access rdp --hostname rdp.tmg-server.com --url localhost:7777"
-    alias rpi="cf access rdp --hostname rpi.tmg-server.com --url localhost:33333"
+    RDP_HOST=${RDP_HOST:-rdp.tmg-server.com}
+    RDP_PORT=${RDP_PORT:-7777}
+    alias rdp="cf access rdp --hostname ${RDP_HOST} --url localhost:${RDP_PORT}"
+    RPI_HOST=${RPI_HOST:-rpi.tmg-server.com}
+    RPI_PORT=${RPI_PORT:-33333}
+    alias rpi="cf access rdp --hostname ${RPI_HOST} --url localhost:${RPI_PORT}"
 fi
 
 if command -v element-desktop >/dev/null 2>&1; then
@@ -381,20 +410,23 @@ fi
 
 if command -v openssl >/dev/null 2>&1; then
     function sec() {
-        echo ${@:-SECRET}=$(openssl rand -base64 32) >> .env && ls -al && cat .env
+        ENV_FILE=${ENV_FILE:-.env}
+        echo ${@:-SECRET}=$(openssl rand -base64 32) >> ${ENV_FILE} && ls -al
     }
 fi
 
 if command -v rj >/dev/null 2>&1 && command -v jq >/dev/null 2>&1; then
     function rq() {
-        rj ${@:-"https://8102.jp/api"} | jq
+        API_URL=${API_URL:-"https://8102.jp/api"}
+        rj ${API_URL} | jq
     }
 fi
 
 # ipfs
 if command -v ipfs >/dev/null 2>&1; then
+    DATA_DIR=${DATA_DIR:-.}
     function pin() {
-        ipfs add -r -p -q --cid-version 1 ${@:-.}
+        ipfs add -r -p -q --cid-version 1 ${@:-${DATA_DIR}}
     }
 fi
 
@@ -403,6 +435,7 @@ if command -v fastfetch >/dev/null 2>&1; then
 fi
 
 # 猫のASCIIアートを表示
-if [ -f "${HOME}/data/cat.txt" ]; then
-    alias x="cat ${HOME}/data/cat.txt"
+CAT_FILE=${CAT_FILE:-${HOME}/data/cat.txt}
+if [ -f "${CAT_FILE}" ]; then
+    alias x="cat ${CAT_FILE}"
 fi

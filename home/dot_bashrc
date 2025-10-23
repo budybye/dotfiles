@@ -6,53 +6,53 @@ PS1='\[\e[32m\]\u@\h\[\e[m\]:\[\e[34m\]\w\[\e[m\] \$ '
 
 # cdコマンド実行後に自動でlsを実行する
 cd() {
-  builtin cd "${@}" && ls -la
+    builtin cd "${@}" && ls -la
 }
 
 # bash 5.2 以上で autocd を有効にする
 BASH_VERSION_MAJOR=$(bash --version | head -n1 | grep -oE '[0-9]+\.[0-9]+' | cut -d. -f1)
 BASH_VERSION_MINOR=$(bash --version | head -n1 | grep -oE '[0-9]+\.[0-9]+' | cut -d. -f2)
 if [ "${BASH_VERSION_MAJOR}" -gt 5 ] || ([ "${BASH_VERSION_MAJOR}" -eq 5 ] && [ "${BASH_VERSION_MINOR}" -ge 2 ]); then
-  shopt -s autocd
+    shopt -s autocd
 fi
 
 # homebrew
 if command -v brew > /dev/null 2>&1; then
-  eval "$(/opt/homebrew/bin/brew shellenv)"
+    eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
 # direnv
 if command -v direnv > /dev/null 2>&1; then
-  eval "$(direnv hook bash)"
+    eval "$(direnv hook bash)"
 fi
 
 # mise
 if command -v mise > /dev/null 2>&1; then
-  eval "$(mise activate --shims)"
-  eval "$(mise activate bash)"
+    eval "$(mise activate --shims)"
+    eval "$(mise activate bash)"
 fi
 
 # # sheldon
 if command -v sheldon > /dev/null 2>&1; then
-  eval "$(sheldon source)"
+    eval "$(sheldon source)"
 fi
 
 if command -v fzf > /dev/null 2>&1; then
-  eval "$(fzf --bash)"
+    eval "$(fzf --bash)"
 fi
 
 # starship
 if command -v starship > /dev/null 2>&1; then
-  eval "$(starship init bash)"
+    eval "$(starship init bash)"
 fi
 
 if command -v zoxide > /dev/null 2>&1; then
-  eval "$(zoxide init bash --hook prompt)"
+    eval "$(zoxide init bash --hook prompt)"
 fi
 
 # thefuck
 if command -v thefuck > /dev/null 2>&1; then
-  eval $(thefuck --alias)
+    eval "$(thefuck --alias)"
 fi
 
 # 補完の設定
@@ -61,14 +61,14 @@ export BASH_COMPLETION_USER_FILE="${XDG_CONFIG_HOME}/bash-completion/bash_comple
 export BASH_COMPLETION_COMPAT_DIR="${XDG_CONFIG_HOME}/bash-completion/completions"
 
 if [ -f /etc/bash_completion ]; then
-  . /etc/bash_completion
+    source "/etc/bash_completion"
 fi
 
 # aliasファイルの読み込み
 if [ -f "${HOME}/.config/zsh/.aliases" ]; then
-  . "${HOME}/.config/zsh/.aliases"
+    source "${HOME}/.config/zsh/.aliases"
 fi
 
-if command -v kiro > /dev/null 2>&1; then
-  [[ "${TERM_PROGRAM}" == "kiro" ]] && . "$(kiro --locate-shell-integration-path bash)"
+if [[ "${TERM_PROGRAM}" == "kiro" ]]; then
+    . "$(kiro --locate-shell-integration-path bash)"
 fi

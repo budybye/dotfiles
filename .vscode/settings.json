@@ -19,9 +19,7 @@
     "*zlogin": "shellscript",
     "*zlogout": "shellscript",
     "*sh.tmpl": "shellscript",
-    "*tmpl": "go-template",
-    // "*json.tmpl": "json",
-    // "*toml.tmpl": "toml",
+    "*.tmpl": "go-template",
     "llms.txt": "markdown"
   }
 }

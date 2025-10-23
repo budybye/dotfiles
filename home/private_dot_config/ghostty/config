@@ -42,10 +42,11 @@
 # # Just for example:
 # resize-overlay-duration = 4s 200ms
 
-# シェルを指定
+# 起動コマンドを指定
 command = $(command -v zsh) -l
 # command = $(command -v byobu)
-# シェル
+
+# シェルを指定
 # shell-integration = zsh
 
 # テーマを指定
@@ -59,9 +60,8 @@ font-thicken = true
 # font-features = -dlig
 
 # 背景はちょっと透過している紺色
-background = #123
+background = #123456
 background-opacity = 0.78
-# background = #092823
 # background-image = "~/data/wallpaper.png"
 foreground = #8c8380
 
@@ -71,9 +71,6 @@ cursor-style = block
 
 # タイピング中はマウスカーソルを非表示にする
 mouse-hide-while-typing = true
-
-# はじめにtmuxを起動する
-# command = /opt/homebrew/bin/tmux
 
 # コマンドが終了したら表示内容を確認しておきたい
 wait-after-command = true
