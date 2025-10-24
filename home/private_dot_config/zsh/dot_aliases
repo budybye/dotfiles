@@ -296,7 +296,7 @@ fi
 
 # brew
 if command -v brew >/dev/null 2>&1; then
-    alias bs="brew -S ${1:-make}"
+    alias bs="brew -S"
     alias bi="brew install"
     alias bu="brew update && brew upgrade"
     alias bcl="brew bundle cleanup --force --file ${HOME}/.config/Brewfile && brew autoremove && brew doctor"

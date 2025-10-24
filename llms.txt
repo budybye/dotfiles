@@ -68,6 +68,7 @@
 
 ### AI・ML追加ツール
 
+- [ai-sdk-tools](https://context7.com/middy-ai/ai-sdk-tools/llms.txt) #ai #tools #agents
 - [21st](https://21st.dev/llms.txt) #ai #development #tools #platform
 - [Openrouter](https://openrouter.ai/docs/llms-full.txt) #api #router #llm #multi-provider
 - [Cherry-Studio](https://context7.com/llmstxt/docs_cherry-ai_com-llms.txt/llms.txt) #ai #studio #development #platform
@@ -82,6 +83,7 @@
 - [cc-sdd](https://context7.com/gotalab/cc-sdd/llms.txt)
 - [ccflare](https://context7.com/snipeship/ccflare/llms.txt)
 - [coderabbit](https://context7.com/coderabbitai/coderabbit-docs/llms.txt)
+- [mem0ai](https://context7.com/mem0ai/mem0/llms.txt)
 
 ## ドキュメント・参考資料
 
@@ -215,6 +217,7 @@
 - [Neo4j](https://context7.com/neo4j/neo4j/llms.txt) #graph #database #neo4j
 - [nudb](https://context7.com/cppalliance/nudb/llms.txt) #database #cpp #embedded
 - [Bytebase](https://context7.com/bytebase/bytebase/llms.txt) #database #devops #schema-management #collaboration
+- [cassandra](https://context7.com/apache/cassandra/llms.txt)
 
 ### ORM・クエリビルダー
 
@@ -448,6 +451,7 @@
 ### 便利ツール API
 
 - [elasticsearch](https://context7.com/elastic/elasticsearch/llms.txt) #elasticsearch #search #database #nosql
+- [opensearch](https://context7.com/websites/opensearch/llms.txt)
 - [Telegram API](https://context7.com/context7/core_telegram-api/llms.txt) #telegram #api #messaging #bot
 - [Gravator](https://context7.com/context7/gravatar/llms.txt) #gravatar #avatar #profile #email
 - [Brave Search API](https://context7.com/websites/api-dashboard_search_brave-app/llms.txt) #brave #search #api #privacy
@@ -467,6 +471,7 @@
 - [CCXT Cryptocurrency Trading](https://context7.com/ccxt/ccxt/llms.txt) #crypto #trading #exchange #api
 - [Nautilus Trader](https://context7.com/nautechsystems/nautilus_trader/llms.txt) #nautilus #trading #python #finance
 - [tradestation](https://context7.com/tradestation/api-docs/llms.txt)
+- [kite connect](https://context7.com/websites/kite_trade/llms.txt)
 
 ## ドキュメント・図表・開発者リソース
 

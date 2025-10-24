@@ -194,9 +194,10 @@ git config --list
 - [x] **特定の設定やスクリプトの自動化**: Makefile を使用
 - [x] **Chezmoi との連携**: ドットファイルの管理は Chezmoi に任せる
 
-### 3. .devcontainer との統合
+### 3. .devcontainer, vm との統合
 
-- [x] **Dev Containers 内で Chezmoi を使用**: コンテナ起動時に自動的にドットファイルを適用
+- [x] **Dev Containers 内で Chezmoi を使用**: コンテナ起動時に自動的にdotfilesを適用
+- [ ] **cloud-init で chezmoi を反映する**: lxd, multipass の起動時にcloud-initから自動的にdotfilesを適用
 
 ### 4. Github Actions でテスト
 

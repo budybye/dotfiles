@@ -2,6 +2,11 @@
 # ファイルの配置されるときの名前にする run_ once_ after_ .tmpl はつけない
 # .name などのdata は .chezmoi.toml.tmpl
 
+.chezmoiexternal.*
+key.txt.age
+shhh.txt
+install.sh
+
 {{ if eq (env "GITHUB_ACTIONS") "true" }}
 .ssh/authorized_keys*
 .ssh/id_ed25519*
@@ -66,8 +71,3 @@ Library
 .config/scoop
 .chezmoiscripts/windows/**
 {{ end }}
-
-.chezmoiexternal.*
-key.txt.age
-shhh.txt
-install.sh
