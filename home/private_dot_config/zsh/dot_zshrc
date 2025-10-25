@@ -120,5 +120,5 @@ fi
 
 # aliasファイルの読み込み
 if [ -f "${ZDOTDIR}/.aliases" ]; then
-    source "${ZDOTDIR}/.aliases"
+    . "${ZDOTDIR}/.aliases"
 fi

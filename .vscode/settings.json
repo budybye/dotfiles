@@ -21,5 +21,6 @@
     "*sh.tmpl": "shellscript",
     "*.tmpl": "go-template",
     "llms.txt": "markdown"
-  }
+  },
+  "commentTranslate.hover.enabled": false
 }

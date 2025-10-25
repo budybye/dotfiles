@@ -66,9 +66,9 @@ export BASH_COMPLETION_USER_FILE="${XDG_CONFIG_HOME}/bash-completion/bash_comple
 
 # aliasファイルの読み込み
 if [ -f "${HOME}/.config/zsh/.aliases" ]; then
-    source "${HOME}/.config/zsh/.aliases"
+    . "${HOME}/.config/zsh/.aliases"
 fi
 
 if [[ "${TERM_PROGRAM}" == "kiro" ]]; then
-    source "$(kiro --locate-shell-integration-path bash)"
+    . "$(kiro --locate-shell-integration-path bash)"
 fi

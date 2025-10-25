@@ -37,10 +37,10 @@ PROMPT='%F{green}%n@%m%f:%F{blue}%~ %f%F{yellow}$%f '
 
 # zshの設定ファイルを読み込む
 if [ -f "${ZDOTDIR}/.zshrc" ]; then
-    source "${ZDOTDIR}/.zshrc"
+    . "${ZDOTDIR}/.zshrc"
 fi
 
 # tmux session auto-start
 if [ -f "${XDG_CONFIG_HOME}/tmux/.tmuxrc" ]; then
-    source "${XDG_CONFIG_HOME}/tmux/.tmuxrc"
+    . "${XDG_CONFIG_HOME}/tmux/.tmuxrc"
 fi

@@ -1,15 +1,15 @@
 if [ -f "${HOME}/.profile" ]; then
-    source "${HOME}/.profile"
+    . "${HOME}/.profile"
 fi
 
 mkdir -p "${XDG_STATE_HOME}/bash"
 export HISTFILE="${XDG_STATE_HOME}/bash/bash_history"
 
 if [ -f "${HOME}/.bashrc" ]; then
-    source "${HOME}/.bashrc"
+    . "${HOME}/.bashrc"
 fi
 
 # tmux session auto-start
 if [ -f "${XDG_CONFIG_HOME}/tmux/.tmuxrc" ]; then
-    source "${XDG_CONFIG_HOME}/tmux/.tmuxrc"
+    . "${XDG_CONFIG_HOME}/tmux/.tmuxrc"
 fi
