@@ -65,6 +65,7 @@
 - [Googlemap MCP](https://context7.com/cablate/mcp-google-map/llms.txt) #mcp #map #google
 - [Google Devtools MCP](https://context7.com/ChromeDevTools/chrome-devtools-mcp/llms.txt) #mcp #browser #google
 - [Mermaid MPC](https://context7.com/hustcc/mcp-mermaid/llms.txt) #mpc #mermaid #markdown #tools
+- [repomix](https://context7.com/yamadashy/repomix/llms.txt)
 
 ### AI・ML追加ツール
 
@@ -111,11 +112,12 @@
 ### サーバー・OS
 
 - [Ubuntu Server Documentation](https://context7.com/canonical/ubuntu-server-documentation/llms.txt) #ubuntu #server #linux #debian-based
-- [FreeBSD Documentation](https://context7.com/freebsd/freebsd-doc/llms.txt) #freebsd #unix #server #zfs
 - [Proxmox VE Documentation](https://context7.com/proxmox/pve-docs/llms.txt) #proxmox #virtualization #hypervisor #kvm
 - [Kali Linux Documentation](https://context7.com/context7/kali/llms.txt) #security #pentesting #kali #linux
 - [Multipass](https://context7.com/canonical/multipass/llms.txt) #vm #ubuntu #linux
+- [FreeBSD Documentation](https://context7.com/freebsd/freebsd-doc/llms.txt) #freebsd #unix #server #zfs
 - [GhostBSD](https://context7.com/ghostbsd/ghostbsd-src/llms.txt)
+- [Sylve](https://context7.com/alchemillahq/sylve/llms.txt)
 
 ### 設定・デプロイ・CI/CD
 
@@ -194,6 +196,7 @@
 - [Testing Library](https://context7.com/testing-library/testing-library-docs/llms.txt) #testing #react #dom #accessibility
 - [MSW Mock Service Worker](https://context7.com/mswjs/msw/llms.txt) #testing #mocking #msw
 - [Keploy](https://context7.com/keploy/keploy/llms.txt) #keploy #testing #api #mocking
+- [workers-fetch](https://context7.com/yusukebe/workers-fetch/llms.txt)
 
 ## データベース・ストレージ
 

@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+
+# AGENTS.md -> CLAUDE.md symlink
+if [ ! -f ./CLAUDE.md ]; then
+    echo "CLAUDE.md not found"
+    if [ -f ./AGENTS.md ]; then
+      ln -sf ./AGENTS.md ./CLAUDE.md
+      echo "CLAUDE.md created"
+    else
+      echo "AGENTS.md not found"
+    fi
+fi
+
+# docs directory check
+if [ -d ./docs ]; then
+  ls -la ./docs
+else
+  echo "docs directory not found"
+fi
+
+if command -v claude >/dev/null 2>&1; then
+  echo "claude $(claude --version)"
+else
+  echo "claude not found"
+fi
+
+if command -v gemini >/dev/null 2>&1; then
+  echo "gemini $(gemini --version)"
+else
+  echo "gemini not found"
+fi
+
+if command -v codex >/dev/null 2>&1; then
+  codex --version
+else
+  echo "codex not found"
+fi
+
+if command -v cursor-agent >/dev/null 2>&1; then
+  echo "cursor-agent $(cursor-agent --version)"
+else
+  echo "cursor-agent not found"
+fi

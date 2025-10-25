@@ -1,10 +1,8 @@
-<!-- <link href="./style.css" rel="stylesheet"></link> -->
-
 # dotfiles
 
-## 🍍🍕 0.8.\*
+## 🍍🍕 0.8.0
 
-### 🏴‍☠ [budybye/dotfiles](https://github.com/budybye/dotfiles)
+### 🏴‍☠ [dotfiles](https://github.com/budybye/dotfiles)
 
 - このリポジトリは、私の個人設定ファイルを管理するための dotfiles システムです。
 - `chezmoi` で管理しています。
@@ -12,6 +10,7 @@
 - `macOS` と `Ubuntu` の設定ファイルを管理しています。
 - `Docker` や `Multipass` でも環境設定に対応しています。
 - `Windows` や `WSL2` の設定ファイルも追加予定です。
+- `FreeBSD` + `jail`への対応も追加予定
 - `.github/workflows/*.yaml` で環境ごとのテスト、タグ設定、ghcr へ push を行っています。
 - `~/.ssh/*` やシークレットな情報は `age` と `Bitwarden` で暗号化管理しています。
 - `Dockerfile` と `docker-compose.yaml` と `devcontainer.json` で `Docker` コンテナを管理しています。
@@ -77,7 +76,7 @@ git config --list
 - **Makefile**: `Makefile` で設定管理しています。
 - **今後の計画**: `arm64` 互換と `WSL2` と `Windows` 用の設定ファイルを追加で管理する予定です。
 - **Docker**: `Dockerfile` と `docker-compose.yaml` と `devcontainer.json` で `Docker` コンテナを管理しています。
-- **リリース**: [335 のリリース](https://github.com/budybye/dotfiles/releases)を重ね、継続的に改善されています。
+- **リリース**: [404 のリリース](https://github.com/budybye/dotfiles/releases)を重ね、継続的に改善されています。
 
 ## 目次
 
@@ -98,7 +97,7 @@ git config --list
 
 ### [XDG Base Directory Specification](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html)
 
-- XDG Base Directory Specification に基づくディレクトリの設定を行います。
+- **XDG Base Directory Specification** に基づくディレクトリの設定を行います。
 - **XDG_CONFIG_HOME**: ユーザー固有の設定ファイルの格納先。
 - **XDG_DATA_HOME**: ユーザー固有のデータファイルの格納先。
 - **XDG_CACHE_HOME**: ユーザー固有のキャッシュファイルの格納先。
@@ -175,7 +174,6 @@ git config --list
 - **.chezmoiscripts**: 初期設定用などのシェルスクリプトを格納するディレクトリ。
 - **.devcontainer**: `docker` と `devcontainer` 使用する設定ファイル。
 - **.github**: `Github Actions` の設定ファイル。OS 差異のテスト用やイメージビルド用。
-- **.cursor**: `Cursor AI` の設定ファイルと開発ガイドライン。
 - **~/.config**: 様々なツールやアプリケーションの設定を管理するためのファイル。
 - **.local/share**: ユーザーがインストールしたフォントや壁紙などの共有リソースを格納するディレクトリ。
 

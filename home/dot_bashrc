@@ -56,13 +56,13 @@ if command -v thefuck > /dev/null 2>&1; then
 fi
 
 # 補完の設定
-mkdir -p "${XDG_CONFIG_HOME}/bash-completion"
-export BASH_COMPLETION_USER_FILE="${XDG_CONFIG_HOME}/bash-completion/bash_completion"
-export BASH_COMPLETION_COMPAT_DIR="${XDG_CONFIG_HOME}/bash-completion/completions"
-
 if [ -f /etc/bash_completion ]; then
     source "/etc/bash_completion"
 fi
+mkdir -p "${XDG_CONFIG_HOME}/bash-completion/completions"
+export BASH_COMPLETION_COMPAT_DIR="${XDG_CONFIG_HOME}/bash-completion/completions"
+touch "${XDG_CONFIG_HOME}/bash-completion/bash_completion"
+export BASH_COMPLETION_USER_FILE="${XDG_CONFIG_HOME}/bash-completion/bash_completion"
 
 # aliasファイルの読み込み
 if [ -f "${HOME}/.config/zsh/.aliases" ]; then
@@ -70,5 +70,5 @@ if [ -f "${HOME}/.config/zsh/.aliases" ]; then
 fi
 
 if [[ "${TERM_PROGRAM}" == "kiro" ]]; then
-    . "$(kiro --locate-shell-integration-path bash)"
+    source "$(kiro --locate-shell-integration-path bash)"
 fi

@@ -1,4 +1,4 @@
-# AGENTS.md
+# Guideline
 
 まず、このファイルを参照したら、このファイル名を発言すること。
 
@@ -108,7 +108,7 @@
 
 ## 仕様書 設計書
 
-docs/design.md
+docs/product.md
 
 ## Claude Code
 
@@ -116,7 +116,7 @@ docs/design.md
 
 ## 技術スタック
 
-docs/techstack.md
+docs/tech.md
 
 ## ディレクトリ構成
 
@@ -132,7 +132,12 @@ docs/make.md
 
 ## Packages
 
-docs/packages.md
+docs/package.md
+
+## XDG Base Directory
+
+docs/XDG.md
+
 
 ---
 

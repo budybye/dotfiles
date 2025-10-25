@@ -9,12 +9,11 @@
 HOSTNAME="$(uname -n)"
 export HOSTNAME
 
+ARCH="unknown"
 if command -v dpkg >/dev/null 2>&1; then
     ARCH="$(dpkg --print-architecture)"
 elif command -v uname >/dev/null 2>&1; then
     ARCH="$(uname -m)"
-else
-    ARCH="unknown"
 fi
 export ARCH
 
@@ -47,6 +46,7 @@ export XDG_CACHE_HOME="${HOME}/.cache"
 if [ -d "${XDG_DATA_DIRS:-/usr/local/share:/usr/share}" ]; then
     export XDG_DATA_DIRS="${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
 fi
+
 if [ -d "${XDG_CONFIG_DIRS:-/etc/xdg}" ]; then
     export XDG_CONFIG_DIRS="${XDG_CONFIG_DIRS:-/etc/xdg}"
 fi
@@ -85,9 +85,12 @@ export LC_ALL="ja_JP.UTF-8"
 export LC_CTYPE="en_US.UTF-8"
 
 export TERM="xterm-256color"
+mkdir -p "${XDG_DATA_HOME}/terminfo"
 export TERMINFO="${XDG_DATA_HOME}/terminfo"
 export TERMINFO_DIRS="${XDG_DATA_HOME}/terminfo:/usr/share/terminfo"
 
+mkdir -p "${XDG_STATE_HOME}/less"
+touch "${XDG_STATE_HOME}/less/history"
 export LESSHISTFILE="${XDG_STATE_HOME}/less/history"
 
 if [ -d "/tmp" ]; then
@@ -95,10 +98,15 @@ if [ -d "/tmp" ]; then
     # chmod 1777 "/tmp"
 fi
 
+if [ -f "${XDG_RUNTIME_DIR}/Xauthority" ]; then
+    export XAUTHORITY="${XDG_RUNTIME_DIR}/Xauthority"
+fi
+
 if [ "$(uname)" = "Darwin" ]; then
     mkdir -p "${XDG_DATA_HOME}/trash"
 fi
 
+# 個人的によく使うディレクトリを作成
 mkdir -p \
     "${HOME}/Applications" \
     "${HOME}/Developer" \
@@ -123,6 +131,8 @@ if command -v brave-browser >/dev/null 2>&1; then
     export BROWSER="brave-browser"
 elif command -v chromium >/dev/null 2>&1; then
     export BROWSER="chromium"
+elif command -v firefox >/dev/null 2>&1; then
+    export BROWSER="firefox"
 fi
 
 if command -v brew >/dev/null 2>&1; then
@@ -150,6 +160,11 @@ fi
 if command -v code >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/Code/user-data/User"
     export VSCODE_PORTABLE="${XDG_CONFIG_HOME}/Code"
+fi
+
+if command -v cursor >/dev/null 2>&1; then
+    mkdir -p "${XDG_CONFIG_HOME}/cursor"
+    export CURSOR_CONFIG_DIR="${XDG_CONFIG_HOME}/cursor"
 fi
 
 if command -v docker >/dev/null 2>&1; then
@@ -220,7 +235,7 @@ fi
 if command -v bun >/dev/null 2>&1; then
     mkdir -p "${XDG_DATA_HOME}/bun"
     export BUN_INSTALL="${XDG_DATA_HOME}/bun"
-    export PATH=${BUN_INSTALL}:${PATH}
+    export PATH="${BUN_INSTALL}/bin:${PATH}"
 fi
 
 if command -v mkcert >/dev/null 2>&1 && [ -f "$(mkcert -CAROOT)/rootCA.pem" ]; then
@@ -415,10 +430,6 @@ if command -v conan >/dev/null 2>&1; then
     export CONAN_USER_HOME="${XDG_CONFIG_HOME}/conan"
 fi
 
-if [ -f "${XDG_RUNTIME_DIR}/Xauthority" ]; then
-    export XAUTHORITY="${XDG_RUNTIME_DIR}/Xauthority"
-fi
-
 if command -v discord >/dev/null 2>&1; then
     mkdir -p "${XDG_DATA_HOME}/discord"
     export DISCORD_USER_DATA_DIR="${XDG_DATA_HOME}/discord"
@@ -483,6 +494,4 @@ fi
 
 if command -v cursor-agent >/dev/null 2>&1; then
   export CURSOR_API_KEY="${CURSOR_API_KEY:-}"
-  mkdir -p "${XDG_CONFIG_HOME}/cursor"
-  export CURSOR_CONFIG_DIR="${XDG_CONFIG_HOME}/cursor"
 fi
