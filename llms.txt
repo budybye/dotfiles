@@ -102,11 +102,11 @@
 - [Docker Documentation](https://docs.docker.com/llms.txt) #docker #containers #devops #virtualization
 - [Kubernetes Documentation](https://context7.com/kubernetes/website/llms.txt) #kubernetes #orchestration #containers #scaling
 - [Podman](https://context7.com/containers/podman/llms.txt) #podman #containers #docker-alternative #rootless
-- [Incus VM Container](https://context7.com/lxc/incus/llms.txt) #incus #containers #lxc #system-containers
 - [Docker OSX](https://context7.com/sickcodes/docker-osx/llms.txt) #docker #macos #virtualization #apple-silicon
-- [lxd UI](https://context7.com/canonical/lxd-ui/llms.txt)
 - [microcloud](https://context7.com/canonical/microcloud/llms.txt)
 - [microk8s](https://context7.com/canonical/microk8s/llms.txt)
+- [lxd UI](https://context7.com/canonical/lxd-ui/llms.txt)
+- [Incus VM Container](https://context7.com/lxc/incus/llms.txt) #incus #containers #lxc #system-containers
 - [vCluster](https://context7.com/loft-sh/vcluster/llms.txt)
 
 ### サーバー・OS
@@ -130,6 +130,7 @@
 
 - [Nextcloud Documentation](https://context7.com/nextcloud/documentation/llms.txt) #nextcloud #self-hosted #storage #file-sync
 - [Rclone File Sync](https://context7.com/rclone/rclone/llms.txt) #rclone #file-sync #cloud #storage
+- [Collabora](https://context7.com/collaboraonline/online/llms.txt)
 
 ## フロントエンド・UI/UX
 
@@ -140,8 +141,9 @@
 - [React Design Patterns](https://context7.com/michelebertoli/react-design-patterns-and-best-practices/llms.txt) #react #patterns #best-practices #architecture
 - [Remix Full-stack Framework](https://context7.com/remix-run/remix/llms.txt) #remix #fullstack #framework #ssr
 - [Preact](https://context7.com/preactjs/preact-www/llms.txt) #preact #lightweight #react #performance
-- [Nextjs](https://context7.com/vercel/next.js/llms.txt) #react #next #framework #frontend
+- [Nextjs](https://nextjs.org/docs/llms-full.txt) #react #next #framework #frontend
 - [Tanstack Router](https://context7.com/websites/tanstack_router/llms.txt) #tanstack #framework
+- [astro](https://docs.astro.build/llms-full.txt)
 
 ### UI・スタイリング・デザインシステム
 
@@ -212,15 +214,16 @@
 - [dblite](https://context7.com/canonical/dqlite/llms.txt)
 - [SQLC](https://context7.com/websites/sqlc_dev/llms.txt)
 - [mooncake](https://context7.com/mooncake-labs/pg_mooncake/llms.txt)
+- [supabase](https://context7.com/supabase/supabase/llms.txt)
 
 ### NoSQL・その他
 
 - [MongoDB](https://context7.com/mongodb/docs/llms.txt) #mongodb #nosql #document
 - [Redis](https://redis.io/llms.txt) #redis #cache #nosql
-- [Neo4j](https://context7.com/neo4j/neo4j/llms.txt) #graph #database #neo4j
-- [nudb](https://context7.com/cppalliance/nudb/llms.txt) #database #cpp #embedded
-- [Bytebase](https://context7.com/bytebase/bytebase/llms.txt) #database #devops #schema-management #collaboration
 - [cassandra](https://context7.com/apache/cassandra/llms.txt)
+- [nudb](https://context7.com/cppalliance/nudb/llms.txt) #database #cpp #embedded
+- [Neo4j](https://context7.com/neo4j/neo4j/llms.txt) #graph #database #neo4j
+- [Bytebase](https://context7.com/bytebase/bytebase/llms.txt) #database #devops #schema-management #collaboration
 
 ### ORM・クエリビルダー
 
@@ -231,8 +234,8 @@
 
 ### Webフレームワーク
 
-- [Hono Web Framework](https://hono.dev/llms-full.txt) #web #framework #lightweight #edge
-- [Honox Full-stack Framework](https://context7.com/honojs/honox/llms.txt) #fullstack #hono #framework #ssr
+- [Hono](https://hono.dev/llms-full.txt) #web #framework #lightweight #edge
+- [Honox](https://context7.com/honojs/honox/llms.txt) #fullstack #hono #framework #ssr
 - [Hono Middleware](https://context7.com/honojs/middleware/llms.txt) #middleware #hono #extensions #plugins
 - [Hono vite-plugin](https://context7.com/honojs/vite-plugins/llms.txt) #hono
 - [vite-ssr-components](https://context7.com/yusukebe/vite-ssr-components/llms.txt) #hono
@@ -243,6 +246,7 @@
 - [Jenkins](https://context7.com/jenkinsci/jenkins/llms.txt) #java #framework #web
 - [Supabase](https://context7.com/supabase/supabase/llms.txt)
 - [T4app](https://context7.com/timothymiller/t4-app/llms.txt)
+- [elysia](https://elysiajs.com/llms-full.txt)
 
 ### API・GraphQL
 
@@ -455,6 +459,7 @@
 
 - [elasticsearch](https://context7.com/elastic/elasticsearch/llms.txt) #elasticsearch #search #database #nosql
 - [opensearch](https://context7.com/websites/opensearch/llms.txt)
+- [do-easy-i18n](https://context7.com/do-easy/i18n/llms.txt)
 - [Telegram API](https://context7.com/context7/core_telegram-api/llms.txt) #telegram #api #messaging #bot
 - [Gravator](https://context7.com/context7/gravatar/llms.txt) #gravatar #avatar #profile #email
 - [Brave Search API](https://context7.com/websites/api-dashboard_search_brave-app/llms.txt) #brave #search #api #privacy
@@ -466,6 +471,8 @@
 - [crossnote](https://context7.com/curvenote/docs/llms.txt)
 - [fx](https://context7.com/antonmedv/fx/llms.txt)
 - [ripsecrets](https://context7.com/sirwart/ripsecrets/llms.txt)
+- [markitdown](https://context7.com/microsoft/markitdown/llms.txt)
+- [odoo](https://context7.com/odoo/odoo/llms.txt)
 
 ### トレード・ファイナンス
 

@@ -3,6 +3,6 @@ if command -v x > /dev/null 2>&1; then
 elif command -v ff > /dev/null 2>&1; then
     ff
 else
-    echo "🍍 🍕 🐈 ♨️ ✨ 🥦 🌈 🚲 🏄 🙏 🌞 🌕 🏴‍☠️"
+    echo "🍍 🍕 🐈 ♨️ 🍄 🥦 🌈 🚲 🏄 🙏 🌞 🌕 🏴‍☠️"
     echo "( ﾟДﾟ)y─┛~~~~~~~"
 fi

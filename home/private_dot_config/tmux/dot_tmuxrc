@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# bash_profile や zprofile の最後で読み込込む
+
 # 既にtmuxセッション内の場合は何もしない
 if [ -n "${TMUX}" ]; then
     exit 0
@@ -12,68 +14,67 @@ if command -v byobu-tmux >/dev/null 2>&1; then
 elif command -v tmux >/dev/null 2>&1; then
     TMUX_CMD="tmux"
 else
+    echo "tmux or byobu-tmux not found"
     exit 0
 fi
 
-SES="session"
-DOT="dotfiles"
-# ウィンドウ1 ペイン1~4
-W1P1="${HOME}/${DOT}" # dotfiles
-W1P2="${HOME}" # mpd
+# window 1 pane 1~4
+# W1P1 | W1P2
+# -----|-----
+# W1P4 | W1P3
+W1P1="${HOME}" # dotfiles
+W1P2="${HOME}/dotfiles" # mpd
 W1P3="${HOME}/Music" # ncmpcpp
 W1P4="${HOME}/data" # code
-# ウィンドウ2 ペイン1~4
+
+# window 2 pane 1~4
+# W2P1 | W2P2
+# -----|-----
+# W2P4 | W2P3
 W2P1="${HOME}/Developer" # app1
 W2P2="${HOME}/Developer" # app2
 W2P3="${HOME}/Developer" # app3
-W2P4="${HOME}/dev" #app4
-
-# attach to "dotfiles" session, window 0, pane 1
-
-# window 1 pane 1~4 square split
-#	------------------------------------------------------------
-#	|	1 $HOME/dotfiles 	　　　　　　　　　　　　　|	２ $HOME (mpd) 	                |
-#	|-----------------------------------------------------------|
-#	|	4 $HOME/data		　　　　　　　　　　　　　　　　　|	3 $HOME/music (ncmpcpp)			　　　　　　　|
-#	------------------------------------------------------------
-
-# window 2 pane 1~2 horizontal split
-#	-------------------------------------------------------------
-#	|	1 $HOME/dev 		          |	　　2　　$HOME/Developer            |
-#	|---------------------------|-------------------------------|
-#	|	4 $HOME/dev/portainer 		|  3 $HOME/dev                  |
-#	-------------------------------------------------------------
+W2P4="${HOME}/dev/app" #app4
 
 # セッションが既に存在する場合はattachして終了
+SES="MySession"
 if ${TMUX_CMD} list-sessions | grep -q "^${SES}:"; then
     exec ${TMUX_CMD} attach-session -t "${SES}"
 fi
 
-# セッション作成
+# セッション作成 ~/dotfiles
 ${TMUX_CMD} new-session -d -s "${SES}" -n "${SES}" -c "${W1P1}"
 
-# ウィンドウ1のペイン分割
+# 水平分割
 ${TMUX_CMD} split-window -h -c "${W1P2}"
 ${TMUX_CMD} send-keys -t 2 "mpd" C-m
 
+# P2を垂直分割
 ${TMUX_CMD} split-window -v -c "${W1P3}"
 ${TMUX_CMD} send-keys -t 3 "ncmpcpp" C-m
 
+# P1を垂直分割
 ${TMUX_CMD} select-pane -t 1
 ${TMUX_CMD} split-window -v -c "${W1P4}"
+${TMUX_CMD} send-keys -t 4 "ls" C-m
 
 # ウィンドウ2の作成
 ${TMUX_CMD} new-window -c "${W2P1}"
 
+# P1を水平分割
 ${TMUX_CMD} split-window -h -c "${W2P2}"
+
+# P2を垂直分割
 ${TMUX_CMD} split-window -v -c "${W2P3}"
 
+# P1を垂直分割
 ${TMUX_CMD} select-pane -t 1
 ${TMUX_CMD} split-window -v -c "${W2P4}"
 
-# 初期状態に戻す
+# W1に移動
 ${TMUX_CMD} select-window -t 1
+# P1に移動
 ${TMUX_CMD} select-pane -t 1
 
-# アタッチ
+# 最後にセッションにアタッチ
 exec ${TMUX_CMD} attach-session -t "${SES}"

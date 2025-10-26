@@ -20,6 +20,7 @@
     "*zlogout": "shellscript",
     "*sh.tmpl": "shellscript",
     "*.tmpl": "go-template",
+    ".chezmoiignore": "go-template",
     "llms.txt": "markdown"
   },
   "commentTranslate.hover.enabled": false

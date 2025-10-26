@@ -50,7 +50,7 @@ command = $(command -v zsh) -l
 # shell-integration = zsh
 
 # テーマを指定
-theme = Monokai Pro
+theme = "Monokai Pro"
 
 # フォントを指定
 font-family = "HackGen35 Console NF"
@@ -62,12 +62,11 @@ font-thicken = true
 # 背景はちょっと透過している紺色
 background = #123456
 background-opacity = 0.78
-# background-image = "~/data/wallpaper.png"
 foreground = #8c8380
 
-# カーソルはblockで点滅させない
+# カーソルはblockで点滅させる
 cursor-style = block
-# cursor-style-blink = false
+cursor-style-blink = true
 
 # タイピング中はマウスカーソルを非表示にする
 mouse-hide-while-typing = true

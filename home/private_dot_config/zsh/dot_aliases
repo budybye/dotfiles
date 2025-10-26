@@ -57,17 +57,13 @@ fi
 
 if command -v gh >/dev/null 2>&1; then
     alias gs="gh secret set"
-    alias gg="gh repo view --web ${1:-budybye/dotfiles}"
+    alias gg="gh repo view --web"
     alias gql="gh api rate_limit --jq '.resources.core'"
     alias gsh="gh repo view budybye/dotfiles --json ssh_url -q '.ssh_url'"
 fi
 
 if command -v jj >/dev/null 2>&1; then
     alias jj="jj"
-fi
-
-if command -v jjui >/dev/null 2>&1; then
-    alias jju="jjui"
 fi
 
 # vim nvim
@@ -261,10 +257,10 @@ fi
 
 # multipass
 if command -v multipass >/dev/null 2>&1; then
-    alias mu="multipass"
-    alias md="mu launch docker -c 4 -m 8G -d 42G --timeout 3600 && mu info docker"
-    alias ml="mu launch -n ubuntu -c 4 -m 8G -d 42G --timeout 7200 --cloud-init ${HOME}/dotfiles/cloud-init/multipass.yaml && mu exec ubuntu -- tail -7 /var/log/cloud-init.log"
-    alias ms="mu stop ubuntu && mu delete -p ubuntu && mu list"
+    alias mp="multipass"
+    alias md="mp launch docker -c 4 -m 8G -d 42G --timeout 3600 && mp info docker"
+    alias ml="mp launch -n ubuntu -c 4 -m 8G -d 42G --timeout 7200 --cloud-init ${HOME}/dotfiles/cloud-init/multipass.yaml && mp exec ubuntu -- tail -7 /var/log/cloud-init.log"
+    alias ms="mp stop ubuntu && mp delete -p ubuntu && mp list"
 fi
 
 # kube
@@ -329,7 +325,7 @@ fi
 # mise
 if command -v mise >/dev/null 2>&1; then
     alias mi="mise"
-    alias miu="mi up && mi prune && mi list"
+    alias miu="mi up && mi prune && mi list && mi v"
     alias mig="mi use -g"
     alias mil="mi list && mi set"
     alias mip="mi p ls-remote"
@@ -396,12 +392,12 @@ fi
 
 if command -v cloudflared >/dev/null 2>&1; then
     alias cf="cloudflared"
-    RDP_HOST=${RDP_HOST:-rdp.tmg-server.com}
-    RDP_PORT=${RDP_PORT:-7777}
-    alias rdp="cf access rdp --hostname ${RDP_HOST} --url localhost:${RDP_PORT}"
-    RPI_HOST=${RPI_HOST:-rpi.tmg-server.com}
-    RPI_PORT=${RPI_PORT:-33333}
-    alias rpi="cf access rdp --hostname ${RPI_HOST} --url localhost:${RPI_PORT}"
+    RDP_HOST="${RDP_HOST:-rdp.tmg-server.com}"
+    RDP_PORT="${RDP_PORT:-7777}"
+    alias rdp="cf access rdp --hostname "${RDP_HOST}" --url localhost:${RDP_PORT}"
+    RPI_HOST="${RPI_HOST:-rpi.tmg-server.com}"
+    RPI_PORT="${RPI_PORT:-33333}"
+    alias rpi="cf access rdp --hostname "${RPI_HOST}" --url localhost:${RPI_PORT}"
 fi
 
 if command -v element-desktop >/dev/null 2>&1; then
@@ -410,23 +406,23 @@ fi
 
 if command -v openssl >/dev/null 2>&1; then
     function sec() {
-        ENV_FILE=${ENV_FILE:-.env}
-        echo ${@:-SECRET}=$(openssl rand -base64 32) >> ${ENV_FILE} && ls -al
+        ENV_FILE="${ENV_FILE:-.env}"
+        echo "${@:-SECRET}=$(openssl rand -base64 32)" >> "${ENV_FILE}" && ls
     }
 fi
 
 if command -v rj >/dev/null 2>&1 && command -v jq >/dev/null 2>&1; then
     function rq() {
-        API_URL=${API_URL:-"https://8102.jp/api"}
-        rj ${API_URL} | jq
+        API_URL=${1:-${API_URL:-"https://8102.jp/api"}}
+        rj "${API_URL}" | jq -r '.data'
     }
 fi
 
 # ipfs
 if command -v ipfs >/dev/null 2>&1; then
-    DATA_DIR=${DATA_DIR:-.}
+    DATA_DIR="${DATA_DIR:-.}"
     function pin() {
-        ipfs add -r -p -q --cid-version 1 ${@:-${DATA_DIR}}
+        ipfs add -r -p -q --cid-version 1 "${@:-${DATA_DIR}}"
     }
 fi
 
@@ -435,7 +431,7 @@ if command -v fastfetch >/dev/null 2>&1; then
 fi
 
 # 猫のASCIIアートを表示
-CAT_FILE=${CAT_FILE:-${HOME}/data/cat.txt}
+CAT_FILE=${${HOME}/data/cat.txt}
 if [ -f "${CAT_FILE}" ]; then
     alias x="cat ${CAT_FILE}"
 fi
