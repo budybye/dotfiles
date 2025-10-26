@@ -37,7 +37,7 @@ W2P3="${HOME}/Developer" # app3
 W2P4="${HOME}/dev/app" #app4
 
 # セッションが既に存在する場合はattachして終了
-SES="MySession"
+SES="Session"
 if ${TMUX_CMD} list-sessions | grep -q "^${SES}:"; then
     exec ${TMUX_CMD} attach-session -t "${SES}"
 fi

@@ -1,0 +1,110 @@
+#!/usr/bin/env bash
+set -e
+
+SES="session"
+DOT="dotfiles"
+# ウィンドウ1 ペイン1~4
+W1P1="${HOME}/${DOT}" # dotfiles
+W1P2="${HOME}" # mpd
+W1P3="${HOME}/Music" # ncmpcpp
+W1P4="${HOME}/data" # code
+# ウィンドウ2 ペイン1~4
+W2P1="${HOME}/Developer" # app1
+W2P2="${HOME}/Developer" # app2
+W2P3="${HOME}/Developer" # app3
+W2P4="${HOME}/dev" #app4
+
+# attach to "dotfiles" session, window 0, pane 1
+
+# window 0 pane 1~4 square split
+#	------------------------------------------------------------
+#	|	1 $HOME/dotfiles 	|	4 $HOME/dotfiles/.devcontainer 	|
+#	|-----------------------------------------------------------|
+#	|	2 $HOME (mpd)		|	3 $HOME/music (ncmpcpp)			|
+#	------------------------------------------------------------
+
+# window 1 pane 1~2 horizontal split
+#	-------------------------
+#	|	1 $HOME/dev 		|
+#	|-----------------------|
+#	|	2 $HOME/dev/portainer 		|
+#	-------------------------
+
+# セッションが既に存在する場合はattachして終了
+if byobu list-sessions 2>/dev/null | grep -q "^${SES}"; then
+    byobu-tmux attach-session -t "${SES}"
+    exit 0
+fi
+
+# dotfilesディレクトリが存在する場合はセッションを作成
+if [ -d "${W1P1}" ]; then
+  # セッションの作成 window 0
+    byobu-tmux new-session -d  -s "${SES}" -n "${SES}" -c "${W1P1}"
+    # dotfilesディレクトリでvimを起動
+    # byobu-tmux send-keys -t 1 "vim" C-m
+else
+    echo "${W1P1} not found"
+    byobu-tmux new-session -d  -s "${SES}" -n "${SES}" -c "${HOME}"
+fi
+
+# mpdがインストールされている場合はウィンドウを垂直分割
+if command -v mpd > /dev/null 2>&1; then
+    # ウィンドウの垂直分割 homeディレクトリを開く
+    byobu-tmux split-window -h -c "${W1P2}"
+    # homeディレクトリでmpdを起動 pane 2
+    byobu-tmux send-keys -t 2 "mpd" C-m
+fi
+
+# ncmpcppがインストールされている場合はウィンドウを水平分割
+if command -v ncmpcpp > /dev/null 2>&1 && [ -d "${W1P3}" ]; then
+    # ウィンドウの水平分割 musicディレクトリを開く
+    byobu-tmux split-window -v -c "${W1P3}"
+    # musicディレクトリでncmpcppを起動 pane 3
+    byobu-tmux send-keys -t 3 "ncmpcpp" C-m
+fi
+
+# ${HOME}/dataディレクトリが存在する場合はウィンドウを水平分割
+if [ -d "${W1P4}" ]; then
+    # 水平分割する ペイン1 を選択
+    byobu-tmux select-pane -t 1
+    # ウィンドウの水平分割 dataディレクトリを開く pane 4
+    byobu-tmux split-window -v -c "${W1P4}"
+    # byobu-tmux send-keys -t 4 "code ." C-m
+fi
+
+# sshがインストールされている場合はウィンドウを作成
+if command -v ssh > /dev/null 2>&1; then
+    if [ -d "${W2P1}" ]; then
+        # 新規ウィンドウの作成 ~/Developer/portainerディレクトリを開く
+        byobu-tmux new-window -c "${W2P1}"
+        # byobu-tmux send-keys -t 1 "ssh ubuntu@local.dev" C-m
+    else
+        byobu-tmux new-window -c "${HOME}"
+    fi
+fi
+
+# multipass
+if [ -d "${W2P2}" ] && command -v multipass > /dev/null 2>&1; then
+    # ペイン1を選択して水平分割
+    byobu-tmux split-window -h -c "${W2P2}"
+    # byobu-tmux send-keys -t 4 "multipass shell ubuntu" C-m
+fi
+
+# app
+if [ -d "${W2P3}" ]; then
+    # 垂直分割
+    byobu-tmux split-window -v -c "${W2P3}"
+fi
+
+if [ -d "${W2P4}" ]; then
+    # ペイン1を選択して水平分割
+    byobu-tmux select-pane -t 1
+    byobu-tmux split-window -v -c "${W2P4}"
+fi
+
+
+# 最初に開いたウィンドウを選択 0
+byobu-tmux select-window -t 0
+
+# dotfilesのペインを選択 1
+byobu-tmux select-pane -t 1

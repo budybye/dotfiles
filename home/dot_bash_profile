@@ -10,6 +10,6 @@ if [ -f "${HOME}/.bashrc" ]; then
 fi
 
 # tmux session auto-start
-if [ -f "${XDG_CONFIG_HOME}/tmux/.tmuxrc" ]; then
-    . "${XDG_CONFIG_HOME}/tmux/.tmuxrc"
-fi
+# if [ -f "${XDG_CONFIG_HOME}/tmux/.tmuxrc" ]; then
+#     . "${XDG_CONFIG_HOME}/tmux/.tmuxrc"
+# fi

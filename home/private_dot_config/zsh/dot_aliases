@@ -23,7 +23,7 @@ SHELL=${SHELL:-bash}
 # シェルの再起動
 alias rl="exec ${SHELL} -l"
 # デバッグ・メンテナンス用
-alias reload="exec ${SHELL} -l && exec ${SHELL} -l"
+alias reload="exec ${SHELL} -l && exec ${SHELL}"
 
 # シェルのパフォーマンス測定
 alias opi="for i in {1..3}; do time ${SHELL} -ic exit;done"
@@ -353,10 +353,6 @@ fi
 
 if command -v age >/dev/null 2>&1; then
     alias shhh="age-keygen | age --armor --passphrase > shhh.txt"
-fi
-
-if command -v byobu >/dev/null 2>&1; then
-    alias tmux="byobu-tmux"
 fi
 
 if command -v trans >/dev/null 2>&1; then
