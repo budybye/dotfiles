@@ -387,6 +387,7 @@
 - [Tmux Terminal Multiplexer](https://context7.com/tmux/tmux/llms.txt) #tmux #terminal #multiplexer #session-management
 - [Ghostty](https://context7.com/ghostty-org/ghostty/llms.txt) #ghostty #terminal #emulator #modern
 - [byobu](https://context7.com/dustinkirkland/byobu/llms.txt)
+- [zellij](https://context7.com/zellij-org/zellij/llms.txt)
 
 ### テキストエディタ・IDE
 

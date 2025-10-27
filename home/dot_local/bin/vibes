@@ -43,3 +43,9 @@ if command -v cursor-agent >/dev/null 2>&1; then
 else
   echo "cursor-agent not found"
 fi
+
+if command -v opencode >/dev/null 2>&1; then
+  echo "opencode $(opencode --version)"
+else
+  echo "opencode not found"
+fi

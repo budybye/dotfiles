@@ -29,7 +29,7 @@ packages:
     - 'yt-dlp'
     # 便利コマンド
     - 'translate-shell'
-    - 'termshark'
+    # - 'termshark'
     - 'moreutils'
     - 'multitail'
     - 'nmap'
@@ -45,7 +45,7 @@ packages:
 
     cask:
     - 'appcleaner'
-    - 'alacritty'
+    # - 'alacritty'
     - 'betterdisplay'
     - 'bitwarden'
     - 'brave-browser'
@@ -243,7 +243,6 @@ packages:
   - 'ms-vscode.hexeditor'
   - 'ms-vscode.live-server'
   - 'ms-vscode.makefile-tools'
-  - 'ms-vscode-remote.remote-containers'
   - 'ms-vscode-remote.remote-ssh-edit'
   - 'ms-vscode-remote.remote-ssh'
   - 'ms-vscode-remote.remote-wsl'
@@ -299,6 +298,7 @@ packages:
   - 'starship'
   - 'xh'
   - 'zoxide'
+  - 'zellij'
 
   - 'boringtun-cli'
   - 'coreutils'
@@ -307,7 +307,6 @@ packages:
   - 'kmon'
   - 'onehistory'
   - 'vaultwarden'
-  # - 'zellij'
   # - 'fermyon'
 
   mise:

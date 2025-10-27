@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 set -eu
+
 # MacOS のみ
 # 読み込み先のディレクトリを指定
 RD="/Applications/app"
@@ -34,10 +35,7 @@ do
         # info.plistファイルが存在する場合のみ処理する(MacOSのみ)
         if [ -f "${app_path}/Contents/info.plist" ]; then
         # info.plistファイルからCrAppModeShortcutURLキーの値を取得する
-        app_url="$(plutil -p "${app_path}/Contents/info.plist" `
-        | grep CrAppModeShortcutURL `
-        | awk '{print $3}' `
-        | tr -d '"')"
+        app_url="$(plutil -p "${app_path}/Contents/info.plist" | grep CrAppModeShortcutURL | awk '{print $3}' | tr -d '"')"
 
         # マークダウン形式のリンクを作成してファイルに追加する
             echo "[$app_name]($app_url)" >> "${APPLIST_FILE}"

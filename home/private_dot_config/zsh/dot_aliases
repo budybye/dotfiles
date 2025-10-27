@@ -19,7 +19,6 @@ alias sysinfo="uname -a && uptime"
 alias meminfo="free -h 2>/dev/null || vm_stat"
 alias diskinfo="df -h"
 
-SHELL=${SHELL:-bash}
 # シェルの再起動
 alias rl="exec ${SHELL} -l"
 # デバッグ・メンテナンス用

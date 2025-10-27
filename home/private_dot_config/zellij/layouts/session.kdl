@@ -1,0 +1,62 @@
+// tmux dot_tmuxrc から変換したzellijレイアウト
+// セッション名: "Session"
+// ウィンドウ1: 4ペイン構成 (mpd, ls, ncmpcpp, ls)
+// ウィンドウ2: 4ペイン構成 (ls, 空, 空, 空)
+
+layout {
+    // デフォルトタブテンプレート
+    default_tab_template {
+        children
+    }
+
+    // タブ1: Session (ウィンドウ1相当)
+    tab name="Session" {
+        pane split_direction="vertical" {
+            pane split_direction="horizontal" {
+                pane {
+                    command "mpd"
+                    cwd "~"
+                    focus true
+                }
+                pane {
+                    command "ls"
+                    cwd "~/dotfiles"
+                }
+            }
+            pane split_direction="horizontal" {
+                pane {
+                    command "ls"
+                    cwd "~/data"
+                }
+                pane {
+                    command "ncmpcpp"
+                    cwd "~/Music"
+                }
+            }
+        }
+    }
+
+    // タブ2: Developer (ウィンドウ2相当)
+    tab name="Developer" {
+        pane split_direction="vertical" {
+            pane split_direction="horizontal" {
+                pane {
+                    command "ls"
+                    cwd "~/Developer"
+                    focus true
+                }
+                pane {
+                    cwd "~/Developer"
+                }
+            }
+            pane split_direction="horizontal" {
+                pane {
+                    cwd "~/Developer"
+                }
+                pane {
+                    cwd "~/dev/app"
+                }
+            }
+        }
+    }
+}

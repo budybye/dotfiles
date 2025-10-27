@@ -40,22 +40,11 @@ if [ -f "${ZDOTDIR}/.zshrc" ]; then
     . "${ZDOTDIR}/.zshrc"
 fi
 
-# byobu auto-start (ログイン時に自動起動)
-if command -v byobu > /dev/null 2>&1 && \
-  [ "${SHLVL}" -eq 1 ] && \
-  [ -z "${TMUX}" ] && \
-  [ -z "${BYOBU_BACKEND}" ] && \
-  [ -t 0 ] && \
-  [ -z "${ZSH_AUTOFN}" ]; then
-  # 設定ファイルが存在する場合は読み込み、なければデフォルトで起動
-  if [ -f "${XDG_CONFIG_HOME}/byobu/.byoburc" ]; then
-    . "${XDG_CONFIG_HOME}/byobu/.byoburc"
-  else
-    exec byobu
-  fi
-fi
-
 # tmux session auto-start
-# if [ -f "${XDG_CONFIG_HOME}/tmux/.tmuxrc" ]; then
-#     . "${XDG_CONFIG_HOME}/tmux/.tmuxrc"
-# fi
+if [ $SHLVL = 1 ]; then
+    if command -v zellij > /dev/null 2>&1; then
+        zellij
+    elif command -v tmux > /dev/null 2>&1; then
+        tmux
+    fi
+fi

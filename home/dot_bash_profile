@@ -9,7 +9,10 @@ if [ -f "${HOME}/.bashrc" ]; then
     . "${HOME}/.bashrc"
 fi
 
-# tmux session auto-start
-# if [ -f "${XDG_CONFIG_HOME}/tmux/.tmuxrc" ]; then
-#     . "${XDG_CONFIG_HOME}/tmux/.tmuxrc"
-# fi
+if [ $SHLVL = 1 ]; then
+    if command -v zellij > /dev/null 2>&1; then
+        zellij
+    elif command -v tmux > /dev/null 2>&1; then
+        tmux
+    fi
+fi
