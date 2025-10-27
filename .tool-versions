@@ -2,7 +2,7 @@ age                       latest
 bitwarden                 latest
 bitwarden-secrets-manager latest
 chezmoi                   latest
-doppler                   latest
+duckdb                    latest
 elasticsearch             latest
 fastfetch                 latest
 gh                        latest

@@ -340,10 +340,12 @@ load_plugins {
 //         white 255 255 255
 //     }
 // }
+
 // Choose the theme that is specified in the themes section.
 // Default: default
 //
-// theme "default"
+// theme "kanagawa"
+theme "molokai-dark"
 
 // The name of the default layout to load on startup
 // Default: "default"
@@ -364,7 +366,7 @@ default_layout "dev"
 //   - true (default)
 //   - false
 //
-mouse_mode true
+// mouse_mode true
 
 // Configure the scroll back buffer size
 // This is the number of lines zellij stores for each pane in the scroll back
@@ -373,7 +375,7 @@ mouse_mode true
 // Valid values: positive integers
 // Default value: 10000
 //
-scroll_buffer_size 10000
+// scroll_buffer_size 10000
 
 // Provide a command to execute when copying text. The text will be piped to
 // the stdin of the program to perform the copy. This can be used with
@@ -384,7 +386,8 @@ scroll_buffer_size 10000
 // copy_command "xclip -selection clipboard" // x11
 // copy_command "wl-copy"                    // wayland
 // copy_command "pbcopy"                     // osx
-copy_command "pbcopy"
+// copy_command "pbcopy"
+copy_command "cx"
 
 // Choose the destination for copied text
 // Allows using the primary selection buffer (on x11/wayland) instead of the system clipboard.
