@@ -6,7 +6,13 @@
 layout {
     // デフォルトタブテンプレート
     default_tab_template {
+        pane size=1 borderless=true {
+            plugin location="zellij:tab-bar"
+        }
         children
+        pane size=2 borderless=true {
+            plugin location="zellij:status-bar"
+        }
     }
 
     // タブ1: Session (ウィンドウ1相当)
@@ -15,6 +21,7 @@ layout {
             pane split_direction="horizontal" {
                 pane {
                     command "mpd"
+                    args "~/.config/mpd/mpd.conf"
                     cwd "~"
                     focus true
                 }

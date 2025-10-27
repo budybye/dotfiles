@@ -36,7 +36,7 @@ packages:
     - 'vim'
     # rust 系
     - 'mise'
-    - 'bat'
+    # - 'bat'
     - 'lsd'
     - 'fzf'
     - 'ripgrep'
