@@ -1,4 +1,3 @@
-// セッション名: "Session"
 // タブ1: 4ペイン構成
 // タブ2: 4ペイン構成
 
@@ -16,8 +15,7 @@ layout {
         }
     }
 
-    // タブ1: Session (ウィンドウ1相当)
-    tab name="Session" {
+    tab name="dev" {
         pane split_direction="vertical" {
             pane split_direction="horizontal" {
                 pane {
@@ -46,7 +44,6 @@ layout {
         }
     }
 
-    // タブ2: Developer (ウィンドウ2相当)
     tab name="Developer" {
         pane split_direction="vertical" {
             pane split_direction="horizontal" {
