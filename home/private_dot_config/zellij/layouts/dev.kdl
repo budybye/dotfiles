@@ -1,5 +1,5 @@
-// タブ1: 4ペイン構成
-// タブ2: 4ペイン構成
+// タブ1: 4ペイン
+// タブ2: 4ペイン
 
 layout {
     // デフォルトタブテンプレート
@@ -13,7 +13,7 @@ layout {
         }
     }
 
-    tab name="dev" {
+    tab name="101" {
         pane split_direction="vertical" {
             pane split_direction="horizontal" {
                 pane {
@@ -44,7 +44,7 @@ layout {
         }
     }
 
-    tab name="Developer" {
+    tab name="Dev" {
         pane split_direction="vertical" {
             pane split_direction="horizontal" {
                 pane {

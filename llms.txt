@@ -48,6 +48,7 @@
 - [Openspce](https://context7.com/fission-ai/openspec/llms.txt)
 - [agent-spce](https://context7.com/websites/oracle_github_io_agent-spec/llms.txt)
 - [emdash](https://context7.com/generalaction/emdash/llms.txt)
+- [factory](https://context7.com/websites/factory_ai/llms.txt)
 
 ### MCP・エージェント開発
 
@@ -118,6 +119,7 @@
 - [FreeBSD Documentation](https://context7.com/freebsd/freebsd-doc/llms.txt) #freebsd #unix #server #zfs
 - [GhostBSD](https://context7.com/ghostbsd/ghostbsd-src/llms.txt)
 - [Sylve](https://context7.com/alchemillahq/sylve/llms.txt)
+- [nix](https://context7.com/nixos/nix/llms.txt)
 
 ### 設定・デプロイ・CI/CD
 
@@ -188,6 +190,7 @@
 - [pattycake](https://context7.com/aidenybai/pattycake/llms.txt)
 - [g6](https://context7.com/antvis/g6/llms.txt)
 - [templ](https://context7.com/websites/templ_guide/llms.txt)
+- [surge](https://context7.com/sintaxi/surge/llms.txt)
 
 ## テスト・品質管理
 
@@ -320,6 +323,9 @@
 - [Interledger Developers](https://context7.com/interledger/interledger.org-developers/llms.txt) #interledger #developers #docs #community
 - [Interledger Rafiki](https://context7.com/interledger/rafiki/llms.txt) #interledger #rafiki #wallet #implementation
 - [Interledger Dassie](https://context7.com/justmoon/dassie/llms.txt) #interledger #dassie #connector #implementation
+- [paymentpointer](https://context7.com/interledger/paymentpointers.org/llms.txt)
+- [paystring docs](https://context7.com/PayString/paystring-documentation/llms.txt)
+- [paystring docs](https://context7.com/PayString/paystring/llms.txt)
 
 ### IPFS・分散ストレージ
 
@@ -339,6 +345,7 @@
 - [DOKU](https://context7.com/websites/doku/llms.txt) #doku #payments #indonesia #fintech
 - [mojaloop](https://context7.com/mojaloop/documentation/llms.txt) #mojaloop #payments #open-source #financial-inclusion
 - [ccxt](https://context7.com/websites/ccxt/llms.txt)
+- [union](https://context7.com/unionlabs/union/llms.txt)
 
 ## セキュリティ
 
@@ -414,6 +421,7 @@
 
 ### ディスクトップツール
 
+- [raycast](https://developers.raycast.com/llms-full.txt)
 - [Xfce](https://context7.com/xfce-mirror/xfdesktop/llms.txt) #xfce #desktop #environment #linux
 - [xrdp](https://context7.com/neutrinolabs/xrdp/llms.txt) #xrdp #remote-desktop #linux #rdp
 - [wayland](https://context7.com/websites/wayland_freedesktop_html/llms.txt) #wayland #display #server #modern
@@ -444,6 +452,7 @@
 - [Youtube API](https://context7.com/websites/developers_google-youtube/llms.txt) #youtube #google #movie
 - [VLC](https://context7.com/videolan/vlc/llms.txt) #vlc #media #player #cross-platform
 - [yt-x](https://context7.com/Benexl/yt-x/llms.txt)
+- [audacity](https://context7.com/audacity/audacity/llms.txt)
 
 ### 3D
 
@@ -474,6 +483,7 @@
 - [ripsecrets](https://context7.com/sirwart/ripsecrets/llms.txt)
 - [markitdown](https://context7.com/microsoft/markitdown/llms.txt)
 - [odoo](https://context7.com/odoo/odoo/llms.txt)
+- [calibre](https://context7.com/kovidgoyal/calibre/llms.txt)
 
 ### トレード・ファイナンス
 

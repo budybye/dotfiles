@@ -2,8 +2,8 @@
 keybinds {
     normal {
         // tmux風のキーバインドを追加
-        bind "|" { NewPane "Right"; SwitchToMode "Normal"; }
-        bind "-" { NewPane "Down"; SwitchToMode "Normal"; }
+        bind "Ctrl |" { NewPane "Right"; SwitchToMode "Normal"; }
+        bind "Ctrl -" { NewPane "Down"; SwitchToMode "Normal"; }
         bind "Ctrl q" { Quit; }
         bind "Ctrl r" { LaunchOrFocusPlugin "configuration" { floating true; move_to_focused_tab true; }; SwitchToMode "Normal"; }
         // uncomment this and adjust key if using copy_on_select=false
@@ -385,9 +385,8 @@ default_layout "dev"
 //
 // copy_command "xclip -selection clipboard" // x11
 // copy_command "wl-copy"                    // wayland
-// copy_command "pbcopy"                     // osx
-// copy_command "pbcopy"
-copy_command "cx"
+copy_command "pbcopy"                     // osx
+// copy_command "cx"
 
 // Choose the destination for copied text
 // Allows using the primary selection buffer (on x11/wayland) instead of the system clipboard.

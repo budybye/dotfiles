@@ -4,9 +4,10 @@ packages:
     # 基本系
     - 'git'
     - 'curl'
+    - 'cask'
     - 'make'
     - 'zsh'
-    - 'byobu'
+    - 'mas'
     - 'tree'
     # 開発系
     - 'autoconf'
@@ -14,9 +15,8 @@ packages:
     - 'ain'
     - 'bash'
     - 'bash-completion'
+    - 'byobu'
     - 'ca-certificates'
-    - 'cask'
-    - 'mas'
     # ジョーク系コマンド
     - 'cmatrix'
     - 'fortune'
@@ -37,9 +37,9 @@ packages:
     # rust 系
     - 'mise'
     # - 'bat'
-    - 'lsd'
-    - 'fzf'
-    - 'ripgrep'
+    # - 'lsd'
+    # - 'fzf'
+    # - 'ripgrep'
     - 'sheldon'
     - 'starship'
 
@@ -82,16 +82,15 @@ packages:
     - 'gnupg'
     - 'g++'
     - 'sudo'
-    - 'flatpak'
 
+    - 'flatpak'
     - 'tree'
     - 'xsel'
     - 'ncdu'
     - 'xdotool'
     - 'moreutils'
     - 'multitail'
-    - 'lsd'
-    - 'zoxide'
+
     - 'openssh-server'
     - 'avahi-daemon'
     - 'pkg-config'
@@ -118,8 +117,12 @@ packages:
     - 'libxcb-xfixes0-dev'
     - 'libxkbcommon-dev'
 
-    - 'ffmpeg'
-    - 'yt-dlp'
+    # - 'lsd'
+    # - 'zoxide'
+    # - 'cowsay'
+    # - 'ffmpeg'
+    # - 'yt-dlp'
+
     - 'mpd'
     - 'mpc'
     - 'ncmpcpp'
@@ -132,13 +135,12 @@ packages:
     - 'im-config'
     - 'byobu'
     - 'ruby'
-    - 'jq'
+    # - 'jq'
 
     - 'figlet'
     - 'fortune-mod'
     - 'cmatrix'
     - 'oneko'
-    - 'cowsay'
     - 'lolcat'
     - 'nyancat'
     - 'translate-shell'
@@ -176,7 +178,7 @@ packages:
     - 'remmina'
   snap:
     classic:
-    - 'alacritty'
+    # - 'alacritty'
     - 'ghostty'
     # - 'code' amd64
     # - 'codium' arm64
@@ -290,16 +292,16 @@ packages:
   # - 'alacritty'
   # - 'cargo-binstall'
   # - 'jj'
-  # - 'navi'
-  - 'bat'
-  - 'lsd'
-  - 'fd-find'
-  - 'ripgrep'
+  - 'navi'
+  # - 'bat'
+  # - 'lsd'
+  # - 'fd-find'
+  # - 'ripgrep'
   - 'sheldon'
   - 'starship'
-  - 'xh'
-  - 'zoxide'
-  - 'zellij'
+  # - 'xh'
+  # - 'zoxide'
+  # - 'zellij'
 
   - 'boringtun-cli'
   - 'coreutils'
@@ -336,15 +338,16 @@ packages:
   - 'vibekit'
   - 'wrangler'
   - '@hono/cli'
+  - 'surge'
   # - 'claude'
   # - 'zx'
   # - '@pipedream/sdk'
   # - '@bitwarden/cli'
   curl:
+  - 'curl -fsSL https://mise.run | sh'
   - 'sh -c "$(curl -fsSL https://git.io/chezmoi)" -- -b ${HOME}/.local/bin'
-  - 'curl https://mise.run | sh'
+  - 'curl -fsSL https://cli.coderabbit.ai/install.sh | bash'
   - 'curl -fsSL https://raw.githubusercontent.com/watzon/cursor-linux-installer/main/install.sh | bash -s -- latest'
-  - 'curl -sL "https://raw.githubusercontent.com/Benexl/yt-x/refs/heads/master/yt-x" -o ${HOME}/.local/bin/yt-x && chmod +x ${HOME}/.local/bin/yt-x'
 
   go:
   - 'act'

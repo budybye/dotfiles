@@ -20,7 +20,8 @@ alias meminfo="free -h 2>/dev/null || vm_stat"
 alias diskinfo="df -h"
 
 # シェルの再起動
-alias rl="exec ${SHELL} -l"
+# alias rl="exec ${SHELL} -l"
+alias rl="source ${HOME}/.zshenv"
 # デバッグ・メンテナンス用
 alias reload="exec ${SHELL} -l && exec ${SHELL}"
 
