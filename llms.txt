@@ -326,6 +326,7 @@
 - [paymentpointer](https://context7.com/interledger/paymentpointers.org/llms.txt)
 - [paystring docs](https://context7.com/PayString/paystring-documentation/llms.txt)
 - [paystring docs](https://context7.com/PayString/paystring/llms.txt)
+- [codius workers](https://context7.com/codius/codius-workers/llms.txt)
 
 ### IPFS・分散ストレージ
 
@@ -346,6 +347,7 @@
 - [mojaloop](https://context7.com/mojaloop/documentation/llms.txt) #mojaloop #payments #open-source #financial-inclusion
 - [ccxt](https://context7.com/websites/ccxt/llms.txt)
 - [union](https://context7.com/unionlabs/union/llms.txt)
+- [libp2p](https://context7.com/libp2p/js-libp2p/llms.txt)
 
 ## セキュリティ
 
@@ -507,7 +509,7 @@
 - [Apple Developer](https://context7.com/context7/developer_apple/llms.txt) #apple #developer #ios #macos
 - [Appke Human Interface](https://context7.com/context7/developer_apple-design-human-interface-guidelines/llms.txt) #apple #design #guidelines #ui
 - [Visual Studio Code](https://context7.com/microsoft/vscode-docs/llms.txt) #vscode #docs #ide #microsoft
-- [Go project-layout ](https://context7.com/golang-standards/project-layout/llms.txt)
+- [Go project-layout](https://context7.com/golang-standards/project-layout/llms.txt)
 
 ### 図表・プレゼンテーション
 
@@ -523,6 +525,7 @@
 - [oss-contribution-guide](https://context7.com/suzuki-shunsuke/oss-contribution-guide/llms.txt) #oss #contribution #guide #open-source
 - [i18n-js Internationalization](https://context7.com/fnando/i18n-js/llms.txt) #i18n #internationalization #javascript #localization
 - [THC](https://context7.com/hackerschoice/thc-tips-tricks-hacks-cheat-sheet/llms.txt) #thc #tips #tricks #cheat-sheet
+- [gitbook](https://context7.com/llmstxt/gitbook-llms.txt/llms.txt)
 
 ## プログラミング言語・ランタイム・ツール
 

@@ -25,8 +25,8 @@ packages:
     - 'mackup'
     - 'mpd'
     - 'ncmpcpp'
-    - 'ffmpeg'
-    - 'yt-dlp'
+    # - 'ffmpeg'
+    # - 'yt-dlp'
     # 便利コマンド
     - 'translate-shell'
     # - 'termshark'
@@ -63,8 +63,9 @@ packages:
     - 'obsidian'
     - 'onyx'
     - 'raycast'
+    - 'ghostty'
     - 'rectangle'
-    - 'tabby'
+    # - 'tabby'
     - 'visual-studio-code'
     - 'windows-app'
 
