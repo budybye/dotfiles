@@ -49,22 +49,9 @@ make init
 
 ### git グローバル設定
 
-```sh
-# ~/.config/git/user.conf を分けて設定している
-cat <<EOF >~/.config/git/user.conf
-[user]
-    name = {{ .name }}
-    email = {{ .email }}
-EOF
+Git 設定は chezmoi テンプレート機能を使用して管理されます。`~/.config/git/user.conf`として配置され、テンプレート変数でユーザー情報を設定します。
 
-# or
-git config --global user.name {{ .name }}
-git config --global user.email {{ .email }}
-# コミットメッセージのテンプレート
-git config --global commit.template ~/.config/git/commit_template
-# ~/.config/git/config の設定の確認
-git config --list
-```
+**詳細**: [ディレクトリ構成 - Chezmoi 設計とワークフロー - ファイル管理](docs/directory.md#ファイル管理) を参照してください。
 
 ---
 
@@ -80,627 +67,227 @@ git config --list
 
 ## 目次
 
-1. [XDG ディレクトリ構成](#XDG-Base-Directory)
-2. [管理方法](#管理方法)
-3. [Chezmoi](#Chezmoi)
-4. [Makefile](#Makefile)
-5. [Github Actions](#Github-Actions)
-6. [Mise](#Mise)
-7. [環境変数](#環境変数)
-8. [Docker](#Docker)
-9. [Multipass](#Multipass)
-10. [参考文献](#参考文献)
+- [dotfiles](#dotfiles)
+  - [🍍🍕 0.8.0](#-080)
+    - [🏴‍☠ dotfiles](#-dotfiles)
+    - [初期設定](#初期設定)
+    - [git グローバル設定](#git-グローバル設定)
+  - [概要](#概要)
+  - [目次](#目次)
+  - [ドキュメント](#ドキュメント)
+  - [XDG Base Directory](#xdg-base-directory)
+  - [管理方法](#管理方法)
+  - [ツール一覧](#ツール一覧)
+  - [Chezmoi の使用](#chezmoi-の使用)
+    - [基本操作](#基本操作)
+  - [Makefile](#makefile)
+    - [よく使うコマンド](#よく使うコマンド)
+  - [GitHub Actions](#github-actions)
+  - [Mise](#mise)
+    - [基本的な使い方](#基本的な使い方)
+  - [環境変数](#環境変数)
+  - [Docker](#docker)
+  - [Multipass](#multipass)
+  - [参考文献](#参考文献)
+
+---
+
+## ドキュメント
+
+プロジェクトの詳細ドキュメントは`docs/`ディレクトリに配置されています：
+
+- **[要件定義](docs/requirements.md)**: システムの要件定義
+- **[設計書](docs/design.md)**: プロジェクト設計方針とアーキテクチャ（XDG Base Directory Specification 含む）
+- **[タスク管理](docs/tasks.md)**: タスク管理と実行計画（AI 管理対応）
+- **[技術スタック](docs/tech.md)**: 技術スタック、実装詳細（パッケージ管理含む）
+- **[ディレクトリ構成](docs/directory.md)**: プロジェクトのディレクトリ構造
+
+詳細な使用方法や設定については、各ドキュメントを参照してください。
 
 ---
 
 ## XDG Base Directory
 
-### [XDG Base Directory Specification](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html)
+このプロジェクトは[XDG Base Directory Specification](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html)に準拠しています。
 
-- **XDG Base Directory Specification** に基づくディレクトリの設定を行います。
-- **XDG_CONFIG_HOME**: ユーザー固有の設定ファイルの格納先。
-- **XDG_DATA_HOME**: ユーザー固有のデータファイルの格納先。
-- **XDG_CACHE_HOME**: ユーザー固有のキャッシュファイルの格納先。
-- **XDG_STATE_HOME**: ユーザー固有の状態ファイルの格納先。
-- **XDG_DATA_DIRS**: システム全体のデータファイルの検索パス。
-- **XDG_CONFIG_DIRS**: システム全体の設定ファイルの検索パス。
-- 環境変数で設定できますが、なるべくデフォルトを使用します。
-- 特に `~/.config` は様々なツールに使用されているので、なるべく採用します。
+設定ファイルは`~/.config`（`XDG_CONFIG_HOME`）に配置され、データファイルは`~/.local/share`（`XDG_DATA_HOME`）に配置されます。これにより、ホームディレクトリの整理と一貫したファイル管理を実現します。
 
-```:tree
-.
-├── .devcontainer/
-│   ├── docker-compose.yaml
-│   ├── Dockerfile
-│   ├── devcontainer.json
-│   └── entrypoint.sh
-├── .github/
-│   └── workflows/
-│       ├── test.yaml
-│       ├── push.yaml
-│       └── tag.yaml
-├── .vscode/
-│   └── extensions.json
-├── .cursor/
-│   └── rules/
-│       ├── always-refer.mdc
-│       ├── project-structure.mdc
-│       ├── package-management.mdc
-│       └── development-guidelines.mdc
-├── cloud-init/
-│   ├── multipass.yaml
-│   ├── network-config
-│   └── user-data
-├── home/
-│   ├── .chezmoidata/
-│   │   └── packages.yaml
-│   ├── .chezmoiscripts/
-│   │   ├── darwin/
-│   │   ├── linux/
-│   │   └── run_*.sh.tmpl
-│   ├── dot_ssh/
-│   │   ├── config.tmpl
-│   │   ├── encrypted_private_*.age
-│   │   └── *.pub.tmpl
-│   ├── private_dot_config/
-│   │   ├── alacritty/
-│   │   ├── git/
-│   │   ├── nvim/
-│   │   ├── tmux/
-│   │   ├── fish/
-│   │   ├── mise/
-│   │   ├── Brewfile
-│   │   └── starship.toml
-│   ├── .chezmoi.toml.tmpl
-│   ├── .chezmoiexternal.toml.tmpl
-│   ├── .chezmoiignore
-│   ├── dot_zshrc
-│   ├── dot_bashrc
-│   ├── dot_profile
-│   ├── key.txt.age
-│   └── shhh.txt
-├── .chezmoiroot
-├── .editorconfig
-├── .tool-versions
-├── install.sh
-├── Makefile
-├── README.md
-├── style.css
-└── .gitignore
-```
+**詳細**: [設計書 - XDG Base Directory Specification](docs/design.md#xdg-base-directory-specification) および [ディレクトリ構成](docs/directory.md) を参照してください。
 
-- **シェル設定**: ログインシェルやインタラクティブシェルで読み込まれるファイル。
-- **Makefile**: `Makefile` で シェルスクリプトを設定管理。
-- **.chezmoiscripts**: 初期設定用などのシェルスクリプトを格納するディレクトリ。
-- **.devcontainer**: `docker` と `devcontainer` 使用する設定ファイル。
-- **.github**: `Github Actions` の設定ファイル。OS 差異のテスト用やイメージビルド用。
-- **~/.config**: 様々なツールやアプリケーションの設定を管理するためのファイル。
-- **.local/share**: ユーザーがインストールしたフォントや壁紙などの共有リソースを格納するディレクトリ。
+**詳細なディレクトリ構成**: [ディレクトリ構成](docs/directory.md) を参照してください。
 
 ---
 
 ## 管理方法
 
-### 1. Chezmoi の活用
+このプロジェクトでは以下のアプローチで dotfiles を管理しています：
 
-- [x] **クロスプラットフォーム対応**: macOS、Linux、Windows 間でドットファイルを同期
-- [x] **セキュリティ**: シークレットファイルを暗号化して管理
-- [x] **テンプレート機能**: 環境ごとの設定を柔軟にカスタマイズ
+1. **Chezmoi**: ドットファイルの同期とテンプレート管理
+2. **Makefile**: ビルドスクリプトとタスク自動化
+3. **Dev Containers / VM**: コンテナや仮想マシン内での自動適用
+4. **GitHub Actions**: クロスプラットフォームでの自動テスト
 
-### 2. Make との併用
+**詳細**: [設計書 - 開発ワークフロー](docs/design.md#開発ワークフロー) および [ディレクトリ構成 - Chezmoi 設計とワークフロー](docs/directory.md#chezmoi-設計とワークフロー) を参照してください。
 
-- [x] **特定の設定やスクリプトの自動化**: Makefile を使用
-- [x] **Chezmoi との連携**: ドットファイルの管理は Chezmoi に任せる
-
-### 3. .devcontainer, vm との統合
-
-- [x] **Dev Containers 内で Chezmoi を使用**: コンテナ起動時に自動的にdotfilesを適用
-- [ ] **cloud-init で chezmoi を反映する**: lxd, multipass の起動時にcloud-initから自動的にdotfilesを適用
-
-### 4. Github Actions でテスト
-
-```mermaid
-flowchart TD
-    A[ドットファイル管理] --> B[Chezmoi]
-    A --> C[Make]
-    A --> D[Docker]
-    A --> E[Multipass]
-
-    B --> B1[初期化]
-    B1 --> B2[設定ファイルを適用]
-    B2 --> B3[環境変数を管理]
-
-    C --> C1[Makefileを使用]
-    C1 --> C2[シェルスクリプトを実行]
-    C2 --> C3[環境ごとの設定を管理]
-
-    D --> D1[Dockerイメージをビルド]
-    D1 --> D2[コンテナを起動]
-    D2 --> D3[環境を構築]
-
-    E --> E1[MultipassでVMを起動]
-    E1 --> E2[cloud-initを使用]
-    E2 --> E3[カスタマイズされた環境を構築]
-```
-
-```mermaid
-sequenceDiagram
-    participant H as Home Directory
-    participant W as Working Copy
-    participant L as Local Repo
-    participant R as Remote Repo
-
-    H->>L: chezmoi init
-    H->>W: chezmoi add <file>
-    W->>W: chezmoi edit <file>
-    W-->>H: chezmoi diff
-    W->>H: chezmoi apply
-    H-->>W: chezmoi cd
-    W->>L: git add .
-    W->>L: git commit
-    L->>R: git push
-    R->>H: chezmoi init --apply <repo>
-```
-
-### Script
-
-| Chezmoi Script                       | MacOS | Ubuntu | wsl | powershell |
-| ------------------------------------ | :---: | :----: | :-: | :--------: |
-| run_once_before_age.sh.tmpl          |  ✅   |   ✅   |     |            |
-| run_once_before_bw.sh.tmpl           |  ✅   |   ✅   |     |            |
-| run_after_activate.sh.tmpl           |  ✅   |   ✅   |     |            |
-| run_onchange_after_bootstrap.sh.tmpl |  ✅   |        |     |            |
-| run_onchange_after_defaults.sh.tmpl  |  ✅   |        |     |            |
-| run_onchange_after_cli.sh.tmpl       |       |   ✅   |     |            |
-| run_once_after_docker.sh.tmpl        |       |   ✅   |     |            |
-| run_onchange_after_gui.sh.tmpl       |       |   ✅   |     |            |
-| run_once_after_setup.sh.tmpl         |       |   ✅   |     |            |
-| run_onchange_after_snap.sh.tmpl      |       |   ✅   |     |            |
-| run_once_after_ssh.sh.tmpl           |  ✅   |   ✅   |     |            |
-| run_onchange_after_vscode.sh.tmpl    |  ✅   |   ✅   |     |            |
-| run_onchange_after_with.sh.tmpl      |  ✅   |   ✅   |     |            |
-| run_onchange_after_xrp.sh.tmpl       |  ✅   |   ✅   |     |            |
-| run_once_after_youtube.sh.tmpl       |  ✅   |   ✅   |     |            |
-
-### Script rule
-
-- `.chezmoiscripts` ディレクトリ内に配置することで `chezmoi apply` 時に実行される
-- `.tmpl` は `chezmoi apply` でテンプレートとして認識されます。
-- `run_` は `chezmoi apply` で名前順に実行されます。
-- `once_` は `chezmoi apply` 一度だけ実行されます。
-- `onchange_` は 前回の `chezmoi apply` から変更があった場合に実行されます。
-- `before_` は `chezmoi apply` 前に実行されます。
-- `after_` は `chezmoi apply` 後に実行されます。
-- それぞれの script は `after_` `before_` `onchange_` `once_` `run_` `.tmpl` などの chezmoi 構文を除いた名前になります。
-
-### chezmoiignore
-
-- `chezmoiignore` で `chezmoi apply` で除外するファイルを管理できます。
-- 除外されたファイルは `chezmoi ignored` で確認できます。
-
-```txt:.chezmoiignore
-# template構文を使用できます
-
-{{ if ne .chezmoi.os "linux" }}
-.config/fcitx5
-.config/fusuma
-.local/share/fonts
-.local/share/icons
-.local/share/themes
-.chezmoiscripts/linux/**
-{{ end }}
-
-.chezmoiexternal.*
-key.txt.age
-shhh.txt
-```
-
-### ツールのインストール
+**対応 OS・ツール要件**: [要件定義 - 対応 OS・プラットフォーム要件](docs/requirements.md#対応-osプラットフォーム要件) および [要件定義 - ツール要件](docs/requirements.md#ツール要件) を参照してください。
 
 ---
 
-| _OS_           | MacOS |  Ubuntu   |  Docker   | PowerShell | WSL2 |
-| -------------- | :---: | :-------: | :-------: | :--------: | :--: |
-| Chezmoi        | brew  | curl/mise | curl/mise |            |      |
-| Make           | brew  |    apt    |    apt    |            |      |
-| ZSH            | brew  |    apt    |    apt    |            |      |
-| Git            | brew  |    apt    |    apt    |            |      |
-| Github Actions |  ✅   |    ✅     |    ✅     |            |      |
-| Github CLI     | brew  |    apt    |    apt    |            |      |
-| Bitwarden CLI  | brew  | npm/snap  | npm/snap  |            |      |
-| Docker         | brew  |    apt    |    apt    |            |      |
-| Dev Container  |  ✅   |    ✅     |    ✅     |            |      |
-| Multipass      | brew  |   snap    |   snap    |            |      |
-| Homebrew       |  ✅   |    ❌     |    ❌     |            |      |
+## ツール一覧
+
+このプロジェクトで管理しているツールとパッケージの詳細な一覧については、[技術スタック](docs/tech.md) を参照してください。
+
+主なカテゴリ：
+
+- **OS/プラットフォーム**: macOS、Ubuntu、Docker、Multipass、WSL2
+- **開発ツール**: VSCode、Cursor、Neovim、Git、GitHub CLI
+- **シェル・ターミナル**: Zsh、Fish、Bash、Starship、Sheldon
+- **ランタイム管理**: Mise（Node.js、Python、Go、Rust、Ruby など）
+- **パッケージ管理**: Homebrew、APT、Mise、Aqua、UV
+- **セキュリティ**: Age、Bitwarden CLI、SSH
+- **その他**: Docker、GitHub Actions、Dev Containers、その他多数
 
 ---
 
-| _CLI Tool_ | MacOS | Ubuntu | Docker | PowerShell | WSL2 |
-| ---------- | :---: | :----: | :----: | :--------: | :--: |
-| Byobu      | brew  |  apt   |  apt   |            |      |
-| Vim        | brew  |  apt   |  apt   |            |      |
-| Fish       | brew  |  apt   |  apt   |            |      |
-| aqua VM    | brew  |  apt   |  apt   |            |      |
-| MPD        | brew  |  apt   |  apt   |            |      |
-| Ncmpcpp    | brew  |  apt   |  apt   |            |      |
-| fcitx5     |  ❌   |  apt   |  apt   |            |      |
-| Neofetch   |  ❌   |  apt   |  apt   |            |      |
-| fastfetch  | brew  |   ❌   |   ❌   |            |      |
+## Chezmoi の使用
 
----
-
-| _Rust Tool_    |   MacOS    |   Ubuntu   |   Docker   | PowerShell | WSL2 |
-| -------------- | :--------: | :--------: | :--------: | :--------: | :--: |
-| Mise           |    brew    |    curl    |    curl    |            |      |
-| cargo-binstall | mise/cargo | mise/cargo | mise/cargo |            |      |
-| Starship       |    brew    | mise/cargo | mise/cargo |            |      |
-| Sheldon        |    brew    |   cargo    |   cargo    |            |      |
-| lsd            |    brew    | cargo/apt  |    apt     |            |      |
-| bat            |    brew    | cargo/apt  |    apt     |            |      |
-| ripgrep        |    brew    | cargo/apt  |    apt     |            |      |
-| fzf            |    brew    | cargo/apt  |    apt     |            |      |
-| zoxide         |    brew    | cargo/apt  |    apt     |            |      |
-| fd-find        |    brew    | cargo/apt  |    apt     |            |      |
-
----
-
-| _Lang/Runtime_ | MacOS |  Ubuntu   |  Docker   | PowerShell | WSL2 |
-| -------------- | :---: | :-------: | :-------: | :--------: | :--: |
-| Node.js        | mise  |   mise    |   mise    |            |      |
-| Bun            | mise  |   mise    |   mise    |            |      |
-| Deno           | mise  | mise/snap | mise/snap |            |      |
-| Go             | mise  | mise/snap | mise/snap |            |      |
-| Python         | mise  | mise/apt  | mise/apt  |            |      |
-| Java           | mise  | mise/apt  | mise/apt  |            |      |
-| Rust           | mise  | mise/apt  | mise/apt  |            |      |
-| Ruby           | mise  | mise/apt  | mise/apt  |            |      |
-| PostgreSQL     | mise  | mise/apt  | mise/apt  |            |      |
-| Redis          | mise  | mise/apt  | mise/apt  |            |      |
-
----
-
-| _Desktop_          | MacOS |  Ubuntu  |  Docker  | PowerShell | WSL2 |
-| ------------------ | :---: | :------: | :------: | :--------: | :--: |
-| Xfce4              |  ❌   |   apt    |   apt    |            |      |
-| Xrdp               |  ❌   |   apt    |   apt    |            |      |
-| VSCode             | brew  |    ❌    |   apt    |            |      |
-| VSCodium           |  ❌   |   snap   |   snap   |            |      |
-| Cursor             | brew  | AppImage | AppImage |            |      |
-| Github Desktop     | brew  |   apt    |   apt    |            |      |
-| Tabby              | brew  |   apt    |   apt    |            |      |
-| Brave              | brew  |   apt    |   apt    |            |      |
-| Cloudflare Warp    | brew  |   apt    |   apt    |            |      |
-| Wireshark          | brew  |   apt    |   apt    |            |      |
-| Fusuma             |  ❌   |   gem    |   gem    |            |      |
-| Karabiner-Elements | brew  |    ❌    |    ❌    |            |      |
-
----
-
-## [Chezmoi](https://chezmoi.io/) の使用
-
-### Chezmoi を使用して Dotfiles を管理します
-
-- `chezmoi init` で初期化して `chezmoi cd` で移動して `chezmoi add` でファイルを追加します。
-- `chezmoi apply` で変更を適用します。
-- `chezmoi diff` で差分を確認します。
-- `chezmoi chattr` でファイルの属性を変更します。
-- `chezmoi update` でリモートからの状態を反映します。
-- `chezmoi data` で .chezmoi.\* から取得できる情報を表示します。
+### 基本操作
 
 ```sh
-# インストールされてない場合
-curl -sfL https://chezmoi.io/get | sh -s -- init --apply budybye
+# 初期化と適用
+chezmoi init --apply budybye
 # or
 make init
 
-# MacOS
-brew install chezmoi
-
-# 初期化 ~/.local/share/chezmoi が作成されて ~/ 以下に反映される
-chezmoi init --apply budybye
-# cd コマンドで移動 ~/.local/share/chezmoi
+# ソースディレクトリに移動
 chezmoi cd
+
 # ファイルを追加
-chezmoi add < Filename >
-# ファイルを追加(シンボリックリンク)
-chezmoi add --follow < Filename >
-# ファイルの差分を確認
-chezmoi diff < option Filename >
+chezmoi add <file>
+
+# 変更を確認
+chezmoi diff
+
 # 変更を適用
-chezmoi apply < option Filename >
-# ファイルの属性を変更
-chezmoi chattr < Filename >
-# リモートからの状態を反映
+chezmoi apply
+
+# リモートから更新
 chezmoi update
-# .chezmoi.* から取得できる情報を表示
-chezmoi data
 ```
+
+**詳細なコマンドリファレンスとワークフロー**: [ディレクトリ構成 - Chezmoi 設計とワークフロー](docs/directory.md#chezmoi-設計とワークフロー) を参照してください。
 
 ---
 
-## [Makefile](https://www.gnu.org/software/make/manual/make.html)
+## Makefile
 
-### 最適化された Makefile でよく使うコマンドを管理
+最適化された Makefile でよく使うコマンドを管理しています。`make help`で利用可能なコマンドを確認できます。
 
-最新の Makefile は構造化され、カテゴリ別に整理されています。`make help`で利用可能なコマンドを確認できます。
-
-#### 基本コマンド
+### よく使うコマンド
 
 ```sh
-# ヘルプメッセージを表示
+# ヘルプを表示
 make help
-# バージョン情報を表示
-make version
-# dotfiles を初期化
+
+# 初期化・更新
 make init
-# dotfiles を更新
 make update
-# 変更を適用
 make apply
-# 設定をチェック
-make check
-```
 
-#### Docker 関連
-
-```sh
-# Docker イメージをビルド
-make docker-build
-# Docker コンテナをビルドして実行
+# Docker 操作
 make docker-run
-# Docker Compose でサービスを開始
-make up
-# Docker Compose でサービスを停止
-make down
-# Docker コンテナに接続
-make exec
-# Docker コンテナのログを表示
-make logs
-```
+make docker-build
 
-#### 仮想マシン (Multipass) 関連
-
-```sh
-# Multipass VM を作成
+# 仮想マシン操作
 make vm-create
-# VM 情報を表示
-make vm-info
-# VM を停止
-make vm-stop
-# VM を開始
 make vm-start
-# SSH で VM に接続
 make ssh
-```
 
-#### Git 操作
-
-```sh
-# 変更をコミットしてプッシュ
-make git-commit
-# Git ステータスを表示
-make git-status
-```
-
-#### セキュリティ・暗号化
-
-```sh
-# Age 暗号化キーを生成
+# セキュリティ
 make age-keygen
-# Bitwarden Vault をアンロック
 make bw-unlock
 ```
 
-#### クリーンアップ
-
-```sh
-# Docker リソースをクリーンアップ
-make clean-docker
-# VM を削除
-make clean-vm
-# 全ての一時ファイルをクリーンアップ
-make clean
-```
-
-#### 情報表示
-
-```sh
-# VM の一覧を表示
-make list-vms
-# Docker コンテナの一覧を表示
-make list-containers
-# システム情報を表示
-make system-info
-```
-
-#### レガシーエイリアス
-
-```sh
-# docker-run のエイリアス
-make docker
-# vm-create のエイリアス
-make ubuntu
-# git-commit のエイリアス
-make git
-# age-keygen のエイリアス
-make age
-# bw-unlock のエイリアス
-make bw
-```
-
-### Makefile の特徴
-
-- **カテゴリ化**: コマンドが論理的にグループ分けされています
-- **カラー出力**: 視認性の良い緑色の成功メッセージ
-- **エラーハンドリング**: 安全なコマンド実行
-- **設定可能な変数**: 簡単にカスタマイズ可能
-- **依存関係管理**: ターゲット間の依存関係が明確
-- **ヘルプ機能**: `make help` で全コマンドの説明を表示
+**詳細なコマンドリファレンス**: [設計書 - Makefile 設計](docs/design.md#makefile-設計) を参照してください。
 
 ---
 
-## [Github Actions](https://docs.github.com/en/actions)
+## GitHub Actions
 
-- `Main Branch` に Push されたときにテストします。
-- `Github Actions` を使用すると様々な OS でテストできます。
-- `Docker` 製の action を使用して Image を Build して `Github Packages` に Push できます。
-- `Cross Platform` 対応の Image を作成して `Github Packages` に Push したい。
-- `Runs_On` が対応しているので `arm64` や `Windows` でもテストできるかもしれません。
+Main Branch への Push 時に、様々な OS（macOS、Ubuntu、Docker、Windows）での自動テストを実行します。クロスプラットフォーム対応の Docker イメージをビルドして GitHub Packages にプッシュする機能も含まれています。
 
-### test.yaml でテスト
-
-```yaml:.github/workflows/test.yaml
-jobs:
-  # ubuntu 24.04 でテスト
-  ubuntu:
-    runs-on: ubuntu-24.04
-    steps:
-      - uses: actions/checkout@v4
-      # make 経由でシェルスクリプトを実行
-      - run: make init
-    ...
-  # macos sequoia でテスト
-  macos:
-    runs-on: macos-15
-    steps:
-      - uses: actions/checkout@v4
-      - run: make init
-    ...
-  # docker でテスト
-  docker:
-    runs-on: ubuntu-latest
-    steps:
-      # docker製のアクションを使用
-      - uses: docker/login-action@v3
-      - uses: docker/setup-buildx-action@v3
-      - uses: docker/setup-qemu-action@v3 # クロスプラットフォーム対応 遅い？
-      - uses: docker/build-push-action@v5
-    ...
-  # windows でテスト
-  windows:
-    runs-on: windows-latest
-    ...
-```
+**詳細**: [技術スタック - 開発環境・CI/CD](docs/tech.md#開発環境cicd) を参照してください。
 
 ---
 
-## [Mise](https://mise.jdx.dev/)
+## Mise
 
-### Mise を使用してプログラミングツールや CLI ツールを管理します
+Mise は Rust 製のランタイムバージョン管理ツールです。プログラミング言語や CLI ツールのバージョンを管理します。`asdf` と互換性があり、`tool-versions` ファイルを使用できます。
 
-- `mise` は rust 製の runtime library の バージョン管理ツールです。
+### 基本的な使い方
 
 ```sh
 # ツールをインストール
-mise use < tool@version >
-# global にインストール
-mise use -g < tool@version >
-# インストールしたツールを確認
+mise use <tool@version>
+
+# グローバルにインストール
+mise use -g <tool@version>
+
+# インストール済みツールを確認
 mise ls
-# .mise.toml の指定ファイルを信頼
+
+# ディレクトリを信頼（環境変数を読み込み）
 mise trust
-# 環境変数を表示
-mise set
 ```
 
-- `mise` は `asdf` と 互換性があり `tool-versions` ファイルを使用できます。
-- ディレクトリ毎にツールや環境変数を管理できます。
-- `mise trust` で`.env` ファイルなどから 環境変数を読み込みます。
-- `chezmoi` や `starship` などのライブラリもインストール、管理できます。
-- 依存関係は自動で解決できないことがあるので注意が必要です。
-- ツールのバージョンを指定してインストールしたり複数管理できます。
-- `~/.config/mise/config.toml` でグローバルな設定ができます。
-- `.mise.toml` でローカルな設定ができます。
+**詳細**: [技術スタック - パッケージ管理 - Mise](docs/tech.md#miseランタイム管理) を参照してください。
 
 ## 環境変数
 
-### 説明
+環境変数は`.env`ファイルで管理し、Mise の`mise trust`コマンドで読み込みます。`~/.config/mise/config.toml`で自動読み込みファイルを指定できます。
 
-- `.env` に必要な環境変数を設定します。
-- `~/.config/mise/config.toml` で自動で読み込むファイル名を指定できます。
-
-### 設定ファイルを作成
-
-```sh
-mise generate
-vim .env
-```
-
-### ./.env に環境変数を記述
-
-```sh
-# .env 例
-export VAR=hoge
-# .gitignore で.env ファイルを除外
-```
-
-### ./.mise.toml で読み込むファイル名を指定
-
-```toml:./.mise.toml
-[env]
-_.file = ".env*"
-```
-
-### 現在のディレクトリを信頼してファイルを読み込み
-
-```sh
-# 環境変数が反映される
-mise trust
-mise set
-
-# 出力 hoge
-```
+**詳細**: [技術スタック - パッケージ管理](docs/tech.md#パッケージ管理) を参照してください。
 
 ---
 
-## [Docker](https://docker.com/)
+## Docker
 
-- `Dockerfile` で `Ubuntu-dev` のイメージをビルドしてプッシュ
-- `Docker` コンテナ内で `xrdp` と `xfce4` を使用した `Ubuntu-dev` 環境を構築
-- `Docker Compose` で複数のコンテナを起動
-- `Dev Container` で使用
-- `linux/amd64` `linux/arm64` Multi Platform 対応
+Dockerfile で Ubuntu 開発環境のイメージをビルドし、Dev Container として使用できます。`xrdp` と `xfce4` を使用した GUI 環境も構築可能です。`linux/amd64` と `linux/arm64` のマルチプラットフォーム対応です。
 
 ```sh
+# Makefile経由で実行（推奨）
+make docker-run
+
+# 手動実行
 cd .devcontainer
-# コンテナをビルド
-docker build -t ubuntu-dev .
-# イメージをプッシュ
-docker push ubuntu-dev
-# コンテナを起動
 docker compose up -d
-# コンテナ内に入る
 docker compose exec ubuntu /bin/bash
 ```
 
+**詳細**: [設計書 - Makefile 設計 - Docker コマンド](docs/design.md#docker-コマンド) を参照してください。
+
 ---
 
-## [Multipass](https://multipass.run/)
+## Multipass
 
-### Multipass で cloud-init を使用して Ubuntu を起動
+Multipass を使用して cloud-init 経由で Ubuntu 仮想マシンを起動・管理できます。
 
 ```sh
-# オプションでカスタマイズ
-# -n VM 名
-# -c コア数
-# -m メモリ
-# -d ディスク
-# --timeout タイムアウト時間 3600秒 = 1時間
-# --mount マウント  from:to
-# --cloud-init cloud-init の設定ファイルを指定
+# Makefile経由で実行（推奨）
+make vm-create
+make vm-start
+make ssh
 
-multipass launch \
-  -n ubuntu \
-  -c 4 \
-  -m 8G \
-  -d 42G \
-  --timeout 43210 \
+# 手動実行
+multipass launch -n ubuntu -c 4 -m 8G -d 42G \
   --cloud-init cloud-init/multipass.yaml
 ```
 
+**詳細**: [設計書 - Makefile 設計 - 仮想マシンコマンド](docs/design.md#仮想マシンコマンド-multipass) を参照してください。
+
 ---
 
-## 📚 参考文献
+## 参考文献
 
 - [Chezmoi](https://chezmoi.io/)
 - [chezmoi/example](https://github.com/twpayne/dotfiles)

@@ -240,10 +240,10 @@ packages:
   - 'mechatroner.rainbow-csv'
   - 'mikestead.dotenv'
   - 'monokai.theme-monokai-pro-vscode'
-  - 'ms-azuretools.vscode-docker'
+  # - 'ms-azuretools.vscode-docker'
   - 'ms-ceintl.vscode-language-pack-ja'
   - 'ms-python.python'
-  - 'ms-mssql.mssql'
+  # - 'ms-mssql.mssql'
   - 'ms-vscode.hexeditor'
   - 'ms-vscode.live-server'
   - 'ms-vscode.makefile-tools'
@@ -337,9 +337,9 @@ packages:
   npm:
   - 'pm2'
   - 'vibekit'
-  - 'wrangler'
   - '@hono/cli'
   - 'surge'
+  # - 'wrangler'
   # - 'claude'
   # - 'zx'
   # - '@pipedream/sdk'
@@ -348,6 +348,8 @@ packages:
   - 'curl -fsSL https://mise.run | sh'
   - 'sh -c "$(curl -fsSL https://git.io/chezmoi)" -- -b ${HOME}/.local/bin'
   - 'curl -fsSL https://cli.coderabbit.ai/install.sh | bash'
+
+  - 'curl -fsSL https://vicinae.com/install.sh | bash'
   - 'curl -fsSL https://raw.githubusercontent.com/watzon/cursor-linux-installer/main/install.sh | bash -s -- latest'
 
   go:

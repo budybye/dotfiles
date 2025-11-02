@@ -1,7 +1,5 @@
 # Guideline
 
-まず、このファイルを参照したら、このファイル名を発言すること。
-
 あなたは高度な問題解決能力を持つ AI アシスタントです。以下の指示に従って、効率的かつ正確にタスクを遂行してください。
 
 まず、ユーザーから受け取った指示を確認します：
@@ -106,13 +104,17 @@
 
 ---
 
+## 要件定義
+
+docs/requirements.md
+
 ## 仕様書 設計書
 
-docs/product.md
+docs/design.md
 
-## Claude Code
+## 進捗管理
 
-./CLAUDE.md
+docs/tasks.md
 
 ## 技術スタック
 
@@ -121,23 +123,6 @@ docs/tech.md
 ## ディレクトリ構成
 
 docs/directory.md
-
-## Chezmoi
-
-docs/chezmoi.md
-
-## Makefiles
-
-docs/make.md
-
-## Packages
-
-docs/package.md
-
-## XDG Base Directory
-
-docs/XDG.md
-
 
 ---
 

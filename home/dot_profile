@@ -454,6 +454,7 @@ fi
 
 if command -v mpd >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/mpd/playlists"
+    touch "${XDG_CONFIG_HOME}/mpd/mpd.conf"
     touch "${XDG_CONFIG_HOME}/mpd/mpd.db"
     touch "${XDG_CONFIG_HOME}/mpd/mpd.log"
     touch "${XDG_CONFIG_HOME}/mpd/mpd.pid"

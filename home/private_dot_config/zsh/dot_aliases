@@ -366,7 +366,7 @@ if command -v mpd >/dev/null 2>&1 && [ -f "${HOME}/.config/mpd/mpd.conf" ]; then
 fi
 
 if command -v ncmpcpp >/dev/null 2>&1; then
-    alias ncm="ncmpcpp"
+    alias ncmp="ncmpcpp"
 fi
 
 if command -v wrangler >/dev/null 2>&1; then

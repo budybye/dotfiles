@@ -54,7 +54,7 @@ layout {
                 }
                 pane {
                     name "dev2"
-                    cwd "~/Developer"
+                    cwd "~/Developer/app"
                 }
             }
             pane split_direction="horizontal" {
