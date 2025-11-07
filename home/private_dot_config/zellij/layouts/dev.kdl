@@ -1,5 +1,6 @@
 // タブ1: 4ペイン
 // タブ2: 4ペイン
+// タブ3: 2ペイン
 
 layout {
     // デフォルトタブテンプレート
@@ -66,6 +67,21 @@ layout {
                     name "dev4"
                     cwd "~/dev/app"
                 }
+            }
+        }
+    }
+
+    tab name="edit" {
+        pane split_direction="horizontal" {
+            pane {
+                name "nvim"
+                cwd "~/Developer/app"
+                command "nvim"
+                focus true
+            }
+            pane {
+                name "docs"
+                cwd "~/Documents/notes"
             }
         }
     }

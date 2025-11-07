@@ -223,19 +223,23 @@ set shiftwidth=4
 " ----------------------------------------------------------
 if has('mouse')
     set mouse=a
-    if has('mouse_sgr')
-        set ttymouse=sgr
-    elseif v:version > 703 || v:version is 703 && has('patch632')
-        set ttymouse=sgr
-    else
-        set ttymouse=xterm2
+    " Neovim では ttymouse オプションは存在しない (常に SGR mouse reporting を使用)
+    if !has('nvim')
+        if has('mouse_sgr')
+            set ttymouse=sgr
+        elseif v:version > 703 || v:version is 703 && has('patch632')
+            set ttymouse=sgr
+        else
+            set ttymouse=xterm2
+        endif
     endif
 endif
 
 " クリップボードからのペースト
 " ----------------------------------------------------------
 " 挿入モードでクリップボードからペーストする時に自動でインデントさせないようにする
-if &term =~ "xterm"
+" Neovim では pastetoggle オプションはサポートされていないため、Vim 専用の設定
+if !has('nvim') && &term =~ "xterm"
     let &t_SI .= "\e[?2004h"
     let &t_EI .= "\e[?2004l"
     let &pastetoggle = "\e[201~"

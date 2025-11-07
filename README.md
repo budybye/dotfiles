@@ -13,7 +13,8 @@
 - `FreeBSD` + `jail`への対応も追加予定
 - `.github/workflows/*.yaml` で環境ごとのテスト、タグ設定、ghcr へ push を行っています。
 - `~/.ssh/*` やシークレットな情報は `age` と `Bitwarden` で暗号化管理しています。
-- `Dockerfile` と `docker-compose.yaml` と `devcontainer.json` で `Docker` コンテナを管理しています。
+- `Dockerfile` と `compose.yaml` と `devcontainer.json` で `Docker` コンテナを管理しています。
+- `Docker`環境は `arm` `amd` のクロスプラットフォーム対応にして `ghcr` へ push しています。
 - `Github`, `VSCode`, `Cursor` の設定も管理しています。
 - フォント、テーマ、壁紙、日本語設定も管理しています。
 - `Brave`, `Cursor`, `Tabby`, `Xfce4` などデスクトップ環境も管理しています。
