@@ -2,7 +2,7 @@
 	"version": 1,
 	"editor": { "vimMode": false },
 	"permissions": {
-		"allow": ["Shell(ls)", "Shell(echo)"],
+		"allow": ["Shell(ls)", "Shell(echo)", "Shell(grep)"],
 		"deny": ["Shell(rm)"]
 	}
 }

@@ -9,7 +9,7 @@ jobs:
     env:
       MISE_GITHUB_TOKEN: ${{ secrets.MISE_GITHUB_TOKEN }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: make
         run: make init
 
@@ -18,7 +18,7 @@ jobs:
     env:
       MISE_GITHUB_TOKEN: ${{ secrets.MISE_GITHUB_TOKEN }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: make
         run: make init
 
@@ -27,14 +27,14 @@ jobs:
     env:
       MISE_GITHUB_TOKEN: ${{ secrets.MISE_GITHUB_TOKEN }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: make
         run: make init
 
   powershell:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: MinoruSekine/setup-scoop@v4.0.1
         with:
           buckets: extras
@@ -43,7 +43,7 @@ jobs:
   windows-11-arm64:
     runs-on: windows-11-arm
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       # - name: Install winget
       #   uses: Cyberboss/install-winget@v1
@@ -54,7 +54,7 @@ jobs:
   wsl2:
     runs-on: windows-2022
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: Vampire/setup-wsl@v6
       - shell: wsl-bash {0}
         run: |
@@ -69,7 +69,7 @@ jobs:
   lxd:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Setup LXD
         uses: canonical/setup-lxd@main
         with:
@@ -91,7 +91,7 @@ jobs:
   rpi:
     runs-on: ubuntu-24.04-arm
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Setup LXD
         uses: canonical/setup-lxd@main
         with:
