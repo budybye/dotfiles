@@ -345,7 +345,7 @@ mas "LogicPro", id: 634148309
 # mas "Apple Developer", id: 640199958
 
 # mas "Microsoft Word", id: 462054704
-mas "Microsoft Excel", id: 462058435
+# mas "Microsoft Excel", id: 462058435
 # mas "Microsoft PowerPoint", id: 462062816
 
 mas "LINE", id: 539883307

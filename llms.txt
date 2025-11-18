@@ -273,6 +273,7 @@
 
 ### WebSocket・リアルタイム
 
+- [party-kit](https://context7.com/partykit/partykit/llms.txt) #realtime
 - [Pusher-js](https://context7.com/pusher/pusher-js/llms.txt) #pusher #realtime #websocket #javascript
 - [Pusher](https://context7.com/websites/pusher/llms.txt) #pusher #realtime #websocket #api
 - [pusher concorde](https://context7.com/matfire/concorde/llms.txt) #pusher #concorde #realtime

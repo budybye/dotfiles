@@ -20,8 +20,8 @@ alias meminfo="free -h 2>/dev/null || vm_stat"
 alias diskinfo="df -h"
 
 # シェルの再起動
-# alias rl="exec ${SHELL} -l"
-alias rl="source ${HOME}/.zshenv"
+alias rl="exec ${SHELL} -l"
+# alias rl="source ${HOME}/.zshenv"
 # デバッグ・メンテナンス用
 alias reload="exec ${SHELL} -l && exec ${SHELL}"
 
@@ -45,13 +45,13 @@ if command -v git >/dev/null 2>&1; then
     alias g="git"
     # add all, commit, push
     function bit() {
-      git add -A
+      g add -A
       if [ -z "$1" ]; then
-        git commit --allow-empty-message -m "♨️⛰️♨️"
+        g commit --allow-empty-message -m "♨️⛰️♨️"
       else
-        git commit -m "$1"
+        g commit -m "$1"
       fi
-      git push origin $(git branch | sed -n -e "s/^\* \(.*\)/\1/p")
+      g push origin $(g branch | sed -n -e "s/^\* \(.*\)/\1/p")
     }
 fi
 
@@ -64,6 +64,7 @@ fi
 
 if command -v jj >/dev/null 2>&1; then
     alias jj="jj"
+    alias git="jj git"
 fi
 
 # vim nvim
@@ -122,7 +123,7 @@ if command -v bun >/dev/null 2>&1; then
     # alias yarn="bun"
     # alias yarnx="bunx"
     alias dv="bun dev"
-    alias de="time bun run deploy"
+    alias de="bun run deploy"
 fi
 
 # ツリー表示

@@ -1,3 +1,8 @@
+---
+name: design
+description: dotfiles 詳細設計
+---
+
 # 設計書 - Chezmoi Dotfiles Management System
 
 ## プロジェクト概要

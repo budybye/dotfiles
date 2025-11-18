@@ -1,3 +1,7 @@
+---
+name: requirements
+description: 要件定義書
+---
 # 要件定義 - Chezmoi Dotfiles Management System
 
 ## 概要

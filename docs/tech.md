@@ -1,3 +1,7 @@
+---
+name: tech
+description: 技術スタック パッケージ管理 ライブラリ説明
+---
 # 技術スタック - Chezmoi Dotfiles Management System
 
 ## コア技術

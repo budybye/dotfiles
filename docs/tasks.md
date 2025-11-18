@@ -1,3 +1,7 @@
+---
+name: tasks
+description: タスク管理 進捗整理
+---
 # タスク管理 - Chezmoi Dotfiles Management System
 
 ## 概要

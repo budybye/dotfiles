@@ -1,3 +1,7 @@
+---
+name: directory
+description: directory ファイル情報説明
+---
 # ディレクトリ構成 - Chezmoi Dotfiles Management System
 
 以下のディレクトリ構造に従って実装を行ってください：
