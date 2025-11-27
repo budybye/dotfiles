@@ -131,7 +131,7 @@ install_cargo_tools() {
     if command -v cargo-binstall >/dev/null 2>&1; then
         cargo-binstall -y {{ . }} || echo "{{ . }} install failed."
     elif command -v cargo >/dev/null 2>&1; then
-        cargo install -f --bins {{ . }} || echo "{{ . }} install failed."
+        cargo install -y {{ . }} || echo "{{ . }} install failed."
     else
         echo "cargo not found"
     fi

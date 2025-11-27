@@ -18,7 +18,8 @@
     "REMOTE_CONTAINERS": "true"
   },
   "features": {
-    "ghcr.io/eitsupi/devcontainer-features/duckdb-cli:1": {}
+    "ghcr.io/eitsupi/devcontainer-features/duckdb-cli:1": {},
+    "ghcr.io/coder/devcontainer-features/code-server:1": {}
   },
   "customizations": {
     "vscode": {

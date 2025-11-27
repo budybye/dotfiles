@@ -63,26 +63,31 @@ install_cloudflare_warp() {
 
 ## 代変えインストーラー https://github.com/watzon/cursor-linux-installer
 install_cursor() {
-    APP_DIR="${HOME}/Applications"
-    APP_IMAGE="${APP_DIR}/cursor"
-    mkdir -p "${APP_DIR}"
-
-    # cursor download アーキテクチャに応じて
-    if [ -f "${APP_IMAGE}" ]; then
+    if command -v cursor >/dev/null 2>&1; then
         echo "cursor already installed."
-
-    elif [ "${arch}" = "amd64" ]; then
-        curl -L https://downloads.cursor.com/production/d01860bc5f5a36b62f8a77cd42578126270db343/linux/x64/Cursor-1.4.2-x86_64.AppImage -o "${APP_IMAGE}" || echo "cursor download failed."
-
-    elif [ "${arch}" = "arm64" ]; then
-        curl -L https://downloads.cursor.com/production/d01860bc5f5a36b62f8a77cd42578126270db343/linux/arm64/Cursor-1.4.2-aarch64.AppImage -o "${APP_IMAGE}" || echo "cursor download failed."
+    elif command -v curl >/dev/null 2>&1; then
+        curl -L https://raw.githubusercontent.com/watzon/cursor-linux-installer/main/install.sh | bash -s -- latest
     fi
+    # APP_DIR="${HOME}/Applications"
+    # APP_IMAGE="${APP_DIR}/cursor"
+    # mkdir -p "${APP_DIR}"
 
-    # cursor の実行ファイルに実行権限を付与
-    $sudo chmod a+x "${APP_IMAGE}"
+    # # cursor download アーキテクチャに応じて
+    # if [ -f "${APP_IMAGE}" ]; then
+    #     echo "cursor already installed."
 
-    # libfuse2 が必要なのでインストール
-    $sudo apt-get install -y libfuse2 || echo "libfuse2 install failed."
+    # elif [ "${arch}" = "amd64" ]; then
+    #     curl -L https://downloads.cursor.com/production/d01860bc5f5a36b62f8a77cd42578126270db343/linux/x64/Cursor-1.4.2-x86_64.AppImage -o "${APP_IMAGE}" || echo "cursor download failed."
+
+    # elif [ "${arch}" = "arm64" ]; then
+    #     curl -L https://downloads.cursor.com/production/d01860bc5f5a36b62f8a77cd42578126270db343/linux/arm64/Cursor-1.4.2-aarch64.AppImage -o "${APP_IMAGE}" || echo "cursor download failed."
+    # fi
+
+    # # cursor の実行ファイルに実行権限を付与
+    # $sudo chmod a+x "${APP_IMAGE}"
+
+    # # libfuse2 が必要なのでインストール
+    # $sudo apt-get install -y libfuse2 || echo "libfuse2 install failed."
 
     # cursor の実行方法を表示
     echo 'use command: ${APP_IMAGE} --no-sandbox'

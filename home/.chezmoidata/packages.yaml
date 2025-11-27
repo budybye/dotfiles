@@ -222,7 +222,7 @@ packages:
   - 'docker.docker'
   - 'golang.go'
   - 'github.vscode-github-actions'
-  - 'github.copilot'
+  # - 'github.copilot'
   - 'hediet.vscode-drawio'
   - 'hverlin.mise-vscode'
   - 'ibm.output-colorizer'
@@ -339,6 +339,7 @@ packages:
   - 'vibekit'
   - '@hono/cli'
   - 'surge'
+  - 'docsify-cli'
   # - 'wrangler'
   # - 'claude'
   # - 'zx'
@@ -348,7 +349,6 @@ packages:
   - 'curl -fsSL https://mise.run | sh'
   - 'sh -c "$(curl -fsSL https://git.io/chezmoi)" -- -b ${HOME}/.local/bin'
   - 'curl -fsSL https://cli.coderabbit.ai/install.sh | bash'
-
   - 'curl -fsSL https://vicinae.com/install.sh | bash'
   - 'curl -fsSL https://raw.githubusercontent.com/watzon/cursor-linux-installer/main/install.sh | bash -s -- latest'
 
