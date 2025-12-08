@@ -81,15 +81,12 @@ install_mise() {
     export PATH="${HOME}/.local/bin:${HOME}/.local/share/mise/shims:${HOME}/.local/bin:${HOME}/.local/share/mise/installs:$PATH"
     mise --version >> ${HOME}/which || echo "mise not found" >> ${HOME}/which
 
-    if [ -f ${HOME}/.config/mise/config.toml && -z ${MISE_GITHUB_TOKEN} ]; then
+    if [ -f ${HOME}/.config/mise/config.toml ]; then
         mise i -y
     else
-        echo "mise config.toml not found or MISE_GITHUB_TOKEN is not set."
 
         {{ range .packages.mise }}
-
         mise use -g -y "{{ . }}" || echo "{{ . }} install failed."
-
         {{ end }}
 
     fi
