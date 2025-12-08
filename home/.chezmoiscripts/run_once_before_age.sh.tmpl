@@ -33,9 +33,11 @@ echo "--------------------------------"
 {{ if ne .age false }}
 
 {{/* .chezmoi.toml.tmpl と合わせる */}}
+
 identity="${HOME}/.config/chezmoi/key.txt"
 
 {{/* age-keygen | age --armor --passphrase ${key_name} で生成したキーのファイル名 */}}
+
 key_name="key.txt.age"
 key_path="{{ .chezmoi.sourceDir }}/${key_name}"
 

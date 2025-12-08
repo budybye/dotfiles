@@ -5,32 +5,41 @@ PLAYLIST_ID="PLMXoRsxtzGfCH7cvhAnzN_T3KvKmdkB3s"
 
 function install_yt_dlp() {
     if ! command -v yt-dlp > /dev/null 2>&1; then
-        if command -v brew > /dev/null 2>&1; then
+        echo "yt-dlp not found"
+        # mise
+        if command -v mise > /dev/null 2>&1; then
+            mise use -g -y yt-dlp
+        # brew
+        elif command -v brew > /dev/null 2>&1; then
             brew install yt-dlp
+        # apt
         elif command -v apt > /dev/null 2>&1; then
             sudo apt-get install -y yt-dlp
-        elif command -v mise > /dev/null 2>&1; then
-            mise use -g -y yt-dlp
         else
             echo "yt-dlp is not installed"
         fi
     fi
-    echo "yt-dlp installed"
+    yt-dlp --version || echo "yt-dlp not found"
 }
 
 function install_ffmpeg() {
     if ! command -v ffmpeg > /dev/null 2>&1; then
-        if command -v brew > /dev/null 2>&1; then
+        echo "ffmpeg not found"
+        # mise
+        if command -v mise > /dev/null 2>&1; then
+            mise use -g -y ffmpeg
+        # brew
+        elif command -v brew > /dev/null 2>&1; then
             brew install ffmpeg
+        # apt
         elif command -v apt > /dev/null 2>&1; then
             sudo apt-get install -y ffmpeg
-        elif command -v mise > /dev/null 2>&1; then
             mise use -g -y ffmpeg
         else
             echo "ffmpeg is not installed"
         fi
     fi
-    echo "ffmpeg installed"
+    ffmpeg --version || echo "ffmpeg not found"
 }
 
 # ダウンロード先ディレクトリの存在しなければダウンロード
@@ -52,7 +61,10 @@ function download_playlist() {
 }
 
 # インストール
+echo "tube.sh"
+echo "--------------------------------"
 install_yt_dlp
 install_ffmpeg
 # ダウンロード
 download_playlist
+echo "--------------------------------"

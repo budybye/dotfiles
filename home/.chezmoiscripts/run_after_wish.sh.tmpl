@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # chezmoi apply が完了したら最後に実行される
-echo "with.sh"
+echo "wish.sh"
 echo "--------------------------------"
 echo "Chezmoi apply completed!!"
 echo "USER: $(whoami)"
@@ -17,7 +17,7 @@ echo "${PATH}" | tr ':' '\n'
 echo "--------------------------------"
 echo "pwd: $(pwd)"
 echo "SourceDir: {{.chezmoi.sourceDir }}"
-tree -L 4 {{ .chezmoi.sourceDir }}
+tree -L 3 {{ .chezmoi.sourceDir }}
 echo "--------------------------------"
 echo "${HOME}"
 ls -la "${HOME}"

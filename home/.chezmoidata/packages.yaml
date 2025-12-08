@@ -322,6 +322,7 @@ packages:
   - '@hono/cli'
   - 'surge'
   - 'docsify-cli'
+  - 'repomix'
   # - 'wrangler'
   # - 'claude'
   # - 'zx'

@@ -32,10 +32,11 @@ echo "--------------------------------"
 if [ -d ~/.ssh ]; then
     chmod 700 ~/.ssh
     if [ -f ~/.ssh/id_ed25519 ]; then
-      chmod 600 ~/.ssh/id_ed25519
+        chmod 600 ~/.ssh/id_ed25519
     else
-      echo "no ~/.ssh/id_ed25519 file"
+        echo "no ~/.ssh/id_ed25519 file"
     fi
+
     echo "authorized_keys..."
     if [ -f ~/.ssh/authorized_keys ]; then
         cat ~/.ssh/authorized_keys
@@ -44,22 +45,23 @@ if [ -d ~/.ssh ]; then
         echo "no ~/.ssh/authorized_keys file"
     fi
     echo "--------------------------------"
+
     ls -la ~/.ssh
     echo "SSH key pub ..."
     if [ -f ~/.ssh/id_ed25519.pub ]; then
-      chmod 644 ~/.ssh/id_ed25519.pub
-      cat ~/.ssh/id_ed25519.pub
+        chmod 644 ~/.ssh/id_ed25519.pub
+        cat ~/.ssh/id_ed25519.pub
     else
-      echo "no ~/.ssh/id_ed25519.pub file"
+        echo "no ~/.ssh/id_ed25519.pub file"
     fi
     echo "--------------------------------"
-echo "SSH Config ..."
-if [ -f ~/.ssh/config ]; then
-    cat ~/.ssh/config
-else
-    echo "no ~/.ssh/config file"
-fi
-echo "--------------------------------"
+    echo "SSH Config ..."
+    if [ -f ~/.ssh/config ]; then
+        cat ~/.ssh/config
+    else
+        echo "no ~/.ssh/config file"
+    fi
+    echo "--------------------------------"
 else
     echo "no ~/.ssh directory"
 fi
