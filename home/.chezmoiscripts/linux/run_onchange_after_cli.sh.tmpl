@@ -83,10 +83,10 @@ install_mise() {
 
     if [ -f ${HOME}/.config/mise/config.toml ]; then
         mise i -y
-    else
-        {{ range .packages.mise }}
-        mise use -g -y "{{ . }}" || echo "{{ . }} install failed."
-        {{ end }}
+    # else
+    #     {{ range .packages.mise }}
+    #     mise use -g -y "{{ . }}" || echo "{{ . }} install failed."
+    #     {{ end }}
     fi
 
     mise activate --shims
