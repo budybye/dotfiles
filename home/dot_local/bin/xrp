@@ -44,7 +44,7 @@ XRPL_SERVER="${XRPL_SERVER:-https://xrpl.ws}"
 
 # $1: account
 # $2: issuer
-# $2: currency
+# $3: currency
 # $4: currency_code
 # $5: limit
 
@@ -54,7 +54,7 @@ ACCOUNT="${1:-${ACCOUNT:-r3kmLJN5D28dHuH8vZNUZpMC43pEHpaocV}}"
 # ISSUER="${2:-${ISSUER:-rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B}}"
 # CURRENCY="${3:-${CURRENCY:-USD}}"
 # CURRENCY_CODE="${4:-${CURRENCY_CODE:-USD}}"
-
+# default Ripple RLUSD
 ISSUER="${2:-${ISSUER:-rMxCKbEDwqr76QuheSUMdEGf4B9xJ8m5De}}"
 CURRENCY="${3:-${CURRENCY:-RLUSD}}"
 CURRENCY_CODE="${4:-${CURRENCY_CODE:-524C555344000000000000000000000000000000}}"
@@ -71,7 +71,6 @@ GET_ACCOUNT_INFO='{"method": "account_info","params": [{"account": "'${ACCOUNT}'
 GET_USD_OFFERS='{
     "method": "book_offers",
     "params": [{
-        "taker": "'${ACCOUNT}'",
         "taker_gets": {"currency": "XRP"},
         "taker_pays": {
             "currency": "'${CURRENCY_CODE}'",

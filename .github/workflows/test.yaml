@@ -23,7 +23,8 @@ jobs:
         run: make init
 
   darwin:
-    runs-on: macos-15
+    # runs-on: macos-latest
+    runs-on: macos-26
     env:
       MISE_GITHUB_TOKEN: ${{ secrets.MISE_GITHUB_TOKEN }}
     steps:

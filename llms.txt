@@ -315,6 +315,7 @@
 - [XRPL Wallet-Standard](https://context7.com/tequdev/xrpl-wallet-standard/llms.txt) #xrpl #wallet #standard
 - [Xaman-App](https://context7.com/WietseWind/Xaman-App/llms.txt) #xaman #xrpl #wallet #mobile
 - [docker-rippled](https://context7.com/WietseWind/docker-rippled/llms.txt) #xrpl #docker #rippled #node
+- [xrpl-connect](https://context7.com/XRPL-Commons/xrpl-connect/llms.txt)
 
 ### Interledger
 
