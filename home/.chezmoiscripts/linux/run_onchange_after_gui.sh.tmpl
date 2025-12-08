@@ -126,8 +126,7 @@ install_ruby_fusuma() {
         mise use ruby -g -y || echo "ruby install failed."
         echo "ruby installed."
     else
-        curl -sSL https://raw.githubusercontent.com/mise-tea/mise/master/get | bash || echo "mise install failed."
-        mise use ruby -g -y || echo "ruby install failed."
+        $sudo apt-get install -y ruby || echo "ruby install failed."
         echo "ruby installed."
     fi
 
@@ -142,6 +141,7 @@ install_ruby_fusuma() {
         echo "fusuma installed."
     else
         echo "gem command not found."
+        echo "fusuma install failed."
     fi
 }
 

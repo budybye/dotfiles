@@ -78,7 +78,7 @@
   "explorer.confirmDragAndDrop": false,
   "explorer.confirmDelete": false,
   "extensions.autoUpdate": true,
-  "extensions.ignoreRecommendations": false,
+  "extensions.ignoreRecommendations": true,
   "git.confirmSync": false,
   "git.enableSmartCommit": true,
   "git.openRepositoryInParentFolders": "never",

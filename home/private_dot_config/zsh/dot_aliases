@@ -45,13 +45,13 @@ if command -v git >/dev/null 2>&1; then
     alias g="git"
     # add all, commit, push
     function bit() {
-      g add -A
+      git add -A
       if [ -z "$1" ]; then
-        g commit --allow-empty-message -m "♨️⛰️♨️"
+        git commit --allow-empty-message -m "♨️⛰️♨️"
       else
-        g commit -m "$1"
+        git commit -m "$1"
       fi
-      g push origin $(g branch | sed -n -e "s/^\* \(.*\)/\1/p")
+      git push origin $(git branch | sed -n -e "s/^\* \(.*\)/\1/p")
     }
 fi
 
@@ -62,10 +62,10 @@ if command -v gh >/dev/null 2>&1; then
     alias gsh="gh repo view budybye/dotfiles --json ssh_url -q '.ssh_url'"
 fi
 
-if command -v jj >/dev/null 2>&1; then
-    alias jj="jj"
-    alias git="jj git"
-fi
+# if command -v jj >/dev/null 2>&1; then
+#     alias jj="jj"
+#     alias git="jj git"
+# fi
 
 # vim nvim
 if command -v nvim >/dev/null 2>&1; then
@@ -81,6 +81,7 @@ if command -v curl >/dev/null 2>&1; then
     alias ppp="curl -4 icanhazip.com && curl -6 icanhazip.com"  # パブリックIPアドレスを表示
     alias wt="curl wttr.in"  # 天気予報を表示
     alias qr="curl qrenco.de/https://${1:-やってるか.みんな}"  # QRコードを表示
+    alias wan="curl inet-ip.info"
 fi
 
 if command -v ping >/dev/null 2>&1; then
@@ -101,11 +102,9 @@ fi
 
 # ip を表示
 if command -v ipconfig >/dev/null 2>&1; then
-    alias ip="ipconfig getifaddr en0"
+    alias addr="ipconfig getifaddr en0 && wan"
 elif command -v ifconfig >/dev/null 2>&1; then
-    alias ip="ifconfig en0 inet"
-elif command -v ip >/dev/null 2>&1; then
-    alias ip="ip addr show"
+    alias addr="ifconfig en0 inet && wan"
 fi
 
 if command -v python3 >/dev/null 2>&1; then

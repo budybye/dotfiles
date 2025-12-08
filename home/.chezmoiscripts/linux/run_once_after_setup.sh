@@ -30,12 +30,16 @@ xrdp_setup() {
     # wayland で起動する場合
     # startxfce4 --wayland
 
-    $sudo apt-get install -y lightdm
-    $sudo dpkg-reconfigure lightdm
-    # $sudo apt-get remove -y light-locker xscreensaver
+    # gdm 3の方が安定してる
+    # $sudo apt-get install -y lightdm
+    # $sudo apt-get install -y ssdm
+    $sudo apt-get install -y gdm3
 
-    # $sudo groupadd -f ssl-cert
-    # $sudo groupadd -f xrdp
+    # $sudo dpkg-reconfigure lightdm
+    $sudo apt-get remove -y light-locker xscreensaver
+
+    $sudo groupadd -f ssl-cert
+    $sudo groupadd -f xrdp
     # $sudo usermod -aG ssl-cert,xrdp "$(whoami)"
     $sudo adduser xrdp ssl-cert
 
@@ -44,8 +48,8 @@ xrdp_setup() {
 
     $sudo systemctl enable xrdp
     $sudo systemctl start xrdp
-    $sudo systemctl enable lightdm
-    $sudo systemctl start lightdm
+    # $sudo systemctl enable lightdm
+    # $sudo systemctl start lightdm
     $sudo systemctl daemon-reload
     $sudo systemctl restart rsyslog
     # default session manager

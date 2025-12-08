@@ -191,6 +191,8 @@
 - [g6](https://context7.com/antvis/g6/llms.txt) #graph #visualization #javascript
 - [templ](https://context7.com/websites/templ_guide/llms.txt) #template #go #html
 - [surge](https://context7.com/sintaxi/surge/llms.txt) #deployment #static #hosting
+- [OpenNext cloudflare](https://context7.com/opennextjs/opennextjs-cloudflare/llms.txt)
+- [Cropperjs](https://context7.com/fengyuanchen/cropperjs/llms.txt?tokens=10000)
 
 ## テスト・品質管理
 
@@ -325,7 +327,7 @@
 - [Interledger Rafiki](https://context7.com/interledger/rafiki/llms.txt) #interledger #rafiki #wallet #implementation
 - [Interledger Dassie](https://context7.com/justmoon/dassie/llms.txt) #interledger #dassie #connector #implementation
 - [paymentpointer](https://context7.com/interledger/paymentpointers.org/llms.txt) #payment-pointer #interledger #payments
-- [paystring docs](https://context7.com/PayString/paystring-documentation/llms.txt) #paystring #payment #interledger #identifier
+- [paystring utils](https://context7.com/paystring/utils/llms.txt) #paystring #payment #interledger #identifier
 - [paystring docs](https://context7.com/PayString/paystring/llms.txt) #paystring #payment #interledger #identifier
 - [codius workers](https://context7.com/codius/codius-workers/llms.txt) #codius #workers #interledger #smart-contracts
 
@@ -405,6 +407,7 @@
 - [Neovim Text Editor](https://context7.com/neovim/neovim/llms.txt) #neovim #editor #vim #modal-editing
 - [vscode](https://context7.com/microsoft/vscode/llms.txt) #vscode #ide #editor #microsoft
 - [VScode extensions](https://context7.com/websites/code_visualstudio_api/llms.txt) #vscode #extensions #api #development
+- [code server](https://context7.com/coder/code-server/llms.txt?tokens=10000) #vscode #editor #ide
 
 ### プラグイン・ツール管理
 

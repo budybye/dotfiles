@@ -12,12 +12,20 @@ install_snapd() {
 install_snap() {
 
     {{ range .packages.snap.classic }}
+
     command -v {{ . }} >/dev/null 2>&1 || $sudo snap install {{ . }} --classic && echo "{{ . }} installed." || echo "{{ . }} install failed."
+
     {{ end }}
 
+    echo snap classic tools install completed.
+
     {{ range .packages.snap.latest }}
+
     command -v {{ . }} >/dev/null 2>&1 || $sudo snap install {{ . }} && echo "{{ . }} installed." || echo "{{ . }} install failed."
+
     {{ end }}
+
+    echo snap latest tools install completed.
 
     if command -v firefox >/dev/null 2>&1; then
         $sudo snap remove firefox || $sudo apt remove firefox && echo "firefox uninstalled." || echo "firefox uninstall failed."
@@ -30,6 +38,4 @@ echo "snap.sh"
 echo "--------------------------------"
 install_snapd
 install_snap
-echo "--------------------------------"
-echo "snap tools installed."
 echo "--------------------------------"
