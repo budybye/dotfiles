@@ -56,7 +56,6 @@ install_brew_packages() {
     fi
     {{- end }}
     {{- end }}
-
     {{- if .packages.darwin.cask }}
     {{- range .packages.darwin.cask }}
     if ! echo "$brewlist" | grep -q "{{ . }}"; then
@@ -93,9 +92,7 @@ install_mise() {
     else
 
         {{ range .packages.mise }}
-
         mise use -g -y "{{ . }}" || echo "{{ . }} install failed."
-
         {{ end }}
 
     fi
