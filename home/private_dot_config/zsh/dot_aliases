@@ -20,8 +20,8 @@ alias meminfo="free -h 2>/dev/null || vm_stat"
 alias diskinfo="df -h"
 
 # シェルの再起動
-alias rl="exec ${SHELL} -l"
-# alias rl="source ${HOME}/.zshenv"
+# alias rl="exec ${SHELL} -l"
+alias rl="source ${HOME}/.zshenv"
 # デバッグ・メンテナンス用
 alias reload="exec ${SHELL} -l && exec ${SHELL}"
 
@@ -86,10 +86,9 @@ fi
 
 if command -v ping >/dev/null 2>&1; then
     # 3回だけpingを送信 デフォルトは1.1.1.1
-    function pi() {
-      command ping -c 3 ${@:-1.1.1.1}
+    function ping() {
+      ping -c 3 ${@:-1.1.1.1}
     }
-    alias ping="pi"
 fi
 
 if command -v websocat >/dev/null 2>&1; then

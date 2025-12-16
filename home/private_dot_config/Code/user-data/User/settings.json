@@ -70,10 +70,20 @@
   "terminal.integrated.env.linux": {},
   "terminal.integrated.fontSize": 9,
   "terminal.integrated.env.osx": {},
+  "terminal.integrated.shellIntegration.enabled": false,
   "terminal.integrated.automationProfile.osx": {
-    "path": "/usr/bin/zsh",
-    "args": ["--login"]
+    "path": "/bin/zsh",
+    "args": ["-l"]
   },
+  "terminal.integrated.profiles.osx": {
+    "zsh": {
+      "path": "/bin/zsh",
+      "args": [ "-l" ],
+      "overrideName": true
+    }
+  },
+  "terminal.integrated.defaultProfile.osx": "zsh",
+  "terminal.integrated.gpuAcceleration": "off",
 
   "explorer.confirmDragAndDrop": false,
   "explorer.confirmDelete": false,

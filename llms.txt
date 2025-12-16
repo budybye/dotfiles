@@ -192,7 +192,8 @@
 - [templ](https://context7.com/websites/templ_guide/llms.txt) #template #go #html
 - [surge](https://context7.com/sintaxi/surge/llms.txt) #deployment #static #hosting
 - [OpenNext cloudflare](https://context7.com/opennextjs/opennextjs-cloudflare/llms.txt)
-- [Cropperjs](https://context7.com/fengyuanchen/cropperjs/llms.txt?tokens=10000)
+- [Cropperjs](https://context7.com/fengyuanchen/cropperjs/llms.txt)
+- [Modelviewer](https://context7.com/google/model-viewer/llms.txt)
 
 ## テスト・品質管理
 
@@ -353,6 +354,9 @@
 - [union](https://context7.com/unionlabs/union/llms.txt) #union #blockchain #tool
 - [libp2p](https://context7.com/libp2p/js-libp2p/llms.txt) #libp2p #p2p #network #javascript
 - [aleo](https://context7.com/websites/developer_aleo/llms.txt) #aleo #blockchain #privacy #zk
+- [lit protcol](https://context7.com/lit-protocol/docs/llms.txt)
+- [ZKSnarks](https://context7.com/iden3/snarkjs/llms.txt)
+- [idOS](https://context7.com/idos-network/idos-sdk-js/llms.txt)
 
 ## セキュリティ
 
