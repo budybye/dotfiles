@@ -82,6 +82,7 @@ if command -v curl >/dev/null 2>&1; then
     alias wt="curl wttr.in"  # 天気予報を表示
     alias qr="curl qrenco.de/https://${1:-やってるか.みんな}"  # QRコードを表示
     alias wan="curl inet-ip.info"
+    alias rate="curl rate.sx"
 fi
 
 if command -v ping >/dev/null 2>&1; then

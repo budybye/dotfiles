@@ -344,8 +344,8 @@ load_plugins {
 // Choose the theme that is specified in the themes section.
 // Default: default
 //
-// theme "kanagawa"
-theme "molokai-dark"
+theme "kanagawa"
+//theme "molokai-dark"
 
 // The name of the default layout to load on startup
 // Default: "default"

@@ -4,7 +4,7 @@
   "redhat.telemetry.enabled": false,
   "partialDiff.enableTelemetry": false,
   "search.followSymlinks": false,
-  "workbench.colorTheme": "Monokai Pro",
+  "workbench.colorTheme": "Kanagawa Dragon",
   "workbench.iconTheme": "simple-icons",
   "workbench.statusBar.visible": true,
   "workbench.settings.useSplitJSON": true,
@@ -78,7 +78,7 @@
   "terminal.integrated.profiles.osx": {
     "zsh": {
       "path": "/bin/zsh",
-      "args": [ "-l" ],
+      "args": ["-l"],
       "overrideName": true
     }
   },

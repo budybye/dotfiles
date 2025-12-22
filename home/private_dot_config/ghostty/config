@@ -50,7 +50,10 @@ command = $(command -v zsh) -l
 # shell-integration = zsh
 
 # テーマを指定
-theme = "Monokai Pro"
+# theme = "Monokai Pro"
+# theme = "Monokai Classic"
+theme = "Kanagawa Dragon"
+; theme = "Kanagawa Wave"
 
 # フォントを指定
 font-family = "HackGen35 Console NF"

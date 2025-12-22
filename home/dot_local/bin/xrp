@@ -115,6 +115,7 @@ if [ "${VERBOSE}" -eq 1 ]; then
     echo "${OFFER_RESPONSE}"
 fi
 
+curl rate.sx/xrp
 # print summary
 echo "__  ______  ____    _             _"
 echo "\ \/ /  _ \|  _ \  | |    ___  __| | __ _  ___ _ ___"
