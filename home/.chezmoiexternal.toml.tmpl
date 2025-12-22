@@ -15,7 +15,7 @@
     type = "archive-file"
     url = {{ gitHubLatestReleaseAssetURL "jdx/mise" (printf "mise-*-%s-%s.tar.gz" .chezmoi.os .chezmoi.arch) | quote }}
     executable = true
-    path = "mise/mise"
+    path = "mise"
 
 [".local/bin/sheldon"]
     type = "archive-file"
