@@ -11,18 +11,6 @@
     stripComponents = 1
     refreshPeriod = "168h"
 
-[".local/bin/mise"]
-    type = "archive-file"
-    url = {{ gitHubLatestReleaseAssetURL "jdx/mise" (printf "mise-*-%s-%s.tar.gz" .chezmoi.os .chezmoi.arch) | quote }}
-    executable = true
-    path = "mise"
-
-[".local/bin/sheldon"]
-    type = "archive-file"
-    url = {{ gitHubLatestReleaseAssetURL "rossmacarthur/sheldon" (printf "sheldon-*-%s-%s.tar.gz" .chezmoi.os .chezmoi.arch) | quote }}
-    executable = true
-    path = "sheldon"
-
 {{ if eq .chezmoi.os "darwin" }}
 ["Music/riddim"]
     type = "archive"
