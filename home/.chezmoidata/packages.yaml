@@ -233,7 +233,7 @@ packages:
   - 'ivanarjona.cloudflaretunnel'
   - 'jinliming2.vscode-go-template'
   - 'keploy.keployio'
-  - 'kdl-org.kdl'
+  # - 'kdl-org.kdl'
   - 'kimlimjustin.jsdoc-generator'
   - 'lokalise.i18n-ally'
   - 'mattn.lisp'
