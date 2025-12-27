@@ -276,12 +276,13 @@
 
 ### WebSocket・リアルタイム
 
-- [party-kit](https://context7.com/partykit/partykit/llms.txt) #realtime
+- [party-kit](https://context7.com/partykit/partykit/llms.txt) #realtime #websocket
 - [Pusher-js](https://context7.com/pusher/pusher-js/llms.txt) #pusher #realtime #websocket #javascript
 - [Pusher](https://context7.com/websites/pusher/llms.txt) #pusher #realtime #websocket #api
 - [pusher concorde](https://context7.com/matfire/concorde/llms.txt) #pusher #concorde #realtime
 - [Websocat WebSocket Tool](https://context7.com/vi/websocat/llms.txt) #websocket #tool #cli #testing
 - [wslay](https://context7.com/tatsuhiro-t/wslay/llms.txt) #websocket #c #library
+- [wscat](https://context7.com/websockets/wscat/llms.txt)
 
 ## バリデーション・フォーム
 
@@ -412,7 +413,8 @@
 - [Neovim Text Editor](https://context7.com/neovim/neovim/llms.txt) #neovim #editor #vim #modal-editing
 - [vscode](https://context7.com/microsoft/vscode/llms.txt) #vscode #ide #editor #microsoft
 - [VScode extensions](https://context7.com/websites/code_visualstudio_api/llms.txt) #vscode #extensions #api #development
-- [code server](https://context7.com/coder/code-server/llms.txt?tokens=10000) #vscode #editor #ide
+- [code server](https://context7.com/coder/code-server/llms.txt) #vscode #editor #ide
+- [zed](https://context7.com/zed-industries/zed/llms.txt)
 
 ### プラグイン・ツール管理
 
@@ -525,6 +527,7 @@
 
 - [Mermaid Diagram Generator](https://context7.com/jakesteam/mermaid/llms.txt) #mermaid #diagrams #markdown #visualization
 - [Marp CLI Presentation](https://context7.com/marp-team/marp-cli/llms.txt) #marp #presentation #markdown #slides
+- [slidev](https://context7.com/slidevjs/slidev/llms.txt)
 
 ### ドキュメント・コンテンツ管理
 

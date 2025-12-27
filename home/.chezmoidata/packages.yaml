@@ -323,6 +323,7 @@ packages:
   - 'surge'
   - 'docsify-cli'
   - 'repomix'
+  - 'wscat'
   # - 'wrangler'
   # - 'claude'
   # - 'zx'
