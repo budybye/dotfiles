@@ -3,6 +3,7 @@ cask_args appdir: "/Applications"
 # brew tap
 
 tap "yusukebe/tap"
+tap "jnsahaj/lumen"
 
 # formula
 
@@ -86,6 +87,7 @@ brew "lolcat"
 # brew "libslirp"
 # brew "libtool"
 # brew "libssh"
+brew "lumen" # jnsahaj/lumen
 brew "mas"
 brew "make"
 brew "mackup"
@@ -354,13 +356,13 @@ mas "LogicPro", id: 634148309
 mas "LINE", id: 539883307
 mas "Speedtest", id: 1153157709
 mas "Shazam", id: 897118787
-mas "Popclip", id: 445189367
 mas "RunCat", id: 1429033973
 mas "Plash", id: 1494023538
 mas "Spark", id: 1176895641
 mas "Hidden Bar", id: 1452453066
-mas "NotebookLM - AI Note Taker", id: 6742645871
 
+# mas "Popclip", id: 445189367
+# mas "NotebookLM - AI Note Taker", id: 6742645871
 # mas "そらの案内", id: 599799247
 # mas "Telegram", id: 747648890
 # mas "Alfred", id: 405843582
