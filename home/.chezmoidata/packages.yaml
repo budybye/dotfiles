@@ -155,9 +155,9 @@ packages:
     - 'xorgxrdp'
     - 'dbus-x11'
 
-    - 'gdm3'
+    - 'sddm'
+    # - 'gdm3'
     # - 'lightdm'
-    # - 'sddm'
     # - 'tasksel'
     # - 'task-xfce-desktop'
 
@@ -233,7 +233,7 @@ packages:
   - 'ivanarjona.cloudflaretunnel'
   - 'jinliming2.vscode-go-template'
   - 'keploy.keployio'
-  # - 'kdl-org.kdl'
+  - 'kdl-org.kdl'
   - 'kimlimjustin.jsdoc-generator'
   - 'lokalise.i18n-ally'
   - 'mattn.lisp'
@@ -293,16 +293,16 @@ packages:
     - 'mise'
 
   cargo:
+  - 'navi'
+  - 'sheldon'
+  - 'starship'
   # - 'alacritty'
   # - 'cargo-binstall'
   # - 'jj'
-  - 'navi'
   # - 'bat'
   # - 'lsd'
   # - 'fd-find'
   # - 'ripgrep'
-  - 'sheldon'
-  - 'starship'
   # - 'xh'
   # - 'zoxide'
   # - 'zellij'
@@ -329,6 +329,7 @@ packages:
   # - 'zx'
   # - '@pipedream/sdk'
   # - '@bitwarden/cli'
+
   curl:
   - 'curl -fsSL https://mise.run | sh'
   - 'sh -c "$(curl -fsSL https://git.io/chezmoi)" -- -b ${HOME}/.local/bin'
@@ -337,16 +338,16 @@ packages:
   - 'curl -fsSL https://raw.githubusercontent.com/watzon/cursor-linux-installer/main/install.sh | bash -s -- latest'
 
   go:
+  - 'aqua'
+  - 'hammer'
+  - 'websocat'
+  - 'jjui'
   # - 'act'
   # - 'age'
-  - 'aqua'
   # - 'caddy'
   # - 'chezmoi'
   # - 'docker'
-  - 'hammer'
   # - 'rclone'
-  - 'websocat'
-  - 'jjui'
 
   python:
   - 'navi'
