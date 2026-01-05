@@ -4,6 +4,11 @@ fi
 
 mkdir -p "${XDG_STATE_HOME}/bash"
 export HISTFILE="${XDG_STATE_HOME}/bash/bash_history"
+export HISTTIMEFORMAT='%F %T '
+export HISTSIZE=100000
+export HISTFILESIZE=100000
+export HISTIGNORE='ls:cd:pwd:exit:clear'
+export HISTCONTROL='ignorespace'
 
 if [ -f "${HOME}/.bashrc" ]; then
     . "${HOME}/.bashrc"

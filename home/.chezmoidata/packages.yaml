@@ -324,6 +324,7 @@ packages:
   - 'docsify-cli'
   - 'repomix'
   - 'wscat'
+  - 'rnsec'
   # - 'wrangler'
   # - 'claude'
   # - 'zx'
@@ -336,6 +337,7 @@ packages:
   - 'curl -fsSL https://cli.coderabbit.ai/install.sh | bash'
   - 'curl -fsSL https://vicinae.com/install.sh | bash'
   - 'curl -fsSL https://raw.githubusercontent.com/watzon/cursor-linux-installer/main/install.sh | bash -s -- latest'
+  - 'curl -fsSL https://nixos.org/nix/install | sh'
 
   go:
   - 'aqua'

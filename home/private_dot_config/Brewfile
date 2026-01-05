@@ -360,10 +360,12 @@ mas "RunCat", id: 1429033973
 mas "Plash", id: 1494023538
 mas "Spark", id: 1176895641
 mas "Hidden Bar", id: 1452453066
-
+mas "Hyper Cursor", id: 1634220679
 # mas "Popclip", id: 445189367
+
+# mas "iBar-Menubar icon control tool", id: 6443843900
+
 # mas "NotebookLM - AI Note Taker", id: 6742645871
-# mas "そらの案内", id: 599799247
 # mas "Telegram", id: 747648890
 # mas "Alfred", id: 405843582
 # mas "GoPro Quik", id: 561350520
@@ -372,13 +374,10 @@ mas "Hidden Bar", id: 1452453066
 # mas "Capo 3", id: 696977615
 # mas "ServerCat", id: 1501532023
 # mas "System Designer", id: 1102494854
-# mas "Hyper Cursor", id: 1634220679
 # mas "Day One", id: 1055511498
 # mas "Remote Ripple", id: 1253403918
 # mas "Jayson", id: 1468691718
 # mas "BetterSnapTools", id: 417375580
-# mas "TabLauncher", id: 421340897
 # mas "Linearity Curve ベクターグラフィックデザイン", id: 1219074514
 # mas "djay - DJ アプリ& ミキサー", id: 450527929
-# mas "Exporter", id: 1099120373
 # mas "xAppBuilder", id: 6447613145

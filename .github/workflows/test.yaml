@@ -9,8 +9,8 @@ jobs:
     env:
       MISE_GITHUB_TOKEN: ${{ secrets.MISE_GITHUB_TOKEN }}
     steps:
+      # 容量が厳しいのでクリーンアップ
       - name: clean space
-        # if: matrix.platform == 'linux/amd64'
         run: |
           df -h
           docker image prune --all --force || true

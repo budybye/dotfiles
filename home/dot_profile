@@ -217,9 +217,11 @@ fi
 if command -v npm >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/npm/config"
     touch "${XDG_CONFIG_HOME}/npm/config/npm-init.js"
+    touch "${XDG_CONFIG_HOME}/npm/npmrc"
     export NPM_CONFIG_USERCONFIG="${XDG_CONFIG_HOME}/npm/npmrc"
     mkdir -p "${XDG_CACHE_HOME}/npm"
     mkdir -p "${XDG_DATA_HOME}/npm"
+
     if [ -f "${XDG_RUNTIME_DIR}/npm" ]; then
         mkdir -p "${XDG_RUNTIME_DIR}/npm"
     fi
@@ -434,11 +436,6 @@ if command -v conan >/dev/null 2>&1; then
     export CONAN_USER_HOME="${XDG_CONFIG_HOME}/conan"
 fi
 
-if command -v discord >/dev/null 2>&1; then
-    mkdir -p "${XDG_DATA_HOME}/discord"
-    export DISCORD_USER_DATA_DIR="${XDG_DATA_HOME}/discord"
-fi
-
 if command -v htop >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/htop"
     if [ -f "${HOME}/.htoprc" ]; then
@@ -501,4 +498,9 @@ fi
 
 if command -v cursor-agent >/dev/null 2>&1; then
   export CURSOR_API_KEY="${CURSOR_API_KEY:-}"
+fi
+
+if command -v discord >/dev/null 2>&1; then
+    mkdir -p "${XDG_DATA_HOME}/discord"
+    export DISCORD_USER_DATA_DIR="${XDG_DATA_HOME}/discord"
 fi
