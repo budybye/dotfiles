@@ -40,18 +40,17 @@ alias cp="cp -i"   # 上書き確認を有効にする
 alias rm="rm -i"   # 削除確認を有効にする
 alias mkdir="mkdir -p"  # 親ディレクトリも作成
 
-# git
-if command -v git >/dev/null 2>&1; then
+# git / jj
+if command -v git >/dev/null 2>&1 || command -v jj >/dev/null 2>&1; then
     alias g="git"
-    # add all, commit, push
     function bit() {
-      git add -A
-      if [ -z "$1" ]; then
-        git commit --allow-empty-message -m "♨️⛰️♨️"
-      else
-        git commit -m "$1"
-      fi
-      git push origin $(git branch | sed -n -e "s/^\* \(.*\)/\1/p")
+        g add -A
+        if [ -z "$1" ]; then
+            g commit --allow-empty-message -m ""
+        else
+            g commit -m "$1"
+        fi
+        g push origin $(g branch | sed -n -e "s/^\* \(.*\)/\1/p")
     }
 fi
 
@@ -62,10 +61,43 @@ if command -v gh >/dev/null 2>&1; then
     alias gsh="gh repo view budybye/dotfiles --json ssh_url -q '.ssh_url'"
 fi
 
-# if command -v jj >/dev/null 2>&1; then
-#     alias jj="jj"
-#     alias git="jj git"
-# fi
+if command -v jj >/dev/null 2>&1; then
+    # alias j="jj"
+
+    # .jj を作成し、ブックマークを作成し、プッシュする
+    # jjj "メッセージ" "ブックマーク名" "リモート名"
+    function jjj() {
+        local msg="${1:-♨️}"
+        local bookmark="${2:-}"
+        local remote="${3:-origin}"
+
+        # jjリポジトリが初期化されていない場合は初期化（既に初期化済みの場合はスキップ）
+        if ! jj root >/dev/null 2>&1; then
+            jj git init 2>/dev/null || true
+        fi
+
+        # ブックマーク名を自動検出（指定されていない場合）
+        if [ -z "$bookmark" ]; then
+            # 現在のブックマークを取得（最初のローカルブックマーク）
+            bookmark=$(jj bookmark list 2>/dev/null | sed -n '1s/:.*//p' | tr -d ' ')
+            # ブックマークが見つからない場合は、Gitの現在のブランチを取得
+            if [ -z "$bookmark" ] && command -v git >/dev/null 2>&1; then
+            bookmark=$(git symbolic-ref --short HEAD 2>/dev/null || echo "")
+        fi
+        # それでも見つからない場合はmainをデフォルトとして使用
+        bookmark="${bookmark:-main}"
+      fi
+
+      # ローカルのブックマークを現在のコミットに設定（存在しない場合は作成）
+      jj bookmark set "$bookmark" 2>/dev/null || jj bookmark create "$bookmark" 2>/dev/null || true
+      # リモートブックマークを自動的に追跡（エラーは無視）
+      jj bookmark track "${bookmark}@${remote}" 2>/dev/null || true
+      # 変更にメッセージを付ける
+      jj describe -m "$msg"
+      # ブックマークを明示的に指定してプッシュ
+      jj git push -b "$bookmark"
+    }
+fi
 
 # vim nvim
 if command -v nvim >/dev/null 2>&1; then
@@ -88,7 +120,7 @@ fi
 if command -v ping >/dev/null 2>&1; then
     # 3回だけpingを送信 デフォルトは1.1.1.1
     function ping() {
-      ping -c 3 ${@:-1.1.1.1}
+        ping -c 3 ${@:-1.1.1.1}
     }
 fi
 
