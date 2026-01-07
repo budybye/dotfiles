@@ -67,7 +67,7 @@ python = "latest"
 uv = "latest"
 pipx = "latest"
 ruff = "latest"
-# opencode = "latest"
+opencode = "latest"
 # navi = "latest"
 
 ninja = "latest"
