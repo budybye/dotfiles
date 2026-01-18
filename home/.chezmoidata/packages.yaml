@@ -180,6 +180,8 @@ packages:
     - 'plank'
     - 'picard'
     - 'remmina'
+    - 'xsel'
+    - 'xclip'
   snap:
     classic:
     # - 'alacritty'
@@ -201,6 +203,7 @@ packages:
   - '42crunch.vscode-openapi'
   - 'adpyke.codesnap'
   - 'ambar.bundle-size'
+  - 'antfu.slidev'
   - 'anthropic.claude-code'
   - 'biomejs.biome'
   - 'bradlc.vscode-tailwindcss'
@@ -227,6 +230,7 @@ packages:
   - 'github.vscode-github-actions'
   # - 'github.copilot'
   - 'hediet.vscode-drawio'
+  - 'hono.hono'
   - 'hverlin.mise-vscode'
   - 'ibm.output-colorizer'
   - 'intellsmi.comment-translate'
@@ -325,6 +329,7 @@ packages:
   - 'repomix'
   - 'wscat'
   - 'rnsec'
+  - 'localflare'
   # - 'wrangler'
   # - 'claude'
   # - 'zx'

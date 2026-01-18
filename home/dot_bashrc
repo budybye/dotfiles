@@ -24,6 +24,7 @@ fi
 # homebrew
 if command -v brew > /dev/null 2>&1; then
     eval "$(/opt/homebrew/bin/brew shellenv)"
+    export HOMEBREW_FORBIDDEN_FORMULAE="node python python3 pip npm pnpm yarn bun deno"
 fi
 
 # direnv

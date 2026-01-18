@@ -315,7 +315,7 @@ if command -v java >/dev/null 2>&1; then
         # JAVA_HOMEが未設定の場合のみ実行
         _JAVA_HOME_CANDIDATE="$(/usr/libexec/java_home 2>/dev/null)"
         if [ -n "${_JAVA_HOME_CANDIDATE}" ]; then
-          export JAVA_HOME="${_JAVA_HOME_CANDIDATE}"
+            export JAVA_HOME="${_JAVA_HOME_CANDIDATE}"
         fi
     # Linuxの場合
     elif [ -z "${JAVA_HOME}" ] && [ -d "/usr/lib/jvm" ]; then

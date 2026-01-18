@@ -51,12 +51,30 @@ apply = ["defer"]
 github = "z-shell/zsh-navigation-tools"
 apply = ["defer"]
 
-#[plugins.enhancd]
-#github = "b4b4r07/enhancd"
-
 [plugins.fzf]
 github = "junegunn/fzf"
 apply = ["defer"]
+
+[plugins.zsh-autopair]
+github = "hlissner/zsh-autopair"
+apply = ["defer"]
+
+[plugins.zsh-npm-global-recorder]
+github = "yanskun/zsh-npm-global-recorder"
+apply = ["defer"]
+
+# [plugins.mise]
+# github = "jdx/mise"
+
+# [plugins.starship]
+# github = "starship/starship"
+
+# [plugins.zoxide]
+# github = "ajeetdsouza/zoxide"
+# apply = ["defer"]
+
+#[plugins.enhancd]
+#github = "b4b4r07/enhancd"
 
 #[plugins.powerlevel10k]
 #github = "romkatv/powerlevel10k"

@@ -77,7 +77,7 @@ brew "htop"
 # brew "hyperkit"
 # brew "jq"
 # brew "jj"
-brew "jjui"
+# brew "jjui"
 # brew "jsoncpp"
 brew "keploy"
 # brew "lsd"
@@ -115,7 +115,7 @@ brew "pgcli"
 # brew "p11-kit"
 brew "qemu"
 brew "rj" # yusukebe/tap
-brew "rocksdb"
+# brew "rocksdb"
 brew "sd"
 # brew "shellcheck"
 brew "sheldon"
@@ -189,10 +189,10 @@ cask "cursor"
 # cask "cursor-cli"
 # cask "caffeine"
 # cask "cakebrew"
-cask "calibre"
+# cask "calibre"
 cask "canva"
-cask "claude"
-cask "codex"
+# cask "claude"
+# cask "codex"
 # cask "cleanmymac"
 # cask "codux"
 # cask "coda"
@@ -210,19 +210,19 @@ cask "discord"
 # cask "emacs"
 # cask "element"
 # cask "epic-games"
-cask "emdash"
+# cask "emdash"
 # cask "evernote"
 # cask "cdm-eiakna"
 # cask "fantastical"
 # cask "fl-stufio"
 # cask "fig"
 cask "flux-app"
-cask "figma"
+# cask "figma"
 # cask "finch"
 cask "font-hackgen-nerd"
 cask "font-roboto-mono-nerd-font"
 # cask "font-reggae-one"
-cask "font-sauce-code-pro-nerd-font"
+# cask "font-sauce-code-pro-nerd-font"
 cask "github"
 # cask "gimp"
 # cask "google-cloud-sdk"
@@ -231,14 +231,14 @@ cask "ghostty"
 # cask "grandperspective"
 cask "geekbench"
 # cask "hakuneko"
-cask "insomnia"
+# cask "insomnia"
 # cask "inkscape"
 #cask "intellij-idea"
 #cask "iterm2"
 #cask "jetbrains-toolbox"
 cask "karabiner-elements"
 cask "keyclu"
-cask "kiro"
+# cask "kiro"
 # cask "keka"
 # cask "kitty"
 # cask "krita"
@@ -262,7 +262,7 @@ cask "musicbrainz-picard"
 # cask "mamp"
 cask "mixxx"
 # cask "monitorcontrol"
-cask "notion"
+# cask "notion"
 # cask "ngrok"
 # cask "nuclear"
 # cask "nvidia-geforce-now"
@@ -290,6 +290,7 @@ cask "rectangle"
 # cask "responsively"
 # cask "rustdesk"
 # cask "roam-research"
+# cask "sol"
 # cask "slack"
 # cask "steam"
 # cask "sketch"
@@ -303,7 +304,7 @@ cask "rectangle"
 # cask "studio-3t"
 # cask "flameshot"
 # cask "flutter"
-cask "tabby"
+# cask "tabby"
 # cask "tagspaces"
 # cask "tableplus"
 cask "the-unarchiver"
@@ -320,7 +321,7 @@ cask "vlc"
 # cask "vnc-viewer"
 cask "wireshark-app"
 cask "windows-app"
-cask "warp"
+# cask "warp"
 # cask "xampp"
 # cask "xbar"
 # cask "webcatalog"
@@ -336,17 +337,17 @@ cask "zed"
 
 # mas
 
-# mas "xcode", id: 497799835
 mas "LogicPro", id: 634148309
 # mas "GarageBand", id: 682658836
-# mas "Final Cut Pro", id: 424389933
-# mas "Motion", id: 434290957
 # mas "Compressor", id: 424390742
-# mas "MainStage", id: 634159523
+# mas "Final Cut Pro", id: 424389933
 # mas "iMovie", id: 408981434
+# mas "Motion", id: 434290957
+# mas "MainStage", id: 634159523
 # mas "Numbers", id: 409203825
 # mas "Pages", id: 409201541
 # mas "Keynote", id: 409183694
+# mas "xcode", id: 497799835
 # mas "Apple Developer", id: 640199958
 
 # mas "Microsoft Word", id: 462054704
@@ -360,11 +361,10 @@ mas "RunCat", id: 1429033973
 mas "Plash", id: 1494023538
 mas "Hidden Bar", id: 1452453066
 mas "Hyper Cursor", id: 1634220679
-# mas "Spark", id: 1176895641
 # mas "Popclip", id: 445189367
 
+# mas "Spark", id: 1176895641
 # mas "iBar-Menubar icon control tool", id: 6443843900
-
 # mas "NotebookLM - AI Note Taker", id: 6742645871
 # mas "Telegram", id: 747648890
 # mas "Alfred", id: 405843582

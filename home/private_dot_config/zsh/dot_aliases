@@ -427,6 +427,9 @@ if command -v cloudflared >/dev/null 2>&1; then
     RPI_HOST="${RPI_HOST:-rpi.tmg-server.com}"
     RPI_PORT="${RPI_PORT:-33333}"
     alias rpi="cf access rdp --hostname "${RPI_HOST}" --url localhost:${RPI_PORT}"
+    SMB_HOST="${SMB_HOST:-data.tmg-server.com}"
+    SMB_PORT="${SMB_PORT:-44444}"
+    alias smb="cf access smb --hostname "${SMB_HOST}" --url localhost:${SMB_PORT}"
 fi
 
 if command -v element-desktop >/dev/null 2>&1; then
