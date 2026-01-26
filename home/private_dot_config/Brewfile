@@ -120,7 +120,7 @@ brew "sd"
 # brew "shellcheck"
 brew "sheldon"
 brew "starship"
-brew "speedtest-cli"
+# brew "speedtest-cli"
 brew "sniffnet"
 brew "socat"
 # brew "soci"
@@ -175,7 +175,7 @@ cask "appcleaner"
 # cask "anki"
 # cask "anaconda"
 # cask "arc"
-cask "aqua-voice"
+# cask "aqua-voice"
 cask "betterdisplay"
 cask "bitwarden"
 # cask "blender"
@@ -329,11 +329,11 @@ cask "windows-app"
 # cask "wine-stable"
 # cask "wordpresscom"
 # cask "wpsoffice"
-cask "xmind"
+# cask "xmind"
 cask "xquartz"
 # cask "wkhtmltopdf"
 # cask "zoom"
-cask "zed"
+# cask "zed"
 
 # mas
 
@@ -351,7 +351,7 @@ mas "LogicPro", id: 634148309
 # mas "Apple Developer", id: 640199958
 
 # mas "Microsoft Word", id: 462054704
-mas "Microsoft Excel", id: 462058435
+# mas "Microsoft Excel", id: 462058435
 # mas "Microsoft PowerPoint", id: 462062816
 
 mas "LINE", id: 539883307

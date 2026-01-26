@@ -4,7 +4,10 @@ if [ -f "${HOME}/.profile" ]; then
     emulate sh -c "source ${HOME}/.profile"
 fi
 
+# PATHを再設定
+# -U は重複を排除する
 typeset -U path PATH
+# (N-/) は その directory が存在する場合のみ追加する
 path=(
     /opt/homebrew/bin(N-/)
     /opt/homebrew/sbin(N-/)
@@ -33,6 +36,7 @@ path=(
 )
 
 # プロンプトの設定
+# ユーザー名@ホスト名:現在のディレクトリ $ の形式
 PROMPT='%F{green}%n@%m%f:%F{blue}%~ %f%F{yellow}$%f '
 
 # zshの設定ファイルを読み込む
@@ -40,7 +44,7 @@ if [ -f "${ZDOTDIR}/.zshrc" ]; then
     . "${ZDOTDIR}/.zshrc"
 fi
 
-# tmux session auto-start
+# zellij or tmux session auto-start
 if [ $SHLVL = 1 ]; then
     if command -v zellij > /dev/null 2>&1; then
         zellij

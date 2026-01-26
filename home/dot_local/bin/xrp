@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -eu
+set -euo pipefail
 
 # curl jq required
 if ! command -v curl > /dev/null 2>&1 ; then

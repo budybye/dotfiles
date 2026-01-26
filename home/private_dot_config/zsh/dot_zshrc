@@ -24,7 +24,6 @@ setopt hist_verify          # ヒストリを呼び出してから実行する�
 setopt hist_expand          # 補完時にヒストリを自動的に展開
 setopt hist_ignore_space    # スペースで始まるコマンドは履歴に記録しない
 setopt hist_ignore_all_dups # 重複を記録しない
-
 setopt auto_param_keys      # 環境変数を補完
 setopt auto_cd              # パスを直接入力してもcdする
 setopt auto_pushd           # cd - [tab]で過去のディレクトリに飛べる
@@ -79,7 +78,7 @@ tgz() {
 if command -v brew > /dev/null 2>&1; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
   FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
-  export HOMEBREW_FORBIDDEN_FORMULAE="node python python3 pip npm pnpm yarn bun deno"
+  export HOMEBREW_FORBIDDEN_FORMULAE="node python python3 pip npm"
 fi
 
 # direnv
@@ -116,6 +115,10 @@ fi
 # thefuck
 if command -v thefuck >/dev/null 2>&1; then
     eval $(thefuck --alias)
+fi
+
+if command -v wrangler > /dev/null 2>&1; then
+  eval "$(wrangler complete zsh)"
 fi
 
 [[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path zsh)"
