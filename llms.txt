@@ -146,6 +146,7 @@
 - [Nextjs](https://nextjs.org/docs/llms-full.txt) #react #next #framework #frontend
 - [Tanstack Router](https://context7.com/websites/tanstack_router/llms.txt) #tanstack #framework
 - [astro](https://docs.astro.build/llms-full.txt) #astro #framework #static-site #ssg
+- [Rivetkit](https://context7.com/websites/rivet_dev/llms.txt?tokens=10000) #framework #websocket #rust #react
 
 ### UI・スタイリング・デザインシステム
 
@@ -534,6 +535,7 @@
 - [Obsidian](https://context7.com/context7/obsidian_md/llms.txt) #obsidian #notes #markdown #knowledge-management
 - [MDX](https://context7.com/mdx-js/mdx/llms.txt) #mdx #markdown #jsx #documentation
 - [marp](https://context7.com/marp-team/marp/llms.txt) #markdown #tools #documentaion
+- [slidev](https://context7.com/slidevjs/slidev/llms.txt) #markdown #slide #pdf #vue
 - [Starlight](https://context7.com/withastro/starlight/llms.txt) #starlight #astro #docs #documentation
 - [oss-contribution-guide](https://context7.com/suzuki-shunsuke/oss-contribution-guide/llms.txt) #oss #contribution #guide #open-source
 - [i18n-js Internationalization](https://context7.com/fnando/i18n-js/llms.txt) #i18n #internationalization #javascript #localization

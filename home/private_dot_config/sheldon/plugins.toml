@@ -73,8 +73,9 @@ apply = ["defer"]
 # github = "ajeetdsouza/zoxide"
 # apply = ["defer"]
 
-#[plugins.enhancd]
-#github = "b4b4r07/enhancd"
+# [plugins.enhancd]
+# github = 'b4b4r07/enhancd'
+# use=["init.sh"]
 
 #[plugins.powerlevel10k]
 #github = "romkatv/powerlevel10k"

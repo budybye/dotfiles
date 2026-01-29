@@ -44,13 +44,13 @@ alias mkdir="mkdir -p"  # 親ディレクトリも作成
 if command -v git >/dev/null 2>&1 || command -v jj >/dev/null 2>&1; then
     alias g="git"
     function bit() {
-        g add -A
+        git add -A
         if [ -z "$1" ]; then
-            g commit --allow-empty-message -m ""
+            git commit --allow-empty-message -m ""
         else
-            g commit -m "$1"
+            git commit -m "$1"
         fi
-        g push origin $(g branch | sed -n -e "s/^\* \(.*\)/\1/p")
+        git push origin $(git branch | sed -n -e "s/^\* \(.*\)/\1/p")
     }
 fi
 
@@ -120,7 +120,7 @@ fi
 if command -v ping >/dev/null 2>&1; then
     # 3回だけpingを送信 デフォルトは1.1.1.1
     function ping() {
-        ping -c 3 ${@:-1.1.1.1}
+        command ping -c 3 ${@:-1.1.1.1}
     }
 fi
 
@@ -137,6 +137,8 @@ if command -v ipconfig >/dev/null 2>&1; then
     alias addr="ipconfig getifaddr en0 && wan"
 elif command -v ifconfig >/dev/null 2>&1; then
     alias addr="ifconfig en0 inet && wan"
+elif command -v ip >/dev/null 2>&1; then
+    alias addr="ip addr show en0 && wan"
 fi
 
 if command -v python3 >/dev/null 2>&1; then

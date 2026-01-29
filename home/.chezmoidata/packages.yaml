@@ -29,23 +29,22 @@ packages:
     # - 'yt-dlp'
     # 便利コマンド
     - 'translate-shell'
-    # - 'termshark'
     - 'moreutils'
     - 'multitail'
     - 'nmap'
     - 'vim'
+    # - 'termshark'
     # rust 系
     - 'mise'
+    - 'sheldon'
+    - 'starship'
     # - 'bat'
     # - 'lsd'
     # - 'fzf'
     # - 'ripgrep'
-    - 'sheldon'
-    - 'starship'
 
     cask:
     - 'appcleaner'
-    # - 'alacritty'
     - 'betterdisplay'
     - 'bitwarden'
     - 'brave-browser'
@@ -65,9 +64,10 @@ packages:
     - 'raycast'
     - 'ghostty'
     - 'rectangle'
-    # - 'tabby'
     - 'visual-studio-code'
     - 'windows-app'
+    # - 'alacritty'
+    # - 'tabby'
 
   linux:
     cli:
@@ -119,9 +119,9 @@ packages:
     - 'libxcb-xfixes0-dev'
     - 'libxkbcommon-dev'
 
+    - 'ffmpeg'
     # - 'lsd'
     # - 'zoxide'
-    - 'ffmpeg'
     # - 'yt-dlp'
 
     - 'mpd'
@@ -154,7 +154,6 @@ packages:
     - 'xrdp'
     - 'xorgxrdp'
     - 'dbus-x11'
-
     - 'sddm'
     # - 'gdm3'
     # - 'lightdm'
@@ -184,7 +183,7 @@ packages:
     - 'xclip'
   snap:
     classic:
-    # - 'alacritty'
+    - 'alacritty'
     - 'ghostty'
     # - 'code' amd64
     # - 'codium' arm64
@@ -298,8 +297,10 @@ packages:
 
   cargo:
   - 'navi'
+  - 'octorus'
   - 'sheldon'
   - 'starship'
+  - 'memvid-core'
   # - 'alacritty'
   # - 'cargo-binstall'
   # - 'jj'
@@ -314,7 +315,6 @@ packages:
   - 'boringtun-cli'
   - 'coreutils'
   - 'sniffnet'
-
   - 'kmon'
   - 'onehistory'
   - 'vaultwarden'
@@ -330,6 +330,8 @@ packages:
   - 'wscat'
   - 'rnsec'
   - 'localflare'
+  - 'workers-fetch'
+  - '@github/copilot'
   # - 'wrangler'
   # - 'claude'
   # - 'zx'
