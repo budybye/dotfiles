@@ -101,20 +101,20 @@ jobs:
       #   run: |
       #     winget install Microsoft.PowerToys
 
-  wsl2:
-    runs-on: windows-2022
-    steps:
-      - uses: actions/checkout@v5
-      - uses: Vampire/setup-wsl@v6
-      - shell: wsl-bash {0}
-        run: |
-          # dpkg --configure -a
-          # apt-get update -y
-          # apt-get upgrade -y
-          # apt-get autoremove -y
-          # apt-get clean
-          ls -al
-          cat /etc/os-release || true
+  # wsl2:
+  #   runs-on: windows-2022
+  #   steps:
+  #     - uses: actions/checkout@v5
+  #     - uses: Vampire/setup-wsl
+  #     - shell: wsl-bash {0}
+  #       run: |
+  #         # dpkg --configure -a
+  #         # apt-get update -y
+  #         # apt-get upgrade -y
+  #         # apt-get autoremove -y
+  #         # apt-get clean
+  #         ls -al
+  #         cat /etc/os-release || true
 
   lxd:
     runs-on: ubuntu-latest

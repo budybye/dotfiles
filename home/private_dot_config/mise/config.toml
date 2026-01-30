@@ -15,6 +15,7 @@ usage = "latest"
 wrangler = "latest"
 prettier = "latest"
 json5 = "latest"
+devcontainer-cli = "latest"
 # codex = "latest"
 # biome = "latest"
 
@@ -53,6 +54,7 @@ fd = "latest"
 bat = "latest"
 rg = "latest"
 lsd = "latest"
+dua = "latest"
 glow = "latest"
 hurl = "latest"
 atuin = "latest"
@@ -62,6 +64,7 @@ coreutils = "latest"
 ripsecrets = "latest"
 # tlrc = "latest"
 # oxlint = "latest"
+# choose = "latest"
 # sd = "latest"
 # starship = "latest"
 
@@ -140,7 +143,7 @@ always_keep_install = false         # デフォルトでは失敗時に削除
 # プラグインリポジトリの更新を取得する頻度を設定（分単位）
 # 新しいランタイムがインストールされるたびに更新されます
 # （注：これはまだ実装されていませんが、追加予定です：https://github.com/jdx/mise/issues/128）
-# plugin_autoupdate_last_check_duration = '1 week' # 0に設定すると更新を無効化
+plugin_autoupdate_last_check_duration = '1 week' # 0に設定すると更新を無効化
 
 # これらのプレフィックスを持つ設定ファイルはデフォルトで信頼されます
 trusted_config_paths = [
@@ -162,8 +165,8 @@ yes = true            # trueに設定すると、すべてのプロンプトに�
 #task_output = "prefix" # タスクランナーの詳細については参照
 #paranoid = false       # `MISE_PARANOID`を参照
 
-#shorthands_file = '~/.config/mise/shorthands.toml' # ショートハンドファイルのパス、`MISE_SHORTHANDS_FILE`を参照
-#disable_default_shorthands = false # デフォルトのショートハンドを無効にする、`MISE_DISABLE_DEFAULT_SHORTHANDS`を参照
+shorthands_file = '~/.config/mise/shorthands.toml' # ショートハンドファイルのパス、`MISE_SHORTHANDS_FILE`を参照
+disable_default_shorthands = false # デフォルトのショートハンドを無効にする、`MISE_DISABLE_DEFAULT_SHORTHANDS`を参照
 # disable_tools = ['node']           # 特定のツールを無効にする、通常はコアツールをオフにするために使用
 
 env_file = '.env' # .env ファイルから環境変数を読み込む、`MISE_ENV_FILE`を参照
