@@ -172,6 +172,17 @@ fi
 if command -v cursor >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/cursor"
     export CURSOR_CONFIG_DIR="${XDG_CONFIG_HOME}/cursor"
+    export CURSOR_API_KEY="${CURSOR_API_KEY:-}"
+fi
+
+if command -v claude >/dev/null 2>&1; then
+    mkdir -p "${XDG_CONFIG_HOME}/claude"
+    export CLAUDE_CONFIG_DIR="${XDG_CONFIG_HOME}/claude"
+fi
+
+if command -v codex >/dev/null 2>&1; then
+    mkdir -p "${XDG_CONFIG_HOME}/codex"
+    export CODEX_CONFIG_DIR="${XDG_CONFIG_HOME}/codex"
 fi
 
 if command -v docker >/dev/null 2>&1; then

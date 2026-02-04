@@ -34,6 +34,7 @@
 ### AI開発・フレームワーク
 
 - [Cursor](https://docs.cursor.com/llms.txt) #ide #ai-coding #assistant #development-environment
+- [Agent ベストプラクティス](https://cursor.com/ja/blog/agent-best-practices)
 - [Trigger Dev](https://trigger.dev/docs/llms-full.txt) #automation #workflow #ai #background-jobs
 - [Mastra AI Framework](https://context7.com/mastra-ai/mastra/llms-full.txt) #framework #ai #automation #workflow
 - [OpenAI Platform](https://context7.com/websites/platform_openai/llms.txt) #api #openai #platform #gpt

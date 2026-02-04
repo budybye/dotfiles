@@ -23,7 +23,7 @@ indent_size = 4
 indent_size = 2
 
 # chezmoi ファイル dot_ と tmpl
-[{dot_}* ,*.{tmpl}]
+[{dot_}* , *.{tmpl}]
 indent_size = 2
 
 # Makefile
@@ -37,7 +37,7 @@ indent_style = space
 indent_size = 2
 
 # Markdown
-[*.md, *.mdx, *.mdc]
+[*.{md, mdx, mdc}]
 indent_style = tab
 tab_width = 4
 
@@ -52,7 +52,7 @@ separator = ,
 separator = \t
 
 # .env
-[.env]
+[.env, .env.*]
 indent_style = tab
 indent_size = 4
 

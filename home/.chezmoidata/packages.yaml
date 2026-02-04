@@ -343,8 +343,9 @@ packages:
   - 'sh -c "$(curl -fsSL https://git.io/chezmoi)" -- -b ${HOME}/.local/bin'
   - 'curl -fsSL https://cli.coderabbit.ai/install.sh | bash'
   - 'curl -fsSL https://vicinae.com/install.sh | bash'
-  - 'curl -fsSL https://raw.githubusercontent.com/watzon/cursor-linux-installer/main/install.sh | bash -s -- latest'
   - 'curl -fsSL https://nixos.org/nix/install | sh'
+  - 'curl -fsSL https://cursor.com/install | bash'
+  - 'curl -fsSL https://raw.githubusercontent.com/watzon/cursor-linux-installer/main/install.sh | bash -s -- latest'
 
   go:
   - 'aqua'
