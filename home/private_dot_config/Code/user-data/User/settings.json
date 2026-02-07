@@ -16,7 +16,7 @@
   "workbench.colorCustomizations": {
     "minimapSlider.activeBackground": "#06034dc0",
     "minimapSlider.background": "#06034dc0",
-    "minimapSlider.hoverBackground": "#06034dc0"
+    "minimapSlider.hoverBackground": "#06034dc0",
   },
 
   "editor.fontSize": 13,
@@ -44,7 +44,7 @@
   "editor.largeFileOptimizations": false,
   "editor.codeActionsOnSave": {
     "quickfix.biome": "explicit",
-    "source.organizeImports.biome": "explicit"
+    "source.organizeImports.biome": "explicit",
   },
 
   "files.autoSave": "afterDelay",
@@ -55,14 +55,14 @@
   "files.autoGuessEncoding": true,
   "files.eol": "\n",
   "files.associations": {
-    "*.erb": "erb"
+    "*.erb": "erb",
   },
   "files.exclude": {
     "**/.git": true,
     "**/.svn": true,
     "**/.hg": true,
     "**/CVS": true,
-    "**/.DS_Store": true
+    "**/.DS_Store": true,
   },
 
   "terminal.integrated.copyOnSelection": true,
@@ -73,14 +73,14 @@
   "terminal.integrated.shellIntegration.enabled": false,
   "terminal.integrated.automationProfile.osx": {
     "path": "/bin/zsh",
-    "args": ["-l"]
+    "args": ["-l"],
   },
   "terminal.integrated.profiles.osx": {
     "zsh": {
       "path": "/bin/zsh",
       "args": ["-l"],
-      "overrideName": true
-    }
+      "overrideName": true,
+    },
   },
   "terminal.integrated.defaultProfile.osx": "zsh",
   "terminal.integrated.gpuAcceleration": "off",
@@ -94,43 +94,43 @@
   "git.openRepositoryInParentFolders": "never",
 
   "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
   },
   "[jsonc]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
   },
   "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
   },
   "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
   },
   "[typescriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
   },
   "[javascriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
   },
   "[yaml]": {
-    "editor.defaultFormatter": "redhat.vscode-yaml"
+    "editor.defaultFormatter": "redhat.vscode-yaml",
   },
   "[markdown]": {
-    "files.trimTrailingWhitespace": false
+    "files.trimTrailingWhitespace": false,
   },
   "[php]": {
-    "editor.defaultFormatter": "bmewburn.vscode-intelephense-client"
+    "editor.defaultFormatter": "bmewburn.vscode-intelephense-client",
   },
   "[css]": {
-    "editor.defaultFormatter": "vscode.css-language-features"
+    "editor.defaultFormatter": "vscode.css-language-features",
   },
   "[dockercompose]": {
     "editor.insertSpaces": true,
     "editor.tabSize": 2,
     "editor.autoIndent": "advanced",
-    "editor.defaultFormatter": "redhat.vscode-yaml"
+    "editor.defaultFormatter": "redhat.vscode-yaml",
   },
   "[github-actions-workflow]": {
-    "editor.defaultFormatter": "redhat.vscode-yaml"
+    "editor.defaultFormatter": "redhat.vscode-yaml",
   },
 
   "markdown-preview-enhanced.previewTheme": "none.css",
@@ -157,8 +157,8 @@
   "mssql.connectionGroups": [
     {
       "name": "ROOT",
-      "id": "517D5F92-8344-41A6-8993-D45F8AE4FD30"
-    }
+      "id": "517D5F92-8344-41A6-8993-D45F8AE4FD30",
+    },
   ],
   "mssql.connections": [],
 
@@ -169,5 +169,6 @@
   "docker.extension.enableComposeLanguageServer": false,
   "kiroAgent.configureMCP": "Disabled",
   "kiroAgent.enableTabAutocomplete": true,
-  "go.toolsManagement.autoUpdate": true
+  "go.toolsManagement.autoUpdate": true,
+  "update.releaseTrack": "prerelease",
 }

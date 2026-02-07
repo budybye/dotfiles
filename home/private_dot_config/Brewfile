@@ -38,11 +38,12 @@ brew "cask"
 brew "cmake"
 # brew "evernote2md"
 # brew "fastfetch"
-brew "ffmpeg"
+# brew "ffmpeg"
 brew "fortune"
 brew "figlet"
+brew "fisher"
 # brew "fzf"
-brew "gh"
+# brew "gh"
 brew "glib"
 # brew "guile"
 brew "gnutls"
@@ -61,13 +62,12 @@ brew "cmatrix"
 # brew "docker-buildx"
 # brew "docker-compose"
 # brew "docker-machine"
-# brew "fisher"
 brew "gcc"
 # brew "ghq"
 brew "git"
 # brew "gnu-tar"
 brew "gnupg"
-brew "grpc"
+# brew "grpc"
 # brew "hadolint"
 # brew "hashcash"
 brew "hashcat"
@@ -92,16 +92,18 @@ brew "mas"
 brew "make"
 brew "mackup"
 brew "mise"
+brew "meilisearch"
 # brew "mycli"
 # brew "mkcert"
 brew "mpd"
 brew "mpc"
-brew "ncmpcpp"
 brew "moreutils"
 brew "multitail"
+brew "ncmpcpp"
 brew "nmap"
 brew "navi"
 # brew "ossp-uuid"
+brew "opencode"
 brew "tcl-tk"
 brew "reattach-to-user-namespace"
 # brew "ripgrep"
@@ -147,7 +149,7 @@ brew "whois"
 brew "xdg-ninja"
 # brew "xz"
 # brew "xh"
-brew "yt-dlp"
+# brew "yt-dlp"
 brew "zsh"
 # brew "zk"
 # brew "zoxide"
@@ -330,7 +332,7 @@ cask "windows-app"
 # cask "wordpresscom"
 # cask "wpsoffice"
 # cask "xmind"
-cask "xquartz"
+# cask "xquartz"
 # cask "wkhtmltopdf"
 # cask "zoom"
 # cask "zed"
@@ -350,10 +352,6 @@ mas "LogicPro", id: 634148309
 # mas "xcode", id: 497799835
 # mas "Apple Developer", id: 640199958
 
-# mas "Microsoft Word", id: 462054704
-# mas "Microsoft Excel", id: 462058435
-# mas "Microsoft PowerPoint", id: 462062816
-
 mas "LINE", id: 539883307
 mas "Plash", id: 1494023538
 mas "Shazam", id: 897118787
@@ -362,6 +360,9 @@ mas "Popclip", id: 445189367
 mas "Speedtest", id: 1153157709
 mas "Hidden Bar", id: 1452453066
 mas "Hyper Cursor", id: 1634220679
+mas "Microsoft Excel", id: 462058435
+# mas "Microsoft Word", id: 462054704
+# mas "Microsoft PowerPoint", id: 462062816
 
 # mas "Spark", id: 1176895641
 # mas "iBar-Menubar icon control tool", id: 6443843900

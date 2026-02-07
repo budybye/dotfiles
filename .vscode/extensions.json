@@ -59,6 +59,7 @@
     "visualstudioexptteam.vscodeintellicode",
     "visualstudioexptteam.intellicode-api-usage-examples",
     "wallavyjs.console-ninja",
+    "yoavbls.pretty-ts-errors",
     "yzhang.markdown-all-in-one"
   ],
   "unwantedRecommendations": []

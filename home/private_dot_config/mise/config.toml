@@ -40,13 +40,13 @@ trivy = "latest"
 yamlfmt = "latest"
 hadolint = "latest"
 infracost = "latest"
-elasticsearch = "latest"
 lazygit = "latest"
 lazydocker = "latest"
-# opensearch = "latest"
 # kubectx = "latest"
 # neonctl = "latest"
 # websocat = "latest"
+# opensearch = "latest"
+# elasticsearch = "latest"
 
 rust = "latest"
 cargo-binstall = "latest"
@@ -157,8 +157,9 @@ trusted_config_paths = [
   '~/dotfiles',
 ]
 
+# 慣習的なバージョンファイルを有効にするツール
 idiomatic_version_file_enable_tools = [
-  "node"
+  "node",
 ]
 
 verbose = false       # trueに設定すると、インストールの全出力が表示されます。`MISE_VERBOSE`を参照
@@ -174,7 +175,7 @@ yes = true            # trueに設定すると、すべてのプロンプトに�
 
 shorthands_file = '~/.config/mise/shorthands.toml' # ショートハンドファイルのパス、`MISE_SHORTHANDS_FILE`を参照
 disable_default_shorthands = false # デフォルトのショートハンドを無効にする、`MISE_DISABLE_DEFAULT_SHORTHANDS`を参照
-# disable_tools = ['node']           # 特定のツールを無効にする、通常はコアツールをオフにするために使用
+disable_tools = ['rust']           # 特定のツールを無効にする、通常はコアツールをオフにするために使用
 
 env_file = '.env' # .env ファイルから環境変数を読み込む、`MISE_ENV_FILE`を参照
 
@@ -185,11 +186,11 @@ status.missing_tools = "if_other_versions_installed"
 status.show_env = false
 status.show_tools = false
 
-# rust.cargo_home = "~/.cargo"
-# rust.rustup_home = "~/.rustup"
+# rustのホームディレクトリを設定
 rust.cargo_home = "~/.local/share/cargo"
 rust.rustup_home = "~/.local/share/rustup"
 
+# package managerの設定
 cargo.binstall = true
 pipx.uvx = true
 npm.bun = true

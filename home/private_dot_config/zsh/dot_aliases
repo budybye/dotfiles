@@ -331,6 +331,8 @@ if command -v brew >/dev/null 2>&1; then
     alias bd="brew deps --installed --tree"
     alias bf="brew bundle --file ${HOME}/.config/Brewfile"
     alias bcl="brew bundle cleanup --force --file ${HOME}/.config/Brewfile && brew autoremove && brew doctor"
+    alias bbc="brew cleanup --prune=all --dry-run"
+    alias bcp="brew cleanup --prune=all"
     alias bu="brew update && brew upgrade --greedy"
     alias bb="bf && bcl && bu"
     function bbb() {
@@ -360,12 +362,13 @@ fi
 # mise
 if command -v mise >/dev/null 2>&1; then
     alias mi="mise"
-    alias miu="mi up && mi prune && mi list && mi v"
-    alias mig="mi use -g"
-    alias mil="mi list && mi set"
-    alias mip="mi p ls-remote"
-    alias mir="mi run"
     alias mib="mi build"
+    alias mig="mi use -g"
+    alias mir="mi registry"
+    alias mip="mi p ls-remote"
+    alias mic="mi cache clean"
+    alias mil="mi list && mi set"
+    alias miu="mi up && mi prune && mi list && mi v"
 fi
 
 # shelcheck

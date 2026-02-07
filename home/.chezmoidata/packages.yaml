@@ -276,8 +276,8 @@ packages:
   - 'visualstudioexptteam.intellicode-api-usage-examples'
   - 'wallabyjs.console-ninja'
   - 'xdebug.php-debug'
+  - 'yoavbls.pretty-ts-errors'
   - 'yzhang.markdown-all-in-one'
-  - 'bradlc.vscode-tailwindcss'
 
   windows:
     winget:

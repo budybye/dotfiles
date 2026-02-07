@@ -82,6 +82,7 @@ layout {
             pane {
                 name "docs"
                 cwd "~/Documents/notes"
+                command "claude"
             }
         }
     }
