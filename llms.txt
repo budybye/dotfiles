@@ -232,6 +232,7 @@
 - [nudb](https://context7.com/cppalliance/nudb/llms.txt) #database #cpp #embedded
 - [Neo4j](https://context7.com/neo4j/neo4j/llms.txt) #graph #database #neo4j
 - [Bytebase](https://context7.com/bytebase/bytebase/llms.txt) #database #devops #schema-management #collaboration
+- [Convex](https://context7.com/llmstxt/convex_dev_llms_txt/llms.txt) #database #typescript
 
 ### ORM・クエリビルダー
 
@@ -278,6 +279,7 @@
 
 ### WebSocket・リアルタイム
 
+- [Rivetkit](https://context7.com/rivet-gg/rivetkit/llms.txt) #realtime #websocket #durableobjects
 - [party-kit](https://context7.com/partykit/partykit/llms.txt) #realtime #websocket
 - [Pusher-js](https://context7.com/pusher/pusher-js/llms.txt) #pusher #realtime #websocket #javascript
 - [Pusher](https://context7.com/websites/pusher/llms.txt) #pusher #realtime #websocket #api

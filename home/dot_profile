@@ -469,7 +469,6 @@ if command -v mpd >/dev/null 2>&1; then
     touch "${XDG_CONFIG_HOME}/mpd/mpd.db"
     touch "${XDG_CONFIG_HOME}/mpd/mpd.log"
     touch "${XDG_CONFIG_HOME}/mpd/mpd.pid"
-
     mkdir -p "${XDG_DATA_HOME}/mpd"
     touch "${XDG_DATA_HOME}/mpd/state"
     export MPD_HOST="127.0.0.1"

@@ -62,20 +62,16 @@ if command -v gh >/dev/null 2>&1; then
 fi
 
 if command -v jj >/dev/null 2>&1; then
-    # alias j="jj"
-
-    # .jj を作成し、ブックマークを作成し、プッシュする
+    # .jj を作成し、ブックマークを作成し、コミットしてプッシュする
     # jjj "メッセージ" "ブックマーク名" "リモート名"
     function jjj() {
         local msg="${1:-♨️}"
         local bookmark="${2:-}"
         local remote="${3:-origin}"
-
         # jjリポジトリが初期化されていない場合は初期化（既に初期化済みの場合はスキップ）
         if ! jj root >/dev/null 2>&1; then
             jj git init 2>/dev/null || true
         fi
-
         # ブックマーク名を自動検出（指定されていない場合）
         if [ -z "$bookmark" ]; then
             # 現在のブックマークを取得（最初のローカルブックマーク）
@@ -87,7 +83,6 @@ if command -v jj >/dev/null 2>&1; then
         # それでも見つからない場合はmainをデフォルトとして使用
         bookmark="${bookmark:-main}"
       fi
-
       # ローカルのブックマークを現在のコミットに設定（存在しない場合は作成）
       jj bookmark set "$bookmark" 2>/dev/null || jj bookmark create "$bookmark" 2>/dev/null || true
       # リモートブックマークを自動的に追跡（エラーは無視）
@@ -334,7 +329,7 @@ if command -v brew >/dev/null 2>&1; then
     alias bbc="brew cleanup --prune=all --dry-run"
     alias bcp="brew cleanup --prune=all"
     alias bu="brew update && brew upgrade --greedy"
-    alias bb="bf && bcl && bu"
+    alias bb="bf && bu && bcl"
     function bbb() {
         bb
         dumpfile=${HOME}/.config/homebrew/Brewfile
@@ -395,16 +390,22 @@ fi
 
 if command -v trans >/dev/null 2>&1; then
     # 基本的な翻訳エイリアス
+    # man curl | ja
     alias ja='trans -b -t ja'    # 任意の言語から日本語へ
     alias en='trans -b -t en'    # 任意の言語から英語へ
 fi
 
 if command -v mpd >/dev/null 2>&1 && [ -f "${HOME}/.config/mpd/mpd.conf" ]; then
-    alias mpd="mpd ${HOME}/.config/mpd/mpd.conf"
+    alias mpdc="mpd ${HOME}/.config/mpd/mpd.conf"
 fi
 
 if command -v ncmpcpp >/dev/null 2>&1; then
-    alias ncmp="ncmpcpp"
+    # ncmpcppを起動して、mpdを再生する
+    function ncmp() {
+        mpd ${HOME}/.config/mpd/mpd.conf && ncmpcpp
+    }
+    # 1 でplaylistを表示 enterで再生 2 でlyricsを表示 enterで再生
+    # https://pkgbuild.com/~jelle/ncmpcpp/
 fi
 
 if command -v wrangler >/dev/null 2>&1; then

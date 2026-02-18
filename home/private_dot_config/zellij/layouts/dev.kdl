@@ -8,6 +8,7 @@ layout {
         pane size=1 borderless=true {
             plugin location="zellij:tab-bar"
         }
+
         children
         pane size=1 borderless=true {
             plugin location="zellij:status-bar"
@@ -81,8 +82,8 @@ layout {
             }
             pane {
                 name "docs"
-                cwd "~/Documents/notes"
-                command "claude"
+                cwd "~/Developer/docs"
+                command "opencode"
             }
         }
     }

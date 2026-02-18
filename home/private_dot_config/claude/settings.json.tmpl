@@ -3,7 +3,7 @@
   "env": {
       "CLAUDE_CODE_ENABLE_TELEMETRY": "0",
 			"CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
-      "ANTHROPIC_BASE_URL": {{ (bitwardenFields "item" "claude").base_url.value | quote}}
+      "ANTHROPIC_BASE_URL": {{ (bitwardenFields "item" "claude").base_url.value}}
 		},
   "permissions": {
     "allow": [],
