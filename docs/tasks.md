@@ -155,8 +155,17 @@ description: タスク管理 進捗整理
 - **完了**: すべてのチェック項目が完了
 - **保留**: 一時的に保留
 
+## 実装計画との連携
+
+新機能やバグ修正を実装する際は、[計画書](./plan.md) に従い `docs/plans/` に詳細な実装計画を作成することを推奨する。
+
+- **計画作成**: `docs/plans/TEMPLATE.md` をコピーし、`YYYY-MM-DD-<feature>.md` 形式で保存
+- **実行**: 各タスクを bite-sized（2-5分）で実施し、コミットを細かく分ける
+- **検証**: `make check`、`chezmoi diff`、GitHub Actions で動作確認
+
 ## 関連ドキュメント
 
+- [計画書](./plan.md) - 実装計画の索引と実行ガイド
 - [要件定義](./requirements.md)
 - [設計書](./design.md)
 - [技術スタック](./tech.md)

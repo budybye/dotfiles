@@ -463,6 +463,11 @@ if command -v curl >/dev/null 2>&1; then
     fi
 fi
 
+if command -v ghq >/dev/null 2>&1; then
+    mkdir -p "${XDG_DATA_HOME}/ghq"
+    export GHQ_ROOT="${XDG_DATA_HOME}/ghq"
+fi
+
 if command -v mpd >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/mpd/playlists"
     touch "${XDG_CONFIG_HOME}/mpd/mpd.conf"

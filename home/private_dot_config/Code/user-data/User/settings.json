@@ -171,4 +171,10 @@
   "kiroAgent.enableTabAutocomplete": true,
   "go.toolsManagement.autoUpdate": true,
   "update.releaseTrack": "prerelease",
+  "workbench.enableExperiments": false,
+  "workbench.settings.enableNaturalLanguageSearch": false,
+  "extensions.autoCheckUpdates": false,
+  "docker.lsp.telemetry": "off",
+  "typescript.disableAutomaticTypeAcquisition": true,
+  "crashReporting.enabled": "off",
 }

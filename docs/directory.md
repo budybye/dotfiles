@@ -27,6 +27,11 @@ description: directory ファイル情報説明
 │   ├── template.cfg                # テンプレート設定
 │   └── user-data                   # ユーザーデータ
 ├── docs/                           # ドキュメント
+│   ├── plans/                      # 実装計画（YYYY-MM-DD-<feature>.md）
+│   │   ├── TEMPLATE.md              # 計画ひな型
+│   │   └── *.md                     # 日付付き実装計画
+│   ├── plan.md                     # 計画書・索引・実行ガイド
+│   ├── problems.md                 # 環境差の注意点・プラットフォーム差・ライブラリの癖
 │   ├── requirements.md             # 要件定義書
 │   ├── design.md                   # 詳細設計書（XDG仕様含む）
 │   ├── tasks.md                    # タスク管理と実行計画書(AI管理、更新)

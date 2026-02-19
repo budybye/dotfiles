@@ -75,9 +75,7 @@ layout {
     tab name="edit" {
         pane split_direction="vertical" {
             pane {
-                name "nvim"
                 cwd "~/Developer/app"
-                command "nvim"
                 focus true
             }
             pane {
