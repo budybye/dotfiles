@@ -241,6 +241,7 @@ cask "ghostty"
 #cask "jetbrains-toolbox"
 cask "karabiner-elements"
 cask "keyclu"
+# cask "keepingyouawake"
 # cask "kiro"
 # cask "keka"
 # cask "kitty"
@@ -276,6 +277,7 @@ cask "orbstack"
 # cask "pencil"
 # cask "pokerstars"
 # cask "podman-desktop"
+cask "popclip"
 # cask "postman"
 # cask "postman-agent"
 # cask "pgadmin4"
@@ -357,7 +359,6 @@ mas "LINE", id: 539883307
 mas "Plash", id: 1494023538
 mas "Shazam", id: 897118787
 mas "RunCat", id: 1429033973
-mas "Popclip", id: 445189367
 mas "Speedtest", id: 1153157709
 mas "Hidden Bar", id: 1452453066
 mas "Hyper Cursor", id: 1634220679
@@ -366,6 +367,7 @@ mas "Microsoft Excel", id: 462058435
 # mas "Microsoft PowerPoint", id: 462062816
 
 # mas "Spark", id: 1176895641
+# mas "Popclip", id: 445189367
 # mas "iBar-Menubar icon control tool", id: 6443843900
 # mas "Telegram", id: 747648890
 # mas "Alfred", id: 405843582

@@ -4,10 +4,12 @@ set -euo pipefail
 
 # curl jq required
 if ! command -v curl > /dev/null 2>&1 ; then
-    echo "curl is not installed"
+    echo "curl not found"
     exit 1
-elif ! command -v jq > /dev/null 2>&1 ; then
-    echo "jq is not installed"
+fi
+
+if ! command -v jq > /dev/null 2>&1 ; then
+    echo "jq not found"
     exit 1
 fi
 

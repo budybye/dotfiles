@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+set -eu
+
+# jjj "メッセージ" "ブックマーク名" "リモート名"
+# .jj を作成し、ブックマークを作成し、コミットしてプッシュする
+
+if ! command -v jj >/dev/null 2>&1; then
+  echo "jj not found"
+  exit 1
+fi
+
+msg="${1:-♨️}"
+bookmark="${2:-}"
+remote="${3:-origin}"
+
+# jjリポジトリが初期化されていない場合は初期化
+if ! jj root >/dev/null 2>&1; then
+  jj git init 2>/dev/null || true
+fi
+
+# ブックマーク名を自動検出（指定されていない場合）
+if [ -z "$bookmark" ]; then
+  bookmark=$(jj bookmark list 2>/dev/null | sed -n '1s/:.*//p' | tr -d ' ')
+  if [ -z "$bookmark" ] && command -v git >/dev/null 2>&1; then
+    bookmark=$(git symbolic-ref --short HEAD 2>/dev/null || echo "")
+  fi
+  bookmark="${bookmark:-main}"
+fi
+
+# ローカルのブックマークを現在のコミットに設定
+jj bookmark set "$bookmark" 2>/dev/null || jj bookmark create "$bookmark" 2>/dev/null || true
+# リモートブックマークを追跡（エラーは無視）
+jj bookmark track "${bookmark}@${remote}" 2>/dev/null || true
+# 変更にメッセージを付けてプッシュ
+jj describe -m "$msg"
+jj git push -b "$bookmark"

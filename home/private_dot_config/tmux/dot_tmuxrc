@@ -34,7 +34,7 @@ W1P4="${HOME}/data" # code
 W2P1="${HOME}/Developer" # app1
 W2P2="${HOME}/Developer" # app2
 W2P3="${HOME}/Developer" # app3
-W2P4="${HOME}/dev/app" #app4
+W2P4="${HOME}/Developer/workers" #app4
 
 # セッションが既に存在する場合はattachして終了
 SES="Session"

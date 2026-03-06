@@ -8,10 +8,12 @@ RD="/Applications/app"
 # RD="$HOME/Applications/apps"
 # 出力するファイル名
 APPLIST="applist.md"
+APPLIST_DIR="${HOME}/Developer/applist"
 # 出力先のファイルパス
-APPLIST_FILE="${HOME}/Developer/applist/${APPLIST}"
+APPLIST_FILE="${APPLIST_DIR}/${APPLIST}"
 # APPLIST_FILE="$HOME/Documents/applist/$APPLIST"
 
+mkdir -p "${APPLIST_DIR}"
 # ファイルが存在する場合はバックアップを作成
 if [ -e "${APPLIST_FILE}" ]; then
     cp "${APPLIST_FILE}" "${APPLIST_FILE}.bak"

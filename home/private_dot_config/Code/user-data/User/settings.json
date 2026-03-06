@@ -177,4 +177,5 @@
   "docker.lsp.telemetry": "off",
   "typescript.disableAutomaticTypeAcquisition": true,
   "crashReporting.enabled": "off",
+  "npm.packageManager": "bun"
 }

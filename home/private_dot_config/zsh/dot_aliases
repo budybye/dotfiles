@@ -61,39 +61,6 @@ if command -v gh >/dev/null 2>&1; then
     alias gsh="gh repo view budybye/dotfiles --json ssh_url -q '.ssh_url'"
 fi
 
-if command -v jj >/dev/null 2>&1; then
-    # .jj を作成し、ブックマークを作成し、コミットしてプッシュする
-    # jjj "メッセージ" "ブックマーク名" "リモート名"
-    function jjj() {
-        local msg="${1:-♨️}"
-        local bookmark="${2:-}"
-        local remote="${3:-origin}"
-        # jjリポジトリが初期化されていない場合は初期化（既に初期化済みの場合はスキップ）
-        if ! jj root >/dev/null 2>&1; then
-            jj git init 2>/dev/null || true
-        fi
-        # ブックマーク名を自動検出（指定されていない場合）
-        if [ -z "$bookmark" ]; then
-            # 現在のブックマークを取得（最初のローカルブックマーク）
-            bookmark=$(jj bookmark list 2>/dev/null | sed -n '1s/:.*//p' | tr -d ' ')
-            # ブックマークが見つからない場合は、Gitの現在のブランチを取得
-            if [ -z "$bookmark" ] && command -v git >/dev/null 2>&1; then
-            bookmark=$(git symbolic-ref --short HEAD 2>/dev/null || echo "")
-        fi
-        # それでも見つからない場合はmainをデフォルトとして使用
-        bookmark="${bookmark:-main}"
-      fi
-      # ローカルのブックマークを現在のコミットに設定（存在しない場合は作成）
-      jj bookmark set "$bookmark" 2>/dev/null || jj bookmark create "$bookmark" 2>/dev/null || true
-      # リモートブックマークを自動的に追跡（エラーは無視）
-      jj bookmark track "${bookmark}@${remote}" 2>/dev/null || true
-      # 変更にメッセージを付ける
-      jj describe -m "$msg"
-      # ブックマークを明示的に指定してプッシュ
-      jj git push -b "$bookmark"
-    }
-fi
-
 # vim nvim
 if command -v nvim >/dev/null 2>&1; then
     alias v="nvim"
