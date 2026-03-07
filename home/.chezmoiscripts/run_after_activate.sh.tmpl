@@ -24,10 +24,10 @@ echo "--------------------------------"
 
 # SSH の設定
 
-{{ if ne .ssh false }}
+{{- if ne .ssh false }}
 
 echo "SSH key ..."
-cat /etc/ssh/sshd_config
+[ -r /etc/ssh/sshd_config ] && cat /etc/ssh/sshd_config || echo "sshd_config not readable (permission denied)"
 echo "--------------------------------"
 if [ -d ~/.ssh ]; then
     chmod 700 ~/.ssh
@@ -67,16 +67,16 @@ else
 fi
 echo "--------------------------------"
 
-{{ else }}
+{{- else }}
 
 echo "SSH key not set."
 echo "--------------------------------"
 
-{{ end }}
+{{ end -}}
 
 # git の設定
 
-{{ if ne .github false }}
+{{- if ne .github false }}
 
 echo "github yes"
 echo "git config ..."
@@ -95,12 +95,12 @@ cat ~/.config/git/commit.template
 git config --global commit.template ${HOME}/.config/git/commit.template
 echo "--------------------------------"
 
-{{ else }}
+{{- else }}
 
 echo "github no"
 echo "--------------------------------"
 
-{{ end }}
+{{ end -}}
 
 # bitwarden の設定
 
@@ -109,26 +109,26 @@ echo "--------------------------------"
 echo "bitwarden yes"
 echo "--------------------------------"
 
-{{ else }}
+{{- else }}
 
 echo "bitwarden no"
 echo "--------------------------------"
 
-{{ end }}
+{{ end -}}
 
 # age の設定
 
-{{ if ne .age false }}
+{{- if ne .age false }}
 
 echo "age yes"
 echo "--------------------------------"
 
-{{ else }}
+{{- else }}
 
 echo "age no"
 echo "--------------------------------"
 
-{{ end }}
+{{ end -}}
 
 # Music の確認
 if [ -f ~/Music/riddim ]; then

@@ -45,7 +45,7 @@ install_packages() {
     $sudo apt-get update -y
     $sudo apt-get upgrade -y
 
-    {{ range .packages.linux.cli }}
+    {{ range .packages.linux.cli -}}
 
     if ! dpkg -l | grep -q {{ . }}; then
         $sudo apt-get install -y {{ . }} && echo "{{ . }} installed." || \
@@ -54,7 +54,7 @@ install_packages() {
         echo "{{ . }} already installed."
     fi
 
-    {{ end }}
+    {{ end -}}
 
     $sudo apt-get autoremove -y
     $sudo apt-get autoclean -y
@@ -120,7 +120,7 @@ install_cargo_tools() {
         echo "cargo-binstall not found" >> ${HOME}/which
     fi
 
-    {{ range .packages.cargo }}
+    {{ range .packages.cargo -}}
     if command -v cargo-binstall >/dev/null 2>&1; then
         cargo-binstall -y {{ . }} || echo "{{ . }} install failed."
     elif command -v cargo >/dev/null 2>&1; then
@@ -128,7 +128,7 @@ install_cargo_tools() {
     else
         echo "cargo not found"
     fi
-    {{ end }}
+    {{ end -}}
 
     if [ -d ${HOME}/.cargo/bin ]; then
         ls -la ${HOME}/.cargo/bin >> ${HOME}/which

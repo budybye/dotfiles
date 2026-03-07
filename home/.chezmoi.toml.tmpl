@@ -93,7 +93,7 @@ scriptTempDir = "~/tmp"
 
 {{/* age 暗号化 */}}
 {{/* if ne (.age) "false" コメントアウト */}}
-{{ if ne (env "GITHUB_ACTIONS") "true" }}
+{{- if ne (env "GITHUB_ACTIONS") "true" }}
 encryption = "age"
 [age]
     identity = "~/config/chezmoi/key.txt"
@@ -101,7 +101,7 @@ encryption = "age"
     passphrase = true
     symmetric = true
 
-{{ end }}
+{{- end }}
 
 {{/* ".data.***" or ".***" の設定 */}}
 [data]
@@ -130,5 +130,5 @@ encryption = "age"
     # commandArgs = ["--wait"]
 
 {{/* スクリプト環境変数の設定 */}}
-[sctiptEnv]
+[scriptEnv]
     SSS = "SouthSideSound"

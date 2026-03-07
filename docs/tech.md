@@ -86,7 +86,8 @@ description: 技術スタック パッケージ管理 ライブラリ説明
 - **MPD**: ^0.23.0 - 音楽プレーヤーデーモン
 - **NCMPCPP**: ^0.9.0 - MPD クライアント
 - **ffmpeg**: ^6.0.0 - メディアフォーマット管理
-- **yt-dl** - youtube ダウンローダー (使えなくなった)
+- **yt-dlp**: ^2024.0.0 - YouTube ダウンローダー
+- **yt-x**: ^0.0.0 - YouTube 関連 CLI
 
 ## 入力・アクセシビリティ
 
@@ -115,7 +116,8 @@ description: 技術スタック パッケージ管理 ライブラリ説明
 - 暗号化ファイルは `age` で暗号化
 - OS 別設定は `.chezmoi.toml.tmpl` のテンプレート変数で制御
 - パッケージ管理は `.chezmoidata/packages.yaml` `Brewfile` で管理
-- ツール、ランタイムは `mise` `~/.config/mise/config.toml` で管理
+- ツール、ランタイムは `mise` `~/.config/mise/config.toml` で管理（60+ ツール、参考文献に一覧）
+- `~/.local/bin` のスクリプトは `home/dot_local/bin/executable_*` に配置し、`executable_` プレフィックスで適用時に chmod +x を付与
 
 ## パッケージ管理
 
@@ -147,7 +149,7 @@ description: 技術スタック パッケージ管理 ライブラリ説明
 ### Mise（ランタイム管理）
 
 - [.tool-versions](../.tool-versions)：プログラミング言語バージョン管理
-- [mise 設定](../home/private_dot_config/mise)：ツール固有の設定
+- [mise 設定](../home/private_dot_config/mise/config.toml)：60+ ツールを config.toml で一元管理（Node, Python, Go, Rust, gh, act, wrangler, lazygit 等）。参考文献は [README - Mise 管理ツール](../README.md#mise-管理ツール抜粋) を参照
 - Node.js、Python、Go 等のバージョン管理
 - 追加ランタイムバージョン管理
 

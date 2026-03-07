@@ -12,7 +12,7 @@ fi
 # VSCodeのUserディレクトリの作成
 sudo mkdir -p "${CODE_DIR}/User"
 
-{{ if ne (env "REMOTE_CONTAINERS") "true" }}
+{{- if ne (env "REMOTE_CONTAINERS") "true" }}
 
 {{/* 現在インストールされている拡張機能のリストを取得 */}}
 if command -v code >/dev/null 2>&1; then

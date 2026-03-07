@@ -9,7 +9,7 @@ auto_update_depth "2"
 follow_outside_symlinks "yes"
 follow_inside_symlinks "yes"
 
-{{ if eq .chezmoi.os "darwin" }}
+{{- if eq .chezmoi.os "darwin" }}
 
 audio_output {
     type "osx"
@@ -17,7 +17,7 @@ audio_output {
     mixer_type "software"
 }
 
-{{ else }}
+{{- else }}
 
 audio_output {
     type "pipewire"
@@ -26,7 +26,7 @@ audio_output {
     format "44100:16:2"
 }
 
-{{ end }}
+{{- end }}
 
 decoder {
     plugin "mp4ff"

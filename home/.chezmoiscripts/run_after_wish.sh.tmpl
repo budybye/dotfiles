@@ -16,7 +16,7 @@ fi
 echo "${PATH}" | tr ':' '\n'
 echo "--------------------------------"
 echo "pwd: $(pwd)"
-echo "SourceDir: {{.chezmoi.sourceDir }}"
+echo "SourceDir: {{ .chezmoi.sourceDir }}"
 tree -L 3 {{ .chezmoi.sourceDir }}
 echo "--------------------------------"
 echo "${HOME}"
@@ -60,7 +60,7 @@ ls -la "${HOME}/dotfiles"
 echo "--------------------------------"
 
 {{/* git の user.conf を対話型にする */}}
-{{ if eq .chezmoi.hostname "589" }}
+{{- if eq .chezmoi.hostname "589" }}
 
 echo 'git userconf update ? (y/n)'
 read ans
@@ -70,7 +70,7 @@ fi
 cat ~/.config/git/user.conf
 echo "--------------------------------"
 
-{{ end }}
+{{ end -}}
 
 if command -v chezmoi > /dev/null 2>&1; then
     chezmoi data

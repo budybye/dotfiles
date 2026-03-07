@@ -8,13 +8,13 @@ echo "--------------------------------"
 # echo "${MASTER}" | chezmoi encrypt > {{ .chezmoi.sourceDir }}/shhh.txt
 
 {{/* マスターパスワードを復号 パスフレーズが要求される */}}
-{{ if ne .bitwarden false }}
+{{- if ne .bitwarden false }}
 
 echo "decrypt shhh.txt"
 MASTER="$(chezmoi decrypt {{ .chezmoi.sourceDir }}/shhh.txt)"
 echo "--------------------------------"
 
-{{ end }}
+{{ end -}}
 
 MISE="${HOME}/.local/bin/mise"
 SHIMS="${HOME}/.local/share/mise"
@@ -93,24 +93,38 @@ bw_install() {
 }
 
 bw_unlock() {
-    # bw cli があればロック解除
+    local bw_cmd=""
     if command -v bw >/dev/null 2>&1; then
-        bw login {{ .email }} ${MASTER} || echo "bw login failed."
-        echo "export BW_SESSION="$(bw unlock ${MASTER} --raw)"" >> ${SESSION} || echo "bw unlock failed."
-
+        bw_cmd="bw"
     elif [ -f ${BW} ]; then
-        ${BW} login {{ .email }} ${MASTER} || echo "bw login failed."
-        echo "export BW_SESSION="$(${BW} unlock ${MASTER} --raw)"" >> ${SESSION} || echo "bw unlock failed."
-
+        bw_cmd="${BW}"
     else
         echo "bw cli not found."
+        return 1
     fi
 
-    # .env 表示
-    if [ -f ${SESSION} ]; then
-        cat ${SESSION}
+    # 既に有効なセッションがあればスキップ
+    if [ -f "${SESSION}" ]; then
+        set -a
+        # shellcheck source=/dev/null
+        . "${SESSION}" 2>/dev/null || true
+        set +a
+        if [ -n "${BW_SESSION:-}" ] && ${bw_cmd} status 2>/dev/null | grep -q '"status":"unlocked"'; then
+            echo "BW_SESSION already valid, skipping unlock."
+            cat "${SESSION}"
+            echo "--------------------------------"
+            return 0
+        fi
+    fi
+
+    # ロック解除
+    ${bw_cmd} login {{ .email }} ${MASTER} || echo "bw login failed."
+    printf 'export BW_SESSION="%s"\n' "$(${bw_cmd} unlock ${MASTER} --raw 2>/dev/null)" >> "${SESSION}" || echo "bw unlock failed."
+
+    if [ -f "${SESSION}" ]; then
+        cat "${SESSION}"
     else
-        echo "export BW_SESSION=${BW_SESSION:-}" > ${SESSION} && cat ${SESSION}
+        echo "export BW_SESSION=${BW_SESSION:-}" > "${SESSION}" && cat "${SESSION}"
     fi
     echo "--------------------------------"
 }
@@ -120,9 +134,9 @@ mise_install
 node_install
 bw_install
 
-{{ if ne .bitwarden false }}
+{{- if ne .bitwarden false }}
 bw_unlock
-{{ end }}
+{{ end -}}
 
 echo "bitwarden setup complete"
 echo "--------------------------------"

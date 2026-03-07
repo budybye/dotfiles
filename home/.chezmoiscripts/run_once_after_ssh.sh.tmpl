@@ -13,8 +13,8 @@ KEY_PATH="${SSH}/${KEY_NAME}"
 key_gen() {
     # SSH用のディレクトリを作成
     mkdir -p "${SSH}"
-    # authorized_keysとconfigファイルを作成
-    sudo chmod 700 "${SSH}"
+    # authorized_keysとconfigファイルを作成（~/.ssh はユーザー所有のため sudo 不要）
+    chmod 700 "${SSH}"
     touch "${SSH}/authorized_keys"
 
     # configファイルにGitHubのホスト情報を設定
@@ -30,8 +30,8 @@ EOF
 
     # 公開鍵が存在する場合は古いファイルをリネーム
     if [ -f "${KEY_PATH}.pub" ]; then
-        sudo cp "${KEY_PATH}.pub" "${KEY_PATH}.pub.old"
-        rm -rf "${KEY_PATH}.pub"
+        cp "${KEY_PATH}.pub" "${KEY_PATH}.pub.old"
+        rm -f "${KEY_PATH}.pub"
     fi
 
     # SSH鍵を生成
@@ -40,8 +40,8 @@ EOF
         ssh-keygen -t "${KEY_TYPE}" -f "${KEY_NAME}" -C "${USER_NAME}" -N ""
     else
         echo "SSH key already exists"
-        sudo cp "${KEY_PATH}" "${KEY_PATH}.old"
-        rm -rf "${KEY_PATH}"
+        cp "${KEY_PATH}" "${KEY_PATH}.old"
+        rm -f "${KEY_PATH}"
         ssh-keygen -t "${KEY_TYPE}" -f "${KEY_NAME}" -C "${USER_NAME}" -N ""
     fi
 

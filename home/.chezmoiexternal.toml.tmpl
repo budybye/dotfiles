@@ -11,15 +11,15 @@
     stripComponents = 1
     refreshPeriod = "168h"
 
-{{ if eq .chezmoi.os "darwin" }}
+{{- if eq .chezmoi.os "darwin" }}
 ["Music/riddim"]
     type = "archive"
     url = "https://ipfs.420.gal/ipfs/QmNsCCRxHsvRkJWPiY1kwqecXepP9oX8a18EgUqFsssRJH"
     stripComponents = 1
     refreshPeriod = "168h"
-{{ end }}
+{{- end }}
 
-{{ if eq .chezmoi.os "linux" }}
+{{- if eq .chezmoi.os "linux" }}
 [".local/bin/age"]
     type = "archive-file"
     url = {{ gitHubLatestReleaseAssetURL "FiloSottile/age" (printf "age-*-%s-%s.tar.gz" .chezmoi.os .chezmoi.arch) | quote }}
@@ -59,7 +59,7 @@
     exact = true
     stripComponents = 1
     refreshPeriod = "168h"
-{{ end }}
+{{- end }}
 
 [".local/share/fonts"]
     type = "archive"

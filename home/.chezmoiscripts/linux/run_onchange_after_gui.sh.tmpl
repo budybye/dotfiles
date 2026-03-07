@@ -16,11 +16,11 @@ desktop_setup() {
     $sudo apt-get update -y
     $sudo apt-get upgrade -y
 
-    {{ range .packages.linux.gui }}
+    {{ range .packages.linux.gui -}}
     if ! dpkg -l | grep -q {{ . }}; then
         $sudo apt-get install -y {{ . }} || echo "{{ . }} install failed." >> ${HOME}/which
     fi
-    {{ end }}
+    {{ end -}}
 
     # $sudo apt-get remove -y light-locker xscreensaver
     $sudo apt-get autoremove -y

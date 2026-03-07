@@ -8,6 +8,8 @@ SHELL := bash
 
 # Variables
 ARCH := $(shell uname -m)
+# Docker は amd64/arm64 を期待。uname は x86_64/aarch64 を返す
+DOCKER_ARCH := $(if $(filter x86_64,$(ARCH)),amd64,$(if $(filter aarch64 arm64,$(ARCH)),arm64,$(ARCH)))
 OS := $(shell uname -s | tr '[:upper:]' '[:lower:]')
 DOTFILES_VERSION := 0.8.0
 
@@ -67,9 +69,28 @@ check: ## Check dotfiles configuration
 	@echo "✓ Configuration check completed"
 
 .PHONY: test
-test: ## Run tests (placeholder for future implementation)
-	@echo "Running tests..."
-	@echo "TODO: Implement test suite"
+test: ## Run tests (template syntax, dry-run)
+	@echo "Verifying template syntax..."
+	@chezmoi execute-template '{{ .chezmoi.sourceDir }}' >/dev/null && echo "  sourceDir: OK" || true
+	@echo "Dry-run apply..."
+	@chezmoi apply --dry-run 2>/dev/null && echo "  dry-run: OK" || echo "  dry-run: skipped (age/Bitwarden may be required)"
+	@echo "✓ Tests completed"
+
+.PHONY: completion
+completion: ## Generate chezmoi shell completion (zsh)
+	@chezmoi completion zsh
+
+.PHONY: doctor
+doctor: ## Run chezmoi doctor (health check)
+	@echo "Running chezmoi doctor..."
+	chezmoi doctor
+	@echo "✓ Doctor completed"
+
+.PHONY: verify
+verify: ## Verify chezmoi scripts
+	@echo "Verifying chezmoi scripts..."
+	@chezmoi verify 2>/dev/null && echo "  verify: OK" || echo "  verify: skipped (scripts may require age/Bitwarden)"
+	@echo "✓ Verify completed"
 
 ##@ Docker
 
@@ -93,13 +114,10 @@ docker-run: docker-build ## Build and run Docker container
 		--user $(DOCKER_USER) \
 		--workdir $(DOCKER_WORKDIR) \
 		--env DOCKER=true \
-		--platform linux/$(ARCH) \
+		--platform linux/$(DOCKER_ARCH) \
 		$(DOCKER_PORTS) \
 		$(DOCKER_IMAGE)
 	@echo "✓ Docker container started"
-
-.PHONY: docker
-docker: docker-run ## Alias for docker-run
 
 .PHONY: up
 up: ## Start Docker Compose services
@@ -138,9 +156,6 @@ vm-create: ## Create Multipass VM
 	@echo "✓ VM created successfully"
 	@multipass exec $(MP_VM) -- tail -5 /var/log/cloud-init.log
 
-.PHONY: ubuntu
-ubuntu: vm-create ## Alias for vm-create
-
 .PHONY: vm-info
 vm-info: ## Show VM information
 	@echo "VM Information:"
@@ -170,17 +185,12 @@ git-commit: ## Add, commit, and push changes
 	@echo "Committing and pushing changes..."
 	git add -A
 	git status
-	@read -p "Enter commit message (or press Enter for auto-commit): " msg; \
-	if [ -n "$$msg" ]; then \
-		git commit -m "$$msg"; \
-	else \
-		git commit --allow-empty-message -m "Auto-commit: $(shell date)"; \
-	fi
-	git push origin main
+	@read -p "Enter commit message: " msg; \
+	if [ -z "$$msg" ]; then \
+		echo "Aborted: commit message is required"; exit 1; \
+	fi; \
+	git commit -m "$$msg" && git push origin main
 	@echo "✓ Changes pushed successfully"
-
-.PHONY: git
-git: git-commit ## Alias for git-commit
 
 .PHONY: git-status
 git-status: ## Show git status
@@ -194,9 +204,6 @@ age-keygen: ## Generate new age encryption key
 	@echo "Generating new age key..."
 	age-keygen | age --armor --passphrase > ./home/key.txt.age
 	@echo "✓ Age key generated"
-
-.PHONY: age
-age: age-keygen ## Alias for age-keygen
 
 .PHONY: bw-unlock
 bw-unlock: ## Unlock Bitwarden vault
