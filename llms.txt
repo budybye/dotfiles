@@ -46,7 +46,7 @@
 - [GraphRAG](https://context7.com/microsoft/graphrag/llms.txt) #rag #graph #microsoft
 - [Docling](https://context7.com/websites/docling-project_github_io_docling/llms.txt) #document #ai #format
 - [Pipedream](https://context7.com/websites/pipedream/llms.txt) #automation #workflow #integration
-- [Openspce](https://context7.com/fission-ai/openspec/llms.txt) #spec #api #open-source
+- [Openspec](https://context7.com/fission-ai/openspec/llms.txt) #spec #api #open-source
 - [agent-spce](https://context7.com/websites/oracle_github_io_agent-spec/llms.txt) #agent #spec #oracle
 - [emdash](https://context7.com/generalaction/emdash/llms.txt) #ai #dashboard #tool
 - [factory](https://context7.com/websites/factory_ai/llms.txt) #ai #factory #automation

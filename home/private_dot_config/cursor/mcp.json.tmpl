@@ -37,7 +37,14 @@
         "--context",
         "ide-assistant",
         "--enable-web-dashboard",
-+       "false"
+        "false"
+      ]
+    },
+    "notebooklm": {
+      "command": "sh",
+      "args": [
+        "-c",
+        "exec uvx notebooklm-mcp --config \"$HOME/.config/notebooklm/notebooklm-config.json\" server"
       ]
     }
 	}

@@ -28,7 +28,7 @@
 - Modify: `docs/requirements.md:XX-YY`
 - Verify: `chezmoi diff` after apply
 
-**Step 1: Document expected behavior**
+### **Step 1: Document expected behavior**
 
 Add to docs/requirements.md or create verification checklist:
 
@@ -39,12 +39,12 @@ Add to docs/requirements.md or create verification checklist:
 - [ ] File X exists at path Y
 ```
 
-**Step 2: Run check to establish baseline**
+### **Step 2: Run check to establish baseline**
 
 Run: `make check`
 Expected: No unexpected diffs (or document current state)
 
-**Step 3: Create minimal implementation**
+### **Step 3: Create minimal implementation**
 
 ```yaml
 # Example: home/private_dot_config/example/config.tmpl
@@ -53,13 +53,13 @@ setting = "linux-value"
 {{ end }}
 ```
 
-**Step 4: Verify implementation**
+### **Step 4: Verify implementation**
 
 Run: `chezmoi apply`
 Run: `chezmoi diff`
 Expected: No diff (clean state)
 
-**Step 5: Commit**
+### **Step 5: Commit**
 
 ```bash
 git add home/private_dot_config/<path>/

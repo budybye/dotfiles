@@ -1,0 +1,8 @@
+# git 関連
+abbr g='git'
+
+# curl 関連
+abbr ppp='curl -4 icanhazip.com && curl -6 icanhazip.com'
+abbr wt='curl wttr.in'
+abbr wan='curl inet-ip.info'
+abbr rate='curl rate.sx'

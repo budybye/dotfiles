@@ -60,8 +60,9 @@ font-thicken = true
 # font-features = -dlig
 
 # 背景はちょっと透過している紺色
-# background = #123456
-# foreground = #8c8380
+background = #112233
+# 文字色 薄い黄緑
+foreground = #D4C69A
 background-opacity = 0.78
 
 # カーソルはblockで点滅させる

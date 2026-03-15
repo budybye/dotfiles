@@ -1,5 +1,5 @@
 # apply で配置されないファイルの指定
-# ファイルの配置されるときの名前にする run_ once_ after_ .tmpl はつけない
+# ファイルが配置されるときの名前にする run_ once_ after_ .tmpl はつけない
 # .name などのdata は .chezmoi.toml.tmpl
 
 .chezmoiexternal.*
@@ -29,8 +29,9 @@ install.sh
 .ssh/id_ed25519*
 .ssh/id_rsa*
 .config/cursor/mcp.json
-.config/claude/settings.json
+.claude/settings.json
 .chezmoiscripts/bw.sh
+.local/bin/envars
 {{ end }}
 
 {{ if eq .age false }}

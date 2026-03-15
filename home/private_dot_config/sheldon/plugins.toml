@@ -1,108 +1,107 @@
 # ~/.config/sheldon/plugins.toml
 shell = "zsh"
 
+# 遅延読み込み
 [plugins.zsh-defer]
 github = "romkatv/zsh-defer"
 apply = ["source"]
 
+# 遅延読み込みのテンプレート apply で defer を使用する
 [templates]
 apply = "defer"
 defer = "{% for file in files %}zsh-defer source \"{{ file }}\"\n{% endfor %}"
 PATH = 'export PATH="$PATH:{{ dir }}"'
 
+# 補完
 [plugins.compinit]
 inline = "autoload -Uz compinit && zsh-defer compinit -d \"${XDG_CACHE_HOME}/zsh/zcompdump-${ZSH_VERSION}\""
 
-[plugins.zsh-syntax-highlighting]
-github = "zsh-users/zsh-syntax-highlighting"
-apply = ["defer"]
-
+# 高速版シンタックスハイライト
 [plugins.zsh-fast-syntax-highlighting]
 github = "zdharma-continuum/fast-syntax-highlighting"
 apply = ["defer"]
 
+# 補完
 [plugins.zsh-completions]
 github = "zsh-users/zsh-completions"
-apply = ["defer"]
+dir = "src"
+apply = ["fpath"]
 
+# コマンド履歴
 [plugins.zsh-autosuggestions]
 github = "zsh-users/zsh-autosuggestions"
-apply = ["defer"]
 use = ["{{ name }}.zsh"]
+apply = ["defer"]
 
+# 非同期
 [plugins.async]
 github = "mafredri/zsh-async"
 use = ["{{ name }}.zsh"]
+apply = ["defer"]
 
+# cd
 [plugins.autojump]
 github = "wting/autojump"
 dir = "bin"
-apply = ["PATH", "source"]
+apply = ["PATH", "defer"]
 
-[plugins.z]
-github = "rupa/z"
+# z の代わり
+[plugins.zsh-z]
+github = "agkozak/zsh-z"
 apply = ["defer"]
 
+# 略語展開
 [plugins.zsh-abbr]
 github = "olets/zsh-abbr"
 apply = ["defer"]
 
+# ナビゲーションツール n-cd
 [plugins.zsh-navigation-tools]
 github = "z-shell/zsh-navigation-tools"
 apply = ["defer"]
 
+# ファイル検索 補完 インストール要
 [plugins.fzf]
 github = "junegunn/fzf"
+use = ["shell/key-bindings.zsh", "shell/completion.zsh"]
 apply = ["defer"]
 
+# 括弧補完
 [plugins.zsh-autopair]
 github = "hlissner/zsh-autopair"
 apply = ["defer"]
 
+# npm グローバルインストール履歴
 [plugins.zsh-npm-global-recorder]
 github = "yanskun/zsh-npm-global-recorder"
 apply = ["defer"]
 
-# [plugins.mise]
-# github = "jdx/mise"
+# マルチツール fzf deno 必須
+[plugins.zeno]
+github = "yuki-yano/zeno.zsh"
+use = ["{{ name }}.zsh"]
+apply = ["defer"]
 
-# [plugins.starship]
-# github = "starship/starship"
+# fzf で git 操作
+[plugins.forgit]
+github = "wfxr/forgit"
+apply = ["defer"]
 
-# [plugins.zoxide]
-# github = "ajeetdsouza/zoxide"
-# apply = ["defer"]
+# git を開く
+[plugins.git-open]
+github = "paulirish/git-open"
+apply = ["defer"]
 
-# [plugins.enhancd]
-# github = 'b4b4r07/enhancd'
-# use=["init.sh"]
+# vim モード
+[plugins.zsh-vim-mode]
+github = "softmoth/zsh-vim-mode"
+apply = ["defer"]
 
-#[plugins.powerlevel10k]
-#github = "romkatv/powerlevel10k"
+[plugins.enhancd]
+github = 'b4b4r07/enhancd'
+use=["init.sh"]
+apply = ["defer"]
 
-#[plugins.base16]
-#github = "chriskempson/base16-shell"
-
-#[plugins.asdf]
-#github = "asdf-vm/asdf"
-
-#[plugins.blackbox]
-#github = "StackExchange/blackbox"
-
-#[plugins."z.lua"]
-#github = "skywind3000/z.lua"
-
-#[plugins.oh-my-zsh]
-#github = "ohmyzsh/ohmyzsh"
-
-#[plugins.pure]
-#github = "sindresorhus/pure"
-#use = ["async.zsh", "pure.zsh"]
-
-# [plugins.spaceship]
-# github = "spaceship-prompt/spaceship-prompt"
-# apply = ["defer"]
-
-# [plugins.typewritten]
-# github = "reobin/typewritten"
-# apply = ["defer"]
+[plugins.blackbox]
+github = "StackExchange/blackbox"
+apply = ["defer"]

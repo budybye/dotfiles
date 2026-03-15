@@ -1,0 +1,10 @@
+export CLOUDFLARE_ACCOUNT_ID={{ (bitwardenFields "item" "cloudflare").account_id.value }}
+export CLOUDFLARE_GATEWAY_ID={{ (bitwardenFields "item" "cloudflare").gateway_id.value }}
+
+export CLOUDFLARE_API_TOKEN={{ (bitwardenFields "item" "cloudflare").api_key.value }}
+
+export CF_AIG_TOKEN="${CLOUDFLARE_API_TOKEN}"
+
+export ANTHROPIC_BASE_URL="https://gateway.ai.cloudflare.com/v1/${CLOUDFLARE_ACCOUNT_ID}/${CLOUDFLARE_GATEWAY_ID}/anthropic"
+
+export ANTHROPIC_API_KEY={{ (bitwardenFields "item" "claude").api_key.value }}

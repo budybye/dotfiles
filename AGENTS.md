@@ -1,154 +1,76 @@
-# AGENTS.md - Dotfiles プロジェクト向け AI ガイドライン
+# AI ガイドライン
 
-このリポジトリは **Chezmoi** で管理する dotfiles です。macOS / Ubuntu の設定を統合管理し、XDG Base Directory に準拠しています。
+Chezmoi で管理する dotfiles（macOS / Ubuntu、XDG 準拠）。
 
-<指示>
-{{instructions}}
-</指示>
-
-上記の指示に従い、以下のプロセスで作業を進めてください。
+指示に従い、指示範囲内で処理する。不明点は確認を取る。
 
 ---
 
-## 1. タスク分析
+## 手順
 
-- 主要なタスクを簡潔に要約する
-- [docs/tech.md](docs/tech.md) の技術スタックを確認し、その制約内で実装する（**バージョンは変更しない。必要なら承認を得る**）
-- 重要な要件と制約を特定する
-- タスク実行の具体的なステップを列挙し、実行順序を決める
-
-### 重複・衝突の防止（実装前の確認）
-
-- 既存の類似エイリアス・関数の有無（[dot_aliases](home/private_dot_config/zsh/dot_aliases) 等）
-- 同名・類似名のスクリプト・設定
-- 共通化可能な処理の特定
+1. **分析** — タスクを要約し、[docs/tech.md](docs/tech.md) の技術スタックを確認（バージョンは変更しない）。既存の類似エイリアス・スクリプトの有無を確認。
+2. **実行** — [docs/directory.md](docs/directory.md) の配置ルールに従い、ステップごとに進捗を簡潔に報告。
+3. **検証** — 完了後に `chezmoi diff` または `make check` で確認。エラー時は原因を切り分け、修正後に再検証。
 
 ---
 
-## 2. タスク実行
+## リポジトリ固有ルール
 
-- ステップを一つずつ実行し、完了ごとに簡潔に進捗を報告する
-- 適切なディレクトリ構造を守る（[docs/directory.md](docs/directory.md) 参照）
-- 命名規則の一貫性を維持する
+### ファイル配置
 
----
-
-## 3. 品質管理
-
-- 各タスク完了後に検証する
-- エラー時は原因を切り分け、対策を実施し、修正後に再検証する
-
----
-
-## 4. 最終確認と報告
-
-- 全タスク完了後、指示との整合性を確認する
-- 以下の形式で結果を報告する：
-
-```markdown
-# 実行結果報告
-
-## 概要
-
-[全体の要約]
-
-## 実行ステップ
-
-1. [ステップ1の説明と結果]
-2. [ステップ2の説明と結果]
-   ...
-
-## 最終成果物
-
-[成果物の詳細]
-
-## 課題対応（該当時）
-
-- 発生した問題と対応内容
-
-## 注意点・改善提案
-
-[気づいた点があれば]
-```
-
----
-
-## Dotfiles 固有のガイドライン
-
-### Chezmoi ファイル配置
-
-| 種別               | 配置先                     | プレフィックス                          |
+| 種別               | 配置先                     | プレフィックス等                        |
 | ------------------ | -------------------------- | --------------------------------------- |
-| 設定ファイル       | `home/private_dot_config/` | `dot_`, `private_`                      |
-| 実行スクリプト     | `home/dot_local/bin/`      | `executable_`                           |
+| 設定               | `home/private_dot_config/` | `dot_`, `private_`                      |
+| 実行スクリプト     | `home/dot_local/bin/`      | `executable_`（chmod +x 付与）          |
 | chezmoi スクリプト | `home/.chezmoiscripts/`    | `run_*`, `run_once_*`, `run_onchange_*` |
-| 暗号化ファイル     | 各所                       | `encrypted_*`, `*.age`                  |
+| 暗号化             | 各所                       | `*.age`, `encrypted_*`                  |
 
-詳細: [docs/directory.md](docs/directory.md)
+### クロスプラットフォーム
 
-### クロスプラットフォーム対応
+- OS 分岐: `{{ .chezmoi.os }}`（`darwin` / `linux` / `windows`）。WSL2 は `linux`。区別は `env "WSL_DISTRO_NAME"`。
+- 注意点: [docs/problems.md](docs/problems.md)
 
-- OS 分岐は `{{ .chezmoi.os }}`（`darwin` / `linux` / `windows`）を使用する
-- WSL2 は `linux` として検出される。区別が必要なら `env "WSL_DISTRO_NAME"` を利用する
-- 環境差の注意点: [docs/problems.md](docs/problems.md)
+### 検証
 
-### 検証コマンド
+- `chezmoi diff` — 適用前の差分
+- `make check` — 構成チェック
+- `chezmoi apply` — 変更適用
 
-| 用途         | コマンド        |
-| ------------ | --------------- |
-| 設定差分確認 | `chezmoi diff`  |
-| 構成チェック | `make check`    |
-| 変更適用     | `chezmoi apply` |
+### シェルスクリプト
 
-### シェルスクリプトの品質
-
-- shebang: `#!/usr/bin/env bash` を推奨
-- 冒頭で `set -eu` を指定（エラー時終了）
-- ツールの存在確認: `command -v <cmd> >/dev/null 2>&1`
-- 長い関数（30行超）は `~/.local/bin/` の独立スクリプトに分離を検討
+- shebang: `#!/usr/bin/env bash`。`set -eu`。ツール存在は `command -v <cmd> >/dev/null 2>&1`。長い関数は `~/.local/bin/` のスクリプトに分離を検討。
 
 ---
 
-## 重要な注意事項
+## 制約
 
-- **明示されていない変更は行わない**。必要なら提案し、承認を得てから実施する
-- **技術スタックのバージョンは勝手に変更しない**。変更時は理由を明示し、承認を得る
-- **プロンプト・配色・ターミナル設定などの見た目変更**は、理由を示し承認を得てから行う
-- 依存関係は最小限にし、長いコードは適切に分割する
-- フォーマット・リントは別コミットに分け、余計な差分を増やさない
-- 命名・コメントは短く分かりやすくし、可読性・保守性を高める
+- 明示されていない変更は行わない。必要なら提案し、承認を得る。
+- [docs/tech.md](docs/tech.md) のバージョンは変更しない。変更時は理由を明示し、承認を得る。
+- プロンプト・配色・ターミナル等の見た目変更は、理由を示し承認を得てから行う。
+- 依存は最小限。長いコードは分割。フォーマット・リントは別コミット。命名・コメントは短く分かりやすく。
 
 ---
 
-## コーディング原則
+## 原則
 
-- **YAGNI**: 将来使うかもしれない機能は実装しない
-- **DRY**: 重複は関数化・モジュール化する
-- **KISS**: 単純な解決策を優先する
-
----
-
-## 参照ドキュメント
-
-| ドキュメント                                 | 用途                                       |
-| -------------------------------------------- | ------------------------------------------ |
-| [docs/requirements.md](docs/requirements.md) | 要件定義・対応 OS・ツール                  |
-| [docs/design.md](docs/design.md)             | 設計書・Makefile・XDG                      |
-| [docs/tech.md](docs/tech.md)                 | 技術スタック・パッケージ管理               |
-| [docs/directory.md](docs/directory.md)       | ディレクトリ構成・Chezmoi 設計             |
-| [docs/problems.md](docs/problems.md)         | 環境差・プラットフォーム差・ライブラリの癖 |
-| [docs/plan.md](docs/plan.md)                 | 実装計画の索引・実行ガイド                 |
-| [docs/tasks.md](docs/tasks.md)               | タスク管理                                 |
+- **YAGNI** — 将来の機能は実装しない
+- **DRY** — 重複は関数化・モジュール化
+- **KISS** — 単純な解決策を優先
 
 ---
 
-## 言語ポリシー
+## 参照
 
-- **必須**: 応答は日本語で行う
-- **併記**: 英語の専門用語は日本語と併記可能
-- **コード**: コメントは日本語、変数名・関数名は英語可
-- **品質**: 専門用語に説明を付け、同じ概念には同じ用語を使う
+- [docs/requirements.md](docs/requirements.md) — 要件・対応 OS
+- [docs/design.md](docs/design.md) — 設計・Makefile・XDG
+- [docs/tech.md](docs/tech.md) — 技術スタック
+- [docs/directory.md](docs/directory.md) — ディレクトリ構成
+- [docs/problems.md](docs/problems.md) — 環境差・注意点
+- [docs/plan.md](docs/plan.md) — 実装計画
+- [docs/tasks.md](docs/tasks.md) — タスク管理
 
 ---
 
-以上の指示に従い、指示範囲内で確実に処理する。不明点や重要な判断が必要な場合は、必ず確認を取る。
+## 言語
+
+応答は日本語。専門用語は日本語と併記可。コードのコメントは日本語、変数・関数名は英語可。

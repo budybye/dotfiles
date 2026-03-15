@@ -66,7 +66,7 @@ layout {
                 }
                 pane {
                     name "dev4"
-                    cwd "~/Developer/workers"
+                    cwd "~/Developer/project"
                 }
             }
         }

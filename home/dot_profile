@@ -506,12 +506,18 @@ if command -v aws >/dev/null 2>&1; then
 fi
 
 if command -v claude >/dev/null 2>&1; then
-    mkdir -p "${XDG_CONFIG_HOME}/claude"
-    export CLAUDE_CONFIG_DIR="${XDG_CONFIG_HOME}/claude"
     # Claude AIを常に日本語応答にする環境変数
     export CLAUDE_DEFAULT_LANGUAGE="ja_JP"
     export AI_RESPONSE_LANGUAGE="japanese"
     export ANTHROPIC_LANGUAGE_PREFERENCE="ja"
+    # export ANTHROPIC_BASE_URL="https://gateway.ai.cloudflare.com/v1/{account_id}/{gateway_id}/anthropic"
+fi
+
+if command -v opencode >/dev/null 2>&1; then
+    mkdir -p "${XDG_CONFIG_HOME}/opencode"
+    export OPENCODE_CONFIG_DIR="${XDG_CONFIG_HOME}/opencode"
+    touch "${OPENCODE_CONFIG_DIR}/opencode.jsonc"
+    export OPENCODE_CONFIG="${OPENCODE_CONFIG_DIR}/opencode.jsonc"
 fi
 
 if command -v cursor-agent >/dev/null 2>&1; then
