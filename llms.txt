@@ -176,6 +176,7 @@
 - [Vite PWA Plugin](https://context7.com/context7/vite-pwa-org_netlify_app/llms.txt) #pwa #vite #plugin #offline
 - [Expo](https://context7.com/websites/expo_dev_versions/llms.txt) #mobile #react-native #expo #cross-platform
 - [Biome Code Formatter](https://context7.com/biomejs/biome/llms.txt) #formatter #linter #tooling #javascript
+- [Vite-plus](https://context7.com/voidzero-dev/vite-plus/llms.txt)
 
 ### その他のフレームワーク・ライブラリ
 
@@ -256,6 +257,8 @@
 - [Supabase](https://context7.com/supabase/supabase/llms.txt) #supabase #backend #postgresql #bass
 - [T4app](https://context7.com/timothymiller/t4-app/llms.txt) #template #app #scaffolding
 - [elysia](https://elysiajs.com/llms-full.txt) #elysia #bun #framework #typescript
+- [axum](https://context7.com/tokio-rs/axum/llms.txt)
+- [serde](https://context7.com/serde-rs/serde/llms.txt)
 
 ### API・GraphQL
 

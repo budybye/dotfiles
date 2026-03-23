@@ -201,4 +201,10 @@
     "https://developer.microsoft.com/json-schemas/": true,
     "https://biomejs.dev": true,
   },
+  "workbench.editorAssociations": {
+    "{hexdiff}:/**/*.*": "hexEditor.hexedit",
+    "*.mmd": "vizVibe.vizflowEditor",
+  },
+  "atomicviz.features.lastNotified": "3.5.3",
+  "atomicviz.installed": true,
 }

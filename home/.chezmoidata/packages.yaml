@@ -317,6 +317,8 @@ packages:
   - 'pm2'
   - '@hono/cli'
   - 'rnsec'
+  - 'ctx7'
+  # - '@hubai/cli'
   # - 'vibekit'
   # - 'surge'
   # - 'docsify-cli'
@@ -394,10 +396,11 @@ packages:
 
   curl:
   - 'curl -fsSL https://mise.run | sh'
-  - 'sh -c "$(curl -fsSL https://git.io/chezmoi)" -- -b ${HOME}/.local/bin'
+  - 'curl -fsSL https://git.io/chezmoi | bash'
   - 'curl -fsSL https://cli.coderabbit.ai/install.sh | bash'
   - 'curl -fsSL https://vicinae.com/install.sh | bash'
   - 'curl -fsSL https://nixos.org/nix/install | sh'
+  - 'curl -fsSL https://vite.plus | bash'
   - 'curl -fsSL https://cursor.com/install | bash'
   - 'curl -fsSL https://raw.githubusercontent.com/watzon/cursor-linux-installer/main/install.sh | bash -s -- latest'
 

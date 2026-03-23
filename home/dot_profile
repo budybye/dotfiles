@@ -521,7 +521,12 @@ if command -v opencode >/dev/null 2>&1; then
 fi
 
 if command -v cursor-agent >/dev/null 2>&1; then
-  export CURSOR_API_KEY="${CURSOR_API_KEY:-}"
+    export CURSOR_API_KEY="${CURSOR_API_KEY:-}"
+fi
+
+if command -v vp >/dev/null 2>&1; then
+    mkdir -p "${XDG_CONFIG_HOME}/vite-plus"
+    export VITE_PLUS_HOME="${XDG_CONFIG_HOME}/vite-plus"
 fi
 
 if command -v discord >/dev/null 2>&1; then

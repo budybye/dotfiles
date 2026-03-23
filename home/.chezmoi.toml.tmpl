@@ -17,7 +17,7 @@
 {{- end -}}
 
 {{/* インタラクティブでは実行しない */}}
-{{- if or (env "CODESPACES") (env "REMOTE_CONTAINERS") (env "DOCKER") (env "GITHUB_ACTIONS") (eq .chezmoi.username "root" "ubuntu" "dev" "vscode" "runner") -}}
+{{- if or (env "CODESPACES") (env "REMOTE_CONTAINERS") (env "DOCKER") (env "GITHUB_ACTIONS") (ne (env "SANDBOX") "") (eq .chezmoi.username "root" "ubuntu" "dev" "vscode" "runner") -}}
 {{- $bitwarden = false -}}
 {{- $age = false -}}
 {{- end -}}
@@ -47,6 +47,13 @@
     {{- $name = "docker" -}}
     {{- $github = true -}}
     {{- $ssh = true -}}
+
+{{/* SANDBOX（使い捨て VM 等。非空で有効） */}}
+{{- else if ne (env "SANDBOX") "" -}}
+    {{- $name = "sandbox" -}}
+    {{- $email = "null" -}}
+    {{- $github = true -}}
+    {{- $ssh = false -}}
 
 {{/* Ubuntu multipass */}}
 {{- else if eq .chezmoi.username "ubuntu" -}}

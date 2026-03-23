@@ -1,0 +1,30 @@
+#!/bin/sh
+# Vite+ environment setup (https://viteplus.dev)
+__vp_bin="$HOME/.config/vite-plus/bin"
+case ":${PATH}:" in
+    *":${__vp_bin}:"*)
+        __vp_tmp=":${PATH}:"
+        __vp_before="${__vp_tmp%%":${__vp_bin}:"*}"
+        __vp_before="${__vp_before#:}"
+        __vp_after="${__vp_tmp#*":${__vp_bin}:"}"
+        __vp_after="${__vp_after%:}"
+        export PATH="${__vp_bin}${__vp_before:+:${__vp_before}}${__vp_after:+:${__vp_after}}"
+        unset __vp_tmp __vp_before __vp_after
+        ;;
+    *)
+        export PATH="$__vp_bin:$PATH"
+        ;;
+esac
+unset __vp_bin
+
+# Shell function wrapper: intercepts `vp env use` to eval its stdout,
+# which sets/unsets VITE_PLUS_NODE_VERSION in the current shell session.
+vp() {
+    if [ "$1" = "env" ] && [ "$2" = "use" ]; then
+        case " $* " in *" -h "*|*" --help "*) command vp "$@"; return; esac
+        __vp_out="$(VITE_PLUS_ENV_USE_EVAL_ENABLE=1 command vp "$@")" || return $?
+        eval "$__vp_out"
+    else
+        command vp "$@"
+    fi
+}

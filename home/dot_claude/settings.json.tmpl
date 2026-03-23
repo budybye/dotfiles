@@ -5,7 +5,9 @@
       "ANTHROPIC_BASE_URL": {{ (bitwardenFields "item" "claude").proxy.value | quote }}
 	},
   "permissions": {
-    "allow": [],
+    "allow": [
+      "Bash"
+    ],
     "deny": [
       "Read(./.env)",
       "Read(./.env.*)",

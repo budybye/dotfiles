@@ -1,5 +1,5 @@
 {
-  "headless": false,
+  "headless": true,
   "debug": false,
   "timeout": 60,
   "default_notebook_id": "58c61361-37bc-4fed-a749-b21b2fb99463",
@@ -10,7 +10,6 @@
   "response_stability_checks": 3,
   "retry_attempts": 3,
   "auth": {
-    "browser": "brave",
     "cookies_path": null,
     "profile_dir": "./chrome_profile_notebooklm",
     "use_persistent_session": true,

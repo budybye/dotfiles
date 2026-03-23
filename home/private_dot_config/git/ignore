@@ -101,3 +101,5 @@ sites/*/files
 # SQL.
 *.sql
 *.sql.*
+
+**/.claude/settings.local.json

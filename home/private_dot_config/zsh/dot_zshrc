@@ -129,7 +129,10 @@ if command -v uv > /dev/null 2>&1; then
   eval "$(uv generate-shell-completion zsh)"
 fi
 
-# [[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path zsh)"
+# Vite+ bin (https://viteplus.dev)
+if [ -f "${HOME}/.config/vite-plus/env" ]; then
+  . "${HOME}/.config/vite-plus/env"
+fi
 
 # aliasファイルの読み込み
 if [ -f "${ZDOTDIR}/.aliases" ]; then
