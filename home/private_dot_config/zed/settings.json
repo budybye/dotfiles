@@ -77,17 +77,39 @@
       {
         "provider": "sakura",
         "model": "gpt-oss-120b",
-        "enable_thinking": false,
+        "enable_thinking": false
       },
+      {
+        "provider": "anthropic",
+        "model": "claude-opus-4-6-latest",
+        "enable_thinking": false
+      },
+      {
+        "provider": "anthropic",
+        "model": "claude-sonnet-4-6-latest",
+        "enable_thinking": false
+      },
+      {
+        "provider": "zed.dev",
+        "model": "gemini-3.1-pro-preview",
+        "enable_thinking": false
+      },
+      {
+        "provider": "zed.dev",
+        "model": "claude-sonnet-4-6",
+        "enable_thinking": false
+      }
     ],
-    "default_profile": "write",
+    "default_profile": "ask",
     "inline_assistant_model": {
       "provider": "sakura",
       "model": "gpt-oss-120b",
     },
     "default_model": {
-      "provider": "sakura",
-      "model": "gpt-oss-120b",
+      "effort": "high",
+      "enable_thinking": true,
+      "provider": "zed.dev",
+      "model": "claude-sonnet-4-6",
     },
     "single_file_review": false,
     "use_modifier_to_send": true,
