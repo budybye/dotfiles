@@ -1,0 +1,163 @@
+# 2025‑03‑27  Plan: Bash‑only CLI version & 2‑step minimal dotfiles
+
+## 1. 背景
+- 現在の開発環境は **zsh** がデフォルトシェルで、dotfiles も zsh 用に構成されている。
+- 今回は **bash のみで動作するシンプル CLI** と、**2 段階で適用できる minimal dotfiles**（stage‑0 と stage‑1）を用意したい。
+
+## 2. 目的
+1. **Bash‑only CLI**
+   - デフォルトシェルを `bash` にし、zsh の設定が読み込まれないクリーンな環境を提供。
+   - `chezmoi` が管理する dotfiles でも bash 用スクリプトだけが実行されることを保証。
+
+2. **2‑step minimal dotfiles**
+   - **stage‑0**: 最小限のシェル環境（bash, coreutils, git）だけをインストール。
+   - **stage‑1**: 必要に応じて完全版 dotfiles（エイリアス、テーマ、プラグインなど）を追加で適用。
+
+## 3. 前提条件
+- ベースイメージは **Ubuntu 24.04** (`FROM ubuntu:24.04 AS base`)。
+- `chezmoi` のインストールスクリプト `install.sh` がリポジトリにあり、`dotfiles.installCommand` が `~/dotfiles/install.sh` に設定されている。
+- `bash` はベースイメージに標準でインストール済み。
+- `clissh` は **CLI‑only SSH client**（例: `ssh` コマンドだけを使用）を想定。
+
+### 3.1 ChezMoi CLI の環境変数制御
+- `CHEZMOI_MODE`（`minimal`|`full`）で適用する dotfiles の段階を切り替える。
+  - `minimal` → `bashrc`/`profile`/最低限の `.config` だけ。
+  - `full` → 既存の `zsh` 設定、`mise`、`docker`、`ssh` 等をすべて適用。
+- `CHEZMOI_TARGET` で `dotfiles` のクローン先（デフォルトは `~/dotfiles`）を上書き可能。
+- `CHEZMOI_APT_PKGS`（スペース区切り）で追加インストールするパッケージを指定できる。例: `CHEZMOI_APT_PKGS="htop ripgrep"`。
+
+### 3.2 Minimal 版に含めるパッケージ・設定
+- **APT パッケージ**
+  `bash coreutils git curl wget` が最小構成。`CHEZMOI_APT_PKGS` が設定されていれば追加でインストール。
+- **シェル設定**
+  - `~/.bashrc` : 基本的な `PS1`、`set -o vi`、`alias ll='ls -alF'` 等。
+  - `~/.bash_profile` / `~/.profile` : `PATH` へ `$HOME/.local/bin` を追加し、`source ~/.bashrc` を呼び出す。
+- **最低限の `.config`**
+  - `~/.config/git/config`（ユーザー名・メール）
+  - `~/.config/htop/htoprc`（シンプルな配色）
+  - `~/.config/mise/config.toml` は `full` 時のみ展開。
+
+### 3.3 標準（Full）版に含める追加ツール
+- **シェル** : `zsh` と `oh-my-zsh`（または `zinit`）
+- **バージョンマネージャ** : `mise`（Node、Python、Ruby など）
+- **コンテナ管理** : `docker`、`docker-compose`、`docker-buildx`
+- **SSH 関連** : `openssh-client`、`ssh-copy-id`、`ssh-agent` の設定
+- **その他** : `htop`、`jq`、`neovim` など開発に便利なツール
+
+## 4. 実装手順
+
+### 4.1 Bash‑only CLI 用 Dockerfile の変更
+1. **zsh のインストールを除外**（コメントアウトまたは削除）
+   ```Dockerfile
+   # RUN apt-get install -y zsh   # ← コメントアウト
+   ```
+
+2. **bash の設定を明示**（`/etc/bash.bashrc` に minimal な設定を入れる）
+   ```Dockerfile
+   RUN echo 'export PS1="\\u@\\h:\\w\\$ "' > /etc/bash.bashrc && \
+       echo 'set -o vi' >> /etc/bash.bashrc
+   ```
+
+3. **デフォルトシェルを bash に変更**
+   ```Dockerfile
+   RUN chsh -s /usr/bin/bash ${DEV}
+   ```
+
+4. **stage‑0 用エントリーポイント**
+   ```Dockerfile
+   ENTRYPOINT ["bash", "-l"]
+   ```
+
+### 4.2 2‑step minimal dotfiles の構成
+
+#### a. ディレクトリ構成（dotfiles リポジトリ側）
+```
+dotfiles/
+├─ .chezmoiignore          # 共有しないファイル
+├─ bin/
+│   └─ minimal-init        # stage‑0 用スクリプト（任意）
+├─ bash/
+│   ├─ .bashrc
+│   └─ .inputrc
+├─ minimal/
+│   ├─ .gitconfig
+│   └─ .vimrc
+└─ full/
+    ├─ .zshrc               # 既存の zsh 設定（将来的に保持）
+    └─ … (全設定)
+```
+
+#### b. `install.sh` の拡張
+```bash
+#!/usr/bin/env bash
+set -e
+
+# usage: install.sh [stage]
+#   stage = minimal | full (default: full)
+stage="${1:-full}"
+
+if [[ "$stage" == "minimal" ]]; then
+    echo "Applying minimal dotfiles …"
+    "${CHEZMOI}" init --apply --source="${SCRIPT_DIR}" \
+        --include "bash/**" "minimal/**"
+else
+    echo "Applying full dotfiles …"
+    "${CHEZMOI}" init --apply --source="${SCRIPT_DIR}"
+fi
+```
+- デフォルトは **full**。
+- `~/dotfiles/install.sh minimal` で **stage‑0**（最小セット）を適用できる。
+
+#### c. VS Code Remote‑Containers の設定
+```json
+{
+  "remoteUser": "dev",
+  "postCreateCommand": "chmod +x ~/dotfiles/install.sh && ~/dotfiles/install.sh minimal",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "dotfiles.repository": "budybye/dotfiles",
+        "dotfiles.targetPath": "~/dotfiles",
+        "dotfiles.installCommand": "~/dotfiles/install.sh"
+      }
+    }
+  }
+}
+```
+- `postCreateCommand` が **minimal** バージョンを自動適用。
+- 開発者は `make init-full`（または `~/dotfiles/install.sh full`）でフル設定に切り替え可能。
+
+### 4.3 CLI‑only SSH（clissh） の提供
+- **依存パッケージ**: `openssh-client` のみをインストール
+  ```Dockerfile
+  RUN apt-get install -y openssh-client
+  ```
+-エイリアス**（`~/.bashrc` に追加）
+  ```bash
+  alias clissh='ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
+  ```
+  - `clissh` は CI やテストでパスワード入力が不要な環境向け。
+
+## 5. テスト & 検証
+
+| テスト項目                     | 手順                                     | 期待結果                                   |
+|-------------------------------|------------------------------------------|--------------------------------------------|
+| Bash がデフォルトシェルか      | コンテナで `echo $SHELL` を確認           | `/usr/bin/bash` が出力                     |
+| Minimal dotfiles が適用されるか | `docker compose up` → `postCreateCommand` が走る | `~/.bashrc` と `~/.gitconfig` が存在し、zsh 設定は無い |
+| Full dotfiles に切り替え        | `~/dotfiles/install.sh full` を実行       | `~/.zshrc` など全設定が追加               |
+| clissh エイリアスの有無        | `type clissh` を実行                     | `clissh is an alias`（または function）   |
+| sudo が NOPASSWD か            | `sudo -n true` を実行                    | エラーなしで終了                         |
+
+## 6. ロールバック手順
+1. コンテナを削除し、`docker compose up --build` で再構築。
+2. `postCreateCommand` をコメントアウトし、bash シェルで手動で `~/dotfiles/install.sh full` を実行すればフル設定に戻す。
+3. 必要に応じて `git checkout` で dotfiles のコミットを以前の状態に戻す。
+
+## 7. 今後の拡張候補
+- **Stage‑2**: `minimal‑plus`（minimal に IDE 設定だけを追加）。
+- **CI 用イメージ**: `FROM … AS ci` で `openssh-client` と `chezmoi`みをインストールし、テストスイートだけを走らせる。
+- **zsh オプション**: 将来的に `zsh` が必要になったら `stage‑full` に含めるだけで切り替え可能。
+
+---
+
+このプランをもとに Dockerfile と dotfiles リポジトリを更新し、`docker compose up` で動作確認してください。質問や追加要件があれば遠慮なくどうぞ。

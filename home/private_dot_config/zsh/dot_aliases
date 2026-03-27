@@ -40,7 +40,7 @@ alias cp="cp -i"   # 上書き確認を有効にする
 alias rm="rm -i"   # 削除確認を有効にする
 alias mkdir="mkdir -p"  # 親ディレクトリも作成
 
-# git / jj
+# git
 if command -v git >/dev/null 2>&1 || command -v jj >/dev/null 2>&1; then
     # alias g="git"
     function bit() {
@@ -55,10 +55,10 @@ if command -v git >/dev/null 2>&1 || command -v jj >/dev/null 2>&1; then
 fi
 
 if command -v gh >/dev/null 2>&1; then
-    alias gs="gh secret set"
     alias gg="gh repo view --web"
+    alias gss="gh secret set"
     alias gql="gh api rate_limit --jq '.resources.core'"
-    alias gsh="gh repo view budybye/dotfiles --json ssh_url -q '.ssh_url'"
+    #alias gsh="gh repo view budybye/dotfiles --json ssh_url -q '.ssh_url'"
 fi
 
 # vim nvim
@@ -141,9 +141,11 @@ fi
 if command -v xdg-open >/dev/null 2>&1; then
     alias lh="xdg-open http://localhost:3000"
     alias ggg="xdg-open https://youtu.be"
+    alias web="xdg-open https://goog.le"
 elif command -v open >/dev/null 2>&1; then
     alias lh="open -na 'Brave Browser' --args --new-window http://localhost:3000"
     alias ggg="open -na 'Brave Browser' --args --new-window https://youtu.be"
+    alias web="open -na 'Brave Browser' --args --new-window https://goog.le"
 fi
 
 # rosetta2のエイリアス

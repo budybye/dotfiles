@@ -3,7 +3,7 @@
   // "build.context": ".",
   "dockerComposeFile": "compose.yaml",
   "service": "ubuntu",
-  "containerUser": "ubuntu",
+  "containerUser": "dev",
   "remoteUser": "dev",
   "workspaceFolder": "/home/dev",
   "forwardPorts": [3389, 22],

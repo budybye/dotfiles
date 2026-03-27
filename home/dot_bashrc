@@ -74,7 +74,3 @@ export BASH_COMPLETION_USER_FILE="${XDG_CONFIG_HOME}/bash-completion/bash_comple
 if [ -f "${HOME}/.config/zsh/.aliases" ]; then
     . "${HOME}/.config/zsh/.aliases"
 fi
-
-if [[ "${TERM_PROGRAM}" == "kiro" ]]; then
-    . "$(kiro --locate-shell-integration-path bash)"
-fi
