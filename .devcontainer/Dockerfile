@@ -14,98 +14,98 @@ RUN apt-get -y upgrade
 
 # 日本語環境を設定
 RUN apt-get install -y \
-    language-pack-ja \
-    language-pack-ja-base \
-    manpages-ja \
-    tzdata \
-    fcitx5-mozc \
-    im-config \
-    locales
+  language-pack-ja \
+  language-pack-ja-base \
+  manpages-ja \
+  tzdata \
+  fcitx5-mozc \
+  im-config \
+  locales
 
 RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezone && \
-    locale-gen ja_JP.UTF-8 && \
-    echo LANGUAGE=${LANGUAGE} >> /etc/default/locale && \
-    echo LANG=${LANG} >> /etc/default/locale && \
-    echo LC_ALL=${LC_ALL} >> /etc/default/locale && \
-    im-config -n fcitx5
+  locale-gen ja_JP.UTF-8 && \
+  echo LANGUAGE=${LANGUAGE} >> /etc/default/locale && \
+  echo LANG=${LANG} >> /etc/default/locale && \
+  echo LC_ALL=${LC_ALL} >> /etc/default/locale && \
+  im-config -n fcitx5
 
 RUN apt-get install -y \
-    xfce4 \
-    xfce4-clipman-plugin \
-    xfce4-cpugraph-plugin \
-    xfce4-netload-plugin \
-    xfce4-screenshooter \
-    xfce4-taskmanager \
-    xfce4-terminal \
-    xfce4-xkb-plugin
+  xfce4 \
+  xfce4-clipman-plugin \
+  xfce4-cpugraph-plugin \
+  xfce4-netload-plugin \
+  xfce4-screenshooter \
+  xfce4-taskmanager \
+  xfce4-terminal \
+  xfce4-xkb-plugin
 
 RUN apt-get install -y \
-    dbus-x11 \
-    sudo \
-    wget \
-    xorgxrdp \
-    xrdp && \
-    apt remove -y light-locker xscreensaver
+  dbus-x11 \
+  sudo \
+  wget \
+  xorgxrdp \
+  xrdp && \
+  apt remove -y light-locker xscreensaver
 
 # 必須パッケージをインストール
 RUN apt-get install -y \
-    zsh \
-    make \
-    curl \
-    git \
-    gh \
-    gzip \
-    age \
-    gnupg \
-    wget \
-    xsel \
-    xdotool \
-    vim \
-    tree \
-    jq \
-    ncdu \
-    pwgen \
-    gawk \
-    lsd \
-    ffmpeg \
-    mpd \
-    mpc \
-    ncmpcpp \
-    neofetch \
-    mkcert \
-    ufw \
-    byobu \
-    openssh-server \
-    avahi-daemon
+  zsh \
+  make \
+  curl \
+  git \
+  gh \
+  gzip \
+  age \
+  gnupg \
+  wget \
+  xsel \
+  xdotool \
+  vim \
+  tree \
+  jq \
+  ncdu \
+  pwgen \
+  gawk \
+  lsd \
+  ffmpeg \
+  mpd \
+  mpc \
+  ncmpcpp \
+  neofetch \
+  mkcert \
+  ufw \
+  byobu \
+  openssh-server \
+  avahi-daemon
 
 # 開発用パッケージをインストール 言語のビルドに必要なパッケージ
 RUN apt-get install -y \
-    g++ \
-    cmake \
-    build-essential \
-    libssl-dev \
-    pkg-config \
-    libfreetype6-dev \
-    libfontconfig1-dev \
-    libxcb-xfixes0-dev \
-    libxkbcommon-dev \
-    ca-certificates \
-    apt-transport-https \
-    software-properties-common \
-    python3 \
-    ruby \
-    flatpak
+  g++ \
+  cmake \
+  build-essential \
+  libssl-dev \
+  pkg-config \
+  libfreetype6-dev \
+  libfontconfig1-dev \
+  libxcb-xfixes0-dev \
+  libxkbcommon-dev \
+  ca-certificates \
+  apt-transport-https \
+  software-properties-common \
+  python3 \
+  ruby \
+  flatpak
 
 RUN apt-get install -y \
-    fortune-mod \
-    figlet \
-    cmatrix \
-    command-not-found \
-    oneko \
-    cowsay \
-    lolcat \
-    nyancat \
-    translate-shell
+  fortune-mod \
+  figlet \
+  cmatrix \
+  command-not-found \
+  oneko \
+  cowsay \
+  lolcat \
+  nyancat \
+  translate-shell
 
 # 不要なパッケージ キャッシュを削除
 RUN apt-get autoremove -y
@@ -117,24 +117,26 @@ ARG DEV=dev
 ARG DEV_PW=dev
 
 RUN groupadd -g 1024 -f $DEV && \
-    useradd --uid 1024 --gid 1024 -m $DEV -G sudo -s /usr/bin/zsh && \
-    echo "$DEV:$DEV_PW" | chpasswd && \
-    echo "$DEV ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
-    mkdir -p /home/$DEV && \
-    chown -R $DEV:$DEV /home/$DEV
+  useradd --uid 1024 --gid 1024 -m $DEV -G sudo -s /usr/bin/zsh && \
+  echo "$DEV:$DEV_PW" | chpasswd && \
+  echo "$DEV ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
+  mkdir -p /home/$DEV && \
+  chown -R $DEV:$DEV /home/$DEV
 
+# devcontainer.json で dotfiles 設定をすれば自動でクロンしてinstallが実行される
 # RUN git clone https://github.com/budybye/dotfiles.git /home/${DEV}/dotfiles
+# ユーザーを切り替え
 # USER ${DEV}
-# ユーザーを切り替え dotfiles ディレクトリに移動
+# dotfiles ディレクトリに移動
 # WORKDIR /home/${DEV}/dotfiles
 # ホームディレクトリに dotfiles をクローンしてインストール
 # RUN make init
 
 # ubuntuユーザー設定
 RUN usermod -aG sudo ubuntu && \
-    echo "ubuntu ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
-    mkdir -p /home/ubuntu && \
-    chown -R ubuntu:ubuntu /home/ubuntu
+  echo "ubuntu ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
+  mkdir -p /home/ubuntu && \
+  chown -R ubuntu:ubuntu /home/ubuntu
 
 # ENTRYPOINT を/usr/bin/にコピーしてシンボリックリンクを作成
 COPY ./entrypoint.sh /usr/bin/

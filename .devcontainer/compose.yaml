@@ -1,6 +1,5 @@
 name: ubuntu
 services:
-
   ubuntu:
     build:
       context: .
@@ -11,16 +10,16 @@ services:
     privileged: true
     platform: linux/${ARCH:-$(dpkg --print-architecture || uname -m)}
     ports:
-    - ${RDP_PORT:-33389}:3389 # 127.1:33389 で RDP
-    - ${SSH_PORT:-2222}:22
+      - ${RDP_PORT:-33389}:3389 # 127.1:33389 で RDP
+      - ${SSH_PORT:-2222}:22
     # volumes:
     #   - ${HOME}/data:/home/ubuntu/data
     environment:
-      REMOTE_CONTAINERS: true
+      # REMOTE_CONTAINERS: true
       MISE_GITHUB_TOKEN: ${MISE_GITHUB_TOKEN:-}
     shm_size: 512m # ブラウザ対策
     # entrypoint: ["entrypoint"]
-    command: ["ubuntu", "ubuntu", "yes"]
+    command: ["${USER:-ubuntu}", "${PASSWORD:-ubuntu}", "yes"]
     tty: true
     restart: always
 

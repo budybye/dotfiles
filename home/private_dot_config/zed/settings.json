@@ -1,0 +1,83 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+  "telemetry": {
+    "diagnostics": false,
+    "metrics": false,
+  },
+  "confirm_quit": true,
+  "language_models": {
+    "openai_compatible": {
+      "sakura": {
+        "api_url": "https://api.ai.sakura.ad.jp/v1",
+        "available_models": [
+          {
+            "name": "gpt-oss-120b",
+            "display_name": null,
+            "max_tokens": 128000,
+            "max_output_tokens": 32000,
+            "max_completion_tokens": 200000,
+            "capabilities": {
+              "tools": true,
+              "images": false,
+              "parallel_tool_calls": false,
+              "prompt_cache_key": false,
+            },
+          },
+        ],
+      },
+    },
+  },
+  "agent": {
+    "favorite_models": [
+      {
+        "provider": "sakura",
+        "model": "gpt-oss-120b",
+        "enable_thinking": false,
+      },
+    ],
+    "default_profile": "minimal",
+    "inline_assistant_model": {
+      "provider": "sakura",
+      "model": "gpt-oss-120b",
+    },
+    "default_model": {
+      "provider": "sakura",
+      "model": "gpt-oss-120b",
+    },
+    "single_file_review": false,
+    "use_modifier_to_send": true,
+    "play_sound_when_agent_done": true,
+  },
+  "autosave": "on_focus_change",
+  "format_on_save": "on",
+  "formatter": "auto",
+  "ui_font_family": "HackGen35 Console NF",
+  "buffer_font_weight": 400.0,
+  "buffer_font_family": "HackGen Console NF",
+  "icon_theme": "Material Icon Theme",
+  "base_keymap": "VSCode",
+  "ui_font_size": 15.0,
+  "buffer_font_size": 16.0,
+  "theme": {
+    "mode": "system",
+    "light": "Monokai Pro (CE)",
+    "dark": "Kanagawa Dragon - No Italics",
+  },
+  "terminal": {
+    "shell": {
+      "with_arguments": {
+        "program": "/bin/zsh",
+        "args": [],
+      },
+    },
+    "font_size": 12,
+    "copy_on_select": true,
+  },
+}
