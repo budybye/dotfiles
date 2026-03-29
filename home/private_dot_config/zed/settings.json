@@ -2,6 +2,7 @@
 //
 // For information on how to configure Zed, see the Zed
 // documentation: https://zed.dev/docs/configuring-zed
+// sakuraAI: https://knowledge.sakura.ad.jp/47768/
 //
 // To see all of Zed's default settings without changing your
 // custom settings, run `zed: open default settings` from the
@@ -12,13 +13,13 @@
       "enabled": true,
       "remote": false,
       "settings": {
-        "context7_api_key": ""
-      }
+        "context7_api_key": "",
+      },
     },
     "bun-docs-mcp": {
       "enabled": true,
       "remote": false,
-      "settings": {}
+      "settings": {},
     },
     "chrome-devtools-mcp-zed": {
       "enabled": true,
@@ -41,9 +42,9 @@
         "category_performance": null,
         "category_network": null,
         "log_file": null,
-        "extra_args": []
-      }
-    }
+        "extra_args": [],
+      },
+    },
   },
   "telemetry": {
     "diagnostics": false,
@@ -77,39 +78,38 @@
       {
         "provider": "sakura",
         "model": "gpt-oss-120b",
-        "enable_thinking": false
+        "enable_thinking": false,
       },
       {
         "provider": "anthropic",
         "model": "claude-opus-4-6-latest",
-        "enable_thinking": false
+        "enable_thinking": false,
       },
       {
         "provider": "anthropic",
         "model": "claude-sonnet-4-6-latest",
-        "enable_thinking": false
+        "enable_thinking": false,
       },
       {
         "provider": "zed.dev",
         "model": "gemini-3.1-pro-preview",
-        "enable_thinking": false
+        "enable_thinking": false,
       },
       {
         "provider": "zed.dev",
         "model": "claude-sonnet-4-6",
-        "enable_thinking": false
-      }
+        "enable_thinking": false,
+      },
     ],
-    "default_profile": "ask",
+    "default_profile": "write",
     "inline_assistant_model": {
       "provider": "sakura",
       "model": "gpt-oss-120b",
     },
     "default_model": {
-      "effort": "high",
-      "enable_thinking": true,
-      "provider": "zed.dev",
-      "model": "claude-sonnet-4-6",
+      "enable_thinking": false,
+      "provider": "google",
+      "model": "gemini-3-flash-preview",
     },
     "single_file_review": false,
     "use_modifier_to_send": true,
@@ -127,8 +127,8 @@
   "buffer_font_size": 16.0,
   "theme": {
     "mode": "system",
-    "light": "Monokai Pro (CE)",
-    "dark": "Kanagawa Dragon - No Italics",
+    "light": "Kanagawa",
+    "dark": "Monokai Pro (CE)",
   },
   "terminal": {
     "shell": {
