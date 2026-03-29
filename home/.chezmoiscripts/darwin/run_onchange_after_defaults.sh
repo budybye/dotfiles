@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -eu
 
 user_setup() {
     # コンピュータ名、ホスト名、ローカルホスト名、ユーザー名を設定
@@ -39,10 +40,6 @@ app_setup() {
     defaults write com.apple.SoftwareUpdate AutomaticDownload -int 1
     # システムデータファイルとセキュリティ更新プログラムをインストールする
     defaults write com.apple.SoftwareUpdate CriticalUpdateInstall -int 1
-    # 他のMacで購入したアプリを自動的にダウンロードする
-    defaults write com.apple.SoftwareUpdate ConfigDataInstall -int 1
-    # アプリケーションの自動更新を有効化
-    defaults write com.apple.commerce AutoUpdate -bool true
     # 再起動が必要なアプリケーションの場合自動で再起動を有効化する
     defaults write com.apple.commerce AutoUpdateRestartRequired -bool true
 }
@@ -147,7 +144,7 @@ window_setup() {
     defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" -int 40
 
     # 通知センターを無効化
-    launchctl unload -w /System/Library/LaunchAgents/com.apple.notificationcenterui.plist 2> /dev/null
+    launchctl unload -w /System/Library/LaunchAgents/com.apple.notificationcenterui.plist 2>/dev/null || echo "notificationcenterui unload failed (may not exist)."
     # 通知センターを有効化する場合
     # launchctl load -w /System/Library/LaunchAgents/com.apple.notificationcenterui.plist
 }
@@ -205,7 +202,7 @@ network_setup() {
     # sudo networksetup -SetV6Off Wi-Fi
     # sudo networksetup -SetDNSServers Wi-Fi 1.1.1.1 1.0.0.1
     # sudo networksetup -ListNetworkServiceOrder
-    nslookup apple.com
+    nslookup apple.com || echo "nslookup failed (network may be unavailable)."
 }
 
 restart() {
@@ -224,7 +221,7 @@ restart() {
         "Safari" \
         "Terminal" \
         "SystemUIServer"; do
-        killall "${app}" > /dev/null 2>&1
+        killall "${app}" > /dev/null 2>&1 || echo "${app} was not running."
     done
 }
 

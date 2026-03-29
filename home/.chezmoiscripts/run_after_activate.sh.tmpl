@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -eu
 
 echo "activate.sh"
 echo "--------------------------------"
@@ -14,7 +15,7 @@ echo "--------------------------------"
 echo ".env && ENVIRONMENT checking..."
 if [ -f {{ .chezmoi.sourceDir }}/.env ]; then
     cat {{ .chezmoi.sourceDir }}/.env
-    mise set
+    mise set || echo "mise set failed."
 else
     echo "no {{ .chezmoi.sourceDir }}/.env file"
 fi
@@ -27,7 +28,7 @@ echo "--------------------------------"
 {{- if ne .ssh false }}
 
 echo "SSH key ..."
-[ -r /etc/ssh/sshd_config ] && cat /etc/ssh/sshd_config || echo "sshd_config not readable (permission denied)"
+{ [ -r /etc/ssh/sshd_config ] && cat /etc/ssh/sshd_config; } || echo "sshd_config not readable (permission denied)"
 echo "--------------------------------"
 if [ -d ~/.ssh ]; then
     chmod 700 ~/.ssh
@@ -80,19 +81,19 @@ echo "--------------------------------"
 
 echo "github yes"
 echo "git config ..."
-ls -la ~/.config/git
+ls -la ~/.config/git || echo "git config dir not found."
 echo "--------------------------------"
-cat ~/.config/git/user.conf
+cat ~/.config/git/user.conf || echo "user.conf not found."
 echo "--------------------------------"
 echo "git config user.name"
-git config user.name
+git config user.name || echo "git user.name not set."
 echo "git config user.email"
-git config user.email
+git config user.email || echo "git user.email not set."
 echo "--------------------------------"
-cat ~/.config/git/config
+cat ~/.config/git/config || echo "git config not found."
 echo "--------------------------------"
-cat ~/.config/git/commit.template
-git config --global commit.template ${HOME}/.config/git/commit.template
+cat ~/.config/git/commit.template || echo "commit.template not found."
+git config --global commit.template "${HOME}/.config/git/commit.template" || echo "commit.template set failed."
 echo "--------------------------------"
 
 {{- else }}

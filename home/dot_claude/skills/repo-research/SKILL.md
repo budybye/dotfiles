@@ -1,6 +1,6 @@
 ---
 name: repo-research
-description: [Triggers: ghq, clone, context7, query-docs, resolve-library-id, research repo, investigate source, library docs] A skill for streamlining GitHub repository research and coding. It uses `ghq` for local repository management and `Context7` MCP to reference the latest documentation. Ideal for investigating external library implementations, referencing API documentation, and performing OSS code reviews.
+description: A skill for efficiently researching external libraries and repositories. Uses Context7 MCP for documentation lookups and ghq for local source code exploration. Guides the choice between reading docs vs. cloning source, and provides templates for recording findings as research memos and session logs. [Triggers: /repo-research, ghq, clone, context7, query-docs, resolve-library-id, research repo, investigate source, library docs, OSS review, how does X work internally]
 ---
 
 # /repo-research — Repository Research & Efficiency Skill
@@ -9,8 +9,9 @@ description: [Triggers: ghq, clone, context7, query-docs, resolve-library-id, re
 
 | Task                                  | Guide                                           |
 | ------------------------------------- | ----------------------------------------------- |
-| Tool Specifications & Command Details | Read [references/tools.md](references/tools.md) |
-| Decision Flow (Docs vs. Source)       | See the Decision Criteria below                 |
+| Tool Specifications & Command Details | Read [references/tools.md](references/tools.md)             |
+| Decision Flow (Docs vs. Source)       | See the Decision Criteria below                             |
+| Research memo & session log templates | Read [references/memo-template.md](references/memo-template.md) |
 
 ---
 

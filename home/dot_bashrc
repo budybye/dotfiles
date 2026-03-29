@@ -15,9 +15,8 @@ cd() {
 }
 
 # bash 5.2 以上で autocd を有効にする
-BASH_VERSION_MAJOR=$(bash --version | head -n1 | grep -oE '[0-9]+\.[0-9]+' | cut -d. -f1)
-BASH_VERSION_MINOR=$(bash --version | head -n1 | grep -oE '[0-9]+\.[0-9]+' | cut -d. -f2)
-if [ "${BASH_VERSION_MAJOR}" -gt 5 ] || ([ "${BASH_VERSION_MAJOR}" -eq 5 ] && [ "${BASH_VERSION_MINOR}" -ge 2 ]); then
+if [ "${BASH_VERSINFO[0]}" -gt 5 ] || \
+   ([ "${BASH_VERSINFO[0]}" -eq 5 ] && [ "${BASH_VERSINFO[1]}" -ge 2 ]); then
     shopt -s autocd
 fi
 
@@ -34,14 +33,12 @@ fi
 
 # mise
 if command -v mise > /dev/null 2>&1; then
-    eval "$(mise activate bash --shims)"
     eval "$(mise activate bash)"
 fi
 
-# # sheldon
-if command -v sheldon > /dev/null 2>&1; then
-    eval "$(sheldon source)"
-fi
+# sheldon は plugins.toml が zsh 専用のため bash では呼ばない
+# bash 用プラグインが必要になった場合は plugins.bash.toml を作成して
+# eval "$(sheldon --profile bash source)" に切り替える
 
 if command -v fzf > /dev/null 2>&1; then
     eval "$(fzf --bash)"
@@ -65,10 +62,12 @@ fi
 if [ -f /etc/bash_completion ]; then
     source "/etc/bash_completion"
 fi
-mkdir -p "${XDG_CONFIG_HOME}/bash-completion/completions"
-export BASH_COMPLETION_COMPAT_DIR="${XDG_CONFIG_HOME}/bash-completion/completions"
-touch "${XDG_CONFIG_HOME}/bash-completion/bash_completion"
-export BASH_COMPLETION_USER_FILE="${XDG_CONFIG_HOME}/bash-completion/bash_completion"
+_bash_comp_dir="${XDG_CONFIG_HOME:-${HOME}/.config}/bash-completion"
+mkdir -p "${_bash_comp_dir}/completions"
+export BASH_COMPLETION_COMPAT_DIR="${_bash_comp_dir}/completions"
+touch "${_bash_comp_dir}/bash_completion"
+export BASH_COMPLETION_USER_FILE="${_bash_comp_dir}/bash_completion"
+unset _bash_comp_dir
 
 # aliasファイルの読み込み
 if [ -f "${HOME}/.config/zsh/.aliases" ]; then

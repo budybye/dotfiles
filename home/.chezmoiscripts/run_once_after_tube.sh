@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -eu
 
 PLAYLIST_DIR="$HOME/Music/riddim"
 PLAYLIST_ID="PLMXoRsxtzGfCH7cvhAnzN_T3KvKmdkB3s"

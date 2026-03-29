@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
+set -eu
 
 echo "run_once_before_bw.sh.tmpl"
-cd ${HOME}
+cd "${HOME}"
 echo "--------------------------------"
 
 # マスターパスワードを暗号化 パスフレーズが要求される
@@ -53,8 +54,8 @@ node_install() {
     elif command -v mise >/dev/null 2>&1; then
         mise use -g node@${VERSION} -y && mise activate bash >/dev/null || echo "node install failed."
 
-    elif [ -f ${MISE} ]; then
-        ${MISE} use -g node@${VERSION} -y && ${MISE} activate bash >/dev/null || echo "node install failed."
+    elif [ -f "${MISE}" ]; then
+        "${MISE}" use -g "node@${VERSION}" -y || echo "node install failed."
 
     else
         echo "mise not found."
@@ -77,8 +78,8 @@ bw_install() {
     elif command -v npm >/dev/null 2>&1; then
         npm install -g @bitwarden/cli || echo "bitwarden cli install failed."
 
-    elif [ -f ${NPM} ]; then
-        ${NPM} install -g @bitwarden/cli || echo "bitwarden cli install failed."
+    elif [ -f "${NPM}" ]; then
+        "${NPM}" install -g @bitwarden/cli || echo "bitwarden cli install failed."
 
     else
         echo "npm not found."
@@ -96,7 +97,7 @@ bw_unlock() {
     local bw_cmd=""
     if command -v bw >/dev/null 2>&1; then
         bw_cmd="bw"
-    elif [ -f ${BW} ]; then
+    elif [ -f "${BW}" ]; then
         bw_cmd="${BW}"
     else
         echo "bw cli not found."
@@ -107,7 +108,7 @@ bw_unlock() {
     if [ -f "${SESSION}" ]; then
         set -a
         # shellcheck source=/dev/null
-        . "${SESSION}" 2>/dev/null || true
+        . "${SESSION}" 2>/dev/null || echo "session file could not be loaded."
         set +a
         if [ -n "${BW_SESSION:-}" ] && ${bw_cmd} status 2>/dev/null | grep -q '"status":"unlocked"'; then
             echo "BW_SESSION already valid, skipping unlock."

@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -eu
 
 sudo=""
 if [ "$(id -u)" -ne 0 ]; then
@@ -73,7 +74,7 @@ install_mise() {
     else
         $sudo install -dm 755 /etc/apt/keyrings
         wget -qO - https://mise.jdx.dev/gpg-key.pub | $sudo gpg --dearmor | $sudo tee /etc/apt/keyrings/mise-archive-keyring.gpg 1>/dev/null
-        echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=${dpkg --print-architecture}] https://mise.jdx.dev/deb stable main" | $sudo tee /etc/apt/sources.list.d/mise.list
+        echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=$(dpkg --print-architecture)] https://mise.jdx.dev/deb stable main" | $sudo tee /etc/apt/sources.list.d/mise.list
         $sudo apt-get update -y
         $sudo apt-get install -y mise || echo "mise install failed."
     fi
@@ -81,13 +82,10 @@ install_mise() {
     export PATH="${HOME}/.local/bin:${HOME}/.local/share/mise/shims:${HOME}/.local/bin:${HOME}/.local/share/mise/installs:$PATH"
     mise --version >> ${HOME}/which || echo "mise not found" >> ${HOME}/which
 
-    if [ -f ${HOME}/.config/mise/config.toml ]; then
-        mise i -y
+    if [ -f "${HOME}/.config/mise/config.toml" ]; then
+        mise i -y || echo "mise install failed."
     fi
 
-    mise activate --shims
-    mise activate bash
-    mise bin-paths
     echo "mise setup completed."
 }
 

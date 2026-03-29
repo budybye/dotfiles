@@ -1,323 +1,325 @@
 packages:
   darwin:
     formula:
-    # 基本系
-    - 'git'
-    - 'curl'
-    - 'cask'
-    - 'make'
-    - 'zsh'
-    - 'mas'
-    - 'tree'
-    # 開発系
-    - 'autoconf'
-    - 'automake'
-    - 'ain'
-    - 'bash'
-    - 'bash-completion'
-    - 'byobu'
-    - 'ca-certificates'
-    # ジョーク系コマンド
-    - 'cmatrix'
-    - 'fortune'
-    - 'figlet'
-    # 音楽系
-    - 'mackup'
-    - 'mpd'
-    - 'ncmpcpp'
-    # - 'ffmpeg'
-    # - 'yt-dlp'
-    # 便利コマンド
-    - 'translate-shell'
-    - 'moreutils'
-    - 'multitail'
-    - 'nmap'
-    # - 'vim'
-    # - 'termshark'
-    # rust 系
-    - 'mise'
-    - 'sheldon'
-    - 'starship'
+      # 基本系
+      - "git"
+      - "curl"
+      - "cask"
+      - "make"
+      - "zsh"
+      - "mas"
+      - "tree"
+      # 開発系
+      - "autoconf"
+      - "automake"
+      - "ain"
+      - "bash"
+      - "bash-completion"
+      - "byobu"
+      - "ca-certificates"
+      # ジョーク系コマンド
+      - "cmatrix"
+      - "fortune"
+      - "figlet"
+      # 音楽系
+      - "mackup"
+      - "mpd"
+      - "ncmpcpp"
+      # - 'ffmpeg'
+      # - 'yt-dlp'
+      # 便利コマンド
+      - "translate-shell"
+      - "moreutils"
+      - "multitail"
+      - "nmap"
+      # - 'vim'
+      # - 'termshark'
+      # rust 系
+      - "mise"
+      - "sheldon"
+      - "starship"
     # - 'bat'
     # - 'lsd'
     # - 'fzf'
     # - 'ripgrep'
 
     cask:
-    - 'appcleaner'
-    - 'betterdisplay'
-    - 'bitwarden'
-    - 'brave-browser'
-    - 'clipy'
-    - 'cloudflare-warp'
-    - 'cursor'
-    - 'discord'
-    - 'font-hackgen-nerd'
-    # - 'font-roboto-mono-nerd-font'
-    - 'github'
-    # - 'google-chrome'
-    - 'karabiner-elements'
-    - 'musicbrainz-picard'
-    # - 'notion'
-    - 'obsidian'
-    - 'onyx'
-    - 'raycast'
-    - 'ghostty'
-    - 'rectangle'
-    - 'visual-studio-code'
-    - 'windows-app'
+      - "appcleaner"
+      - "betterdisplay"
+      - "bitwarden"
+      - "brave-browser"
+      - "clipy"
+      - "cloudflare-warp"
+      - "cursor"
+      - "discord"
+      - "font-hackgen-nerd"
+      # - 'font-roboto-mono-nerd-font'
+      - "github"
+      # - 'google-chrome'
+      - "karabiner-elements"
+      - "musicbrainz-picard"
+      # - 'notion'
+      - "obsidian"
+      - "onyx"
+      - "raycast"
+      - "ghostty"
+      - "rectangle"
+      - "visual-studio-code"
+      - "windows-app"
     # - 'alacritty'
     # - 'tabby'
 
   linux:
     cli:
-    - 'apt-utils'
-    - 'git'
-    - 'curl'
-    - 'make'
-    - 'zsh'
-    - 'wget'
-    - 'vim'
-    - 'build-essential'
-    - 'cmake'
-    - 'gnupg'
-    - 'g++'
-    - 'sudo'
+      - "apt-utils"
+      - "git"
+      - "curl"
+      - "make"
+      - "zsh"
+      - "wget"
+      - "vim"
+      - "build-essential"
+      - "cmake"
+      - "gnupg"
+      - "g++"
+      - "sudo"
 
-    - 'flatpak'
-    - 'tree'
-    - 'xsel'
-    - 'ncdu'
-    - 'xdotool'
-    - 'moreutils'
-    - 'multitail'
-    - 'htop'
+      - "flatpak"
+      - "tree"
+      - "xsel"
+      - "ncdu"
+      - "xdotool"
+      - "moreutils"
+      - "multitail"
+      - "htop"
 
-    - 'openssh-server'
-    - 'avahi-daemon'
-    - 'pkg-config'
-    - 'apt-transport-https'
-    - 'ca-certificates'
-    - 'lsb-release'
-    - 'libssl-dev'
-    - 'libfuse2'
-    # - 'libfuse2t64'
-    - 'libnss3-tools'
-    - 'libinput-tools'
-    - 'libdb-dev'
-    - 'libdb5.3-dev'
-    - 'libgdbm-dev'
-    - 'libgmp-dev'
-    - 'libgmpxx4ldbl'
-    - 'libgdbm-compat-dev'
-    - 'libstd-rust-1.75'
-    - 'libstd-rust-dev'
-    - 'libncurses5-dev'
-    - 'libffi-dev'
-    - 'libfreetype6-dev'
-    - 'libfontconfig1-dev'
-    - 'libxcb-xfixes0-dev'
-    - 'libxkbcommon-dev'
+      - "openssh-server"
+      - "avahi-daemon"
+      - "pkg-config"
+      - "apt-transport-https"
+      - "ca-certificates"
+      - "lsb-release"
+      - "libssl-dev"
+      - "libfuse2"
+      # - 'libfuse2t64'
+      - "libnss3-tools"
+      - "libinput-tools"
+      - "libdb-dev"
+      - "libdb5.3-dev"
+      - "libgdbm-dev"
+      - "libgmp-dev"
+      - "libgmpxx4ldbl"
+      - "libgdbm-compat-dev"
+      - "libstd-rust-1.75"
+      - "libstd-rust-dev"
+      - "libncurses5-dev"
+      - "libffi-dev"
+      - "libfreetype6-dev"
+      - "libfontconfig1-dev"
+      - "libxcb-xfixes0-dev"
+      - "libxkbcommon-dev"
 
-    - 'ffmpeg'
-    # - 'lsd'
-    # - 'zoxide'
-    # - 'yt-dlp'
+      - "ffmpeg"
+      # - 'lsd'
+      # - 'zoxide'
+      # - 'yt-dlp'
 
-    - 'mpd'
-    - 'mpc'
-    - 'ncmpcpp'
-    - 'net-tools'
-    - 'nmap'
-    - 'snapd'
-    - 'termshark'
-    - 'ufw'
-    - 'rsyslog'
-    - 'im-config'
-    - 'ruby'
-    # - 'byobu'
-    # - 'jq'
+      - "mpd"
+      - "mpc"
+      - "ncmpcpp"
+      - "net-tools"
+      - "nmap"
+      - "snapd"
+      - "termshark"
+      - "ufw"
+      - "rsyslog"
+      - "im-config"
+      - "ruby"
+      # - 'byobu'
+      # - 'jq'
 
-    # - 'cowsay'
-    - 'figlet'
-    - 'fortune-mod'
-    - 'cmatrix'
-    - 'oneko'
-    - 'lolcat'
-    - 'nyancat'
-    - 'translate-shell'
-    - 'command-not-found'
+      # - 'cowsay'
+      - "figlet"
+      - "fortune-mod"
+      - "cmatrix"
+      - "oneko"
+      - "lolcat"
+      - "nyancat"
+      - "translate-shell"
+      - "command-not-found"
 
     gui:
-    - 'xfce4'
-    - 'xfce4-goodies'
-    - 'xrdp'
-    - 'xorgxrdp'
-    - 'dbus-x11'
-    - 'sddm'
-    # - 'gdm3'
-    # - 'lightdm'
-    # - 'tasksel'
-    # - 'task-xfce-desktop'
+      - "xfce4"
+      - "xfce4-goodies"
+      - "xrdp"
+      - "xorgxrdp"
+      - "dbus-x11"
+      - "sddm"
+      # - 'gdm3'
+      # - 'lightdm'
+      # - 'tasksel'
+      # - 'task-xfce-desktop'
 
-    - 'libpulse-dev'
-    - 'gnome-keyring'
-    # - 'pulseaudio'
-    - 'pipewire'
-    - 'pipewire-audio'
-    - 'libspa-0.2-dev'
-    - 'libpipewire-0.3-dev'
-    - 'asahi-audio'
-    - 'autoconf'
-    - 'libtool'
+      - "libpulse-dev"
+      - "gnome-keyring"
+      # - 'pulseaudio'
+      - "pipewire"
+      - "pipewire-audio"
+      - "libspa-0.2-dev"
+      - "libpipewire-0.3-dev"
+      - "asahi-audio"
+      - "autoconf"
+      - "libtool"
 
-    - 'language-pack-ja-base'
-    - 'language-pack-ja'
-    - 'manpages-ja'
-    - 'fcitx5-mozc'
+      - "language-pack-ja-base"
+      - "language-pack-ja"
+      - "manpages-ja"
+      - "fcitx5-mozc"
 
-    - 'plank'
-    - 'picard'
-    - 'remmina'
-    - 'xsel'
-    - 'xclip'
+      - "plank"
+      - "picard"
+      - "remmina"
+      - "xsel"
+      - "xclip"
   snap:
     classic:
-    - 'alacritty'
-    - 'ghostty'
+      - "alacritty"
+      # - "ghostty"
     # - 'code' amd64
     # - 'codium' arm64
     # - 'obsidian'
     latest:
-    # - 'bitwarden'
-    # - 'chromium'
-    # - 'element-desktop'
-    # - 'postman'
-    # - 'brave'
-    - 'clipboard'
-    - 'speedtest-cli'
-    - 'multipass'
+      # - 'bitwarden'
+      - "chromium"
+      # - 'element-desktop'
+      # - 'postman'
+      # - 'brave'
+      - "clipboard"
+      - "speedtest-cli"
+      - "multipass"
 
   extensions:
-  - '42crunch.vscode-openapi'
-  - 'adpyke.codesnap'
-  - 'ambar.bundle-size'
-  - 'antfu.slidev'
-  - 'anthropic.claude-code'
-  - 'bradlc.vscode-tailwindcss'
-  - 'bmewburn.vscode-intelephense-client'
-  - 'bierner.markdown-emoji'
-  - 'christian-kohler.npm-intellisense'
-  - 'christian-kohler.path-intellisense'
-  - 'coderabbit.coderabbit-vscode'
-  - 'corschenzi.mermaid-graphical-editor'
-  - 'dbaeumer.vscode-eslint'
-  - 'davidanson.vscode-markdownlint'
-  - 'echoapi.echoapi-for-vscode'
-  - 'eamodio.gitlens'
-  - 'esbenp.prettier-vscode'
-  - 'editorconfig.editorconfig'
-  - 'formulahendry.auto-close-tag'
-  - 'formulahendry.auto-complete-tag'
-  - 'formulahendry.auto-rename-tag'
-  - 'foxundermoon.shell-format'
-  - 'docker.docker'
-  - 'golang.go'
-  - 'github.vscode-github-actions'
-  - 'hediet.vscode-drawio'
-  - 'hono.hono'
-  - 'hverlin.mise-vscode'
-  - 'ibm.output-colorizer'
-  - 'intellsmi.comment-translate'
-  - 'ivanarjona.cloudflaretunnel'
-  - 'jinliming2.vscode-go-template'
-  - 'keploy.keployio'
-  # - 'kdl-org.kdl'
-  - 'kimlimjustin.jsdoc-generator'
-  - 'lokalise.i18n-ally'
-  - 'matthewpi.caddyfile-support'
-  - 'marp-team.marp-vscode'
-  - 'mermaidchart.vscode-mermaid-chart'
-  - 'mechatroner.rainbow-csv'
-  # - 'mikestead.dotenv'
-  # - 'monokai.theme-monokai-pro-vscode'
-  - 'ms-ceintl.vscode-language-pack-ja'
-  - 'ms-python.python'
-  # - 'ms-mssql.mssql
-  - 'ms-vscode.hexeditor'
-  - 'ms-vscode.makefile-tools'
-  - 'ms-vscode-remote.remote-ssh-edit'
-  - 'ms-vscode-remote.remote-ssh'
-  - 'ms-vscode-remote.remote-wsl'
-  - 'ms-vscode-remote.vscode-remote-extensionpack'
-  - 'mtxr.sqltools'
-  - 'naumovs.color-highlight'
-  - 'oderwat.indent-rainbow'
-  - 'oven.bun-vscode'
-  - 'qwtel.sqlite-viewer'
-  - 'rphlmr.vscode-drizzle-orm'
-  - 'redhat.vscode-yaml'
-  - 'shaneliesegang.vscode-simple-icons-rev'
-  - 'stkb.rewrap'
-  - 'streetsidesoftware.code-spell-checker'
-  - 'tamasfe.even-better-toml'
-  - 'twpayne.vscode-igc'
-  - 'twpayne.vscode-testscript'
-  - 'Tyriar.sort-lines'
-  - 'visualstudioexptteam.vscodeintellicode'
-  - 'visualstudioexptteam.intellicode-api-usage-examples'
-  - 'wallabyjs.console-ninja'
-  - 'xdebug.php-debug'
-  - 'yoavbls.pretty-ts-errors'
-  - 'yzhang.markdown-all-in-one'
+    - "42crunch.vscode-openapi"
+    - "adpyke.codesnap"
+    - "ambar.bundle-size"
+    - "antfu.slidev"
+    - "anthropic.claude-code"
+    - "bradlc.vscode-tailwindcss"
+    - "bmewburn.vscode-intelephense-client"
+    - "bierner.markdown-emoji"
+    - "christian-kohler.npm-intellisense"
+    - "christian-kohler.path-intellisense"
+    - "coderabbit.coderabbit-vscode"
+    - "corschenzi.mermaid-graphical-editor"
+    - "dbaeumer.vscode-eslint"
+    # - "davidanson.vscode-markdownlint"
+    - "echoapi.echoapi-for-vscode"
+    # - "eamodio.gitlens"
+    - "esbenp.prettier-vscode"
+    - "editorconfig.editorconfig"
+    - "formulahendry.auto-close-tag"
+    - "formulahendry.auto-complete-tag"
+    - "formulahendry.auto-rename-tag"
+    - "foxundermoon.shell-format"
+    - "docker.docker"
+    - "golang.go"
+    - "github.vscode-github-actions"
+    - "hediet.vscode-drawio"
+    - "hono.hono"
+    - "hverlin.mise-vscode"
+    - "ibm.output-colorizer"
+    # - "intellsmi.comment-translate"
+    - "ivanarjona.cloudflaretunnel"
+    - "jinliming2.vscode-go-template"
+    - "keploy.keployio"
+    # - 'kdl-org.kdl'
+    - "kimlimjustin.jsdoc-generator"
+    - "lokalise.i18n-ally"
+    - "matthewpi.caddyfile-support"
+    - "marp-team.marp-vscode"
+    - "mermaidchart.vscode-mermaid-chart"
+    - "mechatroner.rainbow-csv"
+    # - 'mikestead.dotenv'
+    # - 'monokai.theme-monokai-pro-vscode'
+    - "ms-ceintl.vscode-language-pack-ja"
+    - "ms-python.python"
+    # - 'ms-mssql.mssql
+    - "ms-vscode.hexeditor"
+    - "ms-vscode.makefile-tools"
+    - "ms-vscode-remote.remote-ssh-edit"
+    - "ms-vscode-remote.remote-ssh"
+    - "ms-vscode-remote.remote-wsl"
+    - "ms-vscode-remote.vscode-remote-extensionpack"
+    - "mtxr.sqltools"
+    - "naumovs.color-highlight"
+    - "oderwat.indent-rainbow"
+    - "oven.bun-vscode"
+    - "qwtel.sqlite-viewer"
+    - "rphlmr.vscode-drizzle-orm"
+    - "redhat.vscode-yaml"
+    - "shaneliesegang.vscode-simple-icons-rev"
+    - "stkb.rewrap"
+    # - "streetsidesoftware.code-spell-checker"
+    - "tamasfe.even-better-toml"
+    - "twpayne.vscode-igc"
+    - "twpayne.vscode-testscript"
+    - "Tyriar.sort-lines"
+    - "visualstudioexptteam.vscodeintellicode"
+    - "visualstudioexptteam.intellicode-api-usage-examples"
+    - "wallabyjs.console-ninja"
+    - "xdebug.php-debug"
+    - "yoavbls.pretty-ts-errors"
+    - "yzhang.markdown-all-in-one"
 
   windows:
     winget:
-    - 'Microsoft.PowerShell'
-    - 'Microsoft.PowerToys'
-    - 'Microsoft.VisualStudioCode'
-    - 'Docker.DockerDesktop'
-    - 'Brave.Brave'
-    - 'twpayne.chezmoi'
-    - 'fastfetch'
-    - 'jj-vcs.jj'
+      - "Microsoft.PowerShell"
+      - "Microsoft.PowerToys"
+      - "Microsoft.VisualStudioCode"
+      - "Docker.DockerDesktop"
+      - "Brave.Brave"
+      - "twpayne.chezmoi"
+      - "fastfetch"
+      - "jj-vcs.jj"
+      - "ZedIndustries.Zed"
 
     scoop:
-    - 'git'
-    - 'curl'
-    - 'make'
-    - 'mise'
+      - "git"
+      - "curl"
+      - "make"
+      - "mise"
 
   cargo:
-  - 'navi'
-  - 'octorus'
-  - 'sheldon'
-  - 'starship'
-  - 'memvid-core'
-  # - 'alacritty'
-  # - 'cargo-binstall'
-  # - 'jj'
-  # - 'bat'
-  # - 'lsd'
-  # - 'fd-find'
-  # - 'ripgrep'
-  # - 'xh'
-  # - 'zoxide'
-  # - 'zellij'
+    - "navi"
+    - "octorus"
+    - "sheldon"
+    - "starship"
+    - "memvid-core"
+    # - 'alacritty'
+    # - 'cargo-binstall'
+    # - 'jj'
+    # - 'bat'
+    # - 'lsd'
+    # - 'fd-find'
+    # - 'ripgrep'
+    # - 'xh'
+    # - 'zoxide'
+    # - 'zellij'
 
-  - 'boringtun-cli'
-  - 'coreutils'
-  - 'sniffnet'
-  - 'kmon'
-  - 'onehistory'
-  - 'vaultwarden'
+    - "boringtun-cli"
+    - "coreutils"
+    - "sniffnet"
+    - "kmon"
+    - "onehistory"
+    - "vaultwarden"
   # - 'fermyon'
 
   npm:
-  - 'pm2'
-  - '@hono/cli'
-  - 'rnsec'
-  - 'ctx7'
+    - "pm2"
+    - "@hono/cli"
+    - "rnsec"
+    - "ctx7"
+    - "@mariozechner/pi-coding-agent"
   # - '@hubai/cli'
   # - 'vibekit'
   # - 'surge'
@@ -334,81 +336,81 @@ packages:
   # - '@bitwarden/cli'
 
   skills:
-  - 'npx skills add https://github.com/rivet-dev/skills --skill rivetkit'
-  - 'npx skills add https://github.com/yusukebe/hono-skill --skill hono'
-  - 'npx skills add https://github.com/bobmatnyc/claude-mpm-skills --skill hono-cloudflare'
-  - 'npx skills add https://github.com/bobmatnyc/claude-mpm-skills --skill daisyui'
-  - 'npx skills add https://github.com/bobmatnyc/claude-mpm-skills --skill drizzle-orm'
-  - 'npx skills add https://github.com/bobmatnyc/claude-mpm-skills --skill playwright-e2e-testing'
-  - 'npx skills add https://github.com/bobmatnyc/claude-mpm-skills --skill github-actions'
-  - 'npx skills add https://github.com/remix-run/agent-skills --skill react-router-framework-mode'
-  - 'npx skills add https://github.com/sergiodxa/agent-skills --skill frontend-react-router-best-practices'
-  - 'npx skills add https://github.com/sergiodxa/agent-skills --skill frontend-async-best-practices'
-  - 'npx skills add https://github.com/sergiodxa/agent-skills --skill frontend-tailwind-best-practices'
-  - 'npx skills add https://github.com/sergiodxa/agent-skills --skill frontend-react-best-practices'
-  - 'npx skills add https://github.com/sergiodxa/agent-skills --skill skill-writing-best-practices'
-  - 'npx skills add https://github.com/cloudflare/skills --skill cloudflare'
-  - 'npx skills add https://github.com/cloudflare/skills --skill durable-objects'
-  - 'npx skills add https://github.com/cloudflare/skills --skill agents-sdk'
-  - 'npx skills add https://github.com/cloudflare/skills --skill workers-best-practices'
-  - 'npx skills add https://github.com/cloudflare/cloudflare-docs --skill cloudflare'
-  - 'npx skills add https://github.com/antfu/skills --skill vitest'
-  - 'npx skills add https://github.com/antfu/skills --skill slidev'
-  - 'npx skills add https://github.com/alinaqi/claude-bootstrap --skill pwa-development'
-  - 'npx skills add https://github.com/kepano/obsidian-skills --skill obsidian-markdown'
-  - 'npx skills add https://github.com/coderabbitai/skills --skill code-review'
-  - 'npx skills add https://github.com/xrpl-commons/xrpl-dev-skill --skill xrpl-dev'
-  - 'npx skills add https://github.com/knoopx/pi --skill jujutsu'
-  - 'npx skills add https://github.com/open-circle/agent-skills --skill valibot-usage'
-  - 'npx skills add https://github.com/faintghost/skills --skill chezmoi-config'
-  - 'npx skills add https://github.com/softaworks/agent-toolkit --skill mermaid-diagrams'
-  - 'npx skills add https://github.com/sickn33/antigravity-awesome-skills --skill bun-development'
-  - 'npx skills add https://github.com/elysiajs/skills --skill elysiajs'
-  - 'npx skills add https://github.com/czlonkowski/n8n-skills --skill n8n-workflow-patterns'
-  - 'npx skills add https://github.com/czlonkowski/n8n-skills --skill n8n-node-configuration'
-  - 'npx skills add https://github.com/orval/orval-skills --skill orval'
-  - 'npx skills add https://github.com/neondatabase/agent-skills --skill neon-postgres'
-  - 'npx skills add https://github.com/affaan-m/everything-claude-code --skill postgres-patterns'
-  - 'npx skills add https://github.com/asyrafhussin/agent-skills --skill php-best-practices'
-  - 'npx skills add https://github.com/mindrally/skills --skill swr'
-  - 'npx skills add https://github.com/s-hiraoku/skills-factory --skill jotai-expert'
-  - 'npx skills add https://github.com/apollographql/skills --skill rust-best-practices'
-  - 'npx skills add https://github.com/wshobson/agents --skill github-actions-templates'
-  - 'npx skills add https://github.com/wshobson/agents --skill typescript-advanced-types'
-  - 'npx skills add https://github.com/wshobson/agents --skill api-design-principles'
-  - 'npx skills add https://github.com/wshobson/agents --skill code-review-excellence'
-  - 'npx skills add https://github.com/wshobson/agents --skill postgresql-table-design'
-  - 'npx skills add https://github.com/nextlevelbuilder/ui-ux-pro-max-skill --skill ui-ux-pro-max'
-  - 'npx skills add https://github.com/vercel-labs/agent-skills --skill web-design-guidelines'
-  - 'npx skills add https://github.com/vercel-labs/skills --skill find-skills'
-  - 'npx skills add https://github.com/better-auth/skills --skill better-auth-best-practices'
-  - 'npx skills add https://github.com/anthropics/skills --skill mcp-builder'
-  - 'npx skills add https://github.com/anthropics/skills --skill frontend-design'
-  - 'npx skills add https://github.com/anthropics/skills --skill skill-creator'
-  - 'npx skills add https://github.com/obra/superpowers --skill writing-plans'
-  - 'npx skills add https://github.com/obra/superpowers --skill test-driven-development'
-  - 'npx skills add https://github.com/obra/superpowers --skill executing-plans'
-  - 'npx skills add https://github.com/jezweb/claude-skills --skill cloudflare-worker-base'
-  - 'npx skills add https://github.com/orval-labs/orval --skill orval'
-  - 'npx skills add https://github.com/deckardger/tanstack-agent-skills --skill tanstack-query-best-practices'
-  - 'npx skills add https://github.com/nymbo/skills --skill music-downloader'
-  - 'npx skills add https://github.com/digitalsamba/claude-code-video-toolkit --skill ffmpeg'
+    - "npx skills add https://github.com/rivet-dev/skills --skill rivetkit"
+    - "npx skills add https://github.com/yusukebe/hono-skill --skill hono"
+    - "npx skills add https://github.com/bobmatnyc/claude-mpm-skills --skill hono-cloudflare"
+    - "npx skills add https://github.com/bobmatnyc/claude-mpm-skills --skill daisyui"
+    - "npx skills add https://github.com/bobmatnyc/claude-mpm-skills --skill drizzle-orm"
+    - "npx skills add https://github.com/bobmatnyc/claude-mpm-skills --skill playwright-e2e-testing"
+    - "npx skills add https://github.com/bobmatnyc/claude-mpm-skills --skill github-actions"
+    - "npx skills add https://github.com/remix-run/agent-skills --skill react-router-framework-mode"
+    - "npx skills add https://github.com/sergiodxa/agent-skills --skill frontend-react-router-best-practices"
+    - "npx skills add https://github.com/sergiodxa/agent-skills --skill frontend-async-best-practices"
+    - "npx skills add https://github.com/sergiodxa/agent-skills --skill frontend-tailwind-best-practices"
+    - "npx skills add https://github.com/sergiodxa/agent-skills --skill frontend-react-best-practices"
+    - "npx skills add https://github.com/sergiodxa/agent-skills --skill skill-writing-best-practices"
+    - "npx skills add https://github.com/cloudflare/skills --skill cloudflare"
+    - "npx skills add https://github.com/cloudflare/skills --skill durable-objects"
+    - "npx skills add https://github.com/cloudflare/skills --skill agents-sdk"
+    - "npx skills add https://github.com/cloudflare/skills --skill workers-best-practices"
+    - "npx skills add https://github.com/cloudflare/cloudflare-docs --skill cloudflare"
+    - "npx skills add https://github.com/antfu/skills --skill vitest"
+    - "npx skills add https://github.com/antfu/skills --skill slidev"
+    - "npx skills add https://github.com/alinaqi/claude-bootstrap --skill pwa-development"
+    - "npx skills add https://github.com/kepano/obsidian-skills --skill obsidian-markdown"
+    - "npx skills add https://github.com/coderabbitai/skills --skill code-review"
+    - "npx skills add https://github.com/xrpl-commons/xrpl-dev-skill --skill xrpl-dev"
+    - "npx skills add https://github.com/knoopx/pi --skill jujutsu"
+    - "npx skills add https://github.com/open-circle/agent-skills --skill valibot-usage"
+    - "npx skills add https://github.com/faintghost/skills --skill chezmoi-config"
+    - "npx skills add https://github.com/softaworks/agent-toolkit --skill mermaid-diagrams"
+    - "npx skills add https://github.com/sickn33/antigravity-awesome-skills --skill bun-development"
+    - "npx skills add https://github.com/elysiajs/skills --skill elysiajs"
+    - "npx skills add https://github.com/czlonkowski/n8n-skills --skill n8n-workflow-patterns"
+    - "npx skills add https://github.com/czlonkowski/n8n-skills --skill n8n-node-configuration"
+    - "npx skills add https://github.com/orval/orval-skills --skill orval"
+    - "npx skills add https://github.com/neondatabase/agent-skills --skill neon-postgres"
+    - "npx skills add https://github.com/affaan-m/everything-claude-code --skill postgres-patterns"
+    - "npx skills add https://github.com/asyrafhussin/agent-skills --skill php-best-practices"
+    - "npx skills add https://github.com/mindrally/skills --skill swr"
+    - "npx skills add https://github.com/s-hiraoku/skills-factory --skill jotai-expert"
+    - "npx skills add https://github.com/apollographql/skills --skill rust-best-practices"
+    - "npx skills add https://github.com/wshobson/agents --skill github-actions-templates"
+    - "npx skills add https://github.com/wshobson/agents --skill typescript-advanced-types"
+    - "npx skills add https://github.com/wshobson/agents --skill api-design-principles"
+    - "npx skills add https://github.com/wshobson/agents --skill code-review-excellence"
+    - "npx skills add https://github.com/wshobson/agents --skill postgresql-table-design"
+    - "npx skills add https://github.com/nextlevelbuilder/ui-ux-pro-max-skill --skill ui-ux-pro-max"
+    - "npx skills add https://github.com/vercel-labs/agent-skills --skill web-design-guidelines"
+    - "npx skills add https://github.com/vercel-labs/skills --skill find-skills"
+    - "npx skills add https://github.com/better-auth/skills --skill better-auth-best-practices"
+    - "npx skills add https://github.com/anthropics/skills --skill mcp-builder"
+    - "npx skills add https://github.com/anthropics/skills --skill frontend-design"
+    - "npx skills add https://github.com/anthropics/skills --skill skill-creator"
+    - "npx skills add https://github.com/obra/superpowers --skill writing-plans"
+    - "npx skills add https://github.com/obra/superpowers --skill test-driven-development"
+    - "npx skills add https://github.com/obra/superpowers --skill executing-plans"
+    - "npx skills add https://github.com/jezweb/claude-skills --skill cloudflare-worker-base"
+    - "npx skills add https://github.com/orval-labs/orval --skill orval"
+    - "npx skills add https://github.com/deckardger/tanstack-agent-skills --skill tanstack-query-best-practices"
+    - "npx skills add https://github.com/nymbo/skills --skill music-downloader"
+    - "npx skills add https://github.com/digitalsamba/claude-code-video-toolkit --skill ffmpeg"
 
   curl:
-  - 'curl -fsSL https://mise.run | sh'
-  - 'curl -fsSL https://git.io/chezmoi | bash'
-  - 'curl -fsSL https://cli.coderabbit.ai/install.sh | bash'
-  - 'curl -fsSL https://vicinae.com/install.sh | bash'
-  - 'curl -fsSL https://nixos.org/nix/install | sh'
-  - 'curl -fsSL https://vite.plus | bash'
-  - 'curl -fsSL https://cursor.com/install | bash'
-  - 'curl -fsSL https://raw.githubusercontent.com/watzon/cursor-linux-installer/main/install.sh | bash -s -- latest'
+    - "curl -fsSL https://mise.run | sh"
+    - "curl -fsSL https://git.io/chezmoi | sh"
+    - "curl -fsSL https://cli.coderabbit.ai/install.sh | sh"
+    - "curl -fsSL https://vicinae.com/install.sh | sh"
+    - "curl -fsSL https://nixos.org/nix/install | sh"
+    - "curl -fsSL https://vite.plus | sh"
+    - "curl -fsSL https://cursor.com/install | sh"
+    - "curl -fsSL https://raw.githubusercontent.com/watzon/cursor-linux-installer/main/install.sh | sh -s -- latest"
 
   go:
-  - 'aqua'
-  - 'hammer'
-  - 'websocat'
-  - 'jjui'
+    - "aqua"
+    - "hammer"
+    - "websocat"
+  # - "jjui"
   # - 'act'
   # - 'age'
   # - 'caddy'
@@ -417,5 +419,5 @@ packages:
   # - 'rclone'
 
   python:
-  - 'navi'
-  - 'ragas'
+    - "navi"
+    - "ragas"

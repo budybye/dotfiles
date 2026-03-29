@@ -2,6 +2,8 @@
 # ファイルが配置されるときの名前にする run_ once_ after_ .tmpl はつけない
 # .name などのdata は .chezmoi.toml.tmpl
 
+.DS_Store
+**/.DS_Store
 .chezmoiexternal.*
 key.txt.age
 shhh.txt

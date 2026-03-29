@@ -1,0 +1,57 @@
+# Windows セットアップスクリプト
+# chezmoi が powershell.exe -File で実行する
+
+function Install-Scoop {
+    if (!(Get-Command scoop -ErrorAction SilentlyContinue)) {
+        Write-Host "Installing scoop..."
+        Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
+        Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
+    } else {
+        Write-Host "scoop already installed."
+    }
+    scoop -v
+
+    {{ range .packages.windows.scoop -}}
+    scoop install {{ . }}
+    {{ end }}
+
+    scoop list
+}
+
+function Install-Winget {
+    if (!(Get-Command winget -ErrorAction SilentlyContinue)) {
+        Write-Host "winget not found. Install via Microsoft Store."
+        return
+    }
+    winget -v
+
+    {{ range .packages.windows.winget -}}
+    winget install {{ . }} --accept-source-agreements --accept-package-agreements
+    {{ end }}
+
+    winget list
+}
+
+function Install-Mise {
+    $shimPath = "$env:USERPROFILE\AppData\Local\mise\shims"
+    $currentPath = [Environment]::GetEnvironmentVariable('Path', 'User')
+    if ($currentPath -notlike "*$shimPath*") {
+        $newPath = $currentPath + ";" + $shimPath
+        [Environment]::SetEnvironmentVariable('Path', $newPath, 'User')
+        Write-Host "mise shims added to PATH."
+    } else {
+        Write-Host "mise shims already in PATH."
+    }
+    if (Get-Command mise -ErrorAction SilentlyContinue) {
+        mise dr
+    }
+}
+
+Write-Host "install.ps1"
+Write-Host "--------------------------------"
+Install-Scoop
+Install-Winget
+Install-Mise
+Write-Host "--------------------------------"
+Write-Host "Installation complete."
+Write-Host "--------------------------------"

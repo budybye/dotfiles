@@ -1,6 +1,6 @@
 ---
 name: worker-compat-fixer
-description: [Triggers: wrangler.jsonc, nodejs_compat, workerd, compatibility, fetch, streams, crypto, Hono, polyfill, shim] A skill for diagnosing and fixing Node.js dependencies and Web Standard incompatibilities in Cloudflare Workers. It provides migration plans, compatible library suggestions, and code refactoring, prioritizing Hono and native Web Standard APIs (Fetch, Streams, Crypto).
+description: A skill for diagnosing and resolving Node.js incompatibilities when deploying to Cloudflare Workers (workerd). Provides a phase-by-phase migration checklist, API compatibility matrix, Web Crypto recipes, and Hono-based code patterns. Prioritizes native Web Standard APIs over polyfills for minimal bundle size. [Triggers: /worker-compat-fixer, wrangler.jsonc, nodejs_compat, workerd, compatibility, fetch, streams, crypto, Hono, polyfill, shim, migrate to workers, workers build error, not a function in workers]
 ---
 
 # /worker-compat-fixer — Workers Node.js Compatibility Skill
@@ -16,6 +16,7 @@ Diagnose Node.js incompatibilities in the Cloudflare Workers (workerd) environme
 | Common Shim Patterns                     | [references/shim-patterns.md](references/shim-patterns.md)             |
 | node:crypto to Web Crypto Recipes        | [references/web-crypto-cookbook.md](references/web-crypto-cookbook.md) |
 | Hono Web API Patterns & Testing          | [references/hono-patterns.md](references/hono-patterns.md)             |
+| Migration Checklist (phase-by-phase)     | [references/migration-checklist.md](references/migration-checklist.md) |
 
 ---
 

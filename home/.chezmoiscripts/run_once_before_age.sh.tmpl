@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -eu
 
 echo "run_once_before_age.sh.tmpl"
 echo "--------------------------------"
@@ -16,7 +17,14 @@ elif command -v apt-get >/dev/null 2>&1; then
     sudo apt-get install -y age || echo "age install failed"
 
 elif command -v curl >/dev/null 2>&1; then
-    curl -sSL https://github.com/FiloSottile/age/releases/download/v1.1.2/age-v1.1.2-linux-$(dpkg --print-architecture).tar.gz | tar xz || echo "age install failed"
+    _age_arch="$(uname -m)"
+    case "${_age_arch}" in
+        x86_64)  _age_arch="amd64" ;;
+        aarch64) _age_arch="arm64" ;;
+    esac
+    curl -sSL "https://github.com/FiloSottile/age/releases/download/v1.1.2/age-v1.1.2-linux-${_age_arch}.tar.gz" | tar xz -C /tmp || echo "age install failed"
+    sudo mv /tmp/age/age /usr/local/bin/age || echo "age move failed"
+    sudo mv /tmp/age/age-keygen /usr/local/bin/age-keygen 2>/dev/null || echo "age-keygen not found in archive, skipping."
 
 else
     echo "age not installed"

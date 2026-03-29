@@ -1,6 +1,6 @@
 ---
 name: jj-vcs
-description: [Triggers: /jj, jujutsu, jj st, jj log, jj new, bookmark, commit in jj] Guide for using Jujutsu (jj) VCS instead of Git. Trigger this skill when the user works with version control, commits, branches, bookmarks, push/pull, or mentions jj/jujutsu. Covers jj best practices, Git-to-jj command mapping, and colocated repo workflows.
+description: Guide for Jujutsu (jj) VCS — Git-to-jj command mapping, colocated mode workflows, and output templates for commit messages, bookmark names, and PR descriptions. Always prefer jj commands over git when a .jj directory exists. [Triggers: /jj, jujutsu, jj st, jj log, jj new, jj commit, jj describe, jj squash, jj rebase, bookmark, colocated, push in jj, version control]
 ---
 
 # Jujutsu (jj) VCS Best Practices
@@ -10,6 +10,7 @@ description: [Triggers: /jj, jujutsu, jj st, jj log, jj new, bookmark, commit in
 | Task                               | Guide                                                 |
 | ---------------------------------- | ----------------------------------------------------- |
 | Git to jj Detailed Command Mapping | Read [references/commands.md](references/commands.md) |
+| Commit messages, bookmarks, PR body templates | Read [references/templates.md](references/templates.md) |
 
 ---
 

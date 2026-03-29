@@ -96,14 +96,14 @@ sourceDir = {{ .chezmoi.sourceDir | quote }}
 # ファイルのパーミッションを変更する
 # umask = 0o22
 
-scriptTempDir = "~/tmp"
+scriptTempDir = "{{ .chezmoi.homeDir }}/tmp"
 
 {{/* age 暗号化 */}}
 {{/* if ne (.age) "false" コメントアウト */}}
 {{- if ne (env "GITHUB_ACTIONS") "true" }}
 encryption = "age"
 [age]
-    identity = "~/config/chezmoi/key.txt"
+    identity = "{{ .chezmoi.homeDir }}/.config/chezmoi/key.txt"
     recipients = "age1nvdw6x8addcnfwsa26ed8vz7yv8y9425utujnsy7tcj64qs2ddasl2mphg"
     passphrase = true
     symmetric = true
@@ -129,6 +129,11 @@ encryption = "age"
 {{/* github の設定 */}}
 [github]
     refreshPeriod = "12h"
+
+{{/* Windows スクリプトのインタープリタ設定 */}}
+[interpreters.ps1]
+    command = "powershell.exe"
+    args = ["-NoProfile", "-NonInteractive", "-File"]
 
 {{/* ファイルの編集 */}}
 [edit]

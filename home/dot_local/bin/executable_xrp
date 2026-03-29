@@ -82,21 +82,21 @@ GET_USD_OFFERS='{
     }]
 }'
 
-# curl request to rippled server
-grpc_request() {
+# HTTP JSON-RPC request to rippled server
+json_rpc_request() {
     curl -s -X POST "${XRPL_SERVER}" \
         -H "Content-Type: application/json" \
         -d "${1}"
 }
 
 # get server info
-SERVER_INFO_RESPONSE=$(grpc_request "${GET_SERVER_INFO}")
+SERVER_INFO_RESPONSE=$(json_rpc_request "${GET_SERVER_INFO}")
 # get fee
-FEE_RESPONSE=$(grpc_request "${GET_FEE}")
+FEE_RESPONSE=$(json_rpc_request "${GET_FEE}")
 # get account info
-ACCOUNT_INFO_RESPONSE=$(grpc_request "${GET_ACCOUNT_INFO}")
+ACCOUNT_INFO_RESPONSE=$(json_rpc_request "${GET_ACCOUNT_INFO}")
 # get offers
-OFFER_RESPONSE=$(grpc_request "${GET_USD_OFFERS}")
+OFFER_RESPONSE=$(json_rpc_request "${GET_USD_OFFERS}")
 
 # get ledger_current_index
 LEDGER_INDEX=$(echo "${FEE_RESPONSE}" | jq -r '.result.ledger_current_index')
@@ -104,8 +104,8 @@ LEDGER_INDEX=$(echo "${FEE_RESPONSE}" | jq -r '.result.ledger_current_index')
 OPEN_LEDGER_FEE=$(echo "${FEE_RESPONSE}" | jq -r '.result.drops.open_ledger_fee')
 # get balance
 ACCOUNT_BALANCE=$(echo "${ACCOUNT_INFO_RESPONSE}" | jq -r '.result.account_data.Balance | (tonumber / 1000000)')
-# get quality and multiply by 1,000,000
-XRP_CURRENCY_QUALITY=$(echo "${OFFER_RESPONSE}" | jq -r '.result.offers[].quality | (tonumber * 1000000)')
+# get quality and multiply by 1,000,000 (先頭1件のみ取得)
+XRP_CURRENCY_QUALITY=$(echo "${OFFER_RESPONSE}" | jq -r '[.result.offers[].quality | (tonumber * 1000000)] | first')
 # calculate total price with 3 decimal places
 ACCOUNT_CALC_PRICE=$(awk -v balance="${ACCOUNT_BALANCE}" -v quality="${XRP_CURRENCY_QUALITY}" 'BEGIN {printf "%.3f", balance * quality}')
 
@@ -117,7 +117,7 @@ if [ "${VERBOSE}" -eq 1 ]; then
     echo "${OFFER_RESPONSE}"
 fi
 
-curl rate.sx/xrp
+curl -sf https://rate.sx/xrp || true
 # print summary
 echo "__  ______  ____    _             _"
 echo "\ \/ /  _ \|  _ \  | |    ___  __| | __ _  ___ _ ___"

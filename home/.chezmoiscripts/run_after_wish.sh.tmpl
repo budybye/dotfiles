@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -eu
 
 # chezmoi apply が完了したら最後に実行される
 echo "wish.sh"
@@ -23,28 +24,28 @@ echo "${HOME}"
 ls -la "${HOME}"
 echo "--------------------------------"
 echo "${HOME}/data"
-ls -la "${HOME}/data"
+[ -d "${HOME}/data" ] && ls -la "${HOME}/data" || echo "data not found"
 echo "--------------------------------"
-tree -L 3 "${HOME}/.config"
+tree -L 3 "${HOME}/.config" || ls -la "${HOME}/.config" || echo ".config not found."
 echo "--------------------------------"
 echo "${HOME}/.ssh"
-ls -la "${HOME}/.ssh"
+[ -d "${HOME}/.ssh" ] && ls -la "${HOME}/.ssh" || echo ".ssh not found"
 echo "--------------------------------"
 echo "${HOME}/.local/bin"
 ls -la "${HOME}/.local/bin"
 echo "--------------------------------"
 tree -L 3 "${HOME}/.local/share"
 echo "--------------------------------"
-tree "${HOME}/Music/riddim" || ls -la "${HOME}/Music"
+{ command -v tree >/dev/null 2>&1 && tree "${HOME}/Music/riddim"; } || ls -la "${HOME}/Music" || echo "Music not found."
 echo "--------------------------------"
 
 {{- if eq .chezmoi.os "linux" }}
 
-tree -L 2 ${HOME}/.local/share/themes
+{ [ -d "${HOME}/.local/share/themes" ] && tree -L 2 "${HOME}/.local/share/themes"; } || echo "themes not found."
 echo "--------------------------------"
-tree -L 2 ${HOME}/.local/share/fonts
+{ [ -d "${HOME}/.local/share/fonts" ] && tree -L 2 "${HOME}/.local/share/fonts"; } || echo "fonts not found."
 echo "--------------------------------"
-tree -L 2 ${HOME}/.local/share/icons
+{ [ -d "${HOME}/.local/share/icons" ] && tree -L 2 "${HOME}/.local/share/icons"; } || echo "icons not found."
 echo "--------------------------------"
 
 {{ end -}}

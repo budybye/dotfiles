@@ -6,17 +6,19 @@ PLAYLIST_ID="PLMXoRsxtzGfCH7cvhAnzN_T3KvKmdkB3s"
 PLAYLIST_FILE="${XDG_MUSIC_DIR:-${HOME}/Music}/playlist.json"
 
 if ! command -v yt-dlp > /dev/null 2>&1; then
-  echo "yt-dlp not found"
+  echo "yt-dlp not found" >&2
+  exit 1
 fi
 
 if ! command -v jq > /dev/null 2>&1; then
-  echo "jq not found"
+  echo "jq not found" >&2
+  exit 1
 fi
 
 echo "scanning ${PLAYLIST_ID}..."
 
 yt-dlp -j --flat-playlist "https://youtube.com/playlist?list=${PLAYLIST_ID}" | \
-  jq -s '[.[] | {title: .title, videoId: .id}]' > ${PLAYLIST_FILE}
+  jq -s '[.[] | {title: .title, videoId: .id}]' > "${PLAYLIST_FILE}"
 
 echo "${PLAYLIST_FILE} created"
 

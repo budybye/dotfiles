@@ -1,4 +1,10 @@
 #!/usr/bin/env bash
+set -eu
+
+sudo=""
+if [ "$(id -u)" -ne 0 ]; then
+    sudo="sudo"
+fi
 
 # 管理下の設定ファイルの場所
 FROM="${HOME}/.config/Code"
@@ -10,7 +16,7 @@ if command -v cursor >/dev/null 2>&1 || [ -f "${HOME}/Applications/cursor" ]; th
 fi
 
 # VSCodeのUserディレクトリの作成
-sudo mkdir -p "${CODE_DIR}/User"
+$sudo mkdir -p "${CODE_DIR}/User"
 
 {{- if ne (env "REMOTE_CONTAINERS") "true" }}
 
@@ -46,11 +52,11 @@ copy_json_file() {
 
     # json_fileが存在する場合はバックアップを作成
     if [ -f "${target_file}" ]; then
-        sudo cp "${target_file}" "${target_file}.old"
+        $sudo cp "${target_file}" "${target_file}.old"
         echo "バックアップを作成しました: ${target_file}.old"
     fi
 
-    sudo ln -sf "${from_file}" "${target_file}"
+    $sudo ln -sf "${from_file}" "${target_file}"
     echo "new ${target_file} created."
     cat "${target_file}"
     echo "--------------------------------"
@@ -62,17 +68,17 @@ extensions_json() {
 
     # extensions.jsonが存在する場合はバックアップを作成
     if [ -f "${CODEX}" ]; then
-        sudo cp "${CODEX}" "${CODEX}.old"
+        $sudo cp "${CODEX}" "${CODEX}.old"
         echo "バックアップを作成しました: ${CODEX}.old"
     fi
 
     if command -v code >/dev/null 2>&1; then
-        sudo code --list-extensions | xargs -I {} sh -c "jq '.recommendations += [\"{}\"]' ${CODEX} | sudo tee temp > /dev/null && sudo mv temp ${CODEX}"
-        echo '{"recommendations": [],"unwantedRecommendations":[]}' | sudo tee "${CODEX}" > /dev/null
+        echo '{"recommendations": [],"unwantedRecommendations":[]}' | $sudo tee "${CODEX}" > /dev/null
+        code --list-extensions | xargs -I {} sh -c "$sudo jq '.recommendations += [\"{}\"]' \"${CODEX}\" | $sudo tee \"${CODEX}.tmp\" > /dev/null && $sudo mv \"${CODEX}.tmp\" \"${CODEX}\""
         echo 'extension update done!'
     else
         # インストールされている拡張機能を"extensions.json"の形式で出力する
-        sudo ln -sf "${FROM}/extensions.json" "${CODEX}"
+        $sudo ln -sf "${FROM}/extensions.json" "${CODEX}"
         echo "new ${CODEX} created."
     fi
 

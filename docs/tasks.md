@@ -166,12 +166,14 @@ description: タスク管理 進捗整理
 
 | タスク | 計画 | ステータス |
 | ------ | ---- | ---------- |
-| WSL2 CI ジョブ有効化 | [2025-02-19-wsl2-support](./plans/2025-02-19-wsl2-support.md) | 未着手 |
+| WSL2 CI ジョブ有効化 | [2025-02-19-wsl2-support](../.cursor/plans/2025-02-19-wsl2-support.md) | 未着手 |
+| SANDBOX 環境変数プロファイル | [chezmoi sandbox plan](../.cursor/plans/chezmoi%20sandbox-7eb45bfb.plan.md) | 未着手 |
 
 ### 中優先度
 
 | タスク | 計画 | ステータス |
 | ------ | ---- | ---------- |
+| bash-only CLI + 2-step minimal dotfiles | [2025-03-27-bash-and-clissh](../.cursor/plans/2025-03-27-plan-bash-varsion-and-clissh-varsion) | 未着手 |
 | （将来）Windows ネイティブ対応 | 未作成 | 保留 |
 | （将来）FreeBSD 対応 | 未作成 | 保留 |
 
@@ -194,7 +196,7 @@ description: タスク管理 進捗整理
 
 ## 実装計画との連携
 
-新機能やバグ修正を実装する際は、[計画書](./plan.md) に従い `docs/plans/` に詳細な実装計画を作成することを推奨する。
+新機能やバグ修正を実装する際は `.cursor/plans/` に詳細な実装計画を作成することを推奨する。
 
 - **計画作成**: `docs/plans/TEMPLATE.md` をコピーし、`YYYY-MM-DD-<feature>.md` 形式で保存
 - **実行**: 各タスクを bite-sized（2-5分）で実施し、コミットを細かく分ける
@@ -202,7 +204,6 @@ description: タスク管理 進捗整理
 
 ## 関連ドキュメント
 
-- [計画書](./plan.md) - 実装計画の索引と実行ガイド
 - [要件定義](./requirements.md)
 - [設計書](./design.md)
 - [技術スタック](./tech.md)

@@ -229,7 +229,7 @@ if command -v docker >/dev/null 2>&1; then
     alias d="docker"
     alias di="docker image"
     alias dr="docker run --rm"
-    alias ds="docker stop $(docker ps -q)"
+    alias ds='docker stop $(docker ps -q)'
     alias dps="docker ps --format 'table {{.Names}}\t{{.Image}}\t{{.Ports}}\t{{.Status}}'"
     # イメージ名を引数にビルドし、プッシュする関数のエイリアス
     function ddd() {

@@ -6,10 +6,23 @@
       "models": {
         "anthropic/claude-sonnet-4-6": {}
       }
+    },
+    "sakura": {
+      "name": "Sakura AI",
+      "npm": "@ai-sdk/openai-compatible",
+      "models": {
+        "gpt-oss-120b": {
+          "name": "Chappy"
+        }
+      },
+      "options": {
+        "baseURL": "https://api.ai.sakura.ad.jp/v1"
+      }
     }
   },
   "autoupdate": true,
   "server": {
     "port": 4096
-  }
+  },
+  "disabled_providers": []
 }

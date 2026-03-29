@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -eu
 
 sudo=""
 if [ "$(id -u)" -ne 0 ]; then
@@ -53,7 +54,7 @@ xrdp_setup() {
     $sudo systemctl daemon-reload
     $sudo systemctl restart rsyslog
     # default session manager
-    $sudo echo "xfce4-session" | tee ${HOME}/.xsession
+    echo "xfce4-session" | $sudo tee "${HOME}/.xsession"
     $sudo systemctl restart xrdp
     echo "xrdp setup completed."
 

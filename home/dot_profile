@@ -46,13 +46,8 @@ export XDG_DATA_HOME="${HOME}/.local/share"
 export XDG_STATE_HOME="${HOME}/.local/state"
 export XDG_CACHE_HOME="${HOME}/.cache"
 
-if [ -d "${XDG_DATA_DIRS:-/usr/local/share:/usr/share}" ]; then
-    export XDG_DATA_DIRS="${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
-fi
-
-if [ -d "${XDG_CONFIG_DIRS:-/etc/xdg}" ]; then
-    export XDG_CONFIG_DIRS="${XDG_CONFIG_DIRS:-/etc/xdg}"
-fi
+export XDG_DATA_DIRS="${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
+export XDG_CONFIG_DIRS="${XDG_CONFIG_DIRS:-/etc/xdg}"
 
 if [ -d "/run/user/${UID}" ]; then
     export XDG_RUNTIME_DIR="/run/user/${UID}"
@@ -356,10 +351,9 @@ if command -v mvn >/dev/null 2>&1; then
     export MAVEN_CONFIG="${XDG_CONFIG_HOME}/maven"
     mkdir -p "${XDG_DATA_HOME}/maven/repository"
     export MAVEN_OPTS="-Dmaven.repo.local=${XDG_DATA_HOME}/maven/repository"
-    # 設定ファイルが存在する場合は読み込む
+    # 設定ファイルが存在する場合はMVN引数に設定（mvn は起動しない）
     if [ -f "${MAVEN_CONFIG}/settings.xml" ]; then
-        export MAVEN_ARGS="--settings $XDG_CONFIG_HOME/maven/settings.xml"
-        mvn -gs "${MAVEN_CONFIG}/settings.xml"
+        export MAVEN_ARGS="--settings ${XDG_CONFIG_HOME}/maven/settings.xml"
     fi
 fi
 
@@ -392,7 +386,7 @@ fi
 # vim と nvim の設定
 if command -v vim >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/vim" "${XDG_CONFIG_HOME}/nvim"
-    export VIMINIT='let $MYVIMRC = !has("nvim") ? "${XDG_CONFIG_HOME}/vim/vimrc" : "${XDG_CONFIG_HOME}/nvim/init.vim" | source $MYVIMRC'
+    export VIMINIT="let \$MYVIMRC = !has('nvim') ? '${XDG_CONFIG_HOME}/vim/vimrc' : '${XDG_CONFIG_HOME}/nvim/init.vim' | source \$MYVIMRC"
     mkdir -p "${XDG_CACHE_HOME}/vim"
     touch "${XDG_CACHE_HOME}/vim/viminfo"
 fi

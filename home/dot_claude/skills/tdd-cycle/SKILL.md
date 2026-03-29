@@ -1,6 +1,6 @@
 ---
 name: tdd-cycle
-description: A skill for executing the Red→Green→Refactor cycle one test at a time, in the t-wada style. Use this skill during implementation — after the test list is ready. Use /testcase first to design and enumerate what to test. [Triggers: tdd-cycle, test-driven, t-wada style, red-green-refactor, /tdd-cycle, write tests first, implement with TDD]
+description: A skill for executing the t-wada style Red→Green→Refactor cycle — one test at a time, no shortcuts. Use this during implementation after the test list is ready; use /testcase first to plan what to test. Provides Vitest + Hono test file boilerplate and D1/KV mock patterns for Cloudflare Workers projects. [Triggers: /tdd-cycle, tdd-cycle, test-driven, t-wada style, red-green-refactor, write tests first, implement with TDD, failing test, run the test]
 ---
 
 # /tdd-cycle — t-wada Style Test-Driven Development Skill
@@ -13,6 +13,7 @@ Practicing TDD as refined by Takuto Wada (t-wada), focusing on a rigorous feedba
 | ------------------------------ | ----------------------------------------------------------- |
 | TDD Methodology and Principles | Read [references/methodology.md](references/methodology.md) |
 | Test Case Design & Management  | See [../testcase/SKILL.md](../testcase/SKILL.md)            |
+| Vitest + Hono test file boilerplate | Read [references/test-templates.md](references/test-templates.md) |
 
 ---
 

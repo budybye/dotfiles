@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -eu
 
 sudo=""
 if [ "$(id -u)" -ne 0 ]; then
@@ -62,10 +63,9 @@ install_act() {
         echo "act already installed."
     elif command -v curl >/dev/null; then
         curl https://raw.githubusercontent.com/nektos/act/master/install.sh | $sudo bash || echo "act install failed."
-        ACT="${HOME}/bin/act"
-        $sudo chmod +x ${ACT}
-        $sudo mv -f ${ACT} ${HOME}/bin/act
-        export PATH="${ACT}:${PATH}"
+        $sudo mv -f "${HOME}/bin/act" /usr/local/bin/act
+        $sudo chmod +x /usr/local/bin/act
+        export PATH="/usr/local/bin:${PATH}"
     elif command -v mise >/dev/null; then
         mise use -g -y act@latest || echo "act install failed."
     else

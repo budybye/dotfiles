@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -eu
 
 # アーキテクチャを取得
 arch="$(dpkg --print-architecture)"
@@ -51,11 +52,11 @@ install_cloudflare_warp() {
         $sudo apt-get install -y cloudflare-warp || echo "cloudflare warp install failed."
         echo "cloudflare warp installed."
 
-        warp-cli --accept-tos registration new
-        warp-cli --accept-tos mode warp
-        warp-cli --accept-tos dns families malware
-        warp-cli --accept-tos connect
-        warp-cli --accept-tos disconnect
+        warp-cli --accept-tos registration new || echo "warp-cli registration failed (may already be registered)."
+        warp-cli --accept-tos mode warp || echo "warp-cli mode set failed."
+        warp-cli --accept-tos dns families malware || echo "warp-cli dns set failed."
+        warp-cli --accept-tos connect || echo "warp-cli connect failed."
+        warp-cli --accept-tos disconnect || echo "warp-cli disconnect failed."
 
         echo "cloudflare warp installed."
     fi
@@ -182,6 +183,98 @@ install_wireshark() {
     fi
 }
 
+install_zen() {
+    if command -v zen >/dev/null 2>&1; then
+        echo "zen already installed."
+    else
+        curl -f https://zed.dev/install.sh | sh
+        echo "zen installed."
+    fi
+}
+
+install_emdash() {
+    APP_DIR="${HOME}/Applications"
+    APP_IMAGE="${APP_DIR}/emdash"
+    mkdir -p "${APP_DIR}"
+
+    if [ "${arch}" = "amd64" ]; then
+      if [ ! -f "${APP_IMAGE}" ]; then
+          curl -f https://github.com/generalaction/emdash/releases/latest/download/emdash-x86_64.AppImage -o "${APP_IMAGE}" || echo "emdash install failed."
+          chmod +x "${APP_IMAGE}"
+          echo "emdash installed."
+      else
+          echo "emdash already installed."
+      fi
+    else
+        echo "emdash not installed for ${arch} architecture."
+    fi
+}
+
+install_ghostty() {
+    if command -v ghostty >/dev/null 2>&1; then
+        echo "ghostty already installed."
+        return
+    fi
+    # PPA は amd64 / arm64 両対応 (https://github.com/mkasberg/ghostty-ubuntu)
+    $sudo apt-get install -y software-properties-common || echo "software-properties-common install failed."
+    $sudo add-apt-repository -y ppa:mkasberg/ghostty-ubuntu
+    $sudo apt-get update -y
+    $sudo apt-get install -y ghostty || echo "ghostty install failed."
+    echo "ghostty installed."
+}
+
+install_obsidian() {
+    # amd64: deb / arm64: AppImage (deb 未提供)
+    # バージョン更新時は URL 内のバージョン番号を変更すること
+    local version="1.12.7"
+    local base_url="https://github.com/obsidianmd/obsidian-releases/releases/download/v${version}"
+
+    if [ "${arch}" = "amd64" ]; then
+        if command -v obsidian >/dev/null 2>&1; then
+            echo "obsidian already installed."
+            return
+        fi
+        local deb="/tmp/obsidian_amd64.deb"
+        curl -fsSL "${base_url}/obsidian_${version}_amd64.deb" -o "${deb}" || { echo "obsidian download failed."; return; }
+        $sudo dpkg -i "${deb}" || echo "obsidian install failed."
+        rm -f "${deb}"
+        echo "obsidian installed."
+    elif [ "${arch}" = "arm64" ]; then
+        local app_dir="${HOME}/Applications"
+        local app_image="${app_dir}/obsidian"
+        mkdir -p "${app_dir}"
+        if [ -f "${app_image}" ]; then
+            echo "obsidian already installed."
+            return
+        fi
+        # AppImage の実行に libfuse2 が必要
+        $sudo apt-get install -y libfuse2 || echo "libfuse2 install failed."
+        curl -fsSL "${base_url}/Obsidian-${version}-arm64.AppImage" -o "${app_image}" || { echo "obsidian download failed."; return; }
+        chmod +x "${app_image}"
+        echo "obsidian installed. run: ${app_image} --no-sandbox"
+    else
+        echo "obsidian: unsupported architecture: ${arch}"
+    fi
+}
+
+install_opencode() {
+    if command -v opencode >/dev/null 2>&1; then
+        echo "opencode already installed."
+        return
+    fi
+    # linux-x64-deb のみ提供。arm64 は未対応 (2026-03-29 確認)
+    if [ "${arch}" != "amd64" ]; then
+        echo "opencode: arm64/other arch is not supported. skipping."
+        return
+    fi
+    local url="https://opencode.ai/download/stable/linux-x64-deb"
+    local deb="/tmp/opencode-${arch}.deb"
+    curl -fsSL "${url}" -o "${deb}" || { echo "opencode download failed."; return; }
+    $sudo dpkg -i "${deb}" || echo "opencode install failed."
+    rm -f "${deb}"
+    echo "opencode installed."
+}
+
 echo "gui.sh"
 echo "--------------------------------"
 echo "{{ .chezmoi.os }} system setup"
@@ -196,6 +289,11 @@ install_ruby_fusuma
 install_tabby_terminal
 install_vscode
 # install_wireshark
+install_zen
+install_ghostty
+install_obsidian
+install_opencode
+
 echo "--------------------------------"
 echo "desktop setup complete"
 echo "--------------------------------"
