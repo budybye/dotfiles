@@ -31,7 +31,7 @@ EOF
 
     # 公開鍵が存在する場合は古いファイルをリネーム
     if [ -f "${KEY_PATH}.pub" ]; then
-        cp "${KEY_PATH}.pub" "${KEY_PATH}.pub.old"
+        [ "$(stat -f '%u' "${KEY_PATH}.pub")" -eq "$(id -u)" ] && cp "${KEY_PATH}.pub" "${KEY_PATH}.pub.old" || echo "Skipped: ${KEY_PATH}.pub not owned by user"
         rm -f "${KEY_PATH}.pub"
     fi
 
@@ -41,7 +41,7 @@ EOF
         ssh-keygen -t "${KEY_TYPE}" -f "${KEY_NAME}" -C "${USER_NAME}" -N ""
     else
         echo "SSH key already exists"
-        cp "${KEY_PATH}" "${KEY_PATH}.old"
+        [ "$(stat -f '%u' "${KEY_PATH}")" -eq "$(id -u)" ] && cp "${KEY_PATH}" "${KEY_PATH}.old" || echo "Skipped: ${KEY_PATH} not owned by user"
         rm -f "${KEY_PATH}"
         ssh-keygen -t "${KEY_TYPE}" -f "${KEY_NAME}" -C "${USER_NAME}" -N ""
     fi

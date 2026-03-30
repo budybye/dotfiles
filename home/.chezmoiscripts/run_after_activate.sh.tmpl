@@ -3,7 +3,7 @@ set -eu
 
 echo "activate.sh"
 echo "--------------------------------"
-echo "Welcome to $USERNAME dotfiles!!"
+echo "Welcome to ${USER:-$(whoami)} dotfiles!!"
 echo "sourceDir is {{ .chezmoi.sourceDir }}"
 echo "user is $(whoami)"
 echo "OS info ..."

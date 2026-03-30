@@ -33,7 +33,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "{{ if eq .chezmoi.os \"darwin\" }}osascript -e 'display notification \"Claude Code が確認を求めています\" with title \"Claude Code\"' 2>/dev/null || true{{ else }}true{{ end }}"
+            "command": "{{ if eq .chezmoi.os `darwin` }}osascript -e 'display notification \"Claude Code が確認を求めています\" with title \"Claude Code\"' 2>/dev/null || true{{ else }}true{{ end }}"
           }
         ]
       }

@@ -74,7 +74,9 @@ extensions_json() {
 
     if command -v code >/dev/null 2>&1; then
         echo '{"recommendations": [],"unwantedRecommendations":[]}' | $sudo tee "${CODEX}" > /dev/null
-        code --list-extensions | xargs -I {} sh -c "$sudo jq '.recommendations += [\"{}\"]' \"${CODEX}\" | $sudo tee \"${CODEX}.tmp\" > /dev/null && $sudo mv \"${CODEX}.tmp\" \"${CODEX}\""
+        code --list-extensions | while read -r ext; do
+            $sudo jq ".recommendations += [\"${ext}\"]" "${CODEX}" | $sudo tee "${CODEX}.tmp" > /dev/null && $sudo mv "${CODEX}.tmp" "${CODEX}"
+        done
         echo 'extension update done!'
     else
         # インストールされている拡張機能を"extensions.json"の形式で出力する
