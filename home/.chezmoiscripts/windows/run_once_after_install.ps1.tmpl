@@ -13,7 +13,7 @@ function Install-Scoop {
 
     {{ range .packages.windows.scoop -}}
     scoop install {{ . }}
-    {{ end }}
+    {{ end -}}
 
     scoop list
 }
@@ -27,7 +27,7 @@ function Install-Winget {
 
     {{ range .packages.windows.winget -}}
     winget install {{ . }} --accept-source-agreements --accept-package-agreements
-    {{ end }}
+    {{ end -}}
 
     winget list
 }

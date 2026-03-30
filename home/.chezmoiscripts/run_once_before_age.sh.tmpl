@@ -38,7 +38,7 @@ echo "--------------------------------"
 # key.txt をパスフレーズで復号するので事前に用意
 # https://www.chezmoi.io/user-guide/frequently-asked-questions/encryption/
 
-{{- if ne .age false }}
+{{ if ne .age false }}
 
 {{/* .chezmoi.toml.tmpl と合わせる */}}
 
@@ -64,4 +64,4 @@ fi
 echo "Decrypt-private-key complete."
 echo "--------------------------------"
 
-{{ end -}}
+{{ end }}

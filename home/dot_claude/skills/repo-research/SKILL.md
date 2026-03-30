@@ -1,6 +1,7 @@
 ---
 name: repo-research
 description: A skill for efficiently researching external libraries and repositories. Uses Context7 MCP for documentation lookups and ghq for local source code exploration. Guides the choice between reading docs vs. cloning source, and provides templates for recording findings as research memos and session logs. [Triggers: /repo-research, ghq, clone, context7, query-docs, resolve-library-id, research repo, investigate source, library docs, OSS review, how does X work internally]
+allowed-tools: Read, Grep, Glob, Bash
 ---
 
 # /repo-research — Repository Research & Efficiency Skill

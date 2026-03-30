@@ -17,7 +17,7 @@
       },
     },
     "bun-docs-mcp": {
-      "enabled": true,
+      "enabled": false,
       "remote": false,
       "settings": {},
     },

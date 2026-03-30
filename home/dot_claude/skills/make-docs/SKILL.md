@@ -1,6 +1,7 @@
 ---
 name: make-docs
 description: Skill for generating and maintaining a complete project documentation set — 7 files under /docs (requirements, design, tech, test, tasks, directory, problems) plus AGENTS.md and README.md. Works via interactive dialogue or auto-scan of the project directory. Includes a filled Hono + Cloudflare Workers example for reference. [Triggers: /make-docs, create docs, setup README, generate AGENTS.md, document project, design specs, requirements definition, write documentation, init docs]
+disable-model-invocation: true
 ---
 
 # /make-docs — Project Documentation Generation Skill

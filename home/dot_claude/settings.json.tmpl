@@ -1,17 +1,63 @@
 {
   "env": {
-      "CLAUDE_CODE_ENABLE_TELEMETRY": "0",
-			"CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
-      "ANTHROPIC_BASE_URL": {{ (bitwardenFields "item" "claude").proxy.value | quote }}
-	},
+    "CLAUDE_CODE_ENABLE_TELEMETRY": "0",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+    "ANTHROPIC_BASE_URL": {{ (bitwardenFields "item" "claude").proxy.value | quote }}
+  },
   "permissions": {
     "allow": [
-      "Bash"
+      "Bash(git *)",
+      "Bash(npm *)",
+      "Bash(npx *)",
+      "Bash(pnpm *)",
+      "Bash(bun *)",
+      "Bash(mise *)",
+      "Bash(chezmoi *)",
+      "Bash(make *)",
+      "Bash(ls *)",
+      "Bash(cat *)",
+      "Bash(echo *)",
+      "Bash(which *)",
+      "Bash(command -v *)"
     ],
     "deny": [
       "Read(./.env)",
       "Read(./.env.*)",
       "Read(./build)"
     ]
+  },
+  "hooks": {
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "{{ if eq .chezmoi.os \"darwin\" }}osascript -e 'display notification \"Claude Code が確認を求めています\" with title \"Claude Code\"' 2>/dev/null || true{{ else }}true{{ end }}"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "file=$(echo \"$CLAUDE_TOOL_OUTPUT\" | jq -r '.path // empty' 2>/dev/null); [ -n \"$file\" ] && command -v prettier >/dev/null 2>&1 && prettier --write \"$file\" 2>/dev/null || true"
+          }
+        ]
+      }
+    ]
+  },
+  "mcpServers": {
+    "context7": {
+      "type": "url",
+      "url": "https://mcp.context7.com/mcp"
+    },
+    "mcp-mermaid": {
+      "command": "npx",
+      "args": ["-y", "mcp-mermaid"]
+    }
   }
 }

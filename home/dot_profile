@@ -20,8 +20,8 @@ export ARCH
 mkdir -p "${HOME}/.local/bin"
 chmod 755 "${HOME}/.local/bin"
 
-# パスを再設定
-export PATH="${PATH}:${HOME}/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+# パスを再設定 — mise shims を先頭に置き、非インタラクティブシェル（AI エージェント含む）でもツールを使えるようにする
+export PATH="${HOME}/.local/share/mise/shims:${HOME}/.local/bin:${HOME}/.local/share/cargo/bin:${HOME}/.local/share/go/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:${PATH}"
 
 # sshディレクトリのパーミッションを700に設定
 if [ -d "${HOME}/.ssh" ]; then

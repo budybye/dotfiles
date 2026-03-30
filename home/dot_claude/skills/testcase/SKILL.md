@@ -1,6 +1,7 @@
 ---
 name: testcase
 description: A skill for the test planning phase — identify, classify (functional/integration/non-functional), and prioritize (P0–P3) test cases from project context. Outputs tests/testlist.md and tests/TDD.md. Includes a filled Hono API test case example. Use /tdd-cycle for the implementation phase (Red→Green→Refactor). [Triggers: /testcase, identify test cases, test design, test list, test priority, test strategy, test planning, what should I test, write test cases, enumerate tests]
+allowed-tools: Read, Grep, Glob
 ---
 
 # /testcase — Test Case Design & Management Skill

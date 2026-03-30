@@ -39,7 +39,7 @@ echo "--------------------------------"
 { command -v tree >/dev/null 2>&1 && tree "${HOME}/Music/riddim"; } || ls -la "${HOME}/Music" || echo "Music not found."
 echo "--------------------------------"
 
-{{- if eq .chezmoi.os "linux" }}
+{{ if eq .chezmoi.os "linux" }}
 
 { [ -d "${HOME}/.local/share/themes" ] && tree -L 2 "${HOME}/.local/share/themes"; } || echo "themes not found."
 echo "--------------------------------"
@@ -48,7 +48,7 @@ echo "--------------------------------"
 { [ -d "${HOME}/.local/share/icons" ] && tree -L 2 "${HOME}/.local/share/icons"; } || echo "icons not found."
 echo "--------------------------------"
 
-{{ end -}}
+{{ end }}
 
 # ${HOME}/dotfiles が存在しない場合はシンボリックリンクを作成する
 if [ -d "${HOME}/dotfiles" ]; then
@@ -61,7 +61,7 @@ ls -la "${HOME}/dotfiles"
 echo "--------------------------------"
 
 {{/* git の user.conf を対話型にする */}}
-{{- if eq .chezmoi.hostname "589" }}
+{{ if eq .chezmoi.hostname "589" }}
 
 echo 'git userconf update ? (y/n)'
 read ans
@@ -71,7 +71,7 @@ fi
 cat ~/.config/git/user.conf
 echo "--------------------------------"
 
-{{ end -}}
+{{ end }}
 
 if command -v chezmoi > /dev/null 2>&1; then
     chezmoi data

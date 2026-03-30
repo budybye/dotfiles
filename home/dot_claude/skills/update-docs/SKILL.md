@@ -1,6 +1,7 @@
 ---
 name: update-docs
 description: Skill for analyzing existing docs/ and AGENTS.md, then updating, reflecting, and fixing them to match the current codebase. Works via interactive dialogue (ask what changed) or auto-scan mode (detect drift between code and docs automatically). Covers all 7 docs/ files, AGENTS.md, and README.md. [Triggers: /update-docs, update docs, sync docs, fix docs, docs out of date, AGENTS.md outdated, reflect changes in docs, docs drift, documentation inconsistency, update AGENTS.md]
+disable-model-invocation: true
 ---
 
 # /update-docs — Documentation Sync & Update Skill

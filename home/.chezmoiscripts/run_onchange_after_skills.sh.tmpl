@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -eu
+
+# packages.yaml の packages.claude.skills が変更された時に再実行される
+# ハッシュ: {{ .packages.claude.skills | toJson | sha256sum }}
+
+echo "skills.sh"
+echo "--------------------------------"
+
+if ! command -v claude >/dev/null 2>&1; then
+    echo "claude CLI not found. skipping skills install."
+    exit 0
+fi
+
+{{ range .packages.claude.skills -}}
+{{ . }} -g || echo "skill install failed: {{ . }}"
+{{ end -}}
+
+echo "--------------------------------"
+echo "skills install completed."
+echo "--------------------------------"
