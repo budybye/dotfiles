@@ -8,6 +8,17 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  // "agent_servers": {
+  //   "your_agent": {
+  //     "type": "custom",
+  //     "command": "path_to_executable"
+  //   }
+  // },
+  "agent_servers": {
+    "opencode": {
+      "type": "registry"
+    }
+  },
   "context_servers": {
     "mcp-server-context7": {
       "enabled": true,
@@ -101,7 +112,7 @@
         "enable_thinking": false,
       },
     ],
-    "default_profile": "ask",
+    "default_profile": "write",
     "inline_assistant_model": {
       "provider": "sakura",
       "model": "gpt-oss-120b",

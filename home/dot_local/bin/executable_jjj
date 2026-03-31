@@ -4,6 +4,7 @@ set -eu
 
 # jjj "メッセージ" "ブックマーク名" "リモート名"
 # .jj を作成し、ブックマークを作成し、コミットしてプッシュする
+# jjj {メッセージ} {ブックマーク名} {リモート名}
 
 if ! command -v jj >/dev/null 2>&1; then
   echo "jj not found"

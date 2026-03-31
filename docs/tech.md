@@ -166,29 +166,42 @@ description: 技術スタック パッケージ管理 ライブラリ説明
 ```yaml
 packages:
   darwin:
-    formula: ["git", "curl", "vim", "mise", "bat", "fzf"]
-    cask: ["alacritty", "cursor", "brave-browser"]
-    mas: ["Microsoft Excel", "Xcode"]
+    formula: ["git", "curl", "make", "zsh", "mise", "starship", ...]
+    cask: ["bitwarden", "brave-browser", "cursor", "ghostty", ...]
 
   linux:
-    apt: ["git", "curl", "vim", "build-essential"]
-    snap: ["code", "discord"]
+    cli: ["git", "curl", "make", "zsh", "mise", "ffmpeg", ...]
+    gui: ["xfce4", "xrdp", "fcitx5-mozc", ...]
+    snap:
+      classic: ["alacritty"]
+      latest: ["chromium", "multipass", ...]
 
   windows:
-    winget: ["Microsoft.PowerShell", "twpayne.chezmoi"]
+    winget: ["Microsoft.PowerShell", "twpayne.chezmoi", ...]
     scoop: ["git", "curl", "make", "mise"]
 
-  # Language runtimes (cross-platform)
-  mise:
-    - "node@latest"
-    - "python@latest"
-    - "rust@stable"
-    - "go@latest"
-    - "java@latest"
+  # 拡張機能（VSCode / Cursor）
+  extensions:
+    - "anthropic.claude-code"
+    - "esbenp.prettier-vscode"
+    - ...（50+ 拡張機能）
 
-  # Package manager specific
-  cargo: ["starship", "bat", "fd-find", "ripgrep"]
-  npm: ["wrangler", "bitwarden-cli", "pm2"]
+  # ランタイム（cargo, npm, go, python）
+  cargo: ["starship", "sheldon", "navi", ...]
+  npm: ["pm2", "@hono/cli", ...]
+  go: ["aqua", "hammer", "websocat"]
+  python: ["navi", "ragas"]
+
+  # Claude Code skills
+  claude:
+    skills:
+      - "npx skills add <url> --skill <name>"
+      - ...（50+ skills）
+
+  # curl による直接インストール
+  curl:
+    - "curl -fsSL https://mise.run | sh"
+    - ...
 ```
 
 ### Chezmoi スクリプト統合

@@ -510,8 +510,8 @@ fi
 if command -v opencode >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/opencode"
     export OPENCODE_CONFIG_DIR="${XDG_CONFIG_HOME}/opencode"
-    touch "${OPENCODE_CONFIG_DIR}/opencode.jsonc"
-    export OPENCODE_CONFIG="${OPENCODE_CONFIG_DIR}/opencode.jsonc"
+    touch "${OPENCODE_CONFIG_DIR}/opencode.json"
+    export OPENCODE_CONFIG="${OPENCODE_CONFIG_DIR}/opencode.json"
 fi
 
 if command -v cursor-agent >/dev/null 2>&1; then

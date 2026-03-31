@@ -1,12 +1,7 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  // "model": "anthropic/claude-sonnet-4-6",
+  "instructions": ["docs/*.md", "test/*.md"],
   "provider": {
-    "cloudflare-ai-gateway": {
-      "models": {
-        "anthropic/claude-sonnet-4-6": {}
-      }
-    },
     "sakura": {
       "name": "Sakura AI",
       "npm": "@ai-sdk/openai-compatible",
@@ -22,7 +17,12 @@
   },
   "autoupdate": true,
   "server": {
-    "port": 4096
+    "port": 7788
   },
-  "disabled_providers": []
+  "disabled_providers": [],
+  "watcher": {
+    "ignore": ["node_modules/**", "dist/**", ".git/**"]
+  },
+  "mcp": {},
+  "compaction": {}
 }

@@ -22,7 +22,7 @@ SHIMS="${HOME}/.local/share/mise"
 VERSION="24"
 NPM="${SHIMS}/installs/node/${VERSION}/bin/npm"
 BW="${SHIMS}/installs/node/${VERSION}/bin/bw"
-SESSION="{{ .chezmoi.sourceDir }}/.env"
+SESSION="$(pwd)/.env"
 
 # mise なければインストール
 mise_install() {
