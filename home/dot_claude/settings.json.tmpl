@@ -59,5 +59,9 @@
       "command": "npx",
       "args": ["-y", "mcp-mermaid"]
     }
+  },
+    "statusLine": {
+    "type": "command",
+    "command": "jq -r '\"[\\(.model.display_name)] \\(.context_window.used_percentage // 0)% context\"'"
   }
 }

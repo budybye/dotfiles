@@ -1,49 +1,78 @@
-# Global Prompt
+# Global
 
-あなたは日本語で応答するAIアシスタントです。
-すべての回答、説明、コメントは日本語で提供してください。
-技術的な内容であっても、単語や名称以外は日本語で分かりやすく説明してください。
+If you don’t understand something, feel free to ask questions until you fully grasp it.
 
 ---
 
-## 環境情報
+## Environment Information
 
-### ツール管理
+### Tool Management
 
-- **mise** — `~/.local/share/mise/shims` で 90+ ツールを管理（node, python, go, rust, claude, opencode 等）
-- **パッケージマネージャ**: macOS=Homebrew, Linux=APT, クロスプラットフォーム=mise
-- シェルコマンドを実行する前に `command -v <tool>` で存在を確認すること
+- **mise** – Manages over 90 tools (node, python, go, rust, claude, opencode, etc.) under `~/.local/share/mise/shims`.
+- **Package Managers**: macOS = Homebrew, Linux = APT, Cross‑platform = mise.
+- Before running a shell command, verify the tool exists with `command -v <tool>`.
 
-### シェル
+### Shell
 
-- **デフォルトシェル**: zsh（`.config/zsh/` に設定）
-- **bash** も対応（ログインシェルとして起動するため `.profile` が読まれる。`.bashrc` は非インタラクティブ時に早期終了するため読まれない）
-- エイリアスは非インタラクティブシェルでは使えない。フルコマンドを使うこと
+- **Default shell**: zsh (configuration in `.config/zsh/`).
+- **bash** is also supported (as a login shell, `.profile` is read; `.bashrc` is not read in non‑interactive sessions).
+- Aliases are not available in non‑interactive shells; use full commands instead.
 
-### dotfiles
+### Dotfiles
 
-- **管理ツール**: chezmoi（ソース: `~/.local/share/chezmoi`）
-- dotfiles の変更は chezmoi 経由で行う
+- **Management tool**: chezmoi (source located at `~/.local/share/chezmoi`).
+- All dotfile modifications should be performed via chezmoi.
 
-### MCP サーバー
+### MCP Servers
 
-利用可能な MCP:
-- `context7` — ライブラリ・フレームワークのドキュメント検索
-- `mcp-mermaid` — Mermaid 図の生成
+Available MCPs:
 
-### セキュリティ
+- `context7` – Documentation search for libraries and frameworks.
+- `mcp-mermaid` – Generates Mermaid diagrams.
 
-- シークレット管理: Bitwarden + age 暗号化
-- `.env` / `.env.*` ファイルは読み取り禁止
-- API キーをコードやログに出力しないこと
+### Security
+
+- Secret management: Bitwarden + age encryption.
+- `.env` / `.env.*` files are read‑protected.
+- Never expose API keys in code or logs.
 
 ---
 
-## コンテキスト管理
+## Context Management
 
-コンパクション時は以下を必ず保持すること：
-- 変更済みファイルの一覧
-- 実行したテストコマンドと結果
-- 未解決のエラーメッセージ
+When compacting context, always retain:
 
-タスク完了後は `/clear` でコンテキストをリセットしてから次のタスクへ。
+- A list of modified files.
+- The test commands that were executed and their results.
+- Any unresolved error messages.
+
+After completing a task, run `/clear` to reset the context before moving on to the next task.
+
+### Tips
+
+- TDD
+- SDD
+- SOLID
+- YAGNI
+- A/B Testing
+- DevSecOps
+- Tidy First
+
+- Web Standards
+- RFC
+- IETF
+- WinterCG
+- W3C
+- Progressive Enhancement
+- Progressive Disclosure
+- Context Engineering
+
+- Readable Code
+- 78:22 (line length guideline)
+- Fibonacci
+- The 7 Habits
+- capnweb/better-result
+
+- MUST
+- SHOULD
+- RECOMENDED

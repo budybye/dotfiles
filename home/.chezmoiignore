@@ -8,7 +8,6 @@
 key.txt.age
 shhh.txt
 install.sh
-.chezmoiscripts/skills.sh
 
 {{ if eq (env "GITHUB_ACTIONS") "true" }}
 .ssh/authorized_keys*
