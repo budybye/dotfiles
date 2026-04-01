@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -eu
+# set -eu
 
 sudo=""
 if [ "$(id -u)" -ne 0 ]; then
@@ -8,8 +8,7 @@ fi
 
 japan_setup() {
     echo "japan setup start..."
-    $sudo apt-get install -y language-pack-ja-base language-pack-ja manpages-ja
-    $sudo apt-get install -y tzdata
+    $sudo apt-get install -y language-pack-ja-base language-pack-ja manpages-ja tzdata locale
     $sudo apt-get install -y fcitx5-mozc im-config
 
     $sudo localectl set-locale LANG=ja_JP.UTF-8
