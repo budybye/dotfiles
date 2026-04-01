@@ -9,7 +9,7 @@ ENV LANG=ja_JP.UTF-8
 ENV LC_ALL=ja_JP.UTF-8
 ENV LANGUAGE=ja_JP:ja
 
-RUN apt-get -y update && apt-get install -y
+RUN apt-get update -y && apt-get upgrade -y
 
 # 日本語環境を設定
 RUN apt-get install -y \
@@ -145,9 +145,9 @@ RUN chmod +x /usr/bin/entrypoint
 # ubuntuユーザで実行
 # ホームディレクトリに dotfiles をクローン
 RUN git clone https://github.com/budybye/dotfiles.git /home/ubuntu/dotfiles
-USER ubuntu
 # dotfiles へ移動して make init を実行
 WORKDIR /home/ubuntu/dotfiles
+USER ubuntu
 RUN make init
 
 # マルチステージビルド
