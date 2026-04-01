@@ -9,7 +9,8 @@ ENV LANG=ja_JP.UTF-8
 ENV LC_ALL=ja_JP.UTF-8
 ENV LANGUAGE=ja_JP:ja
 
-RUN apt-get update -y && apt-get upgrade -y
+RUN apt-get update -y && \
+    apt-get install -y --fix-broken
 
 # 日本語環境を設定
 RUN apt-get install -y \
