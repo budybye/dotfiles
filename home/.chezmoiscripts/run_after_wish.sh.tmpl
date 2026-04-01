@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -eu
+# set -eu
 
 # chezmoi apply が完了したら最後に実行される
 echo "wish.sh"
@@ -78,7 +78,7 @@ if command -v chezmoi > /dev/null 2>&1; then
     echo "--------------------------------"
     chezmoi doctor
     echo "--------------------------------"
-    # chezmoi ignored
+    chezmoi ignored
     echo "--------------------------------"
     echo 'Chezmoi Apply done!!'
     echo "https://github.com/budybye/dotfiles"

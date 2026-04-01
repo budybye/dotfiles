@@ -16,7 +16,7 @@ packages:
       - "bash"
       - "bash-completion"
       - "byobu"
-      - "ca-certificates"
+      # - "ca-certificates"
       # ジョーク系コマンド
       - "cmatrix"
       - "fortune"
@@ -266,8 +266,8 @@ packages:
     - "Tyriar.sort-lines"
     # - "visualstudioexptteam.vscodeintellicode"
     # - "visualstudioexptteam.intellicode-api-usage-examples"
-    - "wallabyjs.console-ninja"
-    - "xdebug.php-debug"
+    # - "wallabyjs.console-ninja"
+    # - "xdebug.php-debug"
     - "yoavbls.pretty-ts-errors"
     - "yzhang.markdown-all-in-one"
 
@@ -297,7 +297,6 @@ packages:
     - "memvid-core"
     # - 'alacritty'
     # - 'cargo-binstall'
-    # - 'jj'
     # - 'bat'
     # - 'lsd'
     # - 'fd-find'
@@ -305,7 +304,6 @@ packages:
     # - 'xh'
     # - 'zoxide'
     # - 'zellij'
-
     - "boringtun-cli"
     - "coreutils"
     - "sniffnet"
@@ -396,6 +394,7 @@ packages:
       - "deckardger/tanstack-agent-skills -s tanstack-query-best-practices"
       - "nymbo/skills -s music-downloader"
       - "digitalsamba/claude-code-video-toolkit -s ffmpeg"
+      - "github/awesome-copilot -s documentation-writer"
 
   curl:
     - "curl -fsSL https://mise.run | sh"

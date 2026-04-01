@@ -46,7 +46,11 @@ if [ -f "${ZDOTDIR}/.zshrc" ]; then
 fi
 
 # zellij or tmux session auto-start
-if [ $SHLVL = 1 ]; then
+# IDEターミナル（Cursor/VSCode）や非TTY環境ではスキップ
+if [ "$SHLVL" = 1 ] && [ -t 0 ] && \
+   [ "$TERM_PROGRAM" != "vscode" ] && \
+   [ "$TERM_PROGRAM" != "Cursor" ] && \
+   [ "$TERM_PROGRAM" != "zen" ]; then
     if command -v zellij > /dev/null 2>&1; then
         zellij
     elif command -v tmux > /dev/null 2>&1; then
