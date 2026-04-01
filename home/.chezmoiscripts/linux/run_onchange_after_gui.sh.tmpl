@@ -262,15 +262,17 @@ install_opencode() {
         echo "opencode already installed."
         return
     fi
-    # linux-x64-deb のみ提供。arm64 は未対応 (2026-03-29 確認)
-    if [ "${arch}" != "amd64" ]; then
-        echo "opencode: arm64/other arch is not supported. skipping."
+    # linux-x64-deb のみ提供 (2026-03-29 確認)
+    # devcontainer では libwebkit2gtk 依存が解決できず apt を壊すためスキップ
+    if [ "${arch}" = "amd64" ] && [ -n "${REMOTE_CONTAINERS:-}" ]; then
+        echo "opencode: skipped in devcontainer."
         return
     fi
     local url="https://opencode.ai/download/stable/linux-x64-deb"
     local deb="/tmp/opencode-${arch}.deb"
     curl -fsSL "${url}" -o "${deb}" || { echo "opencode download failed."; return; }
-    $sudo dpkg -i "${deb}" || echo "opencode install failed."
+    $sudo dpkg -i "${deb}" || true
+    $sudo apt-get install -f -y || echo "opencode dependency fix failed."
     rm -f "${deb}"
     echo "opencode installed."
 }
