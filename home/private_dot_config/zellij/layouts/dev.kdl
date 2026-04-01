@@ -51,7 +51,7 @@ layout {
             pane split_direction="horizontal" {
                 pane {
                     name "dev1"
-                    cwd "~/Developer"
+                    cwd "~/Developer/4life"
                     focus true
                 }
                 pane {
@@ -62,7 +62,7 @@ layout {
             pane split_direction="horizontal" {
                 pane {
                     name "dev3"
-                    cwd "~/Developer"
+                    cwd "~/Developer/rivet"
                 }
                 pane {
                     name "dev4"
@@ -75,14 +75,13 @@ layout {
     tab name="edit" {
         pane split_direction="vertical" {
             pane {
-                name "vim"
-                cwd "~/Developer/workers"
+                name "dev"
+                cwd "~/Developer"
                 focus true
             }
             pane {
                 name "docs"
                 cwd "~/Developer/docs"
-                command "opencode"
             }
         }
     }
