@@ -4,13 +4,13 @@
 
 # ${ZDOTDIR}.zshrc はインタラクティブシェルで読み込まれる
 # ${ZDOTDIR}.zprofile の最後で読み込まれてるのでzshで必ず実行される
-# ${ZDOTDIR}.aliases を最後に読み込む
+# ${HOME}.aliases を最後に読み込む
 
 # history 履歴ファイルのパスを設定
 if [ -d "${HOME}/.local/state/zsh" ]; then
-  HISTFILE="${HOME}/.local/state/zsh/zsh_history"
+    HISTFILE="${HOME}/.local/state/zsh/zsh_history"
 else
-  HISTFILE="${HOME}/.zsh_history"
+    HISTFILE="${HOME}/.zsh_history"
 fi
 HISTSIZE=123456
 SAVEHIST=123456
@@ -50,9 +50,9 @@ zstyle ':completion:*' use-cache on
 
 # enable completion
 if [ -d "${HOME}/.cache/zsh" ]; then
-  autoload -Uz compinit && compinit -d "${HOME}/.cache/zsh/zcompdump-${ZSH_VERSION}"
+    autoload -Uz compinit && compinit -d "${HOME}/.cache/zsh/zcompdump-${ZSH_VERSION}"
 else
-  autoload -Uz compinit && compinit
+    autoload -Uz compinit && compinit
 fi
 
 ## 小文字でも大文字でもマッチさせる
@@ -71,49 +71,49 @@ zstyle ':completion:*' rehash 1
 
 # cdした後に自動でlsする
 chpwd() {
-  ls -la
+    ls -la
 }
 
 # tar.gz 圧縮時に .DS_Store を除外する
 tgz() {
-  env COPYFILE_DISABLE=1 tar zcvf "$1" --exclude=".DS_Store" "${@:2}"
+    env COPYFILE_DISABLE=1 tar zcvf "$1" --exclude=".DS_Store" "${@:2}"
 }
 
 # homebrew
 if command -v brew > /dev/null 2>&1; then
-  eval "$(/opt/homebrew/bin/brew shellenv)"
-  FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+    FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
 fi
 
 # direnv
 if command -v direnv > /dev/null 2>&1; then
-  eval "$(direnv hook zsh)"
+    eval "$(direnv hook zsh)"
 fi
 
 # mise
 if command -v mise > /dev/null 2>&1; then
-  eval "$(mise activate zsh --shims)"
+    eval "$(mise activate zsh --shims)"
   eval "$(mise activate zsh)"
 fi
 
 # starship
 if command -v starship > /dev/null 2>&1; then
-  eval "$(starship init zsh)"
+    eval "$(starship init zsh)"
 fi
 
 # zoxide
 if command -v zoxide > /dev/null 2>&1; then
-  eval "$(zoxide init zsh --hook prompt)"
+    eval "$(zoxide init zsh --hook prompt)"
 fi
 
 # fzf
 if command -v fzf > /dev/null 2>&1; then
-  source <(fzf --zsh)
+    source <(fzf --zsh)
 fi
 
 # sheldon
 if command -v sheldon > /dev/null 2>&1; then
-  eval "$(sheldon source)"
+    eval "$(sheldon source)"
 fi
 
 # thefuck
@@ -122,19 +122,19 @@ if command -v thefuck >/dev/null 2>&1; then
 fi
 
 if command -v wrangler > /dev/null 2>&1; then
-  eval "$(wrangler complete zsh)"
+    eval "$(wrangler complete zsh)"
 fi
 
 if command -v uv > /dev/null 2>&1; then
-  eval "$(uv generate-shell-completion zsh)"
+    eval "$(uv generate-shell-completion zsh)"
 fi
 
 # Vite+ bin (https://viteplus.dev)
 if [ -f "${HOME}/.config/vite-plus/env" ]; then
-  . "${HOME}/.config/vite-plus/env"
+    . "${HOME}/.config/vite-plus/env"
 fi
 
-# aliasファイルの読み込み
-if [ -f "${ZDOTDIR}/.aliases" ]; then
-    . "${ZDOTDIR}/.aliases"
+# functionsファイルの読み込み
+if [ -f "${ZDOTDIR}/.functions" ]; then
+    . "${ZDOTDIR}/.functions"
 fi

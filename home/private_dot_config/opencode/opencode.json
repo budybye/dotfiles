@@ -1,6 +1,6 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "instructions": ["docs/*.md", "tests/*.md"],
+  "instructions": ["docs/*.md", "tests/*.md", ".github/instructions/*.md"],
   "provider": {
     "sakura": {
       "name": "Sakura AI",

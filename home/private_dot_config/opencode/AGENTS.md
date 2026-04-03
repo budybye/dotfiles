@@ -20,7 +20,7 @@ If you don’t understand something, feel free to ask questions until you fully 
 
 ### Dotfiles
 
-- **Management tool**: chezmoi (source located at `~/.local/share/chezmoi`).
+- **Management tool**: chezmoi (source located at `~/.local/share/chezmoi` `~/dotfiles`[symlink]).
 - All dotfile modifications should be performed via chezmoi.
 
 ### MCP Servers
@@ -47,34 +47,3 @@ When compacting context, always retain:
 - Any unresolved error messages.
 
 After completing a task, run `/clear` to reset the context before moving on to the next task.
-
-### Tips
-
-- TDD
-- SDD
-- SOLID
-- YAGNI
-- DRY
-- KISS
-- A/B Testing
-- DevSecOps
-- Tidy First
-
-- Web Standards
-- RFC
-- IETF
-- WinterCG
-- W3C
-- Progressive Enhancement
-- Progressive Disclosure
-- Context Engineering
-
-- Readable Code
-- 78:22 (line length guideline)
-- Fibonacci
-- The 7 Habits
-- capnweb/better-result
-
-- MUST
-- SHOULD
-- RECOMENDED

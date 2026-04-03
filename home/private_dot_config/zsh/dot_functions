@@ -1,0 +1,257 @@
+# 重複したPATHを削除
+if command -v awk > /dev/null 2>&1; then
+    export PATH="$(printf %s "${PATH}" | awk -v RS=: -v ORS=: '!arr[$0]++')"
+fi
+
+# ファイル操作（安全系）- 常時透過オーバーライドが必要なため alias で定義
+alias mv="mv -i"
+alias cp="cp -i"
+alias rm="rm -i"
+alias mkdir="mkdir -p"
+
+# ドキュメント
+alias note="${EDITOR:-vim} ${HOME}/Developer/docs/note.md"
+alias docs="cd ${HOME}/Developer/docs"
+
+# git
+if command -v git >/dev/null 2>&1 || command -v jj >/dev/null 2>&1; then
+    function bit() {
+        git add -A
+        if [ -z "$1" ]; then
+            git commit --allow-empty-message -m ""
+        else
+            git commit -m "$1"
+        fi
+        git push origin $(git branch | sed -n -e "s/^\* \(.*\)/\1/p")
+    }
+fi
+
+if command -v code >/dev/null 2>&1; then
+    alias vex="code --list-extensions | jq -R -s 'split(\"\n\")[:-1]' > tmp/extensions.json && diff tmp/extensions.json ${HOME}/.config/Code/extensions.json"
+fi
+
+# vim/nvim（フォールバックチェーンが必要なため alias で定義）
+if command -v nvim >/dev/null 2>&1; then
+    alias v="nvim"
+elif command -v vim >/dev/null 2>&1; then
+    alias v="vim"
+else
+    alias v=${EDITOR:-vi}
+fi
+
+# ping（関数でデフォルト引数を追加）
+if command -v ping >/dev/null 2>&1; then
+    function ping() {
+        command ping -c 3 ${@:-1.1.1.1}
+    }
+fi
+
+# ip表示
+if command -v ipconfig >/dev/null 2>&1; then
+    alias addr="ipconfig getifaddr en0 && wan"
+elif command -v ifconfig >/dev/null 2>&1; then
+    alias addr="ifconfig en0 inet && wan"
+elif command -v ip >/dev/null 2>&1; then
+    alias addr="ip addr show en0 && wan"
+fi
+
+# ブラウザで開く
+if command -v xdg-open >/dev/null 2>&1; then
+    alias lh="xdg-open http://localhost:3000"
+    alias ggg="xdg-open https://youtu.be"
+    alias web="xdg-open https://goog.le"
+elif command -v open >/dev/null 2>&1; then
+    alias lh="open -na 'Brave Browser' --args --new-window http://localhost:3000"
+    alias ggg="open -na 'Brave Browser' --args --new-window https://youtu.be"
+    alias web="open -na 'Brave Browser' --args --new-window https://goog.le"
+fi
+
+# rosetta2
+if command -v arch >/dev/null 2>&1; then
+    alias amd="arch -x86_64 ${SHELL}"
+    alias arm="arch -arm64 ${SHELL}"
+fi
+
+# クリップボード（mac/linux 条件分岐が必要なため alias で定義）
+if command -v pbcopy >/dev/null 2>&1; then
+    alias cx="pbcopy"
+    alias cv="pbpaste"
+    alias cb="pbcopy"
+elif command -v xsel >/dev/null 2>&1; then
+    alias cx="xsel -b -i"
+    alias cv="xsel -b -o"
+    alias cb="xsel -b"
+fi
+
+# 透過的オーバーライド（常時有効にするため alias で定義）
+if command -v lsd >/dev/null 2>&1; then
+    alias ls='lsd --group-directories-first'
+    alias l='ls -la'
+    alias ll='ls -l'
+    alias la='ls -a'
+    alias lt='ls --tree' # tree風
+fi
+
+if command -v bat >/dev/null 2>&1; then
+    alias cat="bat -p"
+fi
+
+if command -v rg >/dev/null 2>&1; then
+    alias grep="rg --color=always"
+fi
+
+if command -v fd >/dev/null 2>&1; then
+    alias find="fd"
+fi
+
+if command -v zoxide >/dev/null 2>&1; then
+    alias cd="z"
+fi
+
+if command -v tree >/dev/null 2>&1; then
+    alias tree="tree -NC"
+fi
+
+# tldr（h はデフォルト引数があるため abbr 不可）
+if command -v tldr >/dev/null 2>&1; then
+    alias tldr="tldr -L ja"
+    alias h="tldr ${1:-curl}"
+fi
+
+# chezmoi（cai は abbr 未登録）
+if command -v chezmoi >/dev/null 2>&1; then
+    alias cai="chezmoi init --apply https://github.com/budybye/dotfiles.git"
+fi
+
+# bitwarden
+if command -v bw >/dev/null 2>&1; then
+    alias bwbw='export BW_SESSION=$(bw unlock ${MASTER:-} --raw)'
+fi
+
+# エディタ（フォールバックチェーンが必要なため alias で定義）
+if command -v cursor >/dev/null 2>&1; then
+    alias co="cursor"
+elif [ -f "${HOME}/Applications/cursor" ]; then
+    alias co="${HOME}/Applications/cursor --no-sandbox"
+elif command -v codium >/dev/null 2>&1; then
+    alias co="codium"
+elif command -v code >/dev/null 2>&1; then
+    alias co="code"
+fi
+
+# docker（関数・複雑なもの）
+if command -v docker >/dev/null 2>&1; then
+    function ddd() {
+        IMAGE_NAME="${1:-$(date +%Y%m%d%H%M%S)}"
+        docker build -t "$IMAGE_NAME" . && docker push "$IMAGE_NAME"
+    }
+    ARCH=${ARCH:-$(dpkg --print-architecture 2>/dev/null || uname -m)}
+    alias dx="docker run --rm -itd --privileged --platform linux/${ARCH} --hostname docker --name ubuntu-dev -p 33389:3389 -p 2222:22 ghcr.io/budybye/ubuntu-dev:main ubuntu ubuntu yes"
+fi
+
+if command -v podman >/dev/null 2>&1; then
+    alias docker="podman"
+fi
+
+# multipass（複雑なもの）
+if command -v multipass >/dev/null 2>&1; then
+    alias md="mp launch docker -c 4 -m 8G -d 42G --timeout 3600 && mp info docker"
+    alias ml="mp launch -n ubuntu -c 4 -m 8G -d 42G --timeout 7200 --cloud-init ${HOME}/dotfiles/cloud-init/multipass.yaml && mp exec ubuntu -- tail -7 /var/log/cloud-init.log"
+    alias ms="mp stop ubuntu && mp delete -p ubuntu && mp list"
+fi
+
+# brew（複雑なもの）
+if command -v brew >/dev/null 2>&1; then
+    alias bf="brew bundle --force --file ${HOME}/.config/Brewfile"
+    alias bcp="brew autoremove && brew cleanup --prune=all && brew doctor"
+    alias bb="bf && brew update && brew upgrade --greedy && bcp"
+    function bbb() {
+        bb
+        dumpfile=${HOME}/.config/homebrew/Brewfile
+        if [ -f "${dumpfile}" ]; then
+            cp "${dumpfile}" "${dumpfile}.bak"
+            rm -f "${dumpfile}"
+        fi
+        brew bundle dump --file "${dumpfile}"
+        cat "${dumpfile}"
+    }
+fi
+
+# keploy
+if command -v keploy >/dev/null 2>&1; then
+    alias kr="keploy record -c"
+    alias kt="keploy test --c"
+    alias kc="keploy config"
+    # alias km="keploy mock"
+fi
+
+# age
+if command -v age >/dev/null 2>&1; then
+    alias shhh="age-keygen | age --armor --passphrase > ./shhh.txt"
+fi
+
+# mpd / ncmpcpp
+if command -v mpd >/dev/null 2>&1 && [ -f "${HOME}/.config/mpd/mpd.conf" ]; then
+    alias mpdc="mpd ${HOME}/.config/mpd/mpd.conf"
+fi
+if command -v ncmpcpp >/dev/null 2>&1; then
+    function ncmp() {
+        mpd "${HOME}/.config/mpd/mpd.conf" && ncmpcpp
+    }
+fi
+
+# warp-cli（複雑なもの）
+if command -v warp-cli >/dev/null 2>&1; then
+    alias wpr="warp-cli registration delete && warp-cli --accept-tos registration new"
+    alias wpm="warp-cli dns families malware"
+    alias wpw="warp-cli mode warp"
+    alias warp="wpr && wpm && wpw && warp-cli connect && warp-cli status"
+fi
+
+# cloudflared（複雑なもの）
+if command -v cloudflared >/dev/null 2>&1; then
+    RDP_HOST="${RDP_HOST:-rdp.tmg-server.com}"
+    RDP_PORT="${RDP_PORT:-7777}"
+    alias rdp="cloudflared access rdp --hostname \"${RDP_HOST}\" --url localhost:${RDP_PORT}"
+    RPI_HOST="${RPI_HOST:-rpi.tmg-server.com}"
+    RPI_PORT="${RPI_PORT:-33333}"
+    alias rpi="cloudflared access rdp --hostname \"${RPI_HOST}\" --url localhost:${RPI_PORT}"
+    SMB_HOST="${SMB_HOST:-data.tmg-server.com}"
+    SMB_PORT="${SMB_PORT:-44444}"
+    alias smb="cloudflared access smb --hostname \"${SMB_HOST}\" --url localhost:${SMB_PORT}"
+fi
+
+# element-desktop
+if command -v element-desktop >/dev/null 2>&1; then
+    alias ele="element-desktop"
+fi
+
+# openssl
+if command -v openssl >/dev/null 2>&1; then
+    function sec() {
+        ENV_FILE="${ENV_FILE:-.env}"
+        echo "${@:-SECRET}=$(openssl rand -base64 32)" >> "${ENV_FILE}" && ls
+    }
+fi
+
+# rq
+if command -v rj >/dev/null 2>&1 && command -v jq >/dev/null 2>&1; then
+    function rq() {
+        API_URL=${1:-${API_URL:-"https://8102.jp/api"}}
+        rj "${API_URL}" | jq -r '.data'
+    }
+fi
+
+# ipfs
+if command -v ipfs >/dev/null 2>&1; then
+    DATA_DIR="${DATA_DIR:-.}"
+    function pin() {
+        ipfs add -r -p -q --cid-version 1 "${@:-${DATA_DIR}}"
+    }
+fi
+
+# 猫のASCIIアート
+CAT_FILE="${HOME}/data/cat.txt"
+if [ -f "${CAT_FILE}" ]; then
+    alias x="cat ${CAT_FILE}"
+fi

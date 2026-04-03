@@ -60,7 +60,7 @@ fi
 
 # 補完の設定
 if [ -f /etc/bash_completion ]; then
-    source "/etc/bash_completion"
+    . "/etc/bash_completion"
 fi
 _bash_comp_dir="${XDG_CONFIG_HOME:-${HOME}/.config}/bash-completion"
 mkdir -p "${_bash_comp_dir}/completions"
@@ -70,6 +70,6 @@ export BASH_COMPLETION_USER_FILE="${_bash_comp_dir}/bash_completion"
 unset _bash_comp_dir
 
 # aliasファイルの読み込み
-if [ -f "${HOME}/.config/zsh/.aliases" ]; then
-    . "${HOME}/.config/zsh/.aliases"
+if [ -f "${HOME}/.config/.aliases" ]; then
+    . "${HOME}/.aliases"
 fi

@@ -1,8 +1,120 @@
-# git 関連
+# シェル操作
+abbr q='exit'
+abbr c='clear'
+abbr rl='source ~/.zshenv'
+abbr reload='exec $SHELL -l'
+
+# ナビゲーション
+abbr hh='cd ~'
+
+# システム情報
+abbr www='ps aux'
+abbr now='date +%Y%m%d%H%M%S'
+abbr sysinfo='uname -a && uptime'
+abbr meminfo='free -h 2>/dev/null || vm_stat'
+abbr diskinfo='df -h'
+
+# 検索・フィルタ
+abbr hg='history | grep'
+abbr vv='env | grep'
+
+# 区切り線
+abbr br='echo -------------------------------------'
+
+# シェルパフォーマンス計測
+abbr opi='for i in {1..3}; do time $SHELL -ic exit; done'
+abbr oppi='for i in {1..3}; do time $SHELL -lc exit; done && exec $SHELL'
+
+# git
 abbr g='git'
 
-# curl 関連
+# curl
 abbr ppp='curl -4 icanhazip.com && curl -6 icanhazip.com'
 abbr wt='curl wttr.in'
 abbr wan='curl inet-ip.info'
 abbr rate='curl rate.sx'
+
+# gh
+abbr gg='gh repo view --web'
+abbr gss='gh secret set'
+abbr gql="gh api rate_limit --jq '.resources.core'"
+
+# python
+abbr python='python3'
+abbr pip='pip3'
+
+# bun
+abbr dv='bun dev'
+abbr de='bun run deploy'
+
+# docker
+abbr d='docker'
+abbr di='docker image'
+abbr dr='docker run --rm'
+abbr ds='docker stop $(docker ps -q)'
+abbr dps="docker ps --format 'table {{.Names}}\t{{.Image}}\t{{.Ports}}\t{{.Status}}'"
+abbr drm='docker system prune -af --volumes'
+abbr dc='docker-compose'
+abbr dcb='docker-compose build'
+abbr dcu='docker-compose up'
+abbr dcd='docker-compose down'
+abbr dcr='docker-compose restart'
+abbr dcl='docker-compose logs'
+
+# kubectl
+abbr k='kubectl'
+abbr kx='kubectx'
+abbr kn='kubens'
+
+# multipass
+abbr mp='multipass'
+
+# chezmoi
+abbr che='chezmoi'
+abbr cha='chezmoi update --verbose'
+abbr ca='chezmoi apply'
+abbr ce='chezmoi execute-template'
+abbr cbd='chezmoi edit'
+abbr ccc='chezmoi edit-config'
+abbr cs='chezmoi secret'
+
+# mise
+abbr mi='mise'
+abbr mib='mise build'
+abbr mig='mise use -g'
+abbr mir='mise registry'
+abbr mip='mise p ls-remote'
+abbr mic='mise cache clean'
+abbr mil='mise list && mise set'
+abbr miu='mise up && mise prune && mise list && mise v'
+
+# brew
+abbr bi='brew install'
+abbr bu='brew update && brew upgrade --greedy'
+abbr bd='brew deps --installed --tree'
+abbr bs='brew -S'
+
+# apt
+abbr agi='apt install -y'
+abbr agu='apt update -y && apt upgrade -y'
+abbr aq='apt search'
+abbr pkg='dpkg'
+
+# ツール系
+abbr sc='shellcheck'
+abbr sd='sheldon lock --update'
+abbr ss='starship explain'
+abbr ws='websocat'
+abbr ports='netstat -tuln'
+abbr st='speedtest-cli'
+abbr ff='fastfetch -c all'
+abbr ja='trans -b -t ja'
+abbr en='trans -b -t en'
+abbr wr='wrangler'
+abbr wrd='wrangler deploy'
+abbr wrs='wrangler secret'
+abbr wp='warp-cli'
+abbr wpd='warp-cli disconnect'
+abbr wpc='warp-cli connect'
+abbr wps='warp-cli status'
+abbr cf='cloudflared'

@@ -16,6 +16,15 @@
   // },
   "agent_servers": {
     "opencode": {
+      "favorite_models": [
+        "sakura/gpt-oss-120b",
+        "opencode/mimo-v2-pro-free/high",
+        "opencode/nemotron-3-super-free/high",
+        "cloudflare-workers-ai/@cf/moonshotai/kimi-k2.5",
+        "opencode/qwen3.6-plus-free/high",
+        "opencode/minimax-m2.5-free",
+        "opencode/big-pickle/max"
+      ],
       "type": "registry"
     }
   },
@@ -131,7 +140,7 @@
   "formatter": "auto",
   "ui_font_family": "HackGen35 Console NF",
   "buffer_font_weight": 400.0,
-  "buffer_font_family": "HackGen Console NF",
+  "buffer_font_family": "HackGen35 Console NF",
   "icon_theme": "Catppuccin Latte",
   "base_keymap": "VSCode",
   "ui_font_size": 15.0,
@@ -139,7 +148,7 @@
   "theme": {
     "mode": "system",
     "light": "Kanagawa",
-    "dark": "Monokai Pro (CE)",
+    "dark": "Kanagawa Dragon",
   },
   "terminal": {
     "shell": {

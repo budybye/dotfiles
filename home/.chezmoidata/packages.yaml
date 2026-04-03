@@ -395,6 +395,15 @@ packages:
       - "nymbo/skills -s music-downloader"
       - "digitalsamba/claude-code-video-toolkit -s ffmpeg"
       - "github/awesome-copilot -s documentation-writer"
+      - "tejovanthn/rasikalife -s conform"
+      - "open-circle/agent-skills -s valibot"
+      - "patricio0312rev/skills -s framer-motion-animator"
+      - "noncept/openpayment -s openpayment"
+      - "sickn33/antigravity-awesome-skills -s 3d-web-experience"
+      - "bobmatnyc/claude-mpm-skills-s axum"
+      - "suryavirkapur/skills -s utoipa-axum"
+      - "aj-geddes/useful-ai-prompts -s progressive-web-app"
+      - "flpbalada/my-opencode-config --s progressive-disclosure"
 
   curl:
     - "curl -fsSL https://mise.run | sh"

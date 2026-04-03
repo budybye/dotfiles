@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -eu
+# set -eu
 
 # jjj "メッセージ" "ブックマーク名" "リモート名"
 # .jj を作成し、ブックマークを作成し、コミットしてプッシュする
@@ -17,7 +17,10 @@ remote="${3:-origin}"
 
 # jjリポジトリが初期化されていない場合は初期化
 if ! jj root >/dev/null 2>&1; then
-  jj git init 2>/dev/null || true
+  jj git init --colocate 2>/dev/null || true
+else
+  # git との不整合を解消（stale index 対策）
+  jj git import 2>/dev/null || true
 fi
 
 # ブックマーク名を自動検出（指定されていない場合）

@@ -12,10 +12,10 @@ Skill for keeping existing `docs/` and `AGENTS.md` accurate and up-to-date. Dete
 
 ## Quick Reference
 
-| Task | Guide |
-| ---- | ----- |
+| Task                              | Guide                                                                                                                                              |
+| --------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
 | What each doc file should contain | Read [references/doc-fields.md](references/doc-fields.md) (→ templates: [make-docs/references/templates.md](../make-docs/references/templates.md)) |
-| Detecting drift patterns | Read [references/drift-patterns.md](references/drift-patterns.md) |
+| Detecting drift patterns          | Read [references/drift-patterns.md](references/drift-patterns.md)                                                                                  |
 
 ---
 
@@ -101,7 +101,7 @@ After applying, verify cross-file consistency:
 ## Agent Guidelines
 
 - **Minimal Changes**: Only fix what is detectably wrong. Do not rewrite sections that appear correct.
-- **Source of Truth Priority**: `package.json` > `wrangler.toml` > `docs/tech.md` > `AGENTS.md` for version/config facts.
+- **Source of Truth Priority**: `package.json` > `wrangler.[toml, jsonc, yaml]` > `docs/tech.md` > `AGENTS.md` for version/config facts.
 - **Confirm Before Writing**: Always show the drift summary in Phase 3 before making edits, unless the user explicitly said to apply without confirmation.
 - **One File at a Time**: Apply and verify one doc file before moving to the next.
 - **Preserve Intent**: If a doc section seems intentionally simplified (e.g., design rationale), don't overwrite it with raw config values.
