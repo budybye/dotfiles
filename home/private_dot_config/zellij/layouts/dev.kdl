@@ -21,8 +21,8 @@ layout {
                 pane {
                     name "home"
                     cwd "~"
-                    command "mpd"
-                    args "./.config/mpd/mpd.conf"
+                    command "cat"
+                    args "./data/cat.txt"
                 }
                 pane {
                     name "dotfiles"
@@ -33,14 +33,14 @@ layout {
             }
             pane split_direction="horizontal" {
                 pane {
-                    name "data"
-                    cwd "~/data"
-                    command "htop"
-                }
-                pane {
-                    name "music"
+                    name "ncmpcpp"
                     cwd "~/Music"
                     command "ncmpcpp"
+                }
+                pane {
+                    name "Data"
+                    cwd "~/data"
+                    command "btm"
                 }
             }
         }

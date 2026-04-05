@@ -52,7 +52,7 @@ if [ "$SHLVL" = 1 ] && [ -t 0 ] && \
    [ "$TERM_PROGRAM" != "Cursor" ] && \
    [ "$TERM_PROGRAM" != "zen" ]; then
     if command -v zellij > /dev/null 2>&1; then
-        zellij
+        zellij -l dev
     elif command -v tmux > /dev/null 2>&1; then
         tmux
     fi

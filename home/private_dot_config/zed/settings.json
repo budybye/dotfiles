@@ -15,18 +15,26 @@
   //   }
   // },
   "agent_servers": {
+    "pi-acp": {
+      "type": "registry",
+    },
+    "claude-acp": {
+      "favorite_config_option_values": {
+        "model": ["sonnet"],
+      },
+      "type": "registry",
+    },
     "opencode": {
       "favorite_models": [
         "sakura/gpt-oss-120b",
-        "opencode/mimo-v2-pro-free/high",
+        "opencode/big-pickle/max",
+        "opencode/minimax-m2.5-free",
+        "opencode/qwen3.6-plus-free/high",
         "opencode/nemotron-3-super-free/high",
         "cloudflare-workers-ai/@cf/moonshotai/kimi-k2.5",
-        "opencode/qwen3.6-plus-free/high",
-        "opencode/minimax-m2.5-free",
-        "opencode/big-pickle/max"
       ],
-      "type": "registry"
-    }
+      "type": "registry",
+    },
   },
   "context_servers": {
     "mcp-server-context7": {
@@ -145,10 +153,14 @@
   "base_keymap": "VSCode",
   "ui_font_size": 15.0,
   "buffer_font_size": 16.0,
+  "buffer_line_height": "comfortable",
   "theme": {
     "mode": "system",
     "light": "Kanagawa",
     "dark": "Kanagawa Dragon",
+  },
+  "edit_predictions": {
+    "provider": "zed",
   },
   "terminal": {
     "shell": {

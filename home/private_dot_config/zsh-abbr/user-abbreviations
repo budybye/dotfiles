@@ -102,19 +102,29 @@ abbr pkg='dpkg'
 
 # ツール系
 abbr sc='shellcheck'
+
 abbr sd='sheldon lock --update'
+
 abbr ss='starship explain'
+
 abbr ws='websocat'
+
 abbr ports='netstat -tuln'
+
 abbr st='speedtest-cli'
+
 abbr ff='fastfetch -c all'
+
 abbr ja='trans -b -t ja'
 abbr en='trans -b -t en'
+
 abbr wr='wrangler'
 abbr wrd='wrangler deploy'
 abbr wrs='wrangler secret'
+
 abbr wp='warp-cli'
 abbr wpd='warp-cli disconnect'
 abbr wpc='warp-cli connect'
 abbr wps='warp-cli status'
+
 abbr cf='cloudflared'

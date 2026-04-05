@@ -123,15 +123,6 @@ RUN groupadd -g 1024 -f $DEV && \
     mkdir -p /home/$DEV && \
     chown -R $DEV:$DEV /home/$DEV
 
-# devcontainer.json で dotfiles 設定をすれば自動でクロンしてinstallが実行される
-# RUN git clone https://github.com/budybye/dotfiles.git /home/${DEV}/dotfiles
-# ユーザーを切り替え
-# USER ${DEV}
-# dotfiles ディレクトリに移動
-# WORKDIR /home/${DEV}/dotfiles
-# ホームディレクトリに dotfiles をクローンしてインストール
-# RUN make init
-
 # ubuntuユーザー設定
 RUN usermod -aG sudo ubuntu && \
     echo "ubuntu ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
@@ -153,12 +144,8 @@ RUN make init
 
 # マルチステージビルド
 FROM base
-
 EXPOSE 3389
-
-# エントリーポイントを実行
 ENTRYPOINT ["entrypoint"]
-# デフォルト引数
 CMD ["ubuntu", "ubuntu", "yes"]
 # $1 ユーザー名
 # $2 パスワード
