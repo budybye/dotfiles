@@ -69,14 +69,14 @@ else
     alias v=${EDITOR:-vi}
 fi
 
-# if command -v curl >/dev/null 2>&1; then
-#     alias curl="curl -fsSL"  # オプション
-#     alias ppp="curl -4 icanhazip.com && curl -6 icanhazip.com"  # パブリックIPアドレスを表示
-#     alias wt="curl wttr.in"  # 天気予報を表示
-#     alias qr="curl qrenco.de/https://${1:-やってるか.みんな}"  # QRコードを表示
-#     alias wan="curl inet-ip.info"
-#     alias rate="curl rate.sx"
-# fi
+if command -v curl >/dev/null 2>&1; then
+    alias curl="curl -fsSL"  # オプション
+    alias ppp="curl -4 icanhazip.com && curl -6 icanhazip.com"  # パブリックIPアドレスを表示
+    alias wt="curl wttr.in"  # 天気予報を表示
+    alias qr="curl qrenco.de/https://${1:-やってるか.みんな}"  # QRコードを表示
+    alias wan="curl inet-ip.info"
+    alias rate="curl rate.sx"
+fi
 
 if command -v ping >/dev/null 2>&1; then
     # 3回だけpingを送信 デフォルトは1.1.1.1
@@ -424,9 +424,8 @@ fi
 
 # ipfs
 if command -v ipfs >/dev/null 2>&1; then
-    DATA_DIR="${DATA_DIR:-.}"
     function pin() {
-        ipfs add -r -p -q --cid-version 1 "${@:-${DATA_DIR}}"
+        ipfs add -r -p -q --cid-version 1 "${@:-${HOME}/data}"
     }
 fi
 

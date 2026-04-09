@@ -12,30 +12,35 @@
     "docs/tesch.md",
     "tests/*.md",
     ".github/instructions/gal.md",
-    ".github/instructions/minmei.md"
+    ".github/instructions/minmei.md",
   ],
   "provider": {
+    "anthropic": {
+      "options": {
+        "baseURL": "https://claude.589.workers.dev",
+      },
+    },
     "sakura": {
-      "name": "Sakura AI",
+      "name": "Sakura AI Engine",
       "npm": "@ai-sdk/openai-compatible",
       "models": {
         "gpt-oss-120b": {
-          "name": "Chappy"
-        }
+          "name": "Chappy",
+        },
       },
       "options": {
-        "baseURL": "https://api.ai.sakura.ad.jp/v1"
-      }
-    }
+        "baseURL": "https://api.ai.sakura.ad.jp/v1",
+      },
+    },
   },
   "autoupdate": true,
   "server": {
-    "port": 7788
+    "port": 7788,
   },
   "disabled_providers": [],
   "watcher": {
-    "ignore": ["node_modules/**", "dist/**", ".git/**"]
+    "ignore": ["node_modules/**", "dist/**", ".git/**"],
   },
   "mcp": {},
-  "compaction": {}
+  "compaction": {},
 }

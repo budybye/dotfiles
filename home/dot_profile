@@ -112,12 +112,14 @@ mkdir -p \
     "${XDG_DOCUMENTS_DIR}/notes"
 
 # デフォルトのエディタを設定
-if command -v cursor >/dev/null 2>&1; then
-    export EDITOR="cursor"
+if command -v zed >/dev/null 2>&1; then
+    export EDITOR="zed"
+elif command -v cursor >/dev/null 2>&1; then
+    export EDITOR="cursor --wait"
 elif command -v code >/dev/null 2>&1; then
-    export EDITOR="code"
+    export EDITOR="code --wait"
 elif command -v codium >/dev/null 2>&1; then
-    export EDITOR="codium"
+    export EDITOR="codium --wait"
 elif command -v nvim >/dev/null 2>&1; then
     export EDITOR="nvim"
 elif command -v vim >/dev/null 2>&1; then
@@ -510,13 +512,14 @@ if command -v claude >/dev/null 2>&1; then
     export AI_RESPONSE_LANGUAGE="japanese"
     export ANTHROPIC_LANGUAGE_PREFERENCE="ja"
     # export ANTHROPIC_BASE_URL="https://gateway.ai.cloudflare.com/v1/{account_id}/{gateway_id}/anthropic"
+    export ANTHROPIC_BASE_URL="https://claude.589.workers.dev"
 fi
 
 if command -v opencode >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/opencode"
     export OPENCODE_CONFIG_DIR="${XDG_CONFIG_HOME}/opencode"
-    touch "${OPENCODE_CONFIG_DIR}/opencode.json"
-    export OPENCODE_CONFIG="${OPENCODE_CONFIG_DIR}/opencode.json"
+    touch "${OPENCODE_CONFIG_DIR}/opencode.jsonc"
+    export OPENCODE_CONFIG="${OPENCODE_CONFIG_DIR}/opencode.jsonc"
 fi
 
 if command -v cursor-agent >/dev/null 2>&1; then
