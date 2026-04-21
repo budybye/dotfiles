@@ -16,8 +16,16 @@
   ],
   "provider": {
     "anthropic": {
+      "models": {
+        "anthropic/claude-sonnet-4": {},
+      },
       "options": {
         "baseURL": "https://claude.589.workers.dev",
+      },
+    },
+    "cloudflare-ai-gateway": {
+      "models": {
+        "anthropic/claude-sonnet-4": {},
       },
     },
     "sakura": {

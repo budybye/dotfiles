@@ -5,6 +5,7 @@
 ### 🏴‍☠ [dotfiles](https://github.com/budybye/dotfiles)
 
 Chezmoi で管理する個人 dotfiles。macOS / Ubuntu の設定を統合し、XDG Base Directory に準拠しています。
+[deepwiki](https://deepwiki.com/budybye/dotfiles)
 
 - **管理**: `chezmoi` で設定ファイルを同期・テンプレート化
 - **対応 OS**: `macOS` Sequoia、`Ubuntu` 24.04、`Docker`、`Multipass`

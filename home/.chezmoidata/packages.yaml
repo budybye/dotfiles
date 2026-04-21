@@ -317,7 +317,7 @@ packages:
     - "@hono/cli"
     - "rnsec"
     - "ctx7"
-    - "@mariozechner/pi-coding-agent"
+    # - "@mariozechner/pi-coding-agent"
   # - '@hubai/cli'
   # - 'vibekit'
   # - 'surge'
@@ -403,7 +403,8 @@ packages:
       - "bobmatnyc/claude-mpm-skills-s axum"
       - "suryavirkapur/skills -s utoipa-axum"
       - "aj-geddes/useful-ai-prompts -s progressive-web-app"
-      - "flpbalada/my-opencode-config --s progressive-disclosure"
+      - "flpbalada/my-opencode-config -s progressive-disclosure"
+      - "kepano/obsidian-skills"
 
   curl:
     - "curl -fsSL https://mise.run | sh"
@@ -414,7 +415,7 @@ packages:
     - "curl -fsSL https://vite.plus | sh"
     - "curl -fsSL https://cursor.com/install | sh"
     - "curl -fsSL https://raw.githubusercontent.com/watzon/cursor-linux-installer/main/install.sh | sh -s -- latest"
-
+    - "curl -fsSL https://raw.githubusercontent.com/Dicklesworthstone/pi_agent_rust/main/install.sh?$(date +%s) | sh"
   go:
     - "aqua"
     - "hammer"

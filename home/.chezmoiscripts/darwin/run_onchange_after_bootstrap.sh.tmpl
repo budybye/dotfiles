@@ -95,6 +95,21 @@ install_mise() {
     echo "mise setup completed."
 }
 
+install_cargo() {
+    if command -v cargo-binstall >/dev/null; then
+        echo "cargo already installed."
+        cargo-binstall -y sheldon starship || echo "cargo-binstall failed."
+    elif command -v cargo >/dev/null; then
+        echo "cargo already installed."
+        cargo install --force sheldon starship || echo "cargo install failed."
+    else
+        brew install cargo
+        cargo --version || echo "cargo install failed."
+        cargo-binstall -y sheldon starship || echo "cargo-binstall failed."
+    fi
+    echo "cargo setup completed."
+}
+
 
 echo "bootstrap.sh"
 echo "--------------------------------"
@@ -103,6 +118,7 @@ install_rosetta
 install_homebrew
 install_brew_packages
 install_mise
+install_cargo
 echo "--------------------------------"
 echo "zsh --version $(zsh --version)"
 echo "--------------------------------"

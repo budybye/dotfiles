@@ -27,8 +27,6 @@
     "opencode": {
       "favorite_config_option_values": {
         "model": [
-          "opencode/nemotron-3-super-free/medium",
-          "opencode/big-pickle",
           "opencode/minimax-m2.5-free"
         ]
       },
@@ -44,6 +42,16 @@
     },
   },
   "context_servers": {
+    "mcp-server-repomix": {
+      "enabled": false,
+      "remote": false,
+      "settings": {}
+    },
+    "mcp-server-playwright": {
+      "enabled": false,
+      "remote": false,
+      "settings": {}
+    },
     "mcp-server-context7": {
       "enabled": true,
       "remote": false,
