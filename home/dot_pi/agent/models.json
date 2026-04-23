@@ -1,0 +1,29 @@
+{
+  "providers": {
+    "sakura": {
+      "baseUrl": "https://api.ai.sakura.ad.jp/v1",
+      "api": "openai-completions",
+      "apiKey": "8a9e3fff-9255-4241-a28a-c625560deeae:WHsJ3GkbGTc6o1Ga6x3yHxToXRdchKanuXtebv7Y",
+      "models": [
+        {
+          "id": "gpt-oss-120b",
+          "name": "Chappy"
+        },
+        {
+          "id": "Qwen3-Coder-480B-A35B-Instruct-FP8",
+          "name": "Qwen3"
+        }
+      ]
+    },
+    "anthropic": {
+      "baseUrl": "https://claude.589.workers.dev",
+      "api": "anthropic-messages",
+      "apiKey": "ANTHROPIC_API_KEY"
+    },
+    "openrouter": {
+      "baseUrl": "https://openrouter.ai/api",
+      "api": "openai-completions",
+      "apiKey": "OPENROUTER_API_KEY"
+    }
+  }
+}

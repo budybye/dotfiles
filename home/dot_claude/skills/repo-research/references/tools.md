@@ -1,299 +1,184 @@
-# Reference: ghq + Context7
+# Tools Reference — ghq + Context7 (+ fallbacks)
 
-## ghq Command Details
+Commands, parameters, and troubleshooting for the primary tools used by `/repo-research`, plus fallback paths when they're unavailable.
 
-### Installation
+---
+
+## ghq — Local repository manager
+
+### Install
 
 ```bash
-# via mise (Recommended)
+# Cross-platform (recommended, matches user's environment)
 mise use -g ghq@latest
 
-# via Homebrew
+# Homebrew (macOS)
 brew install ghq
 
-# via Go
+# Go toolchain
 go install github.com/x-motemen/ghq@latest
 ```
 
-### Basic Commands
+Verify: `command -v ghq`.
 
-| Command          | Description               | Example                        |
-| ---------------- | ------------------------- | ------------------------------ |
-| `ghq get <repo>` | Clone a repository        | `ghq get github.com/user/repo` |
-| `ghq list`       | List local repositories   | `ghq list`                     |
-| `ghq list -p`    | List with full paths      | `ghq list -p`                  |
-| `ghq root`       | Show ghq root directory   | `ghq root`                     |
-| `ghq root --all` | Show all root directories | `ghq root --all`               |
+### Commands
 
-### `ghq get` Advanced Options
+| Purpose                | Command                        |
+| ---------------------- | ------------------------------ |
+| Clone                  | `ghq get <repo>`               |
+| Update in place        | `ghq get --update <repo>`      |
+| Shallow clone          | `ghq get --shallow <repo>`     |
+| Specific branch        | `ghq get --branch <name> <repo>` |
+| SSH clone              | `ghq get -p <repo>`            |
+| List repos (names)     | `ghq list`                     |
+| List repos (paths)     | `ghq list -p`                  |
+| Print root directory   | `ghq root`                     |
 
-```bash
-# Basic format
-ghq get <repository-url>
+### Supported URL formats
 
-# Protocol and update
-ghq get -p <repo>              # Clone via SSH
-ghq get --update <repo>        # Update if it exists
-ghq get --shallow <repo>       # Shallow clone
-ghq get --branch <name> <repo> # Clone specific branch
-ghq get --bare <repo>          # Clone as bare repository
+```
+github.com/owner/repo
+https://github.com/owner/repo
+git@github.com:owner/repo.git
 ```
 
-### Supported URL Formats
-
-```bash
-ghq get https://github.com/owner/repo
-ghq get github.com/owner/repo
-ghq get git@github.com:owner/repo.git
-```
-
-### Configuration (`.gitconfig`)
+### Config (`.gitconfig`)
 
 ```ini
 [ghq]
-  # Root directories
-  root = ~/ghq
-  root = ~/go/src  # Multiple roots supported
-
-  # VCS specification
-  [ghq "https://gitlab.com/"]
-    vcs = git
+    root = ~/ghq
+    # Multiple roots are allowed — ghq picks based on the URL
+    # root = ~/go/src
 ```
 
-### Directory Structure Detail
+### Directory layout
 
-```text
-<ghq.root>/
-└── <host>/
-    └── <user>/
-        └── <repo>/
-            └── (Repository Content)
-
-Example:
-~/ghq/
-├── github.com/
-│   ├── facebook/
-│   │   └── react/
-│   └── vercel/
-│       └── next.js/
-└── gitlab.com/
-    └── group/
-        └── project/
+```
+$(ghq root)/<host>/<owner>/<repo>/
 ```
 
-## Context7 MCP Tool Specifications
+Example: `~/ghq/github.com/vercel/next.js/`.
 
-### Tool 1: `resolve-library-id`
+### Troubleshooting
 
-**Purpose**: Resolves a library name into a Context7 library ID.
-
-**Parameters**:
-
-```json
-{
-	"query": "string (required)"
-}
-```
-
-**Tips for Queries**:
-
-- Name + Description: "Next.js React framework"
-- Specific Use Case: "Prisma ORM for database"
-- Prefer Official Names: "TanStack Query" (formerly "React Query")
-
-**Return Value**:
-
-```json
-{
-	"library_id": "nextjs",
-	"name": "Next.js",
-	"confidence": 0.95
-}
-```
-
-**Best Practices**: Use official names, avoid abbreviations, and add context if the name is ambiguous.
-
-### Tool 2: `query-docs`
-
-**Purpose**: Retrieves documentation for specific topics.
-
-**Parameters**:
-
-```json
-{
-	"library_id": "string (required)",
-	"topic": "string (required)",
-	"tokens": "number (optional, default: 4000)"
-}
-```
-
-**Topic Writing**:
-
-- **Good**: "middleware authentication redirect"
-- **Bad**: "how to use" (too vague)
-
-**Recommended Token Values**:
-
-| Use Case          | tokens    | Description                 |
-| ----------------- | --------- | --------------------------- |
-| Quick Reference   | 1000-1500 | API specs only              |
-| Standard Research | 2000-3000 | Explanations + Code samples |
-| Detailed Research | 4000-6000 | Comprehensive documentation |
-
-**Return Value**:
-
-```json
-{
-	"content": "Markdown formatted documentation",
-	"token_count": 2847,
-	"sources": ["https://..."]
-}
-```
-
-### Tool 3: `search-for-libraries`
-
-**Purpose**: Search for library candidates (can be used before `resolve-library-id`).
-
-**Parameters**:
-
-```json
-{
-	"query": "string (required)",
-	"limit": "number (optional, default: 10)"
-}
-```
-
-**Example**:
-`query: "React state management"` → Returns candidates like Redux, Zustand, Jotai.
-
-## Common Research Scenarios
-
-### Scenario 1: Introducing a New Library
-
-**Context**: Want to introduce Zod to a project.
-
-1.  **Context7**: Resolve "Zod TypeScript schema validation".
-2.  **Context7**: Query "schema definition validation" (3000 tokens).
-3.  Implement based on retrieved code samples.
-    **Decision**: Docs are sufficient → `ghq` not needed.
-
-### Scenario 2: Bug Investigation
-
-**Context**: React Query cache behavior is unexpected.
-
-1.  **Context7**: Resolve "TanStack Query" and query "cache behavior staleTime cacheTime" (2500 tokens).
-2.  If docs are insufficient: `ghq get github.com/TanStack/query`.
-3.  Grep for `staleTime|cacheTime` and read relevant files to understand internal logic.
-    **Decision**: Docs first → Source code as backup.
-
-### Scenario 3: Refactoring Existing Code
-
-**Context**: Migrating Next.js Pages Router to App Router.
-
-1.  **Context7**: Query "app router migration from pages" (4000 tokens).
-2.  If implementation patterns are needed: `ghq get github.com/vercel/next.js`.
-3.  Explore official examples with Glob patterns like `examples/*/app/**`.
-    **Decision**: Docs for guidelines + Source for examples.
-
-### Scenario 4: Custom Plugin Development
-
-**Context**: Developing a Vite custom plugin.
-
-1.  **Context7**: Query "plugin api hooks lifecycle" (3000 tokens).
-2.  **ghq**: Clone `vitejs/vite` or `vitejs/vite-plugin-react`.
-3.  Use `SemanticSearch` to learn implementation patterns.
-    **Decision**: Docs for specs + Multi-repo source for patterns.
-
-### Scenario 5: OSS Contribution
-
-**Context**: Fix a bug in React.
-
-1.  **ghq**: Clone `facebook/react` and set up local environment.
-2.  Identify bug location using `Grep` (error messages) and `SemanticSearch`.
-3.  **Context7** (Optional): Reference "contributing guide" if needed.
-    **Decision**: Primary research via `ghq`.
-
-## Agent Implementation Patterns
-
-### Pattern A: Context7 → Implementation
-
-```python
-# Pseudocode
-def implement_with_docs(library_name, feature):
-    lib_id = resolve_library_id(query=library_name)
-    docs = query_docs(library_id=lib_id, topic=feature, tokens=3000)
-    implement_code(docs)
-```
-
-### Pattern B: ghq → Investigation → Implementation
-
-```python
-# Pseudocode
-def investigate_and_implement(repo_url, search_query):
-    run_command(f"ghq get {repo_url}")
-    root = run_command("ghq root").strip()
-    repo_path = f"{root}/{parse_repo_path(repo_url)}"
-    results = semantic_search(query=search_query, target_directories=[repo_path])
-    for file in results[:3]:
-        content = read_file(file.path)
-        analyze(content)
-    implement_code()
-```
-
-### Pattern C: Context7 + ghq (Step-by-step)
-
-```python
-# Pseudocode
-def research_and_implement(library_name, topic, repo_url):
-    lib_id = resolve_library_id(query=library_name)
-    overview = query_docs(library_id=lib_id, topic=f"{topic} overview", tokens=2000)
-    if needs_more_detail(overview):
-        run_command(f"ghq get {repo_url}")
-        root = run_command("ghq root").strip()
-        repo_path = f"{root}/{parse_repo_path(repo_url)}"
-        files = grep(pattern=topic, path=repo_path)
-        for file in files[:2]:
-            detail = read_file(file)
-            analyze(detail)
-    implement_code()
-```
-
-## Detailed Troubleshooting
-
-### `ghq` Not Found
+**`ghq: command not found`**
 
 ```bash
-# Check installation via mise
-mise which ghq
-# Check PATH
-echo $PATH | grep -o '[^:]*mise[^:]*'
-# Regenerate mise shims
-mise reshim
+mise which ghq       # confirm mise manages it
+mise reshim          # regenerate shims if needed
 ```
 
-### `ghq root` is Empty
+**`ghq root` is empty**
 
 ```bash
-# Check global config
-git config --global ghq.root
-# Set if missing
-git config --global ghq.root ~/ghq
+git config --global ghq.root     # inspect
+git config --global ghq.root ~/ghq   # set
 ```
 
-### Context Window Overflow
+---
 
-**Symptom**: "Context window exceeded" error.
-**Solutions**:
+## Context7 MCP
 
-1.  Halve Context7 `tokens` (4000 → 2000).
-2.  Restrict `ghq` file reading (use `Grep` first, don't read entire files/folders).
-3.  Incremental retrieval (fetch piece by piece).
+Three tools. Use `resolve-library-id` first unless you already know the ID.
 
-## Advanced Usage Examples
+### `resolve-library-id`
 
-### Multi-repository Research
+| Param | Required | Notes |
+|---|---|---|
+| `query` | yes | Use official name + context (e.g., `"Hono web framework"`). Avoid abbreviations |
 
-Compare routing libraries in the React ecosystem.
+Returns: `{ library_id, name, confidence }`.
+
+### `query-docs`
+
+| Param | Required | Notes |
+|---|---|---|
+| `library_id` | yes | From `resolve-library-id` |
+| `topic`      | yes | Focused phrase; **not** "how to use" |
+| `tokens`     | no  | Default 4000; recommended table below |
+
+| Use case        | tokens    |
+|-----------------|-----------|
+| Quick API lookup | 1000–1500 |
+| Standard        | 2000–3000 |
+| Deep dive       | 4000–6000 |
+
+Returns: `{ content, token_count, sources }`.
+
+### `search-for-libraries`
+
+When you're unsure which library solves a problem (`"React state management"` → Redux, Zustand, Jotai). Run **before** `resolve-library-id`.
+
+---
+
+## Fallback — when Context7 or ghq is unavailable
+
+### No Context7 → WebSearch + WebFetch
+
+```
+WebSearch: <library> <topic> site:<official-domain>
+WebFetch: <result-url>  → extract API shape manually
+```
+
+Prefer official docs domains (`hono.dev`, `docs.python.org`, etc.) over random blog posts.
+
+### No ghq → direct git clone
+
+```bash
+git clone --depth 1 <repo-url> /tmp/<repo-name>
+# ...investigate via Grep / Read...
+rm -rf /tmp/<repo-name>  # after writing the memo
+```
+
+The `--depth 1` keeps the clone small. Remove after the session to avoid disk creep.
+
+### No WebSearch and no git clone
+
+Ask the user to paste the relevant doc section or file contents directly. **Do not** hallucinate API shapes — empty answer is safer than wrong one.
+
+---
+
+## Common Scenarios
+
+### S1 — Introducing a new library
+
+Example: Zod for schema validation.
+
+1. Context7 → `query-docs(topic="schema definition validation", tokens=3000)`
+2. Implement from retrieved samples
+3. Source research unnecessary
+
+### S2 — Investigating unexpected behavior
+
+Example: TanStack Query cache timing.
+
+1. Context7 → `query-docs(topic="cache behavior staleTime cacheTime", tokens=2500)`
+2. If docs don't match observations: `ghq get github.com/TanStack/query`
+3. Grep for `staleTime|cacheTime` in the repo, read 2–3 files
+
+### S3 — Migrating between versions
+
+Example: Next.js pages → app router.
+
+1. Context7 → migration guide (4000 tokens)
+2. `ghq get github.com/vercel/next.js` — read official examples under `examples/*/app/**`
+
+### S4 — Custom plugin / extension development
+
+1. Context7 → plugin lifecycle docs
+2. `ghq get <framework-repo>` + clone related plugins — copy proven patterns
+
+### S5 — OSS contribution / bug fix
+
+1. `ghq get <upstream-repo>` first
+2. Grep error messages to locate code
+3. Context7 only for the project's CONTRIBUTING / style guide
+
+---
+
+## Advanced patterns
+
+### Multi-repo comparison
 
 ```bash
 ghq get github.com/remix-run/react-router
@@ -301,37 +186,29 @@ ghq get github.com/TanStack/router
 ghq get github.com/molefrog/wouter
 
 ROOT=$(ghq root)
-for repo in react-router router wouter; do
-  grep -r "route definition" "${ROOT}/github.com/*/${repo}"
+# Compare routing-definition syntax across three repos:
+for repo in remix-run/react-router TanStack/router molefrog/wouter; do
+    echo "=== $repo ==="
+    grep -rn "route definition" "$ROOT/github.com/$repo" | head -3
 done
 ```
 
-### Version Diff Investigation
+### Version-diff investigation
 
 ```bash
 ghq get -p github.com/facebook/react
-cd $(ghq root)/github.com/facebook/react
+cd "$(ghq root)/github.com/facebook/react"
 git tag | grep v18
-git checkout v18.2.0
 git diff v18.0.0..v18.2.0 -- packages/react/
 ```
 
-## Cheat Sheet
+---
 
-### ghq Quick Reference
+## Context window overflow — mitigation
 
-- **Get**: `ghq get <repo>` (Clone), `-u` (Update), `-p` (SSH).
-- **List**: `ghq list` (Names), `-p` (Full paths).
-- **Paths**: `ghq root`, `$(ghq root)/github.com/user/repo` (Full path construction).
+If you see "context window exceeded":
 
-### Context7 Quick Reference
-
-- **Resolve ID**: `resolve-library-id(query="Next.js")`.
-- **Get Docs**: `query-docs(library_id="nextjs", topic="middleware", tokens=3000)`.
-
-### Recommended Workflow
-
-1.  Understand the query and goal (Usage vs. Implementation).
-2.  Use **Context7** for high-level documentation (Fast).
-3.  Use **ghq** only if docs are insufficient or for deep-dive (Slower).
-4.  Integrate and implement.
+1. Halve Context7 `tokens` (4000 → 2000)
+2. Use `Grep` output mode `files_with_matches` (just paths) before full-text grep
+3. Read files in slices (`offset` + `limit`) rather than whole
+4. Summarize findings into the memo immediately; don't hold raw docs in context

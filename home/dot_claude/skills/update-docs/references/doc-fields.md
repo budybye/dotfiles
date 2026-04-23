@@ -1,96 +1,96 @@
 # Doc Fields Reference
 
-各ドキュメントファイルが何を含むべきかの一覧。更新時に「何が正しい情報源か」を判断する際に参照する。
+A table of what each documentation file should contain and where the authoritative value comes from. Consulted when deciding "which side is the source of truth" during an update.
 
-> 各ファイルの詳細なテンプレートは [make-docs/references/templates.md](../../make-docs/references/templates.md) を参照。
+> Full templates for each file live in [make-docs/references/templates.md](../../make-docs/references/templates.md).
 
 ---
 
 ## AGENTS.md
 
-| フィールド | 情報源 |
+| Field | Source of truth |
 |---|---|
-| Tech Stack (言語・FW・ランタイム) | `package.json`, `wrangler.toml`, `Cargo.toml` |
-| Environment Variables | `wrangler.toml` bindings, `.env.example` |
-| Key Commands (`dev`, `deploy`, `test`) | `package.json` scripts, `Makefile` |
-| Constraints & Gotchas | `docs/problems.md`, コードコメント |
-| Directory Overview | `docs/directory.md` |
+| Tech stack (language, framework, runtime) | `package.json`, `wrangler.{toml,jsonc}`, `Cargo.toml`, `go.mod`, `pyproject.toml` |
+| Environment variables | `wrangler.*` bindings, `.env.example`, `.dev.vars.example` |
+| Key commands (`dev`, `deploy`, `test`) | `package.json` scripts, `Makefile`, `justfile` |
+| Constraints & gotchas | `docs/problems.md`, inline code comments |
+| Directory overview | `docs/directory.md` |
 
 ---
 
 ## docs/tech.md
 
-| フィールド | 情報源 |
+| Field | Source of truth |
 |---|---|
-| ライブラリバージョン | `package.json`, lock ファイル |
-| Node/Deno/Bun バージョン | `.node-version`, `.tool-versions`, `mise.toml` |
-| ビルドツール | `package.json` devDependencies, `wrangler.toml` |
-| テストフレームワーク | `package.json` + `vitest.config.*` |
+| Library versions | `package.json` + lock file (`pnpm-lock.yaml`, `package-lock.json`), `Cargo.lock` |
+| Runtime versions (Node/Deno/Bun) | `.node-version`, `.tool-versions`, `mise.toml`, `rust-toolchain.toml` |
+| Build tools | `package.json` devDependencies, `wrangler.*`, `vite.config.*`, `tsup.config.*` |
+| Test framework | `package.json` + `vitest.config.*` / `jest.config.*` |
 
 ---
 
 ## docs/design.md
 
-| フィールド | 情報源 |
+| Field | Source of truth |
 |---|---|
-| ルーティング構造 | `src/` ディレクトリ, アプリ定義ファイル |
-| バインディング名 | `wrangler.toml` → `[d1_databases]`, `[kv_namespaces]` 等 |
-| 環境変数 | `wrangler.toml` `[vars]`, `.env.example` |
-| アーキテクチャ図の説明 | コード構造との照合 |
+| Routing structure | `src/` entry point (e.g. `src/index.ts`), app definition files |
+| Binding names | `wrangler.*` → `[d1_databases]`, `[kv_namespaces]`, `[r2_buckets]`, `[durable_objects]` |
+| Environment-variable references | `wrangler.*` `[vars]`, `.env.example` |
+| Architecture diagram commentary | Cross-check against actual module structure |
 
 ---
 
 ## docs/directory.md
 
-| フィールド | 情報源 |
+| Field | Source of truth |
 |---|---|
-| ファイルツリー | 実際のディレクトリ構造 (`ls`, `find`) |
-| 各ファイル・ディレクトリの役割説明 | コード内容, `index.ts` の export |
+| File tree | Actual directory layout (`ls`, `find`, `tree`) |
+| Per-file/-directory role | Code contents, `index.ts` exports, module docstrings |
 
 ---
 
 ## docs/tasks.md
 
-| フィールド | 情報源 |
+| Field | Source of truth |
 |---|---|
-| TODO/In Progress タスク | コード中の TODO コメント, Issue トラッカー |
-| 完了タスク | git log, PR マージ履歴 |
+| TODO / In-progress tasks | Inline `TODO:` comments, issue tracker |
+| Completed tasks | `git log`, merged PR history |
 
 ---
 
 ## docs/problems.md
 
-| フィールド | 情報源 |
+| Field | Source of truth |
 |---|---|
-| 既知のバグ・制約 | コードコメント, Issue, エラーログ |
-| 環境差・注意点 | テスト失敗ログ, CI 設定 |
+| Known bugs & limitations | Code comments, issues, error logs |
+| Environment gotchas | Failing-test logs, CI configuration |
 
 ---
 
 ## docs/requirements.md
 
-| フィールド | 情報源 |
+| Field | Source of truth |
 |---|---|
-| 機能要件 | ユーザーインタビュー, 仕様書, Issue |
-| 非機能要件 | インフラ設定, SLA, `wrangler.toml` |
+| Functional requirements | User interviews, specs, issues |
+| Non-functional requirements | Infra configuration, SLA docs, `wrangler.*` limits |
 
 ---
 
 ## docs/test.md
 
-| フィールド | 情報源 |
+| Field | Source of truth |
 |---|---|
-| テスト戦略 | `vitest.config.*`, テストファイル構造 |
-| カバレッジ目標 | CI 設定, `.github/workflows/` |
-| テスト実行コマンド | `package.json` scripts |
+| Testing strategy | `vitest.config.*`, test file layout |
+| Coverage targets | CI configuration, `.github/workflows/` |
+| Test commands | `package.json` scripts |
 
 ---
 
 ## README.md
 
-| フィールド | 情報源 |
+| Field | Source of truth |
 |---|---|
-| プロジェクト概要 | `docs/requirements.md` |
-| インストール・クイックスタート | `package.json` scripts, `AGENTS.md` Key Commands |
-| 環境変数一覧 | `.env.example`, `wrangler.toml` |
-| バッジ (CI/coverage) | `.github/workflows/`, カバレッジサービス設定 |
+| Project overview | `docs/requirements.md` |
+| Install / quick-start | `package.json` scripts + `AGENTS.md` Key Commands |
+| Environment variables | `.env.example`, `wrangler.*` |
+| Badges (CI / coverage) | `.github/workflows/`, coverage service config |

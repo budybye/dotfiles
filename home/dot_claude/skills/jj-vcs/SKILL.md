@@ -1,200 +1,225 @@
 ---
 name: jj-vcs
-description: Guide for Jujutsu (jj) VCS — Git-to-jj command mapping, colocated mode workflows, and output templates for commit messages, bookmark names, and PR descriptions. Always prefer jj commands over git when a .jj directory exists. [Triggers: /jj, jujutsu, jj st, jj log, jj new, jj commit, jj describe, jj squash, jj rebase, bookmark, colocated, push in jj, version control]
+description: "Guide for Jujutsu (jj) VCS - when to use jj over git, colocated-mode workflow, and conceptual differences (automatic working-copy commits, bookmarks-not-branches, no index, commit-able conflicts). Detailed command mapping and output templates in references. Prefer jj commands whenever a .jj directory exists. [Triggers: /jj, jujutsu, jj st, jj log, jj new, jj commit, jj describe, jj squash, jj rebase, bookmark, colocated, push in jj, version control]"
 ---
 
 # Jujutsu (jj) VCS Best Practices
 
+A concise orientation for working in `jj`-managed repositories (colocated or native). For the full Git↔jj command mapping and message templates, follow the references below.
+
 ## Quick Reference
 
-| Task                               | Guide                                                 |
-| ---------------------------------- | ----------------------------------------------------- |
-| Git to jj Detailed Command Mapping | Read [references/commands.md](references/commands.md) |
-| Commit messages, bookmarks, PR body templates | Read [references/templates.md](references/templates.md) |
+| Task                                            | Guide                                                     |
+| ----------------------------------------------- | --------------------------------------------------------- |
+| Full Git → jj command mapping                   | Read [references/commands.md](references/commands.md)     |
+| Commit messages, bookmark names, PR body        | Read [references/templates.md](references/templates.md)   |
 
 ---
 
 ## Agent Guidelines
 
-- **Always** prioritize `jj` commands over `git` if a `.jj` directory exists or the project is in colocated mode.
-- **Never** perform a `git push` without verifying that the relevant bookmarks are set to the intended revisions.
-- **Always** use the `--colocate` flag when initializing jj in an existing Git repository to maintain compatibility.
-- **Prefer** `jj undo` for immediate operation reversal instead of manual reflog manipulation.
+- **Prefer jj over git** whenever `.jj/` exists or the repo is in colocated mode. `git` commands still work but bypass jj's operation log and undo capability.
+- **Never** run `git push` directly from a jj colocated repo without first confirming the relevant bookmarks point at the intended revisions (`jj bookmark list`).
+- **Always** use `jj git init --colocate` when adding jj to an existing Git repo — preserves tooling compatibility.
+- **Prefer `jj undo`** for reverting an operation over manually unwinding via reflog. It's atomic and cheap.
+- **Move bookmarks explicitly** — unlike git branches they do not follow `HEAD`; forgetting to move them is the most common jj pitfall.
 
 ---
 
-## Core Principles
+## Core Concepts
 
-- **Prioritize jj**: Use `jj` commands instead of `git` commands whenever possible.
-- **Colocated Mode**: Coexist `.jj` and `.git` to maintain compatibility with existing Git tools and workflows.
-- **Bookmarks**: The concept equivalent to Git branches is called a "bookmark" in jj.
-
-## Core Concepts of jj
-
-### Fundamental Differences from Git
+### Differences from Git
 
 | Concept            | Git                        | jj                                        |
 | ------------------ | -------------------------- | ----------------------------------------- |
-| Working Copy       | Manual `add` / `commit`    | Automatically committed                   |
-| Staging            | Add to index via `git add` | None (does not exist)                     |
-| Branches/Bookmarks | `branch` follows HEAD      | `bookmark` is moved manually              |
-| Conflicts          | Blocks operations          | Committable; resolved later               |
+| Working copy       | Manual `add` / `commit`    | Automatically recorded in `@`             |
+| Staging area       | Index via `git add`        | None — does not exist                     |
+| Branches           | `branch` follows `HEAD`    | `bookmark` moves explicitly               |
+| Conflicts          | Block the operation        | Committable; resolved later               |
 | Descendants        | Manual rebase              | Automatic rebase                          |
-| Stash              | `git stash`                | `jj new @-` (remains as a sibling commit) |
-| Undo               | Manual restore from reflog | `jj undo` / `jj op revert`                |
+| Stash              | `git stash`                | `jj new @-` (parallel working copy)       |
+| Undo               | Reflog + manual restore    | `jj undo` / `jj op revert`                |
 
-### Automatic Working Copy Commits
+### Automatic working-copy commits
 
-In jj, any changes in your working directory are automatically recorded in a "working copy commit" (`@`).
-`git add` is not required. New files and deletions are tracked automatically.
+Any edit in the working directory is recorded into the working-copy commit `@` automatically. No `git add` step.
 
 ```bash
-# Simply editing a file records the change
 echo "hello" > file.txt
-jj st           # Shows the changes
-jj diff         # Shows the diff
+jj st     # shows the change
+jj diff   # shows the diff
 ```
 
-### Basic Workflow
+### Bookmarks (≠ Git branches)
+
+A bookmark is a **named pointer** to a revision. It does not auto-follow your current commit. You move it explicitly:
 
 ```bash
-# 1. Start a new change from main
-jj new main
-
-# 2. Edit files (automatically tracked)
-# 3. Add a message and start the next change
-jj commit -m "feat: add new feature"
-
-# 4. Create a bookmark and push
 jj bookmark create my-feature -r @-
-jj git push
+jj bookmark move my-feature --to @-
 ```
 
-## GitHub/GitLab Workflow
+---
 
-### Pushing for PR (Automatic Bookmark Name)
+## Canonical Workflow
 
 ```bash
-jj new main
-# Do some work...
-jj commit -m "feat: new feature"
-# Push with an auto-generated bookmark name (@- = parent commit)
+jj new main                  # start a new change from main
+# ...edit files...
+jj commit -m "feat: add X"   # describe + start next change
+jj bookmark create my-feat -r @-
+jj git push                  # push the bookmark
+```
+
+For further commands (describe, squash, rebase, resolve, etc.), see [references/commands.md](references/commands.md).
+
+---
+
+## Frequently Needed Patterns
+
+### Push for PR
+
+```bash
+# With auto-generated bookmark name
 jj git push --change @-
-```
 
-### Pushing for PR (Named Bookmark)
-
-```bash
-jj new main
-# Do some work...
-jj commit -m "feat: new feature"
+# With explicit bookmark
 jj bookmark create my-feature -r @-
 jj git push
 ```
 
-### Addressing Review Comments (Append Commit Method)
+### Address review comments
+
+**Append a commit**:
 
 ```bash
 jj new my-feature
-# Fix things...
-jj commit -m "address pr comments"
+# ...fix...
+jj commit -m "address review"
 jj bookmark move my-feature --to @-
 jj git push
 ```
 
-### Addressing Review Comments (Rewrite/Squash Method)
+**Squash into the reviewed commit**:
 
 ```bash
-jj new my-feature-    # The trailing - denotes the parent
-# Fix things...
-jj squash             # Merge into the parent commit
+jj new my-feature-         # trailing - = parent
+# ...fix...
+jj squash                  # merge into parent
 jj git push --bookmark my-feature
 ```
 
-## Colocated Repositories
-
-### Initialization
+### Stacking changes
 
 ```bash
-# Add jj to an existing Git repository (recommended)
-jj git init --colocate
-
-# Create a new repository
-jj git init
+jj new main
+jj commit -m "refactor: preparation"
+jj commit -m "feat: core logic"
+jj describe -m "test: add tests"
 ```
 
-In colocated mode, `.jj` and `.git` coexist, and Git state is automatically synchronized when running `jj` commands.
+### Resolve conflicts
 
-### GitHub CLI (gh) Integration
+```bash
+jj rebase -d main    # does not block on conflicts
+jj st                # shows conflicted files
+# ...edit to resolve...
+jj st                # confirm clean
+```
 
-The `gh` command works out of the box in colocated repositories.
-For non-colocated repos, set the following environment variable:
+---
+
+## Colocated Mode
+
+Initialize jj in an existing Git repo:
+
+```bash
+jj git init --colocate
+```
+
+`.jj/` and `.git/` coexist; jj keeps Git state in sync automatically when you run jj commands. The `gh` CLI and other Git tooling work without changes.
+
+For non-colocated repos, `gh` needs:
 
 ```bash
 export GIT_DIR=$PWD/.jj/repo/store/git
 ```
 
-## Common Patterns
+---
 
-### Stacking Multiple Changes
-
-```bash
-jj new main
-# Change 1
-jj commit -m "refactor: preparation"
-# Change 2
-jj commit -m "feat: core logic"
-# Change 3 (in progress)
-jj describe -m "test: add tests"
-```
-
-### Editing a Past Commit
+## Useful Revsets
 
 ```bash
-# Directly edit a specific commit
-jj edit <revision>
-# After editing, return to a new working copy
-jj new
+jj log -r 'bookmarks() && ~remote_bookmarks()'   # local-only bookmarks
+jj log -r 'remote_bookmarks()..@'                # diff from upstream
+jj log -r 'mine()'                               # my changes
 ```
 
-### Resolving Conflicts
+More revsets in [references/commands.md](references/commands.md#useful-revset-expressions).
+
+---
+
+## Team Collaboration
+
+When adopting jj in a team environment, consider these best practices:
+
+### Working with Git Tooling
+
+In colocated mode, most Git tools work seamlessly:
 
 ```bash
-# You can commit even if there are conflicts
-jj rebase -d main    # Won't block even if conflicts occur
-jj st                # Check for conflicted files
-# Edit files to resolve
-jj st                # Confirm resolution
+# GitHub CLI works normally
+gh pr create --title "Feature" --body "Description"
+
+# Other Git tools also work
+git log --oneline  # shows the same history
 ```
 
-### Useful Revsets
+For non-colocated repos, export `GIT_DIR` to enable Git tooling:
 
 ```bash
-# Local-only bookmarks
-jj log -r 'bookmarks() && ~remote_bookmarks()'
-# Diff from main
-jj log -r 'remote_bookmarks()..@'
-# My own changes
-jj log -r 'mine()'
+export GIT_DIR=$PWD/.jj/repo/store/git
 ```
 
-## Workflow Integration
+### Feature Branch Workflows
 
-### Shell Function Example (User's Existing Pattern)
-
-The user utilizes a `jjj` function like this:
+Create feature branches as bookmarks and keep them updated:
 
 ```bash
-# jjj "message" "bookmark_name" "remote_name"
-# - Defaults to an emoji if message is omitted
-# - Auto-detects bookmark name (jj -> git -> main) if omitted
-# - Defaults to "origin" for remote
+jj new main                    # start feature from main
+jj commit -m "feat: add X"     # commit changes
+jj bookmark create feature-x   # create bookmark
+jj bookmark move feature-x     # move bookmark to latest commit
 ```
 
-This function bundles `jj describe` + `jj bookmark set` + `jj git push`.
-Follow this pattern when suggesting new aliases or functions.
+### Code Review Process
 
-### Commit Messages
+Use `jj git push --change` for easy PR creation:
 
-In jj, use `jj describe` to set a message.
-Note that `jj commit -m "msg"` is a shortcut for `jj describe` + `jj new`.
+```bash
+jj git push --change @-  # pushes current commit as a PR
+```
+
+For updating PRs after review:
+
+```bash
+jj new feature-x         # start new commit on feature
+# ...address feedback...
+jj squash                # combine with parent commit
+jj bookmark move feature-x  # update bookmark
+jj git push              # push updated bookmark
+```
+
+### Common Team Pitfalls
+
+1. **Bookmark synchronization**: Always move bookmarks explicitly after commits
+2. **Conflicting pushes**: Use `jj git fetch` before pushing to avoid conflicts
+3. **Operation log sharing**: jj's operation log is local-only; coordinate via Git remotes
+
+---
+
+## Notes on Messages
+
+- `jj commit -m "msg"` is shorthand for `jj describe -m "msg"` + `jj new`.
+- Editing a past revision's description: `jj describe <rev>`.
+- Conventional Commits format and PR body templates: [references/templates.md](references/templates.md).

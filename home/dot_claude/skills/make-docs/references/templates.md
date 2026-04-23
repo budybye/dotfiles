@@ -2,29 +2,44 @@
 
 Detailed templates for the seven files under `docs/`, auto-scan commands, and consistency check criteria.
 
+## Important Instructions
+
+When using these templates:
+1. ALWAYS customize them with project-specific information
+2. NEVER leave placeholder text like `[Version]` or `[Feature Name]`
+3. ENSURE technical details are consistent across all files
+4. VERIFY that commands in README.md actually work
+
 ---
 
 ## Auto-scan Commands
 
 Execute these when a project directory is specified to gather context from the existing codebase.
 
-```bash
-# Directory structure
-find . -type f -not -path '*/node_modules/*' -not -path '*/.git/*' -not -path '*/dist/*' -not -path '*/.next/*' | head -100
+⚠️ IMPORTANT: Run these commands in the project root directory.
 
-# Existing documentation
+```bash
+# Directory structure (excluding build artifacts and dependencies)
+find . -type f -not -path '*/node_modules/*' -not -path '*/.git/*' -not -path '*/dist/*' -not -path '*/.next/*' -not -path '*/build/*' -not -path '*/target/*' | head -100
+
+# Existing documentation (may inform style and content)
 cat README.md AGENTS.md 2>/dev/null
 
-# Package definitions
-cat package.json 2>/dev/null || cat Cargo.toml 2>/dev/null || cat pyproject.toml 2>/dev/null
+# Package definitions (identify tech stack)
+cat package.json 2>/dev/null || cat Cargo.toml 2>/dev/null || cat pyproject.toml 2>/dev/null || cat composer.json 2>/dev/null || cat Gemfile 2>/dev/null
 
-# Infrastructure and config
+# Infrastructure and config (deployment, environment)
 cat wrangler.toml docker-compose.yml Dockerfile 2>/dev/null
 ls *.config.* .env.example .env.local 2>/dev/null
 
-# Existing docs
+# Existing docs (avoid duplication)
 ls docs/ 2>/dev/null && cat docs/*.md 2>/dev/null | head -500
 ```
+
+After running these commands:
+1. Analyze the results to understand the project structure
+2. Identify gaps in information that require user input
+3. Formulate exactly 2-3 targeted questions to fill those gaps
 
 ---
 

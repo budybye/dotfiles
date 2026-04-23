@@ -1,86 +1,89 @@
 # Drift Patterns Reference
 
-ドキュメントとコードの乖離がよく発生するパターン一覧。Phase 2 の検出時に参照する。
+Common patterns of drift between code and documentation. Consult during Phase 2 (Drift Detection) to widen coverage beyond what you'd catch by eye.
+
+Each entry lists: **symptom → detection → fix**.
 
 ---
 
-## バージョン乖離
+## Version drift
 
-**症状**: `docs/tech.md` や `AGENTS.md` のバージョンが `package.json` と合わない
-**検出**: `package.json` の `dependencies`/`devDependencies` と `docs/tech.md` の記載を比較
-**修正**: `package.json` の値を正として `docs/tech.md` を更新
+- **Symptom**: Versions in `docs/tech.md` or `AGENTS.md` disagree with `package.json` / lock file
+- **Detection**: Diff `dependencies` / `devDependencies` in `package.json` against the versions recorded in `docs/tech.md`
+- **Fix**: Take `package.json` as authoritative and update `docs/tech.md`
 
 ```
-# 例
-docs/tech.md: Hono: 4.2.0
-package.json: "hono": "^4.6.3"
-→ docs/tech.md を 4.6.3 に更新
+# Example
+docs/tech.md:  Hono: 4.2.0
+package.json:  "hono": "^4.6.3"
+→ update docs/tech.md to 4.6.3
 ```
 
 ---
 
-## 環境変数・バインディング名の不一致
+## Env-var / binding name mismatch
 
-**症状**: `AGENTS.md` や `docs/design.md` に書かれた env var / binding が `wrangler.toml` に存在しない（または逆）
-**検出**: `wrangler.toml` の `[vars]`, `[d1_databases]`, `[kv_namespaces]` 等と docs を突き合わせる
-**修正**: `wrangler.toml` を正として docs を更新。削除された binding は docs からも削除
-
----
-
-## ファイルパス消滅
-
-**症状**: `docs/directory.md` に記載されたファイルやディレクトリが存在しない
-**検出**: `docs/directory.md` の各パスを Glob/Read で存在確認
-**修正**: 削除されたパスを docs から除去。追加されたファイルで重要なものは docs に追記
+- **Symptom**: An env var or binding named in `AGENTS.md` / `docs/design.md` does not exist in `wrangler.*` (or vice versa)
+- **Detection**: Cross-check `wrangler.*`'s `[vars]`, `[d1_databases]`, `[kv_namespaces]`, `[r2_buckets]`, `[durable_objects]` against what the docs reference
+- **Fix**: `wrangler.*` wins. Remove bindings that no longer exist from docs; add bindings that docs omit if they're in active use
 
 ---
 
-## コマンド変更
+## Vanished file paths
 
-**症状**: `AGENTS.md` の `dev`/`deploy`/`test` コマンドが `package.json` scripts と異なる
-**検出**: `package.json` の `scripts` セクションと `AGENTS.md` の Key Commands を比較
-**修正**: `package.json` を正として `AGENTS.md` を更新
-
----
-
-## タスクステータス乖離
-
-**症状**: `docs/tasks.md` の TODO/In Progress が実装済みになっている
-**検出**: git log の最近のコミット・PR マージと tasks.md の項目を突き合わせる
-**修正**: 実装済みのタスクを Done に移動。新規タスクがあれば追記
+- **Symptom**: Files or directories listed in `docs/directory.md` no longer exist
+- **Detection**: For each path in `docs/directory.md`, verify existence with Glob / Read
+- **Fix**: Remove deleted paths from docs. If newly added paths are architecturally significant, add them
 
 ---
 
-## アーキテクチャ記述の陳腐化
+## Command rename
 
-**症状**: `docs/design.md` のルーティング・ミドルウェア構成がコードと異なる
-**検出**: `src/index.ts`（または相当するエントリポイント）と `docs/design.md` を比較
-**修正**: 実際のルーティング構造に合わせて design.md を更新
-
----
-
-## README の乖離
-
-**症状**: README のインストール手順・env var 一覧・コマンドが `AGENTS.md` や `docs/` と矛盾する
-**検出**: README の各セクションを `AGENTS.md` Key Commands・`docs/tech.md`・`.env.example` と照合
-**修正**: README の factual な誤りのみ修正。説明文の tone・長さは保持する
+- **Symptom**: `dev` / `deploy` / `test` commands in `AGENTS.md` differ from `package.json` scripts
+- **Detection**: Compare the `scripts` section of `package.json` against the Key Commands in `AGENTS.md`
+- **Fix**: `package.json` wins; update `AGENTS.md`
 
 ---
 
-## AGENTS.md の constraints 不足
+## Task-status drift
 
-**症状**: `docs/problems.md` に記載の制約が `AGENTS.md` の Constraints セクションに反映されていない
-**検出**: `docs/problems.md` の各項目が `AGENTS.md` に言及されているか確認
-**修正**: 重要な制約（エージェントが守るべきもの）を `AGENTS.md` に追記
+- **Symptom**: Items in `docs/tasks.md` marked TODO / In Progress are already implemented
+- **Detection**: Cross-reference recent commits and merged PRs against entries in `tasks.md`
+- **Fix**: Move completed items to Done. Add newly-started work if missing
 
 ---
 
-## クロスファイル不整合
+## Stale architecture description
 
-**症状**: 複数のファイルで同じ情報が矛盾している
-**例**:
-- `AGENTS.md` の Node バージョン ≠ `docs/tech.md` の Node バージョン
-- `docs/design.md` のバインディング名 ≠ `AGENTS.md` の env vars セクション
-- README のクイックスタート ≠ `AGENTS.md` の Key Commands
+- **Symptom**: Routing / middleware composition in `docs/design.md` no longer matches the code
+- **Detection**: Compare `src/index.ts` (or equivalent entry point) against `docs/design.md`
+- **Fix**: Rewrite `design.md` to match the current routing. Preserve any rationale text (ADR entries) even when facts change
 
-**修正方針**: [doc-fields.md](doc-fields.md) の「情報源」列を参照し、上流ファイルの値に統一する
+---
+
+## README drift
+
+- **Symptom**: README's install steps, env-var list, or commands contradict `AGENTS.md` / `docs/`
+- **Detection**: Check each README section against `AGENTS.md` Key Commands, `docs/tech.md`, and `.env.example`
+- **Fix**: Correct factual errors only. Preserve the README's tone and length — do not expand it into a technical reference
+
+---
+
+## AGENTS.md missing constraints
+
+- **Symptom**: Constraints recorded in `docs/problems.md` are not reflected in the `AGENTS.md` Constraints section
+- **Detection**: For each entry in `docs/problems.md`, check whether `AGENTS.md` mentions it
+- **Fix**: Add agent-facing constraints (things an automated agent must avoid) to `AGENTS.md`. Leave purely informational entries in `problems.md` alone
+
+---
+
+## Cross-file inconsistency
+
+- **Symptom**: The same fact is stated with different values across multiple files
+
+**Examples**:
+- Node version in `AGENTS.md` ≠ Node version in `docs/tech.md`
+- Binding names in `docs/design.md` ≠ env-var section of `AGENTS.md`
+- README quick-start ≠ `AGENTS.md` Key Commands
+
+**Fix strategy**: Consult the "Source of truth" column in [doc-fields.md](doc-fields.md) and align the downstream files to the upstream value.

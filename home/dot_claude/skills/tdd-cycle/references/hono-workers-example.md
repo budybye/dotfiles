@@ -1,7 +1,94 @@
-# /tdd-cycle Test File Templates
+# Hono + Cloudflare Workers — TDD Example
 
-Boilerplate and structural patterns for test files in a Hono + Cloudflare Workers project.
-Copy these as a starting point for each new test file.
+Full Red → Green → Refactor walkthrough and test-file boilerplate for Hono on Cloudflare Workers with Vitest + `@cloudflare/vitest-pool-workers`.
+
+> Optional reference. For language-generic TDD patterns, see [language-patterns.md](language-patterns.md).
+
+---
+
+## Full Red → Green cycle — POST /api/users
+
+### Test list
+
+```markdown
+## Test List: POST /api/users
+
+- [ ] Returns 201 with the created user on valid input
+- [ ] Returns 400 when name is empty
+- [ ] Returns 400 when email is invalid
+- [ ] Returns 409 when email already exists
+```
+
+### Red — failing test
+
+Pick the simplest item: *"Returns 201 with the created user on valid input."*
+
+```ts
+// src/routes/users.test.ts
+import { describe, it, expect } from "vitest";
+import { testClient } from "hono/testing";
+import app from "../index";
+
+describe("POST /api/users", () => {
+  it("returns 201 with the created user on valid input", async () => {
+    const client = testClient(app);
+    const res = await client.api.users.$post({
+      json: { name: "Alice", email: "alice@example.com" },
+    });
+    expect(res.status).toBe(201);
+    const body = await res.json();
+    expect(body.name).toBe("Alice");
+    expect(body.email).toBe("alice@example.com");
+  });
+});
+```
+
+Run → fails with `TypeError: client.api.users.$post is not a function` or 404. Valid Red.
+
+### Green — minimal implementation
+
+```ts
+// src/routes/users.ts
+import { Hono } from "hono";
+import { zValidator } from "@hono/zod-validator";
+import { z } from "zod";
+
+const schema = z.object({
+  name: z.string().min(1),
+  email: z.string().email(),
+});
+
+export const usersRoute = new Hono().post(
+  "/",
+  zValidator("json", schema),
+  async (c) => {
+    const data = c.req.valid("json");
+    return c.json({ id: 1, ...data }, 201); // hardcoded id — intentional
+  },
+);
+
+// src/index.ts
+import { Hono } from "hono";
+import { usersRoute } from "./routes/users";
+const app = new Hono().route("/api/users", usersRoute);
+export default app;
+```
+
+Run → ✓ passes. All previous tests → ✓ still green.
+
+### Refactor
+
+- Extract the schema to `src/schemas/user.ts` if reused.
+- Replace hardcoded `id: 1` with a D1 insert once persistence is needed.
+- Move the error handler to the app level.
+
+### Next cycle — "Returns 400 when name is empty"
+
+The zValidator already enforces `z.string().min(1)` — this test passes without code change. A valid confirmation cycle; no Green step required.
+
+---
+
+## Test-file boilerplate
 
 ---
 

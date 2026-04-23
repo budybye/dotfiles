@@ -1,0 +1,30 @@
+{
+  "enabledModels": ["claude-*", "gpt-*", "Qwen*"],
+  "defaultProvider": "sakura",
+  "defaultModel": "Qwen3-Coder-480B-A35B-Instruct-FP8",
+  "defaultThinkingLevel": "medium",
+  "theme": "dark",
+  "language": "ja",
+  "locale": "ja-JP",
+  "compaction": {
+    "enabled": true,
+    "reserveTokens": 16384,
+    "keepRecentTokens": 20000
+  },
+  "retry": {
+    "enabled": true,
+    "maxRetries": 3
+  },
+  "packages": [
+    {
+      "source": "pi-skills",
+      "skills": ["brave-search", "transcribe"],
+      "extensions": []
+    }
+  ],
+  "extensions": [],
+  "prompts": [],
+  "skills": ["~/.claude/skills"],
+  "enableSkillCommands": true,
+  "lastChangelogVersion": "0.69.0"
+}

@@ -2,6 +2,14 @@
 
 Detailed templates and writing principles for `AGENTS.md` and `README.md`.
 
+## Critical Consistency Requirements
+
+Before finalizing these files, you MUST verify that:
+1. Technical stack in AGENTS.md matches docs/tech.md
+2. Environment variables referenced here also appear in docs/tech.md
+3. Commands shown in README.md actually work when copy-pasted
+4. Links to docs/ files are correct and functional
+
 ---
 
 ## AGENTS.md Template
@@ -72,6 +80,7 @@ Detailed templates and writing principles for `AGENTS.md` and `README.md`.
 - **Actionable Rules**: Avoid vague instructions; use rules that an AI or a new developer can follow mechanically.
 - **Consistency**: Ensure there are no contradictions with existing project configuration files.
 - **Delegation**: Keep this file focused on "Rules and Decisons." Delegate detailed "Specifications" to the `/docs` directory.
+- **Cross-referencing**: Always verify that information here matches the corresponding details in `/docs` files
 
 ---
 
@@ -144,4 +153,5 @@ Detailed templates and writing principles for `AGENTS.md` and `README.md`.
 - **Copy-Paste Friendly**: Can installation and startup be completed solely by copy-pasting provided commands?
 - **Standardization**: Are Environment Variables clearly explained via `.env.example`?
 - **Navigation**: Are there clear, functional links to the detailed `/docs`?
+- **Consistency Verification**: Have you verified that all technical details match `/docs` files?
 ```

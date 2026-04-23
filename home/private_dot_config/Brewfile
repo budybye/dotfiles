@@ -345,6 +345,7 @@ cask "windows-app"
 # cask "wkhtmltopdf"
 # cask "zoom"
 cask "zed"
+cask "zen"
 
 # mas
 
