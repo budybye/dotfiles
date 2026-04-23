@@ -1,83 +1,83 @@
 ---
 name: chezmoi-management
-description: hotmilk's personal chezmoi dotfiles operation manual. Summarizes source location, directory naming conventions, daily diff/apply flow, skill addition procedures, APM vs chezmoi boundaries, pre-commit (prek + secretlint), and troubleshooting. Refer when touching ~/.pi/, ~/.claude/, ~/.config/, ~/.zshrc, initializing new machines, or adding new skills.
+description: Personal chezmoi dotfiles management guide. Covers source structure, naming conventions, daily workflows, skill management, APM integration, pre-commit hooks, and troubleshooting. Reference when working with ~/.pi/, ~/.claude/, ~/.config/, ~/.zshrc, setting up new machines, or adding skills.
 ---
 
-# chezmoi Management (hotmilk personal)
+# Chezmoi Management (Personal Guide)
 
-Personal dotfiles management operation notes. Since chezmoi's official docs are sufficient, this document focuses only on **specifically how things work in my environment**.
+Personal dotfiles management notes. Since the official chezmoi documentation is comprehensive, this focuses specifically on **how things work in my environment**.
 
-## Prerequisites
+## Environment Setup
 
-| Item              | Value                                                                                             |
+| Component         | Value                                                                                             |
 | ----------------- | ------------------------------------------------------------------------------------------------- |
 | Source Directory  | `~/.local/share/chezmoi/`                                                                         |
-| Remote            | `https://github.com/hotmilk/chezmoi-dotfiles.git`                                                 |
+| Repository        | `https://github.com/hotmilk/chezmoi-dotfiles.git`                                                 |
 | Branch            | `main`                                                                                            |
-| pre-commit        | [prek](https://github.com/j178/prek) + [secretlint](https://github.com/secretlint/secretlint)     |
-| Post-apply hook   | `run_after_apm-install.sh` → `apm install --global --target claude`                               |
+| Pre-commit        | [prek](https://github.com/j178/prek) + [secretlint](https://github.com/secretlint/secretlint)     |
+| Post-apply Hook   | `run_after_apm-install.sh` → `apm install --global --target claude`                               |
 
-## Layout Quick Reference
+## Directory Structure Overview
 
 ```
 ~/.local/share/chezmoi/
-├── dot_apm/          → ~/.apm/      (APM config)
-├── dot_claude/       → ~/.claude/   (Claude Code)
+├── dot_apm/          → ~/.apm/      (APM configuration)
+├── dot_claude/       → ~/.claude/   (Claude Code settings)
 │   ├── CLAUDE.md.tmpl
 │   ├── settings.json.tmpl
 │   ├── rules/
-│   └── skills/       → ~/.claude/skills/   (Custom skills)
+│   └── skills/       → ~/.claude/skills/   (External skills)
 ├── dot_codex/        → ~/.codex/
 ├── dot_config/       → ~/.config/   (helix, mise, sheldon, starship, zellij, zsh)
-├── dot_pi/           → ~/.pi/       (pi config)
+├── dot_pi/           → ~/.pi/       (pi configuration)
 │   ├── agent/
 │   │   └── skills/    → ~/.pi/agent/skills/ (Custom skills)
 │   └── CLAUDE.md.tmpl
 ├── dot_zshrc         → ~/.zshrc
-└── run_after_apm-install.sh  (scripts/run_after_* run after every apply)
+└── run_after_apm-install.sh  (scripts/run_after_* execute after each apply)
 ```
 
 ## Filename Prefix Meanings
 
-| prefix        | Meaning            | Example                                                   |
-| ------------- | ------------------ | --------------------------------------------------------- |
-| `dot_`        | Leading `.`        | `dot_zshrc` → `.zshrc`                                    |
-| `executable_` | `+x` permission    | `executable_setup.sh` → `setup.sh` (755)                  |
-| `private_`    | `0600` permission  | `private_key` → `key` (600)                               |
-| `.tmpl`       | Go template        | `CLAUDE.md.tmpl` → `CLAUDE.md` expanded with hostname etc.|
-| `run_once_`   | Run only once      | `run_once_install_brew.sh`                                |
-| `run_after_`  | Run after apply    | `run_after_apm-install.sh`                                |
+| Prefix        | Purpose            | Example                                                  |
+| ------------- | ------------------ | -------------------------------------------------------- |
+| `dot_`        | Leading `.`        | `dot_zshrc` → `.zshrc`                                   |
+| `executable_` | Executable perms   | `executable_setup.sh` → `setup.sh` (755)                 |
+| `private_`    | Restricted perms   | `private_key` → `key` (600)                              |
+| `.tmpl`       | Go template        | `CLAUDE.md.tmpl` → Expanded `CLAUDE.md` with host info   |
+| `run_once_`   | One-time execution | `run_once_install_brew.sh`                               |
+| `run_after_`  | Post-apply scripts | `run_after_apm-install.sh`                               |
 
 ## References
 
-For detailed information, see the reference documents:
-- [Daily Commands](references/commands.md) - Commonly used commands and workflows
-- [Skill Addition Process](references/skill-addition.md) - How to add and manage skills
-- [Template Management](references/templates.md) - Working with .tmpl files
+Detailed documentation is available in these reference guides:
+- [Daily Commands](references/commands.md) - Essential commands and workflows
+- [Skill Management](references/skill-addition.md) - Adding and maintaining skills
+- [Template Handling](references/templates.md) - Working with .tmpl files
 - [Pre-commit Hooks](references/pre-commit.md) - Managing prek + secretlint
-- [Troubleshooting Guide](references/troubleshooting.md) - Common issues and solutions
+- [Troubleshooting](references/troubleshooting.md) - Solutions to common issues
 
 ## Quick Start
 
-### Check what's different
+### Check Current Status
 ```bash
-chezmoi diff                   # Difference between source and dest
-chezmoi status                 # General status
+chezmoi diff                   # View differences between source and destination
+chezmoi status                 # Overall status overview
 ```
 
-### Import changes from actual files to source
+### Sync Changes to Source
 ```bash
-chezmoi add ~/.zshrc           # Add new file
-chezmoi re-add                 # Bulk import changes to managed files
+chezmoi add ~/.zshrc           # Add new files to source
+chezmoi re-add                 # Update source with changes from managed files
 ```
 
-### Apply changes from source to actual files
+### Apply Changes from Source
 ```bash
-chezmoi apply                  # Apply all changes
-chezmoi apply --verbose        # Show what's happening
+chezmoi apply                  # Apply all pending changes
+chezmoi apply --verbose        # See detailed execution information
 ```
 
-### Initialize on new machine
+### New Machine Setup
 ```bash
 chezmoi init https://github.com/hotmilk/chezmoi-dotfiles.git --apply
 cd $(chezmoi source-path)

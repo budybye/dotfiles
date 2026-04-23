@@ -4,48 +4,48 @@
 
 ### Check Differences
 ```bash
-chezmoi diff                   # source と dest の差分
-chezmoi status                 # 大雑把な状態（MM/M /?? など）
+chezmoi diff                   # Compare source and destination
+chezmoi status                 # General status (MM/M /?? etc.)
 ```
 
-### Direction Sense in `chezmoi diff`
-- `-` 行 = dest (現在の実ファイル) にある内容 — apply で **削除される**
-- `+` 行 = target (source.tmpl 展開後の期待状態) にある内容 — apply で **追加される**
-- `chezmoi apply` は dest を target に合わせる方向（source → dest）
+### Understanding `chezmoi diff` Output
+- `-` lines = content in destination (current files) — will be **removed** on apply
+- `+` lines = content in target (expected state after template expansion) — will be **added** on apply
+- `chezmoi apply` aligns destination with target (source → destination)
 
-### Import Changes from dest to source
+### Import Changes from Destination to Source
 ```bash
-chezmoi add ~/.zshrc                    # 新規ファイル追加
-chezmoi re-add                          # managed な dest の変更を一括で source に反映
-chezmoi re-add ~/.pi/CLAUDE.md          # 個別
+chezmoi add ~/.zshrc                    # Add new files
+chezmoi re-add                          # Bulk import changes to managed files
+chezmoi re-add ~/.pi/CLAUDE.md          # Individual file update
 ```
 
-### Apply Changes from source to dest
+### Apply Changes from Source to Destination
 ```bash
-chezmoi diff                            # 先に見る
-chezmoi apply                           # 全体
-chezmoi apply ~/.pi/CLAUDE.md           # 個別
-chezmoi apply --verbose                 # 何をやってるか表示
+chezmoi diff                            # Preview changes first
+chezmoi apply                           # Apply all changes
+chezmoi apply ~/.pi/CLAUDE.md           # Apply specific file
+chezmoi apply --verbose                 # Show detailed execution
 ```
 
-### Edit source files
+### Edit Source Files
 ```bash
-chezmoi edit ~/.zshrc                   # source 側を開く (エディタ閉じた後に apply する？は -a フラグ)
-chezmoi edit -a ~/.zshrc                # 編集後 apply も実行
-chezmoi edit ~/.pi/CLAUDE.md            # pi 設定ファイルを開く
-chezmoi cd                              # source dir に cd
+chezmoi edit ~/.zshrc                   # Edit source file (apply after editor closes?)
+chezmoi edit -a ~/.zshrc                # Edit then automatically apply
+chezmoi edit ~/.pi/CLAUDE.md            # Edit pi configuration
+chezmoi cd                              # Change to source directory
 ```
 
-## Initialization on New Machine
+## New Machine Initialization
 
 ```bash
-# chezmoi 本体: brew install chezmoi など
+# Install chezmoi first: brew install chezmoi etc.
 
 chezmoi init https://github.com/hotmilk/chezmoi-dotfiles.git --apply
-# ↑ clone + apply までやる。run_after_apm-install.sh が走って
-#   apm install --global --target claude で外部スキルが入る
+# Clones and applies. run_after_apm-install.sh executes
+# apm install --global --target claude to install external skills
 
-# pre-commit 有効化（新マシンで一度だけ）
+# Enable pre-commit (one-time setup on new machines)
 cd $(chezmoi source-path)
 prek install
 ```

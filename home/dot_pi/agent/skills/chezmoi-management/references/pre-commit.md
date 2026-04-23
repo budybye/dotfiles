@@ -1,20 +1,20 @@
 # Pre-commit Management (prek + secretlint)
 
-Commits are checked via `prek` which runs `secretlint`, rejecting diffs containing API keys or tokens.
+All commits are validated through `prek` which executes `secretlint`, automatically rejecting any diffs that contain API keys or authentication tokens.
 
 ## Common False Positives
 
-- Example sha256 / hex strings (can be flagged if length matches aws key / github token)
-- Sample values written in comments in `.envrc`
+- Example SHA256/hex strings (may trigger if length matches AWS keys or GitHub tokens)
+- Sample values in comments within `.envrc` files
 
-## Solutions
+## Resolution Strategies
 
 ```bash
-# If truly a false positive, exclude in .secretlintrc.json
-# If detection is correct, fix the line and git add ... && git commit
+# For legitimate false positives, add exclusions to .secretlintrc.json
+# For valid detections, correct the content and commit with git add ... && git commit
 ```
 
-Exclusion format in `.secretlintrc.json` (excerpt):
+Sample exclusion configuration in `.secretlintrc.json`:
 
 ```json
 {
@@ -33,6 +33,6 @@ Exclusion format in `.secretlintrc.json` (excerpt):
 }
 ```
 
-`allows` uses regular expressions (enclosed in `/.../`) or string matching. File-level exclusion is possible with `disabledRules` + `includes`/`excludes`.
+The `allows` field accepts both regular expressions (enclosed in `/.../`) and literal string matches. File-level exclusions can be configured using `disabledRules` combined with `includes`/`excludes`.
 
-Never use `--no-verify` (defeats the purpose).
+Never use `--no-verify` as it defeats the security purpose of the checks.
