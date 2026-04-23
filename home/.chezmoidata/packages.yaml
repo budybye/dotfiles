@@ -434,3 +434,4 @@ packages:
 
   pi:
     - "npm:pi-subagents"
+    - "npm:pi-runline"

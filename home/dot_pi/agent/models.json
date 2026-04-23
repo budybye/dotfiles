@@ -21,9 +21,45 @@
       "apiKey": "ANTHROPIC_API_KEY"
     },
     "openrouter": {
-      "baseUrl": "https://openrouter.ai/api",
+      "baseUrl": "https://openrouter.ai/api/v1",
+      "apiKey": "OPENROUTER_API_KEY",
       "api": "openai-completions",
-      "apiKey": "OPENROUTER_API_KEY"
+      "models": [
+        {
+          "id": "openrouter/anthropic/claude-3.5-sonnet",
+          "name": "OpenRouter Claude 3.5 Sonnet",
+          "compat": {
+            "openRouterRouting": {
+              "allow_fallbacks": true,
+              "require_parameters": false,
+              "data_collection": "deny",
+              "zdr": true,
+              "enforce_distillable_text": false,
+              "order": ["anthropic", "amazon-bedrock", "google-vertex"],
+              "only": ["anthropic", "amazon-bedrock"],
+              "ignore": ["gmicloud", "friendli"],
+              "quantizations": ["fp16", "bf16"],
+              "sort": {
+                "by": "price",
+                "partition": "model"
+              },
+              "max_price": {
+                "prompt": 10,
+                "completion": 20
+              },
+              "preferred_min_throughput": {
+                "p50": 100,
+                "p90": 50
+              },
+              "preferred_max_latency": {
+                "p50": 1,
+                "p90": 3,
+                "p99": 5
+              }
+            }
+          }
+        }
+      ]
     }
   }
 }

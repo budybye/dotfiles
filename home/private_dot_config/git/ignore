@@ -8,6 +8,7 @@
 node_modules
 *.env
 *lock.json
+bun.lock
 .envrc
 # .mise.toml
 

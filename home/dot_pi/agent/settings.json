@@ -24,7 +24,7 @@
     "retryDelay": 3000,
     "maxRetryDelay": 60000
   },
-  "packages": ["pi-skills", "npm:pi-subagents"],
+  "packages": ["pi-skills", "npm:pi-subagents", "npm:pi-runline"],
   "extensions": [],
   "prompts": [],
   "skills": ["~/.claude/skills", "~/.codex/skills"],
