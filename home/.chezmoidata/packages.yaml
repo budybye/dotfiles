@@ -431,3 +431,6 @@ packages:
   python:
     - "navi"
     - "ragas"
+
+  pi:
+    - "npm:pi-subagents"

@@ -3,7 +3,13 @@
   "defaultProvider": "sakura",
   "defaultModel": "Qwen3-Coder-480B-A35B-Instruct-FP8",
   "defaultThinkingLevel": "medium",
-  "theme": "dark",
+  "thinkingBudgets": {
+    "minimal": 1024,
+    "low": 4096,
+    "medium": 10240,
+    "high": 32768
+  },
+  "theme": "monokai",
   "language": "ja",
   "locale": "ja-JP",
   "compaction": {
@@ -11,20 +17,18 @@
     "reserveTokens": 16384,
     "keepRecentTokens": 20000
   },
+  "sessionDir": ".pi/sessions",
   "retry": {
     "enabled": true,
-    "maxRetries": 3
+    "maxRetries": 3,
+    "retryDelay": 3000,
+    "maxRetryDelay": 60000
   },
-  "packages": [
-    {
-      "source": "pi-skills",
-      "skills": ["brave-search", "transcribe"],
-      "extensions": []
-    }
-  ],
+  "packages": ["pi-skills", "npm:pi-subagents"],
   "extensions": [],
   "prompts": [],
-  "skills": ["~/.claude/skills"],
+  "skills": ["~/.claude/skills", "~/.codex/skills"],
   "enableSkillCommands": true,
-  "lastChangelogVersion": "0.69.0"
+  "lastChangelogVersion": "0.69.0",
+  "enableInstallTelemetry": false
 }

@@ -103,3 +103,5 @@ sites/*/files
 *.sql.*
 
 **/.claude/settings.local.json
+
+.pi/sessions/*.jsonl

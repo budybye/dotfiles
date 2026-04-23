@@ -14,6 +14,7 @@
   //     "command": "path_to_executable"
   //   }
   // },
+  "cli_default_open_behavior": "new_window",
   "project_panel": {
     "dock": "right"
   },
