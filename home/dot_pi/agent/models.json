@@ -3,7 +3,7 @@
     "sakura": {
       "baseUrl": "https://api.ai.sakura.ad.jp/v1",
       "api": "openai-completions",
-      "apiKey": "8a9e3fff-9255-4241-a28a-c625560deeae:WHsJ3GkbGTc6o1Ga6x3yHxToXRdchKanuXtebv7Y",
+      "apiKey": "SAKURA_API_KEY",
       "models": [
         {
           "id": "gpt-oss-120b",
@@ -26,8 +26,8 @@
       "api": "openai-completions",
       "models": [
         {
-          "id": "openrouter/anthropic/claude-3.5-sonnet",
-          "name": "OpenRouter Claude 3.5 Sonnet",
+          "id": "openrouter/anthropic/claude-4.6-sonnet",
+          "name": "OpenRouter Claude 4.6 Sonnet",
           "compat": {
             "openRouterRouting": {
               "allow_fallbacks": true,

@@ -28,7 +28,7 @@ description: directory ファイル情報説明
 │   ├── template.cfg                # テンプレート設定
 │   └── user-data                   # ユーザーデータ
 ├── docs/                           # ドキュメント
-│   ├── plans/                      # 実装計画（YYYY-MM-DD-<feature>.md）
+│   ├── plans/                      # 実装計画（.cursor/plans/ への参照・索引用）
 │   │   ├── TEMPLATE.md              # 計画ひな型
 │   │   └── *.md                     # 日付付き実装計画
 │   ├── plan.md                     # 計画書・索引・実行ガイド
@@ -57,7 +57,7 @@ description: directory ファイル情報説明
 │   │   └── bin/
 │   │       ├── executable_applist   # アプリ一覧出力
 │   │       ├── executable_dump_zsh_state
-│   │       ├── executable_envars.tmpl # 環境変数スクリプト
+│   │       ├── encrypted_private_executable_envars.age # 環境変数スクリプト（age暗号化）
 │   │       ├── executable_jjj     # jj コミット・プッシュ
 │   │       ├── executable_playlist # プレイリスト取得
 │   │       ├── executable_vibes   # 音楽関連

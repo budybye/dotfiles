@@ -99,3 +99,4 @@ If you only need to check **descriptive coherence and clarity** rather than empi
 |---|---|
 | "Let's split every minor related edit into its own iteration." | The opposite trap. "One theme" means one *semantic* unit; 2–3 related micro-edits belong together. Over-splitting explodes iteration count. |
 | "It would be faster to rewrite it from scratch." | Correct only after 3+ iterations without ambiguity reduction. Before that, it is an escape. |
+| "Model specification is optional — the default works fine." | Default model resolution often fails with cryptic API errors; explicit `model` (and `skill: false` if needed) is required for reliable pi-subagents dispatch. |

@@ -1,5 +1,9 @@
 {
-  "enabledModels": ["claude-*", "gpt-*", "Qwen*"],
+  "enabledModels": [
+    "claude-*",
+    "gpt-*",
+    "Qwen*"
+  ],
   "defaultProvider": "sakura",
   "defaultModel": "Qwen3-Coder-480B-A35B-Instruct-FP8",
   "defaultThinkingLevel": "medium",
@@ -24,11 +28,24 @@
     "retryDelay": 3000,
     "maxRetryDelay": 60000
   },
-  "packages": ["pi-skills", "npm:pi-subagents", "npm:pi-runline"],
+  "packages": [
+    "pi-skills",
+    "npm:pi-subagents",
+    "npm:pi-runline",
+    "npm:@netandreus/pi-cursor-provider",
+    "https://github.com/Eddayy/pi-cloudflare-ai-gateway",
+    "https://github.com/bneil/pi-cloudflare-workers-ai"
+  ],
   "extensions": [],
   "prompts": [],
-  "skills": ["~/.claude/skills", "~/.codex/skills"],
+  "skills": [
+    "~/.claude/skills",
+    "~/.codex/skills",
+    "~/.gemini/skills",
+    "~/.agentskills",
+    "~/.aionui-config/skills"
+  ],
   "enableSkillCommands": true,
-  "lastChangelogVersion": "0.69.0",
+  "lastChangelogVersion": "0.70.0",
   "enableInstallTelemetry": false
 }

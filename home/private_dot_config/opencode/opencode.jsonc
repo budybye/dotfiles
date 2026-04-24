@@ -11,8 +11,6 @@
     "docs/tasks.md",
     "docs/tesch.md",
     "tests/*.md",
-    ".github/instructions/gal.md",
-    ".github/instructions/minmei.md",
   ],
   "provider": {
     "anthropic": {
@@ -49,6 +47,17 @@
   "watcher": {
     "ignore": ["node_modules/**", "dist/**", ".git/**"],
   },
-  "mcp": {},
+  "mcp": {
+    "cloudflare": {
+      "type": "remote",
+      "url": "https://mcp.cloudflare.com/mcp",
+      "enabled": true,
+    },
+    "cloudflare-docs": {
+      "type": "remote",
+      "url": "https://docs.mcp.cloudflare.com/mcp",
+      "enabled": true,
+    },
+  },
   "compaction": {},
 }

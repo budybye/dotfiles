@@ -8,27 +8,31 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
-  // "agent_servers": {
-  //   "your_agent": {
-  //     "type": "custom",
-  //     "command": "path_to_executable"
-  //   }
-  // },
   "cli_default_open_behavior": "new_window",
   "project_panel": {
-    "dock": "right"
+    "dock": "left",
   },
   "outline_panel": {
-    "dock": "right"
+    "dock": "right",
   },
   "collaboration_panel": {
-    "dock": "right"
+    "dock": "right",
   },
   "git_panel": {
-    "dock": "right"
+    "dock": "left",
   },
   "agent_servers": {
     "pi-acp": {
+      "favorite_models": [
+        "cursor/auto",
+        "cursor/kimi-k2.5",
+        "sakura/Qwen3-Coder-480B-A35B-Instruct-FP8",
+        "sakura/gpt-oss-120b",
+        "openrouter/anthropic/claude-opus-4.7",
+        "openrouter/anthropic/claude-sonnet-4.6",
+        "cloudflare-ai/@cf/moonshotai/kimi-k2.5",
+        "cloudflare-ai/@cf/zai-org/glm-4.7-flash"
+      ],
       "type": "registry",
     },
     "claude-acp": {
@@ -39,15 +43,11 @@
     },
     "opencode": {
       "favorite_config_option_values": {
-        "model": [
-          "opencode/minimax-m2.5-free"
-        ]
+        "model": ["opencode/big-pickle/max"],
       },
       "favorite_models": [
         "sakura/gpt-oss-120b",
         "opencode/big-pickle/max",
-        "opencode/minimax-m2.5-free",
-        "opencode/qwen3.6-plus-free/high",
         "opencode/nemotron-3-super-free/high",
         "cloudflare-workers-ai/@cf/moonshotai/kimi-k2.5",
       ],
@@ -58,12 +58,12 @@
     "mcp-server-repomix": {
       "enabled": false,
       "remote": false,
-      "settings": {}
+      "settings": {},
     },
     "mcp-server-playwright": {
       "enabled": false,
       "remote": false,
-      "settings": {}
+      "settings": {},
     },
     "mcp-server-context7": {
       "enabled": true,
@@ -130,7 +130,7 @@
     },
   },
   "agent": {
-    "dock": "left",
+    "dock": "right",
     "favorite_models": [
       {
         "provider": "sakura",
@@ -170,7 +170,7 @@
     },
     "single_file_review": false,
     "use_modifier_to_send": true,
-    "play_sound_when_agent_done": true,
+    "play_sound_when_agent_done": "never",
   },
   "autosave": "on_focus_change",
   "format_on_save": "on",

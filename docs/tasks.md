@@ -149,7 +149,7 @@ description: タスク管理 進捗整理
 
 ### タスク追加時
 
-1. 計画が必要な規模（新 OS 対応、大規模変更）→ `docs/plans/YYYY-MM-DD-<feature>.md` を作成
+1. 計画が必要な規模（新 OS 対応、大規模変更）→ `.cursor/plans/YYYY-MM-DD-<feature>.md` を作成
 2. 計画不要な小規模タスク → 本ドキュメントの「具体的バックログ」に直接追加
 3. `docs/plan.md` の既存計画一覧に新規計画を追加
 
@@ -196,7 +196,7 @@ description: タスク管理 進捗整理
 
 ## 実装計画との連携
 
-新機能やバグ修正を実装する際は `.cursor/plans/` に詳細な実装計画を作成することを推奨する。
+新機能やバグ修正を実装する際は `.cursor/plans/` に詳細な実装計画を作成することを推奨します（注: `.cursor` は IDE 設定ディレクトリのため、計画ファイルは gitignore 対象外または適切に管理してください）。
 
 - **計画作成**: `docs/plans/TEMPLATE.md` をコピーし、`YYYY-MM-DD-<feature>.md` 形式で保存
 - **実行**: 各タスクを bite-sized（2-5分）で実施し、コミットを細かく分ける
