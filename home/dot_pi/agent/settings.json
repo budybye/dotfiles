@@ -1,11 +1,24 @@
 {
   "enabledModels": [
-    "claude-*",
-    "gpt-*",
-    "Qwen*"
+    "cursor/claude-opus-4-7-medium",
+    "sakura/gpt-oss-120b",
+    "cursor/gpt-5.4-medium",
+    "sakura/Qwen3-Coder-480B-A35B-Instruct-FP8",
+    "cloudflare-ai/@cf/moonshotai/kimi-k2.5",
+    "cloudflare-ai/@cf/zai-org/glm-4.7-flash",
+    "cursor/auto",
+    "openrouter/openrouter/anthropic/claude-4.6-sonnet",
+    "openrouter/~anthropic/claude-opus-latest",
+    "openrouter/moonshotai/kimi-k2.6",
+    "anthropic/claude-sonnet-4-6",
+    "anthropic/claude-opus-4-7",
+    "openrouter/anthropic/claude-sonnet-4.6",
+    "openrouter/openrouter/free",
+    "cursor/composer-2-fast",
+    "cursor/claude-4.6-sonnet-medium"
   ],
-  "defaultProvider": "sakura",
-  "defaultModel": "Qwen3-Coder-480B-A35B-Instruct-FP8",
+  "defaultProvider": "anthropic",
+  "defaultModel": "claude-opus-4-7",
   "defaultThinkingLevel": "medium",
   "thinkingBudgets": {
     "minimal": 1024,
@@ -46,6 +59,6 @@
     "~/.aionui-config/skills"
   ],
   "enableSkillCommands": true,
-  "lastChangelogVersion": "0.70.0",
+  "lastChangelogVersion": "0.70.2",
   "enableInstallTelemetry": false
 }

@@ -28,7 +28,7 @@ description: 要件定義書
 ### セキュリティ
 
 - 機密情報の暗号化（age）
-- パスワードマネージャー統合（Bitwarden/1Password）
+- パスワードマネージャー統合（Bitwarden）
 - SSH 鍵の安全な管理
 
 ### メンテナンス性
@@ -57,6 +57,7 @@ description: 要件定義書
 ## ツール要件
 
 このシステムで管理・使用するツールの要件定義です。
+参照の温度感は [参考文献](./reference.md) の `active / optional / legacy` タグを補助情報として使い、採用要件の正本は本書と [技術スタック](./tech.md)、および設定ファイル（`home/private_dot_config/mise/config.toml`、`home/.chezmoidata/packages.yaml`、`home/private_dot_config/aquaproj-aqua/aqua.yaml`）とします。
 
 ### コアツール要件
 
@@ -76,17 +77,16 @@ description: 要件定義書
 
 ### CLI ツール要件
 
-| ツール    | macOS | Ubuntu | Docker | PowerShell | WSL2 |
-| --------- | :---: | :----: | :----: | :--------: | :--: |
-| Byobu     | brew  |  apt   |  apt   |            |      |
-| Vim       | brew  |  apt   |  apt   |            |      |
-| Fish      | brew  |  apt   |  apt   |            |      |
-| aqua VM   | brew  |  apt   |  apt   |            |      |
-| MPD       | brew  |  apt   |  apt   |            |      |
-| Ncmpcpp   | brew  |  apt   |  apt   |            |      |
-| fcitx5    |  ❌   |  apt   |  apt   |            |      |
-| Neofetch  |  ❌   |  apt   |  apt   |            |      |
-| fastfetch | brew  |   ❌   |   ❌   |            |      |
+| ツール     | macOS | Ubuntu | Docker | PowerShell | WSL2 |
+| ---------- | :---: | :----: | :----: | :--------: | :--: |
+| Byobu      | brew  |  apt   |  apt   |            |      |
+| Vim        | brew  |  apt   |  apt   |            |      |
+| Aqua       | mise  |  mise  |  mise  |            |      |
+| MPD        | brew  |  apt   |  apt   |            |      |
+| Ncmpcpp    | brew  |  apt   |  apt   |            |      |
+| fcitx5     |  ❌   |  apt   |  apt   |            |      |
+| fastfetch  | mise  |  mise  |  mise  |            |      |
+| shellcheck | mise  |  mise  |  mise  |            |      |
 
 ### Rust ツール要件
 
@@ -114,8 +114,7 @@ description: 要件定義書
 | Python     | mise  | mise/apt  | mise/apt  |            |      |
 | Java       | mise  | mise/apt  | mise/apt  |            |      |
 | Rust       | mise  | mise/apt  | mise/apt  |            |      |
-| Ruby       | mise  | mise/apt  | mise/apt  |            |      |
-| PostgreSQL | mise  | mise/apt  | mise/apt  |            |      |
+| Ruby       | apt   | apt       | apt       |            |      |
 | Redis      | mise  | mise/apt  | mise/apt  |            |      |
 
 ### デスクトップアプリケーション要件
@@ -144,7 +143,7 @@ description: 要件定義書
 - **macOS**: Homebrew（formula、cask、mas）を使用
 - **Ubuntu/Debian**: APT、Snap を使用
 - **ランタイム管理**: Mise（Node.js、Python、Go など）を使用
-- **Rust ツール**: Cargo、または Homebrew/APT を使用
+- **Rust ツール**: Cargo または Mise を優先し、必要時に Homebrew/APT を使用
 
 ## 関連ドキュメント
 

@@ -63,7 +63,6 @@ description: directory ファイル情報説明
 │   │       ├── executable_vibes   # 音楽関連
 │   │       └── executable_xrp     # XRP 関連
 │   ├── private_dot_config/         # 設定ファイル（XDG準拠）
-│   │   ├── Brewfile                # Homebrew パッケージ一覧（ルート配置）
 │   │   ├── act/                    # GitHub Actions CLI
 │   │   │   └── actrc
 │   │   ├── aionui/                  # Aion UI設定
@@ -96,8 +95,6 @@ description: directory ファイル情報説明
 │   │   │   └── config.jsonc
 │   │   ├── fcitx5/                 # 入力メソッド
 │   │   │   └── config
-│   │   ├── fish/                   # Fishシェル
-│   │   │   └── config.fish
 │   │   ├── fusuma/                 # タッチパッドジェスチャー
 │   │   │   └── config.yml
 │   │   ├── gh/                     # GitHub CLI
@@ -114,10 +111,6 @@ description: directory ファイル情報説明
 │   │   │   └── glow.yml
 │   │   ├── htop/                   # プロセスモニタ
 │   │   │   └── htoprc
-│   │   ├── homebrew/               # Homebrew設定（Brewfile の別配置）
-│   │   │   └── Brewfile
-│   │   ├── ipfs/                   # IPFS設定
-│   │   │   └── config
 │   │   ├── jj/                     # Jujutsu VCS
 │   │   │   └── config.toml.tmpl
 │   │   ├── karabiner/              # キーボードカスタマイズ
@@ -134,8 +127,6 @@ description: directory ファイル情報説明
 │   │   │   └── config
 │   │   ├── navi/                   # コマンドチートシート
 │   │   │   └── config.yaml
-│   │   ├── neofetch/               # システム情報表示
-│   │   │   └── config.conf
 │   │   ├── npm/                    # npm設定
 │   │   │   └── npmrc
 │   │   ├── nvim/                   # Neovim設定
@@ -163,12 +154,8 @@ description: directory ファイル情報説明
 │   │   │   └── uv.toml
 │   │   ├── vim/                    # Vim設定
 │   │   │   └── vimrc
-│   │   ├── wireshark/              # ネットワーク解析
-│   │   │   └── language
-│   │   ├── yt-x/                   # YouTube CLI
-│   │   │   └── yt-x.config
 │   │   ├── zed/                    # Zed エディタ
-│   │   │   └── setting.json
+│   │   │   └── settings.json
 │   │   ├── zellij/                 # ターミナルマルチプレクサー
 │   │   │   ├── config.kdl
 │   │   │   └── layouts/
@@ -206,7 +193,7 @@ description: directory ファイル情報説明
 - **XDG 準拠設定**: `home/private_dot_config/` に配置
 - **シェルスクリプト**: `home/.chezmoiscripts/` に配置
 - **実行可能スクリプト**: `home/dot_local/bin/` に配置。`executable_` プレフィックスで適用時に chmod +x を付与
-- **Brewfile**: `private_dot_config/Brewfile` と `private_dot_config/homebrew/Brewfile` の両方が存在する場合、ルート配置を優先。homebrew/ は従来の配置
+- **Homebrew**: パッケージ一覧は `home/.chezmoidata/packages.yaml` で管理（Brewfile 前提の記述は使用しない）
 - **暗号化ファイル**: `*.age` 拡張子で暗号化
 - **テンプレートファイル**: `*.tmpl` 拡張子で管理
 
@@ -221,7 +208,7 @@ description: directory ファイル情報説明
 
 - **OS 別スクリプト**: `home/.chezmoiscripts/darwin/`, `linux/`
 - **環境変数**: テンプレート変数で制御
-- **シークレット管理**: Bitwarden/1Password CLI 経由
+- **シークレット管理**: Bitwarden CLI 経由
 
 ### セキュリティ
 

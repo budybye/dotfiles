@@ -23,12 +23,14 @@ If you don’t understand something, feel free to ask questions until you fully 
 - **Management tool**: chezmoi (source located at `~/.local/share/chezmoi`).
 - All dotfile modifications should be performed via chezmoi.
 - Symboliclink ~/dotfiles
+- For `chezmoi diff`, use source-relative paths (example: `home/dot_pi/agent/agents/assistant.md`), not absolute real paths.
 
 ### Security
 
 - Secret management: Bitwarden + age encryption.
 - `.env` / `.env.*` files are read‑protected.
 - Never expose API keys in code or logs.
+- `make check` may prompt interactively (for example Bitwarden master password); treat prompt-wait as blocked verification, not a task failure.
 
 ---
 
