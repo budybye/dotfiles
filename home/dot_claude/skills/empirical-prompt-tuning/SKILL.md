@@ -20,7 +20,7 @@ The most reliable method. `context: "fresh"` completely clears the parent sessio
 ```typescript
 // Run a single agent with fresh context
 subagent({
-	agent: "assistant", // scout, planner, reviewer, oracle, worker, etc.
+	agent: "assistant",
 	task: "Your test prompt here",
 	context: "fresh", // ← Required: do not inherit parent context
 	model: "gpt-oss-120b", // ← Required: Explicitly specify model (avoid default resolution issues)
@@ -32,14 +32,14 @@ subagent({
 subagent({
 	tasks: [
 		{
-			agent: "worker",
+			agent: "assistant",
 			task: "Scenario A: ...",
 			context: "fresh",
 			model: "gpt-oss-120b",
 			skill: false,
 		},
 		{
-			agent: "worker",
+			agent: "assistant",
 			task: "Scenario B: ...",
 			context: "fresh",
 			model: "gpt-oss-120b",

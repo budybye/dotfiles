@@ -1,8 +1,34 @@
 {
-	"version": 1,
-	"editor": { "vimMode": false },
-	"permissions": {
-		"allow": ["Shell(ls)", "Shell(echo)", "Shell(grep)"],
-		"deny": ["Shell(rm)"]
-	}
+  "permissions": {
+    "allow": ["Shell(ls)", "Shell(echo)", "Shell(grep)"],
+    "deny": ["Shell(rm)"]
+  },
+  "version": 1,
+  "editor": {
+    "vimMode": false
+  },
+  "model": {
+    "modelId": "default",
+    "displayModelId": "auto",
+    "displayName": "Auto",
+    "displayNameShort": "Auto",
+    "aliases": ["auto"],
+    "maxMode": false
+  },
+  "hasChangedDefaultModel": true,
+  "maxMode": false,
+  "privacyCache": {
+    "ghostMode": true,
+    "privacyMode": 2,
+    "updatedAt": 1777091812286
+  },
+  "authInfo": {
+    "email": "shallot96@gmail.com",
+    "displayName": "",
+    "userId": 12545801,
+    "authId": "github|88989797"
+  },
+  "network": {
+    "useHttp1ForAgent": false
+  }
 }

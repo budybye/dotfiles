@@ -25,13 +25,14 @@
     "pi-acp": {
       "favorite_models": [
         "cursor/auto",
-        "cursor/kimi-k2.5",
         "sakura/Qwen3-Coder-480B-A35B-Instruct-FP8",
         "sakura/gpt-oss-120b",
         "openrouter/anthropic/claude-opus-4.7",
         "openrouter/anthropic/claude-sonnet-4.6",
         "cloudflare-ai/@cf/moonshotai/kimi-k2.5",
-        "cloudflare-ai/@cf/zai-org/glm-4.7-flash"
+        "cloudflare-ai/@cf/zai-org/glm-4.7-flash",
+        "cursor/claude-opus-4-7-xhigh",
+        "cursor/composer-2-fast"
       ],
       "type": "registry",
     },

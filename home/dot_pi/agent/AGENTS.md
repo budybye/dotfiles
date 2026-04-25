@@ -23,14 +23,16 @@ If you don’t understand something, feel free to ask questions until you fully 
 - **Management tool**: chezmoi (source located at `~/.local/share/chezmoi`).
 - All dotfile modifications should be performed via chezmoi.
 - Symboliclink ~/dotfiles
-- For `chezmoi diff`, use source-relative paths (example: `home/dot_pi/agent/agents/assistant.md`), not absolute real paths.
+- `chezmoi diff` can require interactive/auth-dependent checks in this environment; do not use it as a default verification step for agents.
+- Prefer non-interactive verification first (for example: targeted file reads, `rg` checks, or explicit user-requested commands).
 
 ### Security
 
 - Secret management: Bitwarden + age encryption.
 - `.env` / `.env.*` files are read‑protected.
 - Never expose API keys in code or logs.
-- `make check` may prompt interactively (for example Bitwarden master password); treat prompt-wait as blocked verification, not a task failure.
+- `make check` may require interactive authentication (for example Bitwarden master password), so agents must not run it unless explicitly requested by the user.
+- If an authentication prompt appears during verification, stop that verification path and report "blocked by interactive authentication" with a safe alternative.
 
 ---
 
