@@ -39,6 +39,7 @@ install.sh
 {{ if eq .age false }}
 .ssh/id_rsa*
 .ssh/id_ed25519*
+.local/bin/envars
 .chezmoiscripts/age.sh
 {{ end }}
 
