@@ -37,6 +37,7 @@ subagent({
 			context: "fresh",
 			model: "gpt-oss-120b",
 			skill: false,
+			clarify: false,
 		},
 		{
 			agent: "assistant",
@@ -44,6 +45,7 @@ subagent({
 			context: "fresh",
 			model: "gpt-oss-120b",
 			skill: false,
+			clarify: false,
 		},
 	],
 });
@@ -176,6 +178,7 @@ When fresh agent is unavailable:
 - **Always specify `context: "fresh"`**
 - **Always specify `model` explicitly** — Default model resolution may fail with "No API key found" errors even when the same model works with explicit specification
 - **Use `skill: false` when appropriate** — Skill inheritance can cause unexpected context pollution (e.g., auto-reading unrelated files from cwd)
+- **Parallel execution**: Use models from the same provider to avoid cross-provider instability. Mixing providers (e.g., OpenAI + Cloudflare) in parallel tasks often causes timeouts or flakes.
 - PI login required (API key or OAuth)
 
 ### Troubleshooting pi-subagents
@@ -184,6 +187,8 @@ When fresh agent is unavailable:
 | -------------------------------------- | ---------------------------------- | -------------------------------------------------------------------- |
 | "No API key found for openai-codex"    | Default model resolution failure   | Explicitly specify `model: "gpt-oss-120b"` (or your preferred model) |
 | Agent reads wrong files (e.g., cli.js) | Skill inheritance or cwd pollution | Add `skill: false` to disable skill inheritance                      |
+| Parallel tasks timeout (exit code 143) | Cross-provider model mixing        | Use same-provider models (e.g., all OpenAI or all Cloudflare)        |
+| Subagent hangs after final message     | Model provider instability         | Try `composer-2-fast` or `gpt-oss-120b` as stable alternatives       |
 
 See [references/methodology.md](references/methodology.md#environment-constraints) for details.
 

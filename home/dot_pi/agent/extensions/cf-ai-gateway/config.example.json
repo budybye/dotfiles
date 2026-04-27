@@ -1,0 +1,10 @@
+{
+  "accountId": "your-account-id",
+  "gatewayName": "default",
+  "apiToken": "your-api-token",
+  "zdrEnabled": true,
+  "defaultHeaders": {
+    "cf-aig-cache-ttl": "3600"
+  },
+  "customModels": []
+}

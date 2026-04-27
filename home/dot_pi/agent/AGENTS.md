@@ -1,58 +1,76 @@
-# Global
+# AGENTS.md
 
-If you don’t understand something, feel free to ask questions until you fully grasp it.
+Behavioral guidelines to reduce common LLM coding mistakes. Merge with project-specific instructions as needed.
+
+**Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.
+
+## 1. Think Before Coding
+
+**Don't assume. Don't hide confusion. Surface tradeoffs.**
+
+Before implementing:
+
+- State your assumptions explicitly. If uncertain, ask.
+- If multiple interpretations exist, present them - don't pick silently.
+- If a simpler approach exists, say so. Push back when warranted.
+- If something is unclear, stop. Name what's confusing. **Ask 1-2 focused questions; don't propose implementations until scope is confirmed.**
+
+## 2. Simplicity First
+
+**Minimum code that solves the problem. Nothing speculative.**
+
+- No features beyond what was asked.
+- No abstractions for single-use code.
+- No "flexibility" or "configurability" that wasn't requested.
+- No error handling for impossible scenarios.
+- If you write 200 lines and it could be 50, rewrite it.
+
+Ask yourself: "Would a senior engineer say this is overcomplicated?" If yes, simplify.
+
+## 3. Surgical Changes
+
+**Touch only what you must. Clean up only your own mess.**
+
+"Adjacent code" = any code not explicitly mentioned in the user's request (same file or nearby). "Improve" includes cosmetic style changes, renaming for "clarity", or restructuring that doesn't fix bugs.
+
+When editing existing code:
+
+- Don't change code the user didn't ask about, even if you see "better" ways to write it.
+- Don't refactor things that aren't broken.
+- Match existing style, even if you'd do it differently.
+- If you notice unrelated dead code, mention it - don't delete it.
+
+When your changes create orphans:
+
+- Remove imports/variables/functions that YOUR changes made unused.
+- Don't remove pre-existing dead code unless asked.
+
+The test: Every changed line should trace directly to the user's request.
+
+## 4. Goal-Driven Execution
+
+**Define success criteria. Loop until verified.**
+
+Transform tasks into verifiable goals:
+
+- "Add validation" → "Write tests for invalid inputs, then make them pass"
+- "Fix the bug" → "Write a test that reproduces it, then make it pass"
+- "Refactor X" → "Ensure tests pass before and after"
+
+For multi-step tasks, state a brief plan:
+
+```
+1. [Step] → verify: [check]
+2. [Step] → verify: [check]
+3. [Step] → verify: [check]
+```
+
+Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
+
+## 5. Tool-call
+
+Before meaningful tool calls (edits, verification commands), preface with one concise sentence describing the action, then invoke in the same turn. Skip for routine reads and obvious follow-ups.
 
 ---
 
-## Environment Information
-
-### Tool Management
-
-- **mise** – Manages over 90 tools (node, python, go, rust, claude, opencode, etc.) under `~/.local/share/mise/shims`.
-- **Package Managers**: macOS = Homebrew, Linux = APT, Cross‑platform = mise.
-- Before running a shell command, verify the tool exists with `command -v <tool>`.
-
-### Shell
-
-- **Default shell**: zsh (configuration in `.config/zsh/`).
-- **bash** is also supported (as a login shell, `.profile` is read; `.bashrc` is not read in non‑interactive sessions).
-- Aliases are not available in non‑interactive shells; use full commands instead.
-
-### Dotfiles
-
-- **Management tool**: chezmoi (source located at `~/.local/share/chezmoi`).
-- All dotfile modifications should be performed via chezmoi.
-- Symboliclink ~/dotfiles
-- `chezmoi diff` can require interactive/auth-dependent checks in this environment; do not use it as a default verification step for agents.
-- Prefer non-interactive verification first (for example: targeted file reads, `rg` checks, or explicit user-requested commands).
-
-### Security
-
-- Secret management: Bitwarden + age encryption.
-- `.env` / `.env.*` files are read‑protected.
-- Never expose API keys in code or logs.
-- `make check` may require interactive authentication (for example Bitwarden master password), so agents must not run it unless explicitly requested by the user.
-- If an authentication prompt appears during verification, stop that verification path and report "blocked by interactive authentication" with a safe alternative.
-
----
-
-## Context Management
-
-When compacting context, always retain:
-
-- A list of modified files.
-- The test commands that were executed and their results.
-- Any unresolved error messages.
-
-After completing a task, run `/clear` to reset the context before moving on to the next task.
-
-## Tool call
-
-<tool_call_behavior>
-
-- Before a meaningful tool call, send one concise sentence describing the immediate action.
-- Always do this before edits and verification commands.
-- Skip it for routine reads, obvious follow-up searches, and repetitive low-signal tool calls.
-- When you preface a tool call, make that tool call in the same turn.
-
-</tool_call_behavior>
+**These guidelines are working if:** fewer unnecessary changes in diffs, fewer rewrites due to overcomplication, and clarifying questions come before implementation rather than after mistakes.

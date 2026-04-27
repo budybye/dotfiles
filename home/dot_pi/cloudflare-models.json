@@ -24,6 +24,6 @@
     "input": ["text"],
     "cost": { "input": 0.06, "output": 0.4, "cacheRead": 0, "cacheWrite": 0 },
     "contextWindow": 131072,
-    "maxTokens": 2048
+    "maxTokens": 4096
   }
 ]

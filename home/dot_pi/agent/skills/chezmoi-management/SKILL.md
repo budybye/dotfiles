@@ -67,14 +67,28 @@ chezmoi status                 # Overall status overview
 
 ### Sync Changes to Source
 ```bash
-chezmoi add ~/.zshrc           # Add new files to source
-chezmoi re-add                 # Update source with changes from managed files
+chezmoi add ~/.zshrc           # First-time tracking: register a new file
+chezmoi re-add                 # Already tracked: pull edits back into source
 ```
+Rule of thumb: `add` for files chezmoi doesn't know about yet; `re-add` for files already in the source tree.
 
 ### Apply Changes from Source
 ```bash
 chezmoi apply                  # Apply all pending changes
 chezmoi apply --verbose        # See detailed execution information
+```
+
+### Commit & Sync Workflow
+After `chezmoi add` or `chezmoi re-add`, the source tree is updated but the change is **not yet pushed**. Commit from the source path:
+```bash
+cd $(chezmoi source-path)
+git add <path>                 # Stage specific files (avoid `git add -A`)
+git commit -m "..."            # prek + secretlint run as pre-commit hook
+git push                       # Sync to GitHub
+```
+On other machines, pull and apply:
+```bash
+chezmoi update                 # = git pull + chezmoi apply
 ```
 
 ### New Machine Setup

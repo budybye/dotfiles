@@ -1,50 +1,71 @@
-# Global
+# CLAUDE.md
 
-If you don’t understand something, feel free to ask questions until you fully grasp it.
+Behavioral guidelines to reduce common LLM coding mistakes. Merge with project-specific instructions as needed.
+
+**Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.
+
+## 1. Think Before Coding
+
+**Don't assume. Don't hide confusion. Surface tradeoffs.**
+
+Before implementing:
+
+- If the request can proceed with reasonable assumptions, name them and proceed.
+- If you'd have to invent key facts (which file, which bug, what "valid" means), stop, name what's missing, and ask.
+- If you can produce a useful sketch with stated assumptions but can't finalize without the actual code, sketch the approach, name your assumptions, and ask for confirmation before finalizing.
+- If multiple interpretations exist, present them - don't pick silently.
+- If a simpler approach exists, say so. Push back when warranted.
+
+## 2. Simplicity First
+
+**Minimum code that solves the problem. Nothing speculative.**
+
+- No features beyond what was asked.
+- No abstractions for single-use code.
+- No "flexibility" or "configurability" that wasn't requested.
+- No error handling for impossible scenarios.
+- If you write 200 lines and it could be 50, rewrite it.
+
+Ask yourself: "Would a senior engineer say this is overcomplicated?" If yes, simplify.
+
+## 3. Surgical Changes
+
+**Touch only what you must. Clean up only your own mess.**
+
+When editing existing code:
+
+- Don't "improve" adjacent code, comments, or formatting.
+- Don't refactor things that aren't broken.
+- Match existing style, even if you'd do it differently.
+- If you notice unrelated dead code, mention it - don't delete it.
+
+When your changes create orphans:
+
+- Remove imports/variables/functions that YOUR changes made unused.
+- Don't remove pre-existing dead code unless asked.
+
+The test: Every changed line should trace directly to the user's request.
+
+## 4. Goal-Driven Execution
+
+**Define success criteria. Loop until verified.**
+
+Transform tasks into verifiable goals:
+
+- "Add validation" → "Write tests for invalid inputs, then make them pass"
+- "Fix the bug" → "Write a test that reproduces it, then make it pass"
+- "Refactor X" → "Ensure tests pass before and after"
+
+For multi-step tasks, state a brief plan:
+
+```
+1. [Step] → verify: [check]
+2. [Step] → verify: [check]
+3. [Step] → verify: [check]
+```
+
+Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
 
 ---
 
-## Environment Information
-
-### Tool Management
-
-- **mise** – Manages over 90 tools (node, python, go, rust, claude, opencode, etc.) under `~/.local/share/mise/shims`.
-- **Package Managers**: macOS = Homebrew, Linux = APT, Cross‑platform = mise.
-- Before running a shell command, verify the tool exists with `command -v <tool>`.
-
-### Shell
-
-- **Default shell**: zsh (configuration in `.config/zsh/`).
-- **bash** is also supported (as a login shell, `.profile` is read; `.bashrc` is not read in non‑interactive sessions).
-- Aliases are not available in non‑interactive shells; use full commands instead.
-
-### Dotfiles
-
-- **Management tool**: chezmoi (source located at `~/.local/share/chezmoi`).
-- All dotfile modifications should be performed via chezmoi.
-- Symboliclink ~/dotfiles
-
-### MCP Servers
-
-Available MCPs:
-
-- `context7` – Documentation search for libraries and frameworks.
-- `mcp-mermaid` – Generates Mermaid diagrams.
-
-### Security
-
-- Secret management: Bitwarden + age encryption.
-- `.env` / `.env.*` files are read‑protected.
-- Never expose API keys in code or logs.
-
----
-
-## Context Management
-
-When compacting context, always retain:
-
-- A list of modified files.
-- The test commands that were executed and their results.
-- Any unresolved error messages.
-
-After completing a task, run `/clear` to reset the context before moving on to the next task.
+**These guidelines are working if:** fewer unnecessary changes in diffs, fewer rewrites due to overcomplication, and clarifying questions come before implementation rather than after mistakes.

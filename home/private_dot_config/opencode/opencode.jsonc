@@ -1,16 +1,15 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "instructions": [
-    "docs/design.md",
-    "docs/directory.md",
-    "docs/go-template.md",
-    "docs/problems.md",
-    "docs/reference.md",
-    "docs/requiremenrs.md",
-    "docs/security.md",
-    "docs/tasks.md",
-    "docs/tesch.md",
-    "tests/*.md",
+    "./docs/design.md",
+    "./docs/directory.md",
+    "./docs/problems.md",
+    "./docs/reference.md",
+    "./docs/requiremenrs.md",
+    "./docs/security.md",
+    "./docs/tasks.md",
+    "./docs/tech.md",
+    "./tests/*.md",
   ],
   "provider": {
     "anthropic": {
@@ -22,8 +21,12 @@
       },
     },
     "cloudflare-ai-gateway": {
+      "npm": "@ai-sdk/openai-compatible",
       "models": {
         "anthropic/claude-sonnet-4": {},
+      },
+      "options": {
+        "baseURL": "https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/compat",
       },
     },
     "sakura": {

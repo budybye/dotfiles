@@ -3,21 +3,18 @@
     "sakura/gpt-oss-120b",
     "sakura/Qwen3-Coder-480B-A35B-Instruct-FP8",
     "cloudflare-ai/@cf/moonshotai/kimi-k2.5",
+    "cloudflare-ai/@cf/moonshotai/kimi-k2.6",
     "cloudflare-ai/@cf/zai-org/glm-4.7-flash",
-    "openrouter/openrouter/free",
-    "openrouter/moonshotai/kimi-k2.6",
-    "openrouter/~anthropic/claude-opus-latest",
-    "openrouter/anthropic/claude-sonnet-4.6",
-    "anthropic/claude-sonnet-4-6",
-    "anthropic/claude-opus-4-7",
     "cursor/auto",
     "cursor/composer-2-fast",
     "cursor/gpt-5.4-medium",
     "cursor/claude-opus-4-7-medium",
-    "cursor/claude-4.6-sonnet-medium"
+    "cursor/claude-4.6-sonnet-medium",
+    "openrouter/openai/gpt-oss-120b:free",
+    "openrouter/z-ai/glm-4.5-air:free"
   ],
   "defaultProvider": "cloudflare-ai",
-  "defaultModel": "@cf/moonshotai/kimi-k2.5",
+  "defaultModel": "@cf/moonshotai/kimi-k2.6",
   "defaultThinkingLevel": "medium",
   "thinkingBudgets": {
     "minimal": 1024,
@@ -42,11 +39,11 @@
   },
   "packages": [
     "pi-skills",
+    "git:bneil/pi-cloudflare-workers-ai",
     "npm:pi-subagents",
     "npm:pi-runline",
-    "npm:@netandreus/pi-cursor-provider",
-    "https://github.com/Eddayy/pi-cloudflare-ai-gateway",
-    "https://github.com/bneil/pi-cloudflare-workers-ai"
+    "npm:pi-mcp-adapter",
+    "npm:@netandreus/pi-cursor-provider"
   ],
   "extensions": [],
   "prompts": [],
