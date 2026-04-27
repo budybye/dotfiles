@@ -13,8 +13,8 @@
     "openrouter/openai/gpt-oss-120b:free",
     "openrouter/z-ai/glm-4.5-air:free"
   ],
-  "defaultProvider": "cloudflare-ai",
-  "defaultModel": "@cf/moonshotai/kimi-k2.6",
+  "defaultProvider": "sakura",
+  "defaultModel": "gpt-oss-120b",
   "defaultThinkingLevel": "medium",
   "thinkingBudgets": {
     "minimal": 1024,
