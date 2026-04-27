@@ -13,8 +13,8 @@
     "openrouter/openai/gpt-oss-120b:free",
     "openrouter/z-ai/glm-4.5-air:free"
   ],
-  "defaultProvider": "sakura",
-  "defaultModel": "gpt-oss-120b",
+  "defaultProvider": "cursor",
+  "defaultModel": "auto",
   "defaultThinkingLevel": "medium",
   "thinkingBudgets": {
     "minimal": 1024,
@@ -39,7 +39,6 @@
   },
   "packages": [
     "pi-skills",
-    "git:bneil/pi-cloudflare-workers-ai",
     "npm:pi-subagents",
     "npm:pi-runline",
     "npm:pi-mcp-adapter",

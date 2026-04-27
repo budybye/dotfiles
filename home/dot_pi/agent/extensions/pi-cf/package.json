@@ -1,5 +1,5 @@
 {
-  "name": "cf-ai-gateway",
+  "name": "pi-cf",
   "version": "1.0.0",
   "description": "Cloudflare AI Gateway extension with Unified Billing support",
   "dependencies": {

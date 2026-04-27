@@ -32,12 +32,12 @@
         "cloudflare-ai/@cf/moonshotai/kimi-k2.5",
         "cloudflare-ai/@cf/moonshotai/kimi-k2.6",
         "cloudflare-ai/@cf/zai-org/glm-4.7-flash",
-        "cf-ai-gateway/openai/gpt-4.5-preview",
         "cf-ai-gateway/openai/gpt-5-nano-2025-08-07",
         "cf-ai-gateway/anthropic/claude-sonnet-4-6",
         "cf-ai-gateway/anthropic/claude-opus-4-7",
         "openrouter/openai/gpt-oss-120b:free",
         "openrouter/z-ai/glm-4.5-air:free",
+        "cf-ai-gateway/openai/gpt-5.5-2026-04-23"
       ],
       "type": "registry",
     },

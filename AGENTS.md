@@ -15,7 +15,7 @@ Chezmoi 管理の dotfiles（macOS / Ubuntu、XDG 準拠）。指示範囲内で
 
 1. **分析** — タスクを要約。[docs/tech.md](docs/tech.md) で技術スタック、[docs/directory.md](docs/directory.md) で配置ルールを確認。既存の類似実装の有無を確認。
 2. **実行** — 配置ルールに従い実装。ステップごとに進捗を簡潔に報告。
-3. **検証** — `git diff` または `make check` で確認。エラー時は原因を切り分け、修正後に再検証。
+3. **検証** — `git diff` または `jj diff`で確認。エラー時は原因を切り分け、修正後に再検証。
 
 ## 詳細ドキュメント
 

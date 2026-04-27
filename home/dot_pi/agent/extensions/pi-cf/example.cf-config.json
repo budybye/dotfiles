@@ -1,0 +1,14 @@
+{
+  "accountId": "your-account-id from dashboard",
+  "gatewayName": "default",
+  "apiToken": "your-api-token from dashboard",
+  "zdrEnabled": true,
+  "defaultHeaders": {
+    "cf-aig-cache-ttl": "3600"
+  },
+  "customModels": [],
+  "workersAi": {
+    "enabled": true,
+    "customModels": []
+  }
+}
