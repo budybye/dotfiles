@@ -19,7 +19,7 @@
     "brightBlue": "#AE81FF",
     "brightCyan": "#66D9EF",
     "brightWhite": "#E8E8E3",
-    "comment": "#75715E",
+    "comment": "#8b8674",
     "orange": "#FD9720"
   },
   "colors": {
@@ -49,7 +49,7 @@
     "mdLink": "blue",
     "mdLinkUrl": "comment",
     "mdCode": "green",
-    "mdCodeBlock": "bg",
+    "mdCodeBlock": "brightBlack",
     "mdCodeBlockBorder": "comment",
     "mdQuote": "yellow",
     "mdQuoteBorder": "comment",

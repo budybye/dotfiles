@@ -25,7 +25,7 @@
   "extensions.autoCheckUpdates": false,
   "extensions.autoUpdate": true,
   "extensions.ignoreRecommendations": true,
-  "update.releaseTrack": "prerelease",
+  "update.releaseTrack": "dev",
 
   // ==== エディタ共通設定 ====
   "editor.accessibilitySupport": "off",

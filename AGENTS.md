@@ -10,6 +10,7 @@ Chezmoi 管理の dotfiles（macOS / Ubuntu、XDG 準拠）。指示範囲内で
 - シェルスクリプト: `#!/usr/bin/env bash`、`set -eu`、ツール存在確認は `command -v`。
 - 暗号化に `ssh` 管理や `age`, パスワード管理に `bitwarden`, env 管理に `mise` を使用する。
 - zsh, rust系 cli, docker の環境を異なるOSでもなるべく統一する。
+- ツール追加時は `docs/tech.md` と設定ファイルを同時に更新し、一貫性を保つ。
 
 ## 手順
 

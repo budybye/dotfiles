@@ -1,15 +1,11 @@
 /**
- * Cloudflare AI Gateway & Workers AI Extension for Pi
+ * Cloudflare AI Gateway Extension for Pi
  *
- * 2 つのプロバイダーを AI Gateway 経由で登録:
- *   - "cf-ai-gateway": Unified Billing + ZDR (OpenAI / Anthropic / Google)
- *     モデルID: {provider}/{model-name}
- *   - "cloudflare-ai":  Workers AI (@cf/...)
- *     モデルID: @cf/{org}/{model}  ※ZDR 非対応
+ * "cf-ai-gateway": Unified Billing + ZDR (OpenAI / Anthropic / Google)
+ * モデルID: {provider}/{model-name}
  *
  * Docs:
  * - https://developers.cloudflare.com/ai-gateway/usage/chat-completion/
- * - https://developers.cloudflare.com/ai-gateway/providers/workers-ai/
  * - https://developers.cloudflare.com/ai-gateway/features/unified-billing/
  * - https://developers.cloudflare.com/ai-gateway/features/zero-data-retention/
  */
@@ -17,8 +13,8 @@
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
 import { writeFileSync } from "node:fs";
 import { CONFIG_PATH, loadConfig, resolveConfigValue } from "./config";
-import { BUILT_IN_MODELS, BUILT_IN_WORKERS_AI_MODELS } from "./models";
-import type { Config, WorkersAiModelDef } from "./types";
+import { BUILT_IN_MODELS } from "./models";
+import type { Config } from "./types";
 
 // ============================================
 // メインエクスポート
@@ -60,12 +56,6 @@ export default async function (pi: ExtensionAPI) {
       );
       if (enableZdr === undefined) return;
 
-      const enableWorkersAi = await ctx.ui.confirm(
-        "Enable Cloudflare Workers AI?",
-        "Registers a second provider (cloudflare-ai) routing Workers AI models through the same AI Gateway.",
-      );
-      if (enableWorkersAi === undefined) return;
-
       const config: Config = {
         accountId: newAccountId.trim(),
         gatewayName: newGatewayName.trim(),
@@ -73,12 +63,6 @@ export default async function (pi: ExtensionAPI) {
         zdrEnabled: enableZdr,
         ...(cfg.customModels && { customModels: cfg.customModels }),
         ...(cfg.defaultHeaders && { defaultHeaders: cfg.defaultHeaders }),
-        workersAi: {
-          enabled: enableWorkersAi,
-          ...(cfg.workersAi?.customModels && {
-            customModels: cfg.workersAi.customModels,
-          }),
-        },
       };
 
       writeFileSync(
@@ -89,8 +73,7 @@ export default async function (pi: ExtensionAPI) {
       ctx.ui.notify(
         `✅ CF AI Gateway config saved\n` +
           `Provider: cf-ai-gateway\n` +
-          `ZDR: ${enableZdr ? "enabled" : "disabled"}\n` +
-          `Workers AI: ${enableWorkersAi ? "enabled" : "disabled"}`,
+          `ZDR: ${enableZdr ? "enabled" : "disabled"}`,
         "info",
       );
       await ctx.reload();
@@ -168,44 +151,6 @@ export default async function (pi: ExtensionAPI) {
   });
 
   // ============================================
-  // Provider登録 - Workers AI (/workers-ai/v1)
-  // ============================================
-  // ZDR は Workers AI 非対応のため cf-aig-zdr ヘッダは送らない
-  // モデルID: "@cf/moonshotai/kimi-k2.6" など
-  const workersAiCfg = cfg.workersAi;
-  const workersAiEnabled =
-    workersAiCfg !== undefined && (workersAiCfg.enabled ?? true);
-  let workersAiModels: WorkersAiModelDef[] = [];
-
-  if (workersAiEnabled) {
-    const waMap = new Map(BUILT_IN_WORKERS_AI_MODELS.map((m) => [m.id, m]));
-    for (const c of workersAiCfg?.customModels ?? []) waMap.set(c.id, c);
-    workersAiModels = Array.from(waMap.values());
-
-    pi.registerProvider("cloudflare-ai", {
-      baseUrl: `${baseUrl}/workers-ai/v1`,
-      apiKey: apiToken,
-      api: "openai-completions",
-      headers: { ...cacheHeaders },
-      models: workersAiModels.map((m) => ({
-        id: m.id,
-        name: m.name,
-        reasoning: m.reasoning ?? false,
-        input: m.input,
-        cost: {
-          input: m.cost.input,
-          output: m.cost.output,
-          cacheRead: 0,
-          cacheWrite: 0,
-        },
-        contextWindow: m.contextWindow,
-        maxTokens: m.maxTokens,
-        compat: m.compat,
-      })),
-    });
-  }
-
-  // ============================================
   // 起動通知
   // ============================================
   pi.on("session_start", (_event, ctx) => {
@@ -226,13 +171,6 @@ export default async function (pi: ExtensionAPI) {
           .map((m) => m.id)
           .join(", ")}`,
         "warning",
-      );
-    }
-
-    if (workersAiEnabled) {
-      ctx.ui.notify(
-        `🧠 Workers AI: ${workersAiModels.length} models via cloudflare-ai`,
-        "info",
       );
     }
   });
@@ -263,17 +201,6 @@ export default async function (pi: ExtensionAPI) {
           .map(([provider, ms]) => `[${provider}]\n${ms.join("\n")}`)
           .join("\n\n");
 
-      if (workersAiEnabled && workersAiModels.length > 0) {
-        body +=
-          `\n\nCloudflare Workers AI (${workersAiModels.length} total):\n` +
-          workersAiModels
-            .map(
-              (m) =>
-                `  🧠 ${m.name}: ${m.id} (${fmtCost(m.cost.input, m.cost.output)})`,
-            )
-            .join("\n");
-      }
-
       ctx.ui.notify(body, "info");
     },
   });
@@ -291,10 +218,6 @@ export default async function (pi: ExtensionAPI) {
         `[cf-ai-gateway] ${baseUrl}/compat`,
         `  ZDR: ${zdrEnabled ? "✅ enabled" : "❌ disabled"}`,
         `  Models: ${zdrModels.length}`,
-        ``,
-        workersAiEnabled
-          ? `[cloudflare-ai] ${baseUrl}/workers-ai/v1\n  Models: ${workersAiModels.length}`
-          : `[cloudflare-ai] ❌ disabled (set workersAi.enabled = true)`,
       ];
       ctx.ui.notify(lines.join("\n"), "info");
     },

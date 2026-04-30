@@ -74,6 +74,9 @@ description: 要件定義書
 | Dev Container  |  ✅   |    ✅     |    ✅     |            |      |
 | Multipass      | brew  |   snap    |   snap    |            |      |
 | Homebrew       |  ✅   |    ❌     |    ❌     |            |      |
+| Mise           | brew  | curl/mise | curl/mise |            |      |
+| Age            | brew  | curl/mise | curl/mise |            |      |
+| Aqua CLI       | mise  |   mise    |   mise    |            |      |
 
 ### CLI ツール要件
 
@@ -144,6 +147,8 @@ description: 要件定義書
 - **Ubuntu/Debian**: APT、Snap を使用
 - **ランタイム管理**: Mise（Node.js、Python、Go など）を使用
 - **Rust ツール**: Cargo または Mise を優先し、必要時に Homebrew/APT を使用
+- **宣言的CLI管理**: Aqua CLI でクロスプラットフォーム配布を管理
+- **バージョン固定**: `.tool-versions` と `mise/config.toml` で一貫性を保つ
 
 ## 関連ドキュメント
 

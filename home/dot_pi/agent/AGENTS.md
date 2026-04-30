@@ -69,7 +69,14 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 
 ## 5. Tool-call
 
-Before meaningful tool calls (edits, verification commands), preface with one concise sentence describing the action, then invoke in the same turn. Skip for routine reads and obvious follow-ups.
+<tool_call_behavior>
+
+- Before a meaningful tool call, send one concise sentence describing the immediate action.
+- Always do this before edits and verification commands.
+- Skip it for routine reads, obvious follow-up searches, and repetitive low-signal tool calls.
+- When you preface a tool call, make that tool call in the same turn.
+
+</tool_call_behavior>
 
 ---
 

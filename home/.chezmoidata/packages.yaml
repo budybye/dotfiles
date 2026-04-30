@@ -313,10 +313,15 @@ packages:
   # - 'fermyon'
 
   npm:
+    - "skills"
     - "pm2"
     - "@hono/cli"
+    - "@bitwarden/cli"
+    - "@marp-team/marp-cli"
     - "rnsec"
     - "ctx7"
+    - "defuddle"
+    - "@mariozechner/pi-coding-agent"
   # - '@hubai/cli'
   # - 'vibekit'
   # - 'surge'
@@ -435,5 +440,3 @@ packages:
     - "npm:pi-subagents"
     - "npm:pi-runline"
     - "npm:@netandreus/pi-cursor-provider"
-    - "git:bneil/pi-cloudflare-workers-ai"
-    - "git:Eddayy/pi-cloudflare-ai-gateway"

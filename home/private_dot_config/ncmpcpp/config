@@ -9,7 +9,7 @@ audio_output {
 
 ncmpcpp_directory = ~/.config/ncmpcpp
 lyrics_directory = ~/Music/lyrics
-mpd_music_dir = ~/Music
+mpd_music_dir = ~/Music/riddim
 mpd_host = localhost
 mpd_port = "6600"
 mpd_crossfade_time = 5

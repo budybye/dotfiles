@@ -1,4 +1,4 @@
-import type { ModelDef, WorkersAiModelDef } from "./types";
+import type { ModelDef } from "./types";
 
 export const BUILT_IN_MODELS: ModelDef[] = [
   {
@@ -98,39 +98,6 @@ export const BUILT_IN_MODELS: ModelDef[] = [
     input: ["text", "image"],
     zdrSupported: false,
     cost: { input: 0.1, output: 0.4 },
-    compat: { supportsDeveloperRole: false, maxTokensField: "max_tokens" },
-  },
-];
-
-export const BUILT_IN_WORKERS_AI_MODELS: WorkersAiModelDef[] = [
-  {
-    id: "@cf/moonshotai/kimi-k2.6",
-    name: "Kimi K2.6",
-    contextWindow: 262144,
-    maxTokens: 4096,
-    input: ["text"],
-    reasoning: true,
-    cost: { input: 0.95, output: 4 },
-    compat: { supportsDeveloperRole: false, maxTokensField: "max_tokens" },
-  },
-  {
-    id: "@cf/moonshotai/kimi-k2.5",
-    name: "Kimi K2.5",
-    contextWindow: 256000,
-    maxTokens: 4096,
-    input: ["text"],
-    reasoning: true,
-    cost: { input: 0.6, output: 3 },
-    compat: { supportsDeveloperRole: false, maxTokensField: "max_tokens" },
-  },
-  {
-    id: "@cf/zai-org/glm-4.7-flash",
-    name: "GLM-4.7 Flash",
-    contextWindow: 131072,
-    maxTokens: 4096,
-    input: ["text"],
-    reasoning: true,
-    cost: { input: 0.06, output: 0.4 },
     compat: { supportsDeveloperRole: false, maxTokensField: "max_tokens" },
   },
 ];

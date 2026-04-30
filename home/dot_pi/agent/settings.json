@@ -2,16 +2,22 @@
   "enabledModels": [
     "sakura/gpt-oss-120b",
     "sakura/Qwen3-Coder-480B-A35B-Instruct-FP8",
-    "cloudflare-ai/@cf/moonshotai/kimi-k2.5",
-    "cloudflare-ai/@cf/moonshotai/kimi-k2.6",
-    "cloudflare-ai/@cf/zai-org/glm-4.7-flash",
-    "cursor/auto",
-    "cursor/composer-2-fast",
-    "cursor/gpt-5.4-medium",
-    "cursor/claude-opus-4-7-medium",
-    "cursor/claude-4.6-sonnet-medium",
     "openrouter/openai/gpt-oss-120b:free",
-    "openrouter/z-ai/glm-4.5-air:free"
+    "openrouter/z-ai/glm-4.5-air:free",
+    "cloudflare-workers-ai/@cf/moonshotai/kimi-k2.6",
+    "cloudflare-workers-ai/@cf/moonshotai/kimi-k2.5",
+    "cloudflare-workers-ai/@cf/zai-org/glm-4.7-flash",
+    "cf-ai-gateway/anthropic/claude-opus-4-7",
+    "cf-ai-gateway/anthropic/claude-sonnet-4-6",
+    "cursor/auto",
+    "cursor/gpt-5.5-medium",
+    "cursor/claude-4.6-sonnet-medium",
+    "cf-ai-gateway/openai/gpt-5-nano-2025-08-07",
+    "cursor/gemini-3.1-pro",
+    "cursor/grok-4-20",
+    "cursor/claude-opus-4-7-medium",
+    "cf-ai-gateway/openai/gpt-5.5-2026-04-23",
+    "cursor/composer-2-fast"
   ],
   "defaultProvider": "cursor",
   "defaultModel": "auto",
@@ -37,6 +43,9 @@
     "retryDelay": 3000,
     "maxRetryDelay": 60000
   },
+  "npmCommand": [
+    "bun"
+  ],
   "packages": [
     "pi-skills",
     "npm:pi-subagents",
@@ -54,6 +63,6 @@
     "~/.aionui-config/skills"
   ],
   "enableSkillCommands": true,
-  "lastChangelogVersion": "0.70.2",
+  "lastChangelogVersion": "0.70.6",
   "enableInstallTelemetry": false
 }

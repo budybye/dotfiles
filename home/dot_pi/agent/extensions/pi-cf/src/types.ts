@@ -20,20 +20,6 @@ export interface ModelDef {
   };
 }
 
-export interface WorkersAiModelDef {
-  id: string;
-  name: string;
-  contextWindow: number;
-  maxTokens: number;
-  input: ("text" | "image")[];
-  reasoning?: boolean;
-  cost: { input: number; output: number };
-  compat: {
-    supportsDeveloperRole: boolean;
-    maxTokensField: "max_tokens" | "max_completion_tokens";
-  };
-}
-
 export interface Config {
   accountId: string;
   gatewayName: string;
@@ -41,8 +27,4 @@ export interface Config {
   zdrEnabled?: boolean;
   customModels?: ModelDef[];
   defaultHeaders?: Record<string, string>;
-  workersAi?: {
-    enabled?: boolean;
-    customModels?: WorkersAiModelDef[];
-  };
 }

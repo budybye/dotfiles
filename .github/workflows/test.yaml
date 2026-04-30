@@ -154,3 +154,61 @@ jobs:
           lxc exec rpi -- tail -8 /var/log/cloud-init.log
           lxc exec rpi -- cat /etc/os-release
           lxc config set core.https_address :8443
+
+  ubuntu:
+    runs-on: ubuntu-26.04
+    env:
+      MISE_GITHUB_TOKEN: ${{ secrets.MISE_GITHUB_TOKEN }}
+    steps:
+      # 容量が厳しいのでクリーンアップ
+      - name: clean space
+        run: |
+          df -h
+          docker image prune --all --force || true
+          sudo rm -rf /opt/* || true
+          sudo rm -rf /usr/share/dotnet || true
+          sudo rm -rf /usr/local/lib/android || true
+          sudo rm -rf /usr/local/share/boost || true
+          sudo rm -rf $AGENT_TOOLSDIRECTORY || true
+          sudo apt purge -y \
+            ansible* \
+            aria2* \
+            aspnetcore* \
+            apache2* \
+            azure-cli* \
+            cabal* \
+            clang* \
+            dotnet-* \
+            firefox* \
+            gfortran-* \
+            ghc* \
+            google-chrome-stable* \
+            google-cloud-sdk* \
+            imagemagick* \
+            javascript* \
+            kubectl* \
+            llvm* \
+            mono* \
+            moby* \
+            mysql* \
+            nginx* \
+            node* \
+            npm* \
+            nuget* \
+            php* \
+            postgresql* \
+            powershell* \
+            rpm* \
+            ruby* \
+            sqlite3* \
+            subversion \
+            temurin* \
+            tmux* \
+            vim* \
+            yarn* || true
+          sudo apt-get autoremove -y >/dev/null 2>&1 || true
+          sudo apt-get autoclean -y >/dev/null 2>&1 || true
+          df -h
+      - uses: actions/checkout@v6
+      - name: make
+        run: make init
