@@ -26,8 +26,6 @@
   - 複数ベンダーを横断してモデル選択したいとき
   - `models.json` でルーティング互換設定を管理
 - `cloudflare`（Cloudflare AI Gateway/Workers AI 系）
-  - `cloudflare-ai/...` モデルを使うルート
-  - `~/.pi/cloudflare-models.json`
   - Cloudflare アカウント/トークン管理と相性が良い
 - `sakura`
   - Sakura AI の OpenAI 互換エンドポイント
@@ -175,13 +173,13 @@
 
 作業タイプごとに、まず試す候補を固定しておくと切り替え判断が速くなる。
 
-| 作業タイプ | まず使う provider/model | 切り替え先 | 判断ポイント |
-| --- | --- | --- | --- |
-| 日常の実装・修正 | `cursor/auto` | `cursor/composer-2-fast` | 迷ったら既定。安定性優先 |
-| 重い設計・難問解析 | `openrouter/~anthropic/claude-opus-latest` | `anthropic/claude-opus-4-7` | 推論品質優先。コストは高め |
-| 高速なコード生成ループ | `cursor/composer-2-fast` | `sakura/gpt-oss-120b` | 反復速度優先。生成量が多いとき有効 |
-| コスト重視の長時間作業 | `cloudflare-ai/@cf/moonshotai/kimi-k2.5` | `openrouter/moonshotai/kimi-k2.6` | 品質を維持しつつ単価を抑える |
-| 翻訳・軽量整形 | `cursor/auto` | `gemini` 系モデル | 応答速度と価格のバランスで選ぶ |
+| 作業タイプ             | まず使う provider/model                    | 切り替え先                        | 判断ポイント                       |
+| ---------------------- | ------------------------------------------ | --------------------------------- | ---------------------------------- |
+| 日常の実装・修正       | `cursor/auto`                              | `cursor/composer-2-fast`          | 迷ったら既定。安定性優先           |
+| 重い設計・難問解析     | `openrouter/~anthropic/claude-opus-latest` | `anthropic/claude-opus-4-7`       | 推論品質優先。コストは高め         |
+| 高速なコード生成ループ | `cursor/composer-2-fast`                   | `sakura/gpt-oss-120b`             | 反復速度優先。生成量が多いとき有効 |
+| コスト重視の長時間作業 | `cloudflare-ai/@cf/moonshotai/kimi-k2.5`   | `openrouter/moonshotai/kimi-k2.6` | 品質を維持しつつ単価を抑える       |
+| 翻訳・軽量整形         | `cursor/auto`                              | `gemini` 系モデル                 | 応答速度と価格のバランスで選ぶ     |
 
 補足:
 

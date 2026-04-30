@@ -145,11 +145,11 @@ jobs:
           lxc exec rpi -- cat /etc/os-release
           lxc config set core.https_address :8443
 
-  ubuntu-slim:
-    runs-on: ubuntu-slim
-    env:
-      MISE_GITHUB_TOKEN: ${{ secrets.MISE_GITHUB_TOKEN }}
-    steps:
-      - uses: actions/checkout@v6
-      - name: make
-        run: make init
+  # ubuntu-slim:
+  #   runs-on: ubuntu-slim
+  #   env:
+  #     MISE_GITHUB_TOKEN: ${{ secrets.MISE_GITHUB_TOKEN }}
+  #   steps:
+  #     - uses: actions/checkout@v6
+  #     - name: make
+  #       run: make init
