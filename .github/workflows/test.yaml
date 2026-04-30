@@ -101,20 +101,10 @@ jobs:
       #   run: |
       #     winget install Microsoft.PowerToys
 
-  # wsl2:
-  #   runs-on: windows-2022
-  #   steps:
-  #     - uses: actions/checkout@v5
-  #     - uses: Vampire/setup-wsl
-  #     - shell: wsl-bash {0}
-  #       run: |
-  #         # dpkg --configure -a
-  #         # apt-get update -y
-  #         # apt-get upgrade -y
-  #         # apt-get autoremove -y
-  #         # apt-get clean
-  #         ls -al
-  #         cat /etc/os-release || true
+  wsl2:
+    runs-on: windows-2025
+    steps:
+      - uses: actions/checkout@v6
 
   lxd:
     runs-on: ubuntu-latest
@@ -155,60 +145,11 @@ jobs:
           lxc exec rpi -- cat /etc/os-release
           lxc config set core.https_address :8443
 
-  ubuntu:
-    runs-on: ubuntu-26.04
+  ubuntu-slim:
+    runs-on: ubuntu-slim
     env:
       MISE_GITHUB_TOKEN: ${{ secrets.MISE_GITHUB_TOKEN }}
     steps:
-      # 容量が厳しいのでクリーンアップ
-      - name: clean space
-        run: |
-          df -h
-          docker image prune --all --force || true
-          sudo rm -rf /opt/* || true
-          sudo rm -rf /usr/share/dotnet || true
-          sudo rm -rf /usr/local/lib/android || true
-          sudo rm -rf /usr/local/share/boost || true
-          sudo rm -rf $AGENT_TOOLSDIRECTORY || true
-          sudo apt purge -y \
-            ansible* \
-            aria2* \
-            aspnetcore* \
-            apache2* \
-            azure-cli* \
-            cabal* \
-            clang* \
-            dotnet-* \
-            firefox* \
-            gfortran-* \
-            ghc* \
-            google-chrome-stable* \
-            google-cloud-sdk* \
-            imagemagick* \
-            javascript* \
-            kubectl* \
-            llvm* \
-            mono* \
-            moby* \
-            mysql* \
-            nginx* \
-            node* \
-            npm* \
-            nuget* \
-            php* \
-            postgresql* \
-            powershell* \
-            rpm* \
-            ruby* \
-            sqlite3* \
-            subversion \
-            temurin* \
-            tmux* \
-            vim* \
-            yarn* || true
-          sudo apt-get autoremove -y >/dev/null 2>&1 || true
-          sudo apt-get autoclean -y >/dev/null 2>&1 || true
-          df -h
       - uses: actions/checkout@v6
       - name: make
         run: make init
