@@ -404,11 +404,12 @@ packages:
       - "patricio0312rev/skills -s framer-motion-animator"
       - "noncept/openpayment -s openpayment"
       - "sickn33/antigravity-awesome-skills -s 3d-web-experience"
-      - "bobmatnyc/claude-mpm-skills-s axum"
+      - "bobmatnyc/claude-mpm-skills -s axum"
       - "suryavirkapur/skills -s utoipa-axum"
       - "aj-geddes/useful-ai-prompts -s progressive-web-app"
       - "flpbalada/my-opencode-config -s progressive-disclosure"
       - "kepano/obsidian-skills"
+      - "franalgaba/grimoire -s grimoire-polymaket"
 
   curl:
     - "curl -fsSL https://mise.run | sh"

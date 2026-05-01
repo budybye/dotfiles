@@ -11,7 +11,7 @@
 - `SYSTEM.md`: 回答スタイル/出力ルールのシステムプロンプト
 - `runline.json`: `pi-runline` 用の既定プロジェクト設定
 - `prompts/`: テンプレート（`code-review.md`, `translate.md`）
-- `extensions/`: 拡張設定（例: `cloudflare-ai-gateway`, `plan-mode`, `todo`）
+- `extensions/`: 拡張設定（例: `plan-mode`, `todo`）
 - `skills/`: ローカルスキル（`chezmoi-management`, `pi-skills`）
 - `agents/`: 役割別エージェント定義
 

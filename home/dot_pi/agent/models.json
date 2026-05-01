@@ -10,18 +10,13 @@
       "models": [
         {
           "id": "gpt-oss-120b",
-          "name": "Chappy"
+          "name": "Chappy:free"
         },
         {
           "id": "Qwen3-Coder-480B-A35B-Instruct-FP8",
-          "name": "Qwen3"
+          "name": "Qwen3:free"
         }
       ]
-    },
-    "anthropic": {
-      "baseUrl": "https://claude.589.workers.dev",
-      "api": "anthropic-messages",
-      "apiKey": "ANTHROPIC_API_KEY"
     },
     "openrouter": {
       "baseUrl": "https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/openrouter/v1",
@@ -33,11 +28,11 @@
       "models": [
         {
           "id": "openai/gpt-oss-120b:free",
-          "name": "gpt-oss-120b"
+          "name": "gpt-oss-120b:free"
         },
         {
-          "id": "z-ai/glm-4.5-air:free",
-          "name": "glm-4.5-air"
+          "id": "openrouter/openrouter/free",
+          "name": "openrouter:free"
         }
       ]
     }

@@ -43,7 +43,7 @@ description: 要件定義書
 
 ### 主要プラットフォーム
 
-- **macOS**: Sequoia (14.0+) - プライマリ開発環境
+- **macOS**: Sequoia (15.0+) - プライマリ開発環境
 - **Ubuntu**: 24.04 LTS (Noble Numbat) - Linux 開発環境
 - **Docker**: ^24.0.0 - コンテナ化環境
 - **Multipass**: ^1.13.0 - 軽量 VM 管理

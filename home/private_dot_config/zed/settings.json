@@ -26,15 +26,18 @@
       "favorite_models": [
         "cursor/auto",
         "cursor/composer-2-fast",
-        "cursor/claude-opus-4-7-xhigh",
+        "cursor/gemini-3.1-pro",
+        "cursor/claude-opus-4-7-thinking-medium",
+        "cursor/gpt-5.5-medium",
         "sakura/gpt-oss-120b",
         "sakura/Qwen3-Coder-480B-A35B-Instruct-FP8",
-        "cloudflare-workers-ai/@cf/moonshotai/kimi-k2.6",
-        "cloudflare-workers-ai/@cf/zai-org/glm-4.7-flash",
-        "cf-ai-gateway/openai/gpt-5.5-2026-04-23",
-        "cf-ai-gateway/anthropic/claude-opus-4-7",
         "openrouter/openai/gpt-oss-120b:free",
-        "openrouter/z-ai/glm-4.5-air:free"
+        "openrouter/openrouter/free",
+        "cloudflare-ai-gateway/gpt-5.5",
+        "cloudflare-ai-gateway/claude-opus-4-7",
+        "cloudflare-ai-gateway/claude-sonnet-4-6",
+        "cloudflare-ai-gateway/workers-ai/@cf/moonshotai/kimi-k2.6",
+        "cloudflare-workers-ai/@cf/moonshotai/kimi-k2.6",
       ],
       "type": "registry",
     },
@@ -42,16 +45,14 @@
       "favorite_config_option_values": {
         "model": [
           "opencode/big-pickle/max",
-          "cloudflare-ai-gateway/anthropic/claude-3-opus",
-          "cloudflare-ai-gateway/anthropic/claude-3.5-sonnet",
+          "cloudflare-ai-gateway/anthropic/claude-opus-4-7",
           "cloudflare-ai-gateway/anthropic/claude-sonnet-4-6",
         ],
       },
       "favorite_models": [
         "sakura/gpt-oss-120b",
         "opencode/big-pickle/max",
-        "opencode/nemotron-3-super-free/high",
-        "cloudflare-workers-ai/@cf/moonshotai/kimi-k2.5",
+        "cloudflare-workers-ai/@cf/moonshotai/kimi-k2.6",
       ],
       "type": "registry",
     },
@@ -137,34 +138,34 @@
       {
         "provider": "sakura",
         "model": "gpt-oss-120b",
-        "enable_thinking": false
+        "enable_thinking": false,
       },
       {
         "provider": "anthropic",
         "model": "claude-sonnet-4-6-latest",
-        "enable_thinking": false
+        "enable_thinking": false,
       },
       {
         "provider": "zed.dev",
         "model": "gemini-3.1-pro-preview",
-        "enable_thinking": false
+        "enable_thinking": false,
       },
       {
         "provider": "zed.dev",
         "model": "claude-sonnet-4-6",
-        "enable_thinking": false
+        "enable_thinking": false,
       },
       {
         "provider": "anthropic",
         "model": "claude-opus-4-7-latest",
         "enable_thinking": true,
-        "effort": "high"
+        "effort": "high",
       },
       {
         "provider": "openrouter",
         "model": "z-ai/glm-5.1",
-        "enable_thinking": true
-      }
+        "enable_thinking": true,
+      },
     ],
     "default_profile": "write",
     "inline_assistant_model": {
@@ -186,7 +187,7 @@
   "ui_font_family": "HackGen35 Console NF",
   "buffer_font_weight": 400.0,
   "buffer_font_family": "HackGen35 Console NF",
-  "icon_theme": "Catppuccin Latte",
+  "icon_theme": "Material Icon Theme",
   "base_keymap": "VSCode",
   "ui_font_size": 15.0,
   "buffer_font_size": 16.0,
@@ -194,7 +195,7 @@
   "theme": {
     "mode": "system",
     "light": "Monokai Pro (CE)",
-    "dark": "Kanagawa Dragon",
+    "dark": "Kanagawa Dragon - No Italics",
   },
   "edit_predictions": {
     "provider": "zed",

@@ -1,0 +1,12 @@
+% diagram_template.tex – TikZ 用圏の図テンプレート
+% 使い方: \input{diagram_template.tex} の前に \def\objects{{{A},{B},{C}}} と \def\arrows{{{A}/{B}/{f}},{{B}/{C}/{g}}} を定義
+\begin{tikzpicture}[>=stealth, node distance=2.5cm, every node/.style={ellipse,draw,inner sep=2pt}]
+  % オブジェクトノード生成
+  \foreach \i/\obj in \objects {
+    \node (\obj) at (\i*2,0) {\obj};
+  }
+  % 矢印生成
+  \foreach \src/\dst/\lbl in \arrows {
+    \draw[->] (\src) to node [midway, above] {\lbl} (\dst);
+  }
+\end{tikzpicture}

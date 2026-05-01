@@ -151,7 +151,7 @@ description: タスク管理 進捗整理
 
 1. 計画が必要な規模（新 OS 対応、大規模変更）→ `.cursor/plans/YYYY-MM-DD-<feature>.md` を作成
 2. 計画不要な小規模タスク → 本ドキュメントの「具体的バックログ」に直接追加
-3. `docs/plan.md` の既存計画一覧に新規計画を追加
+3. `.cursor/plans/` の既存計画一覧に新規計画を追加（計画索引が必要な場合は `docs/plan.md` を作成）
 
 ### タスク完了時
 
@@ -166,14 +166,14 @@ description: タスク管理 進捗整理
 
 | タスク | 計画 | ステータス |
 | ------ | ---- | ---------- |
-| WSL2 CI ジョブ有効化 | [2025-02-19-wsl2-support](../docs/plans/2025-02-19-wsl2-support.md) | 未着手 |
-| SANDBOX 環境変数プロファイル | [chezmoi sandbox plan](../docs/plans/chezmoi%20sandbox-7eb45bfb.plan.md) | 未着手 |
+| WSL2 CI ジョブ有効化 | [2025-02-19-wsl2-support](../.cursor/plans/2025-02-19-wsl2-support.md) | 未着手 |
+| SANDBOX 環境変数プロファイル | [chezmoi sandbox plan](../.cursor/plans/chezmoi%20sandbox-7eb45bfb.plan.md) | 未着手 |
 
 ### 中優先度
 
 | タスク | 計画 | ステータス |
 | ------ | ---- | ---------- |
-| bash-only CLI + 2-step minimal dotfiles | [2025-03-27-bash-and-clissh](../docs/plans/2025-03-27-plan-bash-varsion-and-clissh-varsion) | 未着手 |
+| bash-only CLI + 2-step minimal dotfiles | [2025-03-27-bash-and-clissh](../.cursor/plans/2025-03-27-plan-bash-varsion-and-clissh-varsion) | 未着手 |
 | （将来）Windows ネイティブ対応 | 未作成 | 保留 |
 | （将来）FreeBSD 対応 | 未作成 | 保留 |
 
@@ -196,18 +196,18 @@ description: タスク管理 進捗整理
 
 ## 実装計画との連携
 
-新機能やバグ修正を実装する際は `docs/plans/` に詳細な実装計画を作成することを推奨します（注: 計画ファイルは git 管理下にあり、バージョン管理されます）。
+新機能やバグ修正を実装する際は `.cursor/plans/` に詳細な実装計画を作成することを推奨します（注: 計画ファイルは git 管理下にあり、バージョン管理されます）。
 
-- **計画作成**: `docs/plans/TEMPLATE.md` をコピーし、`YYYY-MM-DD-<feature>.md` 形式で保存
+- **計画作成**: `.cursor/plans/TEMPLATE.md` をコピーし、`YYYY-MM-DD-<feature>.md` 形式で保存
 - **実行**: 各タスクを bite-sized（2-5分）で実施し、コミットを細かく分ける
 - **検証**: `make check`、`chezmoi diff`、GitHub Actions で動作確認
 
 ### 計画ファイルの管理
 
-計画ファイルは `docs/plans/` ディレクトリに保存し、以下のルールに従います：
+計画ファイルは `.cursor/plans/` ディレクトリに保存し、以下のルールに従います：
 
 - **ファイル形式**: `YYYY-MM-DD-<feature>.md` (日付接頭辞でソート可能)
-- **テンプレート**: `docs/plans/TEMPLATE.md` をコピーして使用
+- **テンプレート**: `.cursor/plans/TEMPLATE.md` をコピーして使用
 - **参照**: 本ドキュメントのバックログから計画ファイルへのリンクを管理
 - **バージョン管理**: 計画ファイルは git 管理下にあり、進捗に応じて更新される
 

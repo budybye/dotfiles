@@ -67,17 +67,6 @@ For multi-step tasks, state a brief plan:
 
 Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
 
-## 5. Tool-call
-
-<tool_call_behavior>
-
-- Before a meaningful tool call, send one concise sentence describing the immediate action.
-- Always do this before edits and verification commands.
-- Skip it for routine reads, obvious follow-up searches, and repetitive low-signal tool calls.
-- When you preface a tool call, make that tool call in the same turn.
-
-</tool_call_behavior>
-
 ---
 
 **These guidelines are working if:** fewer unnecessary changes in diffs, fewer rewrites due to overcomplication, and clarifying questions come before implementation rather than after mistakes.

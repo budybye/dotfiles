@@ -1,26 +1,6 @@
 {
-  "enabledModels": [
-    "sakura/gpt-oss-120b",
-    "sakura/Qwen3-Coder-480B-A35B-Instruct-FP8",
-    "openrouter/openai/gpt-oss-120b:free",
-    "openrouter/z-ai/glm-4.5-air:free",
-    "cloudflare-workers-ai/@cf/moonshotai/kimi-k2.6",
-    "cloudflare-workers-ai/@cf/moonshotai/kimi-k2.5",
-    "cloudflare-workers-ai/@cf/zai-org/glm-4.7-flash",
-    "cf-ai-gateway/anthropic/claude-opus-4-7",
-    "cf-ai-gateway/anthropic/claude-sonnet-4-6",
-    "cursor/auto",
-    "cursor/gpt-5.5-medium",
-    "cursor/claude-4.6-sonnet-medium",
-    "cf-ai-gateway/openai/gpt-5-nano-2025-08-07",
-    "cursor/gemini-3.1-pro",
-    "cursor/grok-4-20",
-    "cursor/claude-opus-4-7-medium",
-    "cf-ai-gateway/openai/gpt-5.5-2026-04-23",
-    "cursor/composer-2-fast"
-  ],
-  "defaultProvider": "cursor",
-  "defaultModel": "auto",
+  "defaultProvider": "cloudflare-ai-gateway",
+  "defaultModel": "workers-ai/@cf/moonshotai/kimi-k2.6",
   "defaultThinkingLevel": "medium",
   "thinkingBudgets": {
     "minimal": 1024,
@@ -47,7 +27,8 @@
     "bun"
   ],
   "packages": [
-    "pi-skills",
+    "git:github.com/badlogic/pi-skills",
+    "git:github.com/Fatih0234/btw",
     "npm:pi-subagents",
     "npm:pi-runline",
     "npm:pi-mcp-adapter",
@@ -63,6 +44,26 @@
     "~/.aionui-config/skills"
   ],
   "enableSkillCommands": true,
-  "lastChangelogVersion": "0.70.6",
-  "enableInstallTelemetry": false
+  "lastChangelogVersion": "0.71.1",
+  "enableInstallTelemetry": false,
+  "enabledModels": [
+    "cloudflare-ai-gateway/gpt-5.5",
+    "cloudflare-ai-gateway/claude-opus-4-7",
+    "cloudflare-ai-gateway/claude-sonnet-4-6",
+    "cloudflare-ai-gateway/workers-ai/@cf/moonshotai/kimi-k2.6",
+    "cloudflare-workers-ai/@cf/zai-org/glm-4.7-flash",
+    "cursor/auto",
+    "cursor/grok-4-20",
+    "cursor/gpt-5.5-medium",
+    "cursor/gemini-3.1-pro",
+    "cursor/grok-4-20-thinking",
+    "cursor/composer-2-fast",
+    "cursor/claude-opus-4-7-medium",
+    "cursor/claude-4.6-sonnet-medium",
+    "sakura/gpt-oss-120b",
+    "sakura/Qwen3-Coder-480B-A35B-Instruct-FP8",
+    "openrouter/openrouter/free",
+    "openrouter/nvidia/nemotron-3-super-120b-a12b:free",
+    "openrouter/openai/gpt-oss-120b:free"
+  ]
 }
