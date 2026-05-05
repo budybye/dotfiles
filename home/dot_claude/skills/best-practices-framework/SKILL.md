@@ -24,6 +24,7 @@ A holistic skill for systematically evaluating and implementing best practices a
 | System architecture and design patterns | Read [references/architecture.md](references/architecture.md) |
 | Development methodologies and practices | Read [references/methodologies.md](references/methodologies.md) |
 | Tool integration and interconnectivity | Read [references/tools.md](references/tools.md) |
+| Curated external references | Read [references/reference.md](references/reference.md) |
 
 ## When to Use
 
@@ -83,12 +84,4 @@ This skill requires access to:
 - Documentation resources for various technologies
 
 When constrained (limited connectivity, no development environment), focus on research and documentation phases.
-
-## Related Skills
-
-## Transition Guidance
-
-- **For single-domain technology research** → Use `awesomes` or `repo-research`
-- **For API-specific design principles** → Use `api-design-principles`
-- **For language/framework-specific optimizations** → Use specialized skills like `frontend-react-best-practices`
 - **For this skill** → When decisions span multiple domains and require holistic evaluation

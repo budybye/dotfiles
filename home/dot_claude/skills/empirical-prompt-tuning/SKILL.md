@@ -23,7 +23,7 @@ subagent({
 	agent: "assistant",
 	task: "Your test prompt here",
 	context: "fresh", // ← Required: do not inherit parent context
-	model: "gpt-oss-120b", // ← Required: Explicitly specify model (avoid default resolution issues)
+	model: "<your-preferred-model-id>", // ← Required: Explicitly specify a model id (avoid default resolution issues)
 	skill: false, // ← Recommended: Disable skill inheritance to prevent context pollution
 	clarify: false, // Skip TUI confirmation (for automated testing)
 });
@@ -35,7 +35,7 @@ subagent({
 			agent: "assistant",
 			task: "Scenario A: ...",
 			context: "fresh",
-			model: "gpt-oss-120b",
+			model: "<your-preferred-model-id>",
 			skill: false,
 			clarify: false,
 		},
@@ -43,7 +43,7 @@ subagent({
 			agent: "assistant",
 			task: "Scenario B: ...",
 			context: "fresh",
-			model: "gpt-oss-120b",
+			model: "<your-preferred-model-id>",
 			skill: false,
 			clarify: false,
 		},
@@ -84,7 +84,7 @@ curl https://api.anthropic.com/v1/messages \
   -H "x-api-key: $ANTHROPIC_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-    "model": "claude-sonnet-4",
+    "model": "<your-preferred-model-id>",
     "max_tokens": 4096,
     "system": "Your prompt here",
     "messages": []
@@ -115,6 +115,16 @@ Do **not** use:
 
 - For one-off throwaway prompts (evaluation cost is not worth it)
 - When the goal is reflecting the author's subjective preferences rather than improving success rate
+
+## Scaling by Target Stakes
+
+Pick a row before Step 1 and freeze it. Do not switch tiers mid-run.
+
+| Target stakes | Scenarios | `[critical]` tags | Iteration cap |
+|---|---|---|---|
+| **High** (core skill, automation core prompt, high-blast-radius) | 3 (1 median + 2 edge) | ≥ 2 | none — run until 3 consecutive clears |
+| **Standard** (default if unsure) | 2 (1 median + 1 edge) | ≥ 1 | 5 — until 2 consecutive clears |
+| **Low** (small / high-frequency / low-stakes per invocation) | 2 (1 median + 1 edge) | ≥ 1 | 3 — ship at 80% |
 
 ## Workflow (Summary)
 
@@ -178,22 +188,16 @@ When fresh agent is unavailable:
 - **Always specify `context: "fresh"`**
 - **Always specify `model` explicitly** — Default model resolution may fail with "No API key found" errors even when the same model works with explicit specification
 - **Use `skill: false` when appropriate** — Skill inheritance can cause unexpected context pollution (e.g., auto-reading unrelated files from cwd)
-- **Parallel execution**: Use models from the same provider to avoid cross-provider instability. Mixing providers (e.g., OpenAI + Cloudflare) in parallel tasks often causes timeouts or flakes.
+- **Parallel execution**: Use models from the same provider to avoid cross-provider instability. Mixing providers across vendors in parallel tasks often causes timeouts or flakes.
 - PI login required (API key or OAuth)
 
 ### Troubleshooting pi-subagents
 
 | Symptom                                | Cause                              | Solution                                                             |
 | -------------------------------------- | ---------------------------------- | -------------------------------------------------------------------- |
-| "No API key found for openai-codex"    | Default model resolution failure   | Explicitly specify `model: "gpt-oss-120b"` (or your preferred model) |
+| "No API key found for <missing-model>" | Default model resolution failure   | Explicitly specify a model id                                        |
 | Agent reads wrong files (e.g., cli.js) | Skill inheritance or cwd pollution | Add `skill: false` to disable skill inheritance                      |
-| Parallel tasks timeout (exit code 143) | Cross-provider model mixing        | Use same-provider models (e.g., all OpenAI or all Cloudflare)        |
-| Subagent hangs after final message     | Model provider instability         | Try `composer-2-fast` or `gpt-oss-120b` as stable alternatives       |
+| Parallel tasks timeout (exit code 143) | Cross-provider model mixing        | Use models from the same provider                                    |
+| Subagent hangs after final message     | Model provider instability         | Try a different model id                                             |
 
 See [references/methodology.md](references/methodology.md#environment-constraints) for details.
-
-## Related
-
-- `superpowers:writing-skills` — TDD approach for authoring skills (structurally the same loop)
-- `retrospective-codify` — fixes lessons after the task; this skill runs _during_ prompt development
-- `superpowers:dispatching-parallel-agents` — conventions for running multiple scenarios in parallel

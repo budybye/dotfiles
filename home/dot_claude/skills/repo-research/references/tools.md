@@ -1,4 +1,4 @@
-# Tools Reference — ghq + Context7 (+ fallbacks)
+# Tools Reference — ghq + WebSearch
 
 Commands, parameters, and troubleshooting for the primary tools used by `/repo-research`, plus fallback paths when they're unavailable.
 
@@ -77,43 +77,7 @@ git config --global ghq.root ~/ghq   # set
 
 ---
 
-## Context7 MCP
-
-Three tools. Use `resolve-library-id` first unless you already know the ID.
-
-### `resolve-library-id`
-
-| Param | Required | Notes |
-|---|---|---|
-| `query` | yes | Use official name + context (e.g., `"Hono web framework"`). Avoid abbreviations |
-
-Returns: `{ library_id, name, confidence }`.
-
-### `query-docs`
-
-| Param | Required | Notes |
-|---|---|---|
-| `library_id` | yes | From `resolve-library-id` |
-| `topic`      | yes | Focused phrase; **not** "how to use" |
-| `tokens`     | no  | Default 4000; recommended table below |
-
-| Use case        | tokens    |
-|-----------------|-----------|
-| Quick API lookup | 1000–1500 |
-| Standard        | 2000–3000 |
-| Deep dive       | 4000–6000 |
-
-Returns: `{ content, token_count, sources }`.
-
-### `search-for-libraries`
-
-When you're unsure which library solves a problem (`"React state management"` → Redux, Zustand, Jotai). Run **before** `resolve-library-id`.
-
----
-
-## Fallback — when Context7 or ghq is unavailable
-
-### No Context7 → WebSearch + WebFetch
+## WebSearch + WebFetch — Documentation lookup
 
 ```
 WebSearch: <library> <topic> site:<official-domain>
@@ -121,6 +85,16 @@ WebFetch: <result-url>  → extract API shape manually
 ```
 
 Prefer official docs domains (`hono.dev`, `docs.python.org`, etc.) over random blog posts.
+
+Tips:
+
+- Pin queries to one official domain at a time with `site:`
+- Quote multi-word phrases for exact matches (`"staleTime"`)
+- Add a version (`v18`, `4.x`) when the API has shifted recently
+
+---
+
+## Fallback — when ghq is unavailable
 
 ### No ghq → direct git clone
 
@@ -144,7 +118,7 @@ Ask the user to paste the relevant doc section or file contents directly. **Do n
 
 Example: Zod for schema validation.
 
-1. Context7 → `query-docs(topic="schema definition validation", tokens=3000)`
+1. WebSearch → official docs page on schema definition / validation
 2. Implement from retrieved samples
 3. Source research unnecessary
 
@@ -152,7 +126,7 @@ Example: Zod for schema validation.
 
 Example: TanStack Query cache timing.
 
-1. Context7 → `query-docs(topic="cache behavior staleTime cacheTime", tokens=2500)`
+1. WebSearch → `"staleTime" "cacheTime" site:tanstack.com`
 2. If docs don't match observations: `ghq get github.com/TanStack/query`
 3. Grep for `staleTime|cacheTime` in the repo, read 2–3 files
 
@@ -160,19 +134,19 @@ Example: TanStack Query cache timing.
 
 Example: Next.js pages → app router.
 
-1. Context7 → migration guide (4000 tokens)
+1. WebSearch → migration guide on `nextjs.org`
 2. `ghq get github.com/vercel/next.js` — read official examples under `examples/*/app/**`
 
 ### S4 — Custom plugin / extension development
 
-1. Context7 → plugin lifecycle docs
+1. WebSearch → plugin lifecycle docs
 2. `ghq get <framework-repo>` + clone related plugins — copy proven patterns
 
 ### S5 — OSS contribution / bug fix
 
 1. `ghq get <upstream-repo>` first
 2. Grep error messages to locate code
-3. Context7 only for the project's CONTRIBUTING / style guide
+3. WebSearch only for the project's CONTRIBUTING / style guide
 
 ---
 
@@ -208,7 +182,7 @@ git diff v18.0.0..v18.2.0 -- packages/react/
 
 If you see "context window exceeded":
 
-1. Halve Context7 `tokens` (4000 → 2000)
+1. Re-scope WebSearch to a narrower phrase (one specific API)
 2. Use `Grep` output mode `files_with_matches` (just paths) before full-text grep
 3. Read files in slices (`offset` + `limit`) rather than whole
 4. Summarize findings into the memo immediately; don't hold raw docs in context

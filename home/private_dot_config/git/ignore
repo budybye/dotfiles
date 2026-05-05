@@ -105,4 +105,4 @@ sites/*/files
 
 **/.claude/settings.local.json
 
-.pi/sessions/*.jsonl
+.pi/sessions

@@ -408,8 +408,10 @@ packages:
       - "suryavirkapur/skills -s utoipa-axum"
       - "aj-geddes/useful-ai-prompts -s progressive-web-app"
       - "flpbalada/my-opencode-config -s progressive-disclosure"
-      - "kepano/obsidian-skills"
       - "franalgaba/grimoire -s grimoire-polymaket"
+      - "safishamsi/graphify -s graphify"
+      - "othmanadi/planning-with-files -s planning-with-files"
+      - "kepano/obsidian-skills -a"
 
   curl:
     - "curl -fsSL https://mise.run | sh"

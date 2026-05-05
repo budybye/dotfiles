@@ -5,16 +5,52 @@
       "apiKey": "SAKURA_API_KEY",
       "api": "openai-completions",
       "headers": {
-        "cf-aig-authorization": "!printf 'Bearer %s' \"$CF_API_TOKEN\""
+        "cf-aig-authorization": "!printf 'Bearer %s' \"$CLOUDFLARE_API_KEY\""
       },
       "models": [
         {
           "id": "gpt-oss-120b",
-          "name": "Chappy:free"
+          "name": "Chappy"
         },
         {
           "id": "Qwen3-Coder-480B-A35B-Instruct-FP8",
           "name": "Qwen3:free"
+        }
+      ]
+    },
+    "opencode-go": {
+      "baseUrl": "https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/custom-opencode-go/v1",
+      "apiKey": "OPENCODE_GO_API_KEY",
+      "api": "openai-completions",
+      "headers": {
+        "cf-aig-authorization": "!printf 'Bearer %s' \"$CLOUDFLARE_API_KEY\""
+      },
+      "models": [
+        {
+          "id": "glm-5.1",
+          "name": "glm-5.1"
+        },
+        {
+          "id": "kimi-k2.6",
+          "name": "kimi-k2.6"
+        },
+        {
+          "id": "deepseek-v4-pro",
+          "name": "deepseek-v4-pro"
+        }
+      ]
+    },
+    "anthropic": {
+      "baseUrl": "https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/anthropic",
+      "api": "anthropic-messages",
+      "headers": {
+        "cf-aig-authorization": "!printf 'Bearer %s' \"$CLOUDFLARE_API_KEY\""
+      },
+      "apiKey": "ANTHROPIC_API_KEY",
+      "models": [
+        {
+          "id": "anthropic/claude-sonnet-4.6",
+          "name": "Sonnet"
         }
       ]
     },
@@ -23,7 +59,7 @@
       "apiKey": "OPENROUTER_API_KEY",
       "api": "openai-completions",
       "headers": {
-        "cf-aig-authorization": "!printf 'Bearer %s' \"$CF_API_TOKEN\""
+        "cf-aig-authorization": "!printf 'Bearer %s' \"$CLOUDFLARE_API_KEY\""
       },
       "models": [
         {

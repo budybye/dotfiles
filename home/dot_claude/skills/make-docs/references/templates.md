@@ -245,7 +245,7 @@ After running these commands:
 [Triggers and blocking conditions]
 ```
 
-**Note**: Specific test cases are managed in `tests/testlist.md` (by the `/testcase` skill). This file focuses on policy and strategy.
+**Note**: Specific test cases are managed separately as a test plan (e.g., `tests/testlist.md`). This file focuses on policy and strategy.
 
 ---
 

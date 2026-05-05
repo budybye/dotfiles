@@ -8,8 +8,6 @@ disable-model-invocation: true
 
 Skill for keeping existing `docs/` and `AGENTS.md` accurate and up-to-date. Detects inconsistencies between the current codebase and documentation, then applies targeted fixes.
 
-> For generating documentation from scratch, use `/make-docs` instead.
-
 ## Documentation Files Overview
 
 The skill works with these 7 documentation files in the `docs/` directory, plus `AGENTS.md` and `README.md`:
@@ -21,14 +19,15 @@ The skill works with these 7 documentation files in the `docs/` directory, plus 
 5. `docs/tasks.md` - task status
 6. `docs/directory.md` - file structure
 7. `docs/problems.md` - known issues
+8. `docs/references.md` - external docs, repos, standards & articles
 
 ## Quick Reference
 
 | Task                                    | Guide                                                                                                                                              |
 | --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| What each doc file should contain       | Read [references/doc-fields.md](references/doc-fields.md) (→ templates: [make-docs/references/templates.md](../make-docs/references/templates.md)) |
-| Common drift patterns + how to detect   | Read [references/drift-patterns.md](references/drift-patterns.md)                                                                                  |
-| Which file wins when two disagree       | Read [references/consistency-matrix.md](references/consistency-matrix.md)                                                                          |
+| What each doc file should contain       | Read [references/doc-fields.md](references/doc-fields.md) |
+| Common drift patterns + how to detect   | Read [references/drift-patterns.md](references/drift-patterns.md) |
+| Which file wins when two disagree       | Read [references/consistency-matrix.md](references/consistency-matrix.md) |
 
 ---
 
@@ -64,6 +63,7 @@ Phase 5: Consistency Check (cross-file)
 - `docs/tasks.md` - task status
 - `docs/directory.md` - file structure
 - `docs/problems.md` - known issues
+- `docs/references.md` - external docs, repos, standards & articles
 - `README.md` - project overview, badges, quick-start
 - Key config files: `package.json` (+ lock file), `wrangler.toml`, `wrangler.jsonc`, `Cargo.toml`, `go.mod`, `pyproject.toml`, `Makefile`, `.env.example`, `.dev.vars.example`, `.tool-versions`, `mise.toml`
 
@@ -83,6 +83,7 @@ For each doc file, compare its content against the current code using the `read`
 - Tasks in `tasks.md` marked pending that are already merged (use `bash` with `git log` to check)
 - Architecture descriptions that conflict with current routing/binding code (use `read` to examine source files)
 - README sections (install steps, env vars) that contradict `AGENTS.md` or `docs/` (use `read` to compare)
+- References in `docs/references.md` with broken URLs or tech stack items missing entries (use `read` to compare against `docs/tech.md`)
 
 ### Phase 3: Plan Fixes
 
@@ -112,6 +113,7 @@ Proceed with updates? (y/n)
 After applying, verify cross-file consistency:
 
 - Tech stack in `AGENTS.md` matches `docs/tech.md`
+- Every tech-stack item in `docs/tech.md` has a corresponding entry in `docs/references.md`
 - Directory tree in `docs/directory.md` matches `docs/design.md` descriptions
 - Environment variables consistent across `AGENTS.md`, `docs/design.md`, `docs/tech.md`
 - README quick-start commands match `AGENTS.md` Key Commands

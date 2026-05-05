@@ -87,3 +87,11 @@ package.json:  "hono": "^4.6.3"
 - README quick-start ≠ `AGENTS.md` Key Commands
 
 **Fix strategy**: Consult the "Source of truth" column in [doc-fields.md](doc-fields.md) and align the downstream files to the upstream value.
+
+---
+
+## Stale references
+
+- **Symptom**: Tech stack items in `docs/tech.md` lack corresponding entries in `docs/references.md`, or `docs/references.md` links to outdated/unversioned docs
+- **Detection**: Cross-check every row in the `docs/tech.md` tech stack table against `docs/references.md`; verify URLs are reachable and point to the correct version
+- **Fix**: Add missing entries to `docs/references.md` for any tech stack item without a link. Update or remove broken links. Prefer versioned doc URLs (e.g., `/v4/` not `/latest/`)

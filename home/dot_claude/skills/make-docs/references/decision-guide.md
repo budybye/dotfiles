@@ -24,7 +24,7 @@ Mode           │              │
                │         │    └─► Auto-scan Mode
                │         │         (this skill)
                │         │
-               │         └─► STOP — suggest /update-docs instead
+               │         └─► STOP — suggest a documentation-sync workflow instead
 ```
 
 ### Interactive mode — when to choose
@@ -65,7 +65,7 @@ The skill is complete when **all** of the following hold. This is the gate to re
 
 ### Structural
 
-- [ ] All 7 files exist under `docs/`: `requirements.md`, `design.md`, `tech.md`, `test.md`, `tasks.md`, `directory.md`, `problems.md`
+- [ ] All 8 files exist under `docs/`: `requirements.md`, `design.md`, `tech.md`, `test.md`, `tasks.md`, `directory.md`, `problems.md`, `references.md`
 - [ ] `AGENTS.md` exists at the project root
 - [ ] `README.md` exists (or was intentionally skipped with user acknowledgement)
 
@@ -80,6 +80,7 @@ The skill is complete when **all** of the following hold. This is the gate to re
 | `tasks.md` | At least one milestone or current-focus entry |
 | `directory.md` | Directory tree reflects the actual repo, not the template |
 | `problems.md` | At least one entry, or an explicit "none known" note |
+| `references.md` | At least one entry per tech-stack item in `tech.md` |
 | `AGENTS.md` | Prohibitions section has content; Key Commands match `package.json` scripts |
 | `README.md` | Install command copy-pastes without edits; env-var section links to `.env.example` |
 
@@ -88,6 +89,7 @@ The skill is complete when **all** of the following hold. This is the gate to re
 - [ ] Tech stack in `AGENTS.md` matches `docs/tech.md`
 - [ ] Env-var names consistent across `AGENTS.md`, `docs/tech.md`, `README.md`, and `.env.example`
 - [ ] Directory tree in `docs/directory.md` matches reality (run `ls` / `find` to verify)
+- [ ] Every tech-stack item in `docs/tech.md` has a corresponding link in `docs/references.md`
 - [ ] No `[placeholder]` strings left in any generated file
 
 ### Red flags that block "done"
@@ -108,4 +110,4 @@ When done, the final user-facing message should state:
 1. What was generated (file list with line counts)
 2. What was scanned vs. guessed (separate these clearly)
 3. What the user should verify by hand (anything inferred without a source)
-4. Suggested next step: `/update-docs` once code evolves
+4. Suggested next step: run a documentation-sync workflow once code evolves

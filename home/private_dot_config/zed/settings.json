@@ -10,6 +10,8 @@
 {
   "cli_default_open_behavior": "new_window",
   "project_panel": {
+    "indent_size": 16.0,
+    "default_width": 200.0,
     "dock": "left",
   },
   "outline_panel": {
@@ -38,6 +40,10 @@
         "cloudflare-ai-gateway/claude-sonnet-4-6",
         "cloudflare-ai-gateway/workers-ai/@cf/moonshotai/kimi-k2.6",
         "cloudflare-workers-ai/@cf/moonshotai/kimi-k2.6",
+        "cursor/grok-4-20-thinking",
+        "opencode-go/glm-5.1",
+        "opencode-go/kimi-k2.6",
+        "opencode-go/deepseek-v4-pro"
       ],
       "type": "registry",
     },
@@ -138,34 +144,59 @@
       {
         "provider": "sakura",
         "model": "gpt-oss-120b",
-        "enable_thinking": false,
+        "enable_thinking": false
       },
       {
         "provider": "anthropic",
         "model": "claude-sonnet-4-6-latest",
-        "enable_thinking": false,
+        "enable_thinking": false
       },
       {
         "provider": "zed.dev",
         "model": "gemini-3.1-pro-preview",
-        "enable_thinking": false,
+        "enable_thinking": false
       },
       {
         "provider": "zed.dev",
         "model": "claude-sonnet-4-6",
-        "enable_thinking": false,
+        "enable_thinking": false
       },
       {
         "provider": "anthropic",
         "model": "claude-opus-4-7-latest",
         "enable_thinking": true,
-        "effort": "high",
+        "effort": "high"
       },
       {
         "provider": "openrouter",
         "model": "z-ai/glm-5.1",
-        "enable_thinking": true,
+        "enable_thinking": true
       },
+      {
+        "provider": "opencode",
+        "model": "nemotron-3-super-free",
+        "enable_thinking": false
+      },
+      {
+        "provider": "opencode",
+        "model": "mimo-v2-pro-free",
+        "enable_thinking": false
+      },
+      {
+        "provider": "opencode",
+        "model": "trinity-large-preview-free",
+        "enable_thinking": false
+      },
+      {
+        "provider": "opencode",
+        "model": "glm-5",
+        "enable_thinking": false
+      },
+      {
+        "provider": "opencode",
+        "model": "kimi-k2.5",
+        "enable_thinking": false
+      }
     ],
     "default_profile": "write",
     "inline_assistant_model": {
@@ -174,8 +205,8 @@
     },
     "default_model": {
       "enable_thinking": false,
-      "provider": "sakura",
-      "model": "gpt-oss-120b",
+      "provider": "opencode",
+      "model": "kimi-k2.5",
     },
     "single_file_review": false,
     "use_modifier_to_send": true,

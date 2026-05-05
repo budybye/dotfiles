@@ -2,8 +2,6 @@
 
 A table of what each documentation file should contain and where the authoritative value comes from. Consulted when deciding "which side is the source of truth" during an update.
 
-> Full templates for each file live in [make-docs/references/templates.md](../../make-docs/references/templates.md).
-
 ---
 
 ## AGENTS.md
@@ -83,6 +81,17 @@ A table of what each documentation file should contain and where the authoritati
 | Testing strategy | `vitest.config.*`, test file layout |
 | Coverage targets | CI configuration, `.github/workflows/` |
 | Test commands | `package.json` scripts |
+
+---
+
+## docs/references.md
+
+| Field | Source of truth |
+|---|---|
+| Official documentation links | `docs/tech.md` tech stack table |
+| Repository links | `package.json` dependencies (resolvable repos) |
+| Standards & specs | ADR entries in `docs/design.md`, compliance requirements in `docs/requirements.md` |
+| Articles & guides | Non-obvious patterns found in the codebase |
 
 ---
 

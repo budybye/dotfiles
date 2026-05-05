@@ -1,12 +1,12 @@
 ---
 name: testcase
-description: "A skill for the test-planning phase - identify, classify (functional / integration / non-functional), and prioritize (P0-P3) test cases from project context. Outputs a test-case list and a roadmap doc (default paths tests/testlist.md and tests/TDD.md, configurable). Language- and framework-agnostic. Use /tdd-cycle for the Red-Green-Refactor implementation phase. [Triggers: /testcase, identify test cases, test design, test list, test priority, test strategy, test planning, what should I test, write test cases, enumerate tests]"
+description: "A skill for the test-planning phase - identify, classify (functional / integration / non-functional), and prioritize (P0-P3) test cases from project context. Outputs a test-case list and a roadmap doc (default paths tests/testlist.md and tests/TDD.md, configurable). Language- and framework-agnostic. [Triggers: /testcase, identify test cases, test design, test list, test priority, test strategy, test planning, what should I test, write test cases, enumerate tests]"
 allowed-tools: Read, Grep, Glob
 ---
 
 # /testcase — Test Case Design & Management Skill
 
-Plan what to test before writing any test. Classify by type, rank by priority, and produce a durable list the `/tdd-cycle` skill can drive off.
+Plan what to test before writing any test. Classify by type, rank by priority, and produce a durable list a TDD workflow can drive off.
 
 ## Quick Reference
 

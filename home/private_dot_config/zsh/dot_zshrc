@@ -138,3 +138,8 @@ fi
 if [ -f "${ZDOTDIR}/.functions" ]; then
     . "${ZDOTDIR}/.functions"
 fi
+
+# API_KEY 系
+if command -v envars > /dev/null 2>&1; then
+    . envars
+fi

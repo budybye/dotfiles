@@ -28,6 +28,7 @@ Upstream appears leftmost; each column to the right is downstream of the one bef
 | Task status | `git log` + merged PRs + issue tracker | — | `docs/tasks.md` |
 | Known bugs & workarounds | Open issues, `TODO:` / `FIXME:` comments | — | `docs/problems.md` → `AGENTS.md` Prohibitions |
 | Project one-liner | `docs/requirements.md` Project Overview | — | `AGENTS.md` Project Overview → `README.md` intro |
+| References (external links) | `docs/tech.md` tech stack items | `docs/design.md` ADRs | `docs/references.md` |
 
 ---
 

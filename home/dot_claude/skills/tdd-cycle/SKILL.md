@@ -1,6 +1,6 @@
 ---
 name: tdd-cycle
-description: "A skill for executing the t-wada style Red-Green-Refactor cycle - one test at a time, no shortcuts. Use this during implementation after the test list is ready; use /testcase first to plan what to test. Language-agnostic - see references/language-patterns.md for minimal Red-Green examples in TypeScript, Rust, Python, Go, and C++. A Hono + Cloudflare Workers template is included as an optional reference. [Triggers: /tdd-cycle, tdd-cycle, test-driven, t-wada style, red-green-refactor, write tests first, implement with TDD, failing test, run the test]"
+description: "A skill for executing the t-wada style Red-Green-Refactor cycle - one test at a time, no shortcuts. Use this during implementation after the test list is ready. Language-agnostic - see references/language-patterns.md for minimal Red-Green examples in TypeScript, Rust, Python, Go, and C++. A Hono + Cloudflare Workers template is included as an optional reference. [Triggers: /tdd-cycle, tdd-cycle, test-driven, t-wada style, red-green-refactor, write tests first, implement with TDD, failing test, run the test]"
 disable-model-invocation: true
 ---
 
@@ -15,14 +15,13 @@ Practicing TDD as refined by Takuto Wada (t-wada): one test, one cycle, no short
 | TDD principles, cycle, anti-patterns           | Read [references/methodology.md](references/methodology.md)       |
 | Minimal Red→Green examples per language        | Read [references/language-patterns.md](references/language-patterns.md) |
 | Hono + Cloudflare Workers test boilerplate     | Read [references/hono-workers-example.md](references/hono-workers-example.md) |
-| Test case design & management (planning)      | See [../testcase/SKILL.md](../testcase/SKILL.md)                  |
 
 ---
 
 ## Workflow
 
 ```txt
-Step 0: Create a Test List (or import from /testcase)
+Step 0: Create a Test List
   ↓
 Step 1: Select one item from the Test List
   ↓
@@ -48,7 +47,7 @@ Step 6: Items remain? → back to Step 1
 
 ## Output targets (adjust to your project)
 
-Default filenames are a suggestion, not a contract. Use whatever your `/testcase` skill produced.
+Default filenames are a suggestion, not a contract. Use whatever your project uses.
 
 | File                           | Action                            |
 | ------------------------------ | --------------------------------- |

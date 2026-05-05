@@ -6,47 +6,64 @@
 ## 設定ファイル構成
 
 - `settings.json`: 有効モデル、既定プロバイダー、スキル/パッケージ、セッション保存先
-- `models.json`: プロバイダー定義（`sakura`/`openrouter`/`anthropic`）
+- `models.json`: プロバイダー定義（`opencode-go`/`sakura`/`anthropic`/`openrouter`）
 - `auth.json`: API キー/トークン参照名（環境変数名）
 - `SYSTEM.md`: 回答スタイル/出力ルールのシステムプロンプト
 - `runline.json`: `pi-runline` 用の既定プロジェクト設定
 - `prompts/`: テンプレート（`code-review.md`, `translate.md`）
 - `extensions/`: 拡張設定（例: `plan-mode`, `todo`）
-- `skills/`: ローカルスキル（`chezmoi-management`, `pi-skills`）
+- `skills/`: ローカルスキル（`category-theory`, `chezmoi-management`, `trading`）
 - `agents/`: 役割別エージェント定義
 
 ## プロバイダー
 
-この環境で主に使い分けているプロバイダーは次の4つ。
+この環境で主に使い分けているプロバイダーは次の5つ。
 
+- `opencode-go`
+  - 既定値（`defaultProvider: "opencode-go"` / `defaultModel: "glm-5.1"`）
+  - Cloudflare AI Gateway 経由の OpenAI 互換エンドポイント
+  - `glm-5.1` / `kimi-k2.6` / `deepseek-v4-pro` を利用可能
+  - `cloudflare-ai-gateway` 経由にしている
 - `cursor`
-  - 既定値（`defaultProvider: "cursor"` / `defaultModel: "auto"`）
-  - 迷ったらまずここ。日常の対話・編集を安定運用
+  - Cursor エディタ統合プロバイダー
+  - 日常の対話・編集を安定運用
+  - `@netandreus/pi-cursor-provider` を追加
+  - `auto` / `gpt-5.5-medium` / `gemini-3.1-pro` / `grok-4-20-thinking` / `composer-2-fast` / `claude-opus-4-7-medium`
 - `openrouter`
   - 複数ベンダーを横断してモデル選択したいとき
   - `models.json` でルーティング互換設定を管理
+  - `cloudflare-ai-gateway` 経由にしている
+  - `openrouter/free` は 1日1000リクエスト まで無料
 - `cloudflare`（Cloudflare AI Gateway/Workers AI 系）
   - Cloudflare アカウント/トークン管理と相性が良い
+  - `$CLOUDFLARE_API_KEY`, `$CLOUDFLARE_ACCOUNT_ID`, `$CLOUDFLARE_GATEWAY_ID`
+  - `gpt-5.5` / `claude-opus-4-7` / `claude-sonnet-4-6` / `kimi-k2.6` を利用可能
+  - cloudflare-workers-ai は 1日1万ニューロン まで無料
 - `sakura`
   - Sakura AI の OpenAI 互換エンドポイント
   - `gpt-oss-120b` / `Qwen3-Coder-480B...` を低レイテンシで使いたいとき
+  - `cloudflare-ai-gateway` 経由にしている
+  - 1ヶ月 3000リクエストまで無料
 
 ## モデルの使い分け
 
-運用上のモデルカテゴリは次の5系統で整理する。
+運用上のモデルカテゴリは次の6系統で整理する。
 
+- `glm`
+  - 既定の汎用モデル（日常の対話・実装・整理）
+  - 例: `opencode-go/glm-5.1`（現在のデフォルト）
 - `opus`
   - 高精度な設計/レビュー/難問対応（長文・高難度向け）
-  - 例: `anthropic/claude-opus-4-7`, `openrouter/~anthropic/claude-opus-latest`
+  - 例: `cloudflare-ai-gateway/claude-opus-4-7`, `cursor/claude-opus-4-7-medium`, `anthropic/claude-opus-4-7`
 - `codex`
   - 実装スピード重視のコーディング作業
-  - 例: `cursor/gpt-5.4-medium`（用途名として codex 系で扱う）
+  - 例: `cursor/gpt-5.5-medium`（用途名として codex 系で扱う）
 - `gemini`
   - Google 系モデル利用時の分類（キーは `GEMINI_API_KEY`）
-  - スキル/補助系ワークフローの選択肢として保持
+  - 例: `cursor/gemini-3.1-pro`
 - `kimi`
   - コストと速度のバランス重視
-  - 例: `cloudflare-ai/@cf/moonshotai/kimi-k2.5`, `openrouter/moonshotai/kimi-k2.6`
+  - 例: `opencode-go/kimi-k2.6`, `cloudflare-ai-gateway/kimi-k2.6`, `cloudflare-workers-ai/@cf/moonshotai/kimi-k2.6`
 - `composer`
   - Cursor Composer 系（対話的な実装補助）
   - 例: `cursor/composer-2-fast`
@@ -82,7 +99,7 @@
 ## エディタ
 
 - `cursor`
-  - 既定プロバイダーが `cursor`、`cursor/*` モデルを日常利用
+  - `cursor/*` モデルを日常利用
 - `zed`
   - `agent_servers` と `context_servers` を使って `pi-acp` / `opencode` / MCP を併用
 
@@ -94,7 +111,7 @@
   - `~/.gemini/skills`
   - `~/.agentskills`
   - `~/.aionui-config/skills`
-- ローカル同梱スキルは `~/.pi/agent/skills/` 配下（例: `chezmoi-management`, `pi-skills`）
+- ローカル同梱スキルは `~/.pi/agent/skills/` 配下（例: `category-theory`, `chezmoi-management`, `trading`）
 
 ## プラグイン / 拡張機能
 
@@ -102,6 +119,8 @@
   - `pi-skills`
   - `npm:pi-subagents`
   - `npm:pi-runline`
+  - `npm:pi-mcp-adapter`
+  - `npm:pi-code-previews`
   - `npm:@netandreus/pi-cursor-provider`
   - `pi-cloudflare-ai-gateway` 系
 - `extensions/` に個別設定を配置（例: `cloudflare-ai-gateway/config.json`）
@@ -173,16 +192,17 @@
 
 作業タイプごとに、まず試す候補を固定しておくと切り替え判断が速くなる。
 
-| 作業タイプ             | まず使う provider/model                    | 切り替え先                        | 判断ポイント                       |
-| ---------------------- | ------------------------------------------ | --------------------------------- | ---------------------------------- |
-| 日常の実装・修正       | `cursor/auto`                              | `cursor/composer-2-fast`          | 迷ったら既定。安定性優先           |
-| 重い設計・難問解析     | `openrouter/~anthropic/claude-opus-latest` | `anthropic/claude-opus-4-7`       | 推論品質優先。コストは高め         |
-| 高速なコード生成ループ | `cursor/composer-2-fast`                   | `sakura/gpt-oss-120b`             | 反復速度優先。生成量が多いとき有効 |
-| コスト重視の長時間作業 | `cloudflare-ai/@cf/moonshotai/kimi-k2.5`   | `openrouter/moonshotai/kimi-k2.6` | 品質を維持しつつ単価を抑える       |
-| 翻訳・軽量整形         | `cursor/auto`                              | `gemini` 系モデル                 | 応答速度と価格のバランスで選ぶ     |
+| 作業タイプ             | まず使う provider/model                        | 切り替え先                                | 判断ポイント                       |
+| ---------------------- | ---------------------------------------------- | ----------------------------------------- | ---------------------------------- |
+| 日常の実装・修正       | `opencode-go/glm-5.1`                         | `cursor/auto`                             | 迷ったら既定。安定性優先           |
+| 重い設計・難問解析     | `cloudflare-ai-gateway/claude-opus-4-7`        | `anthropic/claude-opus-4-7`               | 推論品質優先。コストは高め         |
+| 高速なコード生成ループ | `cursor/composer-2-fast`                       | `sakura/gpt-oss-120b`                     | 反復速度優先。生成量が多いとき有効 |
+| コスト重視の長時間作業 | `opencode-go/kimi-k2.6`                       | `cloudflare-workers-ai/@cf/moonshotai/kimi-k2.6` | 品質を維持しつつ単価を抑える |
+| 翻訳・軽量整形         | `opencode-go/glm-5.1`                         | `cursor/gemini-3.1-pro`                   | 応答速度と価格のバランスで選ぶ     |
 
 補足:
 
+- `glm` は既定の汎用カテゴリ。実体は `opencode-go/glm-5.1`
 - `codex` は運用カテゴリ名として扱い、実体は `cursor/*` の高速コーディング系モデルを割り当てる
 - `composer` は対話で実装を進めるときの既定候補
 - 同じタスクで品質がぶれる場合は provider を変えず model だけ先に変える
@@ -196,10 +216,12 @@
 - `OPENROUTER_API_KEY`
 - `CLOUDFLARE_API_TOKEN`
 - `CLOUDFLARE_ACCOUNT_ID`
+- `SAKURA_API_KEY`
+- `OPENCODE_GO_API_KEY`
 
 ## 運用メモ
 
-- 既定は `cursor/auto` で開始し、必要時のみ `opus` や `kimi` に切替
+- 既定は `opencode-go/glm-5.1` で開始し、必要時のみ `opus` や `kimi` に切替
 - プロジェクト固有の上書きは `<project>/.pi/settings.json` を優先
 - 機密値は必ず環境変数か secret 管理に置き、リポジトリへ直書きしない
 
@@ -227,8 +249,8 @@
 
 原因:
 
-- `settings.json` の `providers.models` または `models.json` の定義漏れ
-- provider 名の不一致（例: `cloudflare` と `cf_gateway` の混在）
+- `settings.json` の `enabledModels` または `models.json` の定義漏れ
+- provider 名の不一致（例: `cloudflare` と `cloudflare-ai-gateway` の混在）
 
 解決:
 

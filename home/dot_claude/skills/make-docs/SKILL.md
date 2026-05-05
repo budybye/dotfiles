@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 Generate a complete documentation set for a project — 7 files under `docs/`, plus `AGENTS.md` and `README.md` at the root — by either interviewing the user or scanning an existing repository. Intended for greenfield documentation, not for keeping existing docs in sync.
 
-> If `docs/` or `AGENTS.md` already exists, **stop and switch to `/update-docs`**. This skill assumes a blank slate and will overwrite conflicting content.
+> If `docs/` or `AGENTS.md` already exists, **stop and switch to a documentation-sync workflow**. This skill assumes a blank slate and will overwrite conflicting content.
 
 Decision tree for mode selection and the full definition-of-done checklist: [references/decision-guide.md](references/decision-guide.md).
 
@@ -26,6 +26,7 @@ To successfully use this skill, you must:
 | ----------------------------------------------- | --------------------------------------------------------------- |
 | Mode selection (interactive vs auto-scan), Done criteria | Read [references/decision-guide.md](references/decision-guide.md) |
 | Template for the 7 files under `/docs`          | Read [references/templates.md](references/templates.md)         |
+| Template for `docs/references.md`               | Read [references/reference.md](references/reference.md)         |
 | How to write `AGENTS.md` & `README.md`          | Read [references/root-docs.md](references/root-docs.md)         |
 | Filled example (Hono + Cloudflare Workers)      | Read [references/examples.md](references/examples.md)           |
 
@@ -55,7 +56,7 @@ Phase 5: Consistency Check & De-duplication
    - No → Use Interactive Mode
    - Yes → Continue to step 2
 2. Do `docs/` or `AGENTS.md` already exist in that directory?
-   - Yes → STOP IMMEDIATELY and suggest `/update-docs`
+   - Yes → STOP IMMEDIATELY and suggest a documentation-sync workflow instead
    - No → Use Auto-scan Mode
 
 **Interactive Mode** (When context is insufficient) — Ask 2–3 questions at a time:
@@ -69,7 +70,7 @@ For each question, wait for a response before asking the next. Do not ask all qu
 
 **Auto-scan Mode** (When a directory is provided) — Follow these steps in order:
 
-1. Check if `docs/` or `AGENTS.md` already exists. If they do, stop and suggest `/update-docs` instead.
+1. Check if `docs/` or `AGENTS.md` already exists. If they do, stop and suggest a documentation-sync workflow instead.
 2. Scan structure and config files (e.g., `package.json`, `wrangler.toml`) using the commands in [references/templates.md](references/templates.md)
 3. Identify gaps in information that require user input
 4. Fill those gaps via a targeted dialogue (maximum 3 questions)
@@ -78,7 +79,7 @@ For each question, wait for a response before asking the next. Do not ask all qu
 
 Follow this strict sequence—do not skip or reorder phases:
 
-- **Phase 2**: Generate the 7 files under `/docs` according to `references/templates.md`.
+- **Phase 2**: Generate the 8 files under `/docs` according to `references/templates.md` and `references/reference.md`.
   - Generate one file at a time
   - Show each file to the user before proceeding to the next
   - Wait for user confirmation or feedback
@@ -116,11 +117,7 @@ project-root/
     ├── test.md
     ├── tasks.md
     ├── directory.md
-    └── problems.md
+    ├── problems.md
+    └── references.md
 ```
 
----
-
-## Related Skills
-
-- **`/update-docs`** — Use this when docs already exist and need to be synced with the current codebase.

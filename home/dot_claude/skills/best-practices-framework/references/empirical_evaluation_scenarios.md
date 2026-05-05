@@ -11,7 +11,7 @@
 Good ecosystem of third-party libraries
 Active maintenance and regular updates
 
-**Task**: Using the best-practis skill, evaluate and recommend a frontend framework for this project.
+**Task**: Using the best-practices-framework skill, evaluate and recommend a frontend framework for this project.
 
 ## Scenario 2: Backend Architecture for Scalable API
 
@@ -24,7 +24,7 @@ Active maintenance and regular updates
 Support for microservices pattern
 Integration with existing database systems
 
-**Task**: Using the best-practis skill, propose a backend architecture and technology stack for this scenario.
+**Task**: Using the best-practices-framework skill, propose a backend architecture and technology stack for this scenario.
 
 ## Scenario 3: Development Toolchain Modernization
 
@@ -37,4 +37,4 @@ Integration with existing database systems
 Improved developer collaboration features
 Monitoring and observability tools
 
-**Task**: Using the best-practis skill, recommend a modern development toolchain for this team.
+**Task**: Using the best-practices-framework skill, recommend a modern development toolchain for this team.

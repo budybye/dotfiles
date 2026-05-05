@@ -511,8 +511,6 @@ if command -v claude >/dev/null 2>&1; then
     export CLAUDE_DEFAULT_LANGUAGE="ja_JP"
     export AI_RESPONSE_LANGUAGE="japanese"
     export ANTHROPIC_LANGUAGE_PREFERENCE="ja"
-    # export ANTHROPIC_BASE_URL="https://gateway.ai.cloudflare.com/v1/{account_id}/{gateway_id}/anthropic"
-    export ANTHROPIC_BASE_URL="https://claude.589.workers.dev"
 fi
 
 if command -v opencode >/dev/null 2>&1; then

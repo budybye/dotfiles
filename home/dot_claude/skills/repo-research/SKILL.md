@@ -1,6 +1,6 @@
 ---
 name: repo-research
-description: "A skill for efficiently researching external libraries and repositories. Prefers Context7 MCP for documentation and ghq for local source exploration, with graceful fallback to WebSearch + direct git clone when those tools are unavailable. Guides the choice between \"read docs\" and \"read source\", and provides templates for recording findings. [Triggers: /repo-research, ghq, clone, context7, query-docs, resolve-library-id, research repo, investigate source, library docs, OSS review, how does X work internally]"
+description: "A skill for efficiently researching external libraries and repositories. Uses WebSearch + WebFetch for documentation and ghq (with git clone fallback) for source exploration. Guides the choice between \"read docs\" and \"read source\", and provides templates for recording findings. [Triggers: /repo-research, ghq, clone, research repo, investigate source, library docs, OSS review, how does X work internally]"
 allowed-tools: Read, Grep, Glob, Bash
 ---
 
@@ -21,10 +21,10 @@ Two ways to learn an external library: **read its docs** (fast, shallow) or **re
 
 ## Agent Guidelines
 
-- **Context optimization**: try Context7 (docs) before cloning any large repo.
+- **Context optimization**: try WebSearch first before cloning any large repo.
 - **Minimal reading**: inside a cloned repo, use `Grep` / `Glob` to localize files before `Read`. Never read the entire repo.
 - **Path safety**: build absolute paths with `$(ghq root)` (or the fallback clone target). Relative paths break across environments.
-- **Specific topics**: query Context7 with focused phrases ("middleware authentication redirect"), not vague ones ("how to use").
+- **Specific topics**: search with focused phrases ("middleware authentication redirect"), not vague ones ("how to use").
 - **Record decisions**: even for one-off lookups, note the source and the conclusion. Next session's you will thank current you.
 - **Always record findings**: Use the Research Memo Template to capture significant findings. This preserves context for future work and helps team members benefit from your research.
 
@@ -35,7 +35,7 @@ Two ways to learn an external library: **read its docs** (fast, shallow) or **re
 ```txt
 Phase 1: Need Assessment — "usage" vs "internals" vs "both"
   ↓
-Phase 2: Documentation Research (Context7; fallback: WebSearch)
+Phase 2: Documentation Research (WebSearch + WebFetch)
   ↓
 Phase 3: Source Research (ghq; fallback: git clone) — optional
   ↓
@@ -52,13 +52,9 @@ Phase 5: Record Findings (use Research Memo Template)
 
 ### Phase 2 — Documentation Research
 
-**Primary path (Context7 MCP)**:
-1. `resolve-library-id` to resolve the library name
-2. `query-docs` with a focused topic (2000–3000 tokens recommended)
-
-**Fallback (no Context7)**:
 1. `WebSearch` for `<library> <topic> site:<official-domain>`
 2. `WebFetch` the most relevant official doc page
+3. Iterate with narrower keywords if results are off-target.
 
 ### Phase 3 — Source Research (optional)
 
@@ -98,13 +94,13 @@ See [references/memo-template.md](references/memo-template.md) for detailed temp
 Target is…
 
 ├─ Library usage, API specs, config shape
-│  → Context7 (or WebSearch fallback). Cheap and fast.
+│  → WebSearch + WebFetch. Cheap and fast.
 │
 ├─ Internal algorithm, data structures, undocumented behavior
 │  → ghq clone (or git-clone fallback). Read Grep-localized files.
 │
 └─ Both (usage + internals)
-   → Context7 first (orient), ghq second (confirm).
+   → WebSearch first (orient), ghq second (confirm).
 ```
 
 ### When docs are "not enough" — move to source
@@ -118,9 +114,9 @@ Target is…
 
 When deciding between docs and source, ask:
 
-1. **Can I solve this with API usage alone?** If yes, use Context7.
+1. **Can I solve this with API usage alone?** If yes, use WebSearch.
 2. **Do I need to understand implementation details?** If yes, use ghq.
-3. **Am I debugging unexpected behavior?** Start with Context7, move to ghq if docs don't explain it.
+3. **Am I debugging unexpected behavior?** Start with WebSearch, move to ghq if docs don't explain it.
 4. **Do I need to copy implementation patterns?** Use ghq to read source directly.
 
 ---
@@ -128,9 +124,9 @@ When deciding between docs and source, ask:
 ## Minimal command example
 
 ```bash
-# Context7 (MCP)
-# → resolve-library-id(query="Hono")
-# → query-docs(library_id="/honojs/hono", topic="bearerAuth middleware", tokens=2500)
+# WebSearch + WebFetch
+# → WebSearch("Hono bearerAuth middleware site:hono.dev")
+# → WebFetch the most relevant official page
 
 # ghq source exploration
 ghq get github.com/honojs/hono
@@ -139,7 +135,7 @@ REPO="$(ghq root)/github.com/honojs/hono"
 # Read: relevant 2–3 files only
 ```
 
-Fallback when neither MCP nor ghq is available:
+Fallback when ghq is unavailable:
 
 ```bash
 git clone --depth 1 https://github.com/honojs/hono /tmp/hono
@@ -151,14 +147,13 @@ rm -rf /tmp/hono  # after notes are captured
 
 When working with large documentation sets or repositories:
 
-1. **Start smaller**: Begin with 2000-3000 tokens for Context7 queries
+1. **Start narrow**: Begin with a focused search query, not a broad one.
 2. **Iterate topics**: Break broad questions into focused subtopics
 3. **Use grep first**: In repositories, always grep for keywords before reading files
 4. **Summarize early**: Capture key findings in memos to free up context space
 5. **Read in slices**: For very large files, use offset/limit to read portions
 
 If you encounter "context window exceeded" errors:
-- Reduce Context7 tokens by half
-- Focus on one specific aspect rather than broad topics
+- Re-scope to one specific aspect rather than broad topics
 - Create interim summaries to compress information
 - Use the research memo template to offload information from working memory

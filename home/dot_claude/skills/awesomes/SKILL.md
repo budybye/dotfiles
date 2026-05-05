@@ -78,9 +78,3 @@ This skill requires access to:
 - File system access for creating reference files
 
 When constrained (limited connectivity, no development environment), adapt by focusing on research and documentation phases only.
-
-## Related Skills
-
-- `repo-research` — GitHub repository investigation and code reading
-- `find-skills` — Discovering and installing agent skills
-- `empirical-prompt-tuning` — Iteratively refining prompts through fresh agent evaluation

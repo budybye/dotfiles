@@ -13,7 +13,7 @@ Use this when investigating an external library or codebase. Save as `docs/resea
 
 > Date: YYYY-MM-DD
 > Researcher: [Name / AI agent]
-> Source: [Context7 | ghq clone | both]
+> Source: [WebSearch | ghq clone | both]
 > Repo: [github.com/owner/repo] (if cloned)
 
 ---
@@ -64,7 +64,7 @@ Use this when investigating an external library or codebase. Save as `docs/resea
 
 - [Official docs](https://...)
 - [Source file read]($(ghq root)/github.com/owner/repo/src/xxx.ts)
-- Context7 topic used: `"[exact topic string]"`
+- Search query used: `"[exact query string]"`
 ```
 
 ---
@@ -75,7 +75,7 @@ For small lookups that don't need a saved file, structure findings as:
 
 ```
 Library: [name@version]
-Source: Context7 / ghq
+Source: WebSearch / ghq
 
 Finding:
 - [Key point 1]
@@ -102,16 +102,16 @@ When multiple repos are explored in one session, log what was cloned and why:
 
 ---
 
-## Context7 Query Log
+## WebSearch Query Log
 
 Track queries to avoid repeating and to build a reference for future sessions:
 
 ```markdown
-## Context7 Queries — YYYY-MM-DD
+## Search Queries — YYYY-MM-DD
 
-| Library ID | Topic | Tokens | Useful? | Notes |
-|---|---|---|---|---|
-| `/honojs/hono` | `"bearerAuth middleware options"` | 2000 | ✅ | Found `verifyToken` callback |
-| `/cloudflare/workers-types` | `"D1Database prepared statement"` | 2500 | ✅ | `.bind()` + `.run()` pattern |
-| `/vitest-dev/vitest` | `"fake timers"` | 1500 | ⚠️ | Generic docs; workerd-specific behavior not covered |
+| Query | Top result | Useful? | Notes |
+|---|---|---|---|
+| `"bearerAuth" middleware site:hono.dev` | `hono.dev/middleware/builtin/bearer-auth` | ✅ | Found `verifyToken` callback |
+| `"D1Database" prepared statement site:developers.cloudflare.com` | Workers D1 docs | ✅ | `.bind()` + `.run()` pattern |
+| `vitest "fake timers" workerd` | mixed | ⚠️ | Generic docs; workerd-specific behavior not covered |
 ```
