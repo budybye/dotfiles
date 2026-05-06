@@ -22,7 +22,7 @@ abbr vv='env | grep'
 abbr br='echo -------------------------------------'
 
 # シェルパフォーマンス計測
-abbr opi='for i in {1..3}; do time $SHELL -ic exit; done'
+abbr opai='for i in {1..3}; do time $SHELL -ic exit; done'
 abbr oppi='for i in {1..3}; do time $SHELL -lc exit; done && exec $SHELL'
 
 # git

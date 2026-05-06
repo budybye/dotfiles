@@ -8,6 +8,7 @@
 key.txt.age
 shhh.txt
 install.sh
+.pi/agent/extensions/**/node_modules
 
 {{ if eq (env "GITHUB_ACTIONS") "true" }}
 .ssh/authorized_keys*

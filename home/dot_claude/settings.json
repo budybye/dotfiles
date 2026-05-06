@@ -1,8 +1,7 @@
 {
   "env": {
     "CLAUDE_CODE_ENABLE_TELEMETRY": "0",
-    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
-    "ANTHROPIC_BASE_URL": {{ (bitwardenFields "item" "claude").proxy.value | quote }}
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1"
   },
   "permissions": {
     "allow": [
@@ -20,24 +19,9 @@
       "Bash(which *)",
       "Bash(command -v *)"
     ],
-    "deny": [
-      "Read(./.env)",
-      "Read(./.env.*)",
-      "Read(./build)"
-    ]
+    "deny": ["Read(./.env)", "Read(./.env.*)", "Read(./build)"]
   },
   "hooks": {
-    "Notification": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "{{ if eq .chezmoi.os `darwin` }}osascript -e 'display notification \"Claude Code が確認を求めています\" with title \"Claude Code\"' 2>/dev/null || true{{ else }}true{{ end }}"
-          }
-        ]
-      }
-    ],
     "PostToolUse": [
       {
         "matcher": "Edit|Write",
@@ -60,7 +44,7 @@
       "args": ["-y", "mcp-mermaid"]
     }
   },
-    "statusLine": {
+  "statusLine": {
     "type": "command",
     "command": "jq -r '\"[\\(.model.display_name)] \\(.context_window.used_percentage // 0)% context\"'"
   }

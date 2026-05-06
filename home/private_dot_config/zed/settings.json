@@ -24,6 +24,19 @@
     "dock": "left",
   },
   "agent_servers": {
+    "cursor": {
+      "favorite_config_option_values": {
+        "model": [
+          "default[]",
+          "composer-2[fast=true]",
+          "claude-opus-4-7[thinking=true,context=300k,effort=xhigh]",
+          "gemini-3.1-pro[]",
+          "gpt-5.5[context=272k,reasoning=medium,fast=false]",
+          "grok-4-20[thinking=true]",
+        ],
+      },
+      "type": "registry",
+    },
     "pi-acp": {
       "favorite_models": [
         "cursor/auto",
@@ -43,22 +56,24 @@
         "cursor/grok-4-20-thinking",
         "opencode-go/glm-5.1",
         "opencode-go/kimi-k2.6",
-        "opencode-go/deepseek-v4-pro"
+        "opencode-go/deepseek-v4-pro",
       ],
       "type": "registry",
     },
     "opencode": {
       "favorite_config_option_values": {
         "model": [
-          "opencode/big-pickle/max",
-          "cloudflare-ai-gateway/anthropic/claude-opus-4-7",
-          "cloudflare-ai-gateway/anthropic/claude-sonnet-4-6",
+          "cloudflare-workers-ai/@cf/moonshotai/kimi-k2.6",
+          "openrouter/openrouter/free",
+          "openrouter/openai/gpt-oss-120b:free",
+          "opencode/nemotron-3-super-free/high",
         ],
       },
       "favorite_models": [
-        "sakura/gpt-oss-120b",
-        "opencode/big-pickle/max",
         "cloudflare-workers-ai/@cf/moonshotai/kimi-k2.6",
+        "openrouter/openrouter/free",
+        "openrouter/openai/gpt-oss-120b:free",
+        "opencode/nemotron-3-super-free/high",
       ],
       "type": "registry",
     },
@@ -144,59 +159,23 @@
       {
         "provider": "sakura",
         "model": "gpt-oss-120b",
-        "enable_thinking": false
-      },
-      {
-        "provider": "anthropic",
-        "model": "claude-sonnet-4-6-latest",
-        "enable_thinking": false
-      },
-      {
-        "provider": "zed.dev",
-        "model": "gemini-3.1-pro-preview",
-        "enable_thinking": false
-      },
-      {
-        "provider": "zed.dev",
-        "model": "claude-sonnet-4-6",
-        "enable_thinking": false
-      },
-      {
-        "provider": "anthropic",
-        "model": "claude-opus-4-7-latest",
-        "enable_thinking": true,
-        "effort": "high"
+        "enable_thinking": false,
       },
       {
         "provider": "openrouter",
-        "model": "z-ai/glm-5.1",
-        "enable_thinking": true
+        "model": "openrouter/free",
+        "enable_thinking": true,
       },
       {
-        "provider": "opencode",
-        "model": "nemotron-3-super-free",
-        "enable_thinking": false
+        "provider": "openrouter",
+        "model": "openai/gpt-oss-120b:free",
+        "enable_thinking": true,
       },
       {
-        "provider": "opencode",
-        "model": "mimo-v2-pro-free",
-        "enable_thinking": false
+        "provider": "openrouter",
+        "model": "nvidia/nemotron-3-super-120b-a12b:free",
+        "enable_thinking": true,
       },
-      {
-        "provider": "opencode",
-        "model": "trinity-large-preview-free",
-        "enable_thinking": false
-      },
-      {
-        "provider": "opencode",
-        "model": "glm-5",
-        "enable_thinking": false
-      },
-      {
-        "provider": "opencode",
-        "model": "kimi-k2.5",
-        "enable_thinking": false
-      }
     ],
     "default_profile": "write",
     "inline_assistant_model": {
@@ -204,9 +183,9 @@
       "model": "gpt-oss-120b",
     },
     "default_model": {
-      "enable_thinking": false,
-      "provider": "opencode",
-      "model": "kimi-k2.5",
+      "enable_thinking": true,
+      "provider": "openrouter",
+      "model": "nvidia/nemotron-3-super-120b-a12b:free",
     },
     "single_file_review": false,
     "use_modifier_to_send": true,
@@ -229,6 +208,9 @@
     "dark": "Kanagawa Dragon - No Italics",
   },
   "edit_predictions": {
+    "open_ai_compatible_api": {
+      "api_url": "",
+    },
     "provider": "zed",
   },
   "terminal": {

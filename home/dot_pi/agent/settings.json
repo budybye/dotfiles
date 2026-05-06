@@ -23,9 +23,7 @@
     "retryDelay": 3000,
     "maxRetryDelay": 60000
   },
-  "npmCommand": [
-    "bun"
-  ],
+  "npmCommand": ["bun"],
   "packages": [
     "git:github.com/badlogic/pi-skills",
     "git:github.com/Fatih0234/btw",
@@ -46,7 +44,7 @@
     "~/.aionui-config/skills"
   ],
   "enableSkillCommands": true,
-  "lastChangelogVersion": "0.72.1",
+  "lastChangelogVersion": "0.73.0",
   "enableInstallTelemetry": false,
   "enabledModels": [
     "cloudflare-ai-gateway/gpt-5.5",
