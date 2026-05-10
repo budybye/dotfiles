@@ -10,7 +10,7 @@ alias rm="rm -i"
 alias mkdir="mkdir -p"
 
 # ドキュメント
-alias note="${EDITOR:-vim} ${HOME}/Developer/docs/note.md"
+# alias note="${EDITOR:-vim} ${HOME}/Developer/docs/note.md"
 alias docs="cd ${HOME}/Developer/docs"
 
 # git

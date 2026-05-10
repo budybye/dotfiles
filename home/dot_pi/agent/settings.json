@@ -1,6 +1,6 @@
 {
-  "defaultProvider": "opencode-go",
-  "defaultModel": "kimi-k2.6",
+  "defaultProvider": "cloudflare-ai-gateway",
+  "defaultModel": "workers-ai/@cf/moonshotai/kimi-k2.6",
   "defaultThinkingLevel": "medium",
   "thinkingBudgets": {
     "minimal": 1024,
@@ -23,13 +23,15 @@
     "retryDelay": 3000,
     "maxRetryDelay": 60000
   },
-  "npmCommand": ["bun"],
+  "shellCommandPrefix": "shopt -s expand_aliases\neval \"$(grep '^alias ' ~/.config/zsh/.functions)\"",
+  "npmCommand": [
+    "bun"
+  ],
   "packages": [
     "git:github.com/badlogic/pi-skills",
-    "git:github.com/Fatih0234/btw",
-    "npm:pi-subagents",
     "npm:pi-goal",
     "npm:pi-runline",
+    "npm:pi-subagents",
     "npm:pi-mcp-adapter",
     "npm:pi-code-previews",
     "npm:@netandreus/pi-cursor-provider"
@@ -44,29 +46,25 @@
     "~/.aionui-config/skills"
   ],
   "enableSkillCommands": true,
-  "lastChangelogVersion": "0.73.0",
+  "lastChangelogVersion": "0.74.0",
   "enableInstallTelemetry": false,
   "enabledModels": [
-    "cloudflare-ai-gateway/gpt-5.5",
-    "cloudflare-ai-gateway/claude-opus-4-7",
-    "cloudflare-ai-gateway/claude-sonnet-4-6",
+    "cloudflare-ai-gateway/gpt-5.3-codex",
+    "cloudflare-ai-gateway/claude-opus-4-6",
     "cloudflare-ai-gateway/workers-ai/@cf/moonshotai/kimi-k2.6",
     "cloudflare-workers-ai/@cf/moonshotai/kimi-k2.6",
     "cursor/auto",
-    "cursor/gpt-5.5-medium",
     "cursor/gemini-3.1-pro",
-    "cursor/grok-4-20-thinking",
     "cursor/composer-2-fast",
-    "cursor/claude-opus-4-7-medium",
     "sakura/gpt-oss-120b",
     "sakura/Qwen3-Coder-480B-A35B-Instruct-FP8",
     "openrouter/openrouter/free",
     "openrouter/openai/gpt-oss-120b:free",
     "openrouter/nvidia/nemotron-3-super-120b-a12b:free",
-    "anthropic/claude-sonnet-4-6",
-    "anthropic/claude-opus-4-7",
+    "anthropic/claude-opus-4-6",
     "opencode-go/kimi-k2.6",
     "opencode-go/glm-5.1",
-    "opencode-go/deepseek-v4-pro"
+    "cursor/claude-4.6-opus-high-thinking",
+    "cursor/gpt-5.3-codex-spark-preview-high"
   ]
 }

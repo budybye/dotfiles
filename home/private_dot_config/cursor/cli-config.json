@@ -1,6 +1,6 @@
 {
   "permissions": {
-    "allow": ["Shell(ls)", "Shell(echo)", "Shell(grep)"],
+    "allow": ["Shell()"],
     "deny": ["Shell(rm)"]
   },
   "version": 1,
@@ -24,7 +24,7 @@
   },
   "authInfo": {
     "email": "shallot96@gmail.com",
-    "displayName": "",
+    "displayName": "boborder",
     "userId": 12545801,
     "authId": "github|88989797"
   },

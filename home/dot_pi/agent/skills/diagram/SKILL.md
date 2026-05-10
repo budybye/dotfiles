@@ -1,4 +1,6 @@
-<skill name="diagram" description="Create and edit diagrams using Mermaid syntax for software documentation, architecture visualization, and system modeling. Use when users need to diagram, visualize, model, map out, or show flows of systems, processes, or architectures.">
+---
+description: "Create and edit diagrams using Mermaid syntax for software documentation, architecture visualization, and system modeling. Use when users need to diagram, visualize, model, map out, or show flows of systems, processes, or architectures."
+---
 
 # Diagram Creation with Mermaid
 

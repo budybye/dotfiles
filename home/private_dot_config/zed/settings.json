@@ -48,15 +48,17 @@
         "sakura/Qwen3-Coder-480B-A35B-Instruct-FP8",
         "openrouter/openai/gpt-oss-120b:free",
         "openrouter/openrouter/free",
-        "cloudflare-ai-gateway/gpt-5.5",
-        "cloudflare-ai-gateway/claude-opus-4-7",
-        "cloudflare-ai-gateway/claude-sonnet-4-6",
         "cloudflare-ai-gateway/workers-ai/@cf/moonshotai/kimi-k2.6",
         "cloudflare-workers-ai/@cf/moonshotai/kimi-k2.6",
         "cursor/grok-4-20-thinking",
         "opencode-go/glm-5.1",
         "opencode-go/kimi-k2.6",
         "opencode-go/deepseek-v4-pro",
+        "openrouter/nvidia/nemotron-3-super-120b-a12b:free",
+        "cloudflare-ai-gateway/gpt-5.3-codex",
+        "cloudflare-ai-gateway/claude-opus-4-6",
+        "cursor/gpt-5.3-codex-spark-preview",
+        "cursor/claude-4.6-opus-high-thinking-fast"
       ],
       "type": "registry",
     },
@@ -132,6 +134,9 @@
   },
   "confirm_quit": true,
   "language_models": {
+    "opencode": {
+      "show_zen_models": false
+    },
     "openai_compatible": {
       "sakura": {
         "api_url": "https://api.ai.sakura.ad.jp/v1",
@@ -159,23 +164,33 @@
       {
         "provider": "sakura",
         "model": "gpt-oss-120b",
-        "enable_thinking": false,
+        "enable_thinking": false
       },
       {
         "provider": "openrouter",
         "model": "openrouter/free",
-        "enable_thinking": true,
+        "enable_thinking": true
       },
       {
         "provider": "openrouter",
         "model": "openai/gpt-oss-120b:free",
-        "enable_thinking": true,
+        "enable_thinking": true
       },
       {
         "provider": "openrouter",
         "model": "nvidia/nemotron-3-super-120b-a12b:free",
-        "enable_thinking": true,
+        "enable_thinking": true
       },
+      {
+        "provider": "opencode",
+        "model": "go/kimi-k2.6",
+        "enable_thinking": false
+      },
+      {
+        "provider": "opencode",
+        "model": "go/glm-5.1",
+        "enable_thinking": false
+      }
     ],
     "default_profile": "write",
     "inline_assistant_model": {
@@ -183,9 +198,9 @@
       "model": "gpt-oss-120b",
     },
     "default_model": {
-      "enable_thinking": true,
-      "provider": "openrouter",
-      "model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "enable_thinking": false,
+      "provider": "sakura",
+      "model": "gpt-oss-120b",
     },
     "single_file_review": false,
     "use_modifier_to_send": true,
@@ -222,5 +237,23 @@
     },
     "font_size": 12,
     "copy_on_select": true,
+  },
+  "lsp": {
+    "tailwindcss-language-server": {
+      "settings": {
+        "classFunctions": ["cva", "cx"],
+        "experimental": {
+          "classRegex": ["[cls|className]\\s\\:\\=\\s\"([^\"]*)"],
+        },
+      },
+    },
+  },
+  "languages": {
+    "CSS": {
+      "language_servers": [
+        "tailwindcss-intellisense-css",
+        "!vscode-css-language-server",
+      ],
+    },
   },
 }

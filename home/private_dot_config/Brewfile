@@ -186,7 +186,7 @@ cask "betterdisplay"
 cask "bitwarden"
 cask "blender"
 cask "brave-browser"
-# cask "balenaetcher"
+cask "balenaetcher"
 # cask "bdash
 # cask "binance"
 cask "clipy"

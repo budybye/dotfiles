@@ -21,8 +21,7 @@ layout {
                 pane {
                     name "home"
                     cwd "~"
-                    command "cat"
-                    args "./data/cat.txt"
+                    command "btm"
                 }
                 pane {
                     name "dotfiles"
@@ -40,7 +39,8 @@ layout {
                 pane {
                     name "Data"
                     cwd "~/data"
-                    command "btm"
+                    command "cat"
+                    args "./cat.txt"
                 }
             }
         }
@@ -52,7 +52,6 @@ layout {
                 pane {
                     name "dev1"
                     cwd "~/Developer/4life"
-                    focus true
                 }
                 pane {
                     name "dev2"
@@ -67,6 +66,7 @@ layout {
                 pane {
                     name "dev4"
                     cwd "~/Developer/project"
+                    focus true
                 }
             }
         }
@@ -82,6 +82,8 @@ layout {
             pane {
                 name "docs"
                 cwd "~/Developer/docs"
+                command "mpd"
+                args "~/.config/mpd/mpd.conf"
             }
         }
     }
@@ -91,6 +93,21 @@ layout {
             name "lazydocker"
             cwd "~/Developer"
             command "lazydocker"
+        }
+    }
+
+    tab name="xrp" {
+        pane {
+            name "rippled"
+            cwd "~/Developer/rippled"
+            command "make"
+            args "help"
+        }
+        pane {
+            name "lazyxrp"
+            cwd "~/Developer/rust/lazyxrp"
+            command "cargo"
+            args "clippy"
         }
     }
 }

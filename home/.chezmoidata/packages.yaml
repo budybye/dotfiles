@@ -322,6 +322,7 @@ packages:
     - "ctx7"
     - "defuddle"
     - "@mariozechner/pi-coding-agent"
+    - "hunkdiff"
   # - '@hubai/cli'
   # - 'vibekit'
   # - 'surge'
