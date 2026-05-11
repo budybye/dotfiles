@@ -1,6 +1,6 @@
 {
-  "defaultProvider": "cloudflare-ai-gateway",
-  "defaultModel": "workers-ai/@cf/moonshotai/kimi-k2.6",
+  "defaultProvider": "cursor",
+  "defaultModel": "composer-2-fast",
   "defaultThinkingLevel": "medium",
   "thinkingBudgets": {
     "minimal": 1024,
@@ -23,7 +23,7 @@
     "retryDelay": 3000,
     "maxRetryDelay": 60000
   },
-  "shellCommandPrefix": "shopt -s expand_aliases\neval \"$(grep '^alias ' ~/.config/zsh/.functions)\"",
+  "shellCommandPrefix": "shopt -s expand_aliases\neval \"$(grep '^alias ' ~/.aliases)\"",
   "npmCommand": [
     "bun"
   ],
@@ -34,6 +34,8 @@
     "npm:pi-subagents",
     "npm:pi-mcp-adapter",
     "npm:pi-code-previews",
+    "npm:graphify-pi",
+    "npm:@haispeed/pi-obsidian",
     "npm:@netandreus/pi-cursor-provider"
   ],
   "extensions": [],
@@ -53,18 +55,18 @@
     "cloudflare-ai-gateway/claude-opus-4-6",
     "cloudflare-ai-gateway/workers-ai/@cf/moonshotai/kimi-k2.6",
     "cloudflare-workers-ai/@cf/moonshotai/kimi-k2.6",
+    "opencode-go/glm-5.1",
+    "opencode-go/kimi-k2.6",
     "cursor/auto",
     "cursor/gemini-3.1-pro",
     "cursor/composer-2-fast",
+    "cursor/claude-4.6-opus-high-thinking",
+    "cursor/gpt-5.3-codex-spark-preview-high",
     "sakura/gpt-oss-120b",
     "sakura/Qwen3-Coder-480B-A35B-Instruct-FP8",
     "openrouter/openrouter/free",
     "openrouter/openai/gpt-oss-120b:free",
     "openrouter/nvidia/nemotron-3-super-120b-a12b:free",
-    "anthropic/claude-opus-4-6",
-    "opencode-go/kimi-k2.6",
-    "opencode-go/glm-5.1",
-    "cursor/claude-4.6-opus-high-thinking",
-    "cursor/gpt-5.3-codex-spark-preview-high"
+    "anthropic/claude-opus-4-6"
   ]
 }

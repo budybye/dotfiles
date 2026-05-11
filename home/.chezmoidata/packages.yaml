@@ -439,8 +439,4 @@ packages:
   python:
     - "navi"
     - "ragas"
-
-  pi:
-    - "npm:pi-subagents"
-    - "npm:pi-runline"
-    - "npm:@netandreus/pi-cursor-provider"
+    - "graphifyy"

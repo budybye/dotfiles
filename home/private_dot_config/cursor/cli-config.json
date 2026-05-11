@@ -1,26 +1,47 @@
 {
   "permissions": {
-    "allow": ["Shell()"],
-    "deny": ["Shell(rm)"]
+    "allow": ["Shell(*)", "WebFetch(*)"],
+    "deny": ["Shell(rm)", "Read(.env*)"]
   },
   "version": 1,
   "editor": {
     "vimMode": false
   },
+  "notifications": true,
+  "hints": true,
+  "rewind": false,
+  "suggestNextPrompt": false,
   "model": {
-    "modelId": "default",
-    "displayModelId": "auto",
-    "displayName": "Auto",
-    "displayNameShort": "Auto",
-    "aliases": ["auto"],
+    "modelId": "gpt-5.3-codex-spark",
+    "displayModelId": "gpt-5.3-codex-spark",
+    "displayName": "Codex 5.3 Spark Medium",
+    "displayNameShort": "Codex 5.3 Spark Medium",
+    "aliases": [],
     "maxMode": false
   },
   "hasChangedDefaultModel": true,
   "maxMode": false,
+  "modelParameters": {
+    "gpt-5.3-codex-spark": [
+      {
+        "id": "reasoning",
+        "value": "medium"
+      }
+    ]
+  },
+  "selectedModel": {
+    "modelId": "gpt-5.3-codex-spark",
+    "parameters": [
+      {
+        "id": "reasoning",
+        "value": "medium"
+      }
+    ]
+  },
   "privacyCache": {
     "ghostMode": true,
     "privacyMode": 2,
-    "updatedAt": 1777091812286
+    "updatedAt": 1778464525436
   },
   "authInfo": {
     "email": "shallot96@gmail.com",

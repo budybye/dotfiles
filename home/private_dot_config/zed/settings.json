@@ -42,8 +42,6 @@
         "cursor/auto",
         "cursor/composer-2-fast",
         "cursor/gemini-3.1-pro",
-        "cursor/claude-opus-4-7-thinking-medium",
-        "cursor/gpt-5.5-medium",
         "sakura/gpt-oss-120b",
         "sakura/Qwen3-Coder-480B-A35B-Instruct-FP8",
         "openrouter/openai/gpt-oss-120b:free",
@@ -69,6 +67,7 @@
           "openrouter/openrouter/free",
           "openrouter/openai/gpt-oss-120b:free",
           "opencode/nemotron-3-super-free/high",
+          "openrouter/qwen/qwen3-coder-30b-a3b-instruct"
         ],
       },
       "favorite_models": [

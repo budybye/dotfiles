@@ -1,11 +1,21 @@
 name: Tag and Release
-# mainブランチにpushされたら タグを作成してリリースを作成する
+# test workflow が main で成功したときだけタグとリリースを作成する
 on:
-  push:
+  workflow_run:
+    workflows:
+      - Run Test install dotfiles
+    types:
+      - completed
     branches:
       - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.workflow_run.head_branch || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   release:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     permissions:
       contents: write # リリースを作成するために必要
@@ -13,6 +23,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
         with:
+          ref: ${{ github.event.workflow_run.head_sha }}
           fetch-depth: 0
 
       - name: Create tag and release
@@ -33,11 +44,17 @@ jobs:
           new_tag="$major.$minor.$new_patch"
           echo "新しいタグ: $new_tag"
 
+          # 既存タグがある場合は何もしない（再実行対策）
+          if git ls-remote --tags origin "refs/tags/$new_tag" | grep -q .; then
+            echo "タグ $new_tag は既に存在するので終了"
+            exit 0
+          fi
+
           # タグを作成してプッシュ
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
-          git tag $new_tag
-          git push origin $new_tag
+          git tag "$new_tag"
+          git push origin "$new_tag"
 
           # リリースを作成（自動生成されたリリースノート付き）
           gh release create "$new_tag" \

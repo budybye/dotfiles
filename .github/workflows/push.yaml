@@ -11,6 +11,10 @@ on:
     # 日本時間(UTC+9) 16:20に実行
     - cron: "20 7 * * *"
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'push' }}
+
 env:
   REGISTRY_IMAGE: ghcr.io/budybye/ubuntu-dev
   MISE_GITHUB_TOKEN: ${{ secrets.MISE_GITHUB_TOKEN }}

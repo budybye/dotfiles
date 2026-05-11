@@ -65,16 +65,21 @@ $shell\
 
 # 色の設定
 [palettes.color]
-gray = '#a0a9cb'
-white = '#e3e5e5'
-navy = '#769ff0'
-dark = '#393260'
-dd = '#212736'
-ddd = '#1d2230'
+# Kanagawa Dragon
+gray = '#a6a69c'    # dragonGray
+white = '#c5c9c5'   # dragonWhite
+navy = '#8ba4b0'    # dragonBlue2
+dark = '#8992a7'    # dragonViolet
+dd = '#181616'      # dragonBlack3
+ddd = '#12120f'     # dragonBlack1
+red = '#c4746e'     # dragonRed
+green = '#87a987'   # dragonGreen
+yellow = '#b6927b'  # dragonOrange
+blue = '#8ea4a2'    # dragonAqua
 
 [os]
 disabled = false
-style = "fg:navy bg:gray"
+style = "fg:dd bg:gray"
 
 [os.symbols]
 Windows = " "
@@ -86,7 +91,7 @@ RedHatEnterprise = " "
 
 # ユーザー名
 [username]
-style_user = "fg:navy bg:gray"
+style_user = "fg:dd bg:gray"
 style_root = "fg:red bg:gray"
 format = '[($user)@]($style bold)'
 disabled = false
@@ -95,12 +100,12 @@ show_always = true
 # ホスト名
 [hostname]
 ssh_only = false
-style = "fg:navy bg:gray"
+style = "fg:dd bg:gray"
 format = '[$ssh_symbol$hostname:]($style bold)'
 disabled = false
 
 [directory]
-style = "fg:white bg:navy"
+style = "fg:dd bg:navy"
 format = "[ $path]($style bold)"
 truncate_to_repo = false
 truncation_length = 5
@@ -114,11 +119,11 @@ truncation_symbol = "…/"
 
 [git_branch]
 symbol = " "
-style = "fg:navy bg:dark"
+style = "fg:dd bg:dark"
 format = '[ $symbol $branch ]($style bold)'
 
 [git_status]
-style = "fg:navy bg:dark"
+style = "fg:dd bg:dark"
 format = '[($all_status$ahead_behind)]($style bold)'
 conflicted = "💥 "
 ahead = "🏎💨 "
@@ -133,47 +138,47 @@ deleted = "🗑 "
 
 [nodejs]
 symbol = " "
-style = "fg:navy bg:dd"
+style = "fg:gray bg:dd"
 format = '[ $symbol($version)]($style bold)'
 
 [rust]
 symbol = " "
-style = "fg:navy bg:dd"
+style = "fg:gray bg:dd"
 format = '[ $symbol($version)]($style bold)'
 
 [golang]
 symbol = "ﳑ "
-style = "fg:navy bg:dd"
+style = "fg:gray bg:dd"
 format = '[ $symbol($version)]($style bold)'
 
 [php]
 symbol = " "
-style = "fg:navy bg:dd"
+style = "fg:gray bg:dd"
 format = '[ $symbol($version)]($style bold)'
 
 [java]
 symbol = '🌟 '
-style = "fg:navy bg:dd"
+style = "fg:gray bg:dd"
 format = '[ $symbol($version)]($style bold)'
 
 [python]
 symbol = ' '
-style = "fg:navy bg:dd"
+style = "fg:gray bg:dd"
 format = '[ $symbol($version)]($style bold)'
 
 [ruby]
 symbol = ' '
-style = "fg:navy bg:dd"
+style = "fg:gray bg:dd"
 format = '[ $symbol($version)]($style bold)'
 
 [bun]
 symbol = '🍞 '
-style = "fg:navy bg:dd"
+style = "fg:gray bg:dd"
 format = '[ $symbol($version)]($style bold)'
 
 [package]
 symbol = " "
-style = "fg:navy bg:dd"
+style = "fg:gray bg:dd"
 format = '[ $symbol($version)]($style bold)'
 
 [time]
@@ -210,23 +215,23 @@ format = '[$duration]($style bold)'
 # IPアドレス
 [localip]
 ssh_only = true
-style = "fg:navy bg:gray"
+style = "fg:dd bg:gray"
 format = '[@$localipv4]($style bold) '
 disabled = false
 
 [docker_context]
-format = "[🐋$context](blue bold) "
+format = "[🐋$context](fg:blue bold) "
 
 [character]
-success_symbol = "[♨︎ ](green bold)"
-error_symbol = "[♨︎ ](red bold)"
+success_symbol = "[♨︎ ](fg:green bold)"
+error_symbol = "[♨︎ ](fg:red bold)"
 
 [shell]
 fish_indicator = ' '
 powershell_indicator = '_ '
-style = 'green'
-# format = '[$indicator](strikethrough red bold) [kush]($style bold) [](yellow bold) '
-format = '[$indicator](green bold) [](yellow bold) '
+style = 'fg:green'
+# format = '[$indicator](strikethrough fg:red bold) [kush]($style bold) [](fg:yellow bold) '
+format = '[$indicator](fg:green bold) [](fg:yellow bold) '
 #format = '[$indicator\$]($style bold) '
 disabled = false
 
@@ -234,7 +239,7 @@ disabled = false
 [custom.arch]
 command = "uname -m"
 when = """ test $(uname -m) = "x86_64" """
-style = "bold navy"
+style = "bold gray"
 format = "[$output]($style bold) "
 
 [gcloud]

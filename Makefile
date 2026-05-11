@@ -257,3 +257,13 @@ system-info: ## Display system information
 	@command -v chezmoi >/dev/null && echo "Chezmoi: $$(chezmoi --version)" || echo "Chezmoi: Not installed"
 	@command -v docker >/dev/null && echo "Docker: $$(docker --version)" || echo "Docker: Not installed"
 	@command -v multipass >/dev/null && echo "Multipass: $$(multipass version)" || echo "Multipass: Not installed"
+
+.PHONY: graphify
+graphify: ## Graphify the dotfiles
+	@echo "Graphifying dotfiles..."
+	graphify extact .
+	@echo "✓ Graphified"
+	@echo "Graph output: graphify-out/"
+	graphify update .
+	@echo "✓ Graph updated"
+	graphify benchmark

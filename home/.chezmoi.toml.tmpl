@@ -105,6 +105,8 @@ encryption = "age"
 [age]
     identity = "{{ .chezmoi.homeDir }}/.config/chezmoi/key.txt"
     recipients = "age1nvdw6x8addcnfwsa26ed8vz7yv8y9425utujnsy7tcj64qs2ddasl2mphg"
+    {{/* identity = "{{ .chezmoi.homeDir }}/.ssh/id_ed25519" */}}
+    {{/* recipients = "{{ .chezmoi.homeDir }}/.ssh/id_ed25519.pub" */}}
     passphrase = true
     symmetric = true
 
