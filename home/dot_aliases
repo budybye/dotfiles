@@ -49,7 +49,7 @@ if command -v git >/dev/null 2>&1 || command -v jj >/dev/null 2>&1; then
         else
             git commit -m "$1"
         fi
-        git push origin $(git branch | sed -n -e "s/^\* \(.*\)/\1/p")
+        git push origin "$(git branch | sed -n -e "s/^\* \(.*\)/\1/p")"
     }
 fi
 
@@ -66,7 +66,7 @@ if command -v nvim >/dev/null 2>&1; then
 elif command -v vim >/dev/null 2>&1; then
     alias v="vim"
 else
-    alias v=${EDITOR:-vi}
+    alias v="${EDITOR:-vi}"
 fi
 
 if command -v curl >/dev/null 2>&1; then
@@ -81,7 +81,8 @@ fi
 if command -v ping >/dev/null 2>&1; then
     # 3回だけpingを送信 デフォルトは1.1.1.1
     function ping() {
-        command ping -c 3 ${@:-1.1.1.1}
+        TO=${1:-1.1.1.1}
+        command ping -c 3 ${TO}
     }
 fi
 
@@ -323,13 +324,12 @@ fi
 # mise
 if command -v mise >/dev/null 2>&1; then
     alias mi="mise"
-    alias mib="mi build"
     alias mig="mi use -g"
     alias mir="mi registry"
     alias mip="mi p ls-remote"
     alias mic="mi cache clean"
     alias mil="mi list && mi set"
-    alias miu="mi up && mi prune && mi list && mi v"
+    alias miu="mi up && mi prune && mic && mi list && mi v"
 fi
 
 # shelcheck
@@ -392,33 +392,34 @@ if command -v warp-cli >/dev/null 2>&1; then
 fi
 
 if command -v cloudflared >/dev/null 2>&1; then
-    alias cf="cloudflared"
-    RDP_HOST="${RDP_HOST:-rdp.tmg-server.com}"
-    RDP_PORT="${RDP_PORT:-7777}"
-    alias rdp="cf access rdp --hostname "${RDP_HOST}" --url localhost:${RDP_PORT}"
-    RPI_HOST="${RPI_HOST:-rpi.tmg-server.com}"
-    RPI_PORT="${RPI_PORT:-33333}"
-    alias rpi="cf access rdp --hostname "${RPI_HOST}" --url localhost:${RPI_PORT}"
-    SMB_HOST="${SMB_HOST:-data.tmg-server.com}"
-    SMB_PORT="${SMB_PORT:-44444}"
-    alias smb="cf access smb --hostname "${SMB_HOST}" --url localhost:${SMB_PORT}"
+    if [ -n "$RDP_HOST" ] && [ -n "$RDP_PORT" ]; then
+        alias rdp="cloudflared access rdp --hostname \"${RDP_HOST}\" --url localhost:${RDP_PORT}"
+    fi
+
+    if [ -n "$RPI_HOST" ] && [ -n "$RPI_PORT" ]; then
+        alias rpi="cloudflared access rdp --hostname \"${RPI_HOST}\" --url localhost:${RPI_PORT}"
+    fi
+
+    if [ -n "$SMB_HOST" ] && [ -n "$SMB_PORT" ]; then
+        alias smb="cloudflared access smb --hostname \"${SMB_HOST}\" --url localhost:${SMB_PORT}"
+    fi
 fi
 
 if command -v element-desktop >/dev/null 2>&1; then
-    alias ele="element-desktop"
+    alias elem="element-desktop"
 fi
 
 if command -v openssl >/dev/null 2>&1; then
     function sec() {
         ENV_FILE="${ENV_FILE:-.env}"
-        echo "${@:-SECRET}=$(openssl rand -base64 32)" >> "${ENV_FILE}" && ls
+        echo "${1:-SECRET}=$(openssl rand -base64 32)" >> "${ENV_FILE}" && ls
     }
 fi
 
 if command -v rj >/dev/null 2>&1 && command -v jq >/dev/null 2>&1; then
     function rq() {
         API_URL=${1:-${API_URL:-"https://8102.jp/api"}}
-        rj "${API_URL}" | jq -r '.data'
+        rj "${API_URL}" | jq -r './rq_data'
     }
 fi
 

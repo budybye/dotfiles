@@ -11,6 +11,7 @@ Host github.com
   HostName github.com
   User git
   IdentityFile ~/.ssh/id_ed25519
+  IdentitiesOnly yes
 
 Host ubuntu
   HostName vm.local
@@ -20,6 +21,6 @@ Host ubuntu
 
 Host budybye
   HostName vm.local
-  IdentityFile ~/.ssh/id_ed25519
   User budybye
+  IdentityFile ~/.ssh/id_ed25519
   ServerAliveInterval 60

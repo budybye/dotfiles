@@ -1,23 +1,23 @@
-# AI ガイドライン
+# Agent guidelines
 
-Chezmoi 管理の dotfiles（macOS / Ubuntu、XDG 準拠）。指示範囲内で処理し、不明点は確認を取る。
+Chezmoi-managed dotfiles (macOS / Ubuntu, XDG-aligned). Stay within the requested scope and ask when anything is unclear.
 
-## ルール
+## Rules
 
-- chezmoi, git, make で管理する。
-- 明示されていない変更・見た目の変更は提案し、承認を得る。
-- 依存は最小限。フォーマット・リントは別コミット。
-- シェルスクリプト: `#!/usr/bin/env bash`、`set -eu`、ツール存在確認は `command -v`。
-- 暗号化に `ssh` 管理や `age`, パスワード管理に `bitwarden`, env 管理に `mise` を使用する。
-- zsh, rust系 cli, docker の環境を異なるOSでもなるべく統一する。
-- ツール追加時は `docs/tech.md` と設定ファイルを同時に更新し、一貫性を保つ。
+- Manage with chezmoi, git, and make.
+- Propose changes that were not requested or that affect appearance only, then get approval.
+- Keep dependencies minimal. Put formatting and lint changes in separate commits.
+- Shell scripts: `#!/usr/bin/env bash`, `set -eu`, check tool availability with `command -v`.
+- Use `ssh` / `age` for encryption, Bitwarden for passwords, mise for env management.
+- Keep zsh, Rust CLI tooling, and Docker setups as aligned as practical across OSes.
+- When adding a tool, update `docs/tech.md` and the relevant config files together for consistency.
 
-## 手順
+## Workflow
 
-1. **分析** — タスクを要約。[docs/tech.md](docs/tech.md) で技術スタック、[docs/directory.md](docs/directory.md) で配置ルールを確認。既存の類似実装の有無を確認。
-2. **実行** — 配置ルールに従い実装。ステップごとに進捗を簡潔に報告。
-3. **検証** — `git diff` または `jj diff`で確認。エラー時は原因を切り分け、修正後に再検証。
+1. **Analyze** — Summarize the task. Check stack in [docs/tech.md](docs/tech.md), layout rules in [docs/directory.md](docs/directory.md). Look for similar existing implementations.
+2. **Implement** — Follow layout rules and implement. Report progress briefly per step.
+3. **Verify** — Review with `git diff` or `jj diff`. On errors, isolate the cause, fix, and re-verify.
 
-## 詳細ドキュメント
+## Further docs
 
-配置ルール・OS 分岐・環境差異などの詳細は [docs/](docs/) を参照。
+See [docs/](docs/) for layout rules, OS branching, and environment differences.

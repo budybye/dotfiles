@@ -10,7 +10,6 @@ node_modules
 *lock.json
 bun.lock
 .envrc
-# .mise.toml
 
 # Put at $XDG_CONFIG_HOME/git/ignore
 # See also https://github.com/github/gitignore/tree/master/Global
@@ -106,3 +105,5 @@ sites/*/files
 **/.claude/settings.local.json
 
 .pi/sessions
+
+graphify-out

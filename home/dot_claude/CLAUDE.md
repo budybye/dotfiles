@@ -10,11 +10,10 @@ Behavioral guidelines to reduce common LLM coding mistakes. Merge with project-s
 
 Before implementing:
 
-- If the request can proceed with reasonable assumptions, name them and proceed.
-- If you'd have to invent key facts (which file, which bug, what "valid" means), stop, name what's missing, and ask.
-- If you can produce a useful sketch with stated assumptions but can't finalize without the actual code, sketch the approach, name your assumptions, and ask for confirmation before finalizing.
+- State your assumptions explicitly. If uncertain, ask.
 - If multiple interpretations exist, present them - don't pick silently.
 - If a simpler approach exists, say so. Push back when warranted.
+- If something is unclear, stop. Name what's confusing. **Ask 1-2 focused questions; don't propose implementations until scope is confirmed.**
 
 ## 2. Simplicity First
 
@@ -32,9 +31,11 @@ Ask yourself: "Would a senior engineer say this is overcomplicated?" If yes, sim
 
 **Touch only what you must. Clean up only your own mess.**
 
+"Adjacent code" = any code not explicitly mentioned in the user's request (same file or nearby). "Improve" includes cosmetic style changes, renaming for "clarity", or restructuring that doesn't fix bugs.
+
 When editing existing code:
 
-- Don't "improve" adjacent code, comments, or formatting.
+- Don't change code the user didn't ask about, even if you see "better" ways to write it.
 - Don't refactor things that aren't broken.
 - Match existing style, even if you'd do it differently.
 - If you notice unrelated dead code, mention it - don't delete it.

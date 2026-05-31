@@ -1,5 +1,2 @@
-.env
-
-.pi/sessions
-
-graphify-out
+# Local Pi runtime state
+.atl/

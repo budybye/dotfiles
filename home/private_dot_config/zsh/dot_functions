@@ -42,7 +42,7 @@ fi
 # ping（関数でデフォルト引数を追加）
 if command -v ping >/dev/null 2>&1; then
     function ping() {
-        command ping -c 3 ${@:-1.1.1.1}
+        command ping -c 3 "${@:-1.1.1.1}"
     }
 fi
 
@@ -163,8 +163,9 @@ fi
 # brew（複雑なもの）
 if command -v brew >/dev/null 2>&1; then
     alias bf="brew bundle --force --file ${HOME}/.config/Brewfile"
-    alias bcp="brew autoremove && brew cleanup --prune=all && brew doctor"
-    alias bb="bf && brew update && brew upgrade --greedy && bcp"
+    alias bcf="brew bundle cleanup --force --file ${HOME}/.config/Brewfile"
+    alias bcp="bcf && brew autoremove && brew cleanup --prune=all"
+    alias bb="bf && bcp && brew update && brew upgrade --greedy && brew doctor"
     function bbb() {
         bb
         dumpfile=${HOME}/.config/homebrew/Brewfile
@@ -210,15 +211,17 @@ fi
 
 # cloudflared（複雑なもの）
 if command -v cloudflared >/dev/null 2>&1; then
-    RDP_HOST="${RDP_HOST:-rdp.tmg-server.com}"
-    RDP_PORT="${RDP_PORT:-7777}"
-    alias rdp="cloudflared access rdp --hostname \"${RDP_HOST}\" --url localhost:${RDP_PORT}"
-    RPI_HOST="${RPI_HOST:-rpi.tmg-server.com}"
-    RPI_PORT="${RPI_PORT:-33333}"
-    alias rpi="cloudflared access rdp --hostname \"${RPI_HOST}\" --url localhost:${RPI_PORT}"
-    SMB_HOST="${SMB_HOST:-data.tmg-server.com}"
-    SMB_PORT="${SMB_PORT:-44444}"
-    alias smb="cloudflared access smb --hostname \"${SMB_HOST}\" --url localhost:${SMB_PORT}"
+    if [ -n "$RDP_HOST" ] && [ -n "$RDP_PORT" ]; then
+        alias rdp="cloudflared access rdp --hostname \"${RDP_HOST}\" --url localhost:${RDP_PORT}"
+    fi
+
+    if [ -n "$RPI_HOST" ] && [ -n "$RPI_PORT" ]; then
+        alias rpi="cloudflared access rdp --hostname \"${RPI_HOST}\" --url localhost:${RPI_PORT}"
+    fi
+
+    if [ -n "$SMB_HOST" ] && [ -n "$SMB_PORT" ]; then
+        alias smb="cloudflared access smb --hostname \"${SMB_HOST}\" --url localhost:${SMB_PORT}"
+    fi
 fi
 
 # element-desktop
@@ -230,7 +233,7 @@ fi
 if command -v openssl >/dev/null 2>&1; then
     function sec() {
         ENV_FILE="${ENV_FILE:-.env}"
-        echo "${@:-SECRET}=$(openssl rand -base64 32)" >> "${ENV_FILE}" && ls
+        echo "${1:-SECRET}=$(openssl rand -base64 32)" >> "${ENV_FILE}" && ls
     }
 fi
 

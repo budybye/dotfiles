@@ -13,11 +13,11 @@ if [ ! -f ./CLAUDE.md ]; then
     fi
 fi
 
-# docs directory check
-if [ -d ./docs ]; then
-  ls -la ./docs
+# agents directory check
+if [ -d ./agents ]; then
+  ls -la ./agents
 else
-  echo "docs directory not found"
+  echo "agents directory not found"
 fi
 
 if command -v claude >/dev/null 2>&1; then

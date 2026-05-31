@@ -19,7 +19,7 @@
       "Bash(which *)",
       "Bash(command -v *)"
     ],
-    "deny": ["Read(./.env)", "Read(./.env.*)", "Read(./build)"]
+    "deny": ["Read(./.env*)", "Read(./.env.*)", "Read(./build)"]
   },
   "hooks": {
     "PostToolUse": [

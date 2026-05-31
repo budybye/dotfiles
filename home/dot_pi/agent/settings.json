@@ -1,6 +1,6 @@
 {
   "defaultProvider": "cursor",
-  "defaultModel": "composer-2-fast",
+  "defaultModel": "auto",
   "defaultThinkingLevel": "medium",
   "thinkingBudgets": {
     "minimal": 1024,
@@ -17,6 +17,7 @@
     "keepRecentTokens": 20000
   },
   "sessionDir": ".pi/sessions",
+  "steeringMode": "one-at-a-time",
   "retry": {
     "enabled": true,
     "maxRetries": 3,
@@ -25,48 +26,41 @@
   },
   "shellCommandPrefix": "shopt -s expand_aliases\neval \"$(grep '^alias ' ~/.aliases)\"",
   "npmCommand": [
+    "mise",
+    "exec",
+    "bun@latest",
+    "--",
     "bun"
   ],
+  "enableSkillCommands": true,
+  "lastChangelogVersion": "0.78.0",
+  "enableInstallTelemetry": false,
   "packages": [
-    "git:github.com/badlogic/pi-skills",
-    "npm:pi-goal",
-    "npm:pi-runline",
-    "npm:pi-subagents",
-    "npm:pi-mcp-adapter",
-    "npm:pi-code-previews",
-    "npm:graphify-pi",
-    "npm:@haispeed/pi-obsidian",
     "npm:@netandreus/pi-cursor-provider"
   ],
-  "extensions": [],
-  "prompts": [],
   "skills": [
     "~/.claude/skills",
     "~/.codex/skills",
     "~/.gemini/skills",
-    "~/.agentskills",
+    "~/.agents/skills",
     "~/.aionui-config/skills"
   ],
-  "enableSkillCommands": true,
-  "lastChangelogVersion": "0.74.0",
-  "enableInstallTelemetry": false,
   "enabledModels": [
     "cloudflare-ai-gateway/gpt-5.3-codex",
     "cloudflare-ai-gateway/claude-opus-4-6",
+    "cloudflare-ai-gateway/claude-sonnet-4-6",
     "cloudflare-ai-gateway/workers-ai/@cf/moonshotai/kimi-k2.6",
-    "cloudflare-workers-ai/@cf/moonshotai/kimi-k2.6",
     "opencode-go/glm-5.1",
     "opencode-go/kimi-k2.6",
-    "cursor/auto",
-    "cursor/gemini-3.1-pro",
-    "cursor/composer-2-fast",
-    "cursor/claude-4.6-opus-high-thinking",
-    "cursor/gpt-5.3-codex-spark-preview-high",
+    "opencode-go/qwen3.6-plus",
     "sakura/gpt-oss-120b",
     "sakura/Qwen3-Coder-480B-A35B-Instruct-FP8",
     "openrouter/openrouter/free",
     "openrouter/openai/gpt-oss-120b:free",
     "openrouter/nvidia/nemotron-3-super-120b-a12b:free",
-    "anthropic/claude-opus-4-6"
+    "sensei/google-ai-studio/gemini-3.1-flash-lite",
+    "sensei/google-ai-studio/gemini-3.5-flash",
+    "cursor/auto",
+    "cursor/composer-2.5"
   ]
 }

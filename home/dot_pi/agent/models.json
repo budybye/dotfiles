@@ -2,7 +2,7 @@
   "providers": {
     "sakura": {
       "baseUrl": "https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/custom-sakura/v1",
-      "apiKey": "SAKURA_API_KEY",
+      "apiKey": "$SAKURA_API_KEY",
       "api": "openai-completions",
       "headers": {
         "cf-aig-authorization": "!printf 'Bearer %s' \"$CLOUDFLARE_API_KEY\""
@@ -18,9 +18,27 @@
         }
       ]
     },
+    "sensei": {
+      "baseUrl": "https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/compat/v1",
+      "apiKey": "$GOOGLE_API_KEY",
+      "api": "openai-completions",
+      "headers": {
+        "cf-aig-authorization": "!printf 'Bearer %s' \"$CLOUDFLARE_API_KEY\""
+      },
+      "models": [
+        {
+          "id": "google-ai-studio/gemini-3.5-flash",
+          "name": "Gemini 3.5 Flash"
+        },
+        {
+          "id": "google-ai-studio/gemini-3.1-flash-lite",
+          "name": "Gemini 3.1 Flash lite"
+        }
+      ]
+    },
     "opencode-go": {
       "baseUrl": "https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/custom-opencode-go/v1",
-      "apiKey": "OPENCODE_GO_API_KEY",
+      "apiKey": "$OPENCODE_GO_API_KEY",
       "api": "openai-completions",
       "headers": {
         "cf-aig-authorization": "!printf 'Bearer %s' \"$CLOUDFLARE_API_KEY\""
@@ -46,7 +64,7 @@
       "headers": {
         "cf-aig-authorization": "!printf 'Bearer %s' \"$CLOUDFLARE_API_KEY\""
       },
-      "apiKey": "ANTHROPIC_API_KEY",
+      "apiKey": "$ANTHROPIC_API_KEY",
       "models": [
         {
           "id": "anthropic/claude-sonnet-4.6",
@@ -54,9 +72,27 @@
         }
       ]
     },
+    "google-ai-studio": {
+      "baseUrl": "https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/google-ai-studio/v1beta",
+      "apiKey": "$GOOGLE_API_KEY",
+      "api": "google-generative-ai",
+      "headers": {
+        "cf-aig-authorization": "!printf 'Bearer %s' \"$CLOUDFLARE_API_KEY\""
+      },
+      "models": [
+        {
+          "id": "gemini-3.5-flash",
+          "name": "Gemini 3.5 Flash"
+        },
+        {
+          "id": "gemini-3.1-flash-lite",
+          "name": "Gemini 3.1 Flash lite"
+        }
+      ]
+    },
     "openrouter": {
       "baseUrl": "https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/openrouter/v1",
-      "apiKey": "OPENROUTER_API_KEY",
+      "apiKey": "$OPENROUTER_API_KEY",
       "api": "openai-completions",
       "headers": {
         "cf-aig-authorization": "!printf 'Bearer %s' \"$CLOUDFLARE_API_KEY\""

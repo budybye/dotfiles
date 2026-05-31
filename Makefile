@@ -267,3 +267,9 @@ graphify: ## Graphify the dotfiles
 	graphify update .
 	@echo "✓ Graph updated"
 	graphify benchmark
+
+.PHONY: skills
+skills: ## List installed skills
+	@echo "Listing installed skills..."
+	./skills.sh
+	@echo "✓ Skills listed"

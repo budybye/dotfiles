@@ -107,9 +107,8 @@ fi
 # 個人的によく使うディレクトリを作成
 mkdir -p \
     "${HOME}/Applications" \
-    "${HOME}/Developer" \
-    "${HOME}/data" \
-    "${XDG_DOCUMENTS_DIR}/notes"
+    "${HOME}/Developer/project" \
+    "${HOME}/data"
 
 # デフォルトのエディタを設定
 if command -v zed >/dev/null 2>&1; then
