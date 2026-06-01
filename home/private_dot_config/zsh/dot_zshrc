@@ -13,11 +13,12 @@ else
     HISTFILE="${HOME}/.zsh_history"
 fi
 HISTSIZE=123456
-SAVEHIST=123456
-HIST_STAMPS="yyyy-mm-dd"
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="#123"
-ZSH_DISABLE_COMPFIX=true
-ZLE_REMOVE_SUFFIX_CHARS=$''
+
+export SAVEHIST=123456
+export HIST_STAMPS="yyyy-mm-dd"
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="#123"
+export ZSH_DISABLE_COMPFIX=true
+export ZLE_REMOVE_SUFFIX_CHARS=$''
 
 setopt share_history        # 履歴を他のシェルとリアルタイム共有する
 setopt inc_append_history   # 実行時に履歴をファイルにに追加していく
@@ -108,6 +109,7 @@ fi
 
 # fzf
 if command -v fzf > /dev/null 2>&1; then
+    # shellcheck source=/dev/null
     source <(fzf --zsh)
 fi
 
@@ -118,7 +120,7 @@ fi
 
 # thefuck
 if command -v thefuck >/dev/null 2>&1; then
-    eval $(thefuck --alias)
+    eval "$(thefuck --alias)"
 fi
 
 if command -v wrangler > /dev/null 2>&1; then

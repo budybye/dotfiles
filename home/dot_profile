@@ -202,14 +202,14 @@ if command -v docker >/dev/null 2>&1; then
     fi
 
 elif command -v podman >/dev/null 2>&1; then
-    PODMAN_SOCKET=`podman machine inspect --format '{{ .ConnectionInfo.SocketPath }}'`
+    PODMAN_SOCKET="$(podman machine inspect --format '{{ .ConnectionInfo.SocketPath }}')"
     export DOCKER_HOST="unix://${PODMAN_SOCKET}"
     export DOCKER_CONTEXT="podman-machine-default"
     export DOCKER_BUILDKIT=0
 fi
 
 if command -v orb >/dev/null 2>&1; then
-    source "${HOME}/.orbstack/shell/init.zsh" 2>/dev/null || :
+    . "${HOME}/.orbstack/shell/init.zsh" 2>/dev/null || :
     # docker context use orbstack >/dev/null 2>&1
 fi
 
@@ -494,7 +494,7 @@ fi
 if command -v sampler >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/sampler"
     touch "${XDG_CONFIG_HOME}/sampler/config.yaml"
-    alias sampler="sampler --config ${XDG_CONFIG_HOME}/sampler/config.yaml"
+    alias sampler='sampler --config "${XDG_CONFIG_HOME}"/sampler/config.yaml'
 fi
 
 if command -v aws >/dev/null 2>&1; then

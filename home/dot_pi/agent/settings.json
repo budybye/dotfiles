@@ -36,7 +36,8 @@
   "lastChangelogVersion": "0.78.0",
   "enableInstallTelemetry": false,
   "packages": [
-    "npm:@netandreus/pi-cursor-provider"
+    "npm:@netandreus/pi-cursor-provider",
+    "/Users/hotmilk/Developer/radio/.pi/npm/node_modules/@blackbelt-technology/pi-agent-dashboard/packages/extension"
   ],
   "skills": [
     "~/.claude/skills",

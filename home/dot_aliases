@@ -1,6 +1,7 @@
 # 重複したPATHを削除
 if command -v awk > /dev/null 2>&1;then
-    export PATH="$(printf %s "${PATH}" | awk -v RS=: -v ORS=: '!arr[$0]++')"
+    PATH="$(printf %s "${PATH}" | awk -v RS=: -v ORS=: '!arr[$0]++')"
+    export PATH
 fi
 
 # よく使うコマンド
@@ -20,17 +21,17 @@ alias meminfo="free -h 2>/dev/null || vm_stat"
 alias diskinfo="df -h"
 
 # シェルの再起動
-alias rl=". ${HOME}/.bash_profile"
+alias rl='. "${HOME}"/.bash_profile'
 # デバッグ・メンテナンス用
-alias reload="exec ${SHELL:-bash} -l && exec ${SHELL:-bash}"
+alias reload='exec ${SHELL:-bash} -l && exec ${SHELL:-bash}'
 
 # シェルのパフォーマンス測定
-alias opi="for i in {1..3}; do time ${SHELL:-bash} -ic exit;done"
-alias oppi="for i in {1..3}; do time ${SHELL:-bash} -lc exit;done && exec ${SHELL:-bash}"
+alias opi='for i in {1..3}; do time ${SHELL:-bash} -ic exit;done'
+alias oppi='for i in {1..3}; do time ${SHELL:-bash} -lc exit;done && exec ${SHELL:-bash}'
 
 # ドキュメント
-alias note="${EDITOR:-vim} ${HOME}/Developer/docs/note.md"  # ノートを開く
-alias docs="cd ${HOME}/Developer/docs"  # ドキュメントフォルダに移動
+alias note='${EDITOR:-vim} ${HOME}/Developer/docs/note.md'  # ノートを開く
+alias docs='cd ${HOME}/Developer/docs'  # ドキュメントフォルダに移動
 alias br="echo -------------------------------------" # 区切り線
 
 # ファイル操作のエイリアス
@@ -66,23 +67,28 @@ if command -v nvim >/dev/null 2>&1; then
 elif command -v vim >/dev/null 2>&1; then
     alias v="vim"
 else
-    alias v="${EDITOR:-vi}"
+    alias v='${EDITOR:-vi}'
 fi
 
 if command -v curl >/dev/null 2>&1; then
-    alias curl="curl -fsSL"  # オプション
+    # alias curl="curl -fsSL"   # オプション
+    function curl() {
+        command curl -fsSL "$@"
+    }
     alias ppp="curl -4 icanhazip.com && curl -6 icanhazip.com"  # パブリックIPアドレスを表示
     alias wt="curl wttr.in"  # 天気予報を表示
-    alias qr="curl qrenco.de/https://${1:-やってるか.みんな}"  # QRコードを表示
     alias wan="curl inet-ip.info"
     alias rate="curl rate.sx"
+    function qr() {
+        curl qrenco.de/https://"${1:-やってるか.みんな}"
+    }
 fi
 
 if command -v ping >/dev/null 2>&1; then
     # 3回だけpingを送信 デフォルトは1.1.1.1
     function ping() {
         TO=${1:-1.1.1.1}
-        command ping -c 3 ${TO}
+        command ping -c 3 "${TO}"
     }
 fi
 
@@ -150,8 +156,8 @@ fi
 
 # rosetta2のエイリアス
 if command -v arch >/dev/null 2>&1; then
-    alias amd="arch -x86_64 ${SHELL}"
-    alias arm="arch -arm64 ${SHELL}"
+    alias amd='arch -x86_64 ${SHELL}'
+    alias arm='arch -arm64 ${SHELL}'
 fi
 
 # ls を lsd に変更
@@ -187,8 +193,9 @@ fi
 
 # tldr
 if command -v tldr >/dev/null 2>&1; then
-    alias tldr="tldr -L ja"
-    alias h="tldr ${1:-curl}"
+    function tldr() {
+        command tldr -L ja "${1:-curl}"
+    }
 fi
 
 # chezmoi
@@ -212,7 +219,7 @@ fi
 if command -v cursor >/dev/null 2>&1; then
     alias co="cursor"
 elif [ -f "${HOME}/Applications/cursor" ]; then
-    alias co="${HOME}/Applications/cursor --no-sandbox"
+    alias co='${HOME}/Applications/cursor --no-sandbox'
 elif command -v codium >/dev/null 2>&1; then
     alias co="codium"
 elif command -v code >/dev/null 2>&1; then
@@ -221,7 +228,7 @@ fi
 
 # vscode 拡張機能の差分を表示
 if command -v code >/dev/null 2>&1; then
-    alias vex="code --list-extensions | jq -R -s 'split(\"\n\")[:-1]' > tmp/extensions.json && diff tmp/extensions.json ${HOME}/.config/Code/extensions.json"
+    alias vex='code --list-extensions | jq -R -s '"'"'split("\n")[:-1]'"'"' > tmp/extensions.json && diff tmp/extensions.json ${HOME}/.config/Code/extensions.json'
 fi
 
 # docker
@@ -238,7 +245,7 @@ if command -v docker >/dev/null 2>&1; then
     }
 
     ARCH=${ARCH:-$(dpkg --print-architecture || uname -m)}
-    alias dx="docker run --rm -itd --privileged --platform linux/${ARCH} --hostname docker --name ubuntu-dev -p 33389:3389 -p 2222:22 ghcr.io/budybye/ubuntu-dev:main ubuntu ubuntu yes"
+    alias dx='docker run --rm -itd --privileged --platform linux/${ARCH} --hostname docker --name ubuntu-dev -p 33389:3389 -p 2222:22 ghcr.io/budybye/ubuntu-dev:main ubuntu ubuntu yes'
 
     ## 停止コンテナ、タグ無しイメージ、未使用ボリューム、未使用ネットワーク一括削除
     alias drm="docker system prune -af --volumes"
@@ -257,7 +264,7 @@ fi
 if command -v multipass >/dev/null 2>&1; then
     alias mp="multipass"
     alias md="mp launch docker -c 4 -m 8G -d 42G --timeout 3600 && mp info docker"
-    alias ml="mp launch -n ubuntu -c 4 -m 8G -d 42G --timeout 7200 --cloud-init ${HOME}/dotfiles/cloud-init/multipass.yaml && mp exec ubuntu -- tail -7 /var/log/cloud-init.log"
+    alias ml='mp launch -n ubuntu -c 4 -m 8G -d 42G --timeout 7200 --cloud-init ${HOME}/dotfiles/cloud-init/multipass.yaml && mp exec ubuntu -- tail -7 /var/log/cloud-init.log'
     alias ms="mp stop ubuntu && mp delete -p ubuntu && mp list"
 fi
 
@@ -294,18 +301,24 @@ if command -v brew >/dev/null 2>&1; then
     alias bi="brew install"
     alias bcp="brew cleanup --prune=all"
     alias bd="brew deps --installed --tree"
-    alias bu="brew autoremove && brew update && brew upgrade --greedy && brew doctor"
-    alias bf="brew bundle cleanup --force --file ${HOME}/.config/Brewfile"
-    alias bb="bf && bu"
+    function bu() {
+        brew autoremove && brew update && brew upgrade --greedy && brew doctor
+    }
+    function bf() {
+      brew bundle cleanup --force --file "${HOME}"/.config/Brewfile
+    }
+    function bb() {
+        bf && bu
+    }
     function bbb() {
         bb
         dumpfile=${HOME}/.config/homebrew/Brewfile
-        if [ -f ${dumpfile} ]; then
-            cp ${dumpfile} ${dumpfile}.bak
-            rm -f ${dumpfile}
+        if [ -f "${dumpfile}" ]; then
+            cp "${dumpfile}" "${dumpfile}.bak"
+            rm -f "${dumpfile}"
         fi
-        brew bundle dump --file ${dumpfile}
-        cat ${dumpfile}
+        brew bundle dump --file "${dumpfile}"
+        cat "${dumpfile}"
     }
 fi
 
@@ -362,13 +375,13 @@ if command -v trans >/dev/null 2>&1; then
 fi
 
 if command -v mpd >/dev/null 2>&1 && [ -f "${HOME}/.config/mpd/mpd.conf" ]; then
-    alias mpdc="mpd ${HOME}/.config/mpd/mpd.conf"
+    alias mpdc='mpd ${HOME}/.config/mpd/mpd.conf'
 fi
 
 if command -v ncmpcpp >/dev/null 2>&1; then
     # ncmpcppを起動して、mpdを再生する
     function ncmp() {
-        mpd ${HOME}/.config/mpd/mpd.conf && ncmpcpp
+      mpd "${HOME}"/.config/mpd/mpd.conf && ncmpcpp
     }
     # 1 でplaylistを表示 enterで再生 2 でlyricsを表示 enterで再生
     # https://pkgbuild.com/~jelle/ncmpcpp/
@@ -393,15 +406,15 @@ fi
 
 if command -v cloudflared >/dev/null 2>&1; then
     if [ -n "$RDP_HOST" ] && [ -n "$RDP_PORT" ]; then
-        alias rdp="cloudflared access rdp --hostname \"${RDP_HOST}\" --url localhost:${RDP_PORT}"
+        alias rdp='cloudflared access rdp --hostname "${RDP_HOST}" --url localhost:${RDP_PORT}'
     fi
 
     if [ -n "$RPI_HOST" ] && [ -n "$RPI_PORT" ]; then
-        alias rpi="cloudflared access rdp --hostname \"${RPI_HOST}\" --url localhost:${RPI_PORT}"
+        alias rpi='cloudflared access rdp --hostname "${RPI_HOST}" --url localhost:${RPI_PORT}'
     fi
 
     if [ -n "$SMB_HOST" ] && [ -n "$SMB_PORT" ]; then
-        alias smb="cloudflared access smb --hostname \"${SMB_HOST}\" --url localhost:${SMB_PORT}"
+        alias smb='cloudflared access smb --hostname "${SMB_HOST}" --url localhost:${SMB_PORT}'
     fi
 fi
 
@@ -437,5 +450,5 @@ fi
 # 猫のASCIIアートを表示
 CAT_FILE="${HOME}/data/cat.txt"
 if [ -f "${CAT_FILE}" ]; then
-    alias x="cat ${CAT_FILE}"
+    alias x='cat "${CAT_FILE}"'
 fi

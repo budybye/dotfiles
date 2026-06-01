@@ -1,6 +1,8 @@
+# shellcheck shell=bash
 # 重複したPATHを削除
 if command -v awk > /dev/null 2>&1; then
-    export PATH="$(printf %s "${PATH}" | awk -v RS=: -v ORS=: '!arr[$0]++')"
+    PATH="$(printf %s "${PATH}" | awk -v RS=: -v ORS=: '!arr[$0]++')"
+    export PATH
 fi
 
 # ファイル操作（安全系）- 常時透過オーバーライドが必要なため alias で定義
@@ -11,7 +13,7 @@ alias mkdir="mkdir -p"
 
 # ドキュメント
 # alias note="${EDITOR:-vim} ${HOME}/Developer/docs/note.md"
-alias docs="cd ${HOME}/Developer/docs"
+alias docs='cd ${HOME}/Developer/docs'
 
 # git
 if command -v git >/dev/null 2>&1 || command -v jj >/dev/null 2>&1; then
@@ -22,12 +24,12 @@ if command -v git >/dev/null 2>&1 || command -v jj >/dev/null 2>&1; then
         else
             git commit -m "$1"
         fi
-        git push origin $(git branch | sed -n -e "s/^\* \(.*\)/\1/p")
+        git push origin "$(git branch | sed -n -e 's/^\* \(.*\)/\1/p')"
     }
 fi
 
 if command -v code >/dev/null 2>&1; then
-    alias vex="code --list-extensions | jq -R -s 'split(\"\n\")[:-1]' > tmp/extensions.json && diff tmp/extensions.json ${HOME}/.config/Code/extensions.json"
+    alias vex='code --list-extensions | jq -R -s '"'"'split("\n")[:-1]'"'"' > tmp/extensions.json && diff tmp/extensions.json ${HOME}/.config/Code/extensions.json'
 fi
 
 # vim/nvim（フォールバックチェーンが必要なため alias で定義）
@@ -36,7 +38,7 @@ if command -v nvim >/dev/null 2>&1; then
 elif command -v vim >/dev/null 2>&1; then
     alias v="vim"
 else
-    alias v=${EDITOR:-vi}
+    alias v='${EDITOR:-vi}'
 fi
 
 # ping（関数でデフォルト引数を追加）
@@ -68,8 +70,8 @@ fi
 
 # rosetta2
 if command -v arch >/dev/null 2>&1; then
-    alias amd="arch -x86_64 ${SHELL}"
-    alias arm="arch -arm64 ${SHELL}"
+    alias amd='arch -x86_64 ${SHELL}'
+    alias arm='arch -arm64 ${SHELL}'
 fi
 
 # クリップボード（mac/linux 条件分岐が必要なため alias で定義）
@@ -115,7 +117,9 @@ fi
 # tldr（h はデフォルト引数があるため abbr 不可）
 if command -v tldr >/dev/null 2>&1; then
     alias tldr="tldr -L ja"
-    alias h="tldr ${1:-curl}"
+    function h() {
+        command tldr -L ja "${1:-curl}"
+    }
 fi
 
 # chezmoi（cai は abbr 未登録）
@@ -132,7 +136,7 @@ fi
 if command -v cursor >/dev/null 2>&1; then
     alias co="cursor"
 elif [ -f "${HOME}/Applications/cursor" ]; then
-    alias co="${HOME}/Applications/cursor --no-sandbox"
+    alias co='${HOME}/Applications/cursor --no-sandbox'
 elif command -v codium >/dev/null 2>&1; then
     alias co="codium"
 elif command -v code >/dev/null 2>&1; then
@@ -146,7 +150,7 @@ if command -v docker >/dev/null 2>&1; then
         docker build -t "$IMAGE_NAME" . && docker push "$IMAGE_NAME"
     }
     ARCH=${ARCH:-$(dpkg --print-architecture 2>/dev/null || uname -m)}
-    alias dx="docker run --rm -itd --privileged --platform linux/${ARCH} --hostname docker --name ubuntu-dev -p 33389:3389 -p 2222:22 ghcr.io/budybye/ubuntu-dev:main ubuntu ubuntu yes"
+    alias dx='docker run --rm -itd --privileged --platform linux/${ARCH} --hostname docker --name ubuntu-dev -p 33389:3389 -p 2222:22 ghcr.io/budybye/ubuntu-dev:main ubuntu ubuntu yes'
 fi
 
 if command -v podman >/dev/null 2>&1; then
@@ -156,16 +160,24 @@ fi
 # multipass（複雑なもの）
 if command -v multipass >/dev/null 2>&1; then
     alias md="mp launch docker -c 4 -m 8G -d 42G --timeout 3600 && mp info docker"
-    alias ml="mp launch -n ubuntu -c 4 -m 8G -d 42G --timeout 7200 --cloud-init ${HOME}/dotfiles/cloud-init/multipass.yaml && mp exec ubuntu -- tail -7 /var/log/cloud-init.log"
+    alias ml='mp launch -n ubuntu -c 4 -m 8G -d 42G --timeout 7200 --cloud-init ${HOME}/dotfiles/cloud-init/multipass.yaml && mp exec ubuntu -- tail -7 /var/log/cloud-init.log'
     alias ms="mp stop ubuntu && mp delete -p ubuntu && mp list"
 fi
 
 # brew（複雑なもの）
 if command -v brew >/dev/null 2>&1; then
-    alias bf="brew bundle --force --file ${HOME}/.config/Brewfile"
-    alias bcf="brew bundle cleanup --force --file ${HOME}/.config/Brewfile"
-    alias bcp="bcf && brew autoremove && brew cleanup --prune=all"
-    alias bb="bf && bcp && brew update && brew upgrade --greedy && brew doctor"
+    function bf() {
+        brew bundle --force --file "${HOME}/.config/Brewfile"
+    }
+    function bcf() {
+        brew bundle cleanup --force --file "${HOME}/.config/Brewfile"
+    }
+    function bcp() {
+        bcf && brew autoremove && brew cleanup --prune=all
+    }
+    function bb() {
+        bf && bcp && brew update && brew upgrade --greedy && brew doctor
+    }
     function bbb() {
         bb
         dumpfile=${HOME}/.config/homebrew/Brewfile
@@ -193,7 +205,7 @@ fi
 
 # mpd / ncmpcpp
 if command -v mpd >/dev/null 2>&1 && [ -f "${HOME}/.config/mpd/mpd.conf" ]; then
-    alias mpdc="mpd ${HOME}/.config/mpd/mpd.conf"
+    alias mpdc='mpd ${HOME}/.config/mpd/mpd.conf'
 fi
 if command -v ncmpcpp >/dev/null 2>&1; then
     function ncmp() {
@@ -212,15 +224,15 @@ fi
 # cloudflared（複雑なもの）
 if command -v cloudflared >/dev/null 2>&1; then
     if [ -n "$RDP_HOST" ] && [ -n "$RDP_PORT" ]; then
-        alias rdp="cloudflared access rdp --hostname \"${RDP_HOST}\" --url localhost:${RDP_PORT}"
+        alias rdp='cloudflared access rdp --hostname "${RDP_HOST}" --url localhost:${RDP_PORT}'
     fi
 
     if [ -n "$RPI_HOST" ] && [ -n "$RPI_PORT" ]; then
-        alias rpi="cloudflared access rdp --hostname \"${RPI_HOST}\" --url localhost:${RPI_PORT}"
+        alias rpi='cloudflared access rdp --hostname "${RPI_HOST}" --url localhost:${RPI_PORT}'
     fi
 
     if [ -n "$SMB_HOST" ] && [ -n "$SMB_PORT" ]; then
-        alias smb="cloudflared access smb --hostname \"${SMB_HOST}\" --url localhost:${SMB_PORT}"
+        alias smb='cloudflared access smb --hostname "${SMB_HOST}" --url localhost:${SMB_PORT}'
     fi
 fi
 
@@ -256,5 +268,5 @@ fi
 # 猫のASCIIアート
 CAT_FILE="${HOME}/data/cat.txt"
 if [ -f "${CAT_FILE}" ]; then
-    alias x="cat ${CAT_FILE}"
+    alias x='cat "${CAT_FILE}"'
 fi

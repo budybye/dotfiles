@@ -83,7 +83,7 @@ layout {
                 name "docs"
                 cwd "~/Developer/docs"
                 command "mpd"
-                args "~/.config/mpd/mpd.conf"
+                args "--no-daemon" "~/.config/mpd/mpd.conf"
             }
         }
     }
