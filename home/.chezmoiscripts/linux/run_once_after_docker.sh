@@ -6,6 +6,18 @@ if [ "$(id -u)" -ne 0 ]; then
     sudo="sudo"
 fi
 
+activate_mise() {
+    if ! command -v mise >/dev/null 2>&1; then
+        return 0
+    fi
+
+    mkdir -p "${HOME}/.config/mise"
+    export MISE_CONFIG_DIR="${HOME}/.config/mise"
+    touch "${MISE_CONFIG_DIR}/shorthands.toml"
+    export MISE_SHORTHANDS_FILE="${MISE_CONFIG_DIR}/shorthands.toml"
+    eval "$(mise activate bash)"
+}
+
 install_docker() {
     if command -v docker >/dev/null 2>&1; then
         echo "docker already installed."
@@ -67,6 +79,7 @@ install_act() {
         $sudo chmod +x /usr/local/bin/act
         export PATH="/usr/local/bin:${PATH}"
     elif command -v mise >/dev/null; then
+        activate_mise
         mise use -g -y act@latest || echo "act install failed."
     else
         echo "act install failed."

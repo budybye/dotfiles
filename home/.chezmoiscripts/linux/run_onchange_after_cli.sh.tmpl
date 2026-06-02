@@ -64,6 +64,18 @@ install_packages() {
     echo "apt install completed."
 }
 
+activate_mise() {
+    if ! command -v mise >/dev/null 2>&1; then
+        return 0
+    fi
+
+    mkdir -p "${HOME}/.config/mise"
+    export MISE_CONFIG_DIR="${HOME}/.config/mise"
+    touch "${MISE_CONFIG_DIR}/shorthands.toml"
+    export MISE_SHORTHANDS_FILE="${MISE_CONFIG_DIR}/shorthands.toml"
+    eval "$(mise activate bash)"
+}
+
 install_mise() {
     if command -v mise >/dev/null 2>&1; then
         echo "mise already installed."
@@ -80,6 +92,7 @@ install_mise() {
     fi
 
     export PATH="${HOME}/.local/bin:${HOME}/.local/share/mise/shims:${HOME}/.local/bin:${HOME}/.local/share/mise/installs:$PATH"
+    activate_mise
     mise --version >> ${HOME}/which || echo "mise not found" >> ${HOME}/which
 
     if [ -f "${HOME}/.config/mise/config.toml" ]; then
@@ -90,10 +103,12 @@ install_mise() {
 }
 
 install_cargo_tools() {
+    activate_mise
+
     if command -v cargo >/dev/null 2>&1; then
         echo "cargo already installed."
     elif command -v mise >/dev/null 2>&1; then
-        mise use -g -y rust@latest || echo "cargo install failed."
+        mise use -g -y rust@stable || echo "cargo install failed."
     elif command -v curl >/dev/null 2>&1; then
         curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y || echo "cargo install failed."
     elif command -v apt >/dev/null 2>&1; then

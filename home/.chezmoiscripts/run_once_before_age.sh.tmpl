@@ -4,11 +4,24 @@ set -eu
 echo "run_once_before_age.sh.tmpl"
 echo "--------------------------------"
 
+activate_mise() {
+    if ! command -v mise >/dev/null 2>&1; then
+        return 0
+    fi
+
+    mkdir -p "${HOME}/.config/mise"
+    export MISE_CONFIG_DIR="${HOME}/.config/mise"
+    touch "${MISE_CONFIG_DIR}/shorthands.toml"
+    export MISE_SHORTHANDS_FILE="${MISE_CONFIG_DIR}/shorthands.toml"
+    eval "$(mise activate bash)"
+}
+
 if command -v age >/dev/null 2>&1; then
     echo "age already installed"
 
 elif command -v mise >/dev/null 2>&1; then
-    mise use -g age@latest -y || echo "age install failed"
+    activate_mise
+    mise use -g -y age@latest || echo "age install failed"
 
 elif command -v brew >/dev/null 2>&1; then
     brew install age || echo "age install failed"

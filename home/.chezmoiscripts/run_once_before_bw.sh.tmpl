@@ -24,6 +24,18 @@ NPM="${SHIMS}/installs/node/${VERSION}/bin/npm"
 BW="${SHIMS}/installs/node/${VERSION}/bin/bw"
 SESSION="$(pwd)/.env"
 
+activate_mise() {
+    if ! command -v mise >/dev/null 2>&1; then
+        return 0
+    fi
+
+    mkdir -p "${HOME}/.config/mise"
+    export MISE_CONFIG_DIR="${HOME}/.config/mise"
+    touch "${MISE_CONFIG_DIR}/shorthands.toml"
+    export MISE_SHORTHANDS_FILE="${MISE_CONFIG_DIR}/shorthands.toml"
+    eval "$(mise activate bash)"
+}
+
 # mise なければインストール
 mise_install() {
     if command -v mise >/dev/null 2>&1; then
@@ -41,6 +53,7 @@ mise_install() {
         exit 1
     fi
 
+    activate_mise
     mise --version || echo "mise command not found."
     echo "mise installed"
     echo "--------------------------------"
@@ -52,7 +65,8 @@ node_install() {
         echo "npm already installed."
 
     elif command -v mise >/dev/null 2>&1; then
-        mise use -g node@${VERSION} -y && mise activate bash >/dev/null || echo "node install failed."
+        activate_mise
+        mise use -g -y "node@${VERSION}" || echo "node install failed."
 
     elif [ -f "${MISE}" ]; then
         "${MISE}" use -g "node@${VERSION}" -y || echo "node install failed."

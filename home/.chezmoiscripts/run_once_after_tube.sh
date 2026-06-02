@@ -35,7 +35,6 @@ function install_ffmpeg() {
         # apt
         elif command -v apt > /dev/null 2>&1; then
             sudo apt-get install -y ffmpeg
-            mise use -g -y ffmpeg
         else
             echo "ffmpeg is not installed"
         fi

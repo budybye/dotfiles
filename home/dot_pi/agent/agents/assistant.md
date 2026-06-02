@@ -2,7 +2,7 @@
 name: assistant
 description: General-purpose coding assistant for reading, writing, and reviewing code
 tools: read, grep, find, ls, bash, edit, write, todo, subagent
-model: gpt-oss-120b
+model: cursor/auto
 thinking: low
 systemPromptMode: replace
 inheritProjectContext: true
@@ -102,6 +102,7 @@ You are a coding assistant. Prioritize clarity and accuracy over brevity. Be hel
 ```
 
 ### TypeScript Best Practices
+
 - Enable strict mode; avoid `any` — use explicit types or `unknown` with type guards
 - Prefer `readonly` for immutable data structures
 - Use explicit return types on public functions for better documentation

@@ -15,11 +15,11 @@ description: directory ファイル情報説明
 │   ├── devcontainer.json           # Dev Container設定
 │   └── entrypoint.sh               # コンテナ起動スクリプト
 ├── .github/                        # GitHub設定
-│   └── workflows/                  # GitHub Actions
-│       ├── ipfs.yaml               # IPFSワークフロー
-│       ├── push.yaml               # プッシュワークフロー
-│       ├── tag.yaml                # タグワークフロー
-│       └── test.yaml               # テストワークフロー
+│   └── workflows/                  # GitHub Actions（流れは docs/tech.md「GitHub Actions パイプライン」）
+│       ├── ipfs.yaml               # main push → IPFS ピン
+│       ├── push.yaml               # semver タグ push → GHCR（latest はここだけ）
+│       ├── tag.yaml                # test 成功後 → semver タグ + Release
+│       └── test.yaml               # main push → インストール検証（docs/*.md は paths-ignore）
 ├── .vscode/                        # VSCode設定
 │   └── extensions.json             # 拡張機能設定
 ├── cloud-init/                     # クラウド初期化設定

@@ -80,6 +80,18 @@ install_brew_packages() {
     echo "packages install done."
 }
 
+activate_mise() {
+    if ! command -v mise >/dev/null 2>&1; then
+        return 0
+    fi
+
+    mkdir -p "${HOME}/.config/mise"
+    export MISE_CONFIG_DIR="${HOME}/.config/mise"
+    touch "${MISE_CONFIG_DIR}/shorthands.toml"
+    export MISE_SHORTHANDS_FILE="${MISE_CONFIG_DIR}/shorthands.toml"
+    eval "$(mise activate bash)"
+}
+
 install_mise() {
     if command -v mise >/dev/null; then
         echo "mise already installed."
@@ -88,6 +100,8 @@ install_mise() {
         mise --version || echo "mise install failed."
     fi
 
+    activate_mise
+
     if [ -f "${HOME}/.config/mise/config.toml" ]; then
         mise i -y || echo "mise install failed."
     fi
@@ -95,18 +109,42 @@ install_mise() {
     echo "mise setup completed."
 }
 
-install_cargo() {
-    if command -v cargo-binstall >/dev/null; then
+install_cargo_tools() {
+    activate_mise
+
+    if command -v cargo >/dev/null 2>&1; then
         echo "cargo already installed."
-        cargo-binstall -y sheldon starship || echo "cargo-binstall failed."
-    elif command -v cargo >/dev/null; then
-        echo "cargo already installed."
-        cargo install --force sheldon starship || echo "cargo install failed."
+    elif command -v mise >/dev/null 2>&1; then
+        mise use -g -y rust@stable || echo "rust install failed."
     else
-        brew install cargo
-        cargo --version || echo "cargo install failed."
-        cargo-binstall -y sheldon starship || echo "cargo-binstall failed."
+        echo "mise not found; cargo install skipped."
     fi
+
+    if [ -f "${HOME}/.local/share/cargo/env" ]; then
+        # shellcheck disable=SC1091
+        . "${HOME}/.local/share/cargo/env"
+    fi
+
+    if command -v cargo-binstall >/dev/null 2>&1; then
+        cargo-binstall -V
+    elif command -v cargo >/dev/null 2>&1; then
+        cargo install -f cargo-binstall || echo "cargo-binstall install failed."
+    elif command -v mise >/dev/null 2>&1; then
+        mise use -g -y cargo-binstall@latest || echo "cargo-binstall install failed."
+    else
+        echo "cargo-binstall not found."
+    fi
+
+    {{ range .packages.cargo -}}
+    if command -v cargo-binstall >/dev/null 2>&1; then
+        cargo-binstall -y {{ . }} || echo "{{ . }} install failed."
+    elif command -v cargo >/dev/null 2>&1; then
+        cargo install --force {{ . }} || echo "{{ . }} install failed."
+    else
+        echo "cargo not found; {{ . }} skipped."
+    fi
+    {{ end -}}
+
     echo "cargo setup completed."
 }
 
@@ -118,7 +156,7 @@ install_rosetta
 install_homebrew
 install_brew_packages
 install_mise
-install_cargo
+install_cargo_tools
 echo "--------------------------------"
 echo "zsh --version $(zsh --version)"
 echo "--------------------------------"

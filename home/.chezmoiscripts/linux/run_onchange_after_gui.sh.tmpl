@@ -9,6 +9,18 @@ if [ "$(id -u)" -ne 0 ]; then
     sudo="sudo"
 fi
 
+activate_mise() {
+    if ! command -v mise >/dev/null 2>&1; then
+        return 0
+    fi
+
+    mkdir -p "${HOME}/.config/mise"
+    export MISE_CONFIG_DIR="${HOME}/.config/mise"
+    touch "${MISE_CONFIG_DIR}/shorthands.toml"
+    export MISE_SHORTHANDS_FILE="${MISE_CONFIG_DIR}/shorthands.toml"
+    eval "$(mise activate bash)"
+}
+
 # デスクトップ環境のインストール
 # package は .chezmoidata/packages.yaml に記載
 # .packages.linux.gui にはxfceデスクトップ環境をインストールするパッケージを記載
@@ -124,7 +136,8 @@ install_ruby_fusuma() {
     if command -v gem >/dev/null 2>&1; then
         echo "ruby already installed."
     elif command -v mise >/dev/null 2>&1; then
-        mise use ruby -g -y || echo "ruby install failed."
+        activate_mise
+        mise use -g -y ruby || echo "ruby install failed."
         echo "ruby installed."
     else
         $sudo apt-get install -y ruby || echo "ruby install failed."

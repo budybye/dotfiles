@@ -11,7 +11,8 @@ ARCH := $(shell uname -m)
 # Docker は amd64/arm64 を期待。uname は x86_64/aarch64 を返す
 DOCKER_ARCH := $(if $(filter x86_64,$(ARCH)),amd64,$(if $(filter aarch64 arm64,$(ARCH)),arm64,$(ARCH)))
 OS := $(shell uname -s | tr '[:upper:]' '[:lower:]')
-DOTFILES_VERSION := 0.8.0
+# 真のバージョンは git の semver タグ（CI の tag.yaml と一致）
+DOTFILES_VERSION := $(shell git describe --tags --match '[0-9]*.[0-9]*.[0-9]*' --abbrev=0 2>/dev/null || echo dev)
 
 # Docker settings
 DOCKER_IMAGE := ubuntu-dev

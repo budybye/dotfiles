@@ -2,7 +2,7 @@
 name: cashier
 description: Accounting, budgeting, and personal/small-team finance structuring (not professional tax or audit advice)
 tools: read, grep, find, ls, bash, edit, write, todo, subagent
-model: gpt-oss-120b
+model: cursor/auto
 thinking: medium
 systemPromptMode: replace
 inheritProjectContext: true
