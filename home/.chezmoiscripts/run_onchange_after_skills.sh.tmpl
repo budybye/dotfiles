@@ -2,7 +2,7 @@
 set -eu
 
 # packages.yaml の packages.claude.skills が変更された時に再実行される
-# ハッシュ: {{ .packages.claude.skills | toJson | sha256sum }}
+# ハッシュ: {{ .packages.agents.skills | toJson | sha256sum }}
 
 echo "skills.sh"
 echo "--------------------------------"
