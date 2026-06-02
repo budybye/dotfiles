@@ -2,56 +2,51 @@
 
 set -eu
 
-# AGENTS.md -> CLAUDE.md symlink
-if [ ! -f ./CLAUDE.md ]; then
-    echo "CLAUDE.md not found"
-    if [ -f ./AGENTS.md ]; then
-      ln -sf ./AGENTS.md ./CLAUDE.md
-      echo "CLAUDE.md created"
-    else
-      echo "AGENTS.md not found"
-    fi
-fi
+ensure_claude_md() {
+  if [ -f ./CLAUDE.md ]; then
+    return 0
+  fi
 
-# agents directory check
-if [ -d ./agents ]; then
-  ls -la ./agents
-else
-  echo "agents directory not found"
-fi
+  echo "CLAUDE.md not found"
+  if [ -f ./AGENTS.md ]; then
+    ln -sf ./AGENTS.md ./CLAUDE.md
+    echo "CLAUDE.md created"
+  else
+    echo "AGENTS.md not found"
+  fi
+}
 
-if command -v claude >/dev/null 2>&1; then
-  echo "claude $(claude --version)"
-else
-  echo "claude not found"
-fi
+show_agents_dir() {
+  if [ -d "${1}" ]; then
+    ls -la "${1}"
+  else
+    echo "${1}directory not found"
+  fi
+}
 
-if command -v gemini >/dev/null 2>&1; then
-  echo "gemini $(gemini --version)"
-else
-  echo "gemini not found"
-fi
+# style: labeled (default) | raw
+report_tool() {
+  local cmd="$1"
+  local style="${2:-labeled}"
 
-if command -v codex >/dev/null 2>&1; then
-  codex --version
-else
-  echo "codex not found"
-fi
+  if ! command -v "$cmd" >/dev/null 2>&1; then
+    echo "${cmd} not found"
+    return
+  fi
 
-if command -v cursor-agent >/dev/null 2>&1; then
-  echo "cursor-agent $(cursor-agent --version)"
-else
-  echo "cursor-agent not found"
-fi
+  case "$style" in
+    raw) "$cmd" --version ;;
+    *) echo "${cmd} $("$cmd" --version)" ;;
+  esac
+}
 
-if command -v opencode >/dev/null 2>&1; then
-  echo "opencode $(opencode --version)"
-else
-  echo "opencode not found"
-fi
+ensure_claude_md
+show_agents_dir "${HOME}/.agents"
+show_agents_dir "./.agents"
 
-if command -v pi >/dev/null 2>&1; then
-  echo "pi $(pi --version)"
-else
-  echo "" not found
-fi
+report_tool claude
+report_tool gemini
+report_tool codex raw
+report_tool cursor-agent
+report_tool opencode
+report_tool pi

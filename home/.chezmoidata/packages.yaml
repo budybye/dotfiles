@@ -322,9 +322,10 @@ packages:
     - "@bitwarden/cli"
     - "@marp-team/marp-cli"
     - "rnsec"
+    - "opensrc"
     - "ctx7"
     - "defuddle"
-    - "@earendil-works/pi-coding-agent"
+    # - "@earendil-works/pi-coding-agent"
     - "hunkdiff"
   # - '@hubai/cli'
   # - 'vibekit'
@@ -341,9 +342,9 @@ packages:
   # - '@pipedream/sdk'
   # - '@bitwarden/cli'
 
-  claude:
+  agents:
     skills:
-      # npx skills add … -g -y -a claude-code codex（run_onchange_after_skills.sh.tmpl）
+      # npx skills add … -g -y （run_onchange_after_skills.sh.tmpl）
       # 実体: ~/.agents/skills/（Codex は ~/.codex/skills → 同実体へのシンボリックリンク）
       # スナップショット: ../../skills-list.md（make skills）
       - "mattpocock/skills -s tdd"
@@ -387,6 +388,7 @@ packages:
       # - "alinaqi/claude-bootstrap -s pwa-development"
       # - "kepano/obsidian-skills -s obsidian-markdown"
       - "coderabbitai/skills -s code-review"
+      - "vercel-labs/opensrc -s opensrc"
       # - "coinbase/agentic-wallet-skills -a"
       # - "xrpl-commons/xrpl-dev-skill -s xrpl-dev"
       # - "badlogic/pi-skills -s brave-search"

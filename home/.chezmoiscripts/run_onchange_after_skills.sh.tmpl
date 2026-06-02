@@ -12,8 +12,8 @@ if ! command -v claude >/dev/null 2>&1; then
     exit 0
 fi
 
-{{ range .packages.claude.skills -}}
-npx skills add {{ . }} -g -y -a claude-code codex || echo "skill install failed: {{ . }}"
+{{ range .packages.agents.skills -}}
+npx skills add {{ . }} -g -y || echo "skill install failed: {{ . }}"
 {{ end -}}
 
 echo "--------------------------------"

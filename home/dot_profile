@@ -519,6 +519,11 @@ if command -v opencode >/dev/null 2>&1; then
     export OPENCODE_CONFIG="${OPENCODE_CONFIG_DIR}/opencode.jsonc"
 fi
 
+if command -v pi >/dev/null 2>&1; then
+    mkdir -p "${XDG_CONFIG_HOME}/pi"
+    export PI_HOME="${XDG_CONFIG_HOME}/pi"
+fi
+
 if command -v cursor-agent >/dev/null 2>&1; then
     export CURSOR_API_KEY="${CURSOR_API_KEY:-}"
 fi
@@ -531,4 +536,14 @@ fi
 if command -v discord >/dev/null 2>&1; then
     mkdir -p "${XDG_DATA_HOME}/discord"
     export DISCORD_USER_DATA_DIR="${XDG_DATA_HOME}/discord"
+fi
+
+if command -v opensrc >/dev/null 2>&1; then
+    mkdir -p "${XDG_DATA_HOME}/opensrc"
+    export OPENSRC_HOME="${XDG_DATA_HOME}/opensrc"
+fi
+
+if command -v ratty >/dev/null 2>&1; then
+    mkdir -p "${XDG_CACHE_HOME}/ratty"
+    export RATTY_HOME="${XDG_CONFIG_HOME}/ratty"
 fi
