@@ -316,17 +316,18 @@ packages:
   # - 'fermyon'
 
   npm:
-    - "skills"
     - "pm2"
+    - "skills"
     - "@hono/cli"
-    - "@bitwarden/cli"
-    - "@marp-team/marp-cli"
     - "rnsec"
     - "opensrc"
     - "ctx7"
     - "defuddle"
-    # - "@earendil-works/pi-coding-agent"
+    - "@fission-ai/openspec"
     - "hunkdiff"
+    # - "@bitwarden/cli"
+    # - "@marp-team/marp-cli"
+    # - "@earendil-works/pi-coding-agent"
   # - '@hubai/cli'
   # - 'vibekit'
   # - 'surge'
@@ -472,6 +473,7 @@ packages:
   curl:
     - "curl -fsSL https://mise.run | sh"
     - "curl -fsSL https://git.io/chezmoi | sh"
+    - "curl -fsSL https://zed.dev/install.sh | sh"
     - "curl -fsSL https://cli.coderabbit.ai/install.sh | sh"
     - "curl -fsSL https://vicinae.com/install.sh | sh"
     - "curl -fsSL https://nixos.org/nix/install | sh"

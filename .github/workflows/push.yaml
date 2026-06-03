@@ -1,7 +1,7 @@
 name: Push to ghcr
-# semver タグ push で GHCR を更新（main 単独 push では走らない）。
-# tag.yaml がタグを push すると本 workflow が起動する。
-# schedule / workflow_dispatch はキャッシュ更新用（latest / semver は付けない）。
+# semver タグ push または tag.yaml からの workflow_dispatch で GHCR を更新（main 単独 push では走らない）。
+# tag.yaml はタグ push 後に workflow_dispatch でも起動する（tag push イベント欠落の保険）。
+# schedule はキャッシュ更新用（latest / semver は付けない）。手動 dispatch は --ref で semver タグを指定。
 on:
   push:
     tags:
@@ -14,7 +14,8 @@ on:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: ${{ github.event_name == 'push' }}
+  # schedule 以外は同一 ref の並行 run をキャンセル（tag push + workflow_dispatch の二重起動対策）
+  cancel-in-progress: ${{ github.event_name != 'schedule' }}
 
 env:
   REGISTRY_IMAGE: ghcr.io/budybye/ubuntu-dev

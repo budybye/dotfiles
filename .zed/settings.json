@@ -1,0 +1,15 @@
+{
+  "format_on_save": "on",
+  "file_types": {
+    "Shell Script": [
+      "dot_bashrc",
+      "dot_bash_profile",
+      "dot_profile",
+      "dot_aliases",
+      "*.sh.tmpl",
+    ],
+    "TOML": ["*.toml.tmpl"],
+    "Go Text Template": [".chezmoiignore", "*.tmpl"],
+    "Markdown": ["llms.txt"],
+  },
+}

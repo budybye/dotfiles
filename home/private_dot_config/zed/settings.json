@@ -50,7 +50,7 @@
         "opencode-go/kimi-k2.6",
         "openrouter/nvidia/nemotron-3-super-120b-a12b:free",
         "cloudflare-ai-gateway/gpt-5.3-codex",
-        "cloudflare-ai-gateway/claude-opus-4-6"
+        "cloudflare-ai-gateway/claude-opus-4-6",
       ],
       "type": "registry",
     },
@@ -63,7 +63,7 @@
           "opencode/nemotron-3-super-free/high",
           "openrouter/qwen/qwen3-coder-30b-a3b-instruct",
           "opencode/ring-2.6-1t-free",
-          "opencode/nemotron-3-super-free"
+          "opencode/nemotron-3-super-free",
         ],
       },
       "favorite_models": [
@@ -130,7 +130,7 @@
   "confirm_quit": true,
   "language_models": {
     "opencode": {
-      "show_zen_models": false
+      "show_zen_models": false,
     },
     "openai_compatible": {
       "sakura": {
@@ -159,38 +159,38 @@
       {
         "provider": "sakura",
         "model": "gpt-oss-120b",
-        "enable_thinking": false
+        "enable_thinking": false,
       },
       {
         "provider": "openrouter",
         "model": "openrouter/free",
-        "enable_thinking": true
+        "enable_thinking": true,
       },
       {
         "provider": "openrouter",
         "model": "openai/gpt-oss-120b:free",
-        "enable_thinking": true
+        "enable_thinking": true,
       },
       {
         "provider": "openrouter",
         "model": "nvidia/nemotron-3-super-120b-a12b:free",
-        "enable_thinking": true
+        "enable_thinking": true,
       },
       {
         "provider": "opencode",
         "model": "go/kimi-k2.6",
-        "enable_thinking": false
+        "enable_thinking": false,
       },
       {
         "provider": "opencode",
         "model": "go/glm-5.1",
-        "enable_thinking": false
+        "enable_thinking": false,
       },
       {
         "provider": "opencode",
         "model": "go/qwen3.6-plus",
-        "enable_thinking": false
-      }
+        "enable_thinking": false,
+      },
     ],
     "default_profile": "write",
     "inline_assistant_model": {

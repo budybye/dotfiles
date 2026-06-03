@@ -13,18 +13,20 @@ services:
       - ${RDP_PORT:-33389}:3389 # 127.1:33389 で RDP
       - ${SSH_PORT:-2222}:22
     # volumes:
-    #   - ${HOME}/data:/home/ubuntu/data
+    #   - ${HOME}/Developer:/home/${USER:-ubuntu}/Developer
     environment:
       # REMOTE_CONTAINERS: true
       MISE_GITHUB_TOKEN: ${MISE_GITHUB_TOKEN:-}
+      GITHUB_TOKEN: ${GITHUB_TOKEN:-}
     shm_size: 512m # ブラウザ対策
     # entrypoint: ["entrypoint"]
     command: ["${USER:-ubuntu}", "${PASSWORD:-ubuntu}", "yes"]
     tty: true
     restart: always
 
-  tunnel:
-    image: cloudflare/cloudflared
-    command: tunnel run --token ${TUNNEL_TOKEN:-}
-    restart: unless-stopped
-    extra_hosts: ["host.docker.internal:host-gateway"]
+  # rdp,ssh はzerotrustで設定するとできる
+  # tunnel:
+  #   image: cloudflare/cloudflared
+  #   command: tunnel run --token ${TUNNEL_TOKEN:-}
+  #   restart: unless-stopped
+  #   extra_hosts: ["host.docker.internal:host-gateway"]

@@ -87,11 +87,12 @@ description: 技術スタック パッケージ管理 ライブラリ説明
 
 1. **`test.yaml`** — 多 OS / 環境で `make init` 等を検証
 2. **`tag.yaml`** — 上記成功時のみ（`workflow_run`）。対象コミットに semver タグが無ければパッチ +1 の `X.Y.Z` を付与し GitHub Release を作成
-3. **`push.yaml`** — semver タグの push 時のみ GHCR に build & push（`0.8.123` / `0.8` / `latest`）
+3. **`push.yaml`** — semver タグの push 時、または `tag.yaml` 成功後の `workflow_dispatch` で GHCR に build & push（`0.8.123` / `0.8` / `latest`）
 
 補足:
 
 - **バージョンの単一ソース**は git の semver タグ。`make version` は `git describe` を表示する（`Makefile` の `DOTFILES_VERSION` はタグから導出）
+- **`tag.yaml` はリリース作成後に `gh workflow run push.yaml --ref <tag>` を実行** — tag push イベントだけに依存しない
 - **`push.yaml` は `main` 単独 push では走らない** — `latest` と Release 済みイメージのズレを防ぐ
 - **`schedule`（毎日）** — プラットフォーム別 digest キャッシュの更新のみ。`latest` / semver タグは付けない
 - **`ipfs.yaml`** — `main` push で IPFS ピン（コンテナとは独立）

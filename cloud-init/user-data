@@ -27,11 +27,11 @@ package_cleanup: true
 # package_reboot_if_required: true
 
 users:
-- name: pi
+- name: budybye
   groups: users,adm,dialout,audio,netdev,video,plugdev,cdrom,games,input,gpio,spi,i2c,render,sudo,ssl-cert,xrdp,docker
   shell: /bin/bash
   lock_passwd: false
-  passwd: 6256
+  passwd: 0314
 
 ssh_import_id:
 - gh:budybye

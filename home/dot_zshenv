@@ -1,6 +1,7 @@
 # 最初に読み込まれるので${HOME}/.zshenv には最小限の環境変数のみを記述
 
-export SHELL="$(command -v zsh)"
+SHELL="$(command -v zsh)"
+export SHELL
 # chsh -s "${SHELL}" $"(whoami)"
 
 # ZDOTDIR を設定
