@@ -1,5 +1,4 @@
 {
-  // ==== ワークベンチ / UI ====
   "workbench.colorTheme": "Kanagawa Dragon",
   "workbench.iconTheme": "simple-icons",
   "workbench.statusBar.visible": true,
@@ -15,10 +14,9 @@
   "workbench.colorCustomizations": {
     "minimapSlider.activeBackground": "#06034dc0",
     "minimapSlider.background": "#06034dc0",
-    "minimapSlider.hoverBackground": "#06034dc0",
+    "minimapSlider.hoverBackground": "#06034dc0"
   },
 
-  // ==== テレメトリ / アップデート ====
   "telemetry.telemetryLevel": "off",
   "redhat.telemetry.enabled": false,
   "crashReporting.enabled": "off",
@@ -27,7 +25,6 @@
   "extensions.ignoreRecommendations": true,
   "update.releaseTrack": "dev",
 
-  // ==== エディタ共通設定 ====
   "editor.accessibilitySupport": "off",
   "editor.bracketPairColorization.enabled": false,
   "editor.cursorBlinking": "blink",
@@ -52,7 +49,6 @@
   "editor.unicodeHighlight.invisibleCharacters": false,
   "editor.wordWrap": "on",
 
-  // ==== ファイル ====
   "files.autoGuessEncoding": true,
   "files.autoSave": "afterDelay",
   "files.eol": "\n",
@@ -62,7 +58,7 @@
   "files.trimTrailingWhitespaceOnSave": true,
 
   "files.associations": {
-    "*.erb": "erb",
+    "*.erb": "erb"
   },
 
   "files.exclude": {
@@ -70,13 +66,12 @@
     "**/.git": true,
     "**/.hg": true,
     "**/.svn": true,
-    "**/CVS": true,
+    "**/CVS": true
   },
 
-  // ==== ターミナル ====
   "terminal.integrated.automationProfile.osx": {
     "path": "/bin/zsh",
-    "args": ["-l"],
+    "args": ["-l"]
   },
   "terminal.integrated.copyOnSelection": true,
   "terminal.integrated.defaultProfile.osx": "zsh",
@@ -90,11 +85,10 @@
     "zsh": {
       "path": "/bin/zsh",
       "args": [],
-      "overrideName": true,
-    },
+      "overrideName": true
+    }
   },
 
-  // ==== エクスプローラ / Git ====
   "explorer.confirmDelete": false,
   "explorer.confirmDragAndDrop": false,
 
@@ -102,53 +96,51 @@
   "git.enableSmartCommit": true,
   "git.openRepositoryInParentFolders": "never",
 
-  // ==== 言語別設定 ====
   "[css]": {
-    "editor.defaultFormatter": "vscode.css-language-features",
+    "editor.defaultFormatter": "vscode.css-language-features"
   },
   "[dockercompose]": {
     "editor.autoIndent": "advanced",
     "editor.defaultFormatter": "redhat.vscode-yaml",
     "editor.insertSpaces": true,
-    "editor.tabSize": 2,
+    "editor.tabSize": 2
   },
   "[github-actions-workflow]": {
-    "editor.defaultFormatter": "redhat.vscode-yaml",
+    "editor.defaultFormatter": "redhat.vscode-yaml"
   },
   "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[javascriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[jsonc]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[php]": {
-    "editor.defaultFormatter": "bmewburn.vscode-intelephense-client",
+    "editor.defaultFormatter": "bmewburn.vscode-intelephense-client"
   },
   "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[typescriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[yaml]": {
-    "editor.defaultFormatter": "redhat.vscode-yaml",
+    "editor.defaultFormatter": "redhat.vscode-yaml"
   },
   "[markdown]": {
-    "files.trimTrailingWhitespace": false,
+    "files.trimTrailingWhitespace": false
   },
 
-  // ==== ツール別設定（SQL / PHP / Docker / Go / Python など） ====
   "mssql.connectionGroups": [
     {
       "name": "ROOT",
-      "id": "517D5F92-8344-41A6-8993-D45F8AE4FD30",
-    },
+      "id": "517D5F92-8344-41A6-8993-D45F8AE4FD30"
+    }
   ],
   "mssql.connections": [],
 
@@ -167,7 +159,6 @@
 
   "typescript.disableAutomaticTypeAcquisition": true,
 
-  // ==== 拡張機能・その他 ====
   "application.shellEnvironmentResolutionTimeout": 101,
   "console-ninja.featureSet": "Community",
   "commentTranslate.hover.enabled": false,
@@ -176,7 +167,6 @@
   "markdown.marp.html": "off",
   "search.followSymlinks": false,
 
-  // ==== cursor 独自 ====
   "cursor.chat.alwaysSearchWeb": true,
   "cursor.chat.smoothStreaming": true,
   "cursor.preferNotificationsSameAsChat": true,
@@ -195,14 +185,14 @@
     "https://json.schemastore.org/": true,
     "https://json-schema.org/": true,
     "https://developer.microsoft.com/json-schemas/": true,
-    "https://biomejs.dev": true,
+    "https://biomejs.dev": true
   },
   "workbench.editorAssociations": {
     "{hexdiff}:/**/*.*": "hexEditor.hexedit",
     "*.mmd": "vizVibe.vizflowEditor",
-    "*.png": "imagePreview.previewEditor",
+    "*.png": "imagePreview.previewEditor"
   },
   "atomicviz.features.lastNotified": "3.5.3",
   "atomicviz.installed": true,
-  "claudeCode.preferredLocation": "panel",
+  "claudeCode.preferredLocation": "panel"
 }

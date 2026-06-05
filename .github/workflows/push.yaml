@@ -13,7 +13,8 @@ on:
     - cron: "20 7 * * *"
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  # schedule は main と別グループ — workflow_dispatch / 旧 main push がキャッシュ更新をキャンセルしない
+  group: ${{ github.workflow }}-${{ github.event_name == 'schedule' && 'scheduled-cache-refresh' || github.ref }}
   # schedule 以外は同一 ref の並行 run をキャンセル（tag push + workflow_dispatch の二重起動対策）
   cancel-in-progress: ${{ github.event_name != 'schedule' }}
 

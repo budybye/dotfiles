@@ -86,13 +86,6 @@
       "remote": false,
       "settings": {},
     },
-    "mcp-server-context7": {
-      "enabled": false,
-      "remote": false,
-      "settings": {
-        "context7_api_key": "",
-      },
-    },
     "bun-docs-mcp": {
       "enabled": false,
       "remote": false,
@@ -206,9 +199,44 @@
     "use_modifier_to_send": true,
     "play_sound_when_agent_done": "never",
   },
-  "autosave": "on_focus_change",
+  // Imported from VS Code settings.json
+  "autosave": {
+    "after_delay": {
+      "milliseconds": 1000,
+    },
+  },
   "format_on_save": "on",
   "formatter": "auto",
+  "hard_tabs": true,
+  "tab_size": 4,
+  "soft_wrap": "editor_width",
+  "cursor_shape": "block",
+  "current_line_highlight": "line",
+  "show_whitespaces": "boundary",
+  "use_on_type_format": false,
+  "auto_indent_on_paste": false,
+  "remove_trailing_whitespace_on_save": true,
+  "ensure_final_newline_on_save": true,
+  "indent_guides": {
+    "enabled": true,
+  },
+  "minimap": {
+    "show": "always",
+    "thumb": "hover",
+  },
+  "preview_tabs": {
+    "enabled": false,
+    "enable_preview_from_file_finder": false,
+  },
+  "status_bar": {
+    "experimental.show": true,
+  },
+  "file_types": {
+    "Embedded Ruby": ["*.erb"],
+  },
+  "node": {
+    "npm_path": "bun",
+  },
   "ui_font_family": "HackGen35 Console NF",
   "buffer_font_weight": 400.0,
   "buffer_font_family": "HackGen35 Console NF",
@@ -255,6 +283,13 @@
         "tailwindcss-intellisense-css",
         "!vscode-css-language-server",
       ],
+    },
+    "YAML": {
+      "hard_tabs": false,
+      "tab_size": 2,
+    },
+    "Markdown": {
+      "remove_trailing_whitespace_on_save": false,
     },
   },
 }

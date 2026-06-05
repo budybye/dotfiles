@@ -144,7 +144,7 @@ maven = "latest"
 ffmpeg = "latest"
 yt-dlp = "latest"
 # neovim = "latest"
-# solidity = "latest"
+solidity = "latest"
 cocoapods = "latest"
 pre-commit = "latest"
 

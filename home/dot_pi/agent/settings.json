@@ -26,14 +26,10 @@
   },
   "shellCommandPrefix": "shopt -s expand_aliases\neval \"$(grep '^alias ' ~/.aliases)\"",
   "npmCommand": [
-    "mise",
-    "exec",
-    "bun@latest",
-    "--",
     "bun"
   ],
   "enableSkillCommands": true,
-  "lastChangelogVersion": "0.78.0",
+  "lastChangelogVersion": "0.78.1",
   "enableInstallTelemetry": false,
   "packages": [
     "npm:@netandreus/pi-cursor-provider",

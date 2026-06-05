@@ -94,7 +94,7 @@ description: 技術スタック パッケージ管理 ライブラリ説明
 - **バージョンの単一ソース**は git の semver タグ。`make version` は `git describe` を表示する（`Makefile` の `DOTFILES_VERSION` はタグから導出）
 - **`tag.yaml` はリリース作成後に `gh workflow run push.yaml --ref <tag>` を実行** — tag push イベントだけに依存しない
 - **`push.yaml` は `main` 単独 push では走らない** — `latest` と Release 済みイメージのズレを防ぐ
-- **`schedule`（毎日）** — プラットフォーム別 digest キャッシュの更新のみ。`latest` / semver タグは付けない
+- **`schedule`（毎日）** — プラットフォーム別 digest キャッシュの更新のみ。`latest` / semver タグは付けない。concurrency は `scheduled-cache-refresh` で `workflow_dispatch`（main）と分離
 - **`ipfs.yaml`** — `main` push で IPFS ピン（コンテナとは独立）
 - 非 semver タグ（例: `push`）は `tag.yaml` の対象外。リモートに上げないこと
 
