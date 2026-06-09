@@ -9,7 +9,7 @@
 # root ユーザーで実行された場合は sudo をつけない
 pwd
 sudo="sudo"
-if [ $(whoami) == "root" ]; then
+if [ "$(whoami)" = "root" ]; then
     echo "running root user"
     sudo=""
 fi
@@ -57,30 +57,30 @@ if [[ $mod -ne 0 ]]; then
     echo "there should be 3 input parameters per user"
     exit
 fi
-# echo "You entered $users users"
+echo "You entered ${users} user(s)"
 
 # 引数をループしてユーザーを作成
 while [ $# -ne 0 ]; do
 
     # グループを作成 ユーザー名と同じグループ名
     # echo "username is $1"
-    $sudo addgroup $1
-    if [ $(command -v zsh) ]; then
-        $sudo useradd -m -s $(command -v zsh) -g $1 $1
+    $sudo addgroup "$1"
+    if [ "$(command -v zsh)" ]; then
+        $sudo useradd -m -s "$(command -v zsh)" -g "$1" "$1"
     else
-        $sudo useradd -m -s /bin/bash -g $1 $1
+        $sudo useradd -m -s /bin/bash -g "$1" "$1"
     fi
     wait
 
     # パスワードを設定
     # getent passwd | grep $1
-    echo $1:$2 | $sudo chpasswd
+    echo "$1":"$2" | $sudo chpasswd
     wait
 
     # スーパーユーザーかどうか
     # echo "sudo is $3"
     if [[ $3 == "yes" ]]; then
-        $sudo usermod -aG sudo $1
+        $sudo usermod -aG sudo "$1"
     fi
     wait
     # echo "user '$1' is added"
@@ -92,5 +92,6 @@ done
 echo -e "starting xrdp services...\n"
 echo "RDP_PORT is ${RDP_PORT:-3389}"
 
-trap "stop_xrdp_services" SIGKILL SIGTERM SIGHUP SIGINT EXIT
+# SIGKILL/SIGSTOP は trap 不可
+trap "stop_xrdp_services" SIGTERM SIGHUP SIGINT EXIT
 start_xrdp_services

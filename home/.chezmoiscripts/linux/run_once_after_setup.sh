@@ -1,10 +1,48 @@
 #!/usr/bin/env bash
-# set -eu
+set -eu
 
 sudo=""
 if [ "$(id -u)" -ne 0 ]; then
     sudo="sudo"
 fi
+
+systemd_running() {
+    command -v systemctl >/dev/null 2>&1 && systemctl is-system-running >/dev/null 2>&1
+}
+
+user_systemd_running() {
+    [ -n "${XDG_RUNTIME_DIR:-}" ] && systemctl --user is-system-running >/dev/null 2>&1
+}
+
+xrdp_pulse_modules_installed() {
+    local modlibexecdir
+    modlibexecdir="$(pkg-config --variable=modlibexecdir libpulse)"
+    ls "${modlibexecdir}" 2>/dev/null | grep -q xrdp
+}
+
+enable_pulse_deb_src() {
+    if [ -f /etc/apt/sources.list.d/ubuntu.sources ] && ! grep -q 'deb-src' /etc/apt/sources.list.d/ubuntu.sources; then
+        $sudo sed -i 's/Types: deb$/Types: deb deb-src/' /etc/apt/sources.list.d/ubuntu.sources
+        $sudo apt-get update -y
+    fi
+}
+
+write_xsession() {
+    if user_systemd_running; then
+        printf '%s\n' 'xfce4-session' > "${HOME}/.xsession"
+    else
+        cat > "${HOME}/.xsession" <<'XSESSION'
+#!/bin/sh
+if command -v pipewire >/dev/null 2>&1; then
+    pipewire &
+    wireplumber &
+    pipewire-pulse &
+fi
+exec xfce4-session
+XSESSION
+        chmod +x "${HOME}/.xsession"
+    fi
+}
 
 japan_setup() {
     echo "japan setup start..."
@@ -30,31 +68,34 @@ xrdp_setup() {
     # wayland で起動する場合
     # startxfce4 --wayland
 
-    # gdm 3の方が安定してる
+    # packages.yaml の linux.gui と揃える (sddm)
     # $sudo apt-get install -y lightdm
-    # $sudo apt-get install -y ssdm
-    $sudo apt-get install -y gdm3
+    # $sudo apt-get install -y gdm3
+    $sudo apt-get install -y sddm
 
     # $sudo dpkg-reconfigure lightdm
     $sudo apt-get remove -y light-locker xscreensaver
 
     $sudo groupadd -f ssl-cert
     $sudo groupadd -f xrdp
-    # $sudo usermod -aG ssl-cert,xrdp "$(whoami)"
+    $sudo usermod -aG ssl-cert,xrdp "$(whoami)"
     $sudo adduser xrdp ssl-cert
 
-    $sudo ufw allow 3389/tcp
-    $sudo ufw reload
+    if command -v ufw >/dev/null 2>&1; then
+        $sudo ufw allow 3389/tcp
+        $sudo ufw reload
+    fi
 
-    $sudo systemctl enable xrdp
-    $sudo systemctl start xrdp
-    # $sudo systemctl enable lightdm
-    # $sudo systemctl start lightdm
-    $sudo systemctl daemon-reload
-    $sudo systemctl restart rsyslog
-    # default session manager
-    echo "xfce4-session" | $sudo tee "${HOME}/.xsession"
-    $sudo systemctl restart xrdp
+    if systemd_running; then
+        $sudo systemctl enable xrdp
+        $sudo systemctl start xrdp
+        # $sudo systemctl enable lightdm
+        # $sudo systemctl start lightdm
+        $sudo systemctl daemon-reload
+        $sudo systemctl restart rsyslog
+        $sudo systemctl restart xrdp
+    fi
+
     echo "xrdp setup completed."
 
     echo "以下のコマンドを実行してパスワードを更新してください"
@@ -65,39 +106,63 @@ xrdp_setup() {
 }
 
 pipewire_setup() {
-    doko=$(pwd)
-    pulseaudio_dir="${HOME}/.config/pulseaudio"
-    pipewire_dir="${HOME}/.config/pipewire/pulseaudio-module-xrdp"
+    local build_root="${HOME}/.local/src"
+    local pulse_src_dir="${HOME}/pulseaudio.src"
+    local module_dir="${build_root}/pulseaudio-module-xrdp"
+    local modlibexecdir
 
-    # pulseaudio をインストール
-    $sudo apt-get install -y pulseaudio libpulse-dev dh-autoreconf dpkg-dev git || echo "pulseaudio install failed."
+    echo "pipewire setup start..."
 
-    mkdir -p "${pulseaudio_dir}"
-    cd "${pulseaudio_dir}"
-    git clone https://github.com/neutrinolabs/pulseaudio-module-xrdp.git
-    cd pulseaudio-module-xrdp
-    $sudo make install
-    ls $(pkg-config --variable=modlibexecdir libpulse) | grep xrdp || echo "pulseaudio xrdp module not found."
-    cd "${doko}"
+    $sudo apt-get update -y
+    $sudo apt-get install -y \
+        build-essential \
+        pulseaudio \
+        libpulse-dev \
+        dh-autoreconf \
+        dpkg-dev \
+        git \
+        lsb-release \
+        pipewire \
+        pipewire-audio \
+        pipewire-pulse \
+        wireplumber \
+        libspa-0.2-dev \
+        libpipewire-0.3-dev \
+        autoconf \
+        libtool
 
-    # pipewire をインストール
-    $sudo apt-get install -y pipewire pipewire-audio libspa-0.2-dev libpipewire-0.3-dev autoconf libtool && echo "pipewire installed." || echo "pipewire install failed."
-    mkdir -p "${HOME}/.config/pipewire"
+    if xrdp_pulse_modules_installed; then
+        echo "xrdp pulse modules already installed."
+    else
+        enable_pulse_deb_src
+        mkdir -p "${build_root}"
+        if [ ! -d "${module_dir}/.git" ]; then
+            git clone https://github.com/neutrinolabs/pulseaudio-module-xrdp.git "${module_dir}"
+        fi
 
-    if [ ! -d "${pipewire_dir}" ]; then
-        git clone https://github.com/neutrinolabs/pulseaudio-module-xrdp.git "${pipewire_dir}"
-        cd "${pipewire_dir}"
+        cd "${module_dir}"
+
+        if [ ! -d "${pulse_src_dir}" ]; then
+            ./scripts/install_pulseaudio_sources_apt.sh -d "${pulse_src_dir}"
+        fi
+
         ./bootstrap
-
-        # PULSE_DIR を pulseaudio ソースのディレクトリに設定
-        export PULSE_DIR=~/pulseaudio
-
-        ./configure PULSE_DIR="${PULSE_DIR}" PULSE_CONFIG_DIR="${PULSE_DIR}"
+        ./configure PULSE_DIR="${pulse_src_dir}"
         make
         $sudo make install
-        cd "${doko}"
+
+        if ! xrdp_pulse_modules_installed; then
+            modlibexecdir="$(pkg-config --variable=modlibexecdir libpulse)"
+            echo "pulseaudio xrdp modules not found in ${modlibexecdir}" >&2
+            exit 1
+        fi
     fi
-    echo "pipewire installed."
+
+    if user_systemd_running; then
+        systemctl --user enable --now pipewire pipewire-pulse wireplumber
+    fi
+
+    echo "pipewire setup completed."
 }
 
 echo "setup.sh"
@@ -106,6 +171,7 @@ echo "--------------------------------"
 japan_setup
 xrdp_setup
 pipewire_setup
+write_xsession
 
 echo "--------------------------------"
 echo "GUI setup done!!"

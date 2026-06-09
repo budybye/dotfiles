@@ -107,11 +107,6 @@ RUN apt-get install -y \
     nyancat \
     translate-shell
 
-# 不要なパッケージ キャッシュを削除
-RUN apt-get autoremove -y && \
-    apt-get clean && \
-    rm -rf /var/cache/apt /var/lib/apt/lists/*
-
 # devユーザー設定
 ARG DEV=dev
 ARG DEV_PW=dev
@@ -141,6 +136,11 @@ RUN git clone https://github.com/budybye/dotfiles.git /home/ubuntu/dotfiles
 WORKDIR /home/ubuntu/dotfiles
 USER ubuntu
 RUN make init
+
+# 不要なパッケージ キャッシュを削除（make init 内の apt-get の後）
+RUN sudo apt-get autoremove -y && \
+    sudo apt-get clean && \
+    sudo rm -rf /var/cache/apt /var/lib/apt/lists/*
 
 # マルチステージビルド
 FROM base
