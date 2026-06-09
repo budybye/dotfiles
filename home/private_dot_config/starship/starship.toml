@@ -34,6 +34,7 @@ $git_metrics\
 $git_status\
 [](fg:dark bg:dd)\
 $fill\
+$mise\
 $nodejs\
 $rust\
 $golang\
@@ -50,11 +51,12 @@ $memory_usage\
 [](fg:ddd bg:ddd)\
 $cmd_duration\
 [](fg:ddd)\
+${custom.jj}\
 $line_break\
 $character\
 $localip\
 $docker_context\
-$custom\
+${custom.arch}\
 $shell\
 """
 
@@ -222,6 +224,14 @@ disabled = false
 [docker_context]
 format = "[🐋$context](fg:blue bold) "
 
+[mise]
+disabled = false
+symbol = "󰏗 "
+style = "fg:gray bg:dd"
+format = "[ $symbol$health]($style bold)"
+healthy_symbol = "✓"
+unhealthy_symbol = "⚠"
+
 [character]
 success_symbol = "[♨︎ ](fg:green bold)"
 error_symbol = "[♨︎ ](fg:red bold)"
@@ -241,6 +251,19 @@ command = "uname -m"
 when = """ test $(uname -m) = "x86_64" """
 style = "bold gray"
 format = "[$output]($style bold) "
+
+# jj username
+[custom.jj]
+command = "jj config get github.username"
+when = "command -v jj >/dev/null"
+style = "fg:dd bg:gray"
+format = "[$output]($style bold) "
+
+[custom.devcontainer]
+command = "echo dev"
+when = "test -n \"$REMOTE_CONTAINERS\""
+style = "fg:cyan"
+format = "[ $output]($style bold)"
 
 [gcloud]
 disabled = true

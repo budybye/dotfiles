@@ -14,7 +14,7 @@ fi
 # ${HOME}/.zshenv 全てのzshで読まれるので ${ZDOTDIR} の指定
 # ${ZDOTDIR}/.zprofile -> .profile と .zshrc を最後に読み込む zelliji 起動
 # ${ZDOTDIR}/.zshrc -> インタラクティブシェルと.zprofileから読まれる .aliases を最後に読み込む
-# ${HOME}/.aliases -> .bashrc .zshrc で読み込ままれる
+# ${ZDOTDIR}/.functions -> .zshrc で読み込ままれる
 # ${ZDOTDIR}/.zlogin -> ログインシェルで読み込まれる
 # ${ZDOTDIR}/.zlogout -> ログアウト時に読み込まれる
 # 上記の順で読み込まれるので注意

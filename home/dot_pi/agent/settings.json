@@ -29,7 +29,7 @@
     "bun"
   ],
   "enableSkillCommands": true,
-  "lastChangelogVersion": "0.78.1",
+  "lastChangelogVersion": "0.79.0",
   "enableInstallTelemetry": false,
   "packages": [
     "npm:@netandreus/pi-cursor-provider",

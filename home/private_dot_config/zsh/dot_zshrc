@@ -4,16 +4,16 @@
 
 # ${ZDOTDIR}.zshrc はインタラクティブシェルで読み込まれる
 # ${ZDOTDIR}.zprofile の最後で読み込まれてるのでzshで必ず実行される
-# ${HOME}.aliases を最後に読み込む
+# ${HOME}.functions を最後に読み込む
 
 # history 履歴ファイルのパスを設定
 if [ -d "${HOME}/.local/state/zsh" ]; then
-    HISTFILE="${HOME}/.local/state/zsh/zsh_history"
+    export HISTFILE="${HOME}/.local/state/zsh/zsh_history"
 else
-    HISTFILE="${HOME}/.zsh_history"
+    export HISTFILE="${HOME}/.zsh_history"
 fi
-HISTSIZE=123456
 
+export HISTSIZE=123456
 export SAVEHIST=123456
 export HIST_STAMPS="yyyy-mm-dd"
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="#123"
@@ -136,12 +136,13 @@ if [ -f "${HOME}/.config/vite-plus/env" ]; then
     . "${HOME}/.config/vite-plus/env"
 fi
 
+# API_KEY 系
+if command -v envars > /dev/null 2>&1; then
+    . envars
+fi
+
 # functionsファイルの読み込み
 if [ -f "${ZDOTDIR}/.functions" ]; then
     . "${ZDOTDIR}/.functions"
 fi
 
-# API_KEY 系
-if command -v envars > /dev/null 2>&1; then
-    . envars
-fi

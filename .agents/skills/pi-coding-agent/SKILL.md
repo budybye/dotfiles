@@ -1,6 +1,6 @@
 ---
 name: pi-coding-agent
-description: Embed `@mariozechner/pi-coding-agent` as a coding-agent runtime in Node scripts, write pi extensions (plugins) with `pi.registerTool` / `pi.registerCommand` / `pi.on`, package and `pi install` from npm/git, and pick between the SDK and `pi --mode rpc` for non-Node hosts. Covers session setup, the cwd × tools factory trap, TypeBox tool schemas, and the `peerDependencies` rule.
+description: Use when embedding `@mariozechner/pi-coding-agent` as a coding-agent runtime in Node scripts, writing pi extensions (plugins) with `pi.registerTool` / `pi.registerCommand` / `pi.on`, packaging and `pi install` from npm/git, or picking between the SDK and `pi --mode rpc` for non-Node hosts. Covers session setup, the cwd × tools factory trap, TypeBox tool schemas, and the `peerDependencies` rule. Trigger on `pi-coding-agent`, `pi.registerTool`, `pi install`, or "embed a coding agent into Node" descriptions even when pi is not named.
 ---
 
 # pi-coding-agent
@@ -23,18 +23,17 @@ Skip this skill if:
 
 ## Pitfalls (read first)
 
-| Symptom                                                                                         | Cause                                                                                                                        | Fix                                                                                                                                                                                    |
-| ----------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `ERR_PACKAGE_PATH_NOT_EXPORTED` from `require()`                                                | Package is ESM-only (`"type": "module"`, `exports` map without CJS)                                                          | Use ESM (`import`) or run with `tsx` / `--experimental-strip-types`                                                                                                                    |
-| Tools resolve paths against the wrong directory                                                 | Pre-built `readTool` / `bashTool` capture `process.cwd()` at import                                                          | When passing a custom `cwd` AND explicit `tools`, use the factory form `createCodingTools(cwd)` / `createReadTool(cwd)`                                                                |
-| `session.prompt(...)` throws "stream in progress"                                               | Calling `prompt()` again while the previous stream is still running                                                          | Pass `{ streamingBehavior: "steer" }` or `"followUp"`, or use `session.steer()` / `session.followUp()`                                                                                 |
-| Auth errors with `ANTHROPIC_API_KEY` set                                                        | `AuthStorage` reads runtime overrides → `auth.json` → env in that order; a stale `~/.pi/agent/auth.json` can shadow your env | Either clear the stored credential, or call `authStorage.setRuntimeApiKey("anthropic", key)` before `createAgentSession()`                                                             |
-| Nothing printed during streaming                                                                | You forgot to subscribe, or you only handle `text_delta` and the model is in thinking-only output                            | Subscribe to `message_update`, handle both `text_delta` and (optionally) `thinking_delta`                                                                                              |
-| Extension only loads with `pi -e ./ext.ts`, not from regular runs                               | `-e` is a one-off; the file is not in an auto-discovery directory                                                            | Move it to `~/.pi/agent/extensions/<name>.ts` (global) or `<project>/.pi/extensions/<name>.ts` (project), or register it in `settings.json` `extensions: [...]`                        |
-| Installed pi package fails at runtime with `Cannot find module '@mariozechner/pi-coding-agent'` | Listed it in `dependencies` instead of `peerDependencies`                                                                    | The five core packages (`@mariozechner/pi-{ai,agent-core,coding-agent,tui}`, `typebox`) MUST be in `peerDependencies` with range `"*"` and not bundled — pi provides them at load time |
-| `pi install` succeeded but a transitive dep is missing                                          | `npm install --omit=dev` is used by default, so `devDependencies` are not present at runtime                                 | Move the import to `dependencies`, or set `npmCommand` in `settings.json` if you need a custom npm wrapper                                                                             |
-| Extension changes do not take effect                                                            | The TUI cached the previous load                                                                                             | Run `/reload` inside pi (works for any extension in an auto-discovered location)                                                                                                       |
-| `Cannot find module './foo.js'` when loading a multi-file extension                             | pi loads `.ts` via Bun; `./foo.js` is resolved as a real `.js` file on disk, not the `.ts` source                            | Use **`.ts` extensions** in relative imports (`from "./utils.ts"`), or a single-file extension with no local imports                                                                     |
+| Symptom | Cause | Fix |
+|---|---|---|
+| `ERR_PACKAGE_PATH_NOT_EXPORTED` from `require()` | Package is ESM-only (`"type": "module"`, `exports` map without CJS) | Use ESM (`import`) or run with `tsx` / `--experimental-strip-types` |
+| Tools resolve paths against the wrong directory | Pre-built `readTool` / `bashTool` capture `process.cwd()` at import | When passing a custom `cwd` AND explicit `tools`, use the factory form `createCodingTools(cwd)` / `createReadTool(cwd)` |
+| `session.prompt(...)` throws "stream in progress" | Calling `prompt()` again while the previous stream is still running | Pass `{ streamingBehavior: "steer" }` or `"followUp"`, or use `session.steer()` / `session.followUp()` |
+| Auth errors with `ANTHROPIC_API_KEY` set | `AuthStorage` reads runtime overrides → `auth.json` → env in that order; a stale `~/.pi/agent/auth.json` can shadow your env | Either clear the stored credential, or call `authStorage.setRuntimeApiKey("anthropic", key)` before `createAgentSession()` |
+| Nothing printed during streaming | You forgot to subscribe, or you only handle `text_delta` and the model is in thinking-only output | Subscribe to `message_update`, handle both `text_delta` and (optionally) `thinking_delta` |
+| Extension only loads with `pi -e ./ext.ts`, not from regular runs | `-e` is a one-off; the file is not in an auto-discovery directory | Move it to `~/.pi/agent/extensions/<name>.ts` (global) or `<project>/.pi/extensions/<name>.ts` (project), or register it in `settings.json` `extensions: [...]` |
+| Installed pi package fails at runtime with `Cannot find module '@mariozechner/pi-coding-agent'` | Listed it in `dependencies` instead of `peerDependencies` | The five core packages (`@mariozechner/pi-{ai,agent-core,coding-agent,tui}`, `typebox`) MUST be in `peerDependencies` with range `"*"` and not bundled — pi provides them at load time |
+| `pi install` succeeded but a transitive dep is missing | `npm install --omit=dev` is used by default, so `devDependencies` are not present at runtime | Move the import to `dependencies`, or set `npmCommand` in `settings.json` if you need a custom npm wrapper |
+| Extension changes do not take effect | The TUI cached the previous load | Run `/reload` inside pi (works for any extension in an auto-discovered location) |
 
 ## Install
 
@@ -51,28 +50,28 @@ Requires Node ≥ 20.6 and an API key (env var or `~/.pi/agent/auth.json`).
 ```ts
 #!/usr/bin/env -S npx tsx
 import {
-	AuthStorage,
-	ModelRegistry,
-	SessionManager,
-	createAgentSession,
+  AuthStorage,
+  ModelRegistry,
+  SessionManager,
+  createAgentSession,
 } from "@mariozechner/pi-coding-agent";
 
 const authStorage = AuthStorage.create();
 const modelRegistry = ModelRegistry.create(authStorage);
 
 const { session } = await createAgentSession({
-	sessionManager: SessionManager.inMemory(), // no .jsonl on disk
-	authStorage,
-	modelRegistry,
+  sessionManager: SessionManager.inMemory(), // no .jsonl on disk
+  authStorage,
+  modelRegistry,
 });
 
 session.subscribe((event) => {
-	if (
-		event.type === "message_update" &&
-		event.assistantMessageEvent.type === "text_delta"
-	) {
-		process.stdout.write(event.assistantMessageEvent.delta);
-	}
+  if (
+    event.type === "message_update" &&
+    event.assistantMessageEvent.type === "text_delta"
+  ) {
+    process.stdout.write(event.assistantMessageEvent.delta);
+  }
 });
 
 await session.prompt(process.argv.slice(2).join(" ") || "Hello");
@@ -92,10 +91,7 @@ npx tsx my-agent.ts "Explain the layout of src/"
 The SDK exposes both built-in tool arrays and string-name selection. Use whichever is more readable.
 
 ```ts
-import {
-	createAgentSession,
-	readOnlyTools,
-} from "@mariozechner/pi-coding-agent";
+import { createAgentSession, readOnlyTools } from "@mariozechner/pi-coding-agent";
 
 // Array of tool objects (use process.cwd())
 await createAgentSession({ tools: readOnlyTools });
@@ -106,10 +102,10 @@ await createAgentSession({ tools: ["read", "grep", "find", "ls"] });
 
 Tool name catalog: `read`, `bash`, `edit`, `write`, `grep`, `find`, `ls`. Pre-bundled sets:
 
-| Set             | Contents                                  |
-| --------------- | ----------------------------------------- |
-| `codingTools`   | `read`, `bash`, `edit`, `write` (default) |
-| `readOnlyTools` | `read`, `grep`, `find`, `ls`              |
+| Set | Contents |
+|---|---|
+| `codingTools` | `read`, `bash`, `edit`, `write` (default) |
+| `readOnlyTools` | `read`, `grep`, `find`, `ls` |
 
 ### The cwd × tools trap
 
@@ -117,28 +113,28 @@ The pre-built tool **instances** (`readOnlyTools`, `codingTools`, `readTool`, `b
 
 Three combinations to remember:
 
-| Form                                          | With custom `cwd` | Why                                                       |
-| --------------------------------------------- | ----------------- | --------------------------------------------------------- |
-| `tools: readOnlyTools` (constants)            | **NG**            | Captured `process.cwd()` at import time                   |
-| `tools: ["read", "grep", ...]` (string names) | **OK**            | SDK resolves names per session against the supplied `cwd` |
-| `tools: createReadOnlyTools(cwd)` (factories) | **OK**            | You bind cwd explicitly                                   |
-| `tools` omitted                               | **OK**            | SDK picks the default set and binds `cwd` for you         |
+| Form | With custom `cwd` | Why |
+|---|---|---|
+| `tools: readOnlyTools` (constants) | **NG** | Captured `process.cwd()` at import time |
+| `tools: ["read", "grep", ...]` (string names) | **OK** | SDK resolves names per session against the supplied `cwd` |
+| `tools: createReadOnlyTools(cwd)` (factories) | **OK** | You bind cwd explicitly |
+| `tools` omitted | **OK** | SDK picks the default set and binds `cwd` for you |
 
 The factory family mirrors every constant/instance — pick by need:
 
-| You want…                        | Factory                                                                                                                                                        |
-| -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `codingTools` set bound to cwd   | `createCodingTools(cwd)`                                                                                                                                       |
-| `readOnlyTools` set bound to cwd | `createReadOnlyTools(cwd)`                                                                                                                                     |
-| Just one tool bound to cwd       | `createReadTool(cwd)`, `createBashTool(cwd)`, `createEditTool(cwd)`, `createWriteTool(cwd)`, `createGrepTool(cwd)`, `createFindTool(cwd)`, `createLsTool(cwd)` |
+| You want… | Factory |
+|---|---|
+| `codingTools` set bound to cwd | `createCodingTools(cwd)` |
+| `readOnlyTools` set bound to cwd | `createReadOnlyTools(cwd)` |
+| Just one tool bound to cwd | `createReadTool(cwd)`, `createBashTool(cwd)`, `createEditTool(cwd)`, `createWriteTool(cwd)`, `createGrepTool(cwd)`, `createFindTool(cwd)`, `createLsTool(cwd)` |
 
 ```ts
 import {
-	createAgentSession,
-	createCodingTools,
-	createReadOnlyTools,
-	createGrepTool,
-	createReadTool,
+  createAgentSession,
+  createCodingTools,
+  createReadOnlyTools,
+  createGrepTool,
+  createReadTool,
 } from "@mariozechner/pi-coding-agent";
 
 const cwd = "/path/to/project";
@@ -148,10 +144,7 @@ await createAgentSession({ cwd, tools: createCodingTools(cwd) });
 await createAgentSession({ cwd, tools: createReadOnlyTools(cwd) });
 
 // Or hand-picked, bound to cwd
-await createAgentSession({
-	cwd,
-	tools: [createReadTool(cwd), createGrepTool(cwd)],
-});
+await createAgentSession({ cwd, tools: [createReadTool(cwd), createGrepTool(cwd)] });
 
 // Or — equivalent and shorter — name-based, which the SDK rebinds per session
 await createAgentSession({ cwd, tools: ["read", "grep", "find", "ls"] });
@@ -166,26 +159,24 @@ import { Type } from "typebox";
 import { createAgentSession, defineTool } from "@mariozechner/pi-coding-agent";
 
 const deployTool = defineTool({
-	name: "deploy",
-	label: "Deploy",
-	description: "Deploy the current branch to staging",
-	parameters: Type.Object({
-		target: Type.Optional(
-			Type.String({ description: "Target env (default: staging)" }),
-		),
-	}),
-	execute: async (_toolCallId, params) => {
-		// Your logic. Must return { content: [...], details: {...} }.
-		const target = params.target ?? "staging";
-		return {
-			content: [{ type: "text", text: `Deployed to ${target}` }],
-			details: { target },
-		};
-	},
+  name: "deploy",
+  label: "Deploy",
+  description: "Deploy the current branch to staging",
+  parameters: Type.Object({
+    target: Type.Optional(Type.String({ description: "Target env (default: staging)" })),
+  }),
+  execute: async (_toolCallId, params) => {
+    // Your logic. Must return { content: [...], details: {...} }.
+    const target = params.target ?? "staging";
+    return {
+      content: [{ type: "text", text: `Deployed to ${target}` }],
+      details: { target },
+    };
+  },
 });
 
 const { session } = await createAgentSession({
-	customTools: [deployTool],
+  customTools: [deployTool],
 });
 ```
 
@@ -196,13 +187,10 @@ const { session } = await createAgentSession({
 The system prompt is owned by the `ResourceLoader`, not by `createAgentSession()` directly:
 
 ```ts
-import {
-	DefaultResourceLoader,
-	createAgentSession,
-} from "@mariozechner/pi-coding-agent";
+import { DefaultResourceLoader, createAgentSession } from "@mariozechner/pi-coding-agent";
 
 const resourceLoader = new DefaultResourceLoader({
-	systemPromptOverride: () => "You are a senior SRE. Answer tersely.",
+  systemPromptOverride: () => "You are a senior SRE. Answer tersely.",
 });
 await resourceLoader.reload();
 
@@ -226,12 +214,12 @@ Pi loads `.ts` directly via [jiti](https://github.com/unjs/jiti) — no compilat
 
 ### Auto-discovery locations
 
-| Path                                     | Scope                     |
-| ---------------------------------------- | ------------------------- |
-| `~/.pi/agent/extensions/<name>.ts`       | Global, single file       |
-| `~/.pi/agent/extensions/<name>/index.ts` | Global, multi-file        |
-| `.pi/extensions/<name>.ts`               | Project-local             |
-| `.pi/extensions/<name>/index.ts`         | Project-local, multi-file |
+| Path | Scope |
+|---|---|
+| `~/.pi/agent/extensions/<name>.ts` | Global, single file |
+| `~/.pi/agent/extensions/<name>/index.ts` | Global, multi-file |
+| `.pi/extensions/<name>.ts` | Project-local |
+| `.pi/extensions/<name>/index.ts` | Project-local, multi-file |
 
 Plus paths declared in `settings.json` (see install section below). Extensions in any auto-discovered location can be hot-reloaded with `/reload` inside the TUI.
 
@@ -244,40 +232,34 @@ import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
 import { Type } from "typebox";
 
 export default function (pi: ExtensionAPI) {
-	pi.on("session_start", async (_event, ctx) => {
-		ctx.ui.notify("greet extension loaded", "info");
-	});
+  pi.on("session_start", async (_event, ctx) => {
+    ctx.ui.notify("greet extension loaded", "info");
+  });
 
-	// Block dangerous bash commands
-	pi.on("tool_call", async (event, ctx) => {
-		if (event.toolName !== "bash") return;
-		const cmd = event.input.command as string;
-		if (/\brm\s+-rf?\b|\bsudo\b/.test(cmd)) {
-			const ok = ctx.hasUI
-				? await ctx.ui.confirm("Dangerous", `Allow:\n${cmd}`)
-				: false;
-			if (!ok) return { block: true, reason: "blocked by greet extension" };
-		}
-	});
+  // Block dangerous bash commands
+  pi.on("tool_call", async (event, ctx) => {
+    if (event.toolName !== "bash") return;
+    const cmd = event.input.command as string;
+    if (/\brm\s+-rf?\b|\bsudo\b/.test(cmd)) {
+      const ok = ctx.hasUI ? await ctx.ui.confirm("Dangerous", `Allow:\n${cmd}`) : false;
+      if (!ok) return { block: true, reason: "blocked by greet extension" };
+    }
+  });
 
-	pi.registerTool({
-		name: "greet",
-		label: "Greet",
-		description: "Greet someone by name",
-		parameters: Type.Object({ name: Type.String() }),
-		async execute(_id, params) {
-			return {
-				content: [{ type: "text", text: `Hello, ${params.name}!` }],
-				details: {},
-			};
-		},
-	});
+  pi.registerTool({
+    name: "greet",
+    label: "Greet",
+    description: "Greet someone by name",
+    parameters: Type.Object({ name: Type.String() }),
+    async execute(_id, params) {
+      return { content: [{ type: "text", text: `Hello, ${params.name}!` }], details: {} };
+    },
+  });
 
-	pi.registerCommand("hello", {
-		description: "Say hello",
-		handler: async (args, ctx) =>
-			ctx.ui.notify(`Hello ${args || "world"}!`, "info"),
-	});
+  pi.registerCommand("hello", {
+    description: "Say hello",
+    handler: async (args, ctx) => ctx.ui.notify(`Hello ${args || "world"}!`, "info"),
+  });
 }
 ```
 
@@ -293,25 +275,20 @@ An async default export is awaited before `session_start` fires. Use it for fetc
 
 ```ts
 export default async function (pi: ExtensionAPI) {
-	const res = await fetch("http://localhost:1234/v1/models");
-	const { data } = (await res.json()) as {
-		data: Array<{ id: string; context_window?: number; max_tokens?: number }>;
-	};
+  const res = await fetch("http://localhost:1234/v1/models");
+  const { data } = (await res.json()) as { data: Array<{ id: string; context_window?: number; max_tokens?: number }> };
 
-	pi.registerProvider("local-openai", {
-		baseUrl: "http://localhost:1234/v1",
-		apiKey: "LOCAL_OPENAI_API_KEY",
-		api: "openai-completions",
-		models: data.map((m) => ({
-			id: m.id,
-			name: m.id,
-			reasoning: false,
-			input: ["text"],
-			cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
-			contextWindow: m.context_window ?? 128000,
-			maxTokens: m.max_tokens ?? 4096,
-		})),
-	});
+  pi.registerProvider("local-openai", {
+    baseUrl: "http://localhost:1234/v1",
+    apiKey: "LOCAL_OPENAI_API_KEY",
+    api: "openai-completions",
+    models: data.map((m) => ({
+      id: m.id, name: m.id, reasoning: false, input: ["text"],
+      cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
+      contextWindow: m.context_window ?? 128000,
+      maxTokens: m.max_tokens ?? 4096,
+    })),
+  });
 }
 ```
 
@@ -320,16 +297,13 @@ export default async function (pi: ExtensionAPI) {
 In SDK code, extensions are still owned by the `ResourceLoader`. `DefaultResourceLoader` discovers the same auto-discovery directories above; pass `additionalExtensionPaths` for one-off paths and `extensionFactories` for inline factories:
 
 ```ts
-import {
-	DefaultResourceLoader,
-	createAgentSession,
-} from "@mariozechner/pi-coding-agent";
+import { DefaultResourceLoader, createAgentSession } from "@mariozechner/pi-coding-agent";
 
 const resourceLoader = new DefaultResourceLoader({
-	additionalExtensionPaths: ["/abs/path/to/my-ext.ts"],
-	extensionFactories: [
-		(pi) => pi.on("agent_start", () => console.log("[inline] agent starting")),
-	],
+  additionalExtensionPaths: ["/abs/path/to/my-ext.ts"],
+  extensionFactories: [
+    (pi) => pi.on("agent_start", () => console.log("[inline] agent starting")),
+  ],
 });
 await resourceLoader.reload();
 
@@ -352,9 +326,9 @@ For an extension that pulls in npm packages, drop a `package.json` next to it:
 ```jsonc
 // package.json
 {
-	"name": "my-ext",
-	"dependencies": { "zod": "^3.0.0" },
-	"pi": { "extensions": ["./src/index.ts"] },
+  "name": "my-ext",
+  "dependencies": { "zod": "^3.0.0" },
+  "pi": { "extensions": ["./src/index.ts"] }
 }
 ```
 
@@ -391,11 +365,14 @@ The resulting `settings.json` looks like:
 
 ```json
 {
-	"packages": ["npm:@foo/bar@1.0.0", "git:github.com/user/repo@v1"],
-	"extensions": [
-		"/absolute/path/to/local/extension.ts",
-		"/absolute/path/to/local/extension/dir"
-	]
+  "packages": [
+    "npm:@foo/bar@1.0.0",
+    "git:github.com/user/repo@v1"
+  ],
+  "extensions": [
+    "/absolute/path/to/local/extension.ts",
+    "/absolute/path/to/local/extension/dir"
+  ]
 }
 ```
 
@@ -407,25 +384,25 @@ Add a `pi` manifest to `package.json` and tag with the `pi-package` keyword for 
 
 ```jsonc
 {
-	"name": "my-pi-pack",
-	"version": "1.0.0",
-	"keywords": ["pi-package"],
-	"pi": {
-		"extensions": ["./extensions"],
-		"skills": ["./skills"],
-		"prompts": ["./prompts"],
-		"themes": ["./themes"],
-	},
-	"peerDependencies": {
-		"@mariozechner/pi-coding-agent": "*",
-		"@mariozechner/pi-ai": "*",
-		"@mariozechner/pi-agent-core": "*",
-		"@mariozechner/pi-tui": "*",
-		"typebox": "*",
-	},
-	"dependencies": {
-		"zod": "^3.0.0",
-	},
+  "name": "my-pi-pack",
+  "version": "1.0.0",
+  "keywords": ["pi-package"],
+  "pi": {
+    "extensions": ["./extensions"],
+    "skills": ["./skills"],
+    "prompts": ["./prompts"],
+    "themes": ["./themes"]
+  },
+  "peerDependencies": {
+    "@mariozechner/pi-coding-agent": "*",
+    "@mariozechner/pi-ai": "*",
+    "@mariozechner/pi-agent-core": "*",
+    "@mariozechner/pi-tui": "*",
+    "typebox": "*"
+  },
+  "dependencies": {
+    "zod": "^3.0.0"
+  }
 }
 ```
 
@@ -443,41 +420,35 @@ If you skip the `pi` field entirely, pi auto-discovers from convention directori
 
 ```ts
 import {
-	type CreateAgentSessionRuntimeFactory,
-	SessionManager,
-	createAgentSessionFromServices,
-	createAgentSessionRuntime,
-	createAgentSessionServices,
-	getAgentDir,
-	runPrintMode,
+  type CreateAgentSessionRuntimeFactory,
+  SessionManager,
+  createAgentSessionFromServices,
+  createAgentSessionRuntime,
+  createAgentSessionServices,
+  getAgentDir,
+  runPrintMode,
 } from "@mariozechner/pi-coding-agent";
 
-const createRuntime: CreateAgentSessionRuntimeFactory = async ({
-	cwd,
-	sessionManager,
-	sessionStartEvent,
-}) => {
-	const services = await createAgentSessionServices({ cwd });
-	return {
-		...(await createAgentSessionFromServices({
-			services,
-			sessionManager,
-			sessionStartEvent,
-		})),
-		services,
-		diagnostics: services.diagnostics,
-	};
+const createRuntime: CreateAgentSessionRuntimeFactory = async (
+  { cwd, sessionManager, sessionStartEvent },
+) => {
+  const services = await createAgentSessionServices({ cwd });
+  return {
+    ...(await createAgentSessionFromServices({ services, sessionManager, sessionStartEvent })),
+    services,
+    diagnostics: services.diagnostics,
+  };
 };
 
 const runtime = await createAgentSessionRuntime(createRuntime, {
-	cwd: process.cwd(),
-	agentDir: getAgentDir(),
-	sessionManager: SessionManager.inMemory(),
+  cwd: process.cwd(),
+  agentDir: getAgentDir(),
+  sessionManager: SessionManager.inMemory(),
 });
 
 await runPrintMode(runtime, {
-	mode: "text", // "text" | "json"
-	initialMessage: process.argv.slice(2).join(" "),
+  mode: "text", // "text" | "json"
+  initialMessage: process.argv.slice(2).join(" "),
 });
 ```
 
@@ -488,26 +459,26 @@ await runPrintMode(runtime, {
 `session.prompt()` is sequential by default. To inject during a running turn:
 
 ```ts
-await session.steer("Stop and read README.md first"); // delivered after current tool calls
-await session.followUp("Then summarise it"); // delivered after the agent finishes
+await session.steer("Stop and read README.md first");  // delivered after current tool calls
+await session.followUp("Then summarise it");           // delivered after the agent finishes
 ```
 
 Both expand file-based prompt templates but reject extension commands (`/...`). If you call `session.prompt(text)` while streaming you must pick one explicitly: `{ streamingBehavior: "steer" | "followUp" }`.
 
 ## Picking the right entry point
 
-| Use case                                                           | API                                                                                                  |
-| ------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------- |
-| One-shot CLI tool you control end-to-end                           | `createAgentSession()` + `SessionManager.inMemory()`                                                 |
-| Need persistent sessions on disk                                   | `SessionManager.create(cwd)` (or `.continueRecent`, `.open`)                                         |
-| Build a pipe-friendly script                                       | `runPrintMode(runtime, { mode: "json" })`                                                            |
-| Custom tools shaped by your domain (one process, in-code)          | `defineTool()` + `customTools: [...]`                                                                |
-| Tools / commands shared across every `pi` run on this machine      | Extension at `~/.pi/agent/extensions/<name>.ts` using `pi.registerTool` / `pi.registerCommand`       |
-| Tools / commands scoped to one project (commit them)               | Extension at `<project>/.pi/extensions/<name>.ts`, plus `<project>/.pi/settings.json` (with `-l`)    |
-| Bundle and share extensions / skills / prompts                     | Pi package: `package.json` with the `pi` field + `pi-package` keyword                                |
-| Install someone else's package                                     | `pi install npm:<spec>` or `pi install git:<spec>` (use `-l` for project scope)                      |
+| Use case | API |
+|---|---|
+| One-shot CLI tool you control end-to-end | `createAgentSession()` + `SessionManager.inMemory()` |
+| Need persistent sessions on disk | `SessionManager.create(cwd)` (or `.continueRecent`, `.open`) |
+| Build a pipe-friendly script | `runPrintMode(runtime, { mode: "json" })` |
+| Custom tools shaped by your domain (one process, in-code) | `defineTool()` + `customTools: [...]` |
+| Tools / commands shared across every `pi` run on this machine | Extension at `~/.pi/agent/extensions/<name>.ts` using `pi.registerTool` / `pi.registerCommand` |
+| Tools / commands scoped to one project (commit them) | Extension at `<project>/.pi/extensions/<name>.ts`, plus `<project>/.pi/settings.json` (with `-l`) |
+| Bundle and share extensions / skills / prompts | Pi package: `package.json` with the `pi` field + `pi-package` keyword |
+| Install someone else's package | `pi install npm:<spec>` or `pi install git:<spec>` (use `-l` for project scope) |
 | Replace the active session at runtime (`/new`, `/fork`, `/resume`) | `createAgentSessionRuntime()` then `runtime.newSession()` etc. — re-subscribe after each replacement |
-| Drive the agent from another language                              | `pi --mode rpc --no-session` (JSON-RPC over stdio), no SDK                                           |
+| Drive the agent from another language | `pi --mode rpc --no-session` (JSON-RPC over stdio), no SDK |
 
 ## SDK vs. `pi --mode rpc`
 
