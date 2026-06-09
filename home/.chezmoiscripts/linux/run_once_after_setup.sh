@@ -1,25 +1,37 @@
 #!/usr/bin/env bash
+# Linux 初回 GUI セットアップ (chezmoi run_once → ~/.local/share/chezmoi/.../setup.sh)
+# ロケール・xrdp・PipeWire 音声リダイレクトを構成する。make init / chezmoi apply --force で1回だけ実行。
 set -eu
 
+# root でないときだけ sudo を使う
 sudo=""
 if [ "$(id -u)" -ne 0 ]; then
     sudo="sudo"
 fi
 
+# システム systemd が動いているか (VM/ベアメタル向け。コンテナでは false)
 systemd_running() {
     command -v systemctl >/dev/null 2>&1 && systemctl is-system-running >/dev/null 2>&1
 }
 
+# ユーザーセッションの systemd が動いているか (ログイン済み GUI セッション向け)
 user_systemd_running() {
     [ -n "${XDG_RUNTIME_DIR:-}" ] && systemctl --user is-system-running >/dev/null 2>&1
 }
 
+# pulseaudio-module-xrdp が libpulse の modlibexecdir に入っているか
 xrdp_pulse_modules_installed() {
-    local modlibexecdir
+    local modlibexecdir match
     modlibexecdir="$(pkg-config --variable=modlibexecdir libpulse)"
-    ls "${modlibexecdir}" 2>/dev/null | grep -q xrdp
+    for match in "${modlibexecdir}"/*xrdp*; do
+        if [ -e "${match}" ]; then
+            return 0
+        fi
+    done
+    return 1
 }
 
+# pulseaudio-module-xrdp のビルドに必要な deb-src を有効化 (Ubuntu 24.04+ の .sources 形式)
 enable_pulse_deb_src() {
     if [ -f /etc/apt/sources.list.d/ubuntu.sources ] && ! grep -q 'deb-src' /etc/apt/sources.list.d/ubuntu.sources; then
         $sudo sed -i 's/Types: deb$/Types: deb deb-src/' /etc/apt/sources.list.d/ubuntu.sources
@@ -27,6 +39,9 @@ enable_pulse_deb_src() {
     fi
 }
 
+# xrdp セッション起動時に XFCE を開始する。.xsession は xrdp が読む。
+# user systemd がある環境では pipewire 等は systemd --user が起動するので xfce4-session のみ。
+# systemd がない環境 (一部コンテナ) では pipewire を手動起動してから xfce4-session へ。
 write_xsession() {
     if user_systemd_running; then
         printf '%s\n' 'xfce4-session' > "${HOME}/.xsession"
@@ -44,9 +59,11 @@ XSESSION
     fi
 }
 
+# 日本語ロケール・タイムゾーン・fcitx5 入力
 japan_setup() {
     echo "japan setup start..."
-    $sudo apt-get install -y language-pack-ja-base language-pack-ja manpages-ja tzdata locale
+    # Ubuntu のパッケージ名は locales (単数形 locale ではない)
+    $sudo apt-get install -y language-pack-ja-base language-pack-ja manpages-ja tzdata locales
     $sudo apt-get install -y fcitx5-mozc im-config
 
     $sudo localectl set-locale LANG=ja_JP.UTF-8
@@ -59,9 +76,10 @@ japan_setup() {
     echo "japan setup completed."
 }
 
+# xrdp リモートデスクトップ: 表示マネージャー・グループ・ファイアウォール
 xrdp_setup() {
     echo "xrdp setup start..."
-    # デフォルトのセッションマネージャーをxfce4-sessionに設定
+    # デフォルトのセッションマネージャーを xfce4-session に設定
     $sudo update-alternatives --set x-session-manager /usr/bin/xfce4-session
     # $sudo update-alternatives --set x-session-manager /usr/bin/startxfce4
 
@@ -74,8 +92,10 @@ xrdp_setup() {
     $sudo apt-get install -y sddm
 
     # $sudo dpkg-reconfigure lightdm
+    # リモートセッションで画面ロックが邪魔にならないよう削除
     $sudo apt-get remove -y light-locker xscreensaver
 
+    # xrdp は ssl-cert グループのメンバーが必要
     $sudo groupadd -f ssl-cert
     $sudo groupadd -f xrdp
     $sudo usermod -aG ssl-cert,xrdp "$(whoami)"
@@ -100,11 +120,13 @@ xrdp_setup() {
 
     echo "以下のコマンドを実行してパスワードを更新してください"
     echo "sudo passwd $(whoami)"
-    # ログイン後、ubuntuユーザーのパスワードを再設定を推奨
+    # ログイン後、ubuntu ユーザーのパスワード再設定を推奨
     # パスワードを再設定しないとログインできない?
     # echo "$(whoami):$(whoami)" | $sudo chpasswd
 }
 
+# xrdp 音声リダイレクト: PipeWire + pulseaudio-module-xrdp
+# RDP クライアントの音声は module-xrdp-sink/source 経由。PipeWire では pipewire-pulse が Pulse 互換層になる。
 pipewire_setup() {
     local build_root="${HOME}/.local/src"
     local pulse_src_dir="${HOME}/pulseaudio.src"
@@ -142,10 +164,12 @@ pipewire_setup() {
 
         cd "${module_dir}"
 
+        # ディストロの pulseaudio ソースを取得 (configure が PULSE_DIR を要求する)
         if [ ! -d "${pulse_src_dir}" ]; then
             ./scripts/install_pulseaudio_sources_apt.sh -d "${pulse_src_dir}"
         fi
 
+        # 公式手順: bootstrap → configure → make → install
         ./bootstrap
         ./configure PULSE_DIR="${pulse_src_dir}"
         make
