@@ -149,9 +149,13 @@ pipewire_setup() {
     echo "pipewire setup start..."
 
     $sudo apt-get update -y
+    # pulseaudio デーモンは pipewire-audio / pipewire-pulse と競合する。
+    # モジュールビルドには libpulse-dev と deb-src 由来のソースで足りる。
+    if dpkg -s pulseaudio >/dev/null 2>&1; then
+        $sudo apt-get remove -y pulseaudio
+    fi
     $sudo apt-get install -y \
         build-essential \
-        pulseaudio \
         libpulse-dev \
         dh-autoreconf \
         dpkg-dev \
