@@ -66,12 +66,25 @@ japan_setup() {
     $sudo apt-get install -y language-pack-ja-base language-pack-ja manpages-ja tzdata locales
     $sudo apt-get install -y fcitx5-mozc im-config
 
-    $sudo localectl set-locale LANG=ja_JP.UTF-8
-    $sudo localectl set-locale LANGUAGE=ja_JP:ja
-    $sudo localectl set-x11-keymap jp
-    $sudo localectl set-keymap jp106
-    $sudo timedatectl set-timezone Asia/Tokyo
-    # LANG=C xdg-user-dirs-update --force
+    if systemd_running; then
+        $sudo localectl set-locale LANG=ja_JP.UTF-8
+        $sudo localectl set-locale LANGUAGE=ja_JP:ja
+        # コンテナ/Debian では keymap 設定非対応 ("Setting X11 and console keymaps is not supported in Debian.")
+        if ! $sudo localectl set-x11-keymap jp; then
+            echo "X11 keymap setup skipped (not supported on this system)." >&2
+        fi
+        if ! $sudo localectl set-keymap jp106; then
+            echo "Console keymap setup skipped (not supported on this system)." >&2
+        fi
+        $sudo timedatectl set-timezone Asia/Tokyo
+    else
+        # systemd なし (Docker 等): localectl/timedatectl は使えない
+        $sudo locale-gen ja_JP.UTF-8
+        $sudo update-locale LANG=ja_JP.UTF-8 LANGUAGE=ja_JP:ja LC_ALL=ja_JP.UTF-8
+        $sudo ln -snf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
+        echo 'Asia/Tokyo' | $sudo tee /etc/timezone >/dev/null
+    fi
+
     $sudo im-config -n fcitx5
     echo "japan setup completed."
 }
