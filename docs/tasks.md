@@ -150,13 +150,13 @@ description: タスク管理 進捗整理
 
 ### タスク追加時
 
-1. 計画が必要な規模（新 OS 対応、大規模変更）→ `.agents/plans/YYYY-MM-DD-<feature>.md` を作成
+1. 計画が必要な規模（新 OS 対応、大規模変更）→ `.agents/plans/YYYY-MM-DD-<feature>.plan.md` を作成（OpenSpec 形式）
 2. 計画不要な小規模タスク → 本ドキュメントの「具体的バックログ」に直接追加
-3. `.agents/plans/` の既存計画一覧に新規計画を追加（計画索引が必要な場合は `docs/plan.md` を作成）
+3. `.agents/plans/README.md` の計画一覧に新規計画を追加
 
 ### タスク完了時
 
-1. 該当計画があればステータスを「完了」に更新
+1. 該当計画があればステータスを「completed」に更新
 2. `docs/requirements.md` の対応 OS ステータスを更新
 3. `README.md` の「予定」「対応済み」を更新
 4. 本ドキュメントのバックログから該当タスクを削除または完了マーク
@@ -165,25 +165,42 @@ description: タスク管理 進捗整理
 
 ### 高優先度
 
-| タスク                       | 計画                                                                        | ステータス |
-| ---------------------------- | --------------------------------------------------------------------------- | ---------- |
-| WSL2 CI ジョブ有効化         | [2025-02-19-wsl2-support](../.agents/plans/2025-02-19-wsl2-support.md)      | 未着手     |
-| SANDBOX 環境変数プロファイル | [chezmoi sandbox plan](../.agents/plans/chezmoi%20sandbox-7eb45bfb.plan.md) | 未着手     |
+| タスク | 計画 | ステータス |
+| ------ | ---- | ---------- |
+| ドキュメントと計画システムの再設計 | [2025-07-08-reorganization](../.agents/plans/2025-07-08-reorganization.plan.md) | **進行中** |
+| mise `shorthands_file` 警告の完全解消 | チケット化予定 | 調査完了 |
+| herdr terminal multiplexer の安定化 | チケット化予定 | 修正済み・検証中 |
 
 ### 中優先度
 
-| タスク                                  | 計画                                                                                           | ステータス |
-| --------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------- |
-| bash-only CLI + 2-step minimal dotfiles | [2025-03-27-bash-and-clissh](../.agents/plans/2025-03-27-plan-bash-varsion-and-clissh-varsion) | 未着手     |
-| （将来）Windows ネイティブ対応          | 未作成                                                                                         | 保留       |
-| （将来）FreeBSD 対応                    | 未作成                                                                                         | 保留       |
+| タスク | 計画 | ステータス |
+| ------ | ---- | ---------- |
+| SANDBOX 環境変数プロファイル | [chezmoi sandbox](../.agents/plans/chezmoi%20sandbox-7eb45bfb.plan.md) | pending |
+| docs/ 内の相互参照リンク自動チェック | 未作成 | アイデア |
+| tech.md の mise ツール最新化 | 本ドキュメント | 継続的 |
 
 ### 低優先度
 
-| タスク                             | 計画   | ステータス |
-| ---------------------------------- | ------ | ---------- |
-| mise ツールのプロジェクト別最適化  | 未作成 | 検討中     |
-| ドキュメント相互参照の自動チェック | 未作成 | アイデア   |
+| タスク | 計画 | ステータス |
+| ------ | ---- | ---------- |
+| （将来）Windows ネイティブ対応 | 未作成 | 保留 |
+| （将来）FreeBSD + jail 対応 | 未作成 | 保留 |
+| mise ツールのプロジェクト別最適化 | 未作成 | 検討中 |
+
+### 完了済み（最近）
+
+| タスク | 完了日 | 備考 |
+| ------ | ------ | ---- |
+| plan-system-setup 導入 | 2025-02 | 計画システム運用開始 |
+| .agents/plans OpenSpec 形式移行 | 2025-07-08 | TEMPLATE.md / README.md 作成 |
+| mise 警告調査（MISE_SHORTHANDS_FILE） | 2025-07-08 | `.zshenv` / `.zprofile` / `.zshrc` に `unset` 追加 |
+
+### アーカイブ（古い計画）
+
+| タスク | 計画 | ステータス |
+| ------ | ---- | ---------- |
+| WSL2 CI ジョブ有効化 | archive/2025-02-19-wsl2-support.md | archived |
+| Bash-only CLI + 2-step minimal dotfiles | archive/2025-03-27-plan-bash-varsion-and-clissh-varsion | archived |
 
 ## 進捗追跡
 
@@ -194,22 +211,27 @@ description: タスク管理 進捗整理
 - **レビュー中**: 実装完了、レビュー待ち
 - **完了**: すべてのチェック項目が完了
 - **保留**: 一時的に保留
+- **archived**: 古い計画（参考用）
 
 ## 実装計画との連携
 
-新機能やバグ修正を実装する際は `.agents/plans/` に詳細な実装計画を作成することを推奨します（注: 計画ファイルは git 管理下にあり、バージョン管理されます）。
+新機能やバグ修正を実装する際は `.agents/plans/` に詳細な実装計画を作成することを推奨します。
 
-- **計画作成**: `.cursor/plans/TEMPLATE.md` をコピーし、`YYYY-MM-DD-<feature>.md` 形式で保存
+- **計画作成**: `.agents/plans/TEMPLATE.md` をコピーし、OpenSpec 形式（yaml frontmatter + todos）で作成
+- **ファイル名**: `YYYY-MM-DD-<domain>-<feature>.plan.md`
 - **実行**: 各タスクを bite-sized（2-5分）で実施し、コミットを細かく分ける
 - **検証**: `make check`、`chezmoi diff`、GitHub Actions で動作確認
+- **索引**: `.agents/plans/README.md` の計画一覧に追加
 
 ### 計画ファイルの管理
 
 計画ファイルは `.agents/plans/` ディレクトリに保存し、以下のルールに従います：
 
-- **ファイル形式**: `YYYY-MM-DD-<feature>.md` (日付接頭辞でソート可能)
+- **ファイル形式**: OpenSpec 形式（yaml frontmatter + todos + markdown body）
 - **テンプレート**: `.agents/plans/TEMPLATE.md` をコピーして使用
-- **参照**: 本ドキュメントのバックログから計画ファイルへのリンクを管理
+- **命名規則**: `YYYY-MM-DD-<domain>-<feature>.plan.md`
+- **索引管理**: `.agents/plans/README.md` で計画一覧を管理
+- **アーカイブ**: 完了・廃止した計画は `archive/` に移動
 - **バージョン管理**: 計画ファイルは git 管理下にあり、進捗に応じて更新される
 
 ## 関連ドキュメント

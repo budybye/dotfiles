@@ -29,11 +29,12 @@
     "bun"
   ],
   "enableSkillCommands": true,
-  "lastChangelogVersion": "0.79.0",
+  "lastChangelogVersion": "0.80.10",
   "enableInstallTelemetry": false,
   "packages": [
     "npm:@netandreus/pi-cursor-provider",
-    "/Users/hotmilk/Developer/radio/.pi/npm/node_modules/@blackbelt-technology/pi-agent-dashboard/packages/extension"
+    "npm:pi-herdr-squad",
+    "npm:@llblab/pi-telegram"
   ],
   "skills": [
     "~/.claude/skills",
@@ -43,21 +44,23 @@
     "~/.aionui-config/skills"
   ],
   "enabledModels": [
-    "cloudflare-ai-gateway/gpt-5.3-codex",
-    "cloudflare-ai-gateway/claude-opus-4-6",
-    "cloudflare-ai-gateway/claude-sonnet-4-6",
-    "cloudflare-ai-gateway/workers-ai/@cf/moonshotai/kimi-k2.6",
-    "opencode-go/glm-5.1",
-    "opencode-go/kimi-k2.6",
-    "opencode-go/qwen3.6-plus",
     "sakura/gpt-oss-120b",
     "sakura/Qwen3-Coder-480B-A35B-Instruct-FP8",
     "openrouter/openrouter/free",
-    "openrouter/openai/gpt-oss-120b:free",
     "openrouter/nvidia/nemotron-3-super-120b-a12b:free",
     "sensei/google-ai-studio/gemini-3.1-flash-lite",
     "sensei/google-ai-studio/gemini-3.5-flash",
+    "opencode-go/glm-5.2",
+    "opencode-go/deepseek-v4-flash",
+    "opencode-go/kimi-k2.7-code",
+    "opencode-go/mimo-v2.5-pro",
+    "opencode-zen/nemotron-3-ultra-free",
+    "opencode-zen/deepseek-v4-flash-free",
+    "opencode-zen/north-mini-code-free",
     "cursor/auto",
-    "cursor/composer-2.5"
+    "cloudflare-workers-ai/@cf/zai-org/glm-5.2",
+    "cloudflare-workers-ai/@cf/moonshotai/kimi-k2.7-code",
+    "cloudflare-ai-gateway/workers-ai/@cf/zai-org/glm-4.7-flash",
+    "cloudflare-ai-gateway/workers-ai/@cf/moonshotai/kimi-k2.6"
   ]
 }

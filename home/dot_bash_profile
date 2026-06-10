@@ -19,7 +19,8 @@ fi
 if [ "${SHLVL}" = 1 ] && [ -t 0 ] && \
   [ "${TERM_PROGRAM}" != "vscode" ] && \
   [ "${TERM_PROGRAM}" != "Cursor" ] && \
-  [ "${TERM_PROGRAM}" != "zen" ]; then
+  [ "${TERM_PROGRAM}" != "herdr" ] && \
+  [ "${TERM_PROGRAM}" != "zed" ]; then
     if command -v zellij > /dev/null 2>&1; then
         zellij -l dev
     elif command -v tmux > /dev/null 2>&1; then

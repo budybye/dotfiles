@@ -1,0 +1,5 @@
+setupVersion: 1
+modelRoles: 
+  commit: cursor/default
+  default: cursor/default
+defaultThinkingLevel: auto

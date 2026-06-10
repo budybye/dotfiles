@@ -175,7 +175,7 @@ if command -v brew >/dev/null 2>&1; then
         bcf && brew autoremove && brew cleanup --prune=all
     }
     function bb() {
-        bf && bcp && brew update && brew upgrade --greedy && brew doctor
+        bf && bcp && brew update && brew upgrade -g -y -f && brew doctor
     }
     function bbb() {
         bb

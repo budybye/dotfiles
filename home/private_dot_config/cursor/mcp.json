@@ -11,6 +11,9 @@
         "mcp-mermaid"
       ]
     },
+    "kody": {
+      "url": "https://heykody.dev/mcp"
+    },
     "serena": {
       "command": "uvx",
       "args": [
@@ -29,6 +32,9 @@
         "-c",
         "exec uvx notebooklm-mcp --config \"$HOME/.config/notebooklm/notebooklm-config.json\" server"
       ]
+    },
+    "context-mode": {
+      "command": "context-mode"
     }
 	}
 }

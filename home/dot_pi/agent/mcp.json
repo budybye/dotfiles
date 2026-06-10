@@ -2,15 +2,37 @@
   "mcpServers": {
     "chrome-devtools": {
       "command": "npx",
-      "args": ["-y", "chrome-devtools-mcp@latest"],
+      "args": [
+        "-y",
+        "chrome-devtools-mcp@latest"
+      ],
       "lifecycle": "lazy",
       "idleTimeout": 10
     },
+    "cloudflare-api": {
+      "type": "http",
+      "url": "https://mcp.cloudflare.com/mcp"
+    },
     "mcp-mermaid": {
       "command": "npx",
-      "args": ["-y", "mcp-mermaid"],
+      "args": [
+        "-y",
+        "mcp-mermaid"
+      ],
       "lifecycle": "lazy",
       "idleTimeout": 10
+    },
+    "kody": {
+      "url": "https://heykody.dev/mcp",
+      "auth": "oauth",
+      "lifecycle": "lazy"
+    },
+    "notebooklm": {
+      "command": "sh",
+      "args": [
+        "-c",
+        "exec uvx notebooklm-mcp --config \"$HOME/.config/notebooklm/notebooklm-config.json\" server"
+      ]
     }
   }
 }

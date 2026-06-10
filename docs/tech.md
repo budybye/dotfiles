@@ -36,9 +36,7 @@ description: 技術スタック パッケージ管理 ライブラリ説明
 
 - **設定ファイル**: `home/private_dot_config/mise/config.toml`
 - **参照ファイル**: `.tool-versions` (プロジェクトルート)
-- **役割**:
-  - Node.js, Python, Go, Rust, Java などのランタイム管理
-  - `gh`, `wrangler`, `lazygit`, `jq`, `yq` など CLI 管理
+- **役割**: 90+ ツールの統合管理（言語ランタイム、CLI、セキュリティツール等）
 - **運用**:
   - 多くのツールを `latest` で管理
   - `legacy_version_file = true` と `asdf_compat = true` を有効化
@@ -71,15 +69,31 @@ description: 技術スタック パッケージ管理 ライブラリ説明
 
 - **zsh**（デフォルト）
 - **bash**（互換用）
-- **starship**
-- **sheldon**
+- **starship**（プロンプト）
+- **sheldon**（zsh プラグインマネージャー）
+- **zellij**（ターミナルマルチプレクサ）
+- **herdr**（ターミナルマルチプレクサ・herdr）
+- **atuin**（シェル履歴）
+- **zoxide**（スマート cd）
+- **fzf**（ファジー検索）
+- **bat**（cat 拡張）
+- **fd**（find 拡張）
+- **rg**（ripgrep）
+- **lsd**（ls 拡張）
+- **glow**（Markdown ビューア）
+- **bottom**（システムモニタ）
 
 ### 開発・CI/CD
 
-- **git / gh**
+- **git / gh / ghq**
+- **jj / jjui**（Jujutsu バージョン管理）
+- **delta**（diff ビューア）
+- **lazygit / lazydocker**（TUI）
 - **docker / devcontainer-cli**
-- **github actions（workflow）** — 下記「GitHub Actions パイプライン」
+- **act**（GitHub Actions ローカル実行）
+- **task**（Taskfile / make 代替）
 - **pre-commit**
+- **github actions（workflow）** — 下記「GitHub Actions パイプライン」
 
 #### GitHub Actions パイプライン
 
@@ -100,15 +114,39 @@ description: 技術スタック パッケージ管理 ライブラリ説明
 
 ### クラウド・インフラ
 
-- **wrangler**
-- **cloudflared**
-- **gcloud**
+- **wrangler**（Cloudflare Workers）
+- **cloudflared**（Cloudflare Tunnel）
+- **gcloud**（Google Cloud）
+- **caddy**（Web サーバー・リバースプロキシ）
+- **cfssl**（証明書管理）
+- **serverless**
 
 ### セキュリティ
 
-- **age**
+- **age**（暗号化）
 - **bitwarden**
 - **ssh**
+- **trivy**（コンテナ脆弱性スキャン）
+- **mkcert**（ローカル証明書）
+- **shellcheck**（シェルスクリプト静的解析）
+
+### 主要開発言語・ランタイム
+
+Mise で管理する主要な言語および関連ツール。
+
+- **JavaScript/TypeScript**: node, bun, deno, pnpm
+- **Python**: python, uv（パッケージマネージャー）, pipx, ruff, hatch
+- **Go**: go, swag, cobra（プロジェクトテンプレート経由）
+- **Rust**: rust, cargo-binstall
+- **Java**: java, maven
+
+### その他のユーティリティ
+
+- **データ・フォーマット**: jq, yq, fx, json5, yamlfmt, prettier
+- **ネットワーク**: xh, hurl, curl（システム）
+- **ストレージ**: rclone, duckdb, sqlite, redis
+- **ビルド**: ninja, conan
+- **その他**: dust, dua, glow, hurl, scooter, coreutils, fastfetch, checkmake, cowsay
 
 ## 注意事項
 
@@ -127,7 +165,7 @@ description: 技術スタック パッケージ管理 ライブラリ説明
 ### Mise設定ファイル
 - **パス**: `home/private_dot_config/mise/config.toml`
 - **役割**: 詳細なツールバージョンと設定管理
-- **内容**: 60+ ツールのバージョン、環境変数、プラグイン設定
+- **内容**: 90+ ツールのバージョン、環境変数、プラグイン設定
 - **参照**: パッケージマネージャー別一覧
 
 ### Aqua設定ファイル

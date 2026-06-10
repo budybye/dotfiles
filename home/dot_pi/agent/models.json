@@ -58,6 +58,28 @@
         }
       ]
     },
+    "opencode-zen": {
+      "baseUrl": "https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/custom-opencode-zen/v1",
+      "apiKey": "$OPENCODE_GO_API_KEY",
+      "api": "openai-completions",
+      "headers": {
+        "cf-aig-authorization": "!printf 'Bearer %s' \"$CLOUDFLARE_API_KEY\""
+      },
+      "models": [
+        {
+          "id": "nemotron-3-ultra-free",
+          "name": "nemotron-3-ultra-free"
+        },
+        {
+          "id": "north-mini-code-free",
+          "name": "north-mini-code-free"
+        },
+        {
+          "id": "deepseek-v4-flash-free",
+          "name": "deepseek-v4-flash-free"
+        }
+      ]
+    },
     "anthropic": {
       "baseUrl": "https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/anthropic",
       "api": "anthropic-messages",
@@ -105,6 +127,20 @@
         {
           "id": "openrouter/openrouter/free",
           "name": "openrouter:free"
+        }
+      ]
+    },
+    "z-ai": {
+      "baseUrl": "https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/custom-zai/v1",
+      "apiKey": "$ZAI_API_KEY",
+      "api": "openai-completions",
+      "headers": {
+        "cf-aig-authorization": "!printf 'Bearer %s' \"$CLOUDFLARE_API_KEY\""
+      },
+      "models": [
+        {
+          "id": "glm-5.2",
+          "name": "glm-5.2"
         }
       ]
     }

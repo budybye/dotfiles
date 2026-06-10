@@ -1,4 +1,5 @@
 # .zprofile はログインシェルで読み込まれる
+
 # .profile からbashと共通の環境変数を読み込む
 if [ -f "${HOME}/.profile" ]; then
     emulate sh -c "source ${HOME}/.profile"
@@ -46,11 +47,12 @@ if [ -f "${ZDOTDIR}/.zshrc" ]; then
 fi
 
 # zellij or tmux session auto-start
-# IDEターミナル（Cursor/VSCode）や非TTY環境ではスキップ
+# IDEターミナル（Cursor/VSCode/Zed）やherdr内ではスキップ
 if [ "$SHLVL" = 1 ] && [ -t 0 ] && \
    [ "$TERM_PROGRAM" != "vscode" ] && \
    [ "$TERM_PROGRAM" != "Cursor" ] && \
-   [ "$TERM_PROGRAM" != "zen" ]; then
+   [ "$TERM_PROGRAM" != "herdr" ] && \
+   [ "$TERM_PROGRAM" != "zed" ]; then
     if command -v zellij > /dev/null 2>&1; then
         zellij -l dev
     elif command -v tmux > /dev/null 2>&1; then

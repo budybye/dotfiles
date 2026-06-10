@@ -29,6 +29,13 @@ description: directory ファイル情報説明
 │   ├── template.cfg                # テンプレート設定
 │   └── user-data                   # ユーザーデータ
 ├── docs/                           # ドキュメント
+│   ├── architecture/               # C4 アーキテクチャ図（Mermaid）
+│   │   ├── README.md               # 索引
+│   │   ├── c4-context.md           # Level 1 System Context
+│   │   ├── c4-containers.md        # Level 2 Container
+│   │   ├── c4-components-source.md # Level 3 Source tree
+│   │   ├── c4-deployment.md        # Level 4 Deployment
+│   │   └── c4-dynamic-*.md         # apply / bootstrap / CI フロー
 │   ├── plans/                      # 実装計画（.cursor/plans/ への参照・索引用）
 │   │   ├── TEMPLATE.md              # 計画ひな型
 │   │   └── *.md                     # 日付付き実装計画

@@ -198,6 +198,11 @@ if command -v tldr >/dev/null 2>&1; then
     }
 fi
 
+# herdr
+if command -v herdr >/dev/null 2>&1; then
+    alias hd="herdr"
+fi
+
 # chezmoi
 if command -v chezmoi >/dev/null 2>&1; then
     alias che="chezmoi"

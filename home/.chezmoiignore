@@ -23,6 +23,10 @@ install.sh
 .chezmoiscripts/tube.sh
 {{ end }}
 
+{{ if eq (env "REMOTE_CONTAINERS") "true" }}
+.chezmoiscripts/vscode.sh
+{{ end }}
+
 {{ if eq .github false }}
 .config/git/user*
 {{ end }}

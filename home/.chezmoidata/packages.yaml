@@ -16,6 +16,7 @@ packages:
       - "bash"
       - "bash-completion"
       - "byobu"
+      - "ddgr"
       # - "ca-certificates"
       # ジョーク系コマンド
       - "cmatrix"
@@ -135,6 +136,7 @@ packages:
       - "rsyslog"
       - "im-config"
       - "ruby"
+      - "nx"
       # - 'byobu'
       # - 'jq'
 
@@ -327,6 +329,14 @@ packages:
     - "defuddle"
     - "@fission-ai/openspec"
     - "hunkdiff"
+    - "just-scrape"
+    - "nx"
+    - "@officecli/officecli"
+    
+    - "vscode-langservers-extracted" 
+    - "pyright"
+    - "typescript-language-server" 
+    - "yaml-language-server"
     # - "@bitwarden/cli"
     # - "@marp-team/marp-cli"
     # - "@earendil-works/pi-coding-agent"
@@ -350,31 +360,38 @@ packages:
       # npx skills add … -g -y （run_onchange_after_skills.sh.tmpl）
       # 実体: ~/.agents/skills/（Codex は ~/.codex/skills → 同実体へのシンボリックリンク）
       # スナップショット: ../../skills-list.md（make skills）
+      # 正: `skills list -g`（未導入はコメントアウト、導入済みは有効化。削除しない）
       - "mattpocock/skills -s tdd"
       - "mattpocock/skills -s grill-with-docs"
       - "mattpocock/skills -s grill-me"
       - "mattpocock/skills -s improve-codebase-architecture"
-      - "mattpocock/skills -s diagnose"
-      - "mattpocock/skills -s to-prd"
-      - "mattpocock/skills -s to-issues"
+      - "mattpocock/skills -s diagnosing-bugs" # was: diagnose
+      - "mattpocock/skills -s to-spec" # was: to-prd
       - "mattpocock/skills -s qa"
-      - "mattpocock/skills -s caveman"
-      - "mattpocock/skills -s write-a-skill"
+      - "mattpocock/skills -s to-tickets" # was: to-issues
+      - "mattpocock/skills -s ask-matt"
+      # - "mattpocock/skills -s caveman" # not in skills list -g
+      - "mattpocock/skills -s writing-great-skills" # was: write-a-skill
       - "mattpocock/skills -s request-refactor-plan"
-      # - "coreyhaines31/marketingskills -s ab-test-setup"
+      - "mattpocock/skills -s wayfinder"
+      # - "mattpocock/skills -s ask-matt" # duplicate
+      - "mattpocock/skills -s code-review" # was: review（実体は mattpocock の two-axis review）
+      # - "mattpocock/skills -s qa" # duplicate
+      - "upstash/context7 -s find-docs"
+      - "coreyhaines31/marketingskills -s ab-test-setup"
       - "rivet-dev/skills -s rivetkit"
-      # - "rivet-dev/skills -s rivetkit-client-javascript"
-      # - "rivet-dev/skills -s rivetkit-client-react"
-      # - "rivet-dev/skills -s rivetkit-client-swift"
-      # - "rivet-dev/skills -s rivetkit-client-swiftui"
+      - "rivet-dev/skills -s rivetkit-client-javascript"
+      - "rivet-dev/skills -s rivetkit-client-react"
+      - "rivet-dev/skills -s rivetkit-client-swift"
+      - "rivet-dev/skills -s rivetkit-client-swiftui"
       - "yusukebe/hono-skill -s hono"
-      # - "bobmatnyc/claude-mpm-skills -s hono-cloudflare"
-      # - "bobmatnyc/claude-mpm-skills -s daisyui"
-      # - "bobmatnyc/claude-mpm-skills -s daisyui-5"
-      # - "bobmatnyc/claude-mpm-skills -s drizzle-orm"
-      # - "bobmatnyc/claude-mpm-skills -s playwright-e2e-testing"
-      # - "bobmatnyc/claude-mpm-skills -s github-actions"
-      # - "remix-run/agent-skills -s react-router-framework-mode"
+      - "bobmatnyc/claude-mpm-skills -s hono-cloudflare"
+      # - "bobmatnyc/claude-mpm-skills -s daisyui" # daisyui は saadeghi/daisyui を正とする
+      # - "bobmatnyc/claude-mpm-skills -s daisyui-5" # not in skills list -g
+      - "bobmatnyc/claude-mpm-skills -s drizzle-orm"
+      - "bobmatnyc/claude-mpm-skills -s playwright-e2e-testing"
+      - "bobmatnyc/claude-mpm-skills -s github-actions"
+      - "remix-run/agent-skills -s react-router-framework-mode"
       # - "sergiodxa/agent-skills -s frontend-react-router-best-practices"
       # - "sergiodxa/agent-skills -s frontend-async-best-practices"
       # - "sergiodxa/agent-skills -s frontend-tailwind-best-practices"
@@ -382,21 +399,24 @@ packages:
       # - "sergiodxa/agent-skills -s skill-writing-best-practices"
       - "cloudflare/skills -s cloudflare"
       # - "cloudflare/skills -s durable-objects"
-      # - "cloudflare/skills -s agents-sdk"
+      - "cloudflare/skills -s agents-sdk"
       # - "cloudflare/skills -s workers-best-practices"
       # - "cloudflare/workerd -s test-driven-investigation"
       # - "cloudflare/workerd -s rust-review"
       # - "cloudflare/workerd -s dad-jokes"
-      # - "antfu/skills -s vite"
-      # - "antfu/skills -s vitest"
-      # - "antfu/skills -s slidev"
-      # - "alinaqi/claude-bootstrap -s pwa-development"
-      # - "kepano/obsidian-skills -s obsidian-markdown"
-      - "coderabbitai/skills -s code-review"
+      - "antfu/skills -s vite"
+      - "antfu/skills -s vitest"
+      - "antfu/skills -s slidev"
+      - "alinaqi/claude-bootstrap -s pwa-development"
+      - "kepano/obsidian-skills -s obsidian-markdown"
+      - "coderabbitai/skills -s autofix"
+      # - "coderabbitai/skills -s code-review" # code-review 実体は mattpocock（上記）
+      - "ogulcancelik/herdr -s herdr"
+      - "tldraw/tldraw -s tldraw-migrate"
       # - "coinbase/agentic-wallet-skills -a"
       # - "xrpl-commons/xrpl-dev-skill -s xrpl-dev"
-      # - "badlogic/pi-skills -s brave-search"
-      - "badlogic/pi-skills -s browser-tools"
+      - "badlogic/pi-skills -s brave-search" # Brave Search Skills 一式
+      # - "badlogic/pi-skills -s browser-tools" # not in skills list -g
       # - "badlogic/pi-skills -s transcribe"
       # - "badlogic/pi-skills -s vscode"
       # - "badlogic/pi-skills -s youtube-transcript"
@@ -404,34 +424,34 @@ packages:
       - "softaworks/agent-toolkit -s skill-judge"
       # - "softaworks/agent-toolkit -s game-changing-features"
       - "softaworks/agent-toolkit -s c4-architecture"
-      - "softaworks/agent-toolkit -s marp-slide"
+      # - "softaworks/agent-toolkit -s marp-slide" # not in skills list -g
       - "softaworks/agent-toolkit -s agent-md-refactor"
       - "softaworks/agent-toolkit -s crafting-effective-readmes"
-      - "softaworks/agent-toolkit -s database-schema-designer"
+      # - "softaworks/agent-toolkit -s database-schema-designer" # not in skills list -g
       - "softaworks/agent-toolkit -s dependency-updater"
       - "softaworks/agent-toolkit -s feedback-mastery"
       - "softaworks/agent-toolkit -s naming-analyzer"
       - "softaworks/agent-toolkit -s professional-communication"
       # - "orval/orval-skills -s orval"
-      # - "wshobson/agents -s github-actions-templates"
+      - "wshobson/agents -s github-actions-templates"
       # - "wshobson/agents -s api-design-principles"
       # - "wshobson/agents -s code-review-excellence"
       # - "wshobson/agents -s postgresql-table-design"
-      - "nextlevelbuilder/ui-ux-pro-max-skill -s ui-ux-pro-max"
+      # - "nextlevelbuilder/ui-ux-pro-max-skill -s ui-ux-pro-max" # not in skills list -g
       - "vercel-labs/agent-skills -s web-design-guidelines"
       - "vercel-labs/skills -s find-skills"
       - "vercel-labs/opensrc -s opensrc"
       - "saadeghi/daisyui"
       # - "better-auth/skills -s better-auth-best-practices"
-      # - "anthropics/skills -s mcp-builder"
-      # - "anthropics/skills -s frontend-design"
+      - "anthropics/skills -s mcp-builder"
+      - "anthropics/skills -s frontend-design"
       - "anthropics/skills -s skill-creator"
-      # - "anthropics/skills -s claude-api"
+      - "anthropics/skills -s claude-api"
       - "obra/superpowers -s writing-plans"
-      - "obra/superpowers -s test-driven-development"
+      # - "obra/superpowers -s test-driven-development" # not in skills list -g（tdd は mattpocock）
       - "obra/superpowers -s executing-plans"
       # - "deckardger/tanstack-agent-skills -s tanstack-query-best-practices"
-      # - "digitalsamba/claude-code-video-toolkit -s ffmpeg"
+      - "digitalsamba/claude-code-video-toolkit -s ffmpeg"
       - "safishamsi/graphify -s graphify"
       # openai/skills（Codex 由来）
       # - "openai/skills -s cloudflare-deploy"
@@ -449,17 +469,18 @@ packages:
       # figma
       # - "figma/mcp-server-guide -s figma-create-design-system-rules"
       # kepano/obsidian-skills（個別；-a で残りも入る）
-      # - "kepano/obsidian-skills -s json-canvas"
-      # - "kepano/obsidian-skills -s obsidian-bases"
-      # - "kepano/obsidian-skills -s obsidian-cli"
-      # - "kepano/obsidian-skills -s defuddle"
+      - "kepano/obsidian-skills -s json-canvas"
+      - "kepano/obsidian-skills -s obsidian-bases"
+      - "kepano/obsidian-skills -s obsidian-cli"
+      - "kepano/obsidian-skills -s defuddle"
       # anthropics/skills
-      # - "anthropics/skills -s algorithmic-art"
-      # - "anthropics/skills -s brand-guidelines"
-      # - "anthropics/skills -s canvas-design"
-      # - "anthropics/skills -s internal-comms"
-      # - "anthropics/skills -s web-artifacts-builder"
+      - "anthropics/skills -s algorithmic-art"
+      - "anthropics/skills -s brand-guidelines"
+      - "anthropics/skills -s canvas-design"
+      - "anthropics/skills -s internal-comms"
+      - "anthropics/skills -s web-artifacts-builder"
       - "anthropics/skills -s webapp-testing"
+      - "scrapegraphai/just-scrape -s just-scrape"
       # pbakaus/impeccable（UI/UX マイクロスキル）
       # - "pbakaus/impeccable -s animate"
       # - "pbakaus/impeccable -s audit"
@@ -467,11 +488,11 @@ packages:
       # - "pbakaus/impeccable -s critique"
       # - "pbakaus/impeccable -s teach-impeccable"
       # その他（B 残り）
-      # - "astrolicious/agent-skills -s astro"
-      # - "rivet-dev/skills -s multiplayer-game"
-      # - "rivet-dev/skills -s sandbox-agent"
-      # - "remotion-dev/skills -s remotion-best-practices"
-      - "leonardomso/rust-skills -s rust-skills"
+      - "astrolicious/agent-skills -s astro"
+      - "rivet-dev/skills -s multiplayer-game"
+      - "rivet-dev/skills -s sandbox-agent"
+      - "remotion-dev/skills -s remotion-best-practices"
+      # - "leonardomso/rust-skills -s rust-skills" # not in skills list -g
       # - "absolutelyskilled/absolutelyskilled -s vite-plus"
       # - "kepano/obsidian-skills -a"
 
@@ -485,8 +506,11 @@ packages:
     - "curl -fsSL https://vite.plus | sh"
     - "curl -fsSL https://cursor.com/install | sh"
     - "curl -fsSL https://code-server.dev/install.sh | sh"
+    - "curl -fsSL https://herdr.dev/install.sh | sh"
     - "curl -fsSL https://raw.githubusercontent.com/watzon/cursor-linux-installer/main/install.sh | sh -s -- latest"
+    - "curl -fsSL https://x.ai/cli/install.sh | sh"
     - "curl -fsSL https://raw.githubusercontent.com/Dicklesworthstone/pi_agent_rust/main/install.sh?$(date +%s) | sh"
+    - "curl -fsSL https://ax.yusuke.run/install | sh"
   go:
     - "aqua"
     - "hammer"
@@ -503,3 +527,4 @@ packages:
     - "navi"
     - "ragas"
     - "graphifyy"
+    - "ddgr"

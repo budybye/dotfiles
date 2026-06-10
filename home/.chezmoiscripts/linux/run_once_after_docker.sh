@@ -13,8 +13,6 @@ activate_mise() {
 
     mkdir -p "${HOME}/.config/mise"
     export MISE_CONFIG_DIR="${HOME}/.config/mise"
-    touch "${MISE_CONFIG_DIR}/shorthands.toml"
-    export MISE_SHORTHANDS_FILE="${MISE_CONFIG_DIR}/shorthands.toml"
     eval "$(mise activate bash)"
 }
 

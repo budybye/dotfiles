@@ -1,0 +1,29 @@
+{
+  "mcpServers": {
+    "context-mode": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "/Users/hotmilk/.omp/plugins/node_modules/context-mode/server.bundle.mjs"
+      ]
+    },
+    "chrome-devtools": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "chrome-devtools-mcp@latest"
+      ],
+      "lifecycle": "lazy",
+      "idleTimeout": 10
+    },
+    "mcp-mermaid": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-mermaid"
+      ],
+      "lifecycle": "lazy",
+      "idleTimeout": 10
+    }
+  }
+}

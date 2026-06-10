@@ -47,6 +47,8 @@ fi
 jj bookmark set "$bookmark" 2>/dev/null || jj bookmark create "$bookmark" 2>/dev/null || true
 # リモートブックマークを追跡（エラーは無視）
 jj bookmark track "${bookmark}@${remote}" 2>/dev/null || true
-# 変更にメッセージを付けてプッシュ
+# 変更にメッセージを付けて確定し、ブックマークをコミットに移してプッシュ
 jj describe -m "$msg"
+jj new
+jj bookmark set "$bookmark" -r @-
 jj git push -b "$bookmark"

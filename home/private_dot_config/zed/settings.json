@@ -38,20 +38,6 @@
       "type": "registry",
     },
     "pi-acp": {
-      "favorite_models": [
-        "cursor/auto",
-        "sakura/gpt-oss-120b",
-        "sakura/Qwen3-Coder-480B-A35B-Instruct-FP8",
-        "openrouter/openai/gpt-oss-120b:free",
-        "openrouter/openrouter/free",
-        "cloudflare-ai-gateway/workers-ai/@cf/moonshotai/kimi-k2.6",
-        "cursor/grok-4-20-thinking",
-        "opencode-go/glm-5.1",
-        "opencode-go/kimi-k2.6",
-        "openrouter/nvidia/nemotron-3-super-120b-a12b:free",
-        "cloudflare-ai-gateway/gpt-5.3-codex",
-        "cloudflare-ai-gateway/claude-opus-4-6",
-      ],
       "type": "registry",
     },
     "opencode": {
@@ -66,12 +52,6 @@
           "opencode/nemotron-3-super-free",
         ],
       },
-      "favorite_models": [
-        "cloudflare-workers-ai/@cf/moonshotai/kimi-k2.6",
-        "openrouter/openrouter/free",
-        "openrouter/openai/gpt-oss-120b:free",
-        "opencode/nemotron-3-super-free/high",
-      ],
       "type": "registry",
     },
   },
@@ -90,6 +70,11 @@
       "enabled": false,
       "remote": false,
       "settings": {},
+    },
+    "context-mode": {
+      "command": "context-mode",
+      "args": [],
+      "env": {}
     },
     "chrome-devtools-mcp-zed": {
       "enabled": false,
@@ -192,8 +177,8 @@
     },
     "default_model": {
       "enable_thinking": false,
-      "provider": "sakura",
-      "model": "gpt-oss-120b",
+      "provider": "opencode",
+      "model": "go/kimi-k2.6",
     },
     "single_file_review": false,
     "use_modifier_to_send": true,

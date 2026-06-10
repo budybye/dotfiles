@@ -51,21 +51,21 @@ layout {
             pane split_direction="horizontal" {
                 pane {
                     name "dev1"
-                    cwd "~/Developer/4life"
+                    cwd "~/Developer"
                 }
                 pane {
                     name "dev2"
-                    cwd "~/Developer/workers"
+                    cwd "~/Developer"
                 }
             }
             pane split_direction="horizontal" {
                 pane {
                     name "dev3"
-                    cwd "~/Developer/rivet"
+                    cwd "~/Developer"
                 }
                 pane {
                     name "dev4"
-                    cwd "~/Developer/project"
+                    cwd "~/Developer"
                     focus true
                 }
             }

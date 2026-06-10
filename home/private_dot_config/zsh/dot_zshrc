@@ -1,10 +1,17 @@
 # インタラクティブシェルでのみ読み込む
+
 # [ -z "$PS1" ] && return
 # [[ -o interactive ]] || return
 
 # ${ZDOTDIR}.zshrc はインタラクティブシェルで読み込まれる
 # ${ZDOTDIR}.zprofile の最後で読み込まれてるのでzshで必ず実行される
 # ${HOME}.functions を最後に読み込む
+
+# .zprofile が読まれない non_login シェル用に
+# 必要な環境変数を .profile から取得する
+if [ -z "$XDG_CONFIG_HOME" ] && [ -f "${HOME}/.profile" ]; then
+    emulate sh -c "source ${HOME}/.profile"
+fi
 
 # history 履歴ファイルのパスを設定
 if [ -d "${HOME}/.local/state/zsh" ]; then
@@ -94,7 +101,7 @@ fi
 # mise
 if command -v mise > /dev/null 2>&1; then
     eval "$(mise activate zsh --shims)"
-  eval "$(mise activate zsh)"
+    # eval "$(mise activate zsh)"
 fi
 
 # starship

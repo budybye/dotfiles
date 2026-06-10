@@ -128,6 +128,8 @@ else
 fi
 
 if command -v brave-browser >/dev/null 2>&1; then
+    export BROWSER="w3m"
+elif command -v w3m >/dev/null 2>&1; then
     export BROWSER="brave-browser"
 elif command -v chromium >/dev/null 2>&1; then
     export BROWSER="chromium"
@@ -147,8 +149,8 @@ fi
 if command -v mise >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/mise"
     export MISE_CONFIG_DIR="${XDG_CONFIG_HOME}/mise"
-    touch "${MISE_CONFIG_DIR}/shorthands.toml"
-    export MISE_SHORTHANDS_FILE="${MISE_CONFIG_DIR}/shorthands.toml"
+    # touch "${MISE_CONFIG_DIR}/shorthands.toml"
+    # export MISE_SHORTHANDS_FILE="${MISE_CONFIG_DIR}/shorthands.toml"
     # miseディレクトリ全体のパーミッションを修正
     if [ -d "${XDG_DATA_HOME}/mise/installs" ]; then
         chmod -R 755 "${XDG_DATA_HOME}/mise/installs"
