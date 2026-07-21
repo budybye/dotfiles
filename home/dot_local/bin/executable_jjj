@@ -35,19 +35,46 @@ else
 fi
 
 # ブックマーク名を自動検出（指定されていない場合）
-# 注意: `jj bookmark list` の先頭行は名前順なので使わない。
-# `_reserve/...` など無関係な bookmark を掴むと
-# `Refusing to move bookmark backwards or sideways` で push 前に落ちる。
+# 注意:
+# - `jj bookmark list` の先頭行は名前順。`_reserve/...` を掴むと
+#   `Refusing to move bookmark backwards or sideways` で push 前に落ちる。
+# - `_reserve/*` は change-id 予約用のローカル印なので絶対に進めない。
+is_reserved_bookmark() {
+  case "$1" in
+    _reserve|_reserve/*) return 0 ;;
+    *) return 1 ;;
+  esac
+}
+
 if [ -z "$bookmark" ]; then
   if command -v git >/dev/null 2>&1; then
-    bookmark=$(git symbolic-ref --short HEAD 2>/dev/null || true)
+    cand=$(git symbolic-ref --short HEAD 2>/dev/null || true)
+    if [ -n "$cand" ] && ! is_reserved_bookmark "$cand"; then
+      bookmark="$cand"
+    fi
   fi
 fi
 if [ -z "$bookmark" ]; then
-  # working copy の祖先上で最も近い bookmark（通常は main）
-  bookmark=$(jj log -r 'bookmarks() & ancestors(@)' -n 1 --no-graph \
-    -T 'bookmarks.map(|b| b.name()).join("\n")' 2>/dev/null \
-    | head -n 1 | tr -d '[:space:]' || true)
+  # 祖先上にあれば trunk 系を優先
+  for cand in main master trunk; do
+    if jj log -r "bookmarks(exact:${cand}) & ancestors(@)" -n 1 --no-graph \
+      -T 'commit_id' 2>/dev/null | grep -q .; then
+      bookmark="$cand"
+      break
+    fi
+  done
+fi
+if [ -z "$bookmark" ]; then
+  # working copy 祖先上の最も近い非 _reserve bookmark
+  bookmark=$(jj log -r 'bookmarks() & ancestors(@)' --no-graph \
+    -T 'bookmarks.map(|b| b.name()).join("\n") ++ "\n"' 2>/dev/null \
+    | grep -v '^$' \
+    | while IFS= read -r name; do
+        is_reserved_bookmark "$name" && continue
+        printf '%s\n' "$name"
+        break
+      done \
+    | tr -d '[:space:]' || true)
 fi
 if [ -z "$bookmark" ]; then
   for cand in main master; do
@@ -58,6 +85,10 @@ if [ -z "$bookmark" ]; then
   done
 fi
 bookmark="${bookmark:-main}"
+if is_reserved_bookmark "$bookmark"; then
+  echo "refusing to advance reserved bookmark: $bookmark" >&2
+  exit 1
+fi
 
 # 未作成なら作るだけ（既存 bookmark を @ へ動かさない）
 if ! jj bookmark list --template 'name ++ "\n"' 2>/dev/null | grep -qx "$bookmark"; then
