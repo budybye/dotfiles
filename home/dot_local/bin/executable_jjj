@@ -35,16 +35,34 @@ else
 fi
 
 # ブックマーク名を自動検出（指定されていない場合）
+# 注意: `jj bookmark list` の先頭行は名前順なので使わない。
+# `_reserve/...` など無関係な bookmark を掴むと
+# `Refusing to move bookmark backwards or sideways` で push 前に落ちる。
 if [ -z "$bookmark" ]; then
-  bookmark=$(jj bookmark list 2>/dev/null | sed -n '1s/:.*//p' | tr -d ' ')
-  if [ -z "$bookmark" ] && command -v git >/dev/null 2>&1; then
-    bookmark=$(git symbolic-ref --short HEAD 2>/dev/null || echo "")
+  if command -v git >/dev/null 2>&1; then
+    bookmark=$(git symbolic-ref --short HEAD 2>/dev/null || true)
   fi
-  bookmark="${bookmark:-main}"
 fi
+if [ -z "$bookmark" ]; then
+  # working copy の祖先上で最も近い bookmark（通常は main）
+  bookmark=$(jj log -r 'bookmarks() & ancestors(@)' -n 1 --no-graph \
+    -T 'bookmarks.map(|b| b.name()).join("\n")' 2>/dev/null \
+    | head -n 1 | tr -d '[:space:]' || true)
+fi
+if [ -z "$bookmark" ]; then
+  for cand in main master; do
+    if jj bookmark list --template 'name ++ "\n"' 2>/dev/null | grep -qx "$cand"; then
+      bookmark="$cand"
+      break
+    fi
+  done
+fi
+bookmark="${bookmark:-main}"
 
-# ローカルのブックマークを現在のコミットに設定
-jj bookmark set "$bookmark" 2>/dev/null || jj bookmark create "$bookmark" 2>/dev/null || true
+# 未作成なら作るだけ（既存 bookmark を @ へ動かさない）
+if ! jj bookmark list --template 'name ++ "\n"' 2>/dev/null | grep -qx "$bookmark"; then
+  jj bookmark create "$bookmark" -r @ 2>/dev/null || true
+fi
 # リモートブックマークを追跡（エラーは無視）
 jj bookmark track "${bookmark}@${remote}" 2>/dev/null || true
 # 変更にメッセージを付けて確定し、ブックマークをコミットに移してプッシュ
