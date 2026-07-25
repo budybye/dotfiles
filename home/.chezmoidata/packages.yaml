@@ -37,8 +37,8 @@ packages:
       # - 'termshark'
       # rust 系
       - "mise"
-      - "sheldon"
-      - "starship"
+      # - "sheldon"
+      # - "starship"
     # - 'bat'
     # - 'lsd'
     # - 'fzf'
@@ -120,7 +120,7 @@ packages:
       - "libxcb-xfixes0-dev"
       - "libxkbcommon-dev"
 
-      - "ffmpeg"
+      # - "ffmpeg"
       # - 'lsd'
       # - 'zoxide'
       # - 'yt-dlp'
@@ -199,7 +199,7 @@ packages:
       # - 'postman'
       # - 'brave'
       - "clipboard"
-      - "speedtest-cli"
+      # - "speedtest-cli"
       - "multipass"
 
   extensions:
@@ -295,13 +295,13 @@ packages:
 
   cargo:
     - "navi"
-    - "octorus"
-    - "sheldon"
-    - "starship"
-    - "memvid-core"
-    - "ratty"
-    - "jj-starship"
-    - "duckduckgo"
+    # - "octorus"
+    # - "sheldon"
+    # - "starship"
+    # - "ratty"
+    # - "jj-starship"
+    # - "kmon"
+    # - "duckduckgo"
     # - 'alacritty'
     # - 'cargo-binstall'
     # - 'bat'
@@ -311,27 +311,27 @@ packages:
     # - 'xh'
     # - 'zoxide'
     # - 'zellij'
+    - "memvid-core"
     - "boringtun-cli"
-    - "coreutils"
-    - "sniffnet"
-    - "kmon"
+    # - "coreutils"
     - "onehistory"
     - "vaultwarden"
+    # - "sniffnet"
   # - 'fermyon'
 
   npm:
     - "pm2"
     - "skills"
-    - "@hono/cli"
+    # - "@hono/cli"
     - "rnsec"
-    - "opensrc"
+    # - "opensrc"
     - "ctx7"
     - "defuddle"
     - "@fission-ai/openspec"
-    - "hunkdiff"
+    # - "hunkdiff"
     - "just-scrape"
     - "nx"
-    - "@officecli/officecli"
+    # - "@officecli/officecli"
     
     - "vscode-langservers-extracted" 
     - "pyright"
@@ -498,23 +498,24 @@ packages:
 
   curl:
     - "curl -fsSL https://mise.run | sh"
-    - "curl -fsSL https://git.io/chezmoi | sh"
-    - "curl -fsSL https://zed.dev/install.sh | sh"
-    - "curl -fsSL https://cli.coderabbit.ai/install.sh | sh"
-    - "curl -fsSL https://vicinae.com/install.sh | sh"
     - "curl -fsSL https://nixos.org/nix/install | sh"
-    - "curl -fsSL https://vite.plus | sh"
+    - "curl -fsSL https://cli.coderabbit.ai/install.sh | sh"
     - "curl -fsSL https://cursor.com/install | sh"
-    - "curl -fsSL https://code-server.dev/install.sh | sh"
-    - "curl -fsSL https://herdr.dev/install.sh | sh"
-    - "curl -fsSL https://raw.githubusercontent.com/watzon/cursor-linux-installer/main/install.sh | sh -s -- latest"
-    - "curl -fsSL https://x.ai/cli/install.sh | sh"
-    - "curl -fsSL https://raw.githubusercontent.com/Dicklesworthstone/pi_agent_rust/main/install.sh?$(date +%s) | sh"
-    - "curl -fsSL https://ax.yusuke.run/install | sh"
-  go:
-    - "aqua"
-    - "hammer"
-    - "websocat"
+    - "curl -fsSL https://zed.dev/install.sh | sh"
+    # - "curl -fsSL https://git.io/chezmoi | sh"
+    # - "curl -fsSL https://vicinae.com/install.sh | sh"
+    # - "curl -fsSL https://vite.plus | sh"
+    # - "curl -fsSL https://code-server.dev/install.sh | sh"
+    # - "curl -fsSL https://herdr.dev/install.sh | sh"
+    # - "curl -fsSL https://raw.githubusercontent.com/watzon/cursor-linux-installer/main/install.sh | sh -s -- latest"
+    # - "curl -fsSL https://x.ai/cli/install.sh | sh"
+    # - "curl -fsSL https://ax.yusuke.run/install | sh"
+    # - "curl -fsSL https://raw.githubusercontent.com/Dicklesworthstone/pi_agent_rust/main/install.sh?$(date +%s) | sh"
+    # - "curl -fsSL https://raw.githubusercontent.com/colbymchenry/codegraph/main/install.sh | sh"
+  # go:
+    # - "aqua"
+    # - "hammer"
+    # - "websocat"
   # - "jjui"
   # - 'act'
   # - 'age'
@@ -526,5 +527,5 @@ packages:
   python:
     - "navi"
     - "ragas"
-    - "graphifyy"
     - "ddgr"
+    # - "graphifyy"
