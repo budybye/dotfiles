@@ -193,14 +193,14 @@ packages:
     # - 'codium' arm64
     # - 'obsidian'
     latest:
-      # - 'bitwarden'
       - "chromium"
+      - "clipboard"
+      - "multipass"
+      # - 'bitwarden'
       # - 'element-desktop'
       # - 'postman'
       # - 'brave'
-      - "clipboard"
       # - "speedtest-cli"
-      - "multipass"
 
   extensions:
     - "42crunch.vscode-openapi"
@@ -295,6 +295,11 @@ packages:
 
   cargo:
     - "navi"
+    - "memvid-core"
+    - "boringtun-cli"
+    - "vaultwarden"
+    - "onehistory"
+    # - "lazyfile"
     # - "octorus"
     # - "sheldon"
     # - "starship"
@@ -311,45 +316,42 @@ packages:
     # - 'xh'
     # - 'zoxide'
     # - 'zellij'
-    - "memvid-core"
-    - "boringtun-cli"
     # - "coreutils"
-    - "onehistory"
-    - "vaultwarden"
     # - "sniffnet"
   # - 'fermyon'
 
   npm:
     - "pm2"
     - "skills"
-    # - "@hono/cli"
     - "rnsec"
-    # - "opensrc"
-    - "ctx7"
     - "defuddle"
-    - "@fission-ai/openspec"
-    # - "hunkdiff"
     - "just-scrape"
     - "nx"
+    - "@hono/cli"
+    - "@fission-ai/openspec"
+    - 'workers-fetch'
+    - 'wrangler'
+    - 'localflare'
+    - "ctx7"
+    # - 'docsify-cli'
+    # - "opensrc"
+    # - "hunkdiff"
     # - "@officecli/officecli"
     
+    - '@github/copilot'
     - "vscode-langservers-extracted" 
     - "pyright"
     - "typescript-language-server" 
     - "yaml-language-server"
+   
     # - "@bitwarden/cli"
     # - "@marp-team/marp-cli"
     # - "@earendil-works/pi-coding-agent"
   # - '@hubai/cli'
   # - 'vibekit'
-  # - 'surge'
-  # - 'docsify-cli'
-  # - 'repomix'
   # - 'wscat'
-  # - 'localflare'
-  # - 'workers-fetch'
-  # - '@github/copilot'
-  # - 'wrangler'
+  # - 'surge'
+  # - 'repomix'
   # - 'claude'
   # - 'zx'
   # - '@pipedream/sdk'
@@ -452,7 +454,7 @@ packages:
       - "obra/superpowers -s executing-plans"
       # - "deckardger/tanstack-agent-skills -s tanstack-query-best-practices"
       - "digitalsamba/claude-code-video-toolkit -s ffmpeg"
-      - "safishamsi/graphify -s graphify"
+      # - "safishamsi/graphify -s graphify"
       # openai/skills（Codex 由来）
       # - "openai/skills -s cloudflare-deploy"
       # - "openai/skills -s develop-web-game"
@@ -463,7 +465,7 @@ packages:
       # - "openai/skills -s notion-meeting-intelligence"
       # - "openai/skills -s notion-research-documentation"
       # - "openai/skills -s notion-spec-to-implementation"
-      # - "openai/skills -s openai-docs"
+      - "openai/skills -s openai-docs"
       # - "openai/skills -s playwright"
       - "openai/skills -s security-best-practices"
       # figma
@@ -512,6 +514,7 @@ packages:
     # - "curl -fsSL https://ax.yusuke.run/install | sh"
     # - "curl -fsSL https://raw.githubusercontent.com/Dicklesworthstone/pi_agent_rust/main/install.sh?$(date +%s) | sh"
     # - "curl -fsSL https://raw.githubusercontent.com/colbymchenry/codegraph/main/install.sh | sh"
+
   # go:
     # - "aqua"
     # - "hammer"

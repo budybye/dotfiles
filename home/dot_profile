@@ -276,17 +276,13 @@ if command -v go >/dev/null 2>&1; then
     export PATH="${GOPATH}/bin:${PATH}"
 fi
 
-if command -v cargo >/dev/null 2>&1; then
-    mkdir -p "${XDG_DATA_HOME}/cargo"
-    export CARGO_HOME="${XDG_DATA_HOME}/cargo"
-    export PATH="${CARGO_HOME}/bin:${PATH}"
-fi
-
-if command -v rustup >/dev/null 2>&1; then
-    mkdir -p "${XDG_DATA_HOME}/rustup"
-    export RUSTUP_HOME="${XDG_DATA_HOME}/rustup"
-    export PATH="${RUSTUP_HOME}/bin:${PATH}"
-fi
+# Rust toolchain は mise (core:rust) が管理。ホームは XDG に固定して
+# ~/.cargo / ~/.rustup と混ぜない（mise settings rust.cargo_home / rust.rustup_home と一致）。
+mkdir -p "${XDG_DATA_HOME}/cargo" "${XDG_DATA_HOME}/rustup"
+export CARGO_HOME="${XDG_DATA_HOME}/cargo"
+export RUSTUP_HOME="${XDG_DATA_HOME}/rustup"
+# cargo install / cargo-binstall のバイナリ用（rustc 本体は mise activate/shims）
+export PATH="${CARGO_HOME}/bin:${PATH}"
 
 if command -v gem >/dev/null 2>&1; then
     mkdir -p "${XDG_DATA_HOME}/gem" "${XDG_CACHE_HOME}/gem"
@@ -481,6 +477,10 @@ if command -v mpd >/dev/null 2>&1; then
     touch "${XDG_DATA_HOME}/mpd/state"
     export MPD_HOST="127.0.0.1"
     export MPD_PORT="6600"
+    # プロセスが実行されていなければ起動する
+    if ! pgrep -x mpd >/dev/null 2>&1; then
+      mpd "${HOME}/.config/mpd/mpd.conf" >/dev/null 2>&1
+    fi
 fi
 
 if command -v ncmpcpp >/dev/null 2>&1; then

@@ -82,8 +82,6 @@ layout {
             pane {
                 name "docs"
                 cwd "~/Developer/docs"
-                command "mpd"
-                args "--no-daemon" "~/.config/mpd/mpd.conf"
             }
         }
     }

@@ -3,3 +3,5 @@ modelRoles:
   commit: cursor/default
   default: cursor/default
 defaultThinkingLevel: auto
+dev: 
+  autoqaConsent: granted

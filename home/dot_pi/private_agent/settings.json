@@ -1,7 +1,7 @@
 {
   "defaultProvider": "cursor",
   "defaultModel": "auto",
-  "defaultThinkingLevel": "medium",
+  "defaultThinkingLevel": "max",
   "thinkingBudgets": {
     "minimal": 1024,
     "low": 4096,
@@ -29,7 +29,7 @@
     "bun"
   ],
   "enableSkillCommands": true,
-  "lastChangelogVersion": "0.80.10",
+  "lastChangelogVersion": "0.82.1",
   "enableInstallTelemetry": false,
   "packages": [
     "npm:@netandreus/pi-cursor-provider",
@@ -61,6 +61,7 @@
     "cloudflare-workers-ai/@cf/zai-org/glm-5.2",
     "cloudflare-workers-ai/@cf/moonshotai/kimi-k2.7-code",
     "cloudflare-ai-gateway/workers-ai/@cf/zai-org/glm-4.7-flash",
-    "cloudflare-ai-gateway/workers-ai/@cf/moonshotai/kimi-k2.6"
+    "cloudflare-ai-gateway/workers-ai/@cf/moonshotai/kimi-k2.6",
+    "opencode-go/kimi-k3"
   ]
 }

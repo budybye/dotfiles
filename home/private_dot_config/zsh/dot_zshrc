@@ -98,12 +98,6 @@ if command -v direnv > /dev/null 2>&1; then
     eval "$(direnv hook zsh)"
 fi
 
-# mise
-if command -v mise > /dev/null 2>&1; then
-    eval "$(mise activate zsh --shims)"
-    # eval "$(mise activate zsh)"
-fi
-
 # starship
 if command -v starship > /dev/null 2>&1; then
     eval "$(starship init zsh)"
@@ -114,13 +108,18 @@ if command -v zoxide > /dev/null 2>&1; then
     eval "$(zoxide init zsh --hook prompt)"
 fi
 
+# atuin
+if command -v zoxide > /dev/null 2>&1; then
+    eval "$(atuin init zsh)"
+fi
+
 # fzf
 if command -v fzf > /dev/null 2>&1; then
     # shellcheck source=/dev/null
     source <(fzf --zsh)
 fi
 
-# sheldon
+# sheldon（PATH に git-open 等を追加）
 if command -v sheldon > /dev/null 2>&1; then
     eval "$(sheldon source)"
 fi
@@ -138,12 +137,18 @@ if command -v uv > /dev/null 2>&1; then
     eval "$(uv generate-shell-completion zsh)"
 fi
 
-# Vite+ bin (https://viteplus.dev)
+# Vite+ bin (https://viteplus.dev) — PATH 先頭に prepend する
 if [ -f "${HOME}/.config/vite-plus/env" ]; then
     . "${HOME}/.config/vite-plus/env"
 fi
 
-# API_KEY 系
+# mise — 他の PATH 変更より後に activate（doctor: tool paths first）
+# --shims だと install path より shims が先になり doctor が警告するため通常 activate を使う
+if command -v mise > /dev/null 2>&1; then
+    eval "$(mise activate zsh)"
+fi
+
+# API_KEY 系 環境変数 読み込み
 if command -v envars > /dev/null 2>&1; then
     . envars
 fi

@@ -13,7 +13,7 @@ cask_args appdir: "/Applications"
 # brew "act"
 brew "autoconf"
 brew "automake"
-brew "ain"
+# brew "ain"
 # brew "aqua"
 # brew "awscli"
 # brew "aespipe"
@@ -185,6 +185,7 @@ cask "appcleaner"
 # cask "anaconda"
 # cask "arc"
 # cask "aqua-voice"
+# cask "bananas"
 cask "betterdisplay"
 cask "bitwarden"
 # cask "blender"
@@ -230,9 +231,9 @@ cask "discord"
 # cask "figma"
 # cask "finch"
 cask "font-hackgen-nerd"
-cask "font-reggae-one"
-cask "font-udev-gothic-nf"
-cask "font-fantasque-sans-mono-nerd-font"
+# cask "font-udev-gothic-nf"
+# cask "font-reggae-one"
+# cask "font-fantasque-sans-mono-nerd-font"
 # cask "font-roboto-mono-nerd-font"
 # cask "font-sauce-code-pro-nerd-font"
 cask "ghostty"
@@ -374,7 +375,7 @@ mas "LINE", id: 539883307
 mas "Plash", id: 1494023538
 mas "Shazam", id: 897118787
 mas "RunCat", id: 1429033973
-mas "Speedtest", id: 1153157709
+# mas "Speedtest", id: 1153157709
 mas "Hidden Bar", id: 1452453066
 mas "Hyper Cursor", id: 1634220679
 mas "Microsoft Excel", id: 462058435

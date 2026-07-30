@@ -1,175 +1,187 @@
+# mise tools — 実装言語ブロック単位で管理。
+# 各ブロック末尾に github: を置く（GitHub primary language / mise backend 基準）。
+# 例外: uv/ruff は実装が Rust でも Python エコシステムとして Python ブロックへ。
+# Shell/misc と desktop GUI は用途グループ（言語横断）。
+# コメントアウト行も意図的に残している（再有効化用）。
+
 [tools]
+# =============================================================================
+# JavaScript / TypeScript — runtimes / npm CLIs / agent tooling
+# =============================================================================
+# runtimes / package managers
 bun = "latest"
 node = "latest"
 deno = "latest"
 pnpm = "latest"
-pi = "latest"
-bitwarden = "latest"
-dotenvx = "latest"
-claude = "latest"
-doppler = "latest"
+
+# AI / agent / DX
+pi = "latest"            # earendil-works/pi (TypeScript)
+opencode = "latest"      # anomalyco/opencode (TypeScript)
 # gemini = "latest"
-stripe = "latest"
-sentry = "latest"
-usage = "latest"
-viteplus = "latest"
-serverless = "latest"
-graphite = "latest"
+# codex = "latest"
+
+# secrets / config (JS/TS)
+bitwarden = "latest"     # bitwarden/clients (TypeScript)
+# bitwarden-secrets-manager = "latest"
+dotenvx = "latest"
+
+# cloud / SaaS / DX (JS/TS)
+serverless = "latest"    # npm
+graphite = "latest"      # Graphite CLI (TS 系)
 wrangler = "latest"
+devcontainer-cli = "latest"
+
+# frontend / lint / format / toys
+viteplus = "latest"      # npm:vite-plus
 prettier = "latest"
 json5 = "latest"
-opencode = "latest"
-devcontainer-cli = "latest"
-# marp-cli = "latest"
-# bitwarden-secrets-manager = "latest"
-# codex = "latest"
-# biome = "latest"
+hunk = "latest"          # modem-dev/hunk (TypeScript)
+just = "latest"
+cowsay = "latest"        # npm:cowsay
+# marp-cli = "latest"  # → github:marp-team/marp-cli
 
+# github (TypeScript / JavaScript)
+"github:can1357/oh-my-pi" = "latest"
+"github:marp-team/marp-cli" = "latest"
+"github:microsoft/typescript" = "latest"
+"github:Egonex-AI/Understand-Anything" = "latest"
+"github:generalaction/emdash" = "latest"
+"github:yusukebe/ax" = "latest"                 # TypeScript（旧 Go 誤分類）
+# "github:yusukebe/workers-fetch" = "latest"
+# "github:sintaxi/surge" = "latest"
+# "github:mikeyobrien/rho" = "latest"           # TypeScript
+
+# =============================================================================
+# Go — runtime & Go 製 CLI（infra / git / cloud / TUI）
+# =============================================================================
 go = "latest"
 aqua = "latest"
 act = "latest"
 ghq = "latest"
 # jwt = "latest"
+
+# web / proxy / cert / crypto
 caddy = "latest"
 cfssl = "latest"
+cloudflared = "latest"
+mkcert = "latest"
+age = "latest"
+
+# secrets / SaaS CLIs (Go)
+doppler = "latest"       # DopplerHQ/cli (Go)
+stripe = "latest"        # stripe/stripe-cli (Go)
+
+# dotfiles / tasks / docs
 chezmoi = "latest"
 cheat = "latest"
-cloudflared = "latest"
 cmdx = "latest"
-gcloud = "latest"
-pinact = "latest"
-rclone = "latest"
 task = "latest"
 swag = "2.0.0-rc5"
-trivy = "latest"
-yamlfmt = "latest"
-hadolint = "latest"
-infracost = "latest"
+
+# cloud / storage / git UX
+gcloud = "latest"
+rclone = "latest"
+gh = "latest"
 lazygit = "latest"
 lazydocker = "latest"
+pinact = "latest"
+jjui = "latest"          # idursun/jjui (Go)
+
+# security / policy / cost / IaC
+trivy = "latest"
+infracost = "latest"
+opentofu = "latest"
 # kubectx = "latest"
 # neonctl = "latest"
-# websocat = "latest"
 # opensearch = "latest"
 # elasticsearch = "latest"
+# kustomize = "latest"
+# terraform = "latest"
 
+# format / data / HTTP / UX helpers
+yamlfmt = "latest"
+yq = "latest"
+fx = "latest"
+ubi = "latest"
+fzf = "latest"
+checkmake = "latest"
+sampler = "latest"
+topgrade = "latest"
+glow = "latest"  # Charm TUI（registry）。github:charmbracelet/glow と併用可
+# gum = "latest"
+# direnv = "latest"
+
+# github (Go)
+"github:keploy/keploy" = "latest"
+"github:projectdiscovery/katana" = "latest"
+"github:koki-develop/clive" = "latest"
+"github:smallstep/cli" = "latest"
+"github:fatedier/frp" = "latest"
+"github:jonaslu/ain" = "latest"
+"github:daichirata/hammer" = "latest"
+"github:charmbracelet/glow" = "latest"
+"github:syncthing/syncthing" = "latest"
+"github:ankitpokhrel/jira-cli" = "latest"
+"github:micro-editor/micro" = "latest"
+"github:wtfutil/wtf" = "latest"
+"github:plandex-ai/plandex" = "latest"
+"github:librespeed/speedtest-cli" = "latest"
+"github:pranshuparmar/witr" = "latest"
+
+# =============================================================================
+# Rust — toolchain & Rust 製 CLI
+# =============================================================================
 rust = "stable"
 cargo-binstall = "latest"
+usage = "latest"         # jdx/usage (Rust)
+sentry = "latest"        # getsentry/sentry-cli (Rust)
+# biome = "latest"
+wasm-tools = "latest"       # biomejs/biome (Rust)
+
+# VCS / shell UX
 jj = "latest"
-jjui = "latest"
+starship = "latest"
+atuin = "latest"
+zellij = "latest"
+zoxide = "latest"
+# navi = "latest"        # denisidoro/navi (Rust)
+
+# search / view / edit
 xh = "latest"
 fd = "latest"
 bat = "latest"
-rtk = "latest"
 rg = "latest"
 lsd = "latest"
+sd = "latest"
+delta = "latest"
+scooter = "latest"
+rtk = "latest"           # rtk-ai/rtk (Rust)
+herdr = "latest"    # ogulcancelik/herdr (Rust)
+# tokei = "latest"
+# choose = "latest"
+# oxlint = "latest"
+
+# system / disk / perf
 dua = "latest"
 dust = "latest"
-delta = "latest"
-herdr = "latest"
-# tokei = "latest"
-glow = "latest"
-hurl = "latest"
-atuin = "latest"
 bottom = "latest"
-# lychee = "latest"
-zellij = "latest"
-scooter = "latest"
-zoxide = "latest"
 coreutils = "latest"
-# mdbook = "latest"
-# ripsecrets = "latest"
 tlrc = "latest"
-# oxlint = "latest"
-# choose = "latest"
-sd = "latest"
-starship = "latest"
+lychee = "latest"
+ripsecrets = "latest"
+mdbook = "latest"
+yazi = "latest"
 
-python = "latest"
-uv = "latest"
-pipx = "latest"
-ruff = "latest"
-hunk = "latest"
-hatch = "latest"
-# navi = "latest"
+# HTTP / markdown
+hurl = "latest"
+htmlq = "latest"
+railway = "latest"
+# websocat = "latest"  # registry 名。下記 github:vi/websocat を使用
 
-ninja = "latest"
-conan = "latest"
-redis = "latest"
-cowsay = "latest"
-# make = "latest"
-cmake = "latest"
-# bpkg = "latest"
-# postgres = "latest"
-
-age = "latest"
-fx = "latest"
-gh = "latest"
-yq = "latest"
-jq = "latest"
-ubi = "latest"
-fzf = "latest"
-duckdb = "latest"
-sqlite = "latest"
-mkcert = "latest"
-fastfetch = "latest"
-checkmake = "latest"
-shellcheck = "latest"
-# kustomize = "latest"
-# terraform = "latest"
-# opentofu = "latest"
-
-java = "latest"
-maven = "latest"
-# tomcat = "latest"
-# kafka = "latest"
-# spark = "latest"
-
-# ruby = "latest"
-# dotnet = "latest"
-# flutter = "latest"
-# php = "latest"
-
-# ansible = "latest"
-# android-sdk = "latest"
-# localstack = "latest"
-# direnv = "latest"
-# vim = "latest"
-# mongosh = "latest"
-# gum = "latest"
-# sampler = "latest"
-# tmux = "latest"
-# zprint = "latest"
-
-# aws = "latest"
-ffmpeg = "latest"
-yt-dlp = "latest"
-# neovim = "latest"
-# solidity = "latest"
-# cocoapods = "latest"
-pre-commit = "latest"
-
-"github:can1357/oh-my-pi" = "latest"
-"github:colbymchenry/codegraph" = "latest"
+# github (Rust)
+"github:Dicklesworthstone/pi_agent_rust" = "latest"
 "github:vercel-labs/opensrc" = "latest"
 "github:vercel-labs/agent-browser" = "latest"
-"github:manaflow-ai/cmux" = "latest"
-"github:Egonex-AI/Understand-Anything" = "latest"
-
-"github:marp-team/marp-cli" = "latest"
-"github:iofficeai/officecli" = "latest"
-"github:microsoft/typescript" = "latest"
-"github:yusukebe/ax" = "latest"
-"github:keploy/keploy" = "latest"
-
-# "github:vicinaehq/vicinae" = "latest"
-# "github:zed-industries/zed" = "latest"
-# "github:obsidianmd/obsidian-releases" = "latest"
-# "github:zen-browser/desktop" = "latest"
-# "github:webadderallorg/Recordly" = "latest"
-
-"github:Dicklesworthstone/pi_agent_rust" = "latest"
-"github:ushironoko/octorus" = "latest"
 "github:rossmacarthur/sheldon" = "latest"
 "github:boborder/lazyxrp" = "latest"
 "github:orhun/ratty" = "latest"
@@ -179,81 +191,178 @@ pre-commit = "latest"
 "github:t8y2/dbx" = "latest"
 "github:pimalaya/himalaya" = "latest"
 "github:vi/websocat" = "latest"
-"github:sxyazi/yazi" = "latest"
-"github:projectdiscovery/katana" = "latest"
-
-"github:microsoft/pyright" = "latest"
-"github:graphify-labs/graphify" = "latest"
+"github:DecapodLabs/decapod" = "latest"
 "github:meilisearch/meilisearch" = "latest"
 "github:GyulyVGC/sniffnet" = "latest"
-# "github:teng-lin/notebooklm-py" = "latest"
+"github:EasyTier/EasyTier" = "latest"
+"github:fish-shell/fish-shell" = "latest"  # fish 4+ は Rust
+"github:Rigellute/spotify-tui" = "latest"
+"github:asciinema/asciinema" = "latest"
+"github:pemistahl/grex" = "latest"
+"github:orhun/binsider" = "latest"
+"github:tw93/Kaku" = "latest"
+"github:Hmbown/CodeWhale" = "latest"
+# "github:rustdesk/rustdesk" = "latest"
+# "github:abenz1267/walker" = "latest"
+# "github:habitat-sh/habitat" = "latest"
 
-"github:daichirata/hammer" = "latest"
+# =============================================================================
+# Python — runtime / packaging / linters / agent CLIs
+# =============================================================================
+python = "latest"
+# 実装は Rust だが Python エコシステムとしてここへ
+uv = "latest"
+ruff = "latest"
+pipx = "latest"
+hatch = "latest"
+conan = "latest"         # pipx:conan（C/C++ 向けパッケージマネージャ）
+pre-commit = "latest"
+yt-dlp = "latest"
+claude = "latest"        # anthropics/claude-code（primary: Python）
+
+# github (Python)
+"github:microsoft/pyright" = "latest"
+"github:graphify-labs/graphify" = "latest"
+"github:pandas-dev/pandas" = "latest"
+"github:hacs/integration" = "latest"
+# "github:teng-lin/notebooklm-py" = "latest"
+# "github:sherlock-project/sherlock" = "latest"
+# "github:headroomlabs-ai/headroom" = "latest"
+
+# =============================================================================
+# C / C++ — build tools / native DBs / systems tools
+# =============================================================================
+# build
+ninja = "latest"
+cmake = "latest"
+# make = "latest"
+# bpkg = "latest"
+
+# data / system
+redis = "latest"
+# postgres = "latest"
+duckdb = "latest"
+sqlite = "latest"
+fastfetch = "latest"
+solidity = "latest"      # ethereum/solidity (C++)
+
+# github (C / C++)
+"github:colbymchenry/codegraph" = "latest"
+"github:ushironoko/octorus" = "latest"
+"github:Slackadays/Clipboard" = "latest"
 "github:hashcat/hashcat" = "latest"
 "github:apple/foundationdb" = "latest"
 "github:ClickHouse/ClickHouse" = "latest"
-"github:librespeed/speedtest-cli" = "latest"
-# "github:sherlock-project/sherlock" = "latest"
+
+# =============================================================================
+# Java
+# =============================================================================
+java = "latest"
+maven = "latest"
+# tomcat = "latest"
+# kafka = "latest"
+# spark = "latest"
+
+# =============================================================================
+# Other languages — 特殊ランタイム / 少数派
+# =============================================================================
+# ruby = "latest"
+# dotnet = "latest"
+# flutter = "latest"
+# php = "latest"
+# cocoapods = "latest"
+
+# github (Swift / C# など)
+"github:manaflow-ai/cmux" = "latest"       # Swift
+"github:iofficeai/officecli" = "latest"    # C#
+
+# =============================================================================
+# Shell / editors / media / misc — 用途グループ（言語横断）
+# =============================================================================
+jq = "latest"            # C
+shellcheck = "latest"    # Haskell
+hadolint = "latest"      # Haskell
+neovim = "latest"
+ffmpeg = "latest"        # C
+# ansible = "latest"
+# android-sdk = "latest"
+# localstack = "latest"
+# vim = "latest"
+# mongosh = "latest"
+# tmux = "latest"
+# zprint = "latest"
+# aws = "latest"
+
+# desktop / GUI（無効化中・用途グループ）
+# "github:vicinaehq/vicinae" = "latest"          # C++
+# "github:zed-industries/zed" = "latest"         # Rust
+# "github:obsidianmd/obsidian-releases" = "latest"
+# "github:zen-browser/desktop" = "latest"        # JavaScript
+# "github:webadderallorg/Recordly" = "latest"    # TypeScript
+# "github:nix-community/home-manager" = "latest" # Nix
 
 [settings]
-# プラグインは他のバージョン管理ツールのバージョンファイルを読み取ることができます（プラグインが有効な場合）
-# 例えば、nodeのnvmの場合は.nvmrc
-legacy_version_file = true                     # デフォルトで有効（asdfとは異なる）
-#legacy_version_file_disable_tools = ['python'] # 特定のツールを無効にする
+# 相対: 0s / 7d / 6mo / 1y、絶対: 2024-06-01
+# 0s = 無効（最新を即採用）。サプライチェーン遅延が欲しければ 3d/7d に。
+# minimum_release_age = "0s"
+minimum_release_age = "12h"
 
 # `mise install`でダウンロードしたアーカイブを常に保持するように設定
 always_keep_download = false        # デフォルトではインストール後に削除
 always_keep_install = false         # デフォルトでは失敗時に削除
 
-# プラグインリポジトリの更新を取得する頻度を設定（分単位）
-# 新しいランタイムがインストールされるたびに更新されます
-# （注：これはまだ実装されていませんが、追加予定です：https://github.com/jdx/mise/issues/128）
-plugin_autoupdate_last_check_duration = '1 week' # 0に設定すると更新を無効化
+# プラグイン自動更新のチェック間隔（duration 文字列。現状未実装: https://github.com/jdx/mise/issues/128）
+plugin_autoupdate_last_check_duration = '1 week' # 0 で無効化
 
-# これらのプレフィックスを持つ設定ファイルはデフォルトで信頼されます
+# これらのプレフィックスを持つ設定ファイルはデフォルトで信頼される
+# ~/dotfiles は ~/.local/share/chezmoi への symlink。実パスも併記する。
 trusted_config_paths = [
   '~/dotfiles',
+  '~/.local/share/chezmoi',
 ]
 
-# 慣習的なバージョンファイルを有効にするツール
+# 慣習的なバージョンファイル（.nvmrc 等）を有効にするツール
+# （旧 legacy_version_file / asdf_compat は deprecated・無効のため削除済み）
 idiomatic_version_file_enable_tools = [
   "node",
 ]
+# idiomatic_version_file_disable_tools = ['python']
 
-verbose = false       # trueに設定すると、インストールの全出力が表示されます。`MISE_VERBOSE`を参照
-asdf_compat = true    # trueに設定すると、.tool-versionsがasdfと互換性を持つようになります。`MISE_ASDF_COMPAT`を参照
-http_timeout = "30s"  # HTTPリクエストのタイムアウトを設定します。`MISE_HTTP_TIMEOUT`を参照
-jobs = 4              # 並行してインストールするプラグインやランタイムの数。デフォルトは`4`
-raw = false           # trueに設定すると、プラグインを直接stdin/stdout/stderrにパイプします
-yes = true            # trueに設定すると、すべてのプロンプトに自動的に「はい」と答えます
+verbose = false       # true でインストールの全出力。`MISE_VERBOSE`
+http_timeout = "30s"  # HTTP タイムアウト。`MISE_HTTP_TIMEOUT`
+jobs = 8              # 並行インストール数（デフォルト 4）
+raw = false           # true でプラグインを直接 stdin/stdout/stderr にパイプ
+yes = true            # すべてのプロンプトに自動で yes
 
-#not_found_auto_install = true # `MISE_NOT_FOUND_AUTO_INSTALL`を参照
-#task_output = "prefix" # タスクランナーの詳細については参照
-#paranoid = false       # `MISE_PARANOID`を参照
+#not_found_auto_install = true # `MISE_NOT_FOUND_AUTO_INSTALL`
+#task_output = "prefix"
+#paranoid = false       # `MISE_PARANOID`
+#safe = false           # `MISE_SAFE`（テンプレート exec / hooks を禁止）
 
-# shorthands_file = '~/.config/mise/shorthands.toml' # ショートハンドファイルのパス、`MISE_SHORTHANDS_FILE`を参照
-# disable_default_shorthands = false # デフォルトのショートハンドを無効にする、`MISE_DISABLE_DEFAULT_SHORTHANDS`を参照
+# shorthands_file = '~/.config/mise/shorthands.toml'
+# disable_default_shorthands = false
+# disable_tools = ['rust']
 
-# disable_tools = ['rust']           # 特定のツールを無効にする、通常はコアツールをオフにするために使用
+# env_file はグローバルだと config_root=$HOME → ~/.env を探す。
+# プロジェクト単位で使うなら各 mise.toml 側に書く。
+# env_file = '.env'
 
-env_file = '.env' # .env ファイルから環境変数を読み込む、`MISE_ENV_FILE`を参照
+experimental = true
 
-experimental = true # 実験的な機能を有効にする
-
-# 設定ファイルを持つディレクトリに入るときに表示されるメッセージを設定
+# 設定ファイルを持つディレクトリに入るときの表示
 status.missing_tools = "if_other_versions_installed"
 status.show_env = false
 status.show_tools = false
 
-# rustのホームディレクトリを設定
-rust.cargo_home = "~/.local/share/cargo"
-rust.rustup_home = "~/.local/share/rustup"
+# Rust toolchain は mise core (`rust = "stable"`) + rustup。
+# Path は `~` / テンプレを展開しないので絶対パスで XDG に固定。
+rust.cargo_home = "/Users/hotmilk/.local/share/cargo"
+rust.rustup_home = "/Users/hotmilk/.local/share/rustup"
 
-# package managerの設定
+# package manager
 cargo.binstall = true
 pipx.uvx = true
 npm.bun = true
-
 [[env]]
 _.path = [
   '~/.local/bin',

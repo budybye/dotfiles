@@ -347,7 +347,7 @@ if command -v mise >/dev/null 2>&1; then
     alias mip="mi p ls-remote"
     alias mic="mi cache clean"
     alias mil="mi list && mi set"
-    alias miu="mi up && mi prune && mic && mi list && mi v"
+    alias miu="mise up && mise prune && mise cache clean && mise dr && mise list && mise v"
 fi
 
 # shelcheck
@@ -357,7 +357,7 @@ fi
 
 # sheldon
 if command -v sheldon >/dev/null 2>&1; then
-    alias sd="sheldon lock --update"
+    alias sss="sheldon lock --update"
 fi
 
 if command -v starship >/dev/null 2>&1; then

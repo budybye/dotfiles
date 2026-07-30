@@ -29,8 +29,8 @@ path=(
     ${HOME}/.bun/bin(N-/)
     ${HOME}/.local/share/go/bin(N-/)
     ${HOME}/go/bin(N-/)
+    # rustc/cargo/rustup は mise (rust@stable)。ここは cargo install / binstall 用
     ${HOME}/.local/share/cargo/bin(N-/)
-    ${HOME}/.cargo/bin(N-/)
     ${HOME}/.local/share/sheldon/repos/github.com/*/*/bin(N-/)
     ${HOME}/.local/share/gem/bin(N-/)
     ${HOME}/.local/bin(N-/)
