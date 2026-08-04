@@ -70,7 +70,7 @@ abbr kn='kubens'
 abbr mp='multipass'
 
 # chezmoi
-abbr che='chezmoi'
+abbr cz='chezmoi'
 abbr cha='chezmoi update --verbose'
 abbr ca='chezmoi apply'
 abbr ce='chezmoi execute-template'
@@ -103,7 +103,7 @@ abbr pkg='dpkg'
 # ツール系
 abbr sc='shellcheck'
 
-abbr sd='sheldon lock --update'
+abbr sss='sheldon lock --update'
 
 abbr ss='starship explain'
 

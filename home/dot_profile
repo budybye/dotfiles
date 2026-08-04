@@ -67,6 +67,7 @@ export XDG_DESKTOP_DIR="${HOME}/Desktop"
 export XDG_DOWNLOAD_DIR="${HOME}/Downloads"
 export XDG_DOCUMENTS_DIR="${HOME}/Documents"
 export XDG_PUBLICSHARE_DIR="${HOME}/Public"
+chmod 755 "${HOME}/Public"
 export XDG_MUSIC_DIR="${HOME}/Music"
 export XDG_PICTURES_DIR="${HOME}/Pictures"
 export XDG_VIDEOS_DIR="${HOME}/Movies"
@@ -128,9 +129,9 @@ else
 fi
 
 if command -v brave-browser >/dev/null 2>&1; then
-    export BROWSER="w3m"
-elif command -v w3m >/dev/null 2>&1; then
     export BROWSER="brave-browser"
+elif command -v w3m >/dev/null 2>&1; then
+    export BROWSER="w3m"
 elif command -v chromium >/dev/null 2>&1; then
     export BROWSER="chromium"
 elif command -v firefox >/dev/null 2>&1; then

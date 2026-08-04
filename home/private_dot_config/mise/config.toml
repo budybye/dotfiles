@@ -304,8 +304,8 @@ ffmpeg = "latest"        # C
 [settings]
 # 相対: 0s / 7d / 6mo / 1y、絶対: 2024-06-01
 # 0s = 無効（最新を即採用）。サプライチェーン遅延が欲しければ 3d/7d に。
-# minimum_release_age = "0s"
-minimum_release_age = "12h"
+minimum_release_age = "0s"
+# minimum_release_age = "12h"
 
 # `mise install`でダウンロードしたアーカイブを常に保持するように設定
 always_keep_download = false        # デフォルトではインストール後に削除
@@ -363,6 +363,7 @@ rust.rustup_home = "/Users/hotmilk/.local/share/rustup"
 cargo.binstall = true
 pipx.uvx = true
 npm.bun = true
+
 [[env]]
 _.path = [
   '~/.local/bin',

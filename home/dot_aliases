@@ -205,7 +205,7 @@ fi
 
 # chezmoi
 if command -v chezmoi >/dev/null 2>&1; then
-    alias che="chezmoi"
+    alias cz="chezmoi"
     alias cha="che update --verbose"
     alias ca="che apply"
     alias cai="che init --apply https://github.com/budybye/dotfiles.git"

@@ -31,14 +31,11 @@ if command -v direnv > /dev/null 2>&1; then
     eval "$(direnv hook bash)"
 fi
 
-# mise
-if command -v mise > /dev/null 2>&1; then
-    eval "$(mise activate bash)"
-fi
-
 # sheldon は plugins.toml が zsh 専用のため bash では呼ばない
 # bash 用プラグインが必要になった場合は plugins.bash.toml を作成して
-# eval "$(sheldon --profile bash source)" に切り替える
+# if command -v sheldon > /dev/null 2>&1; then
+#     eval "$(sheldon --profile bash source)"
+# fi
 
 if command -v fzf > /dev/null 2>&1; then
     eval "$(fzf --bash)"
@@ -58,6 +55,11 @@ if command -v thefuck > /dev/null 2>&1; then
     eval "$(thefuck --alias)"
 fi
 
+# mise
+if command -v mise > /dev/null 2>&1; then
+    eval "$(mise activate bash)"
+fi
+
 # 補完の設定
 if [ -f /etc/bash_completion ]; then
     . "/etc/bash_completion"
@@ -70,6 +72,6 @@ export BASH_COMPLETION_USER_FILE="${_bash_comp_dir}/bash_completion"
 unset _bash_comp_dir
 
 # aliasファイルの読み込み
-if [ -f "${HOME}/.config/.aliases" ]; then
+if [ -f "${HOME}/.aliases" ]; then
     . "${HOME}/.aliases"
 fi
