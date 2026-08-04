@@ -75,9 +75,14 @@ layout {
     tab name="edit" {
         pane split_direction="vertical" {
             pane {
-                name "docs"
-                cwd "~/Developer/docs"
+                name "herdr"
+                cwd "~/Developer"
                 command "herdr"
+            }
+            pane {
+                name "pi"
+                cwd "~/Developer/docs"
+                command "pi"
             }
         }
     }

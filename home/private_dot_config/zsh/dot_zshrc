@@ -109,7 +109,7 @@ if command -v zoxide > /dev/null 2>&1; then
 fi
 
 # atuin
-if command -v zoxide > /dev/null 2>&1; then
+if command -v atuin > /dev/null 2>&1; then
     eval "$(atuin init zsh)"
 fi
 
@@ -146,11 +146,6 @@ fi
 # --shims だと install path より shims が先になり doctor が警告するため通常 activate を使う
 if command -v mise > /dev/null 2>&1; then
     eval "$(mise activate zsh)"
-fi
-
-# API_KEY 系 環境変数 読み込み
-if command -v envars > /dev/null 2>&1; then
-    . envars
 fi
 
 # functionsファイルの読み込み

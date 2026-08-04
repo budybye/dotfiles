@@ -1,0 +1,30 @@
+{
+  "mcpServers": {
+    "brave-devtools": {
+      "command":"npx",
+      "args":["-y", "brave-mcp@latest"],
+      "lifecycle": "lazy",
+      "idleTimeout": 10
+    },
+    "ccxt": { 
+      "command": "npx", 
+      "args": ["-y", "ccxt-mcp"],
+      "lifecycle": "lazy",
+      "idleTimeout": 10 
+    },
+    "mcp-mermaid": {
+      "command": "npx",
+      "args": ["-y", "mcp-mermaid"],
+      "lifecycle": "lazy",
+      "idleTimeout": 10
+    },
+    "cloudflare-docs": {
+      "type": "url",
+      "url": "https://docs.cloudflare.com/mcp"
+    },
+    "context7": {
+      "type": "url",
+      "url": "https://mcp.context7.com/mcp"
+    }
+  }
+}

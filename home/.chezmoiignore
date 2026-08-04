@@ -5,10 +5,7 @@
 .DS_Store
 **/.DS_Store
 .chezmoiexternal.*
-key.txt.age
-shhh.txt
-install.sh
-.pi/agent/extensions/**/node_modules
+key.txt
 
 {{ if eq (env "GITHUB_ACTIONS") "true" }}
 .ssh/authorized_keys*
@@ -44,6 +41,7 @@ install.sh
 .ssh/id_rsa*
 .ssh/id_ed25519*
 .local/bin/envars*
+.env
 .chezmoiscripts/age.sh
 {{ end }}
 

@@ -1,0 +1,16 @@
+{
+  "name": "omp-plugins",
+  "private": true,
+  "dependencies": {
+    "@dietrichgebert/ponytail": "https://github.com/DietrichGebert/ponytail",
+    "@haispeed/pi-obsidian": "npm:@haispeed/pi-obsidian",
+    "context-mode": "npm:context-mode",
+    "graphify-pi": "npm:graphify-pi",
+    "openspec-pi": "npm:openspec-pi",
+    "pi-caveman": "npm:pi-caveman",
+    "pi-docparser": "npm:pi-docparser",
+    "pi-rtk-optimizer": "npm:pi-rtk-optimizer",
+    "pi-web-access": "npm:pi-web-access",
+    "superpowers": "https://github.com/obra/superpowers"
+  }
+}

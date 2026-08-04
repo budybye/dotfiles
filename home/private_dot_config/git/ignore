@@ -102,8 +102,19 @@ sites/*/files
 *.sql
 *.sql.*
 
-**/.claude/settings.local.json
-
+# agents系
+.claude/settings.local.json
 .pi/sessions
-
+.claude
+.codex
+.atl
+.codegraph
 graphify-out
+
+# musubi
+steering
+templates
+storage
+
+.decapod
+.AppleDesktop

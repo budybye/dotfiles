@@ -194,5 +194,6 @@
   },
   "atomicviz.features.lastNotified": "3.5.3",
   "atomicviz.installed": true,
-  "claudeCode.preferredLocation": "panel"
+  "claudeCode.preferredLocation": "panel",
+  "cursor.composer.codeBlockWordWrap": true
 }

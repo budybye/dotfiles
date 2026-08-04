@@ -105,3 +105,9 @@ apply = ["defer"]
 [plugins.blackbox]
 github = "StackExchange/blackbox"
 apply = ["defer"]
+
+# 翻訳
+[plugins.translate-shell]
+github = "soimort/translate-shell"
+use = ["translate-shell.plugin.zsh"]
+apply = ["defer"]

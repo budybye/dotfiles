@@ -123,6 +123,7 @@ truncation_symbol = "…/"
 symbol = " "
 style = "fg:dd bg:dark"
 format = '[ $symbol $branch ]($style bold)'
+disabled = true
 
 [git_status]
 style = "fg:dd bg:dark"
@@ -137,6 +138,7 @@ modified = "📝 "
 staged = '🔦 '
 renamed = "🏷 "
 deleted = "🗑 "
+disabled = true
 
 [nodejs]
 symbol = " "
@@ -253,9 +255,15 @@ style = "bold gray"
 format = "[$output]($style bold) "
 
 # jj username
+# [custom.jj]
+# command = "jj config get github.username"
+# when = "command -v jj >/dev/null"
+# style = "fg:dd bg:gray"
+# format = "[$output]($style bold) "
+
 [custom.jj]
-command = "jj config get github.username"
-when = "command -v jj >/dev/null"
+when = "jj-starship detect"
+shell = ["jj-starship"]
 style = "fg:dd bg:gray"
 format = "[$output]($style bold) "
 
@@ -267,3 +275,4 @@ format = "[ $output]($style bold)"
 
 [gcloud]
 disabled = true
+

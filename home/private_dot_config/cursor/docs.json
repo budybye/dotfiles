@@ -6,6 +6,16 @@
 			"type": "html"
 		},
 		{
+			"name": "IETF",
+			"url": "https://datatracker.ietf.org/doc/html",
+			"type": "html"
+		},
+		{
+			"name": "MDN",
+			"url": "https://developer.mozilla.org",
+			"type": "html"
+		},
+		{
 			"name": "Cloudflare Docs",
 			"url": "https://developers.cloudflare.com",
 			"type": "html"
@@ -51,8 +61,13 @@
 			"type": "html"
 		},
 		{
-			"name": "caddy docs",
-			"url": "https://caddyserver.com/docs",
+			"name": "remix docs",
+			"url": "https://guides.remix.run",
+			"type": "html"
+		},
+		{
+			"name": "jotai docs",
+			"url": "https://jotai.org/docs",
 			"type": "html"
 		},
 		{
@@ -61,12 +76,17 @@
 			"type": "html"
 		},
 		{
+			"name": "daisyui docs",
+			"url": "https://daisyui.com/docs",
+			"type": "html"
+		},
+		{
 			"name": "React Router Docs",
 			"url": "https://reactrouter.com/home",
 			"type": "html"
 		},
 		{
-			"name": "drizzle orm docs",
+			"name": "drizzle-orm docs",
 			"url": "https://orm.drizzle.team/docs/overview",
 			"type": "html"
 		},
@@ -76,18 +96,13 @@
 			"type": "html"
 		},
 		{
-			"name": "curl docs",
-			"url": "https://curl.se/docs",
-			"type": "html"
-		},
-		{
 			"name": "cloud-init docs",
 			"url": "https://cloudinit.readthedocs.io/en/latest",
 			"type": "html"
 		},
 		{
-			"name": "graphql docs",
-			"url": "https://graphql.org/learn",
+			"name": "better-result docs",
+			"url": "https://better-result.dev",
 			"type": "html"
 		},
 		{
@@ -98,6 +113,51 @@
 		{
 			"name": "ubuntu docs",
 			"url": "https://docs.ubuntu.com",
+			"type": "html"
+		},
+		{
+			"name": "rafiki docs",
+			"url": "https://rafiki.dev/overview/overview",
+			"type": "html"
+		},
+		{
+			"name": "openpayments docs",
+			"url": "https://openpayments.dev/overview/getting-started/",
+			"type": "html"
+		},
+		{
+			"name": "rivet docs",
+			"url": "https://rivet.dev/docs",
+			"type": "html"
+		},
+		{
+			"name": "pi docs",
+			"url": "https://pi.dev/docs",
+			"type": "html"
+		},
+		{
+			"name": "flue docs",
+			"url": "https://flueframework.com/docs",
+			"type": "html"
+		},
+		{
+			"name": "nuqs docs",
+			"url": "https://nuqs.dev/docs",
+			"type": "html"
+		},
+		{
+			"name": "openspec docs",
+			"url": "https://openspec.dev/docs",
+			"type": "html"
+		},
+		{
+			"name": "valibot docs",
+			"url": "https://valibot.dev/guides/introduction/",
+			"type": "html"
+		},
+		{
+			"name": "jujutsu docs",
+			"url": "https://docs.jj-vcs.dev/latest",
 			"type": "html"
 		}
 	],

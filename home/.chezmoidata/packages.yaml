@@ -8,21 +8,21 @@ packages:
       - "make"
       - "zsh"
       - "mas"
-      - "tree"
+      # - "tree"
       # 開発系
-      - "autoconf"
+      # - "autoconf"
       - "automake"
-      - "ain"
+      # - "ain"
       - "bash"
-      - "bash-completion"
+      # - "bash-completion"
       - "byobu"
-      - "ddgr"
+      # - "ddgr"
       # - "ca-certificates"
 
       # ジョーク系コマンド
-      - "cmatrix"
-      - "fortune"
-      - "figlet"
+      # - "cmatrix"
+      # - "fortune"
+      # - "figlet"
 
       # 音楽系
       - "mackup"
@@ -32,8 +32,8 @@ packages:
       # - 'yt-dlp'
 
       # 便利コマンド
-      - "translate-shell"
-      - "moreutils"
+      # - "translate-shell"
+      # - "moreutils"
       - "multitail"
       - "nmap"
       # - 'vim'
@@ -49,30 +49,23 @@ packages:
       # - 'ripgrep'
 
     cask:
-      - "appcleaner"
-      - "betterdisplay"
       - "bitwarden"
       - "brave-browser"
-      - "clipy"
       - "cloudflare-warp"
       - "cursor"
       - "discord"
       - "font-hackgen-nerd"
       - "github"
       - "google-chrome"
-      - "karabiner-elements"
       - "musicbrainz-picard"
       - "obsidian"
       - "onyx"
       - "raycast"
       - "ghostty"
-      - "rectangle"
       - "visual-studio-code"
       - "windows-app"
-      # - 'font-roboto-mono-nerd-font'
-      # - 'notion'
-      # - 'alacritty'
-      # - 'tabby'
+      - "zen"
+      - "zed"
 
   linux:
     cli:
@@ -94,9 +87,9 @@ packages:
       - "xsel"
       - "ncdu"
       - "xdotool"
-      - "moreutils"
+      # - "moreutils"
       - "multitail"
-      - "htop"
+      # - "htop"
 
       - "openssh-server"
       - "avahi-daemon"
@@ -124,10 +117,9 @@ packages:
       - "libxcb-xfixes0-dev"
       - "libxkbcommon-dev"
 
-      # - "ffmpeg"
-      # - 'lsd'
-      # - 'zoxide'
-      # - 'yt-dlp'
+      - "libgtk-3-dev" 
+      - "libwebkit2gtk-4.1-dev" 
+      - "libgtk-layer-shell-dev"
 
       - "mpd"
       - "mpc"
@@ -135,23 +127,23 @@ packages:
       - "net-tools"
       - "nmap"
       - "snapd"
-      - "termshark"
       - "ufw"
       - "rsyslog"
       - "im-config"
       - "ruby"
       - "nx"
+      # - "termshark"
       # - 'byobu'
       # - 'jq'
 
       # - 'cowsay'
-      - "figlet"
-      - "fortune-mod"
-      - "cmatrix"
+      # - "figlet"
+      # - "fortune-mod"
+      # - "cmatrix"
+      # - "lolcat"
+      # - "translate-shell"
       - "oneko"
-      - "lolcat"
       - "nyancat"
-      - "translate-shell"
       - "command-not-found"
 
     gui:
@@ -190,8 +182,8 @@ packages:
       - "xsel"
       - "xclip"
   snap:
-    classic:
-      - "alacritty"
+    # classic:
+      # - "alacritty"
       # - "ghostty"
       # - 'obsidian'
       # - 'code' amd64
@@ -199,11 +191,11 @@ packages:
     latest:
       - "chromium"
       - "multipass"
+      - 'brave'
       # - "clipboard"
       # - 'bitwarden'
       # - 'element-desktop'
       # - 'postman'
-      # - 'brave'
       # - "speedtest-cli"
 
   extensions:
@@ -297,11 +289,11 @@ packages:
       - "make"
       - "mise"
 
-  cargo:
-    - "navi"
-    - "memvid-core"
-    - "boringtun-cli"
-    - "vaultwarden"
+  # cargo:
+    # - "navi"
+    # - "memvid-core"
+    # - "boringtun-cli"
+    # - "vaultwarden"
     
     # - "onehistory"
     # - "lazyfile"
@@ -325,137 +317,175 @@ packages:
     # - "sniffnet"
     # - 'fermyon'
 
-  npm:
-    - "pm2"
-    - "skills"
-    - "rnsec"
-    - "defuddle"
-    - "just-scrape"
-    - "nx"
-    - "@hono/cli"
-    - "@fission-ai/openspec"
-    - 'workers-fetch'
-    - 'wrangler'
-    - 'localflare'
-    - "ctx7"
-    - "bigpowers"
+  # npm:
+    # - "pm2"
+    # - "defuddle"
+    # - "just-scrape"
+    # - "nx"
+    # - "@hono/cli"
+    # - 'workers-fetch'
+    # - 'localflare'
+    # - "docusaurus"
+    # - "plash"
+    # - "rnsec"
+    # - "skills"
+    # - "context-mode"
+    # - "greptile"
+    # - "planning-with-files"
+    # - "@fission-ai/openspec"
+    # - "ctx7"
+    # - "musubi-ssd"
+    # - "bigpowers"
+    # - "react-doctor"
+    # - "@testsprite/testsprite-cli"
     # - 'docsify-cli'
     # - "opensrc"
     # - "hunkdiff"
     # - "@officecli/officecli"
+    # - '@github/copilot'
     
-    - '@github/copilot'
-    - "vscode-langservers-extracted" 
-    - "pyright"
-    - "typescript-language-server" 
-    - "yaml-language-server"
+    # - "vscode-langservers-extracted" 
+    # - "pyright"
+    # - "typescript-language-server" 
+    # - "yaml-language-server"
    
     # - "@bitwarden/cli"
     # - "@marp-team/marp-cli"
-    # - "@earendil-works/pi-coding-agent"
     # - '@hubai/cli'
-    # - 'vibekit'
     # - 'wscat'
     # - 'surge'
     # - 'repomix'
-    # - 'claude'
     # - 'zx'
-    # - '@pipedream/sdk'
-    # - '@bitwarden/cli'
 
   agents:
     skills:
       # npx skills add … -g -y （run_onchange_after_skills.sh.tmpl）
-      # 実体: ~/.agents/skills/（Codex は ~/.codex/skills → 同実体へのシンボリックリンク）
-      # スナップショット: ../../skills-list.md（make skills）
-      # 正: `skills list -g`（未導入はコメントアウト、導入済みは有効化。削除しない）
+      # 実体: ~/.agents/skills
+
+      # mattpocock/skills
       - "mattpocock/skills -s tdd"
       - "mattpocock/skills -s grill-with-docs"
       - "mattpocock/skills -s grill-me"
       - "mattpocock/skills -s improve-codebase-architecture"
-      - "mattpocock/skills -s diagnosing-bugs" # was: diagnose
-      - "mattpocock/skills -s to-spec" # was: to-prd
-      - "mattpocock/skills -s qa"
-      - "mattpocock/skills -s to-tickets" # was: to-issues
+      - "mattpocock/skills -s diagnosing-bugs"
+      - "mattpocock/skills -s to-spec"
+      - "mattpocock/skills -s to-tickets"
       - "mattpocock/skills -s ask-matt"
-      # - "mattpocock/skills -s caveman" # not in skills list -g
-      - "mattpocock/skills -s writing-great-skills" # was: write-a-skill
-      - "mattpocock/skills -s request-refactor-plan"
       - "mattpocock/skills -s wayfinder"
-      # - "mattpocock/skills -s ask-matt" # duplicate
-      - "mattpocock/skills -s code-review" # was: review（実体は mattpocock の two-axis review）
-      # - "mattpocock/skills -s qa" # duplicate
+      - "mattpocock/skills -s domain-modeling"
+      - "mattpocock/skills -s grilling"
+      - "mattpocock/skills -s handoff"
+      - "mattpocock/skills -s teach"
+      - "mattpocock/skills -s to-questionnaire"
+      - "mattpocock/skills -s wait-what"
+      - "mattpocock/skills -s wizard"
+      - "mattpocock/skills -s writing-for-agents"
+      - "mattpocock/skills -s codebase-design"
+      - "mattpocock/skills -s implement"
+      - "mattpocock/skills -s prototype"
+      - "mattpocock/skills -s research"
+      - "mattpocock/skills -s setup-matt-pocock-skills"
+      - "mattpocock/skills -s triage"
+      # - "mattpocock/skills -s code-review"
+      # - "mattpocock/skills -s caveman"
 
+      # openspec fission-ai/openspec
+      # - "fission-ai/openspec -a"
+      - "fission-ai/openspec -s openspec-archive-change"
+      - "fission-ai/openspec -s openspec-apply-change"
+      - "fission-ai/openspec -s openspec-explore"
+      - "fission-ai/openspec -s openspec-propose"
+      - "fission-ai/openspec -s openspec-sync-specs"
+      - "fission-ai/openspec -s openspec-update-change"
+
+      # rivet-dev/skills
       - "rivet-dev/skills -s rivetkit"
-      - "rivet-dev/skills -s rivetkit-client-javascript"
-      - "rivet-dev/skills -s rivetkit-client-react"
-      - "rivet-dev/skills -s rivetkit-client-swift"
-      - "rivet-dev/skills -s rivetkit-client-swiftui"
-      - "rivet-dev/skills -s multiplayer-game"
-      - "rivet-dev/skills -s sandbox-agent"
-  
-      - "yusukebe/hono-skill -s hono"
-      - "yusukebe/ax -s ax"
+      # - "rivet-dev/skills -s rivetkit-client-javascript" # not in skills list -g
+      # - "rivet-dev/skills -s rivetkit-client-react" # not in skills list -g
+      # - "rivet-dev/skills -s rivetkit-client-swift" # not in skills list -g
+      # - "rivet-dev/skills -s rivetkit-client-swiftui" # not in skills list -g
+      # - "rivet-dev/skills -s multiplayer-game" # not in skills list -g
+      # - "rivet-dev/skills -s sandbox-agent" # local（~/.config/claude/skills/）
 
-      - "bobmatnyc/claude-mpm-skills -s drizzle-orm"
-      - "bobmatnyc/claude-mpm-skills -s playwright-e2e-testing"
-      - "bobmatnyc/claude-mpm-skills -s github-actions"
-      # - "bobmatnyc/claude-mpm-skills -s daisyui-5" # not in skills list -g
+      # bobmatnyc/claude-mpm-skills
+      - "bobmatnyc/claude-mpm-skills -s drizzle"
+      # - "bobmatnyc/claude-mpm-skills -s playwright-e2e-testing" 
+      # - "bobmatnyc/claude-mpm-skills -s github-actions"
       # - "bobmatnyc/claude-mpm-skills -s hono-cloudflare"
 
-      - "remix-run/agent-skills -s react-router-framework-mode"
-      - "remix-run/remix -s remix"
+      # wshobson/agents
+      # - "wshobson/agents -s react-state-management"
+      # - "wshobson/agents -s github-actions-templates" # not in skills list -g
+      # - "wshobson/agents -s api-design-principles"
+      # - "wshobson/agents -s code-review-excellence"
+      # - "wshobson/agents -s postgresql-table-design"
 
       # - "sergiodxa/agent-skills -s frontend-react-router-best-practices"
       # - "sergiodxa/agent-skills -s frontend-async-best-practices"
       # - "sergiodxa/agent-skills -s frontend-tailwind-best-practices"
       # - "sergiodxa/agent-skills -s frontend-react-best-practices"
       # - "sergiodxa/agent-skills -s skill-writing-best-practices"
-      # 
 
       - "cloudflare/skills -s cloudflare"
-      # - "cloudflare/skills -s durable-objects"
-      - "cloudflare/skills -s agents-sdk"
+      - "cloudflare/skills -s durable-objects"
+      - "cloudflare/security-audit-skill -s security-audit"
+      - "cloudflare/kumo -s kumo-design"
+      # - "cloudflare/skills -s agents-sdk" # not in skills list -g
       # - "cloudflare/skills -s workers-best-practices"
       # - "cloudflare/workerd -s test-driven-investigation"
       # - "cloudflare/workerd -s rust-review"
       # - "cloudflare/workerd -s dad-jokes"
-       
-      - "antfu/skills -s vite"
-      - "antfu/skills -s vitest"
-      - "antfu/skills -s slidev"
 
-      - "coderabbitai/skills -s autofix"
-      # - "coderabbitai/skills -s code-review" # code-review 実体は mattpocock（上記）
-      - "upstash/context7 -s find-docs"
+      # railwayapp/railway-skills
+      # - "railwayapp/railway-skills -s use-railway" # not in skills list -g
+      # - "railwayapp/railway-skills -s railway-docs" # not in skills list -g
 
-      - "railwayapp/railway-skills -s use-railway"
-      - "railwayapp/railway-skills -s railway-docs"
-      
-      - "alinaqi/claude-bootstrap -s pwa-development"
-      - "ogulcancelik/herdr -s herdr"
+      # ogulcancelik/herdr
+      # - "ogulcancelik/herdr -s herdr"
+
+      # tldraw/tldraw
       - "tldraw/tldraw -s tldraw-migrate"
-      # - "safishamsi/graphify -s graphify"
-      # - "orval/orval-skills -s orval"
-      # - "deckardger/tanstack-agent-skills -s tanstack-query-best-practices"
-      # - "imbue-openhost/openhost -s openhost-context"
-      # - "teng-lin/notebooklm-py -s notebooklm"
-      - "digitalsamba/claude-code-video-toolkit -s ffmpeg"
-      - "coreyhaines31/marketingskills -s ab-test-setup"
-      - "blacktop/dotfiles -s ratatui-tui"
-      - "101-skills/skills -s ai-video-generation"
-      
-      - "belt-sh/cli -a"
+      - "tldraw/tldraw -s review-docs"
+      - "tldraw/tldraw -s spec-driven-tests"
+      - "tldraw/tldraw -s write-docs"
+      - "tldraw/tldraw -s write-example"
+      - "tldraw/tldraw -s write-unit-tests"
+      # - "tldraw/tldraw -s skill-creator"
+      # - "tldraw/tldraw -s write-pr"
+      # - "tldraw/tldraw -s write-release-notes"
+      # - "tldraw/tldraw -s write-tbp"
 
-      - "xrpl-commons/xrpl-dev-skill -s xrpl-dev"
-      - "xrplf/xrpl-dev-portal -s xrpl-agent-wallet"
-      - "xrplf/xrpl-dev-portal -s xrpl-payments"
-      - "peersyst/xrplskills -s xrpl"
-      - "peersyst/xrplskills -s xrpl-standards"
+      # coreyhaines31/marketingskills
+      # - "coreyhaines31/marketingskills -s ab-test-setup" # not in skills list -g
+
+      # 101-skills/skills
+      # - "101-skills/skills -s ai-video-generation" # not in skills list -g
+
+      # belt-sh/cli
+      # - "belt-sh/cli -a" # not in skills list -g
+      # - "uinaf/skills -a"
+      
+      # xrpl
+      # - "xrpl-commons/xrpl-dev-skill -s xrpl-dev" # not in skills list -g
+      # - "xrplf/xrpl-dev-portal -s xrpl-agent-wallet" # not in skills list -g
+      # - "xrplf/xrpl-dev-portal -s xrpl-payments" # not in skills list -g
+      # - "peersyst/xrplskills -s xrpl" # not in skills list -g
+      # - "peersyst/xrplskills -s xrpl-standards" # not in skills list -g
       # - "flare-foundation/flare-ai-skills -a"
       # - "coinbase/agentic-wallet-skills -a"
+
+      # Brave Search Skills
+      # - "brave/brave-search-skills -s answers"
+      # - "brave/brave-search-skills -s images-search"
+      # - "brave/brave-search-skills -s llm-context"
+      # - "brave/brave-search-skills -s local-descriptions"
+      # - "brave/brave-search-skills -s local-pois"
+      # - "brave/brave-search-skills -s news-search"
+      # - "brave/brave-search-skills -s spellcheck"
+      # - "brave/brave-search-skills -s suggest"
+      # - "brave/brave-search-skills -s videos-search"
       
-      - "badlogic/pi-skills -s brave-search" # Brave Search Skills 一式
+      # - "badlogic/pi-skills -s brave-search" # 旧: Brave Search Skills 一式
       # - "badlogic/pi-skills -s browser-tools" # not in skills list -g
       # - "badlogic/pi-skills -s transcribe"
       # - "badlogic/pi-skills -s vscode"
@@ -473,23 +503,18 @@ packages:
       # - "softaworks/agent-toolkit -s game-changing-features"
       # - "softaworks/agent-toolkit -s marp-slide" # not in skills list -g
       # - "softaworks/agent-toolkit -s database-schema-designer" # not in skills list -g
-      
-      - "wshobson/agents -s github-actions-templates"
-      # - "wshobson/agents -s api-design-principles"
-      # - "wshobson/agents -s code-review-excellence"
-      # - "wshobson/agents -s postgresql-table-design"
 
-      - "nextlevelbuilder/ui-ux-pro-max-skill -s ui-ux-pro-max" # not in skills list -g
+      - "nextlevelbuilder/ui-ux-pro-max-skill -s ui-ux-pro-max"
 
       - "vercel-labs/agent-skills -s web-design-guidelines"
       - "vercel-labs/skills -s find-skills"
       - "vercel-labs/opensrc -s opensrc"
+      - "vercel-labs/agent-skills -s writing-guidelines"
+      - "vercel-labs/agent-browser -s agent-browser"
 
-      - "ayghri/i-have-adhd -a"
-      - "saadeghi/daisyui -a"
-
-      - "obra/superpowers -s writing-plans"
-      - "obra/superpowers -s executing-plans"
+      # obra/superpowers
+      # - "obra/superpowers -s writing-plans" # not in skills list -g
+      # - "obra/superpowers -s executing-plans" # not in skills list -g
       # - "obra/superpowers -s test-driven-development" # not in skills list -g（tdd は mattpocock）
 
       # openai/skills（Codex 由来）
@@ -502,63 +527,144 @@ packages:
       # - "openai/skills -s notion-meeting-intelligence"
       # - "openai/skills -s notion-research-documentation"
       # - "openai/skills -s notion-spec-to-implementation"
-      - "openai/skills -s openai-docs"
+      # - "openai/skills -s openai-docs" # not in skills list -g
       # - "openai/skills -s playwright"
-      - "openai/skills -s security-best-practices"
-      
+      # - "openai/skills -s security-best-practices" # local（~/.config/claude/skills/）
+
+      # - "openai/codex -s test-tui"
+
       # figma
       # - "figma/mcp-server-guide -s figma-create-design-system-rules"
 
-      # - "better-auth/skills -s better-auth-best-practices"
-      
-      # blender 
-      - "vladmdgolam/agent-skills -s blender-mcp"
-      - "sfkislev/flue -s Blender"
-      - "affaan-m/everything-claude-code -s blender-motion-state-inspection"
-      
+
+      # blender
+      # - "vladmdgolam/agent-skills -s blender-mcp" # not in skills list -g
+      # - "sfkislev/flue -s Blender" # not in skills list -g
+      # - "affaan-m/everything-claude-code -s blender-motion-state-inspection" # not in skills list -g
+
       # kepano/obsidian-skills（個別；-a で残りも入る）
       # - "kepano/obsidian-skills -a"
-      - "kepano/obsidian-skills -s obsidian-markdown"
-      - "kepano/obsidian-skills -s json-canvas"
-      - "kepano/obsidian-skills -s obsidian-bases"
-      - "kepano/obsidian-skills -s obsidian-cli"
-      - "kepano/obsidian-skills -s defuddle"
-    
+      # - "kepano/obsidian-skills -s obsidian-markdown" # not in skills list -g
+      # - "kepano/obsidian-skills -s json-canvas" # not in skills list -g
+      # - "kepano/obsidian-skills -s obsidian-bases" # not in skills list -g
+      # - "kepano/obsidian-skills -s obsidian-cli" # not in skills list -g
+      # - "kepano/obsidian-skills -s defuddle" # not in skills list -g
+
       # anthropics/skills
+      - "anthropics/skills -s pdf"
+      - "anthropics/skills -s doc-coauthoring"
+      - "anthropics/skills -s docx"
+      - "anthropics/skills -s pptx"
+      - "anthropics/skills -s xlsx"
+      - "anthropics/skills -s template-skill"
       - "anthropics/skills -s algorithmic-art"
-      - "anthropics/skills -s brand-guidelines"
-      - "anthropics/skills -s canvas-design"
-      - "anthropics/skills -s internal-comms"
-      - "anthropics/skills -s web-artifacts-builder"
-      - "anthropics/skills -s webapp-testing"
-      - "anthropics/skills -s mcp-builder"
-      - "anthropics/skills -s frontend-design"
-      - "anthropics/skills -s skill-creator"
-      - "anthropics/skills -s claude-api"
-            
+      # - "anthropics/skills -s brand-guidelines" # not in skills list -g
+      # - "anthropics/skills -s canvas-design" # not in skills list -g
+      # - "anthropics/skills -s internal-comms" # not in skills list -g
+      # - "anthropics/skills -s web-artifacts-builder" # not in skills list -g
+      # - "anthropics/skills -s webapp-testing" # not in skills list -g
+      # - "anthropics/skills -s mcp-builder" # not in skills list -g
+      # - "anthropics/skills -s frontend-design" # local（~/.config/claude/skills/）
+      # - "anthropics/skills -s skill-creator" # 実体は tldraw/tldraw（上記）
+      # - "anthropics/skills -s claude-api" # not in skills list -g
+
+      # claude-office-skills/skills
+      - "claude-office-skills/skills -s chart-designer"
+      - "claude-office-skills/skills -s crypto-report"
+
+      # crypto-agent-trading
+      # - "crypto-agent-trading -s crypto-agent-trading" # not in skills list -g
+
       # pbakaus/impeccable（UI/UX マイクロスキル）
       # - "pbakaus/impeccable -s animate"
       # - "pbakaus/impeccable -s audit"
       # - "pbakaus/impeccable -s clarify"
       # - "pbakaus/impeccable -s critique"
       # - "pbakaus/impeccable -s teach-impeccable"
-      
-      # その他（B 残り）
-      - "astrolicious/agent-skills -s astro"
-      - "withastro/flue -s flue"
+
       - "scrapegraphai/just-scrape -s just-scrape"
-      - "remotion-dev/skills -s remotion-best-practices"
+      - "seflless/deepwiki -s deepwiki"
+      - "mcp-use/mcp-use -s mcp-apps-builder"
+      - "github/awesome-copilot -s documentation-writer"
+      - "ysm-dev/skills -s web-search"
+      - "eachlabs/skills -s 3d-model-generation"
+      - "patricio0312rev/skills -s framer-motion-animator"
+      - "freshtechbro/claudedesignskills -s threejs-webgl"
+      - "cathrynlavery/diagram-design -s diagram-design"
+      - "digitalsamba/claude-code-video-toolkit -s ffmpeg"
+      - "blacktop/dotfiles -s ratatui-tui" 
+
+      # - "egonex-ai/understand-anything -s understand-onboard"
+      # - "egonex-ai/understand-anything -s understand-knowledge"
+      # - "egonex-ai/understand-anything -s understand-explain"
+      # - "egonex-ai/understand-anything -s understand-domain"
+      # - "egonex-ai/understand-anything -s understand-diff"
+      # - "egonex-ai/understand-anything -s understand-dashboard"
+      # - "egonex-ai/understand-anything -s understand-chat"
+      # - "egonex-ai/understand-anything -s understand"
+      
+      # - "graphify-labs/graphify -s graphify"
+      # - "safishamsi/graphify -s graphify"
+      # - "OthmanAdi/planning-with-files -s planning-with-files"
+      - "resend/resend-skills -s resend"
+      - "ayghri/i-have-adhd -s i-have-adhd"
+      - "jackwener/opencli -s opencli-browser"
+      - "hkuds/cli-anything -s cli-anything"
+      - "humanlayer/skills -s show-me"
+      - "ccxt/ccxt -s ccxt-python"
+      - "ccxt/ccxt -s ccxt-typescript"
+      - "ccxt/ccxt -s ccxt-cli"
+      
+      - "dmmulroy/anti-slop -s install-anti-slop"
+      - "dmmulroy/better-result -s adopt-better-result"
+      - "backnotprop/bro -s bro"
+      - "coderabbitai/skills -s autofix"
+      - "coderabbitai/skills -s code-review"
+      - "upstash/context7 -s find-docs"
+      - "yusukebe/ax -s ax"
+      - "yusukebe/hono-skill -s hono"
+      - "antfu/skills -s vite"
+      - "antfu/skills -s vitest"
+      - "antfu/skills -s slidev"
+      - "absolutelyskilled/absolutelyskilled -s vite-plus"
+      - "alinaqi/maggy -s pwa-development"
+      - "microsoft/playwright-cli -s playwright-cli"
+      - "remix-run/agent-skills -s react-router-framework-mode"
+      - "remix-run/remix -s remix"
+      - "astrolicious/agent-skills -s astro"
+      - "tejovanthn/rasikalife -s conform"
+      - "open-circle/agent-skills -s valibot"
+      - "pproenca/dot-skills -s nuqs"
+      - "jotaijs/jotai-skills -s jotai"
+      - "millionco/react-doctor -s react-doctor"
+      # - "orval-labs/orval -s orval"
+      - "better-auth/skills -s better-auth-best-practices"
+      - "tanstack-skills/tanstack-skills -s tanstack-query"
+      - "tanstack-skills/tanstack-skills -s tanstack-table"
+      - "saadeghi/daisyui -s daisyui"
+      - "mengto/skills -s cobejs"
+      - "nutlope/hallmark -s hallmark"
+      
+      # withastro/flue
+      # - "withastro/flue -s flue" # not in skills list -g
+
+      # remotion-dev/skills
+      # - "remotion-dev/skills -s remotion-best-practices" # not in skills list -g
+
       # - "leonardomso/rust-skills -s rust-skills" # not in skills list -g
-      # - "absolutelyskilled/absolutelyskilled -s vite-plus"
       # - "mizchi/skills -s empirical-prompt-tuning"
+      # - "deckardger/tanstack-agent-skills -s tanstack-query-best-practices"
+      # - "imbue-openhost/openhost -s openhost-context"
+      # - "teng-lin/notebooklm-py -s notebooklm"
 
   curl:
     - "curl -fsSL https://mise.run | sh"
-    - "curl -fsSL https://nixos.org/nix/install | sh"
     - "curl -fsSL https://cli.coderabbit.ai/install.sh | sh"
     - "curl -fsSL https://cursor.com/install | sh"
     - "curl -fsSL https://zed.dev/install.sh | sh"
-    - "curl -fsSL https://hermes-agent.nousresearch.com/install.sh | sh"
+    - "curl -fsSL https://www.xalgorix.com/install | sh"
+    # - "curl -fsSL https://nixos.org/nix/install | sh"
+    # - "curl -fsSL https://hermes-agent.nousresearch.com/install.sh | sh"
     # - "curl -fsSL https://git.io/chezmoi | sh"
     # - "curl -fsSL https://vicinae.com/install.sh | sh"
     # - "curl -fsSL https://vite.plus | sh"
@@ -584,7 +690,10 @@ packages:
     # - 'rclone'
 
   python:
-    - "navi"
-    - "ragas"
-    - "ddgr"
-    # - "graphifyy"
+    - "miasm"
+    - "pypdf"
+    - "defusedxml"
+    - "lxml"
+    - "graphifyy"
+    # - "ddgr"
+    # - "crow-cli"

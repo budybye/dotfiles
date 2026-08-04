@@ -73,10 +73,6 @@ export XDG_PICTURES_DIR="${HOME}/Pictures"
 export XDG_VIDEOS_DIR="${HOME}/Movies"
 export XDG_TEMPLATES_DIR="${HOME}/Templates"
 
-# export XDG_SESSION_TYPE=X11
-# export XDG_SESSION_ID=1
-# export DISPLAY=":0:${DISPLAY}"
-
 export TZ="Asia/Tokyo"
 export LANG="ja_JP.UTF-8"
 export LC_ALL="ja_JP.UTF-8"
@@ -130,12 +126,12 @@ fi
 
 if command -v brave-browser >/dev/null 2>&1; then
     export BROWSER="brave-browser"
+elif command -v zen >/dev/null 2>&1; then
+    export BROWSER="zen"
 elif command -v w3m >/dev/null 2>&1; then
     export BROWSER="w3m"
 elif command -v chromium >/dev/null 2>&1; then
     export BROWSER="chromium"
-elif command -v firefox >/dev/null 2>&1; then
-    export BROWSER="firefox"
 fi
 
 if command -v brew >/dev/null 2>&1; then
@@ -183,6 +179,18 @@ fi
 if command -v codex >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/codex"
     export CODEX_CONFIG_DIR="${XDG_CONFIG_HOME}/codex"
+fi
+
+if command -v pi >/dev/null 2>&1; then
+    mkdir -p "${XDG_CONFIG_HOME}/pi/agent"
+    export PI_CODING_AGENT_DIR="${XDG_CONFIG_HOME}/pi/agent"
+    export PI_TELEMETRY=false
+fi
+
+if command -v omp >/dev/null 2>&1; then
+    mkdir -p "${XDG_CONFIG_HOME}/omp/profiles/god/agent"
+    export OMP_PROFILE="god" # PI_CODING_AGENT_DIR を無視する為に
+    export PI_CONFIG_DIR=".config/omp" #default は ~/.omp
 fi
 
 if command -v docker >/dev/null 2>&1; then
@@ -521,11 +529,6 @@ if command -v opencode >/dev/null 2>&1; then
     export OPENCODE_CONFIG_DIR="${XDG_CONFIG_HOME}/opencode"
     touch "${OPENCODE_CONFIG_DIR}/opencode.jsonc"
     export OPENCODE_CONFIG="${OPENCODE_CONFIG_DIR}/opencode.jsonc"
-fi
-
-if command -v pi >/dev/null 2>&1; then
-    mkdir -p "${XDG_CONFIG_HOME}/pi"
-    export PI_HOME="${XDG_CONFIG_HOME}/pi"
 fi
 
 if command -v cursor-agent >/dev/null 2>&1; then

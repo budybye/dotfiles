@@ -1,40 +1,22 @@
 {
 	"mcpServers": {
-    "chrome-devtools": {
-      "command": "npx",
-      "args": ["chrome-devtools-mcp@latest"]
+    "brave-devtools": {
+      "command":"npx",
+      "args":["-y", "brave-mcp@latest"]
     },
     "mcp-mermaid": {
       "command": "npx",
-      "args": [
-        "-y",
-        "mcp-mermaid"
-      ]
+      "args": ["-y", "mcp-mermaid"]
+    },
+    "ccxt": { 
+      "command": "npx", 
+      "args": ["-y", "ccxt-mcp"] 
     },
     "kody": {
-      "url": "https://heykody.dev/mcp"
-    },
-    "serena": {
-      "command": "uvx",
-      "args": [
-        "--from",
-        "git+https://github.com/oraios/serena",
-        "serena-mcp-server",
-        "--context",
-        "ide-assistant",
-        "--enable-web-dashboard",
-        "false"
-      ]
-    },
-    "notebooklm": {
-      "command": "sh",
-      "args": [
-        "-c",
-        "exec uvx notebooklm-mcp --config \"$HOME/.config/notebooklm/notebooklm-config.json\" server"
-      ]
+      "url": "https://kody.codes/mcp"
     },
     "context-mode": {
       "command": "context-mode"
     }
-	}
+  }
 }

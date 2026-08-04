@@ -1,0 +1,86 @@
+providers:
+  # openaiだけ動く状態 /compat/v1 だと headersが足りない？
+  cloudflare-ai-gateway:
+    baseUrl: https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/openai/v1
+    # headers:
+      # cf-aig-authorization
+    apiKey: CLOUDFLARE_API_KEY
+    api: openai-responses
+    auth: apiKey
+    models:
+      - id: gpt-5.6-luna
+        name: gpt-5.6-luna
+  
+  sakura:
+    baseUrl: https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/custom-sakura/v1
+    apiKey: CLOUDFLARE_API_KEY
+    api: openai-responses
+    auth: apiKey
+    models:
+      - id: gpt-oss-120b
+        name: Chappy
+      - id: preview/Kimi-K2.7-Code
+        name: Kimi
+
+  standard-compute:
+    baseUrl: https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/custom-standard-compute/v1
+    apiKey: CLOUDFLARE_API_KEY
+    api: openai-responses
+    auth: apiKey
+    models:
+      - id: standard-compute
+        name: standard-compute
+
+  opencode-go:
+    baseUrl: https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/custom-opencode-go/v1
+    apiKey: CLOUDFLARE_API_KEY
+    api: openai-responses
+    auth: apiKey
+    models:
+      - id: gpt-5.6-luna
+        name: gpt-5.6-luna
+      - id: kimi-k3
+        name: kimi-k3
+      - id: deepseek-v4-flash
+        name: deepseek-v4-flash
+  opencode-zen:
+    baseUrl: https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/custom-opencode-zen/v1
+    apiKey: CLOUDFLARE_API_KEY
+    api: openai-responses
+    auth: apiKey
+    models:
+      - id: deepseek-v4-flash-free
+        name: deepseek-v4-flash-free
+
+  anthropic:
+    baseUrl: https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/anthropic
+    apiKey: CLOUDFLARE_API_KEY
+    api: openai-responses
+    auth: apiKey
+    headers:
+      cf-aig-authorization: "!printf 'Bearer %s' \"$CLOUDFLARE_API_KEY\""
+    models:
+      - id: anthropic/claude-opus-5
+        name: Opus-5
+
+  google-ai-studio:
+    baseUrl: https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/google-ai-studio/v1beta
+    apiKey: GOOGLE_API_KEY
+    api: google-generative-ai
+    auth: apiKey
+    headers:
+      cf-aig-authorization: "!printf 'Bearer %s' \"$CLOUDFLARE_API_KEY\""
+    models:
+      - id: gemini-3.5-flash
+        name: Gemini 3.5 Flash
+      - id: gemini-3.1-flash-lite
+        name: Gemini 3.1 Flash lite
+        
+  openrouter:
+    baseUrl: https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/openrouter/v1
+    apiKey: CLOUDFLARE_API_KEY
+    api: openai-responses
+    auth: apiKey
+    models:
+      - id: openrouter/openrouter/free
+        name: openrouter:free

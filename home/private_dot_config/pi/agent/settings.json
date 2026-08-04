@@ -1,0 +1,57 @@
+{
+  "compaction": {
+    "enabled": true,
+    "keepRecentTokens": 22000,
+    "reserveTokens": 16384
+  },
+  "defaultModel": "standardcompute",
+  "defaultProvider": "standard-compute",
+  "defaultThinkingLevel": "medium",
+  "enableInstallTelemetry": false,
+  "enableSkillCommands": true,
+  "enabledModels": [
+    "sakura/preview/Kimi-K2.7-Code",
+    "openrouter/openrouter/free",
+    "openrouter/stealth/ox-alpha",
+    "opencode-go/gpt-5.6-luna",
+    "opencode-go/deepseek-v4-flash",
+    "opencode-go/ox-alpha-free",
+    "opencode-zen/deepseek-v4-flash-free",
+    "cloudflare-workers-ai/@cf/deepseek-ai/deepseek-v4-flash-0731",
+    "cloudflare-ai-gateway/gpt-5.6-luna",
+    "openai-codex/gpt-5.6-luna",
+    "xai/grok-4.6"
+  ],
+  "lastChangelogVersion": "0.84.3",
+  "language": "ja",
+  "locale": "ja-JP",
+  "npmCommand": [
+    "bun"
+  ],
+  "packages": [
+    "npm:hotmilk"
+  ],
+  "retry": {
+    "enabled": true,
+    "maxRetries": 3,
+    "maxRetryDelay": 60000,
+    "retryDelay": 3000
+  },
+  "sessionDir": ".pi/sessions",
+  "shellCommandPrefix": "shopt -s expand_aliases\neval \"$(grep '^alias ' ~/.aliases)\"",
+  "skills": [
+    "~/.agents/skills",
+    "~/.claude/skills",
+    "~/.codex/skills",
+    "~/.gemini/skills"
+  ],
+  "steeringMode": "one-at-a-time",
+  "thinkingBudgets": {
+    "max": 42000,
+    "high": 32768,
+    "medium": 10240,
+    "low": 4096,
+    "minimal": 1024
+  },
+  "theme": "dark"
+}

@@ -1,44 +1,40 @@
 #!/usr/bin/env bash
 
-set -eu
+set -euo pipefail
 
 # jjj "メッセージ" "ブックマーク名" "リモート名"
-# .jj を作成し、ブックマークを作成し、コミットしてプッシュする
-# jjj {メッセージ} {ブックマーク名} {リモート名}
+# 変更を確定し、ブックマークを作成・更新してプッシュする
 
 if ! command -v jj >/dev/null 2>&1; then
-  echo "jj not found"
+  printf '%s\n' "jj not found" >&2
   exit 1
 fi
 
 if [ -n "${1:-}" ]; then
   msg="$1"
 else
-  if ! command -v shuf >/dev/null 2>&1; then
-    echo "shuf not found (install coreutils)" >&2
-    exit 1
-  fi
-  emoji="$(shuf -n 1 -e \
-    '🎉' '✨' '🔧' '💄' '✏️' '📝' '🔥' '🐛' '♻️' '🚨' '🚧' '🍍' '🍕' '🐈' '♨️' '🍄' '🥦' '🌈' '🚲' '🏄' '🙏' '🌞' '🌕' '🏴‍☠️' '🥷')"
-  msg="${emoji}"
+  emojis=(
+    '🎉' '✨' '🔧' '💄' '✏️' '📝' '🔥' '🐛' '♻️' '🚨' '🚧'
+    '🍍' '🍕' '🐈' '♨️' '🍄' '🥦' '🌈' '🚲' '🏄' '🙏' '🌞'
+    '🌕' '🏴‍☠️' '🥷'
+  )
+  emoji_index=$((RANDOM % ${#emojis[@]}))
+  msg="${emojis[emoji_index]}"
 fi
 
 bookmark="${2:-}"
 remote="${3:-origin}"
 
-# jjリポジトリが初期化されていない場合は初期化
 if ! jj root >/dev/null 2>&1; then
-  jj git init --colocate 2>/dev/null || true
-else
-  # git との不整合を解消（stale index 対策）
-  jj git import 2>/dev/null || true
+  printf '%s\n' "not a jj repository; initialize it first with: jj git init --colocate" >&2
+  exit 1
 fi
 
+# gitとの不整合を解消（stale index対策）
+jj git import >/dev/null
+
 # ブックマーク名を自動検出（指定されていない場合）
-# 注意:
-# - `jj bookmark list` の先頭行は名前順。`_reserve/...` を掴むと
-#   `Refusing to move bookmark backwards or sideways` で push 前に落ちる。
-# - `_reserve/*` は change-id 予約用のローカル印なので絶対に進めない。
+# `_reserve/*` は change-id 予約用のローカル印なので進めない。
 is_reserved_bookmark() {
   case "$1" in
     _reserve|_reserve/*) return 0 ;;
@@ -46,58 +42,59 @@ is_reserved_bookmark() {
   esac
 }
 
-if [ -z "$bookmark" ]; then
-  if command -v git >/dev/null 2>&1; then
-    cand=$(git symbolic-ref --short HEAD 2>/dev/null || true)
-    if [ -n "$cand" ] && ! is_reserved_bookmark "$cand"; then
-      bookmark="$cand"
-    fi
+if [ -z "${bookmark}" ] && command -v git >/dev/null 2>&1; then
+  cand="$(git symbolic-ref --short HEAD 2>/dev/null || true)"
+  if [ -n "${cand}" ] && ! is_reserved_bookmark "${cand}"; then
+    bookmark="${cand}"
   fi
 fi
-if [ -z "$bookmark" ]; then
-  # 祖先上にあれば trunk 系を優先
+
+if [ -z "${bookmark}" ]; then
+  # working copyの祖先上にあるtrunk系を優先
   for cand in main master trunk; do
-    if jj log -r "bookmarks(exact:${cand}) & ancestors(@)" -n 1 --no-graph \
-      -T 'commit_id' 2>/dev/null | grep -q .; then
-      bookmark="$cand"
+    commit_id="$(
+      jj log -r "bookmarks(exact:${cand}) & ancestors(@)" \
+        -n 1 --no-graph -T 'commit_id'
+    )"
+    if [ -n "${commit_id}" ]; then
+      bookmark="${cand}"
       break
     fi
   done
 fi
-if [ -z "$bookmark" ]; then
-  # working copy 祖先上の最も近い非 _reserve bookmark
-  bookmark=$(jj log -r 'bookmarks() & ancestors(@)' --no-graph \
-    -T 'bookmarks.map(|b| b.name()).join("\n") ++ "\n"' 2>/dev/null \
-    | grep -v '^$' \
-    | while IFS= read -r name; do
-        is_reserved_bookmark "$name" && continue
-        printf '%s\n' "$name"
-        break
-      done \
-    | tr -d '[:space:]' || true)
+
+if [ -z "${bookmark}" ]; then
+  # working copy祖先上の最も近い非_reserved bookmark
+  bookmark_candidates="$(
+    jj log -r 'bookmarks() & ancestors(@)' --no-graph \
+      -T 'bookmarks.map(|b| b.name()).join("\n") ++ "\n"'
+  )"
+  while IFS= read -r name; do
+    [ -n "${name}" ] || continue
+    is_reserved_bookmark "${name}" && continue
+    bookmark="${name}"
+    break
+  done <<< "${bookmark_candidates}"
 fi
-if [ -z "$bookmark" ]; then
-  for cand in main master; do
-    if jj bookmark list --template 'name ++ "\n"' 2>/dev/null | grep -qx "$cand"; then
-      bookmark="$cand"
-      break
-    fi
-  done
-fi
-bookmark="${bookmark:-main}"
-if is_reserved_bookmark "$bookmark"; then
-  echo "refusing to advance reserved bookmark: $bookmark" >&2
+
+if [ -z "${bookmark}" ]; then
+  printf '%s\n' "bookmark could not be detected; specify it explicitly" >&2
   exit 1
 fi
 
-# 未作成なら作るだけ（既存 bookmark を @ へ動かさない）
-if ! jj bookmark list --template 'name ++ "\n"' 2>/dev/null | grep -qx "$bookmark"; then
-  jj bookmark create "$bookmark" -r @ 2>/dev/null || true
+if is_reserved_bookmark "${bookmark}"; then
+  printf 'refusing to advance reserved bookmark: %s\n' "${bookmark}" >&2
+  exit 1
 fi
-# リモートブックマークを追跡（エラーは無視）
-jj bookmark track "${bookmark}@${remote}" 2>/dev/null || true
-# 変更にメッセージを付けて確定し、ブックマークをコミットに移してプッシュ
-jj describe -m "$msg"
+
+# 未作成なら作るだけ（既存bookmarkを@へ動かさない）
+bookmark_list="$(jj bookmark list --template 'name ++ "\n"')"
+if ! printf '%s\n' "${bookmark_list}" | grep -Fx -- "${bookmark}" >/dev/null; then
+  jj bookmark create "${bookmark}" -r @
+fi
+
+# 変更にメッセージを付けて確定し、ブックマークをコミットに移して指定先へプッシュ
+jj describe -m "${msg}"
 jj new
-jj bookmark set "$bookmark" -r @-
-jj git push -b "$bookmark"
+jj bookmark set "${bookmark}" -r @-
+jj git push --remote "${remote}" --bookmark "${bookmark}"

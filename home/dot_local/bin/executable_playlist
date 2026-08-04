@@ -1,25 +1,81 @@
 #!/usr/bin/env bash
 
-set -eu
+set -euo pipefail
 
-PLAYLIST_ID="PLMXoRsxtzGfCH7cvhAnzN_T3KvKmdkB3s"
-PLAYLIST_FILE="${XDG_MUSIC_DIR:-${HOME}/Music}/playlist.json"
+usage() {
+  cat <<'EOF'
+Usage: playlist [--dry-run]
 
-if ! command -v yt-dlp > /dev/null 2>&1; then
-  echo "yt-dlp not found" >&2
+Environment:
+  PLAYLIST_ID    YouTube playlist ID
+  PLAYLIST_FILE  Output JSON path
+EOF
+}
+
+dry_run=0
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    --dry-run)
+      dry_run=1
+      ;;
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    *)
+      printf 'Unknown option: %s\n\n' "$1" >&2
+      usage >&2
+      exit 2
+      ;;
+  esac
+  shift
+done
+
+if ! command -v yt-dlp >/dev/null 2>&1; then
+  printf '%s\n' "yt-dlp not found" >&2
   exit 1
 fi
 
-if ! command -v jq > /dev/null 2>&1; then
-  echo "jq not found" >&2
+if ! command -v jq >/dev/null 2>&1; then
+  printf '%s\n' "jq not found" >&2
   exit 1
 fi
 
-echo "scanning ${PLAYLIST_ID}..."
+readonly PLAYLIST_ID="${PLAYLIST_ID:-PLMXoRsxtzGfCH7cvhAnzN_T3KvKmdkB3s}"
+readonly PLAYLIST_FILE="${PLAYLIST_FILE:-${XDG_MUSIC_DIR:-${HOME}/Music}/playlist.json}"
+readonly PLAYLIST_URL="https://youtube.com/playlist?list=${PLAYLIST_ID}"
 
-yt-dlp -j --flat-playlist "https://youtube.com/playlist?list=${PLAYLIST_ID}" | \
-  jq -s '[.[] | {title: .title, videoId: .id}]' > "${PLAYLIST_FILE}"
+printf 'Scanning playlist: %s\n' "${PLAYLIST_ID}"
 
-echo "${PLAYLIST_FILE} created"
+if [ "${dry_run}" -eq 1 ]; then
+  tmp_file="$(mktemp "${TMPDIR:-/tmp}/playlist.XXXXXX")"
+else
+  mkdir -p "$(dirname "${PLAYLIST_FILE}")"
+  tmp_file="$(mktemp "${PLAYLIST_FILE}.tmp.XXXXXX")"
+fi
 
-# cat ${PLAYLIST_FILE}
+cleanup() {
+  rm -f "${tmp_file}"
+}
+trap cleanup EXIT
+
+yt-dlp -j --flat-playlist "${PLAYLIST_URL}" |
+  jq -s '
+    map(
+      select((.id // "") != "" and (.title // "") != "")
+      | {title, videoId: .id}
+    )
+  ' > "${tmp_file}"
+
+entry_count="$(jq 'length' "${tmp_file}")"
+
+if [ "${dry_run}" -eq 1 ]; then
+  printf 'Dry-run: %s entries would be written to %s\n' \
+    "${entry_count}" "${PLAYLIST_FILE}"
+  exit 0
+fi
+
+mv "${tmp_file}" "${PLAYLIST_FILE}"
+trap - EXIT
+
+printf 'Created %s (%s entries)\n' "${PLAYLIST_FILE}" "${entry_count}"

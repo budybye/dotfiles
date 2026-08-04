@@ -1,50 +1,78 @@
 #!/usr/bin/env bash
 
-set -eu
+set -euo pipefail
 
-# MacOS のみ
-# 読み込み先のディレクトリを指定
-RD="/Applications/app"
-# RD="$HOME/Applications/apps"
-# 出力するファイル名
-APPLIST="applist.md"
-APPLIST_DIR="${HOME}/Developer/applist"
-# 出力先のファイルパス
-APPLIST_FILE="${APPLIST_DIR}/${APPLIST}"
-# APPLIST_FILE="$HOME/Documents/applist/$APPLIST"
+if [ "$(uname -s)" != "Darwin" ]; then
+    printf '%s\n' "macOS only" >&2
+    exit 1
+fi
+
+if ! command -v plutil >/dev/null 2>&1; then
+    printf '%s\n' "plutil not found" >&2
+    exit 1
+fi
+
+readonly RD="${APPLIST_ROOT:-/Applications/app}"
+readonly APPLIST="${APPLIST_NAME:-applist.md}"
+readonly APPLIST_DIR="${APPLIST_DIR:-${HOME}/Developer/applist}"
+readonly APPLIST_FILE="${APPLIST_DIR}/${APPLIST}"
+
+if [ ! -d "${RD}" ]; then
+    printf 'Directory not found: %s\n' "${RD}" >&2
+    exit 1
+fi
 
 mkdir -p "${APPLIST_DIR}"
-# ファイルが存在する場合はバックアップを作成
-if [ -e "${APPLIST_FILE}" ]; then
-    cp "${APPLIST_FILE}" "${APPLIST_FILE}.bak"
-    echo "Copied ${APPLIST}.bak"
-fi
-# ファイルを初期化
-echo "# Applist" > "${APPLIST_FILE}"
 
-# /Applications/appディレクトリ下のすべてのディレクトリを取得してループ処理を行う
-for DIR in "$RD"/*/
-do
-    # 見出しを追加
-    echo "" >> "${APPLIST_FILE}"
-    echo "## $(basename "${DIR}")" >> "${APPLIST_FILE}"
+tmp_file="$(mktemp "${APPLIST_FILE}.tmp.XXXXXX")"
+cleanup() {
+    rm -f "${tmp_file}"
+}
+trap cleanup EXIT
 
-    # .appファイルをすべて見つけてループ処理する
+printf '# Applist\n' > "${tmp_file}"
+
+for dir in "${RD}"/*/; do
+    [ -d "${dir}" ] || continue
+
+    app_found=0
     while IFS= read -r app_path; do
-        # アプリ名を取得する
-        app_name="$(basename "${app_path}" .app)"
+        plist_path="${app_path}/Contents/Info.plist"
+        [ -f "${plist_path}" ] || continue
 
-        # info.plistファイルが存在する場合のみ処理する(MacOSのみ)
-        if [ -f "${app_path}/Contents/Info.plist" ]; then
-        # Info.plistファイルからCrAppModeShortcutURLキーの値を取得する
-        app_url="$(plutil -p "${app_path}/Contents/Info.plist" | grep CrAppModeShortcutURL | awk '{print $3}' | tr -d '"')"
+        if ! app_url="$(
+            plutil -extract CrAppModeShortcutURL raw -o - "${plist_path}" 2>/dev/null
+        )"; then
+            continue
+        fi
+        [ -n "${app_url}" ] || continue
 
-        # マークダウン形式のリンクを作成してファイルに追加する
-            echo "[$app_name]($app_url)" >> "${APPLIST_FILE}"
+        if [ "${app_found}" -eq 0 ]; then
+            category_name="${dir%/}"
+            category_name="${category_name##*/}"
+            printf '\n## %s\n' "${category_name}" >> "${tmp_file}"
+            app_found=1
         fi
 
-    done < <(find "${DIR}" -name "*.app" -maxdepth 1)
-    echo "$(basename "${DIR}") Done!"
+        app_name="${app_path##*/}"
+        app_name="${app_name%.app}"
+        printf '[%s](%s)\n' "${app_name}" "${app_url}" >> "${tmp_file}"
+    done < <(
+        find "${dir}" -maxdepth 1 -type d -name '*.app' -print |
+            LC_ALL=C sort
+    )
+
+    if [ "${app_found}" -eq 1 ]; then
+        printf '%s Done!\n' "${category_name}"
+    fi
 done
 
-echo "Created ${APPLIST_FILE}"
+if [ -e "${APPLIST_FILE}" ]; then
+    cp "${APPLIST_FILE}" "${APPLIST_FILE}.bak"
+    printf 'Copied %s.bak\n' "${APPLIST}"
+fi
+
+mv "${tmp_file}" "${APPLIST_FILE}"
+trap - EXIT
+
+printf 'Created %s\n' "${APPLIST_FILE}"

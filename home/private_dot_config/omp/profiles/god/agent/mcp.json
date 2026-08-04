@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "context-mode": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "/Users/hotmilk/.config/omp/profiles/god/plugins/node_modules/context-mode/server.bundle.mjs"
+      ]
+    }
+  }
+}
