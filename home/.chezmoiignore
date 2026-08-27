@@ -41,7 +41,7 @@ key.txt
 .ssh/id_rsa*
 .ssh/id_ed25519*
 .local/bin/envars*
-.env
+.env*
 .chezmoiscripts/age.sh
 {{ end }}
 
