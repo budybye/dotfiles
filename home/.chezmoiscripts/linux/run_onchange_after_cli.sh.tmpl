@@ -95,57 +95,10 @@ install_mise() {
 
     if [ -f "${HOME}/.config/mise/config.toml" ]; then
         mise i -y || echo "mise install failed."
+        mise bootsttrap || echo "mise bootsttrap failed."
     fi
 
     echo "mise setup completed."
-}
-
-install_cargo_tools() {
-    activate_mise
-
-    if command -v cargo >/dev/null 2>&1; then
-        echo "cargo already installed."
-    elif command -v mise >/dev/null 2>&1; then
-        mise use -g -y rust@stable || echo "cargo install failed."
-    elif command -v curl >/dev/null 2>&1; then
-        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y || echo "cargo install failed."
-    elif command -v apt >/dev/null 2>&1; then
-        $sudo apt-get install -y cargo || echo "cargo install failed."
-    else
-        echo "curl not found"
-    fi
-
-    if [ -f ${HOME}/.cargo/env ]; then
-        . ${HOME}/.cargo/env
-    fi
-
-    cargo --version >> ${HOME}/which || echo "cargo not found" >> ${HOME}/which
-
-    if command -v cargo-binstall >/dev/null 2>&1; then
-        cargo-binstall -V
-    elif command -v cargo >/dev/null 2>&1; then
-        cargo install -f cargo-binstall || echo "cargo-binstall install failed."
-    elif command -v mise >/dev/null 2>&1; then
-        mise use -g -y cargo-binstall@latest || echo "cargo-binstall install failed."
-    else
-        echo "cargo-binstall not found" >> ${HOME}/which
-    fi
-
-    {{ range .packages.cargo -}}
-    if command -v cargo-binstall >/dev/null 2>&1; then
-        cargo-binstall -y {{ . }} || echo "{{ . }} install failed."
-    elif command -v cargo >/dev/null 2>&1; then
-        cargo install -y {{ . }} || echo "{{ . }} install failed."
-    else
-        echo "cargo not found"
-    fi
-    {{ end -}}
-
-    if [ -d ${HOME}/.cargo/bin ]; then
-        ls -la ${HOME}/.cargo/bin >> ${HOME}/which
-    fi
-
-    echo "cargo tools installed."
 }
 
 install_flatpak() {
@@ -202,7 +155,6 @@ echo "--------------------------------"
 install_packages
 change_shell_to_zsh
 install_mise
-install_cargo_tools
 install_flatpak
 install_go_aqua
 install_mkcert

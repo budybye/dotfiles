@@ -51,7 +51,7 @@ install_brew_packages() {
     {{ if .packages.darwin.formula }}
     {{ range .packages.darwin.formula -}}
     if ! echo "$brewlist" | grep -q "{{ . }}"; then
-        brew install "{{ . }}" || echo "{{ . }} install failed."
+        brew install -y "{{ . }}" || echo "{{ . }} install failed."
     else
         echo "{{ . }} already installed."
     fi
@@ -102,59 +102,19 @@ install_mise() {
 
     if [ -f "${HOME}/.config/mise/config.toml" ]; then
         mise i -y || echo "mise install failed."
+        mise bootstrap || echo "mise bootstrap failed."
     fi
 
     echo "mise setup completed."
 }
-
-install_cargo_tools() {
-    activate_mise
-
-    if command -v cargo >/dev/null 2>&1; then
-        echo "cargo already installed."
-    elif command -v mise >/dev/null 2>&1; then
-        mise use -g -y rust@stable || echo "rust install failed."
-    else
-        echo "mise not found; cargo install skipped."
-    fi
-
-    if [ -f "${HOME}/.local/share/cargo/env" ]; then
-        # shellcheck disable=SC1091
-        . "${HOME}/.local/share/cargo/env"
-    fi
-
-    if command -v cargo-binstall >/dev/null 2>&1; then
-        cargo-binstall -V
-    elif command -v cargo >/dev/null 2>&1; then
-        cargo install -f cargo-binstall || echo "cargo-binstall install failed."
-    elif command -v mise >/dev/null 2>&1; then
-        mise use -g -y cargo-binstall@latest || echo "cargo-binstall install failed."
-    else
-        echo "cargo-binstall not found."
-    fi
-
-    {{ range .packages.cargo -}}
-    if command -v cargo-binstall >/dev/null 2>&1; then
-        cargo-binstall -y {{ . }} || echo "{{ . }} install failed."
-    elif command -v cargo >/dev/null 2>&1; then
-        cargo install --force {{ . }} || echo "{{ . }} install failed."
-    else
-        echo "cargo not found; {{ . }} skipped."
-    fi
-    {{ end -}}
-
-    echo "cargo setup completed."
-}
-
 
 echo "bootstrap.sh"
 echo "--------------------------------"
 install_xcode_command_line_tools
 install_rosetta
 install_homebrew
-install_brew_packages
+# install_brew_packages
 install_mise
-install_cargo_tools
 echo "--------------------------------"
 echo "zsh --version $(zsh --version)"
 echo "--------------------------------"
