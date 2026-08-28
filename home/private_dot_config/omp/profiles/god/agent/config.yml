@@ -1,26 +1,26 @@
 setupVersion: 2
-modelRoles: 
+modelRoles:
   task: openai-codex/gpt-5.6-luna:high
-  default: cursor/composer-2.5
+  default: standard-compute/standard-compute
 defaultThinkingLevel: auto
-dev: 
+dev:
   autoqaConsent: granted
   maxRetries: 3
-theme: 
+theme:
   dark: dark-monokai
   light: titanium
-composer: 
+composer:
   shape: box
-retry: 
-  fallbackChains: 
-    default: 
+retry:
+  fallbackChains:
+    default:
       - opencode-zen/deepseek-v4-flash-free
       - openai-codex/gpt-5.6-luna
       - cursor/composer-2.5
       - sakura/preview/Kimi-K2.7-Code
-memory: 
+memory:
   backend: mnemopi
-  mnemopi: 
+  mnemopi:
     - scoping: per-project
     - noEmbeddings: true
     - llmMode: none

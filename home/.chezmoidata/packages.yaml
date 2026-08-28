@@ -8,7 +8,7 @@ packages:
       - "make"
       - "zsh"
       - "mas"
-      # - "tree"
+      - "tree"
       # 開発系
       # - "autoconf"
       - "automake"
@@ -182,10 +182,10 @@ packages:
       - "xsel"
       - "xclip"
   snap:
-    # classic:
+    classic:
+      - 'obsidian'
       # - "alacritty"
       # - "ghostty"
-      # - 'obsidian'
       # - 'code' amd64
       # - 'codium' arm64
     latest:

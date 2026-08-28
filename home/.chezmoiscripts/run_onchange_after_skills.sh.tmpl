@@ -7,11 +7,6 @@ set -eu
 echo "skills.sh"
 echo "--------------------------------"
 
-if ! command -v claude >/dev/null 2>&1; then
-    echo "claude CLI not found. skipping skills install."
-    exit 0
-fi
-
 {{ range .packages.agents.skills -}}
 npx skills add {{ . }} -g -y || echo "skill install failed: {{ . }}"
 {{ end -}}

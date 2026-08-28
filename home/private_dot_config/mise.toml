@@ -1,6 +1,103 @@
+[bootstrap.user]
+login_shell = "/bin/zsh"
+
 # Mac用
 [bootstrap.brew]
 adopt = true
+
+[bootstrap.macos.keyboard]
+fn_state = true
+key_repeat = 1
+press_and_hold = false
+
+[bootstrap.macos.trackpad]
+tap_to_click = true
+three_finger_drag = true
+
+[bootstrap.macos.dock]
+autohide = true
+tilesize = 50
+magnification = true
+largesize = 78
+show_recents = false
+
+[bootstrap.macos.finder]
+show_all_files = true
+show_pathbar = true
+show_status_bar = true
+show_extensions_warning = false
+
+[bootstrap.macos.defaults.NSGlobalDomain]
+"com.apple.swipescrolldirection" = true
+"com.apple.mouse.scaling" = 4.0
+"com.apple.trackpad.scaling" = 4.0
+AppleShowAllExtensions = true
+"com.apple.springing.enabled" = true
+"com.apple.springing.delay" = 0.0
+NSWindowResizeTime = 0.001
+NSNavPanelExpandedStateForSaveMode = true
+AppleAccentColor = -1
+NSAutomaticWindowAnimationsEnabled = false
+NSAutomaticSpellingCorrectionEnabled = false
+AppleShowScrollBars = "Always"
+QLPanelAnimationDuration = 0.0
+AccountInfoValidationCounter = 4
+
+[bootstrap.macos.defaults."com.apple.dock"]
+"autohide-time-modifier" = 0.13
+"autohide-delay" = 0.01
+launchanim = false
+"minimize-to-application" = true
+
+[bootstrap.macos.defaults."com.apple.AppleMultitouchTrackpad"]
+TrackpadFourFingerVertSwipeGesture = 2
+
+[bootstrap.macos.defaults."com.apple.driver.AppleBluetoothMultitouch.trackpad"]
+TrackpadFourFingerVertSwipeGesture = 2
+
+[bootstrap.macos.defaults."com.apple.SoftwareUpdate"]
+ConfigDataInstall = 1
+AutomaticCheckEnabled = true
+ScheduleFrequency = 1
+AutomaticDownload = 1
+CriticalUpdateInstall = 1
+
+[bootstrap.macos.defaults."com.apple.commerce"]
+AutoUpdate = true
+AutoUpdateRestartRequired = true
+
+[bootstrap.macos.defaults."com.apple.appstore"]
+WebKitDeveloperExtras = true
+ShowDebugMenu = true
+
+[bootstrap.macos.defaults."com.apple.CrashReporter"]
+DialogType = "none"
+
+[bootstrap.macos.defaults."com.apple.LaunchServices"]
+LSQuarantine = false
+
+[bootstrap.macos.defaults."com.apple.TextEdit"]
+RichText = 0
+
+[bootstrap.macos.defaults."com.apple.screencapture"]
+type = "jpg"
+
+[bootstrap.macos.defaults."com.apple.desktopservices"]
+DSDontWriteNetworkStores = true
+
+[bootstrap.macos.defaults."com.apple.menuextra.clock"]
+DateFormat = "EEE H:mm"
+
+[bootstrap.macos.defaults."com.apple.BluetoothAudioAgent"]
+"Apple Bitpool Min (editable)" = 40
+
+[bootstrap.macos.defaults."com.apple.finder"]
+NewWindowTarget = "PfDe"
+_FXShowPosixPathInTitle = true
+FXDefaultSearchScope = "SCcf"
+ShowTabView = true
+DisableAllAnimations = true
+WarnOnEmptyTrash = false
 
 # [bootstrap.packages.tap]
 
@@ -10,7 +107,7 @@ adopt = true
 
 "brew:automake" = "latest"
 "brew:bash" = "latest"
-# "brew:pkg-config" = "latest"
+"brew:tree" = "latest"
 "brew:pkgconf" = "latest"
 "brew:gcc" = "latest"
 "brew:mpd" = "latest"
@@ -25,7 +122,7 @@ adopt = true
 "brew:make" = "latest"
 "brew:mise" = "latest"
 "brew:multitail" = "latest"
-"brew:zsh" = "latest"
+# "brew:zsh" = "latest"
 
 "brew-cask:bitwarden" = "latest"
 "brew-cask:brave-browser" = "latest"
@@ -149,3 +246,7 @@ adopt = true
 "apt:xclip" = "latest"
 
 "apt:stow" = "latest"
+
+# [hooks]
+# cd の 後に ls する
+# cd = "ls"

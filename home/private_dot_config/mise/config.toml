@@ -465,7 +465,10 @@ yes = true            # すべてのプロンプトに自動で yes
 # プロジェクト単位で使うなら各 mise.toml 側に書く。
 env_file = '.env'
 
+# 実験的機能を有効にする
 experimental = true
+
+age.key_file = "~/.config/mise/age.txt"
 
 # 設定ファイルを持つディレクトリに入るときの表示
 status.missing_tools = "if_other_versions_installed"
@@ -474,8 +477,8 @@ status.show_tools = false
 
 # Rust toolchain は mise core (`rust = "stable"`) + rustup。
 # Path は `~` / テンプレを展開しないので絶対パスで XDG に固定。
-rust.cargo_home = "/Users/hotmilk/.local/share/cargo"
-rust.rustup_home = "/Users/hotmilk/.local/share/rustup"
+rust.cargo_home = "~/.local/share/cargo"
+rust.rustup_home = "~/.local/share/rustup"
 
 # package manager
 cargo.binstall = true
