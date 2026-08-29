@@ -70,7 +70,6 @@ RUN apt-get install -y \
     mpd \
     mpc \
     ncmpcpp \
-    neofetch \
     mkcert \
     ufw \
     byobu \
