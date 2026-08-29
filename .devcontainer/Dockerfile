@@ -26,8 +26,7 @@ RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezo
     locale-gen ja_JP.UTF-8 && \
     echo LANGUAGE=${LANGUAGE} >> /etc/default/locale && \
     echo LANG=${LANG} >> /etc/default/locale && \
-    echo LC_ALL=${LC_ALL} >> /etc/default/locale && \
-    im-config -n fcitx5
+    echo LC_ALL=${LC_ALL} >> /etc/default/locale
 
 RUN apt-get install -y \
     xfce4 \

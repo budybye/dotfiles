@@ -86,7 +86,11 @@ japan_setup() {
         echo 'Asia/Tokyo' | $sudo tee /etc/timezone >/dev/null
     fi
 
-    $sudo im-config -n fcitx5
+    if [ -n "${DISPLAY:-}" ] || [ -n "${WAYLAND_DISPLAY:-}" ]; then
+        $sudo im-config -n fcitx5
+    else
+        echo "Skipping im-config: no graphical session."
+    fi
     echo "japan setup completed."
 }
 
