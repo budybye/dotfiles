@@ -277,7 +277,6 @@ Chezmoi スクリプトは `.chezmoiscripts/` ディレクトリ内に配置す�
 | run_once_before_active.sh              |  ✅   |   ✅   |     |            |
 | run_once_before_age.sh.tmpl            |  ✅   |   ✅   |     |            |
 | run_once_before_bw.sh.tmpl             |  ✅   |   ✅   |     |            |
-| run_after_wish.sh                      |  ✅   |   ✅   |     |            |
 | run_once_after_ssh.sh.tmpl             |  ✅   |   ✅   |     |            |
 | run_onchange_after_skills.sh.tmpl      |  ✅   |   ✅   |     |            |
 | run_onchange_after_vscode.sh.tmpl      |  ✅   |   ✅   |     |            |
