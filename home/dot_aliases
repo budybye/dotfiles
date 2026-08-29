@@ -345,9 +345,9 @@ if command -v mise >/dev/null 2>&1; then
     alias mig="mi use -g"
     alias mir="mi registry"
     alias mip="mi p ls-remote"
-    alias mic="mi cache clean"
+    alias mic="mi prune && mi cache clean"
     alias mil="mi list && mi set"
-    alias miu="mise up && mise prune && mise cache clean && mise dr && mise list && mise v"
+    alias miu="mi up && mic && mi dr && mil && mi v"
 fi
 
 # shelcheck

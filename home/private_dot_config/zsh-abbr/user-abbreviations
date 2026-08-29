@@ -86,7 +86,7 @@ abbr mir='mise registry'
 abbr mip='mise p ls-remote'
 abbr mic='mise cache clean'
 abbr mil='mise list && mise set'
-abbr miu='mise up && mise prune && mise cache clean && mise list && mise v'
+abbr miu='mise up && mise prune && mise cache clean && mise bootstrap packages apply -y && mise bootstrap packages up -y && mise list && mise v'
 
 # brew
 abbr bi='brew install'
