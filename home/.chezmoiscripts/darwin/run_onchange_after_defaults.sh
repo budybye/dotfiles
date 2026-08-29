@@ -225,18 +225,19 @@ restart() {
     done
 }
 
+# mise bootstrap に移行完了？
 echo "defaults.sh"
 echo "--------------------------------"
 # user_setup
 # system_setup
 # app_setup
-interface_setup
-window_setup
-dock_setup
-finder_setup
-search_setup
+# interface_setup
+# window_setup
+# dock_setup
+# finder_setup
+# search_setup
 # network_setup
-restart
+# restart
 
 echo "--------------------------------"
 echo "macOS setup complete."

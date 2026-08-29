@@ -44,42 +44,6 @@ install_homebrew() {
     fi
 }
 
-install_brew_packages() {
-    brew --version
-    brewlist=$(brew list)
-
-    {{ if .packages.darwin.formula }}
-    {{ range .packages.darwin.formula -}}
-    if ! echo "$brewlist" | grep -q "{{ . }}"; then
-        brew install -y "{{ . }}" || echo "{{ . }} install failed."
-    else
-        echo "{{ . }} already installed."
-    fi
-    {{ end -}}
-    {{ end }}
-    {{ if .packages.darwin.cask }}
-    {{ range .packages.darwin.cask -}}
-    if ! echo "$brewlist" | grep -q "{{ . }}"; then
-        brew install --cask "{{ . }}" || echo "{{ . }} install failed."
-    else
-        echo "{{ . }} already installed."
-    fi
-    {{ end -}}
-    {{ end }}
-
-    if ! command -v tree >/dev/null 2>&1; then
-        brew install tree
-    fi
-
-    brew update || echo "brew update failed."
-    brew upgrade || echo "brew upgrade failed."
-    brew autoremove || echo "brew autoremove failed."
-    brew cleanup || echo "brew cleanup failed."
-    brew doctor || echo "brew doctor failed."
-    brew list || echo "brew list failed."
-    echo "packages install done."
-}
-
 activate_mise() {
     if ! command -v mise >/dev/null 2>&1; then
         return 0
@@ -94,7 +58,7 @@ install_mise() {
     if command -v mise >/dev/null; then
         echo "mise already installed."
     else
-        brew install mise
+        curl https://mise.run | sh 
         mise --version || echo "mise install failed."
     fi
 
@@ -102,7 +66,7 @@ install_mise() {
 
     if [ -f "${HOME}/.config/mise/config.toml" ]; then
         mise i -y || echo "mise install failed."
-        mise bootstrap || echo "mise bootstrap failed."
+        mise bootstrap -y || echo "mise bootstrap failed."
     fi
 
     echo "mise setup completed."
@@ -113,7 +77,6 @@ echo "--------------------------------"
 install_xcode_command_line_tools
 install_rosetta
 install_homebrew
-# install_brew_packages
 install_mise
 echo "--------------------------------"
 echo "zsh --version $(zsh --version)"

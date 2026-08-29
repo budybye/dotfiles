@@ -14,7 +14,7 @@ concurrency:
 
 jobs:
   ubuntu-amd64:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     env:
       MISE_GITHUB_TOKEN: ${{ secrets.MISE_GITHUB_TOKEN }}
     steps:
@@ -72,7 +72,7 @@ jobs:
         run: make init
 
   ubuntu-arm64:
-    runs-on: ubuntu-24.04-arm
+    runs-on: ubuntu-26.04-arm
     env:
       MISE_GITHUB_TOKEN: ${{ secrets.MISE_GITHUB_TOKEN }}
     steps:
@@ -138,7 +138,7 @@ jobs:
           lxc config set core.https_address :8443
 
   rpi:
-    runs-on: ubuntu-24.04-arm
+    runs-on: ubuntu-26.04-arm
     steps:
       - uses: actions/checkout@v6
       - name: Setup LXD
@@ -154,11 +154,11 @@ jobs:
           lxc exec rpi -- cat /etc/os-release
           lxc config set core.https_address :8443
 
-  # ubuntu-slim:
-  #   runs-on: ubuntu-slim
-  #   env:
-  #     MISE_GITHUB_TOKEN: ${{ secrets.MISE_GITHUB_TOKEN }}
-  #   steps:
-  #     - uses: actions/checkout@v6
-  #     - name: make
-  #       run: make init
+  ubuntu-slim:
+    runs-on: ubuntu-slim
+    env:
+      MISE_GITHUB_TOKEN: ${{ secrets.MISE_GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v6
+      - name: make
+        run: make init

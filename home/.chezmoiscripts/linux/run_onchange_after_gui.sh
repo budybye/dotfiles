@@ -19,27 +19,6 @@ activate_mise() {
     eval "$(mise activate bash)"
 }
 
-# デスクトップ環境のインストール
-# package は .chezmoidata/packages.yaml に記載
-# .packages.linux.gui にはxfceデスクトップ環境をインストールするパッケージを記載
-
-desktop_setup() {
-    $sudo apt-get update -y
-    $sudo apt-get upgrade -y
-
-    {{ range .packages.linux.gui -}}
-    if ! dpkg -l | grep -q {{ . }}; then
-        $sudo apt-get install -y {{ . }} || echo "{{ . }} install failed." >> ${HOME}/which
-    fi
-    {{ end -}}
-
-    # $sudo apt-get remove -y light-locker xscreensaver
-    $sudo apt-get autoremove -y
-    $sudo apt-get clean
-    $sudo rm -rf /var/cache/apt /var/lib/apt/lists/*
-    echo "desktop packages installed."
-}
-
 install_brave_browser() {
     if command -v brave-browser >/dev/null 2>&1; then
         echo "brave browser already installed."
@@ -74,34 +53,18 @@ install_cloudflare_warp() {
 
 ## 代変えインストーラー https://github.com/watzon/cursor-linux-installer
 install_cursor() {
+    APP_DIR="${HOME}/Applications"
+    APP_IMAGE="${APP_DIR}/cursor"
+    mkdir -p "$APP_DIR"
+    
     if command -v cursor >/dev/null 2>&1; then
         echo "cursor already installed."
     elif command -v curl >/dev/null 2>&1; then
-        curl -L https://raw.githubusercontent.com/watzon/cursor-linux-installer/main/install.sh | bash -s -- latest
+        curl -L https://raw.githubusercontent.com/watzon/cursor-linux-installer/main/install.sh | sh -s -- latest
     fi
-    # APP_DIR="${HOME}/Applications"
-    # APP_IMAGE="${APP_DIR}/cursor"
-    # mkdir -p "${APP_DIR}"
-
-    # # cursor download アーキテクチャに応じて
-    # if [ -f "${APP_IMAGE}" ]; then
-    #     echo "cursor already installed."
-
-    # elif [ "${arch}" = "amd64" ]; then
-    #     curl -L https://downloads.cursor.com/production/d01860bc5f5a36b62f8a77cd42578126270db343/linux/x64/Cursor-1.4.2-x86_64.AppImage -o "${APP_IMAGE}" || echo "cursor download failed."
-
-    # elif [ "${arch}" = "arm64" ]; then
-    #     curl -L https://downloads.cursor.com/production/d01860bc5f5a36b62f8a77cd42578126270db343/linux/arm64/Cursor-1.4.2-aarch64.AppImage -o "${APP_IMAGE}" || echo "cursor download failed."
-    # fi
-
-    # # cursor の実行ファイルに実行権限を付与
-    # $sudo chmod a+x "${APP_IMAGE}"
-
-    # # libfuse2 が必要なのでインストール
-    # $sudo apt-get install -y libfuse2 || echo "libfuse2 install failed."
-
+    
     # cursor の実行方法を表示
-    echo 'use command: ${APP_IMAGE} --no-sandbox'
+    echo "'use command: ${APP_IMAGE} --no-sandbox'"
     echo "cursor installed."
 }
 
@@ -122,9 +85,9 @@ install_github_desktop() {
     if command -v github-desktop >/dev/null 2>&1; then
         echo "github desktop already installed."
     else
-        $sudo curl -L https://github.com/shiftkey/desktop/releases/download/release-3.4.3-linux1/GitHubDesktop-linux-${arch}-3.4.3-linux1.deb -o GitHubDesktop-linux-${arch}-3.4.3-linux1.deb
-        $sudo dpkg -i GitHubDesktop-linux-${arch}-3.4.3-linux1.deb || echo "github desktop install failed."
-        $sudo rm -f GitHubDesktop-linux-${arch}-3.4.3-linux1.deb
+        $sudo curl -L "https://github.com/shiftkey/desktop/releases/download/release-3.4.3-linux1/GitHubDesktop-linux-${arch}-3.4.3-linux1.deb -o GitHubDesktop-linux-${arch}-3.4.3-linux1.deb"
+        $sudo dpkg -i "GitHubDesktop-linux-${arch}-3.4.3-linux1.deb" || echo "github desktop install failed."
+        $sudo rm -f "GitHubDesktop-linux-${arch}-3.4.3-linux1.deb"
         echo "github desktop installed."
     fi
 }
@@ -273,12 +236,14 @@ install_opencode() {
         echo "opencode already installed."
         return
     fi
+    
     # linux-x64-deb のみ提供 (2026-03-29 確認)
     # devcontainer では libwebkit2gtk 依存が解決できず apt を壊すためスキップ
     if [ "${arch}" = "amd64" ] && [ -n "${REMOTE_CONTAINERS:-}" ]; then
         echo "opencode: skipped in devcontainer."
         return
     fi
+    
     local url="https://opencode.ai/download/stable/linux-x64-deb"
     local deb="/tmp/opencode-${arch}.deb"
     curl -fsSL "${url}" -o "${deb}" || { echo "opencode download failed."; return; }
@@ -290,7 +255,7 @@ install_opencode() {
 
 echo "gui.sh"
 echo "--------------------------------"
-echo "{{ .chezmoi.os }} system setup"
+echo "system setup"
 echo "--------------------------------"
 desktop_setup
 install_brave_browser

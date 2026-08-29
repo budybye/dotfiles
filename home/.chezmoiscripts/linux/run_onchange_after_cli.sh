@@ -40,30 +40,6 @@ change_shell_to_zsh() {
     zsh --version >> ${HOME}/which || echo "zsh not found" >> ${HOME}/which
 }
 
-install_packages() {
-    $sudo dpkg --configure -a
-    apt --version
-    $sudo apt-get update -y
-    $sudo apt-get upgrade -y
-
-    {{ range .packages.linux.cli -}}
-
-    if ! dpkg -l | grep -q {{ . }}; then
-        $sudo apt-get install -y {{ . }} && echo "{{ . }} installed." || \
-        echo "{{ . }} install failed." >> ${HOME}/which
-    else
-        echo "{{ . }} already installed."
-    fi
-
-    {{ end -}}
-
-    $sudo apt-get autoremove -y
-    $sudo apt-get autoclean -y
-    $sudo rm -rf /var/cache/apt /var/lib/apt/lists/*
-    $sudo apt-get check
-    echo "apt install completed."
-}
-
 activate_mise() {
     if ! command -v mise >/dev/null 2>&1; then
         return 0
@@ -95,7 +71,7 @@ install_mise() {
 
     if [ -f "${HOME}/.config/mise/config.toml" ]; then
         mise i -y || echo "mise install failed."
-        mise bootsttrap || echo "mise bootsttrap failed."
+        mise bootsttrap -y || echo "mise bootsttrap failed."
     fi
 
     echo "mise setup completed."
@@ -152,7 +128,6 @@ install_mkcert() {
 
 echo "cli.sh"
 echo "--------------------------------"
-install_packages
 change_shell_to_zsh
 install_mise
 install_flatpak

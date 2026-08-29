@@ -122,13 +122,13 @@ WarnOnEmptyTrash = false
 "brew:make" = "latest"
 "brew:mise" = "latest"
 "brew:multitail" = "latest"
-# "brew:zsh" = "latest"
+"brew:zsh" = "latest"
 
 "brew-cask:bitwarden" = "latest"
 "brew-cask:brave-browser" = "latest"
 "brew-cask:cloudflare-warp" = "latest"
 "brew-cask:cursor" = "latest"
-"brew-cask:cursor-cli" = "latest"
+# "brew-cask:cursor-cli" = "latest"
 "brew-cask:coderabbit" = "latest"
 "brew-cask:element" = "latest"
 "brew-cask:font-hackgen-nerd" = "latest"
@@ -141,6 +141,7 @@ WarnOnEmptyTrash = false
 "brew-cask:raycast" = "latest"
 "brew-cask:tradingview" = "latest"
 "brew-cask:windows-app" = "latest"
+# "brew-cask:visual-studio-code" = "latest"
 "brew-cask:zed" = "latest"
 "brew-cask:zen" = "latest"
 

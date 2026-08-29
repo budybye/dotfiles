@@ -4,7 +4,8 @@ Chezmoi-managed dotfiles (macOS / Ubuntu, XDG-aligned). Stay within the requeste
 
 ## Rules
 
-- Manage with chezmoi, git, and make.
+- Manage with chezmoi, **jj** (primary VCS; git for remotes/CI via colocated repos), and make.
+- Planning: `openspec/changes/chezmoi-to-mise-migration/` — priority, impact, audit, security gates.
 - Propose changes that were not requested or that affect appearance only, then get approval.
 - Keep dependencies minimal. Put formatting and lint changes in separate commits.
 - Shell scripts: `#!/usr/bin/env bash`, `set -eu`, check tool availability with `command -v`.
@@ -21,3 +22,9 @@ Chezmoi-managed dotfiles (macOS / Ubuntu, XDG-aligned). Stay within the requeste
 ## Further docs
 
 See [docs/](docs/) for layout rules, OS branching, and environment differences.
+
+- **Doc index**: [docs/README.md](docs/README.md)
+- **Setup**: [docs/bootstrap.md](docs/bootstrap.md) (planned)
+- **Platform matrix**: [docs/platform-matrix.md](docs/platform-matrix.md) (planned)
+- **VCS**: [docs/git-to-jj.md](docs/git-to-jj.md)
+- **Audit / security**: [docs/audit-checklist.md](docs/audit-checklist.md), [docs/security.md](docs/security.md)

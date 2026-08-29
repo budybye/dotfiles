@@ -59,6 +59,7 @@ watchexec = "latest" # auto runner
 "npm:ndrstnd" = "latest"
 "npm:taze" = "latest"
 "npm:@hono/cli" = "latest"
+"npm:@antfu/ni" = "latest"
 "npm:executor" = "latest"
 "npm:ccxt-cli" = "latest"
 "npm:workers-fetch" = "latest"
@@ -484,6 +485,9 @@ rust.rustup_home = "~/.local/share/rustup"
 cargo.binstall = true
 pipx.uvx = true
 npm.bun = true
+
+# auto-self-update
+auto_update = true
 
 [[env]]
 _.path = [

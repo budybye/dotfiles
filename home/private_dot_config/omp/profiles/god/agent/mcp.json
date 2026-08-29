@@ -6,6 +6,13 @@
       "args": [
         "/Users/hotmilk/.config/omp/profiles/god/plugins/node_modules/context-mode/server.bundle.mjs"
       ]
+    },
+    "mise": {
+      "command": "mise",
+      "args": ["mcp"],
+      "env": {
+        "MISE_EXPERIMENTAL": "1"
+      }
     }
   }
 }

@@ -178,16 +178,6 @@ if command -v brew >/dev/null 2>&1; then
     function bb() {
         bf && bcp && brew update && brew upgrade -g -y -f && brew doctor
     }
-    function bbb() {
-        bb
-        dumpfile=${HOME}/.config/homebrew/Brewfile
-        if [ -f "${dumpfile}" ]; then
-            cp "${dumpfile}" "${dumpfile}.bak"
-            rm -f "${dumpfile}"
-        fi
-        brew bundle dump --file "${dumpfile}"
-        cat "${dumpfile}"
-    }
 fi
 
 # keploy

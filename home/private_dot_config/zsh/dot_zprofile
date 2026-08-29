@@ -1,6 +1,6 @@
 # .zprofile はログインシェルで読み込まれる
-
 # .profile からbashと共通の環境変数を読み込む
+
 if [ -f "${HOME}/.profile" ]; then
     emulate sh -c "source ${HOME}/.profile"
 fi

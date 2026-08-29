@@ -17,12 +17,17 @@ description: ツール・ライブラリの公式ドキュメント・リポジ�
 
 README は概要、`docs/` は詳細という責務分離を前提とします。
 
+- **ドキュメント索引**: [docs/README.md](README.md) — ティア別一覧と正本パス
+- **VCS 移行**: [Git → Jujutsu (jj)](git-to-jj.md)
+- **監査**: [audit-checklist.md](audit-checklist.md)
+- **セキュリティ**: [security.md](security.md)
+
 ---
 
 ## コア・インフラ
 
 - [Chezmoi](https://chezmoi.io/) · [twpayne/dotfiles](https://github.com/twpayne/dotfiles)
-- [Make](https://www.gnu.org/software/make/manual/make.html) · [Git](https://git-scm.com/)
+- [Make](https://www.gnu.org/software/make/manual/make.html) · [Git](https://git-scm.com/) · [Jujutsu (jj)](https://jj-vcs.dev/) · [jj Git compatibility](https://jj-vcs.dev/latest/git-compatibility/)
 - [Docker](https://docs.docker.com/) · [Docker Compose](https://docs.docker.com/compose/) · [Podman](https://podman.io/)
 - [Kubernetes](https://kubernetes.io/docs/) · [kubectl](https://kubernetes.io/docs/reference/kubectl/) · [kubectx/kubens](https://github.com/ahmetb/kubectx) · [Minikube](https://minikube.sigs.k8s.io/)
 - [Multipass](https://multipass.run/) · [Orbstack](https://orbstack.dev/) · [QEMU](https://www.qemu.org/)
