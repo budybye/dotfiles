@@ -30,13 +30,29 @@ DOTFILES="https://github.com/${GH_USER}/${GH_REPO}"
 
 # POSIX way to get script's dir: https://stackoverflow.com/a/29834779/12156188
 SCRIPT_DIR="$(cd -P -- "$(dirname -- "$(command -v -- "$0")")" && pwd -P)"
+DOTFILES_DIR="${HOME}/dotfiles"
+SOURCE_DIR="$(cd -P -- "${SCRIPT_DIR}" && pwd -P)"
+
+if [ -e "${DOTFILES_DIR}" ]; then
+    EXISTING_DIR="$(cd -P -- "${DOTFILES_DIR}" && pwd -P)" || {
+        echo "${DOTFILES_DIR} is not a directory or valid symlink." >&2
+        exit 1
+    }
+    if [ "${EXISTING_DIR}" != "${SOURCE_DIR}" ]; then
+        echo "${DOTFILES_DIR} points to ${EXISTING_DIR}; expected ${SOURCE_DIR}." >&2
+        exit 1
+    fi
+elif [ -L "${DOTFILES_DIR}" ]; then
+    echo "${DOTFILES_DIR} is a broken symlink." >&2
+    exit 1
+else
+    ln -s "${SOURCE_DIR}" "${DOTFILES_DIR}"
+fi
+
 echo "SCRIPT_DIR: ${SCRIPT_DIR}"
 "${CHEZMOI}" --version
 echo "Repository: ${DOTFILES}"
-echo "chezmoi init --apply --source=${SCRIPT_DIR}"
+echo "chezmoi init --apply --source=${DOTFILES_DIR}"
 
 # exec で新たなプロセスを起動して、現在のプロセスを置き換える
-exec "${CHEZMOI}" init --apply "--source=${SCRIPT_DIR}"
-# exec "${CHEZMOI}" init --apply "--source=${SCRIPT_DIR}" --verbose
-# exec "${CHEZMOI}" init --apply "-S ${SCRIPT_DIR}"
-# exec "${CHEZMOI}" init --apply ${DOTFILES}.git
+exec "${CHEZMOI}" init --apply "--source=${DOTFILES_DIR}"

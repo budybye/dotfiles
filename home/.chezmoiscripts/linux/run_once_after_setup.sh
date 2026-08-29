@@ -68,7 +68,8 @@ japan_setup() {
 
     if systemd_running; then
         $sudo localectl set-locale LANG=ja_JP.UTF-8
-        $sudo localectl set-locale LANGUAGE=ja_JP:ja
+        # localectl は LANGUAGE のコロン区切り値をロケールとして拒否するため update-locale を使う
+        $sudo update-locale LANGUAGE=ja_JP:ja
         # コンテナ/Debian では keymap 設定非対応 ("Setting X11 and console keymaps is not supported in Debian.")
         if ! $sudo localectl set-x11-keymap jp; then
             echo "X11 keymap setup skipped (not supported on this system)." >&2

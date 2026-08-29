@@ -12,7 +12,7 @@ change_shell_to_zsh() {
     if command -v zsh >/dev/null; then
         echo "zsh already installed."
     else
-        $sudo apt-get install -y zsh || echo "zsh install failed." >> ${HOME}/which
+        $sudo apt-get install -y zsh || echo "zsh install failed." >> "${HOME}/which"
     fi
 
     zsh_path=$(command -v zsh)
@@ -67,10 +67,13 @@ install_mise() {
 
     export PATH="${HOME}/.local/bin:${HOME}/.local/share/mise/shims:${HOME}/.local/bin:${HOME}/.local/share/mise/installs:$PATH"
     activate_mise
-    mise --version >> ${HOME}/which || echo "mise not found" >> ${HOME}/which
+    mise --version >> "${HOME}/which" || echo "mise not found" >> "${HOME}/which"
 
     if [ -f "${HOME}/.config/mise/config.toml" ]; then
         mise i -y || echo "mise install failed."
+    fi
+    
+    if [ -f "${HOME}/.config/mise.toml" ]; then
         mise bootsttrap -y || echo "mise bootsttrap failed."
     fi
 
@@ -85,7 +88,7 @@ install_flatpak() {
         $sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
         echo "flatpak installed."
     fi
-    flatpak --version >> ${HOME}/which || echo "flatpak not found" >> ${HOME}/which
+    flatpak --version >> "${HOME}"/which || echo "flatpak not found" >> "${HOME}"/which
 }
 
 install_go_aqua() {
@@ -98,7 +101,7 @@ install_go_aqua() {
     else
         echo "go not found"
     fi
-    go version >> ${HOME}/which || echo "go not found" >> ${HOME}/which
+    go version >> "${HOME}"/which || echo "go not found" >> "${HOME}"/which
 
     if command -v aqua >/dev/null 2>&1; then
         echo "aqua already installed."
@@ -109,7 +112,7 @@ install_go_aqua() {
     else
         echo "aqua not found"
     fi
-    aqua --version >> ${HOME}/which || echo "aqua not found" >> ${HOME}/which
+    aqua --version >> "${HOME}/which" || echo "aqua not found" >> "${HOME}/which"
 }
 
 install_mkcert() {
@@ -123,7 +126,7 @@ install_mkcert() {
         echo "mkcert install failed."
     fi
     mkcert -install || echo "mkcert not setup"
-    mkcert --version >> ${HOME}/which || echo "mkcert not found" >> ${HOME}/which
+    mkcert --version >> "${HOME}/which" || echo "mkcert not found" >> "${HOME}/which"
 }
 
 echo "cli.sh"
@@ -134,7 +137,7 @@ install_flatpak
 install_go_aqua
 install_mkcert
 echo "--------------------------------"
-cat ${HOME}/which && rm -f ${HOME}/which
+cat "${HOME}/which" && rm -f "${HOME}/which"
 echo "--------------------------------"
 echo "CLI tools install done."
 echo "--------------------------------"

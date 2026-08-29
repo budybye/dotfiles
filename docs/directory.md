@@ -67,7 +67,7 @@ description: directory ファイル情報説明
 │   │       ├── executable_dump_zsh_state
 │   │       ├── encrypted_private_executable_envars.age # 環境変数スクリプト（age暗号化）
 │   │       ├── executable_jjj     # jj コミット・プッシュ
-│   │       ├── executable_playlist # プレイリスト取得
+│   │       ├── executable_playlist # プレイリスト JSON / 音声取得
 │   │       ├── executable_vibes   # 音楽関連
 │   │       └── executable_xrp     # XRP 関連
 │   ├── private_dot_config/         # 設定ファイル（XDG準拠）
@@ -274,12 +274,11 @@ Chezmoi スクリプトは `.chezmoiscripts/` ディレクトリ内に配置す�
 
 | Chezmoi Script                         | macOS | Ubuntu | WSL | PowerShell |
 | -------------------------------------- | :---: | :----: | :-: | :--------: |
+| run_once_before_active.sh              |  ✅   |   ✅   |     |            |
 | run_once_before_age.sh.tmpl            |  ✅   |   ✅   |     |            |
 | run_once_before_bw.sh.tmpl             |  ✅   |   ✅   |     |            |
-| run_after_activate.sh.tmpl             |  ✅   |   ✅   |     |            |
-| run_after_wish.sh.tmpl                 |  ✅   |   ✅   |     |            |
+| run_after_wish.sh                      |  ✅   |   ✅   |     |            |
 | run_once_after_ssh.sh.tmpl             |  ✅   |   ✅   |     |            |
-| run_once_after_tube.sh                 |  ✅   |   ✅   |     |            |
 | run_onchange_after_skills.sh.tmpl      |  ✅   |   ✅   |     |            |
 | run_onchange_after_vscode.sh.tmpl      |  ✅   |   ✅   |     |            |
 | darwin/run_onchange_after_bootstrap.sh.tmpl |  ✅   |        |     |            |

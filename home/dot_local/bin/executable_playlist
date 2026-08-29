@@ -4,19 +4,28 @@ set -euo pipefail
 
 usage() {
   cat <<'EOF'
-Usage: playlist [--dry-run]
+Usage: playlist [--dry-run] [--download]
+
+Options:
+  --dry-run      Show work without writing files or downloading audio
+  --download     Download playlist audio as MP3 files
 
 Environment:
   PLAYLIST_ID    YouTube playlist ID
   PLAYLIST_FILE  Output JSON path
+  PLAYLIST_DIR   Audio output directory
 EOF
 }
 
 dry_run=0
+download=0
 while [ "$#" -gt 0 ]; do
   case "$1" in
     --dry-run)
       dry_run=1
+      ;;
+    --download)
+      download=1
       ;;
     -h|--help)
       usage
@@ -31,9 +40,38 @@ while [ "$#" -gt 0 ]; do
   shift
 done
 
+readonly PLAYLIST_ID="${PLAYLIST_ID:-PLMXoRsxtzGfCH7cvhAnzN_T3KvKmdkB3s}"
+readonly PLAYLIST_URL="https://youtube.com/playlist?list=${PLAYLIST_ID}"
+
 if ! command -v yt-dlp >/dev/null 2>&1; then
-  printf '%s\n' "yt-dlp not found" >&2
+  printf '%s\n' "yt-dlp not found; run: mise install" >&2
   exit 1
+fi
+
+if [ "${download}" -eq 1 ]; then
+  if ! command -v ffmpeg >/dev/null 2>&1; then
+    printf '%s\n' "ffmpeg not found; run: mise install" >&2
+    exit 1
+  fi
+
+  readonly PLAYLIST_DIR="${PLAYLIST_DIR:-${XDG_MUSIC_DIR:-${HOME}/Music}/riddim}"
+  printf 'Downloading playlist: %s\n' "${PLAYLIST_ID}"
+  if [ "${dry_run}" -eq 1 ]; then
+    printf 'Dry-run: audio would be written to %s\n' "${PLAYLIST_DIR}"
+    exit 0
+  fi
+
+  mkdir -p "${PLAYLIST_DIR}"
+  yt-dlp \
+    --audio-format mp3 \
+    --format bestaudio \
+    --audio-quality 0 \
+    --extract-audio \
+    --output "${PLAYLIST_DIR}/%(title)s.%(ext)s" \
+    --ignore-errors \
+    --no-warnings \
+    "${PLAYLIST_URL}"
+  exit 0
 fi
 
 if ! command -v jq >/dev/null 2>&1; then
@@ -41,10 +79,7 @@ if ! command -v jq >/dev/null 2>&1; then
   exit 1
 fi
 
-readonly PLAYLIST_ID="${PLAYLIST_ID:-PLMXoRsxtzGfCH7cvhAnzN_T3KvKmdkB3s}"
 readonly PLAYLIST_FILE="${PLAYLIST_FILE:-${XDG_MUSIC_DIR:-${HOME}/Music}/playlist.json}"
-readonly PLAYLIST_URL="https://youtube.com/playlist?list=${PLAYLIST_ID}"
-
 printf 'Scanning playlist: %s\n' "${PLAYLIST_ID}"
 
 if [ "${dry_run}" -eq 1 ]; then

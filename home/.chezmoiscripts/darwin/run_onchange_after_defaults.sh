@@ -225,7 +225,8 @@ restart() {
     done
 }
 
-# mise bootstrap に移行完了？
+# default は mise bootstrap に移行完了
+
 echo "defaults.sh"
 echo "--------------------------------"
 # user_setup

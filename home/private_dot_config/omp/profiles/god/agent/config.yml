@@ -1,7 +1,7 @@
 setupVersion: 2
 modelRoles:
   task: openai-codex/gpt-5.6-luna:high
-  default: cursor/composer-2.5
+  default: openai-codex/gpt-5.6-luna:high
 defaultThinkingLevel: auto
 dev:
   autoqaConsent: granted
@@ -14,7 +14,6 @@ composer:
 retry:
   fallbackChains:
     default:
-      # - opencode-zen/deepseek-v4-flash-free
       - openai-codex/gpt-5.6-luna
       - cursor/composer-2.5
       - sakura/preview/Kimi-K2.7-Code

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -eu
 
-echo "run_once_after_ssh.sh.tmpl"
+echo "run_once_after_ssh.sh"
 echo "--------------------------------"
 
 DIR="$(pwd)"
