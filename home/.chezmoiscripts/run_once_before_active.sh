@@ -13,6 +13,7 @@ if ! command -v mise >/dev/null 2>&1; then
     mkdir -p "${BIN}"
     curl -fsSL https://mise.run |
         MISE_INSTALL_PATH="${BIN}/mise" sh
+    
 fi
 
 mise --version

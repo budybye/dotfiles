@@ -302,7 +302,7 @@ hatch = "latest"
 conan = "latest"         # pipx:conan（C/C++ 向けパッケージマネージャ）
 pre-commit = "latest"
 yt-dlp = "latest"
-claude = "latest"        # anthropics/claude-code（primary: Python）
+# claude = "latest"        # anthropics/claude-code（primary: Python）
 
 # github (Python)
 "github:microsoft/pyright" = "latest"
@@ -322,7 +322,7 @@ claude = "latest"        # anthropics/claude-code（primary: Python）
 "pipx:headroomlabs-ai/headroom" = "latest"
 "pipx:halo-engine" = "latest"
 "pipx:observal-cli" = "latest"
-"pipx:crow-cli" = "latest"
+# "pipx:crow-cli" = "latest"
 # "pipx:teng-lin/notebooklm-py" = "latest"
 
 # "pipx:cea-sec/miasm" = "latest"

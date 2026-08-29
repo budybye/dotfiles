@@ -93,6 +93,14 @@ japan_setup() {
 # xrdp リモートデスクトップ: 表示マネージャー・グループ・ファイアウォール
 xrdp_setup() {
     echo "xrdp setup start..."
+    if ! id -u xrdp >/dev/null 2>&1; then
+        echo "xrdp user not found; installing xrdp packages."
+        $sudo apt-get install -y --reinstall xrdp xorgxrdp
+    fi
+    if ! id -u xrdp >/dev/null 2>&1; then
+        echo "xrdp user is still missing after package installation." >&2
+        return 1
+    fi
     if command -v xfce4-session >/dev/null 2>&1; then
         xfce_session="$(command -v xfce4-session)"
         $sudo update-alternatives --install /usr/bin/x-session-manager x-session-manager "${xfce_session}" 60
