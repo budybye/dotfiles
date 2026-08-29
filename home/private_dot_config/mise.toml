@@ -1,5 +1,5 @@
-[bootstrap.user]
-login_shell = "/bin/zsh"
+# [bootstrap.user]
+# login_shell = "/bin/zsh"
 
 # Mac用
 [bootstrap.brew]
@@ -168,7 +168,6 @@ done
 "brew-cask:orbstack" = { os = "macos" }
 "brew-cask:raycast" = { os = "macos" }
 "brew-cask:tradingview" = { os = "macos" }
-"brew-cask:windows-app" = { os = "macos" }
 # "brew-cask:visual-studio-code" = "latest"
 "brew-cask:zed" = { os = "macos" }
 "brew-cask:zen" = { os = "macos" }
@@ -257,7 +256,7 @@ done
 "apt:wireplumber" = { os = "linux" }
 "apt:libspa-0.2-dev" = { os = "linux" }
 "apt:libpipewire-0.3-dev" = { os = "linux" }
-"apt:asahi-audio" = { os = "linux" }
+"apt:asahi-audio" = { os = "linux/arm64" }
 "apt:autoconf" = { os = "linux" }
 
 "apt:language-pack-ja-base" = { os = "linux" }
@@ -295,7 +294,8 @@ done
 # [hooks]
 # cd の 後に ls する
 # cd = "ls"
-# macOS user LaunchAgent: MPD only
+
+# macOS user LaunchAgent: MPD only 
 [bootstrap.macos.launchd.agents.mpd]
 program = "/usr/bin/env"
 args = ["mpd", "--no-daemon"]
@@ -306,3 +306,18 @@ environment = { PATH = "/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin" }
 stdout_path = "~/Library/Logs/mpd-launchd.log"
 stderr_path = "~/Library/Logs/mpd-launchd.err.log"
 
+# windows-app uses pkg installer choices not supported by mise.
+[tasks.macos-install-windows-app]
+description = "Install Windows App with Homebrew"
+run = """
+if [ "$(uname -s)" != "Darwin" ]; then
+  exit 0
+fi
+
+command -v brew >/dev/null 2>&1 || {
+  echo "Homebrew is required to install Windows App." >&2
+  exit 1
+}
+
+brew install --cask windows-app
+"""

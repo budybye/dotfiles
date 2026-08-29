@@ -63,7 +63,6 @@ packages:
       - "raycast"
       - "ghostty"
       # - "visual-studio-code"
-      - "windows-app"
       - "zen"
       - "zed"
 

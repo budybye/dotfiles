@@ -45,7 +45,7 @@
 - [ ] 6.3 Add root `.mise.toml` tasks: `setup`, `install`, `apply`, `bootstrap:packages`, `bootstrap:macos`, `bootstrap:tools`, `post-apply` — verify `mise run setup` matches documented flow
 - [ ] 6.4 Refactor `Makefile` to thin wrappers delegating to mise (`init` → `mise run setup`, `apply` → `mise run apply`, `test` → `mise run test`) — verify `.github/workflows/test.yaml` `make init` still passes on ubuntu-amd64
 - [ ] 6.5 Migrate Makefile docker/vm targets to `.mise.toml` (`docker:build`, `docker:run`, `vm:create`, …) with Makefile aliases — verify `make docker-build` and `mise run docker:build` behave identically
-- [ ] 6.6 Document zsh stack: ZDOTDIR (`dot_zshenv`) + chezmoi `~/.config/zsh/*` + sheldon (`plugins.toml`) + mise activate in `.zshrc` + `[bootstrap.user] login_shell` — verify fresh Linux `make init` lands in zsh with sheldon and mise on PATH
+- [ ] 6.6 Document zsh stack: ZDOTDIR (`dot_zshenv`) + chezmoi `~/.config/zsh/*` + sheldon (`plugins.toml`) + mise activate in `.zshrc` + platform-specific login shell handling — verify fresh Linux `make init` lands in zsh with sheldon and mise on PATH
 - [ ] 6.7 Document Linux profiles: CLI-only (CI/headless) vs GUI (xfce/xrdp + `run_once_after_setup.sh`) vs Docker (`DOCKER=true` guards) — verify CLI profile does not pull GUI packages
 
 ## 7. Docker simplification (phase 3 — optional within this change)
