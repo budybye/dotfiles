@@ -13,7 +13,10 @@ if ! command -v mise >/dev/null 2>&1; then
     mkdir -p "${BIN}"
     curl -fsSL https://mise.run |
         MISE_INSTALL_PATH="${BIN}/mise" sh
-    
+
+    export MISE_CONFIG_DIR="${HOME}/.config/mise"
+    mkdir -p "${MISE_CONFIG_DIR}"
+    eval "$(mise activate bash)"
 fi
 
 mise --version

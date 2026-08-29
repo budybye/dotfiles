@@ -52,8 +52,6 @@ install_mise() {
         mise --version || echo "mise install failed."
     fi
 
-    mkdir -p "${HOME}/.config/mise"
-    export MISE_CONFIG_DIR="${HOME}/.config/mise"
     eval "$(mise activate bash)"
 
     if [ -f "${HOME}/.config/mise.toml" ]; then

@@ -55,9 +55,7 @@ install_mise() {
     fi
 
     export PATH="${HOME}/.local/bin:${HOME}/.local/share/mise/shims:${HOME}/.local/bin:${HOME}/.local/share/mise/installs:$PATH"
-
-    mkdir -p "${HOME}/.config/mise"
-    export MISE_CONFIG_DIR="${HOME}/.config/mise"
+    
     eval "$(mise activate bash)"
 
     mise --version || echo "mise not found"
@@ -87,8 +85,6 @@ install_flatpak() {
 install_go_aqua() {
     if command -v go >/dev/null 2>&1; then
         echo "go already installed."
-    elif command -v apt >/dev/null 2>&1; then
-        $sudo apt-get install -y golang || echo "go install failed."
     elif command -v mise >/dev/null 2>&1; then
         mise use -g -y go@latest || echo "go install failed."
     else
@@ -98,8 +94,6 @@ install_go_aqua() {
 
     if command -v aqua >/dev/null 2>&1; then
         echo "aqua already installed."
-    elif command -v go >/dev/null 2>&1; then
-        go install github.com/aquaproj/aqua/v2/cmd/aqua@latest || echo "aqua install failed."
     elif command -v mise >/dev/null 2>&1; then
         mise use -g -y aqua@latest || echo "aqua install failed."
     else
@@ -111,8 +105,6 @@ install_go_aqua() {
 install_mkcert() {
     if command -v mkcert >/dev/null 2>&1; then
         echo "mkcert already installed."
-    elif command -v apt >/dev/null 2>&1; then
-        $sudo apt install -y mkcert || echo "mkcert install failed."
     elif command -v mise >/dev/null 2>&1; then
         mise use -g -y mkcert@latest || echo "mkcert install failed."
     else

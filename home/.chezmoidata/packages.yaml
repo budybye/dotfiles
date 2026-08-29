@@ -665,7 +665,6 @@ packages:
     - "curl -fsSL https://www.xalgorix.com/install | sh"
     # - "curl -fsSL https://nixos.org/nix/install | sh"
     # - "curl -fsSL https://hermes-agent.nousresearch.com/install.sh | sh"
-    # - "curl -fsSL https://git.io/chezmoi | sh"
     # - "curl -fsSL https://vicinae.com/install.sh | sh"
     # - "curl -fsSL https://vite.plus | sh"
     # - "curl -fsSL https://code-server.dev/install.sh | sh"

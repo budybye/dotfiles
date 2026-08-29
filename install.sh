@@ -9,9 +9,9 @@ if [ ! "$(command -v chezmoi)" ]; then
     CHEZMOI="${BIN}/chezmoi"
     # curl か wget がインストールされている場合は chezmoi をインストール
     if [ "$(command -v curl)" ]; then
-        sh -c "$(curl -fsSL https://git.io/chezmoi)" -- -b "${BIN}"
+        sh -c "$(curl -fsLS https://get.chezmoi.io)" -- -b "${BIN}"
     elif [ "$(command -v wget)" ]; then
-        sh -c "$(wget -qO- https://git.io/chezmoi)" -- -b "${BIN}"
+        sh -c "$(wget -qO- https://get.chezmoi.io)" -- -b "${BIN}"
     else
         echo "To install chezmoi, you must have curl or wget installed." >&2
         exit 1
