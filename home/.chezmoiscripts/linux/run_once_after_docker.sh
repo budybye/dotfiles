@@ -6,16 +6,6 @@ if [ "$(id -u)" -ne 0 ]; then
     sudo="sudo"
 fi
 
-activate_mise() {
-    if ! command -v mise >/dev/null 2>&1; then
-        return 0
-    fi
-
-    mkdir -p "${HOME}/.config/mise"
-    export MISE_CONFIG_DIR="${HOME}/.config/mise"
-    eval "$(mise activate bash)"
-}
-
 install_docker() {
     if command -v docker >/dev/null 2>&1; then
         echo "docker already installed."
@@ -68,27 +58,10 @@ install_docker() {
     docker compose version || echo "docker compose not found"
 }
 
-install_act() {
-    if command -v act >/dev/null; then
-        echo "act already installed."
-    elif command -v curl >/dev/null; then
-        curl https://raw.githubusercontent.com/nektos/act/master/install.sh | $sudo bash || echo "act install failed."
-        $sudo mv -f "${HOME}/bin/act" /usr/local/bin/act
-        $sudo chmod +x /usr/local/bin/act
-        export PATH="/usr/local/bin:${PATH}"
-    elif command -v mise >/dev/null; then
-        activate_mise
-        mise use -g -y act@latest || echo "act install failed."
-    else
-        echo "act install failed."
-    fi
-    act --version || echo "act not found"
-}
-
 echo "docker.sh"
 echo "--------------------------------"
 install_docker
-install_act
+# install_act
 echo "--------------------------------"
 echo "Docker setup done!!"
 echo "--------------------------------"

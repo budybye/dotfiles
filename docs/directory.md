@@ -68,6 +68,7 @@ description: directory ファイル情報説明
 │   │       ├── encrypted_private_executable_envars.age # 環境変数スクリプト（age暗号化）
 │   │       ├── executable_jjj     # jj コミット・プッシュ
 │   │       ├── executable_playlist # プレイリスト JSON / 音声取得
+│   │       ├── executable_ssh_setup # SSH セットアップ（明示実行）
 │   │       ├── executable_vibes   # 音楽関連
 │   │       └── executable_xrp     # XRP 関連
 │   ├── private_dot_config/         # 設定ファイル（XDG準拠）
@@ -277,11 +278,9 @@ Chezmoi スクリプトは `.chezmoiscripts/` ディレクトリ内に配置す�
 | run_once_before_active.sh              |  ✅   |   ✅   |     |            |
 | run_once_before_age.sh.tmpl            |  ✅   |   ✅   |     |            |
 | run_once_before_bw.sh.tmpl             |  ✅   |   ✅   |     |            |
-| run_once_after_ssh.sh.tmpl             |  ✅   |   ✅   |     |            |
 | run_onchange_after_skills.sh.tmpl      |  ✅   |   ✅   |     |            |
 | run_onchange_after_vscode.sh.tmpl      |  ✅   |   ✅   |     |            |
 | darwin/run_onchange_after_bootstrap.sh.tmpl |  ✅   |        |     |            |
-| darwin/run_onchange_after_defaults.sh      |  ✅   |        |     |            |
 | linux/run_once_after_docker.sh         |       |   ✅   |     |            |
 | linux/run_onchange_after_cli.sh.tmpl   |       |   ✅   |     |            |
 | linux/run_onchange_after_gui.sh.tmpl   |       |   ✅   |     |            |

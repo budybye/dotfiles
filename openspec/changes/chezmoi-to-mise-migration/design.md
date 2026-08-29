@@ -94,7 +94,7 @@ P1 + P4
 |---------|------------------------|----------------------------|
 | Encrypted dotfiles (`encrypted_*`) | Audit + security review only | Encryption config, `before_age` |
 | Bitwarden (`before_bw`) | Audit + security review only | Unlock flow, template branches |
-| SSH multi-account | Audit | `run_once_after_ssh.sh.tmpl` behavior |
+| SSH keys/config | Audit; explicit `ssh_setup` command | Encrypted SSH files and templates remain Chezmoi-owned |
 | VS Code extensions | Slim `packages.yaml` only | `run_onchange_after_vscode.sh.tmpl` |
 | zsh / sheldon / ZDOTDIR | Document only | File layout and load order |
 | CI (`test.yaml`) | Makefile delegation | Workflow must keep passing `make init` |
@@ -190,11 +190,11 @@ Output: `docs/audit-report-YYYY-MM.md` (gitignored or committed summary without 
 |-------|--------|-----------------|--------------|
 | age private key | Leak via plaintext dotfile or wrong CI render | `encrypted_*`, `before_age`, env disables in CI/Docker | Template branches after phase 4 refactor |
 | Bitwarden session | Token in shell env or logs | `before_bw`, feature flags | Script logging; non-interactive CI |
-| SSH private keys | World-readable or wrong host deploy | `encrypted_private_*`, `run_once_after_ssh` | Permissions post-apply |
+| SSH private keys | World-readable, accidental regeneration, or wrong host deploy | `encrypted_*`, `chezmoi verify`, non-destructive `ssh_setup` | Key preservation; permissions; no automatic generation |
 | `curl \| sh` installers | Supply-chain compromise | `install.sh`, mise.run, app curl tasks | Pin URLs; checksum where available |
 | mise `[env]` age (future) | Second key confusion with chezmoi age | Separate `~/.config/mise/age.txt` | Document in `security.md` |
 | Privileged scripts | sudo in bootstrap/defaults/docker | Chezmoi `run_once` / mise tasks | Minimize; document in audit |
-| Multi-account GitHub SSH | Host alias misconfiguration | `run_once_after_ssh.sh.tmpl` | No cross-account key bleed |
+| Multi-account GitHub SSH | Host alias misconfiguration | Managed `config.tmpl`; explicit `ssh_setup` only for opt-in local setup | No cross-account key bleed |
 | Devcontainer | Secrets enabled in image build | `DOCKER=true` → age/BW off | Re-verify after Dockerfile changes |
 | Third-party externals | Unpinned archive/tag drift | `.chezmoiexternal.toml.tmpl` | Pin + verify task (maximize 4.2) |
 
@@ -261,9 +261,23 @@ See `proposal.md` for motivation. The repository today splits bootstrap concerns
 
 | Phase | Moves to Mise | Stays in Chezmoi |
 |-------|---------------|------------------|
-| **1 — Install parity** | `[bootstrap.packages]` authoritative; curl installers → `[tasks]`; disable overlapping `run_onchange_after_{bootstrap,cli,gui}.sh.tmpl` after parity | SSH (`run_once_after_ssh.sh.tmpl`), VS Code (`run_onchange_after_vscode.sh.tmpl`), skills, snap, Linux `run_once_after_setup.sh`, Windows PS1, externals |
-| **2 — macOS defaults dedup** | Retire `run_onchange_after_defaults.sh` after gap analysis vs `[bootstrap.macos.*]` | Privileged `systemsetup`/`scutil` steps until expressed as Mise tasks |
+| **1 — Install parity** | `[bootstrap.packages]` authoritative; curl installers → `[tasks]`; disable overlapping `run_onchange_after_{bootstrap,cli,gui}.sh.tmpl` after parity | Encrypted SSH files/templates, VS Code (`run_onchange_after_vscode.sh.tmpl`), skills, snap, Linux `run_once_after_setup.sh`, Windows PS1, externals |
+| **2 — macOS defaults dedup** | `[bootstrap.macos.*]` and explicit macOS tasks own supported settings; old defaults hook retired | Privileged `systemsetup`/`scutil` operations remain outside declarative defaults |
 | **3 — Future** | Evaluate `[dotfiles]` for simple static files; `[bootstrap.repos]` for git clones | Templates with `.chezmoi.toml.tmpl` data, encryption, multi-account SSH |
+### macOS defaults parity map
+
+| Legacy function | Current ownership | Notes |
+|-----------------|-------------------|-------|
+| `user_setup` | Deferred | `scutil` computer/host/user names are not user defaults |
+| `system_setup` | Deferred | Privileged `systemsetup` operations remain explicit and inactive |
+| `app_setup` | Mise raw defaults | SoftwareUpdate, commerce, and App Store keys |
+| `interface_setup` | Mise friendly/raw defaults | Keyboard and trackpad values |
+| `window_setup` | Mise raw defaults + explicit task | User defaults migrated; `chflags`, `/Library` writes, and notificationcenter unload remain deferred |
+| `dock_setup` | Mise friendly/raw defaults + `macos-defaults-extra` | `persistent-apps` requires an array |
+| `finder_setup` | Mise friendly/raw defaults + `macos-defaults-extra` | `NewWindowTargetPath` needs `$HOME`; keyboard shortcuts require a dictionary |
+| `search_setup` | Omitted | Legacy calls are commented out and not active |
+| `network_setup` | Omitted | Legacy call is commented out and not active |
+| `restart` | Manual Mise task | `mise run macos-restart`; legacy call was commented out |
 
 **Rationale:** Phase 1 has the highest duplication and lowest risk. Phases 2–3 touch identity and templating where mistakes are costly.
 

@@ -6,7 +6,7 @@ Defines how Chezmoi and Mise coexist during phased migration without breaking cr
 
 ### Requirement: Clear responsibility split
 
-During and after phase-1 migration, Chezmoi SHALL remain authoritative for templated config file deployment, age-encrypted secrets, host/user branching in `.chezmoi.toml.tmpl`, SSH multi-account setup, VS Code extension installation, external archive fetching, and agent-skills installation. Mise SHALL be authoritative for tool versions (`mise.toml` `[tools]`), OS package bootstrap (`[bootstrap.packages]`), and macOS declarative defaults (`[bootstrap.macos.*]`).
+During and after phase-1 migration, Chezmoi SHALL remain authoritative for templated config file deployment, age-encrypted secrets, host/user branching in `.chezmoi.toml.tmpl`, encrypted SSH files and SSH config templates, VS Code extension installation, external archive fetching, and agent-skills installation. Optional local key generation and permission repair SHALL be provided by the explicit `ssh_setup` command, not by a Chezmoi lifecycle hook. Mise SHALL be authoritative for tool versions (`mise.toml` `[tools]`), OS package bootstrap (`[bootstrap.packages]`), and macOS declarative defaults (`[bootstrap.macos.*]`).
 
 #### Scenario: Config file still managed by chezmoi
 
@@ -27,19 +27,34 @@ The repository SHALL document a recommended apply order for new machines: Chezmo
 - **WHEN** a user follows the documented setup guide on a new Mac
 - **THEN** each step's tool owner (Chezmoi vs Mise) is unambiguous and re-running a step is idempotent
 
-### Requirement: Multi-GitHub-account SSH preserved
+### Requirement: Explicit non-destructive SSH setup
 
-Multi-account GitHub access via per-user SSH `Host` aliases (as implemented in `run_once_after_ssh.sh.tmpl`) SHALL remain under Chezmoi management in phase 1 and SHALL NOT be migrated to Mise `[dotfiles]` until a templating strategy for multiple identities is designed and tested.
+SSH key generation SHALL be explicit through `ssh_setup --generate`. The command SHALL preserve existing private keys, avoid modifying Chezmoi-managed SSH config and `authorized_keys`, and set only required permissions on existing SSH files.
 
-#### Scenario: Second GitHub identity
+#### Scenario: Chezmoi apply does not generate SSH keys
 
-- **WHEN** `chezmoi apply` runs for a host configured with a non-default `name` / username mapping in `.chezmoi.toml.tmpl`
-- **THEN** SSH config receives the correct `Host <username>` block pointing at `github.com` with the matching `IdentityFile`
+- **WHEN** `chezmoi apply` runs
+- **THEN** no SSH key is generated, replaced, or appended to `authorized_keys`
 
-#### Scenario: Mise bootstrap does not overwrite SSH config
+#### Scenario: Explicit SSH key generation
+
+- **WHEN** a user runs `ssh_setup --generate` and the configured private key is missing
+- **THEN** an Ed25519 key is generated without overwriting an existing file, and the SSH directory/key permissions are set
+
+#### Scenario: Existing SSH key is preserved
+
+- **WHEN** a user runs `ssh_setup` with an existing private key
+- **THEN** the private key content remains unchanged and Chezmoi-managed config files are not modified
+
+### Requirement: Mise bootstrap does not overwrite SSH config
+
+Mise bootstrap SHALL NOT overwrite or truncate Chezmoi-managed SSH configuration.
+
+#### Scenario: Mise bootstrap preserves SSH config
 
 - **WHEN** `mise bootstrap` runs on a host with Chezmoi-managed `~/.ssh/config`
 - **THEN** no Mise `[dotfiles]` entry overwrites or truncates existing SSH configuration during phase 1
+
 
 ### Requirement: Cross-platform matrix maintained
 

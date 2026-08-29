@@ -8,7 +8,7 @@ This repository already uses Chezmoi for dotfile deployment and lifecycle script
 - Consolidate OS package installation (Homebrew, apt, mas, snap where supported) under `mise.toml` `[bootstrap.packages]` as the single source of truth, then retire overlapping Chezmoi install scripts.
 - Install mise via `curl https://mise.run` in root `install.sh` (before `chezmoi init --apply`) as the single canonical bootstrap entry on macOS/Linux; remove duplicate mise install paths from Chezmoi scripts.
 - Migrate remaining one-shot installer flows (`cursor`, `coderabbit`, `zed`, etc.) from `packages.yaml` `curl:` entries into Mise `[tasks]`.
-- Deduplicate macOS defaults: prefer existing `[bootstrap.macos.*]` in `mise.toml` over `run_onchange_after_defaults.sh` where equivalent.
+- Consolidate macOS defaults in `mise.toml`; use explicit Mise tasks for array/dictionary/HOME-dependent values and manual restart; retire the old Chezmoi defaults hook.
 - Preserve cross-platform support (macOS, Linux, Windows) and multi-GitHub-account SSH host-alias behavior without regression.
 - Slim `packages.yaml` to Chezmoi-owned data only: `extensions`, `agents.skills`, and optionally `snap` / `windows` (or split to separate data files).
 - **Explicitly not in scope for phase 1**: replacing Chezmoi templating, **encrypted dotfile lifecycle** (`encrypted_*`, `before_age`), **Bitwarden unlock** (`before_bw`), VS Code extension management, external archives, or full `[dotfiles]` migration. Runtime env secrets via mise `mise set --age-encrypt` / `[bootstrap.secrets]` are phase 3+ only.
@@ -33,10 +33,10 @@ This repository already uses Chezmoi for dotfile deployment and lifecycle script
 - `home/private_dot_config/mise.toml` — primary target for migrated bootstrap declarations
 - `home/.chezmoidata/packages.yaml` — package lists to reconcile or slim down
 - `home/.chezmoiscripts/darwin/run_onchange_after_bootstrap.sh.tmpl` — candidate for retirement after parity
-- `home/.chezmoiscripts/darwin/run_onchange_after_defaults.sh` — candidate for retirement after parity with `[bootstrap.macos.*]`
+- `home/.chezmoiscripts/darwin/run_onchange_after_defaults.sh` — retired; supported defaults now live in `mise.toml` and `macos-defaults-extra` / `macos-restart` tasks
 - `home/.chezmoiscripts/linux/run_onchange_after_{cli,gui,snap}.sh.tmpl` — candidate for retirement after parity
 - `home/.chezmoi.toml.tmpl` — unchanged in phase 1; remains authority for host/user branching and secrets flags
-- `home/.chezmoiscripts/run_once_after_ssh.sh.tmpl` — remains in Chezmoi (multi-account SSH)
+- **SSH setup command** — move optional key setup to `home/dot_local/bin/executable_ssh_setup`; keep encrypted SSH files and templates under Chezmoi.
 - `home/.chezmoiscripts/run_onchange_after_vscode.sh.tmpl` — remains in Chezmoi (per prior decision)
 - `install.sh` — add curl mise install after chezmoi, before `chezmoi init --apply`
 - Root `.mise.toml` — add `setup` / bootstrap / docker / vm tasks; keep `Makefile` as thin compatibility wrapper (`make init` → `mise run setup`)

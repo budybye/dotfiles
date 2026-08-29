@@ -44,16 +44,6 @@ install_homebrew() {
     fi
 }
 
-activate_mise() {
-    if ! command -v mise >/dev/null 2>&1; then
-        return 0
-    fi
-
-    mkdir -p "${HOME}/.config/mise"
-    export MISE_CONFIG_DIR="${HOME}/.config/mise"
-    eval "$(mise activate bash)"
-}
-
 install_mise() {
     if command -v mise >/dev/null; then
         echo "mise already installed."
@@ -62,13 +52,18 @@ install_mise() {
         mise --version || echo "mise install failed."
     fi
 
-    activate_mise
+    mkdir -p "${HOME}/.config/mise"
+    export MISE_CONFIG_DIR="${HOME}/.config/mise"
+    eval "$(mise activate bash)"
 
-    if [ -f "${HOME}/.config/mise/config.toml" ]; then
-        mise i -y || echo "mise install failed."
+    if [ -f "${HOME}/.config/mise.toml" ]; then
         mise bootstrap -y || echo "mise bootstrap failed."
     fi
-
+    
+    if [ -f "${HOME}/.config/mise/config.toml" ]; then
+        mise i -y || echo "mise install failed."
+    fi
+    
     echo "mise setup completed."
 }
 

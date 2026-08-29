@@ -1,0 +1,87 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+  cat <<'EOF'
+Usage: ssh_setup [--generate] [--show-public-key]
+
+Options:
+  --generate        Generate an Ed25519 key when it is missing
+  --show-public-key Print the public key
+
+Environment:
+  SSH_DIR          SSH directory (default: ~/.ssh)
+  SSH_KEY_PATH     Private key path (default: ~/.ssh/id_ed25519)
+EOF
+}
+
+generate=0
+show_public_key=0
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    --generate)
+      generate=1
+      ;;
+    --show-public-key)
+      show_public_key=1
+      ;;
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    *)
+      printf 'Unknown option: %s\n\n' "$1" >&2
+      usage >&2
+      exit 2
+      ;;
+  esac
+  shift
+done
+
+readonly SSH_DIR="${SSH_DIR:-${HOME}/.ssh}"
+readonly KEY_PATH="${SSH_KEY_PATH:-${SSH_DIR}/id_ed25519}"
+
+if [ ! -d "${SSH_DIR}" ]; then
+  if [ "${generate}" -ne 1 ]; then
+    printf 'SSH directory not found: %s\n' "${SSH_DIR}" >&2
+    printf '%s\n' 'Run ssh_setup --generate to create a key.' >&2
+    exit 1
+  fi
+  mkdir -p "${SSH_DIR}"
+fi
+
+chmod 700 "${SSH_DIR}"
+
+if [ -L "${KEY_PATH}" ]; then
+  printf 'Refusing symlink private key: %s\n' "${KEY_PATH}" >&2
+  exit 1
+fi
+
+if [ ! -f "${KEY_PATH}" ]; then
+  if [ "${generate}" -ne 1 ]; then
+    printf 'Private key not found: %s\n' "${KEY_PATH}" >&2
+    printf '%s\n' 'Run ssh_setup --generate to create one.' >&2
+    exit 1
+  fi
+  command -v ssh-keygen >/dev/null 2>&1 || {
+    printf '%s\n' 'ssh-keygen not found' >&2
+    exit 1
+  }
+  mkdir -p "$(dirname "${KEY_PATH}")"
+  ssh-keygen -t ed25519 -f "${KEY_PATH}" -C "$(id -un)"
+fi
+
+if [ ! -f "${KEY_PATH}.pub" ]; then
+  printf 'Public key not found: %s.pub\n' "${KEY_PATH}" >&2
+  exit 1
+fi
+
+chmod 600 "${KEY_PATH}"
+chmod 644 "${KEY_PATH}.pub"
+[ -f "${SSH_DIR}/authorized_keys" ] && chmod 600 "${SSH_DIR}/authorized_keys"
+[ -f "${SSH_DIR}/config" ] && chmod 600 "${SSH_DIR}/config"
+
+printf 'SSH key ready: %s\n' "${KEY_PATH}"
+if [ "${show_public_key}" -eq 1 ]; then
+  cat "${KEY_PATH}.pub"
+fi

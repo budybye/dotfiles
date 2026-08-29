@@ -12,7 +12,7 @@ change_shell_to_zsh() {
     if command -v zsh >/dev/null; then
         echo "zsh already installed."
     else
-        $sudo apt-get install -y zsh || echo "zsh install failed." >> "${HOME}/which"
+        $sudo apt-get install -y zsh || echo "zsh install failed."
     fi
 
     zsh_path=$(command -v zsh)
@@ -22,12 +22,11 @@ change_shell_to_zsh() {
     fi
 
     # ZDOTDIRを設定
-    if [ -d ${HOME}/.config/zsh ]; then
+    if [ -d "${HOME}/.config/zsh" ]; then
         export ZDOTDIR=${HOME}/.config/zsh
-        ls -la ${HOME}/.config/zsh
     else
         echo "zsh config directory not found."
-        export ZDOTDIR=${HOME}
+        export ZDOTDIR="${HOME}"
     fi
 
     # シンボリックリンクを作成
@@ -37,7 +36,7 @@ change_shell_to_zsh() {
 
     echo "Your shell is ${SHELL}"
     echo "zsh default shell changed to ${zsh_path}."
-    zsh --version >> ${HOME}/which || echo "zsh not found" >> ${HOME}/which
+    zsh --version || echo "zsh not found"
 }
 
 activate_mise() {
@@ -66,15 +65,19 @@ install_mise() {
     fi
 
     export PATH="${HOME}/.local/bin:${HOME}/.local/share/mise/shims:${HOME}/.local/bin:${HOME}/.local/share/mise/installs:$PATH"
-    activate_mise
-    mise --version >> "${HOME}/which" || echo "mise not found" >> "${HOME}/which"
+
+    mkdir -p "${HOME}/.config/mise"
+    export MISE_CONFIG_DIR="${HOME}/.config/mise"
+    eval "$(mise activate bash)"
+
+    mise --version || echo "mise not found"
+
+    if [ -f "${HOME}/.config/mise.toml" ]; then
+        mise bootsttrap -y || echo "mise bootsttrap failed."
+    fi
 
     if [ -f "${HOME}/.config/mise/config.toml" ]; then
         mise i -y || echo "mise install failed."
-    fi
-    
-    if [ -f "${HOME}/.config/mise.toml" ]; then
-        mise bootsttrap -y || echo "mise bootsttrap failed."
     fi
 
     echo "mise setup completed."
@@ -88,7 +91,7 @@ install_flatpak() {
         $sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
         echo "flatpak installed."
     fi
-    flatpak --version >> "${HOME}"/which || echo "flatpak not found" >> "${HOME}"/which
+    flatpak --version || echo "flatpak not found"
 }
 
 install_go_aqua() {
@@ -101,7 +104,7 @@ install_go_aqua() {
     else
         echo "go not found"
     fi
-    go version >> "${HOME}"/which || echo "go not found" >> "${HOME}"/which
+    go version || echo "go not found"
 
     if command -v aqua >/dev/null 2>&1; then
         echo "aqua already installed."
@@ -112,7 +115,7 @@ install_go_aqua() {
     else
         echo "aqua not found"
     fi
-    aqua --version >> "${HOME}/which" || echo "aqua not found" >> "${HOME}/which"
+    aqua --version || echo "aqua not found"
 }
 
 install_mkcert() {
@@ -126,7 +129,7 @@ install_mkcert() {
         echo "mkcert install failed."
     fi
     mkcert -install || echo "mkcert not setup"
-    mkcert --version >> "${HOME}/which" || echo "mkcert not found" >> "${HOME}/which"
+    mkcert --version || echo "mkcert not found"
 }
 
 echo "cli.sh"
@@ -136,8 +139,5 @@ install_mise
 install_flatpak
 install_go_aqua
 install_mkcert
-echo "--------------------------------"
-cat "${HOME}/which" && rm -f "${HOME}/which"
-echo "--------------------------------"
 echo "CLI tools install done."
 echo "--------------------------------"

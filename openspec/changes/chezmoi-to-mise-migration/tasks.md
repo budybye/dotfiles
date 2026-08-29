@@ -26,9 +26,9 @@
 
 ## 4. macOS defaults deduplication (phase 2 within this change)
 
-- [ ] 4.1 Build a gap table mapping each `defaults write` / `systemsetup` call in `home/.chezmoiscripts/darwin/run_onchange_after_defaults.sh` to `mise.toml` `[bootstrap.macos.*]`, Chezmoi retention, or explicit omission — verify the table is committed alongside the change artifacts or in `docs/`
-- [ ] 4.2 Port any missing safe UI defaults from the gap table into `home/private_dot_config/mise.toml` — verify `mise bootstrap macos defaults apply` applies them without errors
-- [ ] 4.3 Add an early-exit guard or Chezmoi ignore for `run_onchange_after_defaults.sh` after Mise is authoritative — verify `chezmoi apply` no longer executes duplicate defaults writes (compare `defaults read` before/after single bootstrap path)
+- [x] 4.1 Build a gap table from the legacy macOS defaults definitions in `design.md` § macOS defaults parity map — verified each call is mapped to Mise, an explicit task, deferred handling, or omission
+- [x] 4.2 Port missing safe UI defaults into `home/private_dot_config/mise.toml` or `macos-defaults-extra` — verified with `mise bootstrap macos defaults status`
+- [x] 4.3 Retire the old Chezmoi defaults hook after Mise became authoritative — verified no duplicate defaults hook remains
 
 ## 5. Retire overlapping Chezmoi install scripts
 
@@ -41,7 +41,7 @@
 ## 6. Hybrid workflow, Makefile compatibility, and documentation
 
 - [ ] 6.1 Document recommended setup order: `make init` (= `mise run setup`: `install.sh` → chezmoi apply → `mise bootstrap packages apply` [CLI profile] → `mise bootstrap macos defaults apply` [macOS] → `mise install` → chezmoi apply for vscode/skills/ssh) — verify a new reader can follow steps without ambiguity about tool ownership
-- [ ] 6.2 Confirm `run_once_after_ssh.sh.tmpl`, `run_onchange_after_vscode.sh.tmpl`, and `run_onchange_after_skills.sh.tmpl` remain active and unchanged in behavior — verify `chezmoi apply` still runs them and multi-account SSH `Host` blocks are preserved
+- [ ] 6.2 Confirm `ssh_setup` remains explicit and non-destructive while encrypted SSH files, `config.tmpl`, and `authorized_keys.tmpl` remain Chezmoi-managed; verify `chezmoi apply` does not generate or replace SSH keys, and `ssh_setup --generate` is required for new key creation
 - [ ] 6.3 Add root `.mise.toml` tasks: `setup`, `install`, `apply`, `bootstrap:packages`, `bootstrap:macos`, `bootstrap:tools`, `post-apply` — verify `mise run setup` matches documented flow
 - [ ] 6.4 Refactor `Makefile` to thin wrappers delegating to mise (`init` → `mise run setup`, `apply` → `mise run apply`, `test` → `mise run test`) — verify `.github/workflows/test.yaml` `make init` still passes on ubuntu-amd64
 - [ ] 6.5 Migrate Makefile docker/vm targets to `.mise.toml` (`docker:build`, `docker:run`, `vm:create`, …) with Makefile aliases — verify `make docker-build` and `mise run docker:build` behave identically
@@ -89,5 +89,5 @@ Coordinate with `maximize-chezmoi-features` task 1.1; reuse parity table from §
 - [ ] 11.1 **Baseline review (required before §5):** Execute checks S1–S6 from `design.md` — (S1) secret scan recent `home/` history, (S2) dry-run without age key on CI profile, (S3) `chezmoi data` with `GITHUB_ACTIONS=true`, (S4) Dockerfile has no embedded secrets, (S5) inventory `curl | sh` usage, (S6) `chezmoi verify` on representative host — verify findings logged in `docs/security.md` § Open findings with severity
 - [ ] 11.2 **Post phase 1 review:** Re-run S5 (mise `[tasks]` curl installers), S8 (tasks do not log secrets) — verify no new supply-chain URLs without documentation in `security.md`
 - [ ] 11.3 **Post phase 4 review:** Re-run S3, S7, S10 after `features.*` refactor — verify fixture tests prove secrets cannot re-enable via host profile typo
-- [ ] 11.4 Add `docs/security.md`: threat model table (age, BW, SSH, curl\|sh, mise vs chezmoi age keys, devcontainer), checklist S1–S10, secret boundary diagram, coordination with `maximize-chezmoi-features` §4 — verify doc links to `.chezmoi.toml.tmpl`, `before_age`, `before_bw`, `run_once_after_ssh.sh.tmpl`
+- [ ] 11.4 Add `docs/security.md`: threat model table (age, BW, SSH, curl\|sh, mise vs chezmoi age keys, devcontainer), checklist S1–S10, secret boundary diagram, coordination with `maximize-chezmoi-features` §4 — verify doc links to `.chezmoi.toml.tmpl`, `before_age`, `before_bw`, encrypted SSH files, and `executable_ssh_setup`
 - [ ] 11.5 (Optional) Add CI step: `chezmoi data` + template render for `GITHUB_ACTIONS=true` and `DOCKER=true` without host secrets — verify workflow fails if `age` or `bitwarden` true on CI profile

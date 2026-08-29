@@ -11,7 +11,7 @@ macOS user-interface and application defaults that are safe to apply declarative
 #### Scenario: Finder defaults applied by mise bootstrap
 
 - **WHEN** `mise bootstrap macos defaults apply` runs on macOS
-- **THEN** Finder-related defaults declared in `mise.toml` are written to the system without running `run_onchange_after_defaults.sh`
+- **THEN** Finder-related defaults declared in `mise.toml` are written to the system without a Chezmoi defaults hook
 
 #### Scenario: No duplicate defaults writes
 
@@ -34,7 +34,7 @@ macOS operations requiring `sudo` or `systemsetup`/`scutil` (hostname, remote lo
 
 ### Requirement: macOS defaults parity check
 
-Before retiring `run_onchange_after_defaults.sh`, the system SHALL document which `defaults write` / `systemsetup` calls from that script are covered by `mise.toml`, intentionally omitted, or deferred.
+The system SHALL document which `defaults write` / `systemsetup` calls are covered by Mise, handled by an explicit task, intentionally omitted, or deferred.
 
 #### Scenario: Gap analysis recorded
 

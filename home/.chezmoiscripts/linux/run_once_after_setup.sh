@@ -93,10 +93,13 @@ japan_setup() {
 # xrdp リモートデスクトップ: 表示マネージャー・グループ・ファイアウォール
 xrdp_setup() {
     echo "xrdp setup start..."
-    # デフォルトのセッションマネージャーを xfce4-session に設定
-    $sudo update-alternatives --set x-session-manager /usr/bin/xfce4-session
-    # $sudo update-alternatives --set x-session-manager /usr/bin/startxfce4
-
+    if command -v xfce4-session >/dev/null 2>&1; then
+        xfce_session="$(command -v xfce4-session)"
+        $sudo update-alternatives --install /usr/bin/x-session-manager x-session-manager "${xfce_session}" 60
+        $sudo update-alternatives --set x-session-manager "${xfce_session}"
+    else
+        echo "xfce4-session not found; skipping x-session-manager setup." >&2
+    fi
     # wayland で起動する場合
     # startxfce4 --wayland
 
