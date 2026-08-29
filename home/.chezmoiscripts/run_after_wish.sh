@@ -2,7 +2,7 @@
 set -eu
 
 DOTFILES_DIR="${HOME}/dotfiles"
-SOURCE_DIR="$(chezmoi source-path)"
+SOURCE_DIR="${CHEZMOI_SOURCE_DIR:?CHEZMOI_SOURCE_DIR is required}"
 SOURCE_DIR="$(cd -P -- "${SOURCE_DIR}" && pwd -P)"
 
 if [ -e "${DOTFILES_DIR}" ]; then
