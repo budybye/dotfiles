@@ -39,16 +39,6 @@ change_shell_to_zsh() {
     zsh --version || echo "zsh not found"
 }
 
-activate_mise() {
-    if ! command -v mise >/dev/null 2>&1; then
-        return 0
-    fi
-
-    mkdir -p "${HOME}/.config/mise"
-    export MISE_CONFIG_DIR="${HOME}/.config/mise"
-    eval "$(mise activate bash)"
-}
-
 install_mise() {
     if command -v mise >/dev/null 2>&1; then
         echo "mise already installed."
@@ -73,7 +63,7 @@ install_mise() {
     mise --version || echo "mise not found"
 
     if [ -f "${HOME}/.config/mise.toml" ]; then
-        mise bootsttrap -y || echo "mise bootsttrap failed."
+        mise bootstrap -y || echo "mise bootstrap failed."
     fi
 
     if [ -f "${HOME}/.config/mise/config.toml" ]; then

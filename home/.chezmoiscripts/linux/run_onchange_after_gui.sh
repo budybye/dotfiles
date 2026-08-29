@@ -260,17 +260,17 @@ echo "--------------------------------"
 desktop_setup
 install_brave_browser
 install_cloudflare_warp
-install_cursor
+# install_cursor
 install_element_desktop
 install_github_desktop
 install_ruby_fusuma
-install_tabby_terminal
-install_vscode
+# install_tabby_terminal
+# install_vscode
 # install_wireshark
 install_zen
 install_ghostty
 install_obsidian
-install_opencode
+# install_opencode
 
 echo "--------------------------------"
 echo "desktop setup complete"
