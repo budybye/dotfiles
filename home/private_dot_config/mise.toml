@@ -213,7 +213,6 @@ done
 "apt:libgmp-dev" = { os = "linux" }
 "apt:libgmpxx4ldbl" = { os = "linux" }
 "apt:libgdbm-compat-dev" = { os = "linux" }
-"apt:libstd-rust-1.75" = { os = "linux" }
 "apt:libstd-rust-dev" = { os = "linux" }
 "apt:libncurses5-dev" = { os = "linux" }
 "apt:libffi-dev" = { os = "linux" }
@@ -235,7 +234,6 @@ done
 "apt:rsyslog" = { os = "linux" }
 "apt:im-config" = { os = "linux" }
 "apt:ruby" = { os = "linux" }
-"apt:nx" = { os = "linux" }
 "apt:oneko" = { os = "linux" }
 "apt:nyancat" = { os = "linux" }
 "apt:command-not-found" = { os = "linux" }
@@ -269,7 +267,7 @@ done
 
 "apt:plank" = { os = "linux" }
 "apt:picard" = { os = "linux" }
-"apt:freerdp" = { os = "linux" }
+"apt:freerdp-x11" = { os = "linux" }
 "apt:remmina" = { os = "linux" }
 "apt:xclip" = { os = "linux" }
 
