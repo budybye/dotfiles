@@ -213,7 +213,7 @@ hyperfine = "latest"
 
 rtk = "latest"           # rtk-ai/rtk (Rust)
 herdr = "latest"    # ogulcancelik/herdr (Rust)
-tokei = "latest"
+# tokei = "latest"
 # choose = "latest"
 # oxlint = "latest"
 

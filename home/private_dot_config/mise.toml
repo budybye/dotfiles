@@ -164,7 +164,7 @@ done
 "brew-cask:keyclu" = { os = "macos" }
 "brew-cask:musicbrainz-picard" = { os = "macos" }
 "brew-cask:obsidian" = { os = "macos" }
-"brew-cask:onyx" = { os = "macos" }
+# "brew-cask:onyx" = { os = "macos" } # なぜかエラー
 "brew-cask:orbstack" = { os = "macos" }
 "brew-cask:raycast" = { os = "macos" }
 "brew-cask:tradingview" = { os = "macos" }
