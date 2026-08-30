@@ -186,11 +186,12 @@ packages:
       # - 'codium' arm64
     latest:
       - 'brave'
+      - 'element-desktop'
       - "multipass"
+      # - "microk8s"
       # - "chromium"
       # - "clipboard"
       # - 'bitwarden'
-      # - 'element-desktop'
       # - 'postman'
       # - "speedtest-cli"
 

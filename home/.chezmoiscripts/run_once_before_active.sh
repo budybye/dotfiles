@@ -17,6 +17,7 @@ if ! command -v mise >/dev/null 2>&1; then
     export MISE_CONFIG_DIR="${HOME}/.config/mise"
     mkdir -p "${MISE_CONFIG_DIR}"
     eval "$(mise activate bash)"
+    mise dr || echo "don't mind"
 fi
 
 mise --version

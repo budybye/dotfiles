@@ -17,15 +17,15 @@ pnpm = "latest"
 # AI / agent / DX
 pi = "latest"            # earendil-works/pi (TypeScript)
 wacli = "latest"         # whats up
-copilot = "latest"
-opencode = "latest"      # anomalyco/opencode (TypeScript)
+# copilot = "latest"
+# opencode = "latest"      # anomalyco/opencode (TypeScript)
 # gemini = "latest"
 # codex = "latest"
 orval = "latest"
 
 # secrets / config (JS/TS)
 bitwarden = "latest"     # bitwarden/clients (TypeScript)
-dotenvx = "latest"
+# dotenvx = "latest"
 # bitwarden-secrets-manager = "latest"
 
 # cloud / SaaS / DX (JS/TS)
@@ -150,7 +150,7 @@ fx = "latest"
 ubi = "latest"
 fzf = "latest"
 checkmake = "latest"
-sampler = "latest"
+# sampler = "latest"
 topgrade = "latest" # tui
 glow = "latest"
 # gum = "latest"
@@ -222,15 +222,15 @@ dua = "latest"
 dust = "latest"
 bottom = "latest"
 coreutils = "latest"
-tlrc = "latest"
+# tlrc = "latest"
 lychee = "latest"
-ripsecrets = "latest"
-mdbook = "latest"
+# ripsecrets = "latest"
+# mdbook = "latest"
 yazi = "latest"
 
 # HTTP / markdown
 hurl = "latest"
-htmlq = "latest"
+# htmlq = "latest"
 railway = "latest"
 ast-grep = "latest"
 # websocat = "latest"  # registry 名。下記 github:vi/websocat を使用
@@ -268,18 +268,18 @@ ast-grep = "latest"
 "cargo:cloudflare/boringtun" = "latest"
 "cargo:denisidoro/navi" = "latest" # file 
 "cargo:denoland/celld" = "latest" # self-host durable objects
-"cargo:choose" = "latest" 
 "cargo:orhun/kmon" = "latest" 
-"cargo:alacritty" = "latest"
-"cargo:gitlogue" = "latest"
-"cargo:gittype" = "latest"
+# "cargo:choose" = "latest" 
+# "cargo:alacritty" = "latest"
+# "cargo:gitlogue" = "latest"
+# "cargo:gittype" = "latest"
 
-"cargo:rustlings" = "latest" 
-"cargo:cargo-audit" = "latest" 
-"cargo:cargo-deny" = "latest" 
-"cargo:cargo-generate" = "latest" 
-"cargo:cargo-leptos" = "latest" 
-"cargo:worker-build" = "latest" 
+# "cargo:rustlings" = "latest" 
+# "cargo:cargo-audit" = "latest" 
+# "cargo:cargo-deny" = "latest" 
+# "cargo:cargo-generate" = "latest" 
+# "cargo:cargo-leptos" = "latest" 
+# "cargo:worker-build" = "latest" 
 
 # "cargo:vaultwarden" = "latest" 
 # "cargo:abenz1267/walker" = "latest"
@@ -401,7 +401,7 @@ ffmpeg = "latest"        # C
 "github:scop/bash-completion" = "latest"
 
 # desktop / GUI（無効化中・用途グループ）
-"github:ownself/wewa" = "latest" # rust web-wall-papper
+# "github:ownself/wewa" = "latest" # rust web-wall-papper
 # "github:nix-community/home-manager" = "latest" # Nix
 # "github:freerdp/freerdp" = "latest"
 

@@ -17,9 +17,9 @@
   "remoteEnv": {
     "REMOTE_CONTAINERS": "true",
   },
-  "features": {
-    "ghcr.io/coder/devcontainer-features/code-server:1": {},
-  },
+  // "features": {
+    // "ghcr.io/coder/devcontainer-features/code-server:1": {},
+  // },
   "customizations": {
     "vscode": {
       "settings": {

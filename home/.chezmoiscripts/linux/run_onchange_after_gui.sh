@@ -165,6 +165,15 @@ install_wireshark() {
     fi
 }
 
+install_zen() {
+    local zen_dir="${HOME}/.tarball-installations/zen"
+    if [ -x "${zen_dir}/zen" ]; then
+        echo "zen already installed."
+        return
+    fi
+    curl -fsSL https://github.com/zen-browser/updates-server/raw/refs/heads/main/install.sh | sh
+    echo "zen latest installed."
+}
 
 install_emdash() {
     APP_DIR="${HOME}/Applications"
@@ -265,18 +274,19 @@ echo "system setup"
 echo "--------------------------------"
 # desktop_setup
 # install_brave_browser
-# install_cursor
+# install_element_desktop
+# install_ghostty
+# install_obsidian
+# install_vscode
+install_cursor
 install_cloudflare_warp
-install_element_desktop
 install_github_desktop
 install_ruby_fusuma
 # install_tabby_terminal
-# install_vscode
 # install_wireshark
-# install_ghostty
-# install_obsidian
 # install_opencode
 install_zed
+install_zen
 
 echo "--------------------------------"
 echo "desktop setup complete"
