@@ -56,6 +56,8 @@ install_mise() {
 
     if [ -f "${HOME}/.config/mise.toml" ]; then
         mise bootstrap packages apply --manager brew -y || echo "mise bootstrap failed."
+        mise bootstrap packages apply --manager brew-cask -y || echo "mise bootstrap failed."
+        # mise bootstrap packages apply --manager mas -y || echo "mise bootstrap failed."
     fi
     
     if [ -f "${HOME}/.config/mise/config.toml" ]; then

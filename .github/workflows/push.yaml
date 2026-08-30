@@ -75,7 +75,7 @@ jobs:
             org.opencontainers.image.documentation=https://github.com/budybye/ubuntu-dev/blob/main/README.md
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@v4
         with:
           use: true
 
@@ -193,7 +193,7 @@ jobs:
 
       - name: Docker compose action
         if: matrix.flavor.name == 'slim'
-        uses: hoverkraft-tech/compose-action@v2
+        uses: hoverkraft-tech/compose-action@v3
         with:
           compose-file: .devcontainer/compose.yaml
           services: |

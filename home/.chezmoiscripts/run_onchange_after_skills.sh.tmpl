@@ -8,7 +8,7 @@ echo "skills.sh"
 echo "--------------------------------"
 
 {{ range .packages.agents.skills -}}
-npx skills add {{ . }} -g -y || echo "skill install failed: {{ . }}"
+npx skills add {{ . }} -g -y -a zed || echo "skill install failed: {{ . }}"
 {{ end -}}
 
 echo "--------------------------------"
