@@ -61,7 +61,6 @@ install_docker() {
 echo "docker.sh"
 echo "--------------------------------"
 install_docker
-# install_act
 echo "--------------------------------"
 echo "Docker setup done!!"
 echo "--------------------------------"

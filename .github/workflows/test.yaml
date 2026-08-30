@@ -68,6 +68,10 @@ jobs:
           sudo apt-get autoclean -y >/dev/null 2>&1 || true
           df -h
       - uses: actions/checkout@v6
+      - name: Configure Mise CI profile
+        run: |
+          echo "MISE_CONFIG_FILE=${HOME}/.config/mise/ci.toml" >> "$GITHUB_ENV"
+          echo "MISE_GLOBAL_CONFIG_FILE=${HOME}/.config/mise/config.toml" >> "$GITHUB_ENV"
       - name: make
         run: make init
 
@@ -77,18 +81,48 @@ jobs:
       MISE_GITHUB_TOKEN: ${{ secrets.MISE_GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v6
+      - name: Configure Mise CI profile
+        run: |
+          echo "MISE_CONFIG_FILE=${HOME}/.config/mise/ci.toml" >> "$GITHUB_ENV"
+          echo "MISE_GLOBAL_CONFIG_FILE=${HOME}/.config/mise/config.toml" >> "$GITHUB_ENV"
       - name: make
         run: make init
 
   darwin:
-    # runs-on: macos-latest
     runs-on: macos-26
+    timeout-minutes: 60
     env:
       MISE_GITHUB_TOKEN: ${{ secrets.MISE_GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v6
+      - name: Configure Mise CI profile
+        run: |
+          echo "MISE_CONFIG_FILE=${HOME}/.config/mise/ci.toml" >> "$GITHUB_ENV"
+          echo "MISE_GLOBAL_CONFIG_FILE=${HOME}/.config/mise/config.toml" >> "$GITHUB_ENV"
       - name: make
         run: make init
+      - name: Bootstrap Homebrew formulae
+        run: mise bootstrap packages apply --manager brew -y
+      - name: Bootstrap Homebrew casks
+        id: brew_cask
+        continue-on-error: true
+        run: mise bootstrap packages apply --manager brew-cask -y
+      - name: Bootstrap Mac App Store
+        id: mas
+        continue-on-error: true
+        run: mise bootstrap packages apply --manager mas -y
+      - name: Apply macOS defaults
+        run: mise bootstrap macos defaults apply -y
+      - name: Apply macOS LaunchAgents
+        run: mise bootstrap macos launchd-agents apply -y
+      - name: Summarize optional bootstrap warnings
+        if: always()
+        run: |
+          {
+            echo "## macOS bootstrap optional managers"
+            echo "- brew-cask: ${{ steps.brew_cask.outcome }}"
+            echo "- mas: ${{ steps.mas.outcome }}"
+          } >> "$GITHUB_STEP_SUMMARY"
 
   powershell:
     runs-on: windows-latest

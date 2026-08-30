@@ -95,15 +95,9 @@ RUN apt-get install -y \
     flatpak
 
 RUN apt-get install -y \
-    fortune-mod \
-    figlet \
-    cmatrix \
     command-not-found \
     oneko \
-    cowsay \
-    lolcat \
-    nyancat \
-    translate-shell
+    nyancat
 
 # devユーザー設定
 ARG DEV=dev

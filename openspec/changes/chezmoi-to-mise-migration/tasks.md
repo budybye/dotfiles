@@ -40,13 +40,15 @@
 
 ## 6. Hybrid workflow, Makefile compatibility, and documentation
 
-- [ ] 6.1 Document recommended setup order: `make init` (= `mise run setup`: `install.sh` → chezmoi apply → `mise bootstrap packages apply` [CLI profile] → `mise bootstrap macos defaults apply` [macOS] → `mise install` → chezmoi apply for vscode/skills/ssh) — verify a new reader can follow steps without ambiguity about tool ownership
+- [x] 6.1 Document profile-specific setup: local `make init`; Mac CI `make init` then brew/brew-cask/mas/defaults/launchd workflow steps; Ubuntu CI `ci.toml`; Docker `docker.toml` — verified in `docs/bootstrap.md`
 - [ ] 6.2 Confirm `ssh_setup` remains explicit and non-destructive while encrypted SSH files, `config.tmpl`, and `authorized_keys.tmpl` remain Chezmoi-managed; verify `chezmoi apply` does not generate or replace SSH keys, and `ssh_setup --generate` is required for new key creation
 - [ ] 6.3 Add root `.mise.toml` tasks: `setup`, `install`, `apply`, `bootstrap:packages`, `bootstrap:macos`, `bootstrap:tools`, `post-apply` — verify `mise run setup` matches documented flow
 - [ ] 6.4 Refactor `Makefile` to thin wrappers delegating to mise (`init` → `mise run setup`, `apply` → `mise run apply`, `test` → `mise run test`) — verify `.github/workflows/test.yaml` `make init` still passes on ubuntu-amd64
 - [ ] 6.5 Migrate Makefile docker/vm targets to `.mise.toml` (`docker:build`, `docker:run`, `vm:create`, …) with Makefile aliases — verify `make docker-build` and `mise run docker:build` behave identically
 - [ ] 6.6 Document zsh stack: ZDOTDIR (`dot_zshenv`) + chezmoi `~/.config/zsh/*` + sheldon (`plugins.toml`) + mise activate in `.zshrc` + platform-specific login shell handling — verify fresh Linux `make init` lands in zsh with sheldon and mise on PATH
-- [ ] 6.7 Document Linux profiles: CLI-only (CI/headless) vs GUI (xfce/xrdp + `run_once_after_setup.sh`) vs Docker (`DOCKER=true` guards) — verify CLI profile does not pull GUI packages
+- [x] 6.7 Document Linux profiles: CLI-only (CI/headless) vs GUI (Ubuntu VM xfce/xrdp + `run_once_after_setup.sh`) vs Docker (`DOCKER=true` guards) — verified in `docs/platform-matrix.md`
+- [x] 6.8 Add `home/private_dot_config/mise/ci.toml` (macOS full / Linux CLI) and `docker.toml` (Linux CLI only); verify both parse independently
+- [x] 6.9 Rename current image flavor `slim` to `full`, preserve separate `dev`, retain temporary `slim` full alias, and remove full/dev registry cache — verify workflow YAML parses
 
 ## 7. Docker simplification (phase 3 — optional within this change)
 
@@ -57,7 +59,7 @@
 
 ## 8. Validation and rollback readiness
 
-- [ ] 8.1 Run `openspec validate chezmoi-to-mise-migration --strict` after implementation — verify validation passes
+- [x] 8.1 Run `openspec validate chezmoi-to-mise-migration --strict` after implementation — verified validation passes
 - [ ] 8.2 Run `chezmoi apply --dry-run` and `mise bootstrap packages status` on each supported OS in scope — verify no template errors and bootstrap status is clean
 - [ ] 8.3 Document rollback steps (re-enable Chezmoi scripts, restore `packages.yaml` lists from git, restore Makefile if needed) in `design.md` Migration Plan section — verify rollback instructions reference specific files and guards added in tasks 5.x
 

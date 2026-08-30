@@ -1,4 +1,4 @@
-name: ubuntu
+name: dev
 services:
   ubuntu:
     build:
@@ -27,6 +27,11 @@ services:
   # rdp,ssh はzerotrustで設定するとできる
   # tunnel:
   #   image: cloudflare/cloudflared
+  #   command: tunnel --url ${TUNNEL_URL:-http://ubuntu:3389}
   #   command: tunnel run --token ${TUNNEL_TOKEN:-}
   #   restart: unless-stopped
-  #   extra_hosts: ["host.docker.internal:host-gateway"]
+  # extra_hosts: ["host.docker.internal:host-gateway"]
+  
+secrets:
+  github_token:
+    environment: GITHUB_TOKEN

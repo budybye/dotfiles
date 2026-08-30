@@ -36,7 +36,7 @@ jobs:
           - linux/amd64
           - linux/arm64
         flavor:
-          - name: slim
+          - name: full
           - name: dev
         include:
           # ARM64ビルド用の設定
@@ -61,7 +61,7 @@ jobs:
       #   uses: docker/setup-qemu-action@v3
 
       - name: Docker meta
-        if: matrix.flavor.name == 'slim'
+        if: matrix.flavor.name == 'full'
         id: meta
         uses: docker/metadata-action@v6
         with:
@@ -137,20 +137,21 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push by digest
-        if: matrix.flavor.name == 'slim'
+        if: matrix.flavor.name == 'full'
         id: build
         uses: docker/build-push-action@v7
         with:
           context: .devcontainer
           platforms: ${{ matrix.platform }}
-          cache-from: type=registry,ref=${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }}
-          cache-to: type=registry,ref=${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }},mode=max
+          # cache-from: type=registry,ref=${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }}
+          # cache-to: type=registry,ref=${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }},mode=max
+          tags: ${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }}-full
           labels: ${{ steps.meta.outputs.labels }}
           annotations: ${{ steps.meta.outputs.annotations }}
           outputs: type=image,name=${{ env.REGISTRY_IMAGE }},push-by-digest=true,name-canonical=true,push=true
 
-      - name: Set slim digest
-        if: matrix.flavor.name == 'slim'
+      - name: Set full digest
+        if: matrix.flavor.name == 'full'
         run: |
           mkdir -p /tmp/digests
           digest="${{ steps.build.outputs.digest }}"
@@ -215,7 +216,7 @@ jobs:
       matrix:
         flavor:
           - name: dev
-          - name: slim
+          - name: full
     steps:
       - name: Download digests
         uses: actions/download-artifact@v8
@@ -228,7 +229,7 @@ jobs:
         uses: docker/setup-buildx-action@v4
 
       - name: Docker meta
-        if: matrix.flavor.name == 'slim'
+        if: matrix.flavor.name == 'full'
         id: meta
         uses: docker/metadata-action@v6
         with:
@@ -248,10 +249,14 @@ jobs:
 
         # semver タグ push 時のみ latest / 0.8.x を付与
       - name: Create manifest list and push
-        if: matrix.flavor.name == 'slim'
+        if: matrix.flavor.name == 'full'
         working-directory: /tmp/digests
         run: |
-          docker buildx imagetools create $(jq -cr '.tags | map("-t " + .) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON") \
+          # docker buildx imagetools create $(jq -cr '.tags | map("-t " + .) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON") \
+          docker buildx imagetools create \
+            -t "${{ env.REGISTRY_IMAGE }}:full" \
+            -t "${{ env.REGISTRY_IMAGE }}:slim" \
+            $(jq -cr '.tags | map("-t " + .) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON") \
             $(printf '${{ env.REGISTRY_IMAGE }}@sha256:%s ' *)
 
           # マニフェストリストを確認
