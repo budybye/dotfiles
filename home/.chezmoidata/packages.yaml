@@ -1,21 +1,21 @@
 packages:
   darwin:
     formula:
+      - "cask"
+      - "mas"
       # 基本系
       - "git"
       - "curl"
-      - "cask"
       - "make"
       - "zsh"
-      - "mas"
+      - "bash"
       - "tree"
       # 開発系
       # - "autoconf"
       - "automake"
       # - "ain"
-      - "bash"
       # - "bash-completion"
-      - "byobu"
+      # - "byobu"
       # - "ddgr"
       # - "ca-certificates"
 
@@ -25,7 +25,7 @@ packages:
       # - "figlet"
 
       # 音楽系
-      - "mackup"
+      # - "mackup"
       - "mpd"
       - "ncmpcpp"
       # - 'ffmpeg'
@@ -53,16 +53,13 @@ packages:
       - "brave-browser"
       - "cloudflare-warp"
       - "cursor"
-      # - "discord"
       - "font-hackgen-nerd"
       - "github"
-      - "google-chrome"
       - "musicbrainz-picard"
       - "obsidian"
       - "onyx"
       - "raycast"
       - "ghostty"
-      # - "visual-studio-code"
       - "zen"
       - "zed"
 
@@ -183,14 +180,14 @@ packages:
   snap:
     classic:
       - 'obsidian'
+      - "ghostty"
       # - "alacritty"
-      # - "ghostty"
       # - 'code' amd64
       # - 'codium' arm64
     latest:
-      - "chromium"
-      - "multipass"
       - 'brave'
+      - "multipass"
+      # - "chromium"
       # - "clipboard"
       # - 'bitwarden'
       # - 'element-desktop'

@@ -85,10 +85,18 @@ install_github_desktop() {
     if command -v github-desktop >/dev/null 2>&1; then
         echo "github desktop already installed."
     else
-        $sudo curl -L "https://github.com/shiftkey/desktop/releases/download/release-3.4.3-linux1/GitHubDesktop-linux-${arch}-3.4.3-linux1.deb -o GitHubDesktop-linux-${arch}-3.4.3-linux1.deb"
-        $sudo dpkg -i "GitHubDesktop-linux-${arch}-3.4.3-linux1.deb" || echo "github desktop install failed."
-        $sudo rm -f "GitHubDesktop-linux-${arch}-3.4.3-linux1.deb"
-        echo "github desktop installed."
+        local version="3.4.13"
+        local release="release-${version}-linux1"
+        local deb="/tmp/GitHubDesktop-linux-${arch}-${version}-linux1.deb"
+        local url="https://github.com/shiftkey/desktop/releases/download/${release}/GitHubDesktop-linux-${arch}-${version}-linux1.deb"
+
+        $sudo curl -fsSL "${url}" -o "${deb}"
+        $sudo dpkg -i "${deb}" || {
+            $sudo apt-get install -f -y
+            $sudo dpkg -i "${deb}"
+        }
+        $sudo rm -f "${deb}"
+        echo "github desktop ${version} installed."
     fi
 }
 
@@ -157,14 +165,6 @@ install_wireshark() {
     fi
 }
 
-install_zen() {
-    if command -v zen >/dev/null 2>&1; then
-        echo "zen already installed."
-    else
-        curl -f https://zed.dev/install.sh | sh
-        echo "zen installed."
-    fi
-}
 
 install_emdash() {
     APP_DIR="${HOME}/Applications"
@@ -195,6 +195,12 @@ install_ghostty() {
     $sudo apt-get update -y
     $sudo apt-get install -y ghostty || echo "ghostty install failed."
     echo "ghostty installed."
+}
+
+install_zed() {
+    echo "checking latest zed..."
+    curl -fsSL https://zed.dev/install.sh | sh
+    echo "zed latest installed."
 }
 
 install_obsidian() {
@@ -257,20 +263,20 @@ echo "gui.sh"
 echo "--------------------------------"
 echo "system setup"
 echo "--------------------------------"
-desktop_setup
-install_brave_browser
-install_cloudflare_warp
+# desktop_setup
+# install_brave_browser
 # install_cursor
+install_cloudflare_warp
 install_element_desktop
 install_github_desktop
 install_ruby_fusuma
 # install_tabby_terminal
 # install_vscode
 # install_wireshark
-install_zen
-install_ghostty
-install_obsidian
+# install_ghostty
+# install_obsidian
 # install_opencode
+install_zed
 
 echo "--------------------------------"
 echo "desktop setup complete"

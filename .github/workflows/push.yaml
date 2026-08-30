@@ -21,6 +21,7 @@ concurrency:
 env:
   REGISTRY_IMAGE: ghcr.io/budybye/ubuntu-dev
   MISE_GITHUB_TOKEN: ${{ secrets.MISE_GITHUB_TOKEN }}
+  GITHUB_TOKEN: ${{ secrets.MISE_GITHUB_TOKEN }}
 jobs:
   build:
     # 3時間

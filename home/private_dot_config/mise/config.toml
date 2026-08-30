@@ -72,7 +72,7 @@ watchexec = "latest" # auto runner
 "npm:@fission-ai/openspec" = "latest"
 "npm:@jackwener/opencli" = "latest"
 "npm:ctx7" = "latest"
-"npm:@context-labs/autodoc" = "latest"
+# "npm:@context-labs/autodoc" = "latest"
 "npm:react-doctor" = "latest"
 "npm:jj-stack" = "latest"
 "npm:jj-ryu" = "latest"
@@ -338,7 +338,7 @@ ninja = "latest"
 # make = "latest"
 # bpkg = "latest"
  
-"vfox:version-fox/vfox-cmake" = "latest"
+# "vfox:version-fox/vfox-cmake" = "latest"
 
 # data / system
 redis = "latest"
