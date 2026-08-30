@@ -60,7 +60,7 @@ chezmoi は Go の `text/template` を使用します。`-` はアクション�
 
 - 空行はシェルではほぼ無害
 - ただし `range` でループするときは `-` を使うと出力がきれいになる
-- 例: `run_onchange_after_vscode.sh.tmpl` の `{{ range .packages.extensions -}}`
+- 例: `run_onchange_after_skills.sh.tmpl` の `{{ range .packages.agents.skills -}}`
 
 ### 構造化出力（authorized_keys, config など）
 
@@ -91,7 +91,7 @@ chezmoi は Go の `text/template` を使用します。`-` はアクション�
 | ---------------------- | -------------------------------------------------------------------------- |
 | 変数代入・制御のみの行 | `.chezmoi.toml.tmpl` の `{{- $name := "budybye" -}}`                       |
 | 条件付きブロック       | `dot_ssh/config.tmpl` の `{{- if eq .chezmoi.os "darwin" }}`               |
-| range の空行削除       | `run_onchange_after_vscode.sh.tmpl` の `{{ range .packages.extensions -}}` |
+| range の空行削除       | `run_onchange_after_skills.sh.tmpl` の `{{ range .packages.agents.skills -}}` |
 | インライン値           | `{{ .chezmoi.sourceDir }}`, `{{ .name \| quote }}`                         |
 
 ## 検証方法

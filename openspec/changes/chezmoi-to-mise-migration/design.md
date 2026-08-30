@@ -95,7 +95,7 @@ P1 + P4
 | Encrypted dotfiles (`encrypted_*`) | Audit + security review only | Encryption config, `before_age` |
 | Bitwarden (`before_bw`) | Audit + security review only | Unlock flow, template branches |
 | SSH keys/config | Audit; explicit `ssh_setup` command | Encrypted SSH files and templates remain Chezmoi-owned |
-| VS Code extensions | Slim `packages.yaml` only | `run_onchange_after_vscode.sh.tmpl` |
+| VS Code / Cursor settings | Slim `packages.yaml`; `run_onchange_after_vscode.sh` keeps Cursor symlinks only |
 | zsh / sheldon / ZDOTDIR | Document only | File layout and load order |
 | CI (`test.yaml`) | Makefile delegation | Workflow must keep passing `make init` |
 | Windows | Document in matrix | Full parity out of scope phase 1 |
@@ -261,7 +261,7 @@ See `proposal.md` for motivation. The repository today splits bootstrap concerns
 
 | Phase | Moves to Mise | Stays in Chezmoi |
 |-------|---------------|------------------|
-| **1 — Install parity** | `[bootstrap.packages]` authoritative; curl installers → `[tasks]`; disable overlapping `run_onchange_after_{bootstrap,cli,gui}.sh.tmpl` after parity | Encrypted SSH files/templates, VS Code (`run_onchange_after_vscode.sh.tmpl`), skills, snap, Linux `run_once_after_setup.sh`, Windows PS1, externals |
+| **1 — Install parity** | `[bootstrap.packages]` authoritative; curl installers → `[tasks]`; disable overlapping `run_onchange_after_{bootstrap,cli,gui}.sh.tmpl` after parity | Encrypted SSH files/templates, Cursor settings symlinks (`run_onchange_after_vscode.sh`), VS Code extensions via `devcontainer.json`, skills, snap, Linux `run_once_after_setup.sh`, Windows PS1, externals |
 | **2 — macOS defaults dedup** | `[bootstrap.macos.*]` and explicit macOS tasks own supported settings; old defaults hook retired | Privileged `systemsetup`/`scutil` operations remain outside declarative defaults |
 | **3 — Future** | Evaluate `[dotfiles]` for simple static files; `[bootstrap.repos]` for git clones | Templates with `.chezmoi.toml.tmpl` data, encryption, multi-account SSH |
 ### macOS defaults parity map

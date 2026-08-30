@@ -37,7 +37,7 @@ This repository already uses Chezmoi for dotfile deployment and lifecycle script
 - `home/.chezmoiscripts/linux/run_onchange_after_{cli,gui,snap}.sh.tmpl` — candidate for retirement after parity
 - `home/.chezmoi.toml.tmpl` — unchanged in phase 1; remains authority for host/user branching and secrets flags
 - **SSH setup command** — move optional key setup to `home/dot_local/bin/executable_ssh_setup`; keep encrypted SSH files and templates under Chezmoi.
-- `home/.chezmoiscripts/run_onchange_after_vscode.sh.tmpl` — remains in Chezmoi (per prior decision)
+- `home/.chezmoiscripts/run_onchange_after_vscode.sh` — retains Cursor settings symlinks; extension installation belongs to `.devcontainer/devcontainer.json`
 - `install.sh` — add curl mise install after chezmoi, before `chezmoi init --apply`
 - Root `.mise.toml` — add `setup` / bootstrap / docker / vm tasks; keep `Makefile` as thin compatibility wrapper (`make init` → `mise run setup`)
 - Split Linux **CLI-only** vs **GUI** bootstrap packages before retiring chezmoi gui script (CI/headless must not pull xfce/xrdp)

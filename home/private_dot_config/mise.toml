@@ -296,13 +296,13 @@ done
 # cd = "ls"
 
 # macOS user LaunchAgent: MPD only 
-[bootstrap.macos.launchd.agents.mpd]
-program = "/usr/bin/env"
-args = ["mpd", "--no-daemon"]
-run_at_load = true
-keep_alive = true
-working_directory = "~"
-environment = { PATH = "/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin" }
-stdout_path = "~/Library/Logs/mpd-launchd.log"
-stderr_path = "~/Library/Logs/mpd-launchd.err.log"
+# [bootstrap.macos.launchd.agents.mpd]
+# program = "/usr/bin/env"
+# args = ["mpd", "--no-daemon"]
+# run_at_load = true
+# keep_alive = true
+# working_directory = "~"
+# environment = { PATH = "/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin" }
+# stdout_path = "~/Library/Logs/mpd-launchd.log"
+# stderr_path = "~/Library/Logs/mpd-launchd.err.log"
 
