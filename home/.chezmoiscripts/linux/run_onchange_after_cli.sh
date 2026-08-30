@@ -61,7 +61,7 @@ install_mise() {
     mise --version || echo "mise not found"
 
     if [ -f "${HOME}/.config/mise.toml" ]; then
-        mise bootstrap packages apply -y || echo "mise bootstrap packages failed."
+        mise bootstrap packages apply --manager apt -y || echo "mise bootstrap packages failed."
     fi
 
     if [ -f "${HOME}/.config/mise/config.toml" ]; then

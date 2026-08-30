@@ -55,7 +55,7 @@ install_mise() {
     eval "$(mise activate bash)"
 
     if [ -f "${HOME}/.config/mise.toml" ]; then
-        mise bootstrap -y || echo "mise bootstrap failed."
+        mise bootstrap packages apply --manager brew -y || echo "mise bootstrap failed."
     fi
     
     if [ -f "${HOME}/.config/mise/config.toml" ]; then
