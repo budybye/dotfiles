@@ -358,7 +358,7 @@ packages:
     skills:
       # npx skills add … -g -y （run_onchange_after_skills.sh.tmpl）
       # 実体: ~/.agents/skills
-
+      - "xingkongliang/skills-manager -a"
       # mattpocock/skills
       - "mattpocock/skills -s tdd"
       - "mattpocock/skills -s grill-with-docs"

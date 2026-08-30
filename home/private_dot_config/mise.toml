@@ -306,18 +306,3 @@ environment = { PATH = "/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin" }
 stdout_path = "~/Library/Logs/mpd-launchd.log"
 stderr_path = "~/Library/Logs/mpd-launchd.err.log"
 
-# windows-app uses pkg installer choices not supported by mise.
-[tasks.macos-install-windows-app]
-description = "Install Windows App with Homebrew"
-run = """
-if [ "$(uname -s)" != "Darwin" ]; then
-  exit 0
-fi
-
-command -v brew >/dev/null 2>&1 || {
-  echo "Homebrew is required to install Windows App." >&2
-  exit 1
-}
-
-brew install --cask windows-app
-"""
