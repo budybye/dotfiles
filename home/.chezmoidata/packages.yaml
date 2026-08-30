@@ -179,8 +179,8 @@ packages:
       - "xclip"
   snap:
     classic:
-      - 'obsidian'
       - "ghostty"
+      # - 'obsidian'
       # - "alacritty"
       # - 'code' amd64
       # - 'codium' arm64

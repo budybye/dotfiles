@@ -215,7 +215,7 @@ install_zed() {
 install_obsidian() {
     # amd64: deb / arm64: AppImage (deb 未提供)
     # バージョン更新時は URL 内のバージョン番号を変更すること
-    local version="1.12.7"
+    local version="1.13.8"
     local base_url="https://github.com/obsidianmd/obsidian-releases/releases/download/v${version}"
 
     if [ "${arch}" = "amd64" ]; then
@@ -276,8 +276,8 @@ echo "--------------------------------"
 # install_brave_browser
 # install_element_desktop
 # install_ghostty
-# install_obsidian
 # install_vscode
+install_obsidian
 install_cursor
 install_cloudflare_warp
 install_github_desktop
