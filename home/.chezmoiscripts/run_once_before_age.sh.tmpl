@@ -4,6 +4,28 @@ set -eu
 echo "run_once_before_age.sh.tmpl"
 echo "--------------------------------"
 
+# mise なければインストール
+
+if command -v mise >/dev/null 2>&1; then
+    echo "mise already installed."
+
+elif command -v curl >/dev/null 2>&1; then
+    curl https://mise.run | sh || echo "mise install failed."
+    export PATH="${HOME}/.local/bin:${PATH}"
+
+    mkdir -p "${HOME}/.config/mise"
+    export MISE_CONFIG_DIR="${HOME}/.config/mise"
+    eval "$(mise activate bash)"
+
+else
+    echo "mise install failed."
+    exit 1
+fi
+    
+mise --version || echo "mise command not found."
+echo "mise installed"
+echo "--------------------------------"
+
 if command -v age >/dev/null 2>&1; then
     echo "age already installed"
 
@@ -24,9 +46,8 @@ else
     exit 1
 fi
 
-age --version || { echo "age command not found"; exit 1; }
+age --version || echo "age command not found"
 echo "--------------------------------"
-
 
 # key.txt をパスフレーズで復号するので事前に用意
 # https://www.chezmoi.io/user-guide/frequently-asked-questions/encryption/

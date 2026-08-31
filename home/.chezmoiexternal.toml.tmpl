@@ -21,17 +21,17 @@
 
 {{- if eq .chezmoi.os "linux" }}
 
-# [".local/bin/age"]
-#     type = "archive-file"
-#     url = {{ gitHubLatestReleaseAssetURL "FiloSottile/age" (printf "age-*-%s-%s.tar.gz" .chezmoi.os .chezmoi.arch) | quote }}
-#     executable = true
-#     path = "age/age"
+{{/* [".local/bin/age"] */}}
+{{/* type = "archive-file" */}}
+{{/* url = {{ gitHubLatestReleaseAssetURL "FiloSottile/age" (printf "age-*-%s-%s.tar.gz" .chezmoi.os .chezmoi.arch) | quote }} */}}
+{{/* executable = true */}}
+{{/* path = "age/age" */}}
 
-# [".local/bin/age-keygen"]
-#     type = "archive-file"
-#     url = {{ gitHubLatestReleaseAssetURL "FiloSottile/age" (printf "age-*-%s-%s.tar.gz" .chezmoi.os .chezmoi.arch) | quote }}
-#     executable = true
-#     path = "age/age-keygen"
+{{/* [".local/bin/age-keygen"] */}}
+{{/* type = "archive-file" */}}
+{{/* url = {{ gitHubLatestReleaseAssetURL "FiloSottile/age" (printf "age-*-%s-%s.tar.gz" .chezmoi.os .chezmoi.arch) | quote }} */}}
+{{/* executable = true */}}
+{{/* path = "age/age-keygen" */}}
 
 [".local/share/themes/WhiteSur-gtk-theme-cinnamon-xfce"]
     type = "archive"
@@ -59,12 +59,12 @@
     url = "https://github.com/vinceliuice/WhiteSur-wallpapers/archive/refs/heads/main.zip"
     exact = true
     stripComponents = 1
-    refreshPeriod = "168h"
+   
 {{- end }}
 
 [".local/share/fonts"]
     type = "archive"
-    url = "https://github.com/yuru7/HackGen/releases/download/v2.10.0/HackGen_NF_v2.10.0.zip"
+    url = "https:/github.com/yuru7/HackGen/releases/download/v2.10.0/HackGen_NF_v2.10.0.zip"
     exact = true
     stripComponents = 1
     refreshPeriod = "168h"
