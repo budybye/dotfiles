@@ -3,7 +3,7 @@ services:
   ubuntu:
     build:
       context: .
-      dockerfile: .Dockerfile
+      dockerfile: Dockerfile
     container_name: ubuntu
     hostname: docker
     privileged: true

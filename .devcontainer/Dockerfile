@@ -117,7 +117,7 @@ RUN usermod -aG sudo ubuntu && \
     chown -R ubuntu:ubuntu /home/ubuntu
 
 # ENTRYPOINT を/usr/bin/にコピーしてシンボリックリンクを作成
-COPY .devcontainer/entrypoint.sh /usr/bin/
+COPY ./entrypoint.sh /usr/bin/
 RUN ln -s /usr/bin/entrypoint.sh /usr/bin/entrypoint
 RUN chmod +x /usr/bin/entrypoint
 
