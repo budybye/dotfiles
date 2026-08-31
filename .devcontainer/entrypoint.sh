@@ -41,7 +41,12 @@ configure_xsession() {
 
     $sudo tee "${user_home}/.xsession" >/dev/null <<'XSESSION'
 #!/bin/sh
-exec dbus-run-session -- startxfce4
+if command -v pipewire >/dev/null 2>&1; then
+    pipewire &
+    wireplumber &
+    pipewire-pulse &
+fi
+exec xfce4-session
 XSESSION
     $sudo chown "${user_name}:${user_name}" "${user_home}/.xsession"
     $sudo chmod 700 "${user_home}/.xsession"

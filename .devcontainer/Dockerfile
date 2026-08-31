@@ -40,8 +40,6 @@ RUN apt-get install -y \
 
 RUN apt-get install -y \
     dbus-x11 \
-    sudo \
-    wget \
     xorgxrdp \
     xrdp && \
     apt remove -y light-locker xscreensaver
@@ -51,6 +49,8 @@ RUN apt-get install -y \
     zsh \
     make \
     curl \
+    sudo \
+    wget \
     git \
     gh \
     gzip \

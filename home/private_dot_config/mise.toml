@@ -242,7 +242,7 @@ done
 "apt:xrdp" = { os = "linux" }
 "apt:xorgxrdp" = { os = "linux" }
 "apt:dbus-x11" = { os = "linux" }
-"apt:sddm" = { os = "linux" }
+# "apt:sddm" = { os = "linux" }
 # "apt:gdm3" = "latest"
 # "apt:lightdm" = "latest"
 # "apt:tasksel" = "latest"
