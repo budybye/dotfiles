@@ -126,10 +126,6 @@ if command -v chezmoi >/dev/null 2>&1; then
     alias cai="chezmoi init --apply https://github.com/budybye/dotfiles.git"
 fi
 
-# bitwarden
-if command -v bw >/dev/null 2>&1; then
-    alias bwbw='export BW_SESSION=$(bw unlock ${MASTER:-} --raw)'
-fi
 
 # エディタ（フォールバックチェーンが必要なため alias で定義）
 if command -v cursor >/dev/null 2>&1; then
@@ -189,9 +185,6 @@ if command -v keploy >/dev/null 2>&1; then
 fi
 
 # age
-if command -v age >/dev/null 2>&1; then
-    alias shhh="age-keygen | age --armor --passphrase > ./shhh.txt"
-fi
 
 # mpd / ncmpcpp
 if command -v mpd >/dev/null 2>&1 && [ -f "${HOME}/.config/mpd/mpd.conf" ]; then

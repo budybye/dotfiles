@@ -215,10 +215,6 @@ if command -v chezmoi >/dev/null 2>&1; then
     alias cs="che secret"
 fi
 
-# bitwarden
-if command -v bw >/dev/null 2>&1; then
-    alias bwbw='export BW_SESSION=$(bw unlock ${MASTER:-} --raw)'
-fi
 
 # vscode vscodium cursor mac ubuntu arm64
 if command -v cursor >/dev/null 2>&1; then
@@ -358,9 +354,6 @@ if command -v asdf >/dev/null 2>&1; then
     alias asdf="asdf plugin-add"
 fi
 
-if command -v age >/dev/null 2>&1; then
-    alias shhh="age-keygen | age --armor --passphrase > shhh.txt"
-fi
 
 if command -v trans >/dev/null 2>&1; then
     # 基本的な翻訳エイリアス

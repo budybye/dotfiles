@@ -182,8 +182,6 @@ description: directory ファイル情報説明
 │   ├── dot_bashrc                  # Bash設定
 │   ├── dot_profile                 # シェルプロファイル
 │   ├── dot_zshenv                  # Zsh環境変数
-│   ├── key.txt.age                 # 暗号化キーファイル
-│   └── shhh.txt                    # シークレットファイル
 ├── .chezmoiroot                    # Chezmoiルート設定
 ├── .editorconfig                   # エディタ設定
 ├── .gitignore                      # Git除外設定
@@ -217,7 +215,7 @@ description: directory ファイル情報説明
 
 - **OS 別スクリプト**: `home/.chezmoiscripts/darwin/`, `linux/`
 - **環境変数**: テンプレート変数で制御
-- **シークレット管理**: Bitwarden CLI 経由
+- **シークレット管理**: Chezmoi は age passphrase/symmetric、Mise runtime は `~/.config/mise/age.txt`
 
 ### セキュリティ
 
@@ -276,8 +274,7 @@ Chezmoi スクリプトは `.chezmoiscripts/` ディレクトリ内に配置す�
 | Chezmoi Script                         | macOS | Ubuntu | WSL | PowerShell |
 | -------------------------------------- | :---: | :----: | :-: | :--------: |
 | run_once_before_active.sh              |  ✅   |   ✅   |     |            |
-| run_once_before_age.sh.tmpl            |  ✅   |   ✅   |     |            |
-| run_once_before_bw.sh.tmpl             |  ✅   |   ✅   |     |            |
+| run_once_before_age.sh.tmpl        |  ✅   |   ✅   |     |            |
 | run_onchange_after_skills.sh.tmpl      |  ✅   |   ✅   |     |            |
 | run_onchange_after_vscode.sh        |  ✅   |   ✅   |     |            |
 | darwin/run_onchange_after_bootstrap.sh.tmpl |  ✅   |        |     |            |
@@ -308,7 +305,6 @@ Chezmoi スクリプトは `.chezmoiscripts/` ディレクトリ内に配置す�
 
 .chezmoiexternal.*
 key.txt.age
-shhh.txt
 ```
 
 この設計により、OS 固有の設定ファイルを適切に除外し、クロスプラットフォーム対応を実現しています。
@@ -449,28 +445,21 @@ chezmoi add --executable ~/.local/bin/script
 
 ##### Age 暗号化
 
-```sh
-# 新しい暗号化キーを生成（Makefile経由）
-make age-keygen
-# 詳細: [設計書 - Makefile 設計 - セキュリティコマンド](./design.md#セキュリティコマンド)
+Chezmoi の encrypted files は age passphrase/symmetric で暗号化します。`chezmoi decrypt` / `chezmoi apply` の実行時に passphrase を入力します。
 
-# chezmoiで機密ファイルを暗号化
+```sh
+# Chezmoi encrypted file の追加
 chezmoi add --encrypt ~/.ssh/private_key
 
-# パスフレーズ対称暗号化
-age --armor --passphrase | age --decrypt --output key.txt
+# Mise direct-age 用 identity
+make age-keygen
 ```
 
-##### Bitwarden 統合
+Mise runtime secrets は `mise set --age-encrypt --prompt` で `mise.toml` に保存します。Mise identity は Chezmoi passphrase と分離します。
 
-```sh
-# シークレット管理のためのvaultをアンロック（Makefile経由）
-make bw-unlock
-# 詳細: [設計書 - Makefile 設計 - セキュリティコマンド](./design.md#セキュリティコマンド)
+#### GitHub token
 
-# chezmoi統合でセキュアなシークレット注入
-{{ bitwarden "item" "name" }}
-```
+Mise は CI の `GITHUB_TOKEN` と local の `gh` credential fallback を使います。token を source state、`.env`、Docker image に保存しません。
 
 #### テストと検証
 

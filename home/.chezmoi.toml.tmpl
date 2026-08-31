@@ -1,5 +1,4 @@
 {{/* シークレット系 */}}
-{{- $bitwarden := false -}}{{/* bitwarden のパスワードを取得する */}}
 {{- $age := false -}}{{/* age 暗号化 */}}
 
 {{/* github系 */}}
@@ -16,9 +15,8 @@
 {{- $osID = printf "%s-%s" .chezmoi.os .chezmoi.osRelease.id -}}
 {{- end -}}
 
-{{/* インタラクティブでは実行しない */}}
-{{- if or (env "CODESPACES") (env "REMOTE_CONTAINERS") (env "DOCKER") (env "GITHUB_ACTIONS") (ne (env "SANDBOX") "") (eq .chezmoi.username "root" "ubuntu" "dev" "vscode" "runner") -}}
-{{- $bitwarden = false -}}
+{{/* 非対話環境では encrypted files を処理しない */}}
+{{- if or (eq (env "CODESPACES") "true") (eq (env "REMOTE_CONTAINERS") "true") (eq (env "DOCKER") "true") (eq (env "GITHUB_ACTIONS") "true") (ne (env "SANDBOX") "") -}}
 {{- $age = false -}}
 {{- end -}}
 
@@ -55,34 +53,31 @@
     {{- $github = true -}}
     {{- $ssh = false -}}
 
-{{/* Ubuntu multipass */}}
-{{- else if eq .chezmoi.username "ubuntu" -}}
-    {{- $name = "budybye" -}}
-    {{- $email = "101wayout@gmail.com" -}}
+{{/* Ubuntu lxd */}}
+{{- else if eq .chezmoi.username "budybye" -}}
+    {{- $age = true -}}
     {{- $github = true -}}
     {{- $ssh = true -}}
 
-{{/* Ubuntu lxd */}}
-{{- else if eq .chezmoi.username "budybye" -}}
-    {{- $bitwarden = true -}}
-    {{- $age = true -}}
+{{/* Ubuntu multipass */}}
+{{- else if eq .chezmoi.os "linux" -}}
     {{- $github = true -}}
     {{- $ssh = true -}}
 
 {{/* Mac */}}
 {{- else if eq .chezmoi.username "hotmilk" -}}
-    {{- $name = "boborder" -}}
-    {{- $email = "shallot96@gmail.com" -}}
-    {{- $bitwarden = true -}}
     {{- $age = true -}}
     {{- $github = true -}}
     {{- $ssh = true -}}
 
+{{- else if eq .chezmoi.os "darwin" -}}
+    {{- $github = true -}}
+    {{- $ssh = true -}}
+    
 {{/* その他、windows */}}
 {{- else -}}
     {{- $name = .chezmoi.username -}}
     {{- $email = "null" -}}
-    {{- $bitwarden = false -}}
     {{- $age = false -}}
     {{- $github = false -}}
     {{- $ssh = false -}}
@@ -98,26 +93,19 @@ sourceDir = {{ .chezmoi.sourceDir | quote }}
 
 scriptTempDir = "{{ .chezmoi.homeDir }}/tmp"
 
-{{/* age 暗号化 */}}
-{{/* if ne (.age) "false" コメントアウト */}}
-{{- if ne (env "GITHUB_ACTIONS") "true" }}
+{{/* age 暗号化: Chezmoi encrypted files は passphrase/symmetric */}}
+{{- if ne (env "GITHUB_ACTIONS") "true" -}}
 encryption = "age"
 [age]
-    identity = "{{ .chezmoi.homeDir }}/.config/chezmoi/key.txt"
-    recipients = "age1nvdw6x8addcnfwsa26ed8vz7yv8y9425utujnsy7tcj64qs2ddasl2mphg"
-    {{/* identity = "{{ .chezmoi.homeDir }}/.ssh/id_ed25519" */}}
-    {{/* recipients = "{{ .chezmoi.homeDir }}/.ssh/id_ed25519.pub" */}}
     passphrase = true
     symmetric = true
-
-{{- end }}
+{{- end -}}
 
 {{/* ".data.***" or ".***" の設定 */}}
 [data]
     email = {{ $email | quote }}
     name = {{ $name | quote }}
     osid = {{ $osID | quote }}
-    bitwarden = {{ $bitwarden }}
     age = {{ $age }}
     github = {{ $github }}
     ssh = {{ $ssh }}

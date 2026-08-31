@@ -3,8 +3,7 @@ services:
   ubuntu:
     build:
       context: .
-      dockerfile: Dockerfile
-    # image: ghcr.io/budybye/ubuntu-dev:main
+      dockerfile: .Dockerfile
     container_name: ubuntu
     hostname: docker
     privileged: true
@@ -20,7 +19,7 @@ services:
       GITHUB_TOKEN: ${GITHUB_TOKEN:-}
     shm_size: 512m # ブラウザ対策
     # entrypoint: ["entrypoint"]
-    command: ["${USER:-ubuntu}", "${PASSWORD:-ubuntu}", "yes"]
+    command: ["ubuntu", "ubuntu", "yes"]
     tty: true
     restart: always
 

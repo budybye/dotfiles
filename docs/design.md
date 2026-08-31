@@ -41,8 +41,9 @@ description: dotfiles 詳細設計
 
 ### セキュリティ設計
 
-- **暗号化**: `*.age`拡張子で age 暗号化
-- **シークレット管理**: Bitwarden CLI 経由
+- **Chezmoi encrypted files**: age passphrase/symmetric
+- **Mise runtime secrets**: direct age、`~/.config/mise/age.txt`
+- **GitHub tokens**: CI の `GITHUB_TOKEN`、local の `gh` credential fallback
 - **アクセス制御**: ファイル属性による権限管理
 
 詳細は [セキュリティ](security.md) を参照。
@@ -96,8 +97,8 @@ XDG Base Directory Specification は、Linux デスクトップ環境におい�
 ### コア技術
 
 - **Chezmoi**: ドットファイル管理システム
-- **Age**: モダン暗号化ツール
-- **Bitwarden CLI**: シークレット管理
+- **Age**: Chezmoi passphrase と Mise direct-age
+- **Mise**: ツール・runtime secrets・GitHub token resolution
 - **XDG Base Directory**: 設定ファイル標準
 
 ### 対応環境
@@ -127,7 +128,7 @@ Makefile は、dotfiles システム、開発環境、および関連インフ�
 4. **Docker**: `docker-build`、`docker-run`、`up`、`down`、`exec`、`logs`
 5. **仮想マシン（Multipass）**: `vm-create`、`vm-info`、`vm-start`、`vm-stop`、`ssh`
 6. **Git 操作**: `git-commit`、`git-status`
-7. **セキュリティ**: `age-keygen`、`bw-unlock`
+7. **セキュリティ**: `age-keygen`
 8. **クリーンアップ**: `clean-docker`、`clean-vm`、`clean`
 9. **情報表示**: `list-vms`、`list-containers`、`system-info`
 
@@ -357,19 +358,13 @@ make git-status
 
 ##### `age-keygen`
 
-パスフレーズ保護付きの新しい age 暗号化キーを生成します。
+Mise direct-age 用の raw identity を生成します。Chezmoi の passphrase とは別です。
 
 ```sh
 make age-keygen
 ```
 
-##### `bw-unlock`
-
-Bitwarden vault をアンロックし、シーサン環境変数を設定します。
-
-```sh
-make bw-unlock
-```
+Chezmoi encrypted files の passphrase は `chezmoi decrypt` / `chezmoi apply` 実行時に手動入力します。
 
 #### クリーンアップコマンド
 
@@ -439,6 +434,6 @@ make system-info
 ## 参考資料
 
 - [Chezmoi 公式ドキュメント](https://chezmoi.io/user-guide/)
+- [Mise age secrets](https://mise.jdx.dev/environments/secrets/age.html)
+- [Mise GitHub tokens](https://mise.jdx.dev/dev-tools/github-tokens.html)
 - [XDG Base Directory Specification](https://specifications.freedesktop.org/basedir-spec/)
-- [Age 暗号化ツール](https://age-encryption.org/)
-- [Bitwarden CLI](https://bitwarden.com/help/cli/)

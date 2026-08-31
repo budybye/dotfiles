@@ -117,14 +117,12 @@ RUN usermod -aG sudo ubuntu && \
     chown -R ubuntu:ubuntu /home/ubuntu
 
 # ENTRYPOINT を/usr/bin/にコピーしてシンボリックリンクを作成
-COPY ./entrypoint.sh /usr/bin/
+COPY .devcontainer/entrypoint.sh /usr/bin/
 RUN ln -s /usr/bin/entrypoint.sh /usr/bin/entrypoint
 RUN chmod +x /usr/bin/entrypoint
 
-# ubuntuユーザで実行
-# ホームディレクトリに dotfiles をクローン
+# GitHub の dotfiles repository を Chezmoi source にする
 RUN git clone https://github.com/budybye/dotfiles.git /home/ubuntu/dotfiles
-# dotfiles へ移動して make init を実行
 WORKDIR /home/ubuntu/dotfiles
 USER ubuntu
 RUN make init

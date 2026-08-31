@@ -9,50 +9,48 @@ description: dotfiles セキュリティ — 脅威モデルとレビューチ�
 
 ## 秘密の境界（chezmoi vs mise）
 
-| 種類 | 例 | 担当 | パス |
-|------|-----|------|------|
-| 暗号化 dotfile | SSH 鍵、`.env` | **chezmoi** | `encrypted_*`, `run_once_before_age.sh.tmpl` |
-| age 復号鍵 | chezmoi 用 | **chezmoi** | `key.txt.age` → `~/.config/chezmoi/key.txt` |
-| Bitwarden セッション | テンプレート用 | **chezmoi** | `run_once_before_bw.sh.tmpl` |
-| mise age（将来） | ランタイム API キー | **mise** | `~/.config/mise/age.txt`（chezmoi 鍵と別） |
-| CI / Docker | 秘密オフ | **テンプレート** | `DOCKER=true`, `GITHUB_ACTIONS=true` |
+| 種類 | 例 | 担当 | パス / 取得方法 |
+|------|-----|------|-----------------|
+| Chezmoi encrypted dotfile | SSH 鍵、`.env` | **chezmoi** | `encrypted_*`、age passphrase/symmetric |
+| Chezmoi passphrase | encrypted dotfile の復号 | **ユーザー** | `chezmoi apply` / `chezmoi decrypt` 時に手動入力 |
+| Mise direct-age | ランタイム API キー | **mise** | `~/.config/mise/age.txt`（raw identity、Chezmoi と分離） |
+| GitHub token | Mise の公開 GitHub metadata 取得 | **外部 credential** | CI の `GITHUB_TOKEN`、local の `gh` credential fallback |
+| CI / Docker | secrets、private key | **テンプレート境界** | `GITHUB_ACTIONS=true`、`DOCKER=true`、encrypted files ignore |
 
-**原則:** Phase 1–3 では chezmoi がファイル単位の暗号化を維持。mise の age はランタイム env 用のみ（Phase 3+）。
+**原則:** Chezmoi は passphrase/symmetric のファイル暗号化を維持。Mise direct-age は runtime env 専用。両者の passphrase/key は共用しない。
 
 ## 脅威モデル（要約）
 
 | 資産 | 脅威 | 緩和 |
 |------|------|------|
-| age 秘密鍵 | CI で誤って有効化 | `features.age` / env オーバーレイ |
-| BW トークン | ログ・シェル env 漏洩 | `before_bw`、非対話 CI では無効 |
-| SSH 秘密鍵 | パーミッション不備 | `encrypted_*`, `chezmoi verify` |
-| `curl \| sh` | 供給鎖 | `install.sh` / mise.run のみ文書化；タスクは URL 固定 |
-| devcontainer | ビルド時に秘密混入 | `DOCKER=true`、Dockerfile に秘密なし |
-| 外部アーカイブ | タグ漂流 | `.chezmoiexternal.toml.tmpl` ピン留め |
+| Chezmoi passphrase | シェル履歴・ログへの露出 | 対話入力。環境変数・source state に保存しない |
+| Mise age identity | CI/Docker への混入 | `~/.config/mise/age.txt` を image/source に含めない |
+| SSH private key | パーミッション不備 | `encrypted_*`、`chezmoi verify`、private mode |
+| GitHub token | ログ・image layer への混入 | CI の既存 token、local `gh` fallback。`ARG`/`ENV` に保存しない |
+| devcontainer | ビルド時の秘密混入 | `DOCKER=true`、encrypted files ignore、Dockerfile に secrets なし |
+| 外部アーカイブ | tag drift / API rate limit | age GitHub external を使用しない。URL は固定または Mise cache |
 
-## レビューチェックリスト S1–S10
+
+## レビューチェックリスト S1–S8
 
 | # | 確認 | 方法 |
 |---|------|------|
-| S1 | 直近の `home/` に平文秘密がない | `git log -p` / secret scan |
-| S2 | CI プロファイルで age 鍵なし dry-run 可 | `chezmoi apply --dry-run` + `GITHUB_ACTIONS=true` |
-| S3 | CI で `age`/`bitwarden` が true にならない | `chezmoi data` |
-| S4 | Dockerfile に秘密 env なし | Dockerfile / ビルドログ確認 |
-| S5 | 文書化外の `curl \| sh` がない | grep `install.sh`, `.chezmoiscripts`, `[tasks]` |
-| S6 | 鍵・設定のパーミッション | `chezmoi verify` |
-| S7 | sandbox で secret 派生パスが ignore | `chezmoi ignored` プロファイル比較 |
-| S8 | mise タスクが秘密をログしない | タスク script レビュー |
-| S9 | agent skills の供給鎖 | `packages.yaml` `agents.skills` 監査 |
-| S10 | `features.*` の typo で秘密復活しない | fixture テスト（Phase 4 後） |
+| S1 | `home/` に平文秘密がない | secret scan、encrypted inventory |
+| S2 | Chezmoi encrypted files が passphrase で復号できる | `chezmoi decrypt` |
+| S3 | CI/Docker が encrypted files を処理しない | `chezmoi ignored`、template render |
+| S4 | Dockerfile に private key/token がない | Dockerfile / build log 確認 |
+| S5 | GitHub token が source state/image layer にない | `GITHUB_TOKEN` / `MISE_GITHUB_TOKEN` の経路確認 |
+| S6 | age identity の権限が `600` | `stat ~/.config/mise/age.txt` |
+| S7 | Mise `age.strict` が意図せず無効化されていない | Mise config review |
+| S8 | 外部 URL と install script が supply-chain 境界内にある | `.chezmoiexternal.toml.tmpl` / scripts review |
 
 ### 実施ゲート
 
 | ゲート | 必須 |
 |--------|------|
-| §5 スクリプト retire 前 | S1–S6 |
-| Phase 1 完了後 | S5, S8 |
-| Phase 4 context 後 | S3, S7, S10 |
-| mise runtime secrets 有効化前 | S2 分離 + 本 doc 更新 |
+| 移行前 | S1–S4 |
+| Mise runtime age 使用前 | S5–S7 |
+| 外部 URL / bootstrap 変更時 | S8 |
 
 ## Open findings
 
@@ -63,7 +61,7 @@ description: dotfiles セキュリティ — 脅威モデルとレビューチ�
 ## 関連
 
 - [audit-checklist.md](audit-checklist.md)
-- [bootstrap.md](bootstrap.md)（作成予定）
-- `home/.chezmoi.toml.tmpl`, `run_once_before_age.sh.tmpl`, `run_once_before_bw.sh.tmpl`
-- `maximize-chezmoi-features` §4 Secrets and external resources
+- [bootstrap.md](bootstrap.md)
+- `home/.chezmoi.toml.tmpl`, `home/.chezmoiignore`
+- `home/private_dot_config/mise/config.toml`
 - OpenSpec: `openspec/changes/chezmoi-to-mise-migration/design.md` — **Security review**

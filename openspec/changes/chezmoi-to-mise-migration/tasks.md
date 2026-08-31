@@ -1,9 +1,9 @@
 ## 0. Bootstrap entry: `install.sh` owns mise (do first)
 
 - [ ] 0.1 Add idempotent mise install to `install.sh` after chezmoi and before `chezmoi init --apply`: `curl -fsSL https://mise.run | sh`, export `PATH="${HOME}/.local/bin:${PATH}"`, verify `mise --version` succeeds
-- [ ] 0.2 Remove duplicate mise install logic from `run_once_before_bw.sh.tmpl` (`mise_install`), `linux/run_onchange_after_cli.sh.tmpl` (`install_mise`), and `darwin/run_onchange_after_bootstrap.sh.tmpl` (`brew install mise` / `install_mise`) — verify `make init` on a host without mise still gets mise before first `chezmoi apply`
-- [ ] 0.3 Remove `curl -fsSL https://mise.run | sh` from `packages.yaml` `curl:` and `"brew:mise"` from `mise.toml` if declared — verify no remaining script installs mise except `install.sh` (optional fallback in `before_*` only)
-- [ ] 0.4 Simplify `run_once_before_age.sh.tmpl` to prefer `mise use -g -y age` when mise is on PATH (installed by `install.sh`) — verify age decrypt path still works on fresh `make init`
+- [ ] 0.2 Remove duplicate Mise installation logic from Linux CLI and macOS bootstrap scripts — verify `make init` on a host without Mise still installs Mise before first `chezmoi apply`
+- [ ] 0.3 Remove `curl -fsSL https://mise.run | sh` from `packages.yaml` `curl:` and `"brew:mise"` from `mise.toml` if declared — verify no remaining script installs Mise except `install.sh` and the age fallback
+- [ ] 0.4 Keep `run_once_before_age.sh.tmpl` limited to age binary availability; verify Chezmoi passphrase decryption remains available without `key.txt` generation
 
 ## 1. Inventory and parity baseline
 
@@ -88,8 +88,8 @@ Coordinate with `maximize-chezmoi-features` task 1.1; reuse parity table from §
 
 ## 11. Security review (phase 5 — baseline + post-migration)
 
-- [ ] 11.1 **Baseline review (required before §5):** Execute checks S1–S6 from `design.md` — (S1) secret scan recent `home/` history, (S2) dry-run without age key on CI profile, (S3) `chezmoi data` with `GITHUB_ACTIONS=true`, (S4) Dockerfile has no embedded secrets, (S5) inventory `curl | sh` usage, (S6) `chezmoi verify` on representative host — verify findings logged in `docs/security.md` § Open findings with severity
-- [ ] 11.2 **Post phase 1 review:** Re-run S5 (mise `[tasks]` curl installers), S8 (tasks do not log secrets) — verify no new supply-chain URLs without documentation in `security.md`
-- [ ] 11.3 **Post phase 4 review:** Re-run S3, S7, S10 after `features.*` refactor — verify fixture tests prove secrets cannot re-enable via host profile typo
-- [ ] 11.4 Add `docs/security.md`: threat model table (age, BW, SSH, curl\|sh, mise vs chezmoi age keys, devcontainer), checklist S1–S10, secret boundary diagram, coordination with `maximize-chezmoi-features` §4 — verify doc links to `.chezmoi.toml.tmpl`, `before_age`, `before_bw`, encrypted SSH files, and `executable_ssh_setup`
-- [ ] 11.5 (Optional) Add CI step: `chezmoi data` + template render for `GITHUB_ACTIONS=true` and `DOCKER=true` without host secrets — verify workflow fails if `age` or `bitwarden` true on CI profile
+- [ ] 11.1 **Baseline review (required before secret-hook removal):** Execute S1–S4 from `design.md` — secret scan, passphrase decrypt, CI/Docker ignore verification, and Dockerfile secret review.
+- [ ] 11.2 **GitHub/Mise review:** Confirm Actions uses `GITHUB_TOKEN`, local uses `gh` fallback, and no token file/export is committed.
+- [ ] 11.3 **Age identity review:** Confirm Mise runtime identity is separate from Chezmoi passphrase and has mode `600`.
+- [ ] 11.4 **Supply-chain review:** Review `.chezmoiexternal.toml.tmpl`, `install.sh`, and Mise tasks for allowed URLs and no age GitHub API dependency.
+- [ ] 11.5 **Post-change verification:** Run OpenSpec validation, shell/template checks, and Docker xrdp smoke test with non-secret logs.

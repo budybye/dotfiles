@@ -46,7 +46,7 @@ if command -v pipewire >/dev/null 2>&1; then
     wireplumber &
     pipewire-pulse &
 fi
-exec xfce4-session
+exec dbus-run-session -- xfce4-session
 XSESSION
     $sudo chown "${user_name}:${user_name}" "${user_home}/.xsession"
     $sudo chmod 700 "${user_home}/.xsession"
@@ -81,13 +81,17 @@ echo "You entered ${users} user(s)"
 # 引数をループしてユーザーを作成
 while [ $# -ne 0 ]; do
 
-    # グループを作成 ユーザー名と同じグループ名
-    # echo "username is $1"
-    $sudo addgroup "$1"
-    if [ "$(command -v zsh)" ]; then
-        $sudo useradd -m -s "$(command -v zsh)" -g "$1" "$1"
-    else
-        $sudo useradd -m -s /bin/bash -g "$1" "$1"
+    # 既存の Ubuntu イメージでも安全に再実行できるようにする
+    if ! $sudo getent group "$1" >/dev/null 2>&1; then
+        $sudo addgroup "$1"
+    fi
+    
+    if ! $sudo id "$1" >/dev/null 2>&1; then
+        if [ "$(command -v zsh)" ]; then
+            $sudo useradd -m -s "$(command -v zsh)" -g "$1" "$1"
+        else
+            $sudo useradd -m -s /bin/bash -g "$1" "$1"
+        fi
     fi
     wait
 

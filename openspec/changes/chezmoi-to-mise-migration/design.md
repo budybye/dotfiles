@@ -13,12 +13,12 @@
 
 | Tool | Owns |
 |------|------|
-| **mise** | Tool versions, OS packages, macOS UI defaults, curl app installers, (future) runtime API keys via `[env]` + age |
-| **chezmoi** | Templated dotfiles, encrypted files, Bitwarden unlock, SSH multi-account, VS Code extensions, agent skills, snap/Windows, complex scripts |
+| **mise** | Tool versions, OS packages, macOS UI defaults, curl app installers, direct age-encrypted runtime environment values, GitHub token resolution |
+| **chezmoi** | Templated dotfiles, passphrase/symmetric encrypted files, SSH configuration, VS Code extensions, agent skills, snap/Windows, platform scripts, external resources |
 
-**Steady-state `packages.yaml`:** `extensions` + `agents.skills` (+ `snap` / `windows` as sibling keys or split data files until dedicated owners exist).
+**Steady-state `packages.yaml`:** Chezmoi-owned extensions, agent skills, snap, and Windows entries only.
 
-**New machine (target):** `make init` (= `mise run setup`) → chezmoi apply → `mise bootstrap packages apply` (CLI profile) → `mise bootstrap macos defaults apply` (macOS) → `mise install` → `mise run bootstrap:gui-packages` (GUI hosts only) → chezmoi apply (vscode/skills/ssh).
+**New machine (target):** install Mise → create Mise runtime age identity when needed → `chezmoi apply` with interactive passphrase → `mise bootstrap packages apply` → `mise install` → GUI-specific setup.
 
 ---
 
@@ -90,15 +90,17 @@ P1 + P4
 
 ### By concern (steady-state ownership)
 
-| Concern | Touch during migration | Leave untouched (phase 1–3) |
-|---------|------------------------|----------------------------|
-| Encrypted dotfiles (`encrypted_*`) | Audit + security review only | Encryption config, `before_age` |
-| Bitwarden (`before_bw`) | Audit + security review only | Unlock flow, template branches |
-| SSH keys/config | Audit; explicit `ssh_setup` command | Encrypted SSH files and templates remain Chezmoi-owned |
-| VS Code / Cursor settings | Slim `packages.yaml`; `run_onchange_after_vscode.sh` keeps Cursor symlinks only |
-| zsh / sheldon / ZDOTDIR | Document only | File layout and load order |
-| CI (`test.yaml`) | Makefile delegation | Workflow must keep passing `make init` |
-| Windows | Document in matrix | Full parity out of scope phase 1 |
+| Concern | Touch during migration | Leave untouched |
+|---------|------------------------|-----------------|
+| Encrypted dotfiles (`encrypted_*`) | Verify passphrase decrypt; remove legacy key wrapper | Chezmoi passphrase/symmetric encryption |
+| Bitwarden CLI/unlock | Remove hook, aliases, data branches, and session files | macOS Bitwarden desktop package |
+| SSH keys/config | Replace dynamic public-key template with plaintext public key | Encrypted private keys and Chezmoi SSH config |
+| Mise runtime age | Configure separate `~/.config/mise/age.txt` | Chezmoi passphrase remains independent |
+| VS Code / Cursor settings | Slim `packages.yaml`; `run_onchange_after_vscode.sh` keeps Cursor symlinks only | Existing symlink behavior |
+| zsh / sheldon / ZDOTDIR | Remove obsolete secret aliases | File layout and load order |
+| CI (`test.yaml`) | Use existing `GITHUB_TOKEN` through Mise when needed | Workflow must keep passing `make init` |
+| Docker | Dockerfile owns OS packages; encrypted targets ignored | No display manager; xrdp + XFCE X11 |
+| Windows | Document in matrix | Full parity out of scope |
 
 ### Stakeholder / environment matrix
 
@@ -182,45 +184,38 @@ Output: `docs/audit-report-YYYY-MM.md` (gitignored or committed summary without 
 
 ## Security review (phase 5)
 
-**Goal:** Verify secret handling, trust boundaries, and script supply-chain risk before and after migration. Not a substitute for professional pentest — focused dotfiles threat model.
-
-### Threat model (this repo)
-
 | Asset | Threat | Current control | Review focus |
 |-------|--------|-----------------|--------------|
-| age private key | Leak via plaintext dotfile or wrong CI render | `encrypted_*`, `before_age`, env disables in CI/Docker | Template branches after phase 4 refactor |
-| Bitwarden session | Token in shell env or logs | `before_bw`, feature flags | Script logging; non-interactive CI |
-| SSH private keys | World-readable, accidental regeneration, or wrong host deploy | `encrypted_*`, `chezmoi verify`, non-destructive `ssh_setup` | Key preservation; permissions; no automatic generation |
-| `curl \| sh` installers | Supply-chain compromise | `install.sh`, mise.run, app curl tasks | Pin URLs; checksum where available |
-| mise `[env]` age (future) | Second key confusion with chezmoi age | Separate `~/.config/mise/age.txt` | Document in `security.md` |
-| Privileged scripts | sudo in bootstrap/defaults/docker | Chezmoi `run_once` / mise tasks | Minimize; document in audit |
-| Multi-account GitHub SSH | Host alias misconfiguration | Managed `config.tmpl`; explicit `ssh_setup` only for opt-in local setup | No cross-account key bleed |
-| Devcontainer | Secrets enabled in image build | `DOCKER=true` → age/BW off | Re-verify after Dockerfile changes |
-| Third-party externals | Unpinned archive/tag drift | `.chezmoiexternal.toml.tmpl` | Pin + verify task (maximize 4.2) |
+| Chezmoi passphrase | Leak via shell history or logs | Interactive prompt only; never stored in source/env | Verify encrypted files decrypt |
+| Mise age identity | Leak into source, CI, or image | Separate `~/.config/mise/age.txt`, mode 600 | Verify ignore boundaries |
+| SSH private keys | World-readable or accidental regeneration | `encrypted_*`, `chezmoi verify`, explicit `ssh_setup` | Key preservation and permissions |
+| GitHub token | Shell/image-layer leakage | Actions `GITHUB_TOKEN`, local `gh` fallback | No committed token files or exports |
+| `curl \| sh` installers | Supply-chain compromise | `install.sh`, Mise bootstrap URLs | Pin/check installer sources |
+| Privileged scripts | Unintended system changes | Chezmoi `run_once` / Mise tasks | Review sudo boundaries |
+| Multi-account GitHub SSH | Host alias misconfiguration | Managed `config.tmpl`; static public key | No cross-account key bleed |
+| Devcontainer | Secrets enabled during build | `DOCKER=true` and encrypted target ignores | Re-verify Docker build |
+| Third-party externals | Unpinned archive/tag drift | `.chezmoiexternal.toml.tmpl` | Pin and verify external URLs |
 
 ### Security review checklist
 
 | # | Check | Method |
 |---|-------|--------|
-| S1 | No plaintext secrets in git history (recent) | `git log -p` / secret scan on `home/` |
-| S2 | `encrypted_*` files decrypt only with intended key | `chezmoi apply --dry-run` on CI profile without key |
-| S3 | CI/Actions never sets `age=true` / `bitwarden=true` | `chezmoi data` with `GITHUB_ACTIONS=true` |
-| S4 | Docker build does not embed BW token or age key | Inspect Dockerfile ENV and apply logs |
-| S5 | Scripts avoid `curl \| sh` except documented bootstrap URLs | Grep `.chezmoiscripts`, `install.sh`, `[tasks]` |
-| S6 | File modes: private keys `600`, config dirs not world-writable | `chezmoi verify` + spot check |
-| S7 | `.chezmoiignore` excludes secret-derived paths on sandboxes | `chezmoi ignored` diff per profile |
-| S8 | mise bootstrap tasks do not log secrets | Review task scripts before merge |
-| S9 | Agent skills / npm curl installs — supply chain | Audit `packages.yaml` `agents.skills` |
-| S10 | Post phase 4: `features.*` cannot be overridden by host profile typo | Fixture tests |
+| S1 | No plaintext secrets in git history | Secret scan on `home/` |
+| S2 | Chezmoi encrypted files decrypt with passphrase | `chezmoi decrypt` |
+| S3 | CI/Docker ignore encrypted targets | `chezmoi ignored` and template render |
+| S4 | Docker image contains no private key/token | Dockerfile and build logs |
+| S5 | GitHub tokens remain external | Actions `GITHUB_TOKEN`; local `gh` fallback |
+| S6 | Mise age identity has mode 600 | `stat ~/.config/mise/age.txt` |
+| S7 | Mise age strict mode is enabled | Mise config review |
+| S8 | External URLs remain within supply-chain policy | `.chezmoiexternal.toml.tmpl` review |
 
 ### Review timing
 
 | Gate | Required reviews |
 |------|------------------|
-| Before merging §5 (script retire) | S1–S6 baseline |
-| After phase 1 | S5, S8 (new mise tasks) |
-| After phase 4 context refactor | S3, S7, S10 |
-| Before enabling mise runtime secrets (phase 3) | S2 split + mise age doc |
+| Before removing legacy secret hooks | S1–S4 baseline |
+| Before enabling Mise runtime secrets | S5–S7 |
+| After external/bootstrap changes | S8 |
 
 Findings → `docs/security.md` § "Open findings" with severity (critical/high/medium/low) and owner phase.
 
@@ -251,7 +246,7 @@ See `proposal.md` for motivation. The repository today splits bootstrap concerns
 
 - Full `[dotfiles]` migration (Mise dotfiles API is deprecated in favor of `mise bootstrap dotfiles`; defer to a future change).
 - Replacing Go-template host branching in `.chezmoi.toml.tmpl`.
-- Migrating **encrypted dotfile lifecycle** (`encrypted_*`, `key.txt.age`, `chezmoi edit --encrypt`) or **Bitwarden unlock** (`before_bw`) to Mise in phase 1. Runtime API keys via mise `[env]` + age are a phase 3+ option only.
+- Moving Chezmoi encrypted files to Mise. Chezmoi remains passphrase/symmetric file encryption authority.
 - Snap package management until Mise gains a supported manager or a package plugin exists.
 - Windows package migration beyond documenting current Chezmoi PS1 script ownership.
 
@@ -261,9 +256,9 @@ See `proposal.md` for motivation. The repository today splits bootstrap concerns
 
 | Phase | Moves to Mise | Stays in Chezmoi |
 |-------|---------------|------------------|
-| **1 — Install parity** | `[bootstrap.packages]` authoritative; curl installers → `[tasks]`; disable overlapping `run_onchange_after_{bootstrap,cli,gui}.sh.tmpl` after parity | Encrypted SSH files/templates, Cursor settings symlinks (`run_onchange_after_vscode.sh`), VS Code extensions via `devcontainer.json`, skills, snap, Linux `run_once_after_setup.sh`, Windows PS1, externals |
-| **2 — macOS defaults dedup** | `[bootstrap.macos.*]` and explicit macOS tasks own supported settings; old defaults hook retired | Privileged `systemsetup`/`scutil` operations remain outside declarative defaults |
-| **3 — Future** | Evaluate `[dotfiles]` for simple static files; `[bootstrap.repos]` for git clones | Templates with `.chezmoi.toml.tmpl` data, encryption, multi-account SSH |
+| **1 — Install parity** | `[bootstrap.packages]` authoritative; curl installers → `[tasks]`; disable overlapping package scripts after parity | Passphrase/symmetric encrypted files, SSH, Cursor symlinks, VS Code extensions, skills, snap, Windows, and templates |
+| **2 — macOS defaults dedup** | `[bootstrap.macos.*]` and explicit macOS tasks own supported settings | Privileged `systemsetup`/`scutil` operations |
+| **3 — Runtime secrets** | Mise direct-age values with separate `~/.config/mise/age.txt` | Chezmoi encrypted files and passphrase |
 ### macOS defaults parity map
 
 | Legacy function | Current ownership | Notes |
@@ -294,23 +289,22 @@ Keep `packages.yaml` temporarily as a read-only reference during migration, then
 **Decision:** Install mise via `curl -fsSL https://mise.run | sh` in root `install.sh`, immediately after chezmoi and **before** `chezmoi init --apply`. This is the single canonical mise bootstrap path on macOS and Linux.
 
 **Rationale:**
-- Fresh Mac has no Homebrew yet; `darwin/bootstrap` cannot rely on `brew install mise`.
-- Today mise is installed in four places (`install.sh` absent, `before_bw`, `linux/cli`, `packages.yaml` curl) — inconsistent.
-- `before_age` / `before_bw` need mise on PATH during first apply; installing in `install.sh` satisfies that without duplicating curl logic in every `before_*` script.
+- Fresh Mac has no Homebrew yet; `install.sh` remains canonical for Mise.
+- Chezmoi passphrase encryption still requires an age binary; `before_age` only ensures that binary is available.
+- Bitwarden CLI and unlock are removed; no token or session file is created.
 
 **`install.sh` target flow:**
 
 ```text
-1. curl chezmoi  → ~/.local/bin/chezmoi
-2. curl mise.run → ~/.local/bin/mise      # canonical; optional MISE_VERSION= pin
+1. install chezmoi → ~/.local/bin/chezmoi
+2. install mise    → ~/.local/bin/mise
 3. export PATH=~/.local/bin:$PATH
-4. chezmoi init --apply --source=...
-     ├ run_once_before_age  → mise use age (mise already present)
-     ├ run_once_before_bw    → mise use node + bw (no mise_install)
-     └ run_onchange_*        → package scripts retired/guarded in phase 1
-5. mise bootstrap packages apply          # after config.toml symlink exists
-6. mise bootstrap macos defaults apply    # macOS only
-7. chezmoi apply                          # vscode, skills, ssh once (if needed)
+4. chezmoi init --apply --source=<source>
+     ├ run_once_before_age → ensure age binary
+     └ run_onchange_*      → remaining platform tasks
+5. mise bootstrap packages apply
+6. mise bootstrap macos defaults apply (macOS only)
+7. mise install
 ```
 
 **Fallback only:** `before_*` scripts may keep a mise installer safety net when users skip `install.sh`. Primary path: `make init` → `./install.sh`.

@@ -1,4 +1,4 @@
-{{ if ne (env "GITHUB_ACTIONS") "true" -}}
+{{ if and (ne (env "GITHUB_ACTIONS") "true") (ne (env "CODESPACES") "true") (ne (env "REMOTE_CONTAINERS") "true") (ne (env "DOCKER") "true") -}}
 
 {{ range gitHubKeys "budybye" -}}
 {{   .Key }}

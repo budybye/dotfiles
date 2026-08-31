@@ -74,7 +74,7 @@ test: ## Run tests (template syntax, dry-run)
 	@echo "Verifying template syntax..."
 	@chezmoi execute-template '{{ .chezmoi.sourceDir }}' >/dev/null && echo "  sourceDir: OK" || true
 	@echo "Dry-run apply..."
-	@chezmoi apply --dry-run 2>/dev/null && echo "  dry-run: OK" || echo "  dry-run: skipped (age/Bitwarden may be required)"
+	@chezmoi apply --dry-run 2>/dev/null && echo "  dry-run: OK" || echo "  dry-run: skipped (age passphrase may be required)"
 	@echo "✓ Tests completed"
 
 .PHONY: completion
@@ -90,7 +90,7 @@ doctor: ## Run chezmoi doctor (health check)
 .PHONY: verify
 verify: ## Verify chezmoi scripts
 	@echo "Verifying chezmoi scripts..."
-	@chezmoi verify 2>/dev/null && echo "  verify: OK" || echo "  verify: skipped (scripts may require age/Bitwarden)"
+	@chezmoi verify 2>/dev/null && echo "  verify: OK" || echo "  verify: skipped (age passphrase may be required)"
 	@echo "✓ Verify completed"
 
 ##@ Docker
@@ -123,7 +123,7 @@ docker-run: docker-build ## Build and run Docker container
 .PHONY: up
 up: ## Start Docker Compose services
 	@echo "Starting Docker Compose services..."
-	cd .devcontainer && docker compose up -d
+	cd .devcontainer && docker compose up -d --build
 	@echo "✓ Services started"
 
 .PHONY: down
@@ -201,16 +201,11 @@ git-status: ## Show git status
 ##@ Security & Encryption
 
 .PHONY: age-keygen
-age-keygen: ## Generate new age encryption key
-	@echo "Generating new age key..."
-	age-keygen | age --armor --passphrase > ./home/key.txt.age
-	@echo "✓ Age key generated"
-
-.PHONY: bw-unlock
-bw-unlock: ## Unlock Bitwarden vault
-	@echo "Unlocking Bitwarden vault..."
-	@eval $$(bw unlock --raw | awk '{print "export BW_SESSION="$$1}')
-	@echo "✓ Bitwarden vault unlocked"
+age-keygen: ## Generate local Mise age identity
+	@mkdir -p "$(HOME)/.config/mise"
+	@chezmoi age-keygen --output="$(HOME)/.config/mise/age.txt"
+	@chmod 600 "$(HOME)/.config/mise/age.txt"
+	@echo "Age identity written to $(HOME)/.config/mise/age.txt"
 
 ##@ Cleanup
 

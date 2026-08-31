@@ -56,7 +56,7 @@ if command -v pipewire >/dev/null 2>&1; then
     wireplumber &
     pipewire-pulse &
 fi
-exec xfce4-session
+exec dbus-run-session -- xfce4-session
 XSESSION
         chmod +x "${HOME}/.xsession"
     fi

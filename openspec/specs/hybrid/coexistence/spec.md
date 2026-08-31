@@ -8,7 +8,7 @@ Defines how Chezmoi and Mise coexist during phased migration without breaking cr
 
 ### Requirement: Clear responsibility split
 
-During and after phase-1 migration, Chezmoi SHALL remain authoritative for templated config file deployment, age-encrypted secrets, host/user branching in `.chezmoi.toml.tmpl`, encrypted SSH files and SSH config templates, VS Code extension installation, external archive fetching, and agent-skills installation. Optional local key generation and permission repair SHALL be provided by the explicit `ssh_setup` command, not by a Chezmoi lifecycle hook. Mise SHALL be authoritative for tool versions (`mise.toml` `[tools]`), OS package bootstrap (`[bootstrap.packages]`), and macOS declarative defaults (`[bootstrap.macos.*]`).
+During and after phase-1 migration, Chezmoi SHALL remain authoritative for templated config file deployment, age passphrase/symmetric encrypted secrets, host/user branching in `.chezmoi.toml.tmpl`, encrypted SSH files and SSH config templates, VS Code extension installation, external archive fetching, and agent-skills installation. Optional local key generation and permission repair SHALL be provided by the explicit `ssh_setup` command, not by a Chezmoi lifecycle hook. Mise SHALL be authoritative for tool versions (`mise.toml` `[tools]`), OS package bootstrap (`[bootstrap.packages]`), macOS declarative defaults (`[bootstrap.macos.*]`), and direct age-encrypted runtime environment values using a separate raw identity file.
 
 #### Scenario: Config file still managed by chezmoi
 
@@ -22,7 +22,7 @@ During and after phase-1 migration, Chezmoi SHALL remain authoritative for templ
 
 ### Requirement: Documented bootstrap ordering
 
-The repository SHALL document a recommended apply order for new machines: Chezmoi bootstrap prerequisites (mise binary, age/bitwarden if needed) → `mise bootstrap` (packages, macOS defaults) → `chezmoi apply` (configs, remaining scripts).
+The repository SHALL document a recommended apply order for new machines: install Mise and the age binary required by Chezmoi → create the separate Mise runtime identity when needed → `chezmoi apply` with interactive passphrase → `mise bootstrap` (packages, macOS defaults) → `mise install` and remaining platform tasks.
 
 #### Scenario: Fresh macOS setup
 
@@ -73,9 +73,9 @@ The migration SHALL preserve behavior on macOS, Linux, and Windows targets defin
 
 ### Requirement: CI and container environments skip host bootstrap
 
-In CI, Codespaces, Remote Containers, Docker, and sandbox environments detected by `.chezmoi.toml.tmpl`, secret-dependent and heavy bootstrap steps SHALL remain disabled as today; Mise bootstrap package steps SHALL NOT assume interactive sudo or GUI availability in those environments.
+In CI, Codespaces, Remote Containers, Docker, and sandbox environments detected by `.chezmoi.toml.tmpl`, secret-dependent and heavy bootstrap steps SHALL remain disabled as today; Mise bootstrap package steps SHALL NOT assume interactive sudo or GUI availability in those environments. Docker SHALL ignore Chezmoi encrypted targets and SHALL NOT receive private keys or passphrases.
 
 #### Scenario: GitHub Actions runner
 
 - **WHEN** `GITHUB_ACTIONS=true` and `chezmoi apply` runs
-- **THEN** age/bitwarden decryption and personal macOS defaults are skipped, matching current template guards
+- **THEN** Chezmoi encrypted targets and personal macOS defaults are skipped; no Bitwarden CLI or unlock flow runs

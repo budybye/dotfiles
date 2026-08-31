@@ -13,41 +13,24 @@ key.txt
 .ssh/id_rsa*
 {{ end }}
 
-{{ if or (eq .chezmoi.username "ubuntu") (eq .chezmoi.username "dev") }}
-.chezmoiscripts/linux/setup.sh
-.chezmoiscripts/linux/snap.sh
-{{ end }}
-
-{{ if eq (env "REMOTE_CONTAINERS") "true" }}
-.chezmoiscripts/vscode.sh
-{{ end }}
-
 {{ if or (eq (env "DOCKER") "true") (eq (env "REMOTE_CONTAINERS") "true") }}
 .config/mise.toml
-.chezmoiscripts/linux/cli.sh
-.chezmoiscripts/linux/gui.sh
-.chezmoiscripts/linux/setup.sh
-.chezmoiscripts/linux/docker.sh
-.chezmoiscripts/linux/snap.sh
+.ssh/authorized_keys*
+.ssh/id_ed25519*
+.ssh/id_rsa*
+.env*
+.chezmoiscripts/vscode.sh
+.chezmoiscripts/linux/**
 {{ end }}
 
 {{ if eq .github false }}
 .config/git/user*
 {{ end }}
 
-{{ if eq .bitwarden false }}
-.config/git/user*
-.ssh/id_ed25519*
-.ssh/id_rsa*
-.config/cursor/mcp.json
-.claude/settings.json
-.chezmoiscripts/bw.sh
-{{ end }}
 
 {{ if eq .age false }}
 .ssh/id_rsa*
 .ssh/id_ed25519*
-.local/bin/envars*
 .env*
 .chezmoiscripts/age.sh
 {{ end }}
@@ -58,11 +41,9 @@ key.txt
 
 {{ if ne .chezmoi.os "darwin" }}
 .config/Brewfile
-.config/homebrew
 .config/karabiner
 .ssh/id_rsa*
 .chezmoiscripts/darwin/**
-Library
 {{ end }}
 
 {{ if ne .chezmoi.os "linux" }}
@@ -76,6 +57,7 @@ Library
 
 {{ if eq .chezmoi.os "windows" }}
 .config/**
+.ssh/**
 *rc
 *profile
 *env
