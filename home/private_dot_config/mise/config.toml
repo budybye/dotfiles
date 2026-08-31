@@ -335,6 +335,7 @@ yt-dlp = "latest"
 # =============================================================================
 # build
 ninja = "latest"
+# cmake = "latest"
 # make = "latest"
 # bpkg = "latest"
  
@@ -403,15 +404,13 @@ ffmpeg = "latest"        # C
 
 # desktop / GUI（無効化中・用途グループ）
 # "github:ownself/wewa" = "latest" # rust web-wall-papper
-# "github:nix-community/home-manager" = "latest" # Nix
-# "github:freerdp/freerdp" = "latest"
 
 # "github:zed-industries/zed" = "latest"         # Rust
 # "github:zen-browser/desktop" = "latest"        # JavaScript
 # "github:obsidianmd/obsidian-releases" = "latest"
+# "github:vicinaehq/vicinae" = "latest"          # C++
 
 # "github:generalaction/emdash" = "latest"
-# "github:vicinaehq/vicinae" = "latest"          # C++
 # "github:webadderallorg/Recordly" = "latest"    # TypeScript
 
 #ジョーク系

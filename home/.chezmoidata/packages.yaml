@@ -180,8 +180,8 @@ packages:
   snap:
     classic:
       - "ghostty"
-      # - 'obsidian'
       # - "alacritty"
+      # - 'obsidian amd64'
       # - 'code' amd64
       # - 'codium' arm64
     latest:
@@ -200,7 +200,7 @@ packages:
     - "adpyke.codesnap"
     - "ambar.bundle-size"
     - "antfu.slidev"
-    - "anthropic.claude-code"
+    # - "anthropic.claude-code"
     - "bradlc.vscode-tailwindcss"
     - "bmewburn.vscode-intelephense-client"
     - "bierner.markdown-emoji"
@@ -221,7 +221,7 @@ packages:
     - "docker.docker"
     - "golang.go"
     - "github.vscode-github-actions"
-    - "hediet.vscode-drawio"
+    # - "hediet.vscode-drawio"
     - "hono.hono"
     - "hverlin.mise-vscode"
     - "ibm.output-colorizer"
@@ -232,7 +232,7 @@ packages:
     # - 'kdl-org.kdl'
     - "kimlimjustin.jsdoc-generator"
     - "lokalise.i18n-ally"
-    - "matthewpi.caddyfile-support"
+    # - "matthewpi.caddyfile-support"
     - "marp-team.marp-vscode"
     - "mermaidchart.vscode-mermaid-chart"
     - "mechatroner.rainbow-csv"
@@ -266,7 +266,7 @@ packages:
     # - "wallabyjs.console-ninja"
     # - "xdebug.php-debug"
     - "yoavbls.pretty-ts-errors"
-    - "yzhang.markdown-all-in-one"
+    # - "yzhang.markdown-all-in-one"
 
   windows:
     winget:
@@ -686,11 +686,11 @@ packages:
     # - 'docker'
     # - 'rclone'
 
-  python:
-    - "miasm"
-    - "pypdf"
-    - "defusedxml"
-    - "lxml"
-    - "graphifyy"
+  # python:
+  #   - "miasm"
+  #   - "pypdf"
+  #   - "defusedxml"
+  #   - "lxml"
+  #   - "graphifyy"
     # - "ddgr"
     # - "crow-cli"
