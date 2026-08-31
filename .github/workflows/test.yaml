@@ -68,10 +68,6 @@ jobs:
           sudo apt-get autoclean -y >/dev/null 2>&1 || true
           df -h
       - uses: actions/checkout@v6
-      - name: Configure Mise CI profile
-        run: |
-          echo "MISE_CONFIG_FILE=${HOME}/.config/mise/ci.toml" >> "$GITHUB_ENV"
-          echo "MISE_GLOBAL_CONFIG_FILE=${HOME}/.config/mise/config.toml" >> "$GITHUB_ENV"
       - name: make
         run: make init
 
@@ -81,10 +77,6 @@ jobs:
       MISE_GITHUB_TOKEN: ${{ secrets.MISE_GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v6
-      - name: Configure Mise CI profile
-        run: |
-          echo "MISE_CONFIG_FILE=${HOME}/.config/mise/ci.toml" >> "$GITHUB_ENV"
-          echo "MISE_GLOBAL_CONFIG_FILE=${HOME}/.config/mise/config.toml" >> "$GITHUB_ENV"
       - name: make
         run: make init
 
@@ -95,10 +87,6 @@ jobs:
       MISE_GITHUB_TOKEN: ${{ secrets.MISE_GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v6
-      - name: Configure Mise CI profile
-        run: |
-          echo "MISE_CONFIG_FILE=${HOME}/.config/mise/ci.toml" >> "$GITHUB_ENV"
-          echo "MISE_GLOBAL_CONFIG_FILE=${HOME}/.config/mise/config.toml" >> "$GITHUB_ENV"
       - name: make
         run: make init
       - name: Bootstrap Homebrew formulae

@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 # Linux 初回 GUI セットアップ (chezmoi run_once → ~/.local/share/chezmoi/.../setup.sh)
 # ロケール・xrdp・PipeWire 音声リダイレクトを構成する。make init / chezmoi apply --force で1回だけ実行。
+
+# dockerでは systemd が動かない vm/ローカル用にする？
+
 set -eu
 
 # root でないときだけ sudo を使う
