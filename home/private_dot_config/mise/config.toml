@@ -80,12 +80,12 @@ watchexec = "latest" # auto runner
 "npm:@testsprite/testsprite-cli" = "latest"
 "npm:@cyberstrike-io/cyberstrike" = "latest"
 "npm:@keygraph/shannon" = "latest"
-# "npm:docusaurus"
-# "npm:musubi-ssd"
+"npm:duckduckgo-cli" = "latest"
+# "npm:docusaurus" = "latest"
+# "npm:musubi-ssd" = "latest"
 # "npm:bigpowers" = "latest"
-# "npm:docsify-cli"
-# "npm:plash"
-# "npm:opensrc"
+# "npm:docsify-cli" = "latest"
+# "npm:plash" = "latest"
 
 # "npm:pyright" = "latest"
 "npm:vscode-langservers-extracted" = "latest"
@@ -270,6 +270,7 @@ ast-grep = "latest"
 "cargo:denisidoro/navi" = "latest" # file 
 "cargo:denoland/celld" = "latest" # self-host durable objects
 "cargo:orhun/kmon" = "latest" 
+# "cargo:orhun/duckduckgo-cli" = "latest" 
 # "cargo:choose" = "latest" 
 # "cargo:alacritty" = "latest"
 # "cargo:gitlogue" = "latest"
@@ -314,11 +315,11 @@ yt-dlp = "latest"
 "pipx:pytest" = "latest"
 "pipx:sherlock-project/sherlock" = "latest"
 "pipx:ragas" = "latest"
-"pipx:ddgr" = "latest"
 "pipx:thefuck" = "latest" # uv tool install --python 3.11 thefuck しないとエラー
-# "pipx:setuptools" = "latest"
 "pipx:opendoor" = "latest"
 "pipx:NVIDIA/skillspector" = "latest"
+# "pipx:ddgr" = "latest"
+# "pipx:setuptools" = "latest"
 
 "pipx:headroomlabs-ai/headroom" = "latest"
 "pipx:halo-engine" = "latest"
@@ -327,6 +328,7 @@ yt-dlp = "latest"
 # "pipx:teng-lin/notebooklm-py" = "latest"
 
 # "pipx:cea-sec/miasm" = "latest"
+
 "conda:pypdf" = "latest"
 "conda:lxml" = "latest"
 "conda:defusedxml" = "latest"
@@ -381,7 +383,7 @@ ruby = "latest"
 # neko = "latest"
 
 # github (Swift / C# など)
-"github:manaflow-ai/cmux" = "latest"       # Swift
+# "github:manaflow-ai/cmux" = "latest"       # Swift
 "github:iofficeai/officecli" = "latest"    # C#
 
 # =============================================================================

@@ -123,7 +123,7 @@ docker-run: docker-build ## Build and run Docker container
 .PHONY: up
 up: ## Start Docker Compose services
 	@echo "Starting Docker Compose services..."
-	cd .devcontainer && docker compose up -d --build
+	cd .devcontainer && docker compose up -d --build --no-cache
 	@echo "✓ Services started"
 
 .PHONY: down

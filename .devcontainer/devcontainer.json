@@ -1,9 +1,9 @@
 {
   // "schema": "https://github.com/devcontainers/spec/blob/main/schemas/devContainer.schema.json",
-  "name": "ubuntu-dev",
+  "name": "ubuntu",
   // "build.context": ".",
   "dockerComposeFile": "compose.yaml",
-  "service": "ubuntu",
+  "service": "dev",
   "containerUser": "dev",
   "remoteUser": "dev",
   "workspaceFolder": "/home/dev",

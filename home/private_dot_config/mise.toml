@@ -138,19 +138,19 @@ adopt = true
 "brew:tree" = { os = "macos" }
 "brew:pkgconf" = { os = "macos" }
 "brew:gcc" = { os = "macos" }
-"brew:mpd" = { os = "macos" }
-"brew:mpc" = { os = "macos" }
-"brew:ncmpcpp" = { os = "macos" }
 "brew:gawk" = { os = "macos" }
 "brew:gnupg" = { os = "macos" }
 "brew:nmap" = { os = "macos" }
 "brew:qemu" = { os = "macos" }
-"brew:mackup" = { os = "macos" }
 "brew:git" = { os = "macos" }
 "brew:make" = { os = "macos" }
 "brew:mise" = { os = "macos" }
 "brew:multitail" = { os = "macos" }
 "brew:zsh" = { os = "macos" }
+
+"brew:mpd" = { os = "macos" }
+"brew:mpc" = { os = "macos" }
+"brew:ncmpcpp" = { os = "macos" }
 
 "brew-cask:bitwarden" = { os = "macos" }
 "brew-cask:brave-browser" = { os = "macos" }
@@ -162,6 +162,7 @@ adopt = true
 "brew-cask:font-hackgen-nerd" = { os = "macos" }
 "brew-cask:ghostty" = { os = "macos" }
 "brew-cask:keyclu" = { os = "macos" }
+# "brew-cask:skills-manager" = { os = "macos" }
 "brew-cask:musicbrainz-picard" = { os = "macos" }
 "brew-cask:obsidian" = { os = "macos" }
 # "brew-cask:onyx" = { os = "macos" } # なぜかエラー
@@ -232,7 +233,6 @@ adopt = true
 "apt:snapd" = "latest"
 "apt:ufw" = "latest"
 "apt:rsyslog" = "latest"
-"apt:im-config" = "latest"
 "apt:ruby" = "latest"
 "apt:oneko" = "latest"
 "apt:nyancat" = "latest"

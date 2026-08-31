@@ -19,7 +19,6 @@ RUN apt-get install -y \
     manpages-ja \
     tzdata \
     fcitx5-mozc \
-    im-config \
     locales
 
 RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezone && \
@@ -93,10 +92,6 @@ RUN apt-get install -y \
     python3 \
     ruby \
     flatpak
-
-RUN apt-get install -y \
-    oneko \
-    nyancat
 
 # devユーザー設定
 ARG DEV=dev
