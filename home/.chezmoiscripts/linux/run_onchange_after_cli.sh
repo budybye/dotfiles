@@ -54,7 +54,7 @@ install_mise() {
         $sudo apt-get install -y mise || echo "mise install failed."
     fi
 
-    export PATH="${HOME}/.local/bin:${HOME}/.local/share/mise/shims:${HOME}/.local/bin:${HOME}/.local/share/mise/installs:$PATH"
+    export PATH="${HOME}/.local/bin:${HOME}/.local/share/mise/shims:${HOME}/.local/share/mise/installs:$PATH"
     
     eval "$(mise activate bash)"
 
@@ -63,6 +63,7 @@ install_mise() {
     if [ -f "${HOME}/.config/mise.toml" ]; then
         mise bootstrap packages apply --manager apt -y || echo "mise bootstrap packages failed."
     fi
+    
     if [ -f "${HOME}/.config/mise/config.toml" ]; then
         MISE_CONFIG_FILE="${HOME}/.config/mise/config.toml" mise i -y || echo "mise install failed."
     fi
