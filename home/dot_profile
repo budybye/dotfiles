@@ -45,6 +45,7 @@ export XDG_CONFIG_HOME="${HOME}/.config"
 export XDG_DATA_HOME="${HOME}/.local/share"
 export XDG_STATE_HOME="${HOME}/.local/state"
 export XDG_CACHE_HOME="${HOME}/.cache"
+unset MISE_CONFIG_FILE MISE_GLOBAL_CONFIG_FILE
 
 export XDG_DATA_DIRS="${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
 export XDG_CONFIG_DIRS="${XDG_CONFIG_DIRS:-/etc/xdg}"
@@ -145,8 +146,8 @@ fi
 
 if command -v mise >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/mise"
-    # export MISE_CONFIG_FILE="${XDG_CONFIG_HOME}/mise.toml"
     export MISE_CONFIG_DIR="${XDG_CONFIG_HOME}/mise"
+    unset MISE_CONFIG_FILE MISE_GLOBAL_CONFIG_FILE
     export MISE_INSTALL_PATH="${HOME}/.local/bin/mise"
     # touch "${MISE_CONFIG_DIR}/shorthands.toml"
     # export MISE_SHORTHANDS_FILE="${MISE_CONFIG_DIR}/shorthands.toml"

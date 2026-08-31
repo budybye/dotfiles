@@ -22,6 +22,15 @@ key.txt
 .chezmoiscripts/vscode.sh
 {{ end }}
 
+{{ if or (eq (env "DOCKER") "true") (eq (env "REMOTE_CONTAINERS") "true") }}
+.config/mise.toml
+.chezmoiscripts/linux/cli.sh
+.chezmoiscripts/linux/gui.sh
+.chezmoiscripts/linux/setup.sh
+.chezmoiscripts/linux/docker.sh
+.chezmoiscripts/linux/snap.sh
+{{ end }}
+
 {{ if eq .github false }}
 .config/git/user*
 {{ end }}

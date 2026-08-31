@@ -145,7 +145,6 @@ jobs:
           platforms: ${{ matrix.platform }}
           # cache-from: type=registry,ref=${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }}
           # cache-to: type=registry,ref=${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }},mode=max
-          tags: ${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }}-full
           labels: ${{ steps.meta.outputs.labels }}
           annotations: ${{ steps.meta.outputs.annotations }}
           outputs: type=image,name=${{ env.REGISTRY_IMAGE }},push-by-digest=true,name-canonical=true,push=true
