@@ -31,7 +31,7 @@ alias oppi='for i in {1..3}; do time ${SHELL:-bash} -lc exit;done && exec ${SHEL
 
 # ドキュメント
 alias note='${EDITOR:-vim} ${HOME}/Developer/docs/note.md'  # ノートを開く
-alias docs='cd ${HOME}/Developer/docs'  # ドキュメントフォルダに移動
+# alias docs='cd ${HOME}/Developer/docs'  # ドキュメントフォルダに移動
 alias br="echo -------------------------------------" # 区切り線
 
 # ファイル操作のエイリアス
@@ -211,7 +211,7 @@ if command -v chezmoi >/dev/null 2>&1; then
     alias cai="che init --apply https://github.com/budybye/dotfiles.git"
     alias ce="che execute-template"
     alias cbd="che edit"
-    alias ccc="che edit-config"
+    alias cec="che edit-config"
     alias cs="che secret"
 fi
 
@@ -270,7 +270,7 @@ if command -v multipass >/dev/null 2>&1; then
     alias mp="multipass"
     alias md="mp launch docker -c 4 -m 8G -d 42G --timeout 3600 && mp info docker"
     alias ml='mp launch -n ubuntu -c 4 -m 8G -d 42G --timeout 7200 --cloud-init ${HOME}/dotfiles/cloud-init/multipass.yaml && mp exec ubuntu -- tail -7 /var/log/cloud-init.log'
-    alias ms="mp stop ubuntu && mp delete -p ubuntu && mp list"
+    # alias ms="mp stop ubuntu && mp delete -p ubuntu && mp list"
 fi
 
 # kube
@@ -314,16 +314,6 @@ if command -v brew >/dev/null 2>&1; then
     }
     function bb() {
         bf && bu
-    }
-    function bbb() {
-        bb
-        dumpfile=${HOME}/.config/homebrew/Brewfile
-        if [ -f "${dumpfile}" ]; then
-            cp "${dumpfile}" "${dumpfile}.bak"
-            rm -f "${dumpfile}"
-        fi
-        brew bundle dump --file "${dumpfile}"
-        cat "${dumpfile}"
     }
 fi
 
@@ -431,13 +421,6 @@ if command -v openssl >/dev/null 2>&1; then
     function sec() {
         ENV_FILE="${ENV_FILE:-.env}"
         echo "${1:-SECRET}=$(openssl rand -base64 32)" >> "${ENV_FILE}" && ls
-    }
-fi
-
-if command -v rj >/dev/null 2>&1 && command -v jq >/dev/null 2>&1; then
-    function rq() {
-        API_URL=${1:-${API_URL:-"https://8102.jp/api"}}
-        rj "${API_URL}" | jq -r './rq_data'
     }
 fi
 

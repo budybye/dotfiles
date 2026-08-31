@@ -89,28 +89,6 @@ jobs:
       - uses: actions/checkout@v6
       - name: make
         run: make init
-      - name: Bootstrap Homebrew formulae
-        run: mise bootstrap packages apply --manager brew -y
-      - name: Bootstrap Homebrew casks
-        id: brew_cask
-        continue-on-error: true
-        run: mise bootstrap packages apply --manager brew-cask -y
-      - name: Bootstrap Mac App Store
-        id: mas
-        continue-on-error: true
-        run: mise bootstrap packages apply --manager mas -y
-      - name: Apply macOS defaults
-        run: mise bootstrap macos defaults apply -y
-      - name: Apply macOS LaunchAgents
-        run: mise bootstrap macos launchd-agents apply -y
-      - name: Summarize optional bootstrap warnings
-        if: always()
-        run: |
-          {
-            echo "## macOS bootstrap optional managers"
-            echo "- brew-cask: ${{ steps.brew_cask.outcome }}"
-            echo "- mas: ${{ steps.mas.outcome }}"
-          } >> "$GITHUB_STEP_SUMMARY"
 
   powershell:
     runs-on: windows-latest

@@ -1,5 +1,5 @@
 # インタラクティブシェルでのみ読み込む
-[ -z "${PS1}" ] && return
+# [ -z "${PS1}" ] && return
 
 # Source global definitions
 if [ -f /etc/bashrc ]; then
@@ -9,16 +9,16 @@ fi
 # プロンプトの設定
 PS1='\[\e[32m\]\u@\h\[\e[m\]:\[\e[34m\]\w\[\e[m\] \$ '
 
-# cdコマンド実行後に自動でlsを実行する
-cd() {
-    builtin cd "${@}" && ls -la
-}
+# # cdコマンド実行後に自動でlsを実行する
+# cd() {
+#     builtin cd "${@}" && ls -la
+# }
 
-# bash 5.2 以上で autocd を有効にする
-if [ "${BASH_VERSINFO[0]}" -gt 5 ] || \
-   { [ "${BASH_VERSINFO[0]}" -eq 5 ] && [ "${BASH_VERSINFO[1]}" -ge 2 ]; }; then
-    shopt -s autocd
-fi
+# # bash 5.2 以上で autocd を有効にする
+# if [ "${BASH_VERSINFO[0]}" -gt 5 ] || \
+#    { [ "${BASH_VERSINFO[0]}" -eq 5 ] && [ "${BASH_VERSINFO[1]}" -ge 2 ]; }; then
+#     shopt -s autocd
+# fi
 
 # homebrew
 if command -v brew > /dev/null 2>&1; then

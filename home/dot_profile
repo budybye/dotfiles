@@ -145,6 +145,7 @@ fi
 
 if command -v mise >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/mise"
+    # export MISE_CONFIG_FILE="${XDG_CONFIG_HOME}/mise.toml"
     export MISE_CONFIG_DIR="${XDG_CONFIG_HOME}/mise"
     export MISE_INSTALL_PATH="${HOME}/.local/bin/mise"
     # touch "${MISE_CONFIG_DIR}/shorthands.toml"
