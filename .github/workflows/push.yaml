@@ -197,7 +197,7 @@ jobs:
         with:
           compose-file: .devcontainer/compose.yaml
           services: |
-            ubuntu
+            dev
 
       - name: Docker compose test
         if: matrix.flavor.name == 'slim'

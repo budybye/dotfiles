@@ -116,7 +116,7 @@
 
 - [ ] **Step 3: Keep the shared no-systemd `.xsession` implementation**
 
-  In no-systemd containers, write pipewire processes when available and finish with `exec dbus-run-session -- xfce4-session`; the systemd branch keeps plain `xfce4-session`.
+  In no-systemd containers, write pipewire processes when available, unset any inherited D-Bus address, and finish with `exec dbus-launch --exit-with-session startxfce4`; the systemd branch keeps plain `xfce4-session`.
 
 - [ ] **Step 4: Do not inject GitHub tokens into desktop sessions**
 

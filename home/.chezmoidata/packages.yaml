@@ -641,7 +641,7 @@ packages:
       - "saadeghi/daisyui -s daisyui"
       - "mengto/skills -s cobejs"
       - "nutlope/hallmark -s hallmark"
-      # - "thedotmack/claude-mem -s babysit"
+      - "thedotmack/claude-mem -s babysit"
       
       # withastro/flue
       # - "withastro/flue -s flue" # not in skills list -g

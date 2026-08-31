@@ -120,6 +120,8 @@ RUN git clone https://github.com/budybye/dotfiles.git /home/ubuntu/dotfiles
 WORKDIR /home/ubuntu/dotfiles
 USER ubuntu
 RUN make init
+# Docker は systemd-cat を使う im-config を実行しない
+RUN sudo apt-get purge -y im-config
 
 # 不要なパッケージ キャッシュを削除（make init 内の apt-get の後）
 RUN sudo apt-get autoremove -y && \

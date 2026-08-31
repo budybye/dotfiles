@@ -56,7 +56,8 @@ if command -v pipewire >/dev/null 2>&1; then
     wireplumber &
     pipewire-pulse &
 fi
-exec dbus-run-session -- xfce4-session
+unset DBUS_SESSION_BUS_ADDRESS
+exec dbus-launch --exit-with-session startxfce4
 XSESSION
         chmod +x "${HOME}/.xsession"
     fi
