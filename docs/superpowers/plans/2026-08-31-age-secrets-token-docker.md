@@ -106,9 +106,9 @@
 - Consumes: existing Ubuntu base `ubuntu` user and XFCE/xrdp packages.
 - Produces: idempotent user setup and `.xsession` using the no-systemd XFCE path.
 
-- [ ] **Step 1: Fix login-profile shell failure**
+- [ ] **Step 1: Make login profile POSIX-safe**
 
-  Replace invalid `export store-dir="${XDG_DATA_HOME}/pnpm-store"` with `export npm_config_store_dir="${XDG_DATA_HOME}/pnpm-store"` or remove it. The current invalid variable name causes `dash` to exit with `bad variable name` while xrdp sources `.profile`.
+  Derive the user id with `id -u`, not Bash-only `${UID}`. `/etc/xrdp/startwm.sh` sources `.profile` through `/bin/sh`; an empty UID creates `/run/user/`, which breaks D-Bus and PipeWire.
 
 - [ ] **Step 2: Make entrypoint user creation idempotent**
 
@@ -118,11 +118,15 @@
 
   In no-systemd containers, write pipewire processes when available and finish with `exec dbus-run-session -- xfce4-session`; the systemd branch keeps plain `xfce4-session`.
 
-- [ ] **Step 4: Keep Docker free of display-manager setup**
+- [ ] **Step 4: Do not inject GitHub tokens into desktop sessions**
+
+  Remove `GITHUB_TOKEN` and `MISE_GITHUB_TOKEN` from Compose runtime environment. `dbus-update-activation-environment` logs inherited variables into `.xsession-errors`.
+
+- [ ] **Step 5: Keep Docker free of display-manager setup**
 
   Do not install or start SDDM in the Docker image. Keep xrdp services in the entrypoint and XFCE as the session manager.
 
-- [ ] **Step 5: Verify the actual container path**
+- [ ] **Step 6: Verify the actual container path**
 
   Rebuild and start the Ubuntu image, connect over RDP, and confirm the session remains open with XFCE. Expected log sequence: successful login, Xorg display working, `xfce4-session` remains running; no immediate window-manager exit.
 

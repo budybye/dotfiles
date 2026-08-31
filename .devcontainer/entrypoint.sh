@@ -108,7 +108,9 @@ while [ $# -ne 0 ]; do
     if [[ $3 == "yes" ]]; then
         $sudo usermod -aG sudo "$1"
     fi
+    
     configure_xsession "$1"
+
     wait
     # echo "user '$1' is added"
 

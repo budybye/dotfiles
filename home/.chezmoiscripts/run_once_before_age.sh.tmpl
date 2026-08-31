@@ -13,15 +13,14 @@ elif command -v curl >/dev/null 2>&1; then
     curl https://mise.run | sh || echo "mise install failed."
     export PATH="${HOME}/.local/bin:${PATH}"
 
-    mkdir -p "${HOME}/.config/mise"
-    export MISE_CONFIG_DIR="${HOME}/.config/mise"
-    eval "$(mise activate bash)"
-
 else
     echo "mise install failed."
     exit 1
 fi
-    
+
+mkdir -p "${HOME}/.config/mise"
+export MISE_CONFIG_DIR="${HOME}/.config/mise"
+eval "$(mise activate bash)" || echo "mise activate failed."
 mise --version || echo "mise command not found."
 echo "mise installed"
 echo "--------------------------------"
@@ -30,9 +29,6 @@ if command -v age >/dev/null 2>&1; then
     echo "age already installed"
 
 elif command -v mise >/dev/null 2>&1; then
-    mkdir -p "${HOME}/.config/mise"
-    export MISE_CONFIG_DIR="${HOME}/.config/mise"
-    eval "$(mise activate bash)"
     mise use -g -y age@latest || echo "age install failed"
 
 elif command -v brew >/dev/null 2>&1; then

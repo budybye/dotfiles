@@ -66,7 +66,6 @@ RUN apt-get install -y \
     pwgen \
     gawk \
     lsd \
-    ffmpeg \
     mpd \
     mpc \
     ncmpcpp \
