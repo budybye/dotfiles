@@ -38,9 +38,12 @@ stop_xrdp_services() {
 configure_xsession() {
     local user_name="$1"
     local user_home="/home/${user_name}"
+    local user_runtime_dir="/run/user/$($sudo id -u "$user_name")"
 
+    $sudo install -d -m 700 -o "$user_name" -g "$user_name" "$user_runtime_dir"
     $sudo tee "${user_home}/.xsession" >/dev/null <<'XSESSION'
 #!/bin/sh
+export XDG_RUNTIME_DIR="/run/user/$(id -u)"
 if command -v pipewire >/dev/null 2>&1; then
     pipewire &
     wireplumber &

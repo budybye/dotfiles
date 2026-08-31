@@ -20,16 +20,18 @@ system_info:
     groups: [users,sudo,adm,ssl-cert,xrdp,docker]
     shell: /bin/bash
     sudo: ["ALL=(ALL) NOPASSWD:ALL"]
+
 users:
 - default
 - name: budybye
   lock_passwd: false
   passwd: budybye
   home: /home/budybye
-  uid: 1001
-  gid: 1001
+  uid: 1024
+  gid: 1024
   groups: [users,sudo,adm,ssl-cert,xrdp,docker]
   shell: /usr/bin/zsh
+  
 ssh_pwauth: false
 # グローバルに github の ssh key を登録する便利 ssh-import-id
 ssh_import_id:
@@ -158,16 +160,17 @@ packages:
 runcmd:
 - |
   curl -fsSL https://mise.run | sh
-  curl -fsSL get.chezmoi.io | sudo sh -s -- -b /usr/local/bin
+  curl -fsSL get.chezmoi.io | sh -s -- -b /usr/local/bin
   # chezmoi init --apply budybye
   git clone https://github.com/budybye/dotfiles.git /home/ubuntu/dotfiles
-# - |
-  # sudo groupadd -f ssl-cert
-  # sudo groupadd -f xrdp
-  # sudo usermod -aG ssl-cert,xrdp budybye ubuntu
-  # echo "xfce4-session" > ~/.xsession
-  # sudo update-alternatives --set x-session-manager /usr/bin/xfce4-session
-  # sudo systemctl enable xrdp
+- |
+  # groupadd -f ssl-cert
+  # groupadd -f xrdp
+  # usermod -aG ssl-cert,xrdp budybye ubuntu
+  echo "xfce4-session" > /home/ubuntu/.xsession
+  echo "xfce4-session" > /home/budybye/.xsession
+  update-alternatives --set x-session-manager /usr/bin/xfce4-session
+  systemctl enable xrdp
 
 # blueprint docker.yamlのパクリ
 # https://github.com/canonical/multipass-blueprints/blob/main/v1/docker.yaml

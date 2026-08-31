@@ -1,10 +1,6 @@
 # [bootstrap.user]
 # login_shell = "/bin/zsh"
 
-# Mac用
-[bootstrap.brew]
-adopt = true
-
 # interface_setup: F1/F2, key repeat, press-and-hold, and trackpad input
 [bootstrap.macos.keyboard]
 fn_state = true
@@ -103,29 +99,33 @@ DisableAllAnimations = true
 WarnOnEmptyTrash = false
 
 # macOS defaults restart was opt-in; use mise run macos-restart explicitly.
-[tasks.macos-restart]
-description = "Restart macOS apps after defaults changes"
-run = """
-if [ "$(uname -s)" != "Darwin" ]; then
-  exit 0
-fi
+# [tasks.macos-restart]
+# description = "Restart macOS apps after defaults changes"
+# run = """
+# if [ "$(uname -s)" != "Darwin" ]; then
+#   exit 0
+# fi
 
-for app in \
-  "Activity Monitor" \
-  "Address Book" \
-  "Calendar" \
-  "Contacts" \
-  "Dock" \
-  "Finder" \
-  "Mail" \
-  "Messages" \
-  "Photos" \
-  "Safari" \
-  "Terminal" \
-  "SystemUIServer"; do
-  killall "${app}" >/dev/null 2>&1 || echo "${app} was not running."
-done
-"""
+# for app in \
+#   "Activity Monitor" \
+#   "Address Book" \
+#   "Calendar" \
+#   "Contacts" \
+#   "Dock" \
+#   "Finder" \
+#   "Mail" \
+#   "Messages" \
+#   "Photos" \
+#   "Safari" \
+#   "Terminal" \
+#   "SystemUIServer"; do
+#   killall "${app}" >/dev/null 2>&1 || echo "${app} was not running."
+# done
+# """
+
+# Mac用
+[bootstrap.brew]
+adopt = true
 
 # [bootstrap.packages.tap]
 
@@ -189,6 +189,7 @@ done
 "apt:gnupg" = { os = "linux" }
 "apt:g++" = { os = "linux" }
 "apt:sudo" = { os = "linux" }
+"apt:autoconf" = { os = "linux" }
 
 "apt:flatpak" = { os = "linux" }
 "apt:tree" = { os = "linux" }
@@ -223,54 +224,52 @@ done
 "apt:libwebkit2gtk-4.1-dev" = { os = "linux" }
 "apt:libgtk-layer-shell-dev" = { os = "linux" }
 
-"apt:mpd" = { os = "linux" }
-"apt:mpc" = { os = "linux" }
-"apt:ncmpcpp" = { os = "linux" }
-"apt:net-tools" = { os = "linux" }
-"apt:nmap" = { os = "linux" }
-"apt:snapd" = { os = "linux" }
-"apt:ufw" = { os = "linux" }
-"apt:rsyslog" = { os = "linux" }
-"apt:im-config" = { os = "linux" }
-"apt:ruby" = { os = "linux" }
-"apt:oneko" = { os = "linux" }
-"apt:nyancat" = { os = "linux" }
-"apt:command-not-found" = { os = "linux" }
+"apt:mpd" = "latest"
+"apt:mpc" = "latest"
+"apt:ncmpcpp" = "latest"
+"apt:net-tools" = "latest"
+"apt:nmap" = "latest"
+"apt:snapd" = "latest"
+"apt:ufw" = "latest"
+"apt:rsyslog" = "latest"
+"apt:im-config" = "latest"
+"apt:ruby" = "latest"
+"apt:oneko" = "latest"
+"apt:nyancat" = "latest"
+"apt:command-not-found" = "latest"
 
-"apt:xfce4" = { os = "linux" }
-"apt:xfce4-goodies" = { os = "linux" }
-"apt:xrdp" = { os = "linux" }
-"apt:xorgxrdp" = { os = "linux" }
-"apt:dbus-x11" = { os = "linux" }
-# "apt:sddm" = { os = "linux" }
+"apt:xfce4" = "latest"
+"apt:xfce4-goodies" = "latest"
+"apt:xrdp" = "latest"
+"apt:xorgxrdp" = "latest"
+"apt:dbus-x11" = "latest"
+# "apt:sddm" = "latest"
 # "apt:gdm3" = "latest"
 # "apt:lightdm" = "latest"
 # "apt:tasksel" = "latest"
 # "apt:task-xfce-desktop" = "latest"
 
-"apt:libpulse-dev" = { os = "linux" }
-"apt:gnome-keyring" = { os = "linux" }
-"apt:pipewire" = { os = "linux" }
-"apt:pipewire-audio" = { os = "linux" }
-"apt:pipewire-pulse" = { os = "linux" }
-"apt:wireplumber" = { os = "linux" }
-"apt:libspa-0.2-dev" = { os = "linux" }
-"apt:libpipewire-0.3-dev" = { os = "linux" }
-"apt:asahi-audio" = { os = "linux/arm64" }
-"apt:autoconf" = { os = "linux" }
+"apt:libpulse-dev" = "latest"
+"apt:gnome-keyring" = "latest"
+"apt:pipewire" = "latest"
+"apt:pipewire-audio" = "latest"
+"apt:pipewire-pulse" = "latest"
+"apt:wireplumber" = "latest"
+"apt:libspa-0.2-dev" = "latest"
+"apt:libpipewire-0.3-dev" = "latest"
+"apt:asahi-audio" = "latest"
 
-"apt:language-pack-ja-base" = { os = "linux" }
-"apt:language-pack-ja" = { os = "linux" }
-"apt:manpages-ja" = { os = "linux" }
-"apt:fcitx5-mozc" = { os = "linux" }
+"apt:language-pack-ja-base" = "latest"
+"apt:language-pack-ja" = "latest"
+"apt:manpages-ja" = "latest"
+"apt:fcitx5-mozc" = "latest"
 
-"apt:plank" = { os = "linux" }
-"apt:picard" = { os = "linux" }
-"apt:freerdp-x11" = { os = "linux" }
-"apt:remmina" = { os = "linux" }
-"apt:xclip" = { os = "linux" }
-
-"apt:stow" = { os = "linux" }
+"apt:plank" = "latest"
+"apt:picard" = "latest"
+"apt:freerdp-x11" = "latest"
+"apt:remmina" = "latest"
+"apt:xclip" = "latest"
+# "apt:stow" = "latest"
 
 # "apt:docker.io" = "latest"
 # "apt:docker-compose-v2" = "latest"

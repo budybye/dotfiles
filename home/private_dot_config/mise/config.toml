@@ -66,6 +66,7 @@ watchexec = "latest" # auto runner
 "npm:localflare" = "latest"
 "npm:rnsec" = "latest"
 "npm:skills" = "latest"
+"npm:rosie-skills" = "latest"
 "npm:context-mode" = "latest"
 "npm:greptile" = "latest"
 "npm:planning-with-files" = "latest"
