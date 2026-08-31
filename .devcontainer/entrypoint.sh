@@ -33,6 +33,20 @@ stop_xrdp_services() {
     exit 0
 }
 
+# Docker では Chezmoi の Linux setup hook を除外するため、
+# xrdp が使う XFCE X11 セッションをここで用意する。
+configure_xsession() {
+    local user_name="$1"
+    local user_home="/home/${user_name}"
+
+    $sudo tee "${user_home}/.xsession" >/dev/null <<'XSESSION'
+#!/bin/sh
+exec dbus-run-session -- startxfce4
+XSESSION
+    $sudo chown "${user_name}:${user_name}" "${user_home}/.xsession"
+    $sudo chmod 700 "${user_home}/.xsession"
+}
+
 # エントリーポイントスクリプトが実行されたことを通知
 echo Entryponit script is Running...
 echo
@@ -82,6 +96,7 @@ while [ $# -ne 0 ]; do
     if [[ $3 == "yes" ]]; then
         $sudo usermod -aG sudo "$1"
     fi
+    configure_xsession "$1"
     wait
     # echo "user '$1' is added"
 

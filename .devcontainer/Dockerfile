@@ -90,12 +90,12 @@ RUN apt-get install -y \
     ca-certificates \
     apt-transport-https \
     software-properties-common \
+    command-not-found \
     python3 \
     ruby \
     flatpak
 
 RUN apt-get install -y \
-    command-not-found \
     oneko \
     nyancat
 
