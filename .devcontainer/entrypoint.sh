@@ -21,7 +21,6 @@ start_xrdp_services() {
     $sudo rm -rf /var/run/xrdp.pid
     $sudo rm -rf /var/run/xrdp/xrdp-sesman.pid
     $sudo rm -rf /var/run/xrdp/xrdp.pid
-
     # Use exec ... to forward SIGNAL to child processes
     $sudo xrdp-sesman && exec $sudo xrdp -n
 }
@@ -33,12 +32,12 @@ stop_xrdp_services() {
     exit 0
 }
 
-# Docker では Chezmoi の Linux setup hook を除外するため、
 # xrdp が使う XFCE X11 セッションをここで用意する。
 configure_xsession() {
     local user_name="$1"
     local user_home="/home/${user_name}"
-    local user_runtime_dir="/run/user/$($sudo id -u "$user_name")"
+    local user_runtime_dir
+    user_runtime_dir="/run/user/$($sudo id -u "$user_name")"
 
     $sudo install -d -m 700 -o "$user_name" -g "$user_name" "$user_runtime_dir"
     $sudo tee "${user_home}/.xsession" >/dev/null <<'XSESSION'

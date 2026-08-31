@@ -18,6 +18,7 @@ RUN apt-get install -y \
     language-pack-ja-base \
     manpages-ja \
     tzdata \
+    im-config \
     fcitx5-mozc \
     locales
 
@@ -64,7 +65,6 @@ RUN apt-get install -y \
     ncdu \
     pwgen \
     gawk \
-    lsd \
     mpd \
     mpc \
     ncmpcpp \
@@ -120,8 +120,9 @@ RUN git clone https://github.com/budybye/dotfiles.git /home/ubuntu/dotfiles
 WORKDIR /home/ubuntu/dotfiles
 USER ubuntu
 RUN make init
+
 # Docker は systemd-cat を使う im-config を実行しない
-RUN sudo apt-get purge -y im-config
+# RUN sudo apt-get purge -y im-config
 
 # 不要なパッケージ キャッシュを削除（make init 内の apt-get の後）
 RUN sudo apt-get autoremove -y && \

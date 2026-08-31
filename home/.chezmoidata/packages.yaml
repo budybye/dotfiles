@@ -83,10 +83,14 @@ packages:
       - "xsel"
       - "ncdu"
       - "xdotool"
-      # - "moreutils"
+      - "moreutils"
       - "multitail"
-      # - "htop"
 
+      - "language-pack-ja-base"
+      - "language-pack-ja"
+      - "manpages-ja"
+      - "fcitx5-mozc"
+      
       - "openssh-server"
       - "avahi-daemon"
       - "pkg-config"
@@ -120,27 +124,18 @@ packages:
       - "mpd"
       - "mpc"
       - "ncmpcpp"
+      
       - "net-tools"
       - "nmap"
-      - "snapd"
       - "ufw"
       - "rsyslog"
       - "im-config"
+      - "command-not-found"
       - "ruby"
       - "nx"
-      # - "termshark"
-      # - 'byobu'
-      # - 'jq'
 
-      # - 'cowsay'
-      # - "figlet"
-      # - "fortune-mod"
-      # - "cmatrix"
-      # - "lolcat"
-      # - "translate-shell"
       - "oneko"
       - "nyancat"
-      - "command-not-found"
 
     gui:
       - "xfce4"
@@ -154,6 +149,8 @@ packages:
       # - 'tasksel'
       # - 'task-xfce-desktop'
 
+      - "snap"
+      - "snapd"
       - "libpulse-dev"
       - "gnome-keyring"
       # - 'pulseaudio'
@@ -166,11 +163,6 @@ packages:
       - "asahi-audio"
       - "autoconf"
       - "libtool"
-
-      - "language-pack-ja-base"
-      - "language-pack-ja"
-      - "manpages-ja"
-      - "fcitx5-mozc"
 
       - "plank"
       - "picard"

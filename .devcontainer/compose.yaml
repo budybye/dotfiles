@@ -13,9 +13,9 @@ services:
       - ${SSH_PORT:-2222}:22
     # volumes:
     #   - ${HOME}/Developer:/home/${USER:-ubuntu}/Developer
-    # environment:
+    environment:
       # REMOTE_CONTAINERS: true
-      # MISE_GITHUB_TOKEN: ${MISE_GITHUB_TOKEN:-}
+      MISE_GITHUB_TOKEN: ${MISE_GITHUB_TOKEN:-}
       # GITHUB_TOKEN: ${GITHUB_TOKEN:-}
     shm_size: 512m # ブラウザ対策
     # entrypoint: ["entrypoint"]
