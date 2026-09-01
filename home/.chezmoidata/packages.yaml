@@ -414,8 +414,8 @@ packages:
         # - "game-changing-features"
         # - "arp-slide"
         # - "schema-designer"
-      "nextlevelbuilder/ui-ux-pro-max-skill":
-        - "ui-ux-pro-max"
+      # "nextlevelbuilder/ui-ux-pro-max-skill":
+      #   - "ui-ux-pro-max"
       "vercel-labs/skills":
         - "find-skills"
       "vercel-labs/opensrc":
@@ -428,8 +428,8 @@ packages:
         - "writing-plans"
         - "executing-plans"
         - "test-driven-development"
-      "openai/skills":
-        - "security-best-practices"
+      # "openai/skills":
+      #   - "security-best-practices"
       "anthropics/skills":
         - "pdf"
         - "docx"
@@ -439,8 +439,8 @@ packages:
         - "algorithmic-art"
       "claude-office-skills/skills":
         - "chart-designer"
-      "seflless/deepwiki":
-        - "deepwiki"
+      # "seflless/deepwiki":
+      #   - "deepwiki"
       "mcp-use/mcp-use":
         - "mcp-apps-builder"
       "github/awesome-copilot":
@@ -455,8 +455,8 @@ packages:
         - "threejs-webgl"
       "cathrynlavery/diagram-design":
         - "diagram-design"
-      "digitalsamba/claude-code-video-toolkit":
-        - "ffmpeg"
+      # "digitalsamba/claude-code-video-toolkit":
+      #   - "ffmpeg"
       "blacktop/dotfiles":
         - "ratatui-tui"
       "tt-a1i/archify":
@@ -470,13 +470,14 @@ packages:
       "jackwener/opencli":
         - "opencli-browser"
       "hkuds/cli-anything":
-        - "cli-anything"
+        - "cli-anything-notebooklm"
+        - "cli-anything-obsidian"
       "humanlayer/skills":
         - "show-me"
-      "ccxt/ccxt":
-        - "ccxt-python"
-        - "ccxt-typescript"
-        - "ccxt-cli"
+      # "ccxt/ccxt":
+      #   - "ccxt-python"
+      #   - "ccxt-typescript"
+      #   - "ccxt-cli"
       "dmmulroy/anti-slop":
         - "install-anti-slop"
       "dmmulroy/better-result":
@@ -490,30 +491,31 @@ packages:
         - "find-docs"
       "yusukebe/ax":
         - "ax"
-      "yusukebe/hono-skill":
-        - "hono"
+      # "yusukebe/hono-skill":
+      #   - "hono"
       "antfu/skills":
         - "vite"
         - "vitest"
         - "slidev"
-      "absolutelyskilled/absolutelyskilled":
-        - "vite-plus"
+      "maddhruv/absolute":
+        - "absolute-audit"
+      #   - "vite-plus"
       "alinaqi/maggy":
         - "pwa-development"
-      "microsoft/playwright-cli":
-        - "playwright-cli"
+      # "microsoft/playwright-cli":
+      #   - "playwright-cli"
       "remix-run/agent-skills":
         - "react-router-framework-mode"
-      "remix-run/remix":
-        - "remix"
+      # "remix-run/remix":
+      #   - "remix"
       "astrolicious/agent-skills":
         - "astro"
-      "tejovanthn/rasikalife":
-        - "conform"
+      # "tejovanthn/rasikalife":
+      #   - "conform"
       "open-circle/agent-skills":
         - "valibot"
-      "pproenca/dot-skills":
-        - "nuqs"
+      # "pproenca/dot-skills":
+      #   - "nuqs"
       "jotaijs/jotai-skills":
         - "jotai"
       "millionco/react-doctor":

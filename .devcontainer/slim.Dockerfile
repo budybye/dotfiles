@@ -18,8 +18,6 @@ RUN apt-get install -y \
     language-pack-ja-base \
     manpages-ja \
     tzdata \
-    fcitx5-mozc \
-    im-config \
     locales
 
 RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezone && \
@@ -28,7 +26,7 @@ RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezo
     echo LANG=${LANG} >> /etc/default/locale && \
     echo LC_ALL=${LC_ALL} >> /etc/default/locale
 
-# 必須パッケージをインストール
+# CLI パッケージをインストール
 RUN apt-get install -y \
     zsh \
     make \
@@ -40,53 +38,34 @@ RUN apt-get install -y \
     gnupg \
     sudo \
     wget \
-    xsel \
-    xdotool \
     vim \
     tree \
     jq \
     ncdu \
-    pwgen \
     gawk \
-    mpd \
-    mpc \
-    ncmpcpp \
     mkcert \
-    ufw \
     byobu \
     openssh-server \
-    avahi-daemon
+    ca-certificates \
+    apt-transport-https
 
-# 開発用パッケージをインストール 言語のビルドに必要なパッケージ
+# 開発用パッケージをインストール
 RUN apt-get install -y \
     g++ \
     cmake \
     build-essential \
-    command-not-found \
     libssl-dev \
     pkg-config \
-    libfreetype6-dev \
-    libfontconfig1-dev \
-    libxcb-xfixes0-dev \
-    libxkbcommon-dev \
-    ca-certificates \
-    apt-transport-https \
     software-properties-common \
     python3 \
-    ruby \
-    flatpak
-
-# 不要なパッケージ キャッシュを削除
-RUN apt-get autoremove -y && \
-    apt-get clean && \
-    rm -rf /var/cache/apt /var/lib/apt/lists/*
+    ruby
     
 # ENTRYPOINT を/usr/bin/にコピーしてシンボリックリンクを作成
 COPY ./run.sh /usr/bin/
 RUN ln -s /usr/bin/run.sh /usr/bin/entrypoint
 RUN chmod +x /usr/bin/entrypoint
 
-# # devユーザー設定
+# devユーザー設定
 # ARG DEV=dev
 # ARG DEV_PW=dev
 
@@ -109,7 +88,14 @@ RUN usermod -aG sudo ubuntu && \
 USER ubuntu
 WORKDIR /home/ubuntu
 RUN git clone https://github.com/budybye/dotfiles.git
-RUN cd dotfiles && make init
+RUN --mount=type=secret,id=github_token,env=GITHUB_TOKEN \
+    cd dotfiles && make init
+    
+USER root
+# build 後の apt cache を削除
+RUN apt-get autoremove -y && \
+    apt-get clean && \
+    rm -rf /var/cache/apt /var/lib/apt/lists/*
 
 # マルチステージビルド
 FROM base

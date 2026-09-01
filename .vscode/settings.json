@@ -9,6 +9,7 @@
     "*zlogin": "shellscript",
     "*zlogout": "shellscript",
     "*sh.tmpl": "shellscript",
+    ".chezmoiexternal.*": "go-template",
     "*.tmpl": "go-template",
     ".chezmoiignore": "go-template",
     "llms.txt": "markdown"

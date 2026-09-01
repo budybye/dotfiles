@@ -412,7 +412,6 @@ ffmpeg = "latest"        # C
 # "github:zen-browser/desktop" = "latest"        # JavaScript
 # "github:obsidianmd/obsidian-releases" = "latest"
 # "github:vicinaehq/vicinae" = "latest"          # C++
-
 # "github:generalaction/emdash" = "latest"
 # "github:webadderallorg/Recordly" = "latest"    # TypeScript
 

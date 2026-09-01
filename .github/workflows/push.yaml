@@ -20,8 +20,8 @@ concurrency:
 
 env:
   REGISTRY_IMAGE: ghcr.io/budybye/ubuntu-dev
-  MISE_GITHUB_TOKEN: ${{ secrets.MISE_GITHUB_TOKEN }}
-  GITHUB_TOKEN: ${{ secrets.MISE_GITHUB_TOKEN }}
+  # MISE_GITHUB_TOKEN: ${{ secrets.MISE_GITHUB_TOKEN }}
+  # GITHUB_TOKEN: ${{ secrets.MISE_GITHUB_TOKEN }}
 jobs:
   build:
     # 3時間
@@ -148,6 +148,8 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           annotations: ${{ steps.meta.outputs.annotations }}
           outputs: type=image,name=${{ env.REGISTRY_IMAGE }},push-by-digest=true,name-canonical=true,push=true
+          secrets: |
+            github_token=${{ secrets.GITHUB_TOKEN }}
 
       - name: Set full digest
         if: matrix.flavor.name == 'full'
@@ -160,6 +162,8 @@ jobs:
         if: matrix.flavor.name == 'dev'
         id: devcontainer
         uses: devcontainers/ci@v0.3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           imageName: ${{ env.REGISTRY_IMAGE }}
           imageTag: ${{ env.PLATFORM_PAIR }}-${{ matrix.flavor.name }}

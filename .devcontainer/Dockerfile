@@ -88,33 +88,15 @@ RUN apt-get install -y \
     apt-transport-https \
     software-properties-common \
     command-not-found \
+    rustup \
     python3 \
     ruby \
     flatpak
-
-# Docker は systemd-cat を使う im-config を実行しない
-RUN apt-get purge -y im-config
-
-# 不要なパッケージ キャッシュを削除
-RUN apt-get autoremove -y && \
-    apt-get clean && \
-    rm -rf /var/cache/apt /var/lib/apt/lists/*
 
 # ENTRYPOINT を/usr/bin/にコピーしてシンボリックリンクを作成
 COPY ./entrypoint.sh /usr/bin/
 RUN ln -s /usr/bin/entrypoint.sh /usr/bin/entrypoint
 RUN chmod +x /usr/bin/entrypoint
-
-# devユーザー設定
-# ARG DEV=dev
-# ARG DEV_PW=dev
-
-# RUN groupadd -g 1024 -f $DEV && \
-#     useradd --uid 1024 --gid 1024 -m $DEV -G sudo -s /usr/bin/zsh && \
-#     echo "$DEV:$DEV_PW" | chpasswd && \
-#     echo "$DEV ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
-#     mkdir -p /home/$DEV && \
-#     chown -R $DEV:$DEV /home/$DEV
 
 # ubuntuユーザー設定
 RUN usermod -aG sudo ubuntu && \
@@ -126,7 +108,17 @@ USER ubuntu
 WORKDIR /home/ubuntu
 # GitHub の dotfiles repository を Chezmoi source にする
 RUN git clone https://github.com/budybye/dotfiles.git
-RUN cd dotfiles && make init
+# mise rate limit 回避に GITHUB_TOKEN 設定
+RUN --mount=type=secret,id=github_token,env=GITHUB_TOKEN \
+    cd dotfiles && make init
+
+USER root
+# Docker は systemd-cat を使う im-config を実行しない
+RUN RUN apt-get purge -y im-config
+# build 後の apt cache を削除
+RUN apt-get autoremove -y && \
+    apt-get clean && \
+    rm -rf /var/cache/apt /var/lib/apt/lists/*
 
 # マルチステージビルド
 FROM base

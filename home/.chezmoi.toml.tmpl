@@ -94,12 +94,12 @@ sourceDir = {{ .chezmoi.sourceDir | quote }}
 scriptTempDir = "{{ .chezmoi.homeDir }}/tmp"
 
 {{/* age 暗号化: Chezmoi encrypted files は passphrase/symmetric */}}
-{{- if ne (env "GITHUB_ACTIONS") "true" -}}
+{{- if $age }}
 encryption = "age"
 [age]
     passphrase = true
     symmetric = true
-{{- end -}}
+{{- end }}
 
 {{/* ".data.***" or ".***" の設定 */}}
 [data]

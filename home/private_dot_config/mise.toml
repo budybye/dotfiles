@@ -3,99 +3,165 @@
 
 # interface_setup: F1/F2, key repeat, press-and-hold, and trackpad input
 [bootstrap.macos.keyboard]
+# F1、F2などのキーを標準的なファンクションキーとして使用
 fn_state = true
+# キーリピートを早くする
 key_repeat = 1
+# キー入力の連打を有効化させ
 press_and_hold = false
 
 [bootstrap.macos.trackpad]
+# Enable `Tap to click` （タップでクリックを有効にする）
 tap_to_click = true
+# 三本指でドラッグ
 three_finger_drag = true
 
 [bootstrap.macos.dock]
+# Dock を自動で隠す
 autohide = true
+# Dock サイズ
 tilesize = 50
-magnification = true
+# Dock 拡大
+magnification = true 
+# Dock 拡大サイズ
 largesize = 78
 show_recents = false
 
 [bootstrap.macos.finder]
+# 全ての拡張子のファイルを表示
 show_all_files = true
+# パスバーを表示する
 show_pathbar = true
+# ステータスバーを表示する
 show_status_bar = true
+# タブバーを表示する
+show_tabbar = true
+# 拡張機能 警告非表示
 show_extensions_warning = false
 
 [bootstrap.macos.defaults.NSGlobalDomain]
+# トラックパッドのナチュラルスクロールをオンにする
 "com.apple.swipescrolldirection" = true
+# マウスの動きを高速化
 "com.apple.mouse.scaling" = 4.0
+# トラックパッドの動きを高速化
 "com.apple.trackpad.scaling" = 4.0
+# 隠しファイルを常にファインダーに表示する
 AppleShowAllExtensions = true
+# ディレクトリのスプリングロードを有効化
 "com.apple.springing.enabled" = true
+# スプリングロード遅延を除去
 "com.apple.springing.delay" = 0.0
+
+# ダイアログ表示やウィンドウリサイズ速度を高速化する
 NSWindowResizeTime = 0.001
+# (保存ダイアログのデフォルト表示スタイル) -> true (常に詳細な情報を開いて表示)
 NSNavPanelExpandedStateForSaveMode = true
+# アクセントカラーをマルチカラーに設定する
 AppleAccentColor = -1
+# ウィンドウを開閉するときのアニメーションを無効
 NSAutomaticWindowAnimationsEnabled = false
+# スペルの訂正を無効にする
 NSAutomaticSpellingCorrectionEnabled = false
+# スクロールバーを常時表示する
 AppleShowScrollBars = "Always"
+# Quick Lookウィンドウのアニメーションをオフ
 QLPanelAnimationDuration = 0.0
+# アカウントインフォ
 AccountInfoValidationCounter = 4
 
 [bootstrap.macos.defaults."com.apple.dock"]
-"autohide-time-modifier" = 0.13
-"autohide-delay" = 0.01
+# dockの動作を素早くする
+autohide-time-modifier = 0.13
+# Dock が表示されるまでの待ち時間を無効にする
+autohide-delay = 0.01
+# Wipe all app icons from the Dock （Dock に標準で入っている全てのアプリを消す、Finder とごみ箱は消えない）
+persistent-apps = []
+# アニメーション無効
 launchanim = false
-"minimize-to-application" = true
+# 最近使ったアプリを Dock に表示しない
+minimize-to-application = true
 
 [bootstrap.macos.defaults."com.apple.AppleMultitouchTrackpad"]
+# フルスクリーンアプリケーション間を移動するために4本指でスワイプを有効にする
 TrackpadFourFingerVertSwipeGesture = 2
+# 三本指でドラッグ
 TrackpadThreeFingerDrag = true
 
 [bootstrap.macos.defaults."com.apple.driver.AppleBluetoothMultitouch.trackpad"]
+# フルスクリーンアプリケーション間を移動するために4本指でスワイプを有効にする
 TrackpadFourFingerVertSwipeGesture = 2
+# 三本指でドラッグ
 TrackpadThreeFingerDrag = true
 
 [bootstrap.macos.defaults."com.apple.SoftwareUpdate"]
+# 他のMacで購入したアプリを自動的にダウンロードする
 ConfigDataInstall = 1
+# 自動更新チェックを有効にする
 AutomaticCheckEnabled = true
+# 毎日アプリケーションのアップデートを確認する
 ScheduleFrequency = 1
+# アプリケーションのアップデートをバックグラウンドでダウンロードする
 AutomaticDownload = 1
+# システムデータファイルとセキュリティ更新プログラムをインストールする
 CriticalUpdateInstall = 1
 
+[bootstrap.macos.defaults."com.apple.terminal"]
+ # terminalでUTF-8のみを使用する
+StringEncodings = 4
+
 [bootstrap.macos.defaults."com.apple.commerce"]
+# ソフトウェアの自動更新を有効化
 AutoUpdate = true
+# 再起動が必要なアプリケーションの場合自動で再起動を有効化する
 AutoUpdateRestartRequired = true
 
 [bootstrap.macos.defaults."com.apple.appstore"]
+# WebKitデベロッパーツールを有効にする
 WebKitDeveloperExtras = true
+# デバッグメニューを有効にする
 ShowDebugMenu = true
 
 [bootstrap.macos.defaults."com.apple.CrashReporter"]
+# クラッシュレポートを無効化する
 DialogType = "none"
 
 [bootstrap.macos.defaults."com.apple.LaunchServices"]
+# 未確認のアプリケーションを実行する際のダイアログを無効にする
 LSQuarantine = false
 
 [bootstrap.macos.defaults."com.apple.TextEdit"]
+# テキストエディットをプレーンテキストで使う
 RichText = 0
 
 [bootstrap.macos.defaults."com.apple.screencapture"]
+# スクリーンショットをjpgで保存
 type = "jpg"
 
 [bootstrap.macos.defaults."com.apple.desktopservices"]
+# ネットワークディスクで、`.DS_Store` ファイルを作らない
 DSDontWriteNetworkStores = true
 
 [bootstrap.macos.defaults."com.apple.menuextra.clock"]
+# 日付表示設定、曜日を表示
 DateFormat = "EEE H:mm"
 
 [bootstrap.macos.defaults."com.apple.BluetoothAudioAgent"]
+# Bluetooth ヘッドフォン・ヘッドセットの音質を向上させる
 "Apple Bitpool Min (editable)" = 40
 
 [bootstrap.macos.defaults."com.apple.finder"]
+# 新しいウィンドウでデフォルトでホームフォルダを開く
 NewWindowTarget = "PfDe"
+# 新規ウィンドウで開くパス ~/
+NewWindowTargetPath = "file://${HOME}/"
+# Finder のタイトルバーにフルパスを表示する
 _FXShowPosixPathInTitle = true
+# 検索時にデフォルトでカレントディレクトリを検索
 FXDefaultSearchScope = "SCcf"
-ShowTabView = true
+# Finderで情報ウィンドウを開くときのアニメーションを無効
 DisableAllAnimations = true
+# ゴミ箱を空にする前の警告の無効化
 WarnOnEmptyTrash = false
 
 # macOS defaults restart was opt-in; use mise run macos-restart explicitly.
@@ -234,8 +300,9 @@ adopt = true
 "apt:ufw" = "latest"
 "apt:rsyslog" = "latest"
 "apt:ruby" = "latest"
-"apt:oneko" = "latest"
-"apt:nyancat" = "latest"
+"apt:rustup" = "latest"
+# "apt:oneko" = "latest"
+# "apt:nyancat" = "latest"
 "apt:command-not-found" = "latest"
 
 "apt:xfce4" = "latest"
