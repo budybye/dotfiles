@@ -181,6 +181,7 @@ packages:
       - 'brave'
       - 'element-desktop'
       - "multipass"
+      # - "bruno"
       # - "microk8s"
       # - "chromium"
       # - "clipboard"
@@ -488,8 +489,8 @@ packages:
         - "code-review"
       "backnotprop/bro":
         - "bro"
-      "upstash/context7":
-        - "find-docs"
+      # "upstash/context7":
+        # - "find-docs"
       "yusukebe/ax":
         - "ax"
       # "yusukebe/hono-skill":
