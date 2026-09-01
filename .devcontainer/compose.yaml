@@ -13,13 +13,13 @@ services:
       - ${SSH_PORT:-2222}:22
     # volumes:
     #   - ${HOME}/Developer:/home/${USER:-ubuntu}/Developer
-    environment:
+    # environment:
       # REMOTE_CONTAINERS: true
-      MISE_GITHUB_TOKEN: ${MISE_GITHUB_TOKEN:-}
+      # MISE_GITHUB_TOKEN: ${MISE_GITHUB_TOKEN:-}
       # GITHUB_TOKEN: ${GITHUB_TOKEN:-}
     shm_size: 512m # ブラウザ対策
     # entrypoint: ["entrypoint"]
-    command: ["ubuntu", "ubuntu", "yes"]
+    command: ["${USER:-ubuntu}", "${PASSWORD:-ubuntu}", "yes"]
     tty: true
     restart: always
 
@@ -30,7 +30,3 @@ services:
   #   command: tunnel run --token ${TUNNEL_TOKEN:-}
   #   restart: unless-stopped
   # extra_hosts: ["host.docker.internal:host-gateway"]
-  
-# secrets:
-#   github_token:
-#     environment: GITHUB_TOKEN

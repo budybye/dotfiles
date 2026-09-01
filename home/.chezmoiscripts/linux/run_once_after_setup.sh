@@ -2,8 +2,6 @@
 # Linux 初回 GUI セットアップ (chezmoi run_once → ~/.local/share/chezmoi/.../setup.sh)
 # ロケール・xrdp・PipeWire 音声リダイレクトを構成する。make init / chezmoi apply --force で1回だけ実行。
 
-# dockerでは systemd が動かない vm/ローカル用にする？
-
 set -eu
 
 # root でないときだけ sudo を使う
@@ -11,16 +9,6 @@ sudo=""
 if [ "$(id -u)" -ne 0 ]; then
     sudo="sudo"
 fi
-
-# システム systemd が動いているか (VM/ベアメタル向け。コンテナでは false)
-systemd_running() {
-    command -v systemctl >/dev/null 2>&1 && systemctl is-system-running >/dev/null 2>&1
-}
-
-# ユーザーセッションの systemd が動いているか (ログイン済み GUI セッション向け)
-user_systemd_running() {
-    [ -n "${XDG_RUNTIME_DIR:-}" ] && systemctl --user is-system-running >/dev/null 2>&1
-}
 
 # pulseaudio-module-xrdp が libpulse の modlibexecdir に入っているか
 xrdp_pulse_modules_installed() {
@@ -42,27 +30,6 @@ enable_pulse_deb_src() {
     fi
 }
 
-# xrdp セッション起動時に XFCE を開始する。.xsession は xrdp が読む。
-# user systemd がある環境では pipewire 等は systemd --user が起動するので xfce4-session のみ。
-# systemd がない環境 (一部コンテナ) では pipewire を手動起動してから xfce4-session へ。
-write_xsession() {
-    if user_systemd_running; then
-        printf '%s\n' 'xfce4-session' > "${HOME}/.xsession"
-    else
-        cat > "${HOME}/.xsession" <<'XSESSION'
-#!/bin/sh
-if command -v pipewire >/dev/null 2>&1; then
-    pipewire &
-    wireplumber &
-    pipewire-pulse &
-fi
-unset DBUS_SESSION_BUS_ADDRESS
-exec dbus-launch --exit-with-session startxfce4
-XSESSION
-        chmod +x "${HOME}/.xsession"
-    fi
-}
-
 # 日本語ロケール・タイムゾーン・fcitx5 入力
 japan_setup() {
     echo "japan setup start..."
@@ -78,9 +45,11 @@ japan_setup() {
         if ! $sudo localectl set-x11-keymap jp; then
             echo "X11 keymap setup skipped (not supported on this system)." >&2
         fi
+        
         if ! $sudo localectl set-keymap jp106; then
             echo "Console keymap setup skipped (not supported on this system)." >&2
         fi
+
         $sudo timedatectl set-timezone Asia/Tokyo
     else
         # systemd なし (Docker 等): localectl/timedatectl は使えない
@@ -105,10 +74,12 @@ xrdp_setup() {
         echo "xrdp user not found; installing xrdp packages."
         $sudo apt-get install -y --reinstall xrdp xorgxrdp
     fi
+    
     if ! id -u xrdp >/dev/null 2>&1; then
         echo "xrdp user is still missing after package installation." >&2
         return 1
     fi
+    
     if command -v xfce4-session >/dev/null 2>&1; then
         xfce_session="$(command -v xfce4-session)"
         $sudo update-alternatives --install /usr/bin/x-session-manager x-session-manager "${xfce_session}" 60
@@ -116,6 +87,7 @@ xrdp_setup() {
     else
         echo "xfce4-session not found; skipping x-session-manager setup." >&2
     fi
+    
     # wayland で起動する場合
     # startxfce4 --wayland
 
@@ -139,7 +111,7 @@ xrdp_setup() {
         $sudo ufw reload
     fi
 
-    if systemd_running; then
+    if command -v systmectl >/dev/null 2>&1; then
         $sudo systemctl enable xrdp
         $sudo systemctl start xrdp
         # $sudo systemctl enable lightdm
@@ -174,6 +146,7 @@ pipewire_setup() {
     if dpkg -s pulseaudio >/dev/null 2>&1; then
         $sudo apt-get remove -y pulseaudio
     fi
+    
     $sudo apt-get install -y \
         build-essential \
         libpulse-dev \
@@ -219,7 +192,7 @@ pipewire_setup() {
         fi
     fi
 
-    if user_systemd_running; then
+    if command -v systmectl >/dev/null 2>&1; then
         systemctl --user enable --now pipewire pipewire-pulse wireplumber
     fi
 
@@ -232,7 +205,7 @@ echo "--------------------------------"
 japan_setup
 xrdp_setup
 pipewire_setup
-write_xsession
+# write_xsession
 
 echo "--------------------------------"
 echo "GUI setup done!!"

@@ -65,7 +65,7 @@ install_mise() {
     fi
     
     if [ -f "${HOME}/.config/mise/config.toml" ]; then
-        MISE_CONFIG_FILE="${HOME}/.config/mise/config.toml" mise i -y || echo "mise install failed."
+        mise i -y || echo "mise install failed."
     fi
 
     echo "mise setup completed."

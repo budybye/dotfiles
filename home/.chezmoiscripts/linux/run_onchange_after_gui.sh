@@ -9,16 +9,6 @@ if [ "$(id -u)" -ne 0 ]; then
     sudo="sudo"
 fi
 
-activate_mise() {
-    if ! command -v mise >/dev/null 2>&1; then
-        return 0
-    fi
-
-    mkdir -p "${HOME}/.config/mise"
-    export MISE_CONFIG_DIR="${HOME}/.config/mise"
-    eval "$(mise activate bash)"
-}
-
 install_brave_browser() {
     if command -v brave-browser >/dev/null 2>&1; then
         echo "brave browser already installed."
@@ -40,15 +30,13 @@ install_cloudflare_warp() {
         $sudo apt-get update -y
         $sudo apt-get install -y cloudflare-warp || echo "cloudflare warp install failed."
         echo "cloudflare warp installed."
-
-        warp-cli --accept-tos registration new || echo "warp-cli registration failed (may already be registered)."
-        warp-cli --accept-tos mode warp || echo "warp-cli mode set failed."
-        warp-cli --accept-tos dns families malware || echo "warp-cli dns set failed."
-        warp-cli --accept-tos connect || echo "warp-cli connect failed."
-        warp-cli --accept-tos disconnect || echo "warp-cli disconnect failed."
-
-        echo "cloudflare warp installed."
     fi
+
+    warp-cli --accept-tos registration new || echo "warp-cli registration failed."
+    warp-cli --accept-tos mode warp || echo "warp-cli mode set failed."
+    warp-cli --accept-tos dns families malware || echo "warp-cli dns set failed."
+    warp-cli --accept-tos connect || echo "warp-cli connect failed."
+    warp-cli --accept-tos disconnect || echo "warp-cli disconnect failed."
 }
 
 ## 代変えインストーラー https://github.com/watzon/cursor-linux-installer
@@ -166,13 +154,13 @@ install_wireshark() {
 }
 
 install_zen() {
-    local zen_dir="${HOME}/.tarball-installations/zen"
-    if [ -x "${zen_dir}/zen" ]; then
+    if command -v zen >/dev/null 2>&1; then
         echo "zen already installed."
         return
+    else
+        curl -fsSL https://github.com/zen-browser/updates-server/raw/refs/heads/main/install.sh | sh
+        echo "zen latest installed."
     fi
-    curl -fsSL https://github.com/zen-browser/updates-server/raw/refs/heads/main/install.sh | sh
-    echo "zen latest installed."
 }
 
 install_emdash() {
@@ -197,19 +185,25 @@ install_ghostty() {
     if command -v ghostty >/dev/null 2>&1; then
         echo "ghostty already installed."
         return
-    fi
+    else
     # PPA は amd64 / arm64 両対応 (https://github.com/mkasberg/ghostty-ubuntu)
     $sudo apt-get install -y software-properties-common || echo "software-properties-common install failed."
     $sudo add-apt-repository -y ppa:mkasberg/ghostty-ubuntu
     $sudo apt-get update -y
     $sudo apt-get install -y ghostty || echo "ghostty install failed."
     echo "ghostty installed."
+    fi
 }
 
 install_zed() {
     echo "checking latest zed..."
-    curl -fsSL https://zed.dev/install.sh | sh
-    echo "zed latest installed."
+    if command -v zed >/dev/null 2>&1; then
+        echo "zed already installed."
+        return
+    else 
+        curl -fsSL https://zed.dev/install.sh | sh || echo "zed install failed." 
+        echo "zed latest installed."
+    fi
 }
 
 install_obsidian() {
@@ -228,6 +222,7 @@ install_obsidian() {
         $sudo dpkg -i "${deb}" || echo "obsidian install failed."
         rm -f "${deb}"
         echo "obsidian installed."
+    
     elif [ "${arch}" = "arm64" ]; then
         local app_dir="${HOME}/Applications"
         local app_image="${app_dir}/obsidian"
@@ -270,21 +265,20 @@ install_opencode() {
 
 echo "gui.sh"
 echo "--------------------------------"
-echo "system setup"
+echo "gui tools setup"
 echo "--------------------------------"
-# desktop_setup
 # install_brave_browser
 # install_element_desktop
 # install_ghostty
-# install_vscode
-install_obsidian
-install_cursor
-install_cloudflare_warp
-install_github_desktop
-install_ruby_fusuma
-# install_tabby_terminal
-# install_wireshark
 # install_opencode
+# install_tabby_terminal
+# install_vscode
+# install_wireshark
+install_cloudflare_warp
+install_cursor
+install_github_desktop
+install_obsidian
+install_ruby_fusuma
 install_zed
 install_zen
 

@@ -76,6 +76,16 @@ RUN apt-get install -y \
     ruby \
     flatpak
 
+# 不要なパッケージ キャッシュを削除
+RUN apt-get autoremove -y && \
+    apt-get clean && \
+    rm -rf /var/cache/apt /var/lib/apt/lists/*
+    
+# ENTRYPOINT を/usr/bin/にコピーしてシンボリックリンクを作成
+COPY ./run.sh /usr/bin/
+RUN ln -s /usr/bin/run.sh /usr/bin/entrypoint
+RUN chmod +x /usr/bin/entrypoint
+
 # devユーザー設定
 ARG DEV=dev
 ARG DEV_PW=dev
@@ -93,11 +103,6 @@ RUN usermod -aG sudo ubuntu && \
     mkdir -p /home/ubuntu && \
     chown -R ubuntu:ubuntu /home/ubuntu
 
-# ENTRYPOINT を/usr/bin/にコピーしてシンボリックリンクを作成
-# COPY ./entrypoint.sh /usr/bin/
-# RUN ln -s /usr/bin/entrypoint.sh /usr/bin/entrypoint
-# RUN chmod +x /usr/bin/entrypoint
-
 # ubuntuユーザで実行
 # ホームディレクトリに dotfiles をクローン
 RUN git clone https://github.com/budybye/dotfiles.git /home/ubuntu/dotfiles
@@ -106,16 +111,11 @@ WORKDIR /home/ubuntu/dotfiles
 USER ubuntu
 RUN make init
 
-# 不要なパッケージ キャッシュを削除（make init 内の apt-get の後）
-RUN sudo apt-get autoremove -y && \
-    sudo apt-get clean && \
-    sudo rm -rf /var/cache/apt /var/lib/apt/lists/*
-
 # マルチステージビルド
 FROM base
-EXPOSE 3389
-# ENTRYPOINT ["entrypoint"]
-CMD ["ubuntu", "ubuntu", "yes"]
+EXPOSE 22
+ENTRYPOINT ["entrypoint"]
+# CMD ["ubuntu", "ubuntu", "yes"]
 # $1 ユーザー名
 # $2 パスワード
 # $3 sudo-no-passwd yes or other

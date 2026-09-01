@@ -38,13 +38,13 @@
 {{- else if eq (env "REMOTE_CONTAINERS") "true" -}}
     {{- $name = "dev" -}}
     {{- $github = true -}}
-    {{- $ssh = true -}}
+    {{- $ssh = false -}}
 
 {{/* Docker */}}
 {{- else if eq (env "DOCKER") "true" -}}
     {{- $name = "docker" -}}
     {{- $github = true -}}
-    {{- $ssh = true -}}
+    {{- $ssh = false -}}
 
 {{/* SANDBOX（使い捨て VM 等。非空で有効） */}}
 {{- else if ne (env "SANDBOX") "" -}}

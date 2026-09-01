@@ -18,7 +18,6 @@ RUN apt-get install -y \
     language-pack-ja-base \
     manpages-ja \
     tzdata \
-    im-config \
     fcitx5-mozc \
     locales
 
@@ -93,6 +92,16 @@ RUN apt-get install -y \
     ruby \
     flatpak
 
+# 不要なパッケージ キャッシュを削除
+RUN apt-get autoremove -y && \
+    apt-get clean && \
+    rm -rf /var/cache/apt /var/lib/apt/lists/*
+
+# ENTRYPOINT を/usr/bin/にコピーしてシンボリックリンクを作成
+COPY ./entrypoint.sh /usr/bin/
+RUN ln -s /usr/bin/entrypoint.sh /usr/bin/entrypoint
+RUN chmod +x /usr/bin/entrypoint
+
 # devユーザー設定
 ARG DEV=dev
 ARG DEV_PW=dev
@@ -110,11 +119,6 @@ RUN usermod -aG sudo ubuntu && \
     mkdir -p /home/ubuntu && \
     chown -R ubuntu:ubuntu /home/ubuntu
 
-# ENTRYPOINT を/usr/bin/にコピーしてシンボリックリンクを作成
-COPY ./entrypoint.sh /usr/bin/
-RUN ln -s /usr/bin/entrypoint.sh /usr/bin/entrypoint
-RUN chmod +x /usr/bin/entrypoint
-
 # GitHub の dotfiles repository を Chezmoi source にする
 RUN git clone https://github.com/budybye/dotfiles.git /home/ubuntu/dotfiles
 WORKDIR /home/ubuntu/dotfiles
@@ -123,11 +127,6 @@ RUN make init
 
 # Docker は systemd-cat を使う im-config を実行しない
 # RUN sudo apt-get purge -y im-config
-
-# 不要なパッケージ キャッシュを削除（make init 内の apt-get の後）
-RUN sudo apt-get autoremove -y && \
-    sudo apt-get clean && \
-    sudo rm -rf /var/cache/apt /var/lib/apt/lists/*
 
 # マルチステージビルド
 FROM base
