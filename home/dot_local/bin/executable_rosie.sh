@@ -1,0 +1,121 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if ! command -v rosie-skills >/dev/null 2>&1; then
+    printf '%s\n' 'rosie-skills is not installed.' >&2
+    exit 1
+fi
+
+echo "rosie skills"
+echo "--------------------------------"
+
+rosie-skills install xingkongliang/skills-manager manage-skills -a warp -y
+rosie-skills install mattpocock/skills tdd -a warp -y
+rosie-skills install mattpocock/skills grill-with-docs -a warp -y
+rosie-skills install mattpocock/skills grill-me -a warp -y
+rosie-skills install mattpocock/skills improve-codebase-architecture -a warp -y
+rosie-skills install mattpocock/skills diagnosing-bugs -a warp -y
+rosie-skills install mattpocock/skills to-spec -a warp -y
+rosie-skills install mattpocock/skills to-tickets -a warp -y
+rosie-skills install mattpocock/skills ask-matt -a warp -y
+rosie-skills install mattpocock/skills wayfinder -a warp -y
+rosie-skills install mattpocock/skills domain-modeling -a warp -y
+rosie-skills install mattpocock/skills grilling -a warp -y
+rosie-skills install mattpocock/skills handoff -a warp -y
+rosie-skills install mattpocock/skills wait-what -a warp -y
+rosie-skills install mattpocock/skills writing-for-agents -a warp -y
+rosie-skills install mattpocock/skills codebase-design -a warp -y
+rosie-skills install mattpocock/skills implement -a warp -y
+rosie-skills install mattpocock/skills prototype -a warp -y
+rosie-skills install mattpocock/skills setup-matt-pocock-skills -a warp -y
+rosie-skills install mattpocock/skills triage -a warp -y
+rosie-skills install fission-ai/openspec openspec-archive-change -a warp -y
+rosie-skills install fission-ai/openspec openspec-apply-change -a warp -y
+rosie-skills install fission-ai/openspec openspec-explore -a warp -y
+rosie-skills install fission-ai/openspec openspec-propose -a warp -y
+rosie-skills install fission-ai/openspec openspec-sync-specs -a warp -y
+rosie-skills install fission-ai/openspec openspec-update-change -a warp -y
+rosie-skills install rivet-dev/skills rivetkit -a warp -y
+rosie-skills install bobmatnyc/claude-mpm-skills drizzle -a warp -y
+rosie-skills install cloudflare/skills cloudflare -a warp -y
+rosie-skills install cloudflare/skills durable-objects -a warp -y
+rosie-skills install cloudflare/security-audit-skill security-audit -a warp -y
+rosie-skills install cloudflare/kumo kumo-design -a warp -y
+rosie-skills install cloudflare/skills agents-sdk -a warp -y
+rosie-skills install cloudflare/skills workers-best-practices -a warp -y
+rosie-skills install xrpl-commons/xrpl-dev-skill xrpl-dev -a warp -y
+rosie-skills install peersyst/xrplskills xrpl-standards -a warp -y
+rosie-skills install softaworks/agent-toolkit skill-judge -a warp -y
+rosie-skills install softaworks/agent-toolkit agent-md-refactor -a warp -y
+rosie-skills install softaworks/agent-toolkit crafting-effective-readmes -a warp -y
+rosie-skills install softaworks/agent-toolkit dependency-updater -a warp -y
+rosie-skills install softaworks/agent-toolkit professional-communication -a warp -y
+rosie-skills install softaworks/agent-toolkit naming-analyzer -a warp -y
+rosie-skills install nextlevelbuilder/ui-ux-pro-max-skill ui-ux-pro-max -a warp -y
+rosie-skills install vercel-labs/skills find-skills -a warp -y
+rosie-skills install vercel-labs/opensrc opensrc -a warp -y
+rosie-skills install vercel-labs/agent-skills writing-guidelines -a warp -y
+rosie-skills install vercel-labs/agent-browser agent-browser -a warp -y
+rosie-skills install obra/superpowers writing-plans -a warp -y
+rosie-skills install obra/superpowers executing-plans -a warp -y
+rosie-skills install obra/superpowers test-driven-development -a warp -y
+rosie-skills install openai/skills security-best-practices -a warp -y
+rosie-skills install anthropics/skills pdf -a warp -y
+rosie-skills install anthropics/skills doc-coauthoring -a warp -y
+rosie-skills install anthropics/skills docx -a warp -y
+rosie-skills install anthropics/skills pptx -a warp -y
+rosie-skills install anthropics/skills xlsx -a warp -y
+rosie-skills install anthropics/skills algorithmic-art -a warp -y
+rosie-skills install claude-office-skills/skills chart-designer -a warp -y
+rosie-skills install seflless/deepwiki deepwiki -a warp -y
+rosie-skills install mcp-use/mcp-use mcp-apps-builder -a warp -y
+rosie-skills install github/awesome-copilot documentation-writer -a warp -y
+rosie-skills install ysm-dev/skills web-search -a warp -y
+rosie-skills install eachlabs/skills 3d-model-generation -a warp -y
+rosie-skills install patricio0312rev/skills framer-motion-animator -a warp -y
+rosie-skills install freshtechbro/claudedesignskills threejs-webgl -a warp -y
+rosie-skills install cathrynlavery/diagram-design diagram-design -a warp -y
+rosie-skills install digitalsamba/claude-code-video-toolkit ffmpeg -a warp -y
+rosie-skills install blacktop/dotfiles ratatui-tui -a warp -y
+rosie-skills install tt-a1i/archify archify -a warp -y
+rosie-skills install graphify-labs/graphify graphify -a warp -y
+rosie-skills install resend/resend-skills resend -a warp -y
+rosie-skills install ayghri/i-have-adhd i-have-adhd -a warp -y
+rosie-skills install jackwener/opencli opencli-browser -a warp -y
+rosie-skills install hkuds/cli-anything cli-anything -a warp -y
+rosie-skills install humanlayer/skills show-me -a warp -y
+rosie-skills install ccxt/ccxt ccxt-python -a warp -y
+rosie-skills install ccxt/ccxt ccxt-typescript -a warp -y
+rosie-skills install ccxt/ccxt ccxt-cli -a warp -y
+rosie-skills install dmmulroy/anti-slop install-anti-slop -a warp -y
+rosie-skills install dmmulroy/better-result adopt-better-result -a warp -y
+rosie-skills install coderabbitai/skills autofix -a warp -y
+rosie-skills install coderabbitai/skills code-review -a warp -y
+rosie-skills install backnotprop/bro bro -a warp -y
+rosie-skills install upstash/context7 find-docs -a warp -y
+rosie-skills install yusukebe/ax ax -a warp -y
+rosie-skills install yusukebe/hono-skill hono -a warp -y
+rosie-skills install antfu/skills vite -a warp -y
+rosie-skills install antfu/skills vitest -a warp -y
+rosie-skills install antfu/skills slidev -a warp -y
+rosie-skills install absolutelyskilled/absolutelyskilled vite-plus -a warp -y
+rosie-skills install alinaqi/maggy pwa-development -a warp -y
+rosie-skills install microsoft/playwright-cli playwright-cli -a warp -y
+rosie-skills install remix-run/agent-skills react-router-framework-mode -a warp -y
+rosie-skills install remix-run/remix remix -a warp -y
+rosie-skills install astrolicious/agent-skills astro -a warp -y
+rosie-skills install tejovanthn/rasikalife conform -a warp -y
+rosie-skills install open-circle/agent-skills valibot -a warp -y
+rosie-skills install pproenca/dot-skills nuqs -a warp -y
+rosie-skills install jotaijs/jotai-skills jotai -a warp -y
+rosie-skills install millionco/react-doctor react-doctor -a warp -y
+rosie-skills install better-auth/skills better-auth-best-practices -a warp -y
+rosie-skills install tanstack-skills/tanstack-skills tanstack-query -a warp -y
+rosie-skills install tanstack-skills/tanstack-skills tanstack-table -a warp -y
+rosie-skills install saadeghi/daisyui daisyui -a warp -y
+rosie-skills install mengto/skills cobejs -a warp -y
+rosie-skills install nutlope/hallmark hallmark -a warp -y
+rosie-skills install thedotmack/claude-mem babysit -a warp -y
+
+echo "--------------------------------"
+echo "rosie skills install completed."

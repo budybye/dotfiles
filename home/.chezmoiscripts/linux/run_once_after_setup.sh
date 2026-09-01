@@ -64,6 +64,7 @@ japan_setup() {
     else
         echo "Skipping im-config: no graphical session."
     fi
+
     echo "japan setup completed."
 }
 
@@ -92,11 +93,12 @@ xrdp_setup() {
     # startxfce4 --wayland
 
     # packages.yaml の linux.gui と揃える (sddm)
-    # $sudo apt-get install -y lightdm
+    $sudo apt-get install -y lightdm
     # $sudo apt-get install -y gdm3
-    $sudo apt-get install -y sddm
+    # $sudo apt-get install -y sddm
 
-    # $sudo dpkg-reconfigure lightdm
+    $sudo dpkg-reconfigure lightdm
+    
     # リモートセッションで画面ロックが邪魔にならないよう削除
     $sudo apt-get remove -y light-locker xscreensaver
 
@@ -114,8 +116,8 @@ xrdp_setup() {
     if command -v systmectl >/dev/null 2>&1; then
         $sudo systemctl enable xrdp
         $sudo systemctl start xrdp
-        # $sudo systemctl enable lightdm
-        # $sudo systemctl start lightdm
+        $sudo systemctl enable lightdm
+        $sudo systemctl start lightdm
         $sudo systemctl daemon-reload
         $sudo systemctl restart rsyslog
         $sudo systemctl restart xrdp

@@ -92,6 +92,9 @@ RUN apt-get install -y \
     ruby \
     flatpak
 
+# Docker は systemd-cat を使う im-config を実行しない
+RUN apt-get purge -y im-config
+
 # 不要なパッケージ キャッシュを削除
 RUN apt-get autoremove -y && \
     apt-get clean && \
@@ -103,15 +106,15 @@ RUN ln -s /usr/bin/entrypoint.sh /usr/bin/entrypoint
 RUN chmod +x /usr/bin/entrypoint
 
 # devユーザー設定
-ARG DEV=dev
-ARG DEV_PW=dev
+# ARG DEV=dev
+# ARG DEV_PW=dev
 
-RUN groupadd -g 1024 -f $DEV && \
-    useradd --uid 1024 --gid 1024 -m $DEV -G sudo -s /usr/bin/zsh && \
-    echo "$DEV:$DEV_PW" | chpasswd && \
-    echo "$DEV ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
-    mkdir -p /home/$DEV && \
-    chown -R $DEV:$DEV /home/$DEV
+# RUN groupadd -g 1024 -f $DEV && \
+#     useradd --uid 1024 --gid 1024 -m $DEV -G sudo -s /usr/bin/zsh && \
+#     echo "$DEV:$DEV_PW" | chpasswd && \
+#     echo "$DEV ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
+#     mkdir -p /home/$DEV && \
+#     chown -R $DEV:$DEV /home/$DEV
 
 # ubuntuユーザー設定
 RUN usermod -aG sudo ubuntu && \
@@ -119,14 +122,11 @@ RUN usermod -aG sudo ubuntu && \
     mkdir -p /home/ubuntu && \
     chown -R ubuntu:ubuntu /home/ubuntu
 
-# GitHub の dotfiles repository を Chezmoi source にする
-RUN git clone https://github.com/budybye/dotfiles.git /home/ubuntu/dotfiles
-WORKDIR /home/ubuntu/dotfiles
 USER ubuntu
-RUN make init
-
-# Docker は systemd-cat を使う im-config を実行しない
-# RUN sudo apt-get purge -y im-config
+WORKDIR /home/ubuntu
+# GitHub の dotfiles repository を Chezmoi source にする
+RUN git clone https://github.com/budybye/dotfiles.git
+RUN cd dotfiles && make init
 
 # マルチステージビルド
 FROM base
