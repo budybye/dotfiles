@@ -76,9 +76,8 @@ install_flatpak() {
         echo "flatpak already installed."
     else
         $sudo apt-get install -y flatpak || echo "flatpak install failed."
-        $sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-        echo "flatpak installed."
     fi
+    $sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo || echo "flatpak install failed.."
     flatpak --version || echo "flatpak not found"
 }
 
@@ -87,8 +86,6 @@ install_go_aqua() {
         echo "go already installed."
     elif command -v mise >/dev/null 2>&1; then
         mise use -g -y go@latest || echo "go install failed."
-    else
-        echo "go not found"
     fi
     go version || echo "go not found"
 
@@ -96,10 +93,8 @@ install_go_aqua() {
         echo "aqua already installed."
     elif command -v mise >/dev/null 2>&1; then
         mise use -g -y aqua@latest || echo "aqua install failed."
-    else
-        echo "aqua not found"
     fi
-    aqua --version || echo "aqua not found"
+    aqua --version || echo "aqua not found."
 }
 
 install_mkcert() {
@@ -107,11 +102,18 @@ install_mkcert() {
         echo "mkcert already installed."
     elif command -v mise >/dev/null 2>&1; then
         mise use -g -y mkcert@latest || echo "mkcert install failed."
-    else
-        echo "mkcert install failed."
     fi
-    mkcert -install || echo "mkcert not setup"
-    mkcert --version || echo "mkcert not found"
+    mkcert -install || echo "mkcert setup failed."
+    mkcert --version || echo "mkcert not found."
+}
+
+install_coderabbit() {
+    if command -v coderabbit >/dev/null 2>&1; then
+        echo "coderabbit already installed."
+    elif command -v curl >/dev/null 2>&1; then
+        curl -fsSL https://cli.coderabbit.ai/install.sh | sh || echo "coderabbit install failed."
+    fi
+    coderabbit --version || echo "coderabbit not found."
 }
 
 echo "cli.sh"
@@ -121,5 +123,6 @@ install_mise
 install_flatpak
 install_go_aqua
 install_mkcert
+install_coderabbit
 echo "CLI tools install done."
 echo "--------------------------------"

@@ -211,12 +211,13 @@ adopt = true
 "brew:git" = { os = "macos" }
 "brew:make" = { os = "macos" }
 "brew:mise" = { os = "macos" }
-"brew:multitail" = { os = "macos" }
-"brew:zsh" = { os = "macos" }
+"brew:multitail" = "latest"
+"brew:moreutils" = "latest"
+"brew:zsh" = "latest"
 
-"brew:mpd" = { os = "macos" }
-"brew:mpc" = { os = "macos" }
-"brew:ncmpcpp" = { os = "macos" }
+"brew:mpd" = "latest"
+"brew:mpc" = "latest"
+"brew:ncmpcpp" = "latest"
 
 "brew-cask:bitwarden" = { os = "macos" }
 "brew-cask:brave-browser" = { os = "macos" }
@@ -236,13 +237,14 @@ adopt = true
 "brew-cask:raycast" = { os = "macos" }
 "brew-cask:tradingview" = { os = "macos" }
 # "brew-cask:visual-studio-code" = "latest"
-"brew-cask:zed" = { os = "macos" }
-"brew-cask:zen" = { os = "macos" }
+# "brew-cask:windows-app" = "latest"
+"brew-cask:zed" = "latest"
+"brew-cask:zen" = "latest"
 
-"mas:634148309" = { os = "macos" } # logic
-"mas:1429033973" = { os = "macos" } # runcat
-"mas:539883307" = { os = "macos" } # line
-"mas:462058435" = { os = "macos" } # excel
+"mas:634148309" = "latest" # logic
+"mas:1429033973" = "latest" # runcat
+"mas:539883307" = "latest" # line
+"mas:462058435" = "latest" # excel
 
 "apt:apt-utils" = { os = "linux" }
 "apt:git" = { os = "linux" }

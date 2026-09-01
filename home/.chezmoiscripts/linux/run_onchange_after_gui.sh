@@ -199,7 +199,6 @@ install_zed() {
     echo "checking latest zed..."
     if command -v zed >/dev/null 2>&1; then
         echo "zed already installed."
-        return
     else 
         curl -fsSL https://zed.dev/install.sh | sh || echo "zed install failed." 
         echo "zed latest installed."

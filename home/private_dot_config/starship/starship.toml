@@ -9,13 +9,13 @@ add_newline = true
 scan_timeout = 420
 
 # コマンドタイムアウト
-command_timeout = 4422
+command_timeout = 8000
 
 # カラーパレットの定義
 palette = 'color'
 
 # 継続プロンプトの表示
-# continuation_prompt = "▶▶"
+continuation_prompt = "▶▶"
 
 # 並び順
 format = """

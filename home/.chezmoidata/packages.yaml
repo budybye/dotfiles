@@ -382,7 +382,8 @@ packages:
         - "openspec-sync-specs"
         - "openspec-update-change"
       "rivet-dev/skills":
-        - "rivetkit"
+        - "rivet-actors"
+        - "rivet-agentos"
       "bobmatnyc/claude-mpm-skills":
         - "drizzle"
       "cloudflare/skills":
@@ -461,8 +462,8 @@ packages:
         # - "ratatui-tui"
       "tt-a1i/archify":
         - "archify"
-      "graphify-labs/graphify":
-        - "graphify"
+      # "graphify-labs/graphify":
+        # - "graphify"
       "resend/resend-skills":
         - "resend"
       "ayghri/i-have-adhd":
@@ -716,8 +717,8 @@ packages:
     - "curl -fsSL https://mise.run | sh"
     - "curl -fsSL https://cli.coderabbit.ai/install.sh | sh"
     - "curl -fsSL https://cursor.com/install | sh"
-    - "curl -fsSL https://zed.dev/install.sh | sh"
     - "curl -fsSL https://aka.ms/apm-unix | sh"
+    - "curl -fsSL https://zed.dev/install.sh | sh"
     # - "curl -fsSL https://www.xalgorix.com/install | sh"
     # - "curl -fsSL https://nixos.org/nix/install | sh"
     # - "curl -fsSL https://hermes-agent.nousresearch.com/install.sh | sh"
