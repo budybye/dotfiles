@@ -13,7 +13,7 @@ key.txt*
 .ssh/id_rsa*
 {{ end }}
 
-{{ if eq (env "DOCKER") "true") }}
+{{ if eq (env "DOCKER") "true" }}
 .ssh/id_ed25519*
 .ssh/id_rsa*
 .env*
@@ -22,7 +22,7 @@ key.txt*
 .chezmoiscripts/linux/docker.sh
 .chezmoiscripts/linux/setup.sh
 
-{{ else if eq (env "REMOTE_CONTAINERS") "true") }}
+{{ else if eq (env "REMOTE_CONTAINERS") "true" }}
 .ssh/id_ed25519*
 .ssh/id_rsa*
 .env*

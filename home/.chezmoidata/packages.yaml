@@ -583,6 +583,7 @@ packages:
       - "cathrynlavery/diagram-design -s diagram-design"
       - "digitalsamba/claude-code-video-toolkit -s ffmpeg"
       - "blacktop/dotfiles -s ratatui-tui" 
+      - "tt-a1i/archify -s archify" 
 
       # - "egonex-ai/understand-anything -s understand-onboard"
       # - "egonex-ai/understand-anything -s understand-knowledge"
