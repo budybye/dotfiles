@@ -26,6 +26,7 @@ key.txt*
 .chezmoiscripts/linux/docker.sh
 .chezmoiscripts/linux/setup.sh
 .chezmoiscripts/skills.sh
+.chezmoiscripts/linux/snap.sh
 
 {{ else if eq (env "REMOTE_CONTAINERS") "true" }}
 .config/mise.toml
@@ -39,6 +40,7 @@ key.txt*
 .chezmoiscripts/linux/gui.sh
 .chezmoiscripts/linux/docker.sh
 .chezmoiscripts/linux/setup.sh
+.chezmoiscripts/linux/snap.sh
 {{ end }}
 
 {{ if eq .github false }}

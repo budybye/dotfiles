@@ -40,10 +40,8 @@ RUN apt-get install -y \
     wget \
     vim \
     tree \
-    jq \
     ncdu \
     gawk \
-    mkcert \
     byobu \
     openssh-server \
     ca-certificates \
@@ -58,6 +56,7 @@ RUN apt-get install -y \
     pkg-config \
     software-properties-common \
     python3 \
+    rustup \
     ruby
     
 # ENTRYPOINT を/usr/bin/にコピーしてシンボリックリンクを作成
@@ -66,15 +65,20 @@ RUN ln -s /usr/bin/run.sh /usr/bin/entrypoint
 RUN chmod +x /usr/bin/entrypoint
 
 # devユーザー設定
-# ARG DEV=dev
-# ARG DEV_PW=dev
+ARG DEV=dev
+ARG DEV_PW=dev
+ARG DEV_UID=1024
+ARG DEV_GID=1024
 
-# RUN groupadd -g 1024 -f $DEV && \
-#     useradd --uid 1024 --gid 1024 -m $DEV -G sudo -s /usr/bin/zsh && \
-#     echo "$DEV:$DEV_PW" | chpasswd && \
-#     echo "$DEV ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
-#     mkdir -p /home/$DEV && \
-#     chown -R $DEV:$DEV /home/$DEV
+RUN groupadd -f -g "${DEV_GID}" "${DEV}" && \
+    useradd \
+      --uid "${DEV_UID}" \
+      --gid "${DEV_GID}" \
+      --create-home \
+      --shell /usr/bin/zsh \
+      "${DEV}" && \
+    echo "${DEV}:${DEV_PW}" | chpasswd && \
+    echo "${DEV} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 # ubuntuユーザー設定
 RUN usermod -aG sudo ubuntu && \
@@ -82,15 +86,13 @@ RUN usermod -aG sudo ubuntu && \
     mkdir -p /home/ubuntu && \
     chown -R ubuntu:ubuntu /home/ubuntu
 
-# ubuntuユーザで実行
-# ホームディレクトリに dotfiles をクローン
-# dotfiles へ移動して make init を実行
+# ubuntu user で dotfiles を適用
 USER ubuntu
 WORKDIR /home/ubuntu
 RUN git clone https://github.com/budybye/dotfiles.git
 RUN --mount=type=secret,id=github_token,env=GITHUB_TOKEN \
     cd dotfiles && make init
-    
+
 USER root
 # build 後の apt cache を削除
 RUN apt-get autoremove -y && \

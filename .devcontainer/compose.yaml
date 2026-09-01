@@ -19,8 +19,7 @@ services:
       # REMOTE_CONTAINERS: true
       # MISE_GITHUB_TOKEN: ${MISE_GITHUB_TOKEN:-}
     shm_size: 512m # ブラウザ対策
-    # entrypoint: ["entrypoint"]
-    command: ["${USER:-ubuntu}", "${PASSWORD:-ubuntu}", "yes"]
+    command: ["ubuntu", "${PASSWORD:-ubuntu}", "yes"]
     tty: true
     restart: always
 

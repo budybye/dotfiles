@@ -457,8 +457,8 @@ packages:
         - "diagram-design"
       # "digitalsamba/claude-code-video-toolkit":
       #   - "ffmpeg"
-      "blacktop/dotfiles":
-        - "ratatui-tui"
+      # "blacktop/dotfiles":
+        # - "ratatui-tui"
       "tt-a1i/archify":
         - "archify"
       "graphify-labs/graphify":
