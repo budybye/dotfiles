@@ -250,18 +250,16 @@ adopt = false
 "mas:462058435" = "latest" # excel
 
 "apt:apt-utils" = { os = "linux" }
-"apt:git" = { os = "linux" }
 "apt:curl" = { os = "linux" }
 "apt:make" = { os = "linux" }
 "apt:zsh" = { os = "linux" }
+"apt:git" = { os = "linux" }
 "apt:wget" = { os = "linux" }
 "apt:vim" = { os = "linux" }
 "apt:cmake" = { os = "linux" }
-"apt:build-essential" = { os = "linux" }
 "apt:gnupg" = { os = "linux" }
 "apt:g++" = { os = "linux" }
 "apt:sudo" = { os = "linux" }
-"apt:autoconf" = { os = "linux" }
 "apt:flatpak" = { os = "linux" }
 "apt:tree" = { os = "linux" }
 "apt:xsel" = { os = "linux" }
@@ -271,14 +269,14 @@ adopt = false
 "apt:moreutils" = { os = "linux" }
 "apt:openssh-server" = { os = "linux" }
 "apt:avahi-daemon" = { os = "linux" }
-"apt:pkg-config" = { os = "linux" }
 "apt:ca-certificates" = { os = "linux" }
+"apt:pkg-config" = { os = "linux" }
+"apt:autoconf" = { os = "linux" }
+"apt:build-essential" = { os = "linux" }
 "apt:lsb-release" = { os = "linux" }
-# "apt:libfuse2" = { os = "linux" } # amd
-# "apt:libfuse2t64" = { os = "linux" } # arm
+
 "apt:libssl-dev" = { os = "linux" }
 "apt:libnss3-tools" = { os = "linux" }
-"apt:libinput-tools" = { os = "linux" }
 "apt:libdb-dev" = { os = "linux" }
 "apt:libgdbm-dev" = { os = "linux" }
 "apt:libgmp-dev" = { os = "linux" }
@@ -295,6 +293,12 @@ adopt = false
 "apt:libwebkit2gtk-4.1-dev" = { os = "linux" }
 "apt:libgtk-layer-shell-dev" = { os = "linux" }
 
+"apt:language-pack-ja-base" = "latest"
+"apt:language-pack-ja" = "latest"
+"apt:manpages-ja" = "latest"
+"apt:fcitx5-mozc" = "latest"
+# "apt:im-config" = "latest" # xrdp エラーになる
+
 "apt:mpd" = "latest"
 "apt:mpc" = "latest"
 "apt:ncmpcpp" = "latest"
@@ -305,6 +309,7 @@ adopt = false
 "apt:ruby" = "latest"
 "apt:rustup" = "latest"
 "apt:command-not-found" = "latest"
+# "apt:stow" = "latest"
 
 # GUI
 "apt:xfce4" = "latest"
@@ -318,33 +323,32 @@ adopt = false
 # "apt:tasksel" = "latest"
 # "apt:task-xfce-desktop" = "latest"
 # "apt:gnome-remote-desktop" = "latest"
-
-"apt:libpulse-dev" = "latest"
+"apt:libinput-tools" = "latest"
 "apt:gnome-keyring" = "latest"
-"apt:pipewire" = "latest"
-"apt:pipewire-audio" = "latest"
-"apt:pipewire-pulse" = "latest"
-"apt:wireplumber" = "latest"
-"apt:libspa-0.2-dev" = "latest"
-"apt:libpipewire-0.3-dev" = "latest"
-# "apt:asahi-audio" = "latest" #amd64でエラー？
 
-"apt:language-pack-ja-base" = "latest"
-"apt:language-pack-ja" = "latest"
-"apt:manpages-ja" = "latest"
-"apt:fcitx5-mozc" = "latest"
-# "apt:im-config" = "latest" # xrdp エラーになる
+# "apt:libpulse-dev" = "latest"
+# "apt:dh-autoreconf" = "latest"
+# "apt:dpkg-dev" = "latest"
+# "apt:pipewire" = "latest"
+# "apt:pipewire-audio" = "latest"
+# "apt:pipewire-pulse" = "latest"
+# "apt:wireplumber" = "latest"
+# "apt:libspa-0.2-dev" = "latest"
+# "apt:libpipewire-0.3-dev" = "latest"
+# "apt:libtool" = "latest"
+# "apt:asahi-audio" = "latest" #amd64でエラー？
 
 "apt:plank" = "latest"
 "apt:picard" = "latest"
 "apt:remmina" = "latest"
 "apt:xclip" = "latest"
-# "apt:stow" = "latest"
 # "apt:snap" = "latest"
 # "apt:snapd" = "latest"
 # "apt:oneko" = "latest"
 # "apt:nyancat" = "latest"
-
+# "apt:libfuse2" = { os = "linux" } # amd
+# "apt:libfuse2t64" = { os = "linux" } # arm
+ 
 # "apt:docker.io" = "latest"
 # "apt:docker-compose-v2" = "latest"
 

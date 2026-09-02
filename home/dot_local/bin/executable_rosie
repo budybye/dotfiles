@@ -80,7 +80,7 @@ rosie-skills install cathrynlavery/diagram-design diagram-design -a warp -y
 # rosie-skills install digitalsamba/claude-code-video-toolkit ffmpeg -a warp -y
 # rosie-skills install blacktop/dotfiles ratatui-tui -a warp -y
 rosie-skills install tt-a1i/archify archify -a warp -y
-rosie-skills install graphify-labs/graphify graphify -a warp -y
+# rosie-skills install graphify-labs/graphify graphify -a warp -y
 rosie-skills install resend/resend-skills resend -a warp -y
 rosie-skills install ayghri/i-have-adhd i-have-adhd -a warp -y
 rosie-skills install jackwener/opencli opencli-browser -a warp -y

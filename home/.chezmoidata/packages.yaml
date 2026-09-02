@@ -79,25 +79,13 @@ packages:
       - "xorgxrdp"
       - "dbus-x11"
       - 'lightdm'
+      - "gnome-keyring"
       # - "sddm"
       # - 'gdm3'
       # - 'tasksel'
       # - 'task-xfce-desktop'
       # - "gnome-remote-desktop"
-      
-      - "libpulse-dev"
-      - "gnome-keyring"
-      - "pipewire"
-      - "pipewire-audio"
-      - "pipewire-pulse"
-      - "wireplumber"
-      - "libspa-0.2-dev"
-      - "libpipewire-0.3-dev"
-      - "libtool"
-      # - 'pulseaudio'
-      # - "asahi-audio"
-      # - "autoconf"
-
+      - "libinput-tools"
       - "xdg-utils"
       - "plank"
       - "picard"
@@ -106,6 +94,19 @@ packages:
       - "xclip"
       - "oneko"
       - "nyancat"
+      
+      # - "libpulse-dev"
+      # - "pipewire"
+      # - "pipewire-audio"
+      # - "pipewire-pulse"
+      # - "wireplumber"
+      # - "libspa-0.2-dev"
+      # - "libpipewire-0.3-dev"
+      # - "libtool"
+      # - 'pulseaudio'
+      # - "asahi-audio"
+      # - "autoconf"
+
   # snap:
     # classic:
       # - "ghostty"

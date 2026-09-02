@@ -71,7 +71,7 @@
     refreshPeriod = "168h"
 
 {{/* linux で age true なら */}}
-{{- if ne .age false }}
+{{- if .age }}
 
 {{/* [".local/bin/age"] */}}
 {{/* type = "archive-file" */}}

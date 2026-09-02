@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# set -eu
-set -u
+
+set -eu
 
 # アーキテクチャを取得
 arch="$(dpkg --print-architecture)"
@@ -49,7 +49,7 @@ install_cursor() {
     if command -v cursor >/dev/null 2>&1; then
         echo "cursor already installed."
     elif command -v curl >/dev/null 2>&1; then
-        curl -L https://raw.githubusercontent.com/watzon/cursor-linux-installer/main/install.sh | sh -s -- latest
+        curl -L https://raw.githubusercontent.com/watzon/cursor-linux-installer/main/install.sh | sh -s -- latest || true
     else
         echo "curl command not found." >&2
         return 1
@@ -162,7 +162,7 @@ install_zen() {
         echo "zen already installed."
         return
     else
-        curl -fsSL https://github.com/zen-browser/updates-server/raw/refs/heads/main/install.sh | sh
+        curl -fsSL https://github.com/zen-browser/updates-server/raw/refs/heads/main/install.sh | sh 
         echo "zen latest installed."
     fi
 }
@@ -185,7 +185,7 @@ install_zed() {
     if command -v zed >/dev/null 2>&1; then
         echo "zed already installed."
     else 
-        curl -fsSL https://zed.dev/install.sh | sh
+        curl -fsSL https://zed.dev/install.sh | sh || true
         echo "zed installed."
     fi
 }
@@ -282,13 +282,13 @@ echo "gui tools setup"
 echo "--------------------------------"
 install_brave_browser
 install_cloudflare_warp
-install_cursor
+install_cursor # エラー不可避
 install_element_desktop
 install_ghostty
 install_github_desktop
 install_obsidian
 install_ruby_fusuma
-install_zed
+install_zed # エラー不可避
 install_zen
 # install_opencode
 # install_tabby_terminal

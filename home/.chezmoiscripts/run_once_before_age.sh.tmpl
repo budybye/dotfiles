@@ -48,7 +48,7 @@ echo "--------------------------------"
 # key.txt をパスフレーズで復号するので事前に用意
 # https://www.chezmoi.io/user-guide/frequently-asked-questions/encryption/
 
-{{ if ne .age false }}
+{{ if .age }}
 
 {{/* .chezmoi.toml.tmpl と合わせる */}}
 

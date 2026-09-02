@@ -106,7 +106,7 @@ xrdp_setup() {
     $sudo dpkg-reconfigure lightdm
     
     # リモートセッションで画面ロックが邪魔にならないよう削除
-    $sudo apt-get remove -y light-locker xscreensaver
+    # $sudo apt-get remove -y light-locker xscreensaver
 
     # xrdp は ssl-cert グループのメンバーが必要
     $sudo groupadd -f ssl-cert

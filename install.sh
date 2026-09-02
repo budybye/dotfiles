@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
-# -e: exit on error
-set -e
+set -eu
 
 # chezmoi がインストールされていない場合はインストール
 if [ ! "$(command -v chezmoi)" ]; then
