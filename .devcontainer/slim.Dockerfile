@@ -3,7 +3,7 @@ FROM ubuntu:26.04 AS base
 # パッケージのインストールを非対話形式で行う
 ENV DEBIAN_FRONTEND=noninteractive
 ENV DOCKER=true
-ENV REMOTE_CONTAINER=true
+ENV REMOTE_CONTAINERS=true
 
 ENV TZ=Asia/Tokyo
 ENV LANG=ja_JP.UTF-8

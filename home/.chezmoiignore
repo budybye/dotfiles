@@ -31,34 +31,19 @@ key.txt*
 {{ end }}
 
 {{ if eq (env "DOCKER") "true" }}
-.config/mise.toml
 .ssh/authorized_keys
 .ssh/id_ed25519*
 .ssh/id_rsa*
 .env*
-.chezmoiscripts/age.sh
-.chezmoiscripts/skills.sh
-.chezmoiscripts/vscode.sh
-.chezmoiscripts/linux/cli.sh
-.chezmoiscripts/linux/gui.sh
-.chezmoiscripts/linux/docker.sh
 .chezmoiscripts/linux/setup.sh
 {{ end }}
 
-# docker との重複を解消したい
+# DOCKER との重複を解消したい
 
 {{ if eq (env "REMOTE_CONTAINERS") "true" }}
-.config/mise.toml
-.ssh/authorized_keys
-.ssh/id_ed25519*
-.ssh/id_rsa*
-.env*
-.chezmoiscripts/age.sh
 .chezmoiscripts/vscode.sh
-.chezmoiscripts/linux/cli.sh
 .chezmoiscripts/linux/gui.sh
 .chezmoiscripts/linux/docker.sh
-.chezmoiscripts/linux/setup.sh
 {{ end }}
 
 {{ if ne .chezmoi.os "darwin" }}
