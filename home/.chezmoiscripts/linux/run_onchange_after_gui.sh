@@ -206,9 +206,9 @@ install_zed() {
 }
 
 install_obsidian() {
-    # amd64: deb / arm64: AppImage (deb 未提供)
-    # バージョン更新時は URL 内のバージョン番号を変更すること
-    local version="1.13.8"
+    # amd64: deb / arm64: AppImage
+    # v1.13.8 is mobile-only; keep this on a desktop release.
+    local version="1.13.7"
     local base_url="https://github.com/obsidianmd/obsidian-releases/releases/download/v${version}"
 
     if [ "${arch}" = "amd64" ]; then
@@ -217,23 +217,47 @@ install_obsidian() {
             return
         fi
         local deb="/tmp/obsidian_amd64.deb"
-        curl -fsSL "${base_url}/obsidian_${version}_amd64.deb" -o "${deb}" || { echo "obsidian download failed."; return; }
-        $sudo dpkg -i "${deb}" || echo "obsidian install failed."
+        if ! curl -fsSL "${base_url}/obsidian_${version}_amd64.deb" -o "${deb}"; then
+            echo "obsidian download failed." >&2
+            rm -f "${deb}"
+            return 1
+        fi
+        if ! $sudo dpkg -i "${deb}"; then
+            echo "obsidian install failed." >&2
+            rm -f "${deb}"
+            return 1
+        fi
         rm -f "${deb}"
         echo "obsidian installed."
-    
+
     elif [ "${arch}" = "arm64" ]; then
         local app_dir="${HOME}/Applications"
         local app_image="${app_dir}/obsidian"
+        local temp_app_image="${app_image}.download"
         mkdir -p "${app_dir}"
         if [ -f "${app_image}" ]; then
             echo "obsidian already installed."
             return
         fi
-        # AppImage の実行に libfuse2 が必要
-        $sudo apt-get install -y libfuse2 || echo "libfuse2 install failed."
-        curl -fsSL "${base_url}/Obsidian-${version}-arm64.AppImage" -o "${app_image}" || { echo "obsidian download failed."; return; }
-        chmod +x "${app_image}"
+        if ! $sudo apt-get update -y; then
+            echo "obsidian dependency index update failed." >&2
+            return 1
+        fi
+        local fuse_package="libfuse2"
+        if apt-cache show libfuse2t64 >/dev/null 2>&1; then
+            fuse_package="libfuse2t64"
+        fi
+        if ! $sudo apt-get install -y "${fuse_package}"; then
+            echo "obsidian FUSE dependency install failed." >&2
+            return 1
+        fi
+        if ! curl -fsSL "${base_url}/Obsidian-${version}-arm64.AppImage" -o "${temp_app_image}"; then
+            echo "obsidian download failed." >&2
+            rm -f "${temp_app_image}"
+            return 1
+        fi
+        chmod +x "${temp_app_image}"
+        mv "${temp_app_image}" "${app_image}"
         echo "obsidian installed. run: ${app_image} --no-sandbox"
     else
         echo "obsidian: unsupported architecture: ${arch}"

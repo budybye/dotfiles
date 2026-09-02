@@ -74,6 +74,7 @@ watchexec = "latest" # auto runner
 "npm:@jackwener/opencli" = "latest"
 "npm:ctx7" = "latest"
 "npm:npkill" = "latest"
+"npm:@hey-api/openapi-ts" = "latest"
 # "npm:@openhands/agent-canvas" = "latest"
 # "npm:@context-labs/autodoc" = "latest"
 "npm:react-doctor" = "latest"
@@ -184,6 +185,7 @@ glow = "latest"
 # "github:modu-ai/moai-adk" = "latest" # agent
 # "github:plandex-ai/plandex" = "latest"
 
+# "go:github.com/d2lang/d2" = "latest" # diagram
 # "go:github.com/d2lang/d2" = "latest" # diagram
 # "go:github.com/GoogleContainerTools/skaffold" = "latest" # kube
 # "go:github.com/wavetermdev/waveterm" = "latest" # agent
@@ -317,25 +319,25 @@ yt-dlp = "latest"
 # github (Python)
 "github:microsoft/pyright" = "latest"
 "github:graphify-labs/graphify" = "latest" # graph
-"github:pandas-dev/pandas" = "latest"
+"github:pandas-dev/pandas" = "latest" # 計算
 "github:hacs/integration" = "latest" # auth
 
-"pipx:pytest" = "latest"
-"pipx:sherlock-project/sherlock" = "latest"
-"pipx:ragas" = "latest"
+"pipx:pytest" = "latest" # test
 "pipx:thefuck" = "latest" # uv tool install --python 3.11 thefuck しないとエラー
 "pipx:opendoor" = "latest"
-"pipx:NVIDIA/skillspector" = "latest"
 "pipx:marimo" = "latest" # note
-# "pipx:ddgr" = "latest"
-# "pipx:setuptools" = "latest"
-
-"pipx:headroomlabs-ai/headroom" = "latest"
-# "pipx:halo-engine" = "latest"
 "pipx:observal-cli" = "latest"
-# "pipx:semantica" = "latest" # agents
+# "pipx:ragas" = "latest" # RAG
+# "pipx:ddgr" = "latest" # web search
+# "pipx:setuptools" = "latest" # dev tools
+# "pipx:halo-engine" = "latest" # agents
 # "pipx:taipy" = "latest" # agents
+# "pipx:semantica" = "latest" # agents
 # "pipx:crow-cli" = "latest" # agents
+
+"pipx:sherlock-project/sherlock" = "latest"
+"pipx:NVIDIA/skillspector" = "latest"
+"pipx:headroomlabs-ai/headroom" = "latest" # agents
 # "pipx:teng-lin/notebooklm-py" = "latest"
 
 # "pipx:cea-sec/miasm" = "latest"
@@ -370,6 +372,7 @@ solidity = "latest"      # ethereum/solidity (C++)
 "github:Slackadays/Clipboard" = "latest" # clipboard
 "github:hashcat/hashcat" = "latest" # crack
 # "github:apple/foundationdb" = "latest" # db
+
 
 # "github:ClickHouse/ClickHouse" = "latest" # db
 # "github:folkertvanheusden/multitail" = "latest" # cli

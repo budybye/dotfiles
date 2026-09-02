@@ -159,6 +159,7 @@ jobs:
     timeout-minutes: 10
     permissions:
       packages: write
+    needs: [build]
     if: github.event_name != 'schedule'
     strategy:
       fail-fast: false

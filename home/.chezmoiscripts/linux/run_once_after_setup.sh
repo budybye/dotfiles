@@ -9,6 +9,9 @@ sudo=""
 if [ "$(id -u)" -ne 0 ]; then
     sudo="sudo"
 fi
+systemd_running() {
+    [ -d /run/systemd/system ] && command -v systemctl >/dev/null 2>&1
+}
 
 # pulseaudio-module-xrdp が libpulse の modlibexecdir に入っているか
 xrdp_pulse_modules_installed() {
@@ -34,10 +37,11 @@ enable_pulse_deb_src() {
 japan_setup() {
     echo "japan setup start..."
     # Ubuntu のパッケージ名は locales (単数形 locale ではない)
-    $sudo apt-get install -y language-pack-ja-base language-pack-ja manpages-ja tzdata locales
-    $sudo apt-get install -y fcitx5-mozc im-config
+    $sudo apt-get install -y language-pack-ja-base language-pack-ja manpages-ja tzdata locales fcitx5-mozc
+    
 
     if systemd_running; then
+        $sudo apt-get install -y im-config
         $sudo localectl set-locale LANG=ja_JP.UTF-8
         # localectl は LANGUAGE のコロン区切り値をロケールとして拒否するため update-locale を使う
         $sudo update-locale LANGUAGE=ja_JP:ja
@@ -113,7 +117,7 @@ xrdp_setup() {
         $sudo ufw reload
     fi
 
-    if command -v systmectl >/dev/null 2>&1; then
+    if systemd_running; then
         $sudo systemctl enable xrdp
         $sudo systemctl start xrdp
         $sudo systemctl enable lightdm
@@ -194,7 +198,7 @@ pipewire_setup() {
         fi
     fi
 
-    if command -v systmectl >/dev/null 2>&1; then
+    if systemd_running; then
         systemctl --user enable --now pipewire pipewire-pulse wireplumber
     fi
 
