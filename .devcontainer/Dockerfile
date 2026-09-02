@@ -107,14 +107,15 @@ RUN usermod -aG sudo ubuntu && \
 USER ubuntu
 WORKDIR /home/ubuntu
 # GitHub の dotfiles repository を Chezmoi source にする
-RUN git clone https://github.com/budybye/dotfiles.git
+ARG DOTFILES_REF=main
+RUN git clone --depth=1 --branch "${DOTFILES_REF}" https://github.com/budybye/dotfiles.git
 # mise rate limit 回避に GITHUB_TOKEN 設定
 RUN --mount=type=secret,id=github_token,env=GITHUB_TOKEN \
     cd dotfiles && make init
 
 USER root
 # Docker は systemd-cat を使う im-config を実行しない
-RUN RUN apt-get purge -y im-config
+RUN apt-get purge -y im-config
 # build 後の apt cache を削除
 RUN apt-get autoremove -y && \
     apt-get clean && \

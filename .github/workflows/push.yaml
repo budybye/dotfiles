@@ -1,7 +1,7 @@
 name: Push to ghcr
-# semver タグ push または tag.yaml からの workflow_dispatch で GHCR を更新（main 単独 push では走らない）。
-# tag.yaml はタグ push 後に workflow_dispatch でも起動する（tag push イベント欠落の保険）。
-# schedule はキャッシュ更新用（latest / semver は付けない）。手動 dispatch は --ref で semver タグを指定。
+# semver tag push または tag.yaml の workflow_dispatch で full/slim/dev image を GHCR 更新。
+# main push では起動しない。schedule はイメージを公開せず、GHA cache を更新する。
+# full は default GUI image、slim は CLI image、dev は Dev Containers image。
 on:
   push:
     tags:
@@ -20,8 +20,6 @@ concurrency:
 
 env:
   REGISTRY_IMAGE: ghcr.io/budybye/ubuntu-dev
-  # MISE_GITHUB_TOKEN: ${{ secrets.MISE_GITHUB_TOKEN }}
-  # GITHUB_TOKEN: ${{ secrets.MISE_GITHUB_TOKEN }}
 jobs:
   build:
     # 3時間
@@ -37,6 +35,9 @@ jobs:
           - linux/arm64
         flavor:
           - name: full
+            dockerfile: Dockerfile
+          - name: slim
+            dockerfile: slim.Dockerfile
           - name: dev
         include:
           # ARM64ビルド用の設定
@@ -59,100 +60,60 @@ jobs:
 
       # - name: Set up QEMU
       #   uses: docker/setup-qemu-action@v3
-
       - name: Docker meta
-        if: matrix.flavor.name == 'full'
+        if: matrix.flavor.name != 'dev'
         id: meta
         uses: docker/metadata-action@v6
         with:
           images: ${{ env.REGISTRY_IMAGE }}
-          tags: |
-            type=sha,prefix=${{ github.ref_name }}-${{ env.PLATFORM_PAIR }}
           labels: |
-            org.opencontainers.image.description=${{ matrix.platform }}
+            org.opencontainers.image.description=${{ matrix.flavor.name }} / ${{ matrix.platform }}
           annotations: |
             org.opencontainers.image.source=https://github.com/budybye/ubuntu-dev
             org.opencontainers.image.documentation=https://github.com/budybye/ubuntu-dev/blob/main/README.md
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
-        with:
-          use: true
 
-      - name: clean space
-        # if: matrix.platform == 'linux/amd64'
+      # Build runner の不要な Docker/apt cache だけ削除する。
+      # 大量の system package purge は runner 初期化を遅くするため行わない。
+      - name: Clean space
         run: |
           df -h
-          docker image prune --all --force || true
-          sudo rm -rf /opt/* || true
-          sudo rm -rf /usr/share/dotnet || true
-          sudo rm -rf /usr/local/lib/android || true
-          sudo rm -rf /usr/local/share/boost || true
-          sudo rm -rf $AGENT_TOOLSDIRECTORY || true
-          sudo apt purge -y \
-            ansible* \
-            aria2* \
-            aspnetcore* \
-            apache2* \
-            azure-cli* \
-            cabal* \
-            clang* \
-            dotnet-* \
-            firefox* \
-            gfortran-* \
-            ghc* \
-            google-chrome-stable* \
-            google-cloud-sdk* \
-            imagemagick* \
-            javascript* \
-            kubectl* \
-            llvm* \
-            mono* \
-            moby* \
-            mysql* \
-            nginx* \
-            node* \
-            npm* \
-            nuget* \
-            php* \
-            postgresql* \
-            powershell* \
-            rpm* \
-            ruby* \
-            sqlite3* \
-            subversion \
-            temurin* \
-            tmux* \
-            vim* \
-            yarn* || true
-          sudo apt-get autoremove -y >/dev/null 2>&1 || true
-          sudo apt-get autoclean -y >/dev/null 2>&1 || true
+          docker system prune --all --force --volumes || true
+          sudo apt-get clean
           df -h
 
+
       - name: Login to GitHub Container Registry
+        if: github.event_name != 'schedule'
         uses: docker/login-action@v4
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
+          
       - name: Build and push by digest
-        if: matrix.flavor.name == 'full'
+        if: matrix.flavor.name != 'dev'
         id: build
         uses: docker/build-push-action@v7
         with:
           context: .devcontainer
+          file: ${{ matrix.flavor.dockerfile }}
+          build-args: |
+            DOTFILES_REF=${{ github.ref_name }}
+          cache-from: type=gha,scope=${{ matrix.flavor.name }}-${{ env.PLATFORM_PAIR }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.flavor.name }}-${{ env.PLATFORM_PAIR }}
           platforms: ${{ matrix.platform }}
-          # cache-from: type=registry,ref=${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }}
-          # cache-to: type=registry,ref=${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }},mode=max
           labels: ${{ steps.meta.outputs.labels }}
           annotations: ${{ steps.meta.outputs.annotations }}
-          outputs: type=image,name=${{ env.REGISTRY_IMAGE }},push-by-digest=true,name-canonical=true,push=true
+          push: ${{ github.event_name != 'schedule' }}
+          outputs: ${{ github.event_name != 'schedule' && format('type=image,name={0},push-by-digest=true,name-canonical=true,push=true', env.REGISTRY_IMAGE) || '' }}
           secrets: |
             github_token=${{ secrets.GITHUB_TOKEN }}
 
-      - name: Set full digest
-        if: matrix.flavor.name == 'full'
+      - name: Set digest
+        if: matrix.flavor.name != 'dev' && github.event_name != 'schedule'
         run: |
           mkdir -p /tmp/digests
           digest="${{ steps.build.outputs.digest }}"
@@ -164,30 +125,27 @@ jobs:
         uses: devcontainers/ci@v0.3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DOTFILES_REF: ${{ github.ref_name }}
         with:
           imageName: ${{ env.REGISTRY_IMAGE }}
           imageTag: ${{ env.PLATFORM_PAIR }}-${{ matrix.flavor.name }}
-          # cacheFrom: ${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }}-${{ matrix.flavor.name }}
           push: never
-          # runCmd: |
-          #   env
-          #   uname -a
 
       - name: Dev push by digest
-        if: matrix.flavor.name == 'dev'
+        if: matrix.flavor.name == 'dev' && github.event_name != 'schedule'
         run: |
-          /usr/bin/docker push ${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }}-${{ matrix.flavor.name }} | \
-          grep digest | \
-          sed -n 's/^.*digest: sha256:\([a-f0-9]*\).*$/\1/p' > /tmp/devcontainer-cache
+          /usr/bin/docker push "${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }}-${{ matrix.flavor.name }}" | \
+            grep digest | \
+            sed -n 's/^.*digest: sha256:\([a-f0-9]*\).*$/\1/p' > /tmp/devcontainer-cache
 
-      - name: Set devcontainer digest
-        if: matrix.flavor.name == 'dev'
+      - name: Set dev digest
+        if: matrix.flavor.name == 'dev' && github.event_name != 'schedule'
         run: |
           mkdir -p /tmp/digests
-          digest=$(cat /tmp/devcontainer-cache)
+          digest="$(cat /tmp/devcontainer-cache)"
           touch "/tmp/digests/${digest}"
-
       - name: Upload digest
+        if: github.event_name != 'schedule'
         uses: actions/upload-artifact@v7
         with:
           name: digests-${{ env.PLATFORM_PAIR }}-${{ matrix.flavor.name }}
@@ -195,31 +153,20 @@ jobs:
           if-no-files-found: error
           retention-days: 1
 
-      - name: Docker compose action
-        if: matrix.flavor.name == 'slim'
-        uses: hoverkraft-tech/compose-action@v3
-        with:
-          compose-file: .devcontainer/compose.yaml
-          services: |
-            dev
-
-      - name: Docker compose test
-        if: matrix.flavor.name == 'slim'
-        run: |
-          docker ps -a
 
   merge:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     permissions:
       packages: write
-    needs: [build]
+    if: github.event_name != 'schedule'
     strategy:
       fail-fast: false
       matrix:
         flavor:
-          - name: dev
           - name: full
+          - name: slim
+          - name: dev
     steps:
       - name: Download digests
         uses: actions/download-artifact@v8
@@ -237,10 +184,11 @@ jobs:
         uses: docker/metadata-action@v6
         with:
           images: ${{ env.REGISTRY_IMAGE }}
+          flavor: |
+            latest=false
           tags: |
             type=semver,pattern={{version}},enable=${{ startsWith(github.ref, 'refs/tags/') }}
             type=semver,pattern={{major}}.{{minor}},enable=${{ startsWith(github.ref, 'refs/tags/') }}
-            type=raw,value=latest,enable=${{ startsWith(github.ref, 'refs/tags/') }}
             type=sha,enable=${{ !startsWith(github.ref, 'refs/tags/') }}
 
       - name: Login to GitHub Container Registry
@@ -249,27 +197,34 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
-        # semver タグ push 時のみ latest / 0.8.x を付与
-      - name: Create manifest list and push
+      - name: Create full manifest list and push
         if: matrix.flavor.name == 'full'
         working-directory: /tmp/digests
         run: |
-          # docker buildx imagetools create $(jq -cr '.tags | map("-t " + .) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON") \
           docker buildx imagetools create \
             -t "${{ env.REGISTRY_IMAGE }}:full" \
-            -t "${{ env.REGISTRY_IMAGE }}:slim" \
+            -t "${{ env.REGISTRY_IMAGE }}:latest" \
             $(jq -cr '.tags | map("-t " + .) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON") \
             $(printf '${{ env.REGISTRY_IMAGE }}@sha256:%s ' *)
 
-          # マニフェストリストを確認
-          docker buildx imagetools inspect ${{ env.REGISTRY_IMAGE }}:${{ steps.meta.outputs.version }}
+          docker buildx imagetools inspect "${{ env.REGISTRY_IMAGE }}:full"
 
-      - name: dev Create manifest list and push
+      - name: Create slim manifest list and push
+        if: matrix.flavor.name == 'slim'
+        working-directory: /tmp/digests
+        run: |
+          docker buildx imagetools create \
+            -t "${{ env.REGISTRY_IMAGE }}:slim" \
+            $(printf '${{ env.REGISTRY_IMAGE }}@sha256:%s ' *)
+
+          docker buildx imagetools inspect "${{ env.REGISTRY_IMAGE }}:slim"
+
+      - name: Create dev manifest list and push
         if: matrix.flavor.name == 'dev'
         working-directory: /tmp/digests
         run: |
-          docker buildx imagetools create -t ${{ env.REGISTRY_IMAGE }}:${{ matrix.flavor.name }} \
-           $(printf '${{ env.REGISTRY_IMAGE }}@sha256:%s ' *)
+          docker buildx imagetools create \
+            -t "${{ env.REGISTRY_IMAGE }}:dev" \
+            $(printf '${{ env.REGISTRY_IMAGE }}@sha256:%s ' *)
 
-          docker buildx imagetools inspect ${{ env.REGISTRY_IMAGE }}:${{ matrix.flavor.name }}
+          docker buildx imagetools inspect "${{ env.REGISTRY_IMAGE }}:dev"

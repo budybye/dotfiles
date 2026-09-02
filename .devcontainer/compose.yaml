@@ -11,14 +11,15 @@ services:
     privileged: true
     platform: linux/${ARCH:-$(dpkg --print-architecture || uname -m)}
     ports:
-      - ${RDP_PORT:-33389}:3389 # 127.1:33389 で RDP
-      - ${SSH_PORT:-2222}:22
+      - "127.0.0.1:${RDP_PORT:-33389}:3389" # localhost RDP
+      - "127.0.0.1:${SSH_PORT:-2222}:22"
     # volumes:
     #   - ${HOME}/Developer:/home/${USER:-ubuntu}/Developer
     # environment:
       # REMOTE_CONTAINERS: true
       # MISE_GITHUB_TOKEN: ${MISE_GITHUB_TOKEN:-}
     shm_size: 512m # ブラウザ対策
+    # Local-only convenience default; ports are loopback-bound.
     command: ["ubuntu", "${PASSWORD:-ubuntu}", "yes"]
     tty: true
     restart: always

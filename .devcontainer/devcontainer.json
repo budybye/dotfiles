@@ -6,7 +6,8 @@
     "dockerfile": "slim.Dockerfile",
     "args": {
       "DEV_UID": "1024",
-      "DEV_GID": "1024"
+      "DEV_GID": "1024",
+      "DOTFILES_REF": "${localEnv:DOTFILES_REF:main}",
     }
   },
   // "dockerComposeFile": "compose.yaml",
@@ -26,9 +27,11 @@
   "remoteEnv": {
     "REMOTE_CONTAINERS": "true",
   },
-  // "features": {
-  //     "ghcr.io/devcontainers/features/docker-in-docker:4": {}
-  // },
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:4": {
+      "moby": false
+    }
+  },
   "customizations": {
     "vscode": {
       "settings": {

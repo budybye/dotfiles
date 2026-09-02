@@ -396,8 +396,8 @@ packages:
         - "security-audit"
       "cloudflare/kumo":
         - "kumo-design"
-      "xrplf/xrpl-dev-portal":
-      - "xrpl-payments"
+      # "xrplf/xrpl-dev-portal":
+      # - "xrpl-payments"
       # - "xrpl-agent-wallet"
       "xrpl-commons/xrpl-dev-skill":
         - "xrpl-dev"

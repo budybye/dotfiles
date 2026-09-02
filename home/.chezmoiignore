@@ -13,29 +13,28 @@ key.txt*
 .ssh/id_rsa*
 {{ end }}
 
-{{ if eq (env "DOCKER") "true" }}
+{{ if eq (env "REMOTE_CONTAINERS") "true" }}
 .config/mise.toml
 .ssh/authorized_keys
 .ssh/id_ed25519*
 .ssh/id_rsa*
 .env*
-.chezmoiscripts/vscode.sh
 .chezmoiscripts/age.sh
+.chezmoiscripts/vscode.sh
 .chezmoiscripts/linux/cli.sh
 .chezmoiscripts/linux/gui.sh
 .chezmoiscripts/linux/docker.sh
 .chezmoiscripts/linux/setup.sh
-.chezmoiscripts/skills.sh
 .chezmoiscripts/linux/snap.sh
-
-{{ else if eq (env "REMOTE_CONTAINERS") "true" }}
+{{ else if eq (env "DOCKER") "true" }}
 .config/mise.toml
 .ssh/authorized_keys
 .ssh/id_ed25519*
 .ssh/id_rsa*
 .env*
-.chezmoiscripts/vscode.sh
 .chezmoiscripts/age.sh
+.chezmoiscripts/skills.sh
+.chezmoiscripts/vscode.sh
 .chezmoiscripts/linux/cli.sh
 .chezmoiscripts/linux/gui.sh
 .chezmoiscripts/linux/docker.sh

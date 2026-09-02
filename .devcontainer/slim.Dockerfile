@@ -66,7 +66,6 @@ RUN chmod +x /usr/bin/entrypoint
 
 # devユーザー設定
 ARG DEV=dev
-ARG DEV_PW=dev
 ARG DEV_UID=1024
 ARG DEV_GID=1024
 
@@ -77,7 +76,6 @@ RUN groupadd -f -g "${DEV_GID}" "${DEV}" && \
       --create-home \
       --shell /usr/bin/zsh \
       "${DEV}" && \
-    echo "${DEV}:${DEV_PW}" | chpasswd && \
     echo "${DEV} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 # ubuntuユーザー設定
@@ -89,7 +87,8 @@ RUN usermod -aG sudo ubuntu && \
 # ubuntu user で dotfiles を適用
 USER ubuntu
 WORKDIR /home/ubuntu
-RUN git clone https://github.com/budybye/dotfiles.git
+ARG DOTFILES_REF=main
+RUN git clone --depth=1 --branch "${DOTFILES_REF}" https://github.com/budybye/dotfiles.git
 RUN --mount=type=secret,id=github_token,env=GITHUB_TOKEN \
     cd dotfiles && make init
 
@@ -103,7 +102,7 @@ RUN apt-get autoremove -y && \
 FROM base
 EXPOSE 22
 ENTRYPOINT ["entrypoint"]
-CMD ["ubuntu", "ubuntu", "yes"]
+CMD ["ubuntu", "ubuntu", "no"]
 # $1 ユーザー名
 # $2 パスワード
 # $3 sudo-no-passwd yes or other

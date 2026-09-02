@@ -13,6 +13,10 @@ if [ "$(whoami)" = "root" ]; then
     echo "running root user"
     sudo=""
 fi
+if [ "$#" -ge 2 ] && [ "$2" = "__PASSWORD_REQUIRED__" ]; then
+    : "${PASSWORD:?PASSWORD is required when using default CMD}"
+    set -- "$1" "$PASSWORD" "${@:3}"
+fi
 
 # xrdp サービスを開始
 start_xrdp_services() {

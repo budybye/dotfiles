@@ -387,7 +387,7 @@ maven = "latest"
 # Other languages — 特殊ランタイム / 少数派
 # =============================================================================
 ruby = "latest"
-# dotnet = "latest"
+dotnet = "latest"
 # flutter = "latest"
 # php = "latest"
 # cocoapods = "latest"
@@ -396,6 +396,7 @@ ruby = "latest"
 # github (Swift / C# など)
 # "github:manaflow-ai/cmux" = "latest"       # Swift
 "github:iofficeai/officecli" = "latest"    # C#
+# "github:ClusterVR/ClusterCreatorKit" = "latest" 
 
 # =============================================================================
 # Shell / editors / media / misc — 用途グループ（言語横断）

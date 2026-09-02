@@ -29,15 +29,24 @@ if ! id "${user_name}" >/dev/null 2>&1; then
     useradd -m -s /usr/bin/zsh -g "${user_name}" "${user_name}"
 fi
 
-printf '%s:%s\\n' "${user_name}" "${password}" | chpasswd
+password_authentication=yes
+if [ "${password}" = "__NO_PASSWORD__" ]; then
+    password_authentication=no
+else
+    if [ -z "${password}" ]; then
+        printf 'A non-empty password is required\\n' >&2
+        exit 1
+    fi
+    printf '%s:%s\\n' "${user_name}" "${password}" | chpasswd
+fi
 
 if [ "${sudo_user}" = "yes" ]; then
     usermod -aG sudo "${user_name}"
 fi
 
 install -d -m 0755 /run/sshd
-cat > /etc/ssh/sshd_config.d/99-container.conf <<'SSHD'
-PasswordAuthentication yes
+cat > /etc/ssh/sshd_config.d/99-container.conf <<SSHD
+PasswordAuthentication ${password_authentication}
 KbdInteractiveAuthentication no
 PermitRootLogin no
 UsePAM yes
