@@ -1,6 +1,5 @@
 setupVersion: 2
 modelRoles:
-  task: openai-codex/gpt-5.6-luna:high
   default: openai-codex/gpt-5.6-luna:high
 defaultThinkingLevel: auto
 dev:

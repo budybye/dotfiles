@@ -57,13 +57,13 @@ install_mise() {
     if [ -f "${HOME}/.config/mise.toml" ]; then
         # mise bootstrap dotfiles apply -y || echo "brew bootstrap failed."
         # mise bootstrap files apply -y || echo "brew bootstrap failed."
+        # mise bootstrap packages apply -y || echo "mise bootstrap failed."
         mise bootstrap packages apply --manager brew -y || echo "brew bootstrap failed."
         mise bootstrap packages apply --manager brew-cask -y || echo "cask bootstrap failed."
         # mise bootstrap packages apply --manager mas -y || echo "mas bootstrap failed."
         # mise bootstrap plugins apply -y || echo "mas bootstrap failed."
-        # mise bootstrap macos defaults apply || echo "mas bootstrap failed."
+        mise bootstrap macos defaults apply || echo "mas bootstrap failed."
         # mise bootstrap macos launchd-agents apply || echo "mas bootstrap failed."
-        # mise bootstrap packages apply -y || echo "mise bootstrap failed."
     fi
     
     if [ -f "${HOME}/.config/mise/config.toml" ]; then

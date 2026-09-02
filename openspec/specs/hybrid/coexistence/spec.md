@@ -22,7 +22,7 @@ During and after phase-1 migration, Chezmoi SHALL remain authoritative for templ
 
 ### Requirement: Documented bootstrap ordering
 
-The repository SHALL document a recommended apply order for new machines: install Mise and the age binary required by Chezmoi → create the separate Mise runtime identity when needed → `chezmoi apply` with interactive passphrase → `mise bootstrap` (packages, macOS defaults) → `mise install` and remaining platform tasks.
+The repository SHALL document a recommended apply order for new machines: Chezmoi bootstrap prerequisites (mise binary, age/bitwarden if needed) → `mise bootstrap` (packages, macOS defaults) → `chezmoi apply` (configs, remaining scripts).
 
 #### Scenario: Fresh macOS setup
 

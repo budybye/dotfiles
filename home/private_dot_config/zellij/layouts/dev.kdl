@@ -1,6 +1,9 @@
-// タブ1: 4ペイン
-// タブ2: 4ペイン
-// タブ3: 2ペイン
+// タブ1: 4ペイン home
+// タブ2: 4ペイン Developer
+// タブ3: 1ペイン herdr
+// タブ4: 2ペイン 並列 pi/omp
+// タブ5: 2ペイン 縦列 lazyxrp/rippled
+// タブ6: 1ペイン lazydocker
 
 layout {
     // デフォルトタブテンプレート
@@ -72,26 +75,28 @@ layout {
         }
     }
 
+    tab name="herdr" {
+        pane {
+            name "herdr"
+            cwd "~/Developer"
+            command "herdr"
+        }
+    }
+    
     tab name="edit" {
         pane split_direction="vertical" {
             pane {
-                name "herdr"
+                name "omp"
                 cwd "~/Developer"
-                command "herdr"
+                command "omp"
+                args "-c"
             }
             pane {
                 name "pi"
                 cwd "~/Developer/docs"
                 command "pi"
+                args "-c"
             }
-        }
-    }
-
-    tab name="docker" {
-        pane {
-            name "lazydocker"
-            cwd "~/Developer"
-            command "lazydocker"
         }
     }
 
@@ -107,6 +112,14 @@ layout {
             cwd "~/Developer/rippled"
             command "make"
             args "help"
+        }
+    }
+    
+    tab name="docker" {
+        pane {
+            name "lazydocker"
+            cwd "~/Developer"
+            command "lazydocker"
         }
     }
 }

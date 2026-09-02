@@ -9,12 +9,12 @@ services:
     container_name: ubuntu
     hostname: container
     privileged: true
-    platform: linux/${ARCH:-$(dpkg --print-architecture || uname -m)}
+    # platform: linux/${ARCH:-$(dpkg --print-architecture || uname -m)}
     ports:
       - "127.0.0.1:${RDP_PORT:-33389}:3389" # localhost RDP
       - "127.0.0.1:${SSH_PORT:-2222}:22"
     # volumes:
-    #   - ${HOME}/Developer:/home/${USER:-ubuntu}/Developer
+    #   - ${HOME}/Developer:/home/ubuntu/Developer
     # environment:
       # REMOTE_CONTAINERS: true
       # MISE_GITHUB_TOKEN: ${MISE_GITHUB_TOKEN:-}

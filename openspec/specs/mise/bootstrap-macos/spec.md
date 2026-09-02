@@ -8,7 +8,7 @@ macOS workstation preferences and bootstrap-only system setup owned by Mise `[bo
 
 ### Requirement: macOS defaults declared in mise.toml
 
-macOS user-interface and application defaults that are safe to apply declaratively SHALL be expressed in `home/private_dot_config/mise.toml` under `[bootstrap.macos.defaults.*]`, `[bootstrap.macos.dock]`, `[bootstrap.macos.finder]`, `[bootstrap.macos.keyboard]`, and `[bootstrap.macos.trackpad]` rather than duplicated in a Chezmoi defaults hook.
+macOS user-interface and application defaults that are safe to apply declaratively SHALL be expressed in `home/private_dot_config/mise.toml` under `[bootstrap.macos.defaults.*]`, `[bootstrap.macos.dock]`, `[bootstrap.macos.finder]`, `[bootstrap.macos.keyboard]`, and `[bootstrap.macos.trackpad]` rather than duplicated in `run_onchange_after_defaults.sh`.
 
 #### Scenario: Finder defaults applied by mise bootstrap
 
@@ -17,8 +17,8 @@ macOS user-interface and application defaults that are safe to apply declarative
 
 #### Scenario: No duplicate defaults writes
 
-- **WHEN** Mise bootstrap is the authoritative defaults path
-- **THEN** no legacy Chezmoi defaults script executes duplicate `defaults write` operations
+- **WHEN** both Mise bootstrap and the legacy Chezmoi defaults script are enabled during transition
+- **THEN** documented migration tasks require disabling or no-oping the Chezmoi script before Mise is marked authoritative
 
 ### Requirement: Privileged macOS setup stays explicit
 
