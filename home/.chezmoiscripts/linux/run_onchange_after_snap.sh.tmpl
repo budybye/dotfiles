@@ -19,14 +19,12 @@ install_snap() {
     {{ range .packages.snap.classic -}}
     if ! command -v {{ . }} >/dev/null 2>&1; then
         $sudo snap install {{ . }} --classic || echo "{{ . }} install failed."
-        echo "{{ . }} already installed."
     fi
     {{ end -}}
 
     {{ range .packages.snap.latest -}}
     if ! command -v {{ . }} >/dev/null 2>&1; then
         $sudo snap install {{ . }} || echo "{{ . }} install failed."
-        echo "{{ . }} already installed."
     fi
     {{ end -}}
 

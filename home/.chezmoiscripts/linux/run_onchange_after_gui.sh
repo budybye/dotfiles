@@ -163,6 +163,7 @@ install_zen() {
     fi
 }
 
+# amd64 だけでしかも AppImage
 install_emdash() {
     APP_DIR="${HOME}/Applications"
     APP_IMAGE="${APP_DIR}/emdash"
@@ -290,13 +291,9 @@ echo "gui.sh"
 echo "--------------------------------"
 echo "gui tools setup"
 echo "--------------------------------"
-# install_brave_browser
-# install_element_desktop
-# install_ghostty
-# install_opencode
-# install_tabby_terminal
-# install_vscode
-# install_wireshark
+install_brave_browser
+install_element_desktop
+install_ghostty
 install_cloudflare_warp
 install_cursor
 install_github_desktop
@@ -304,6 +301,10 @@ install_obsidian
 install_ruby_fusuma
 install_zed
 install_zen
+# install_opencode
+# install_tabby_terminal
+# install_vscode
+# install_wireshark
 
 echo "--------------------------------"
 echo "desktop setup complete"

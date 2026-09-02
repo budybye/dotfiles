@@ -152,6 +152,7 @@ packages:
 
       - "snap"
       - "snapd"
+      
       - "libpulse-dev"
       - "gnome-keyring"
       # - 'pulseaudio'
@@ -161,10 +162,11 @@ packages:
       - "wireplumber"
       - "libspa-0.2-dev"
       - "libpipewire-0.3-dev"
-      - "asahi-audio"
+      # - "asahi-audio"
       - "autoconf"
       - "libtool"
 
+      - "xdg-utils"
       - "plank"
       - "picard"
       - "remmina"
@@ -178,9 +180,9 @@ packages:
       # - 'code' amd64
       # - 'codium' arm64
     latest:
-      - 'brave'
-      - 'element-desktop'
       - "multipass"
+      # - 'brave'
+      # - 'element-desktop'
       # - "bruno"
       # - "microk8s"
       # - "chromium"

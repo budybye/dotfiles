@@ -335,7 +335,7 @@ adopt = true
 
 "apt:plank" = "latest"
 "apt:picard" = "latest"
-"apt:freerdp-x11" = "latest"
+# "apt:freerdp" = "latest"
 "apt:remmina" = "latest"
 "apt:xclip" = "latest"
 # "apt:stow" = "latest"
