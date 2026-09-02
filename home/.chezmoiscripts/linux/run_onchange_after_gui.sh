@@ -11,6 +11,7 @@ if [ "$(id -u)" -ne 0 ]; then
 fi
 
 install_gui() {
+    $sudo apt-get update -y
     $sudo apt-get install -y xfce4 xfce4-goodies xrdp xorgxrdp dbus-x11 lightdm gnome-keyring libinput-tools xdg-utils plank picard remmina xsel xclip oneko nyancat
 }
 
