@@ -4,6 +4,11 @@
 # export SHELL
 # chsh -s "${SHELL}" $"(whoami)"
 
+# /bin/zsh へシンボリック作成 sudo 必須？
+# if [ ! -f /bin/zsh ] && command -v zsh >/dev/null 2>&1; then
+#     sudo ln -sf $(command -v zsh) /bin/zsh
+# fi
+
 # ZDOTDIR を設定
 if [ -d "${HOME}/.config/zsh" ]; then
     export ZDOTDIR="${ZDOTDIR:-${HOME}/.config/zsh}"

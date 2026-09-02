@@ -95,7 +95,7 @@ rosie-skills install dmmulroy/better-result adopt-better-result -a warp -y
 rosie-skills install coderabbitai/skills autofix -a warp -y
 rosie-skills install coderabbitai/skills code-review -a warp -y
 rosie-skills install backnotprop/bro bro -a warp -y
-rosie-skills install upstash/context7 find-docs -a warp -y
+# rosie-skills install upstash/context7 find-docs -a warp -y
 rosie-skills install yusukebe/ax ax -a warp -y
 # rosie-skills install yusukebe/hono-skill hono -a warp -y
 rosie-skills install antfu/skills vite -a warp -y

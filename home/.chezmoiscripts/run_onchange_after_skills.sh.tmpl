@@ -1,26 +1,26 @@
 #!/usr/bin/env bash
 set -eu
 
-# packages.yaml の packages.agents.skills が変更された時に再実行される
-# ハッシュ: {{ .packages.agents.skills | toJson | sha256sum }}
+# agents.yaml の agents.skills が変更された時に再実行される
+# ハッシュ: {{ .agents.skills | toJson | sha256sum }}
 
-if command -v rosie-skills >/dev/null 2>&1; then
-    rosie_command=(rosie-skills)
+if command -v skills >/dev/null 2>&1; then
+    skills_command=(skills)
 elif command -v npx >/dev/null 2>&1; then
-    rosie_command=(npx --yes rosie-skills)
+    skills_command=(npx --yes skills)
 else
-    printf '%s\n' 'rosie-skills is not installed and npx is unavailable.' >&2
+    printf '%s\n' 'skills CLI is not installed and npx is unavailable.' >&2
     exit 1
 fi
 
-echo "rosie skills"
+echo "skills"
 echo "--------------------------------"
 
-{{- range $repo, $skills := .packages.agents.skills }}
+{{- range $repo, $skills := .agents.skills }}
 {{- range $skill := $skills }}
-"${rosie_command[@]}" install {{ shellQuote $repo }} {{ shellQuote $skill }} -a warp -y
+"${skills_command[@]}" add {{ shellQuote $repo }} -s {{ shellQuote $skill }} -a zed -y -g
 {{- end }}
 {{- end }}
 
 echo "--------------------------------"
-echo "rosie skills install completed."
+echo "skills install completed."

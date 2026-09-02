@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# set -eu
+set -Eeuo pipefail
 
 # アーキテクチャを取得
 arch="$(dpkg --print-architecture)"
@@ -16,7 +16,7 @@ install_brave_browser() {
         $sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
         echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main" | $sudo tee /etc/apt/sources.list.d/brave-browser-release.list
         $sudo apt-get update -y
-        $sudo apt-get install -y brave-browser || echo "brave browser install failed."
+        $sudo apt-get install -y brave-browser
         echo "brave browser installed."
     fi
 }
@@ -28,15 +28,15 @@ install_cloudflare_warp() {
         $sudo curl -fsSL https://pkg.cloudflareclient.com/pubkey.gpg | $sudo gpg --yes --dearmor --output /usr/share/keyrings/cloudflare-warp-archive-keyring.gpg
         echo "deb [signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg] https://pkg.cloudflareclient.com/ $(lsb_release -cs) main" | $sudo tee /etc/apt/sources.list.d/cloudflare-client.list
         $sudo apt-get update -y
-        $sudo apt-get install -y cloudflare-warp || echo "cloudflare warp install failed."
+        $sudo apt-get install -y cloudflare-warp
         echo "cloudflare warp installed."
     fi
 
-    warp-cli --accept-tos registration new || echo "warp-cli registration failed."
-    warp-cli --accept-tos mode warp || echo "warp-cli mode set failed."
-    warp-cli --accept-tos dns families malware || echo "warp-cli dns set failed."
-    warp-cli --accept-tos connect || echo "warp-cli connect failed."
-    warp-cli --accept-tos disconnect || echo "warp-cli disconnect failed."
+    warp-cli --accept-tos registration new
+    warp-cli --accept-tos mode warp
+    warp-cli --accept-tos dns families malware
+    warp-cli --accept-tos connect
+    warp-cli --accept-tos disconnect
 }
 
 ## 代変えインストーラー https://github.com/watzon/cursor-linux-installer
@@ -49,6 +49,9 @@ install_cursor() {
         echo "cursor already installed."
     elif command -v curl >/dev/null 2>&1; then
         curl -L https://raw.githubusercontent.com/watzon/cursor-linux-installer/main/install.sh | sh -s -- latest
+    else
+        echo "curl command not found." >&2
+        return 1
     fi
     
     # cursor の実行方法を表示
@@ -64,7 +67,7 @@ install_element_desktop() {
         $sudo wget -O /usr/share/keyrings/element-io-archive-keyring.gpg https://packages.element.io/debian/element-io-archive-keyring.gpg
         echo "deb [signed-by=/usr/share/keyrings/element-io-archive-keyring.gpg] https://packages.element.io/debian/ default main" | $sudo tee /etc/apt/sources.list.d/element-io.list
         $sudo apt-get update -y
-        $sudo apt-get install -y element-desktop || echo "element desktop install failed."
+        $sudo apt-get install -y element-desktop
         echo "element desktop installed."
     fi
 }
@@ -94,10 +97,10 @@ install_ruby_fusuma() {
         echo "ruby already installed."
     elif command -v mise >/dev/null 2>&1; then
         activate_mise
-        mise use -g -y ruby || echo "ruby install failed."
+        mise use -g -y ruby
         echo "ruby installed."
     else
-        $sudo apt-get install -y ruby || echo "ruby install failed."
+        $sudo apt-get install -y ruby
         echo "ruby installed."
     fi
 
@@ -105,7 +108,7 @@ install_ruby_fusuma() {
     if command -v fusuma >/dev/null 2>&1; then
         echo "fusuma already installed."
     elif command -v gem >/dev/null 2>&1; then
-        $sudo gem install fusuma || echo "fusuma install failed."
+        $sudo gem install fusuma
         $sudo groupadd -f input
         $sudo usermod -aG input "$(whoami)"
         fusuma -d
@@ -122,7 +125,7 @@ install_tabby_terminal() {
     else
         curl https://packagecloud.io/install/repositories/eugeny/tabby/script.deb.sh | $sudo bash
         $sudo apt-get update -y
-        $sudo apt-get install -y tabby-terminal || echo "tabby terminal install failed."
+        $sudo apt-get install -y tabby-terminal
         echo "tabby terminal installed."
     fi
 }
@@ -136,7 +139,7 @@ install_vscode() {
         echo "deb [arch=${arch} signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" | $sudo tee /etc/apt/sources.list.d/vscode.list > /dev/null
         $sudo rm -f packages.microsoft.gpg
         $sudo apt-get update -y
-        $sudo apt-get install -y code || echo "vscode install failed."
+        $sudo apt-get install -y code
         echo "vscode installed."
     fi
 }
@@ -145,7 +148,7 @@ install_wireshark() {
     if command -v wireshark >/dev/null 2>&1; then
         echo "wireshark already installed."
     else
-        $sudo apt install -y wireshark || echo "wireshark install failed."
+        $sudo apt install -y wireshark
         $sudo groupadd -f wireshark
         $sudo usermod -aG wireshark "$(whoami)"
         $sudo chmod +x /usr/bin/dumpcap
@@ -163,46 +166,26 @@ install_zen() {
     fi
 }
 
-# amd64 だけでしかも AppImage
-install_emdash() {
-    APP_DIR="${HOME}/Applications"
-    APP_IMAGE="${APP_DIR}/emdash"
-    mkdir -p "${APP_DIR}"
-
-    if [ "${arch}" = "amd64" ]; then
-      if [ ! -f "${APP_IMAGE}" ]; then
-          curl -f https://github.com/generalaction/emdash/releases/latest/download/emdash-x86_64.AppImage -o "${APP_IMAGE}" || echo "emdash install failed."
-          chmod +x "${APP_IMAGE}"
-          echo "emdash installed."
-      else
-          echo "emdash already installed."
-      fi
-    else
-        echo "emdash not installed for ${arch} architecture."
-    fi
-}
-
 install_ghostty() {
     if command -v ghostty >/dev/null 2>&1; then
         echo "ghostty already installed."
-        return
     else
     # PPA は amd64 / arm64 両対応 (https://github.com/mkasberg/ghostty-ubuntu)
-    $sudo apt-get install -y software-properties-common || echo "software-properties-common install failed."
-    $sudo add-apt-repository -y ppa:mkasberg/ghostty-ubuntu
-    $sudo apt-get update -y
-    $sudo apt-get install -y ghostty || echo "ghostty install failed."
+    # $sudo apt-get install -y software-properties-common || echo "software-properties-common install failed."
+    # $sudo add-apt-repository -y ppa:mkasberg/ghostty-ubuntu
+    # $sudo apt-get update -y
+    # 26.04 以上なら apt install ghostty で入る
+    $sudo apt-get install -y ghostty
     echo "ghostty installed."
     fi
 }
 
 install_zed() {
-    echo "checking latest zed..."
     if command -v zed >/dev/null 2>&1; then
         echo "zed already installed."
     else 
-        curl -fsSL https://zed.dev/install.sh | sh || echo "zed install failed." 
-        echo "zed latest installed."
+        curl -fsSL https://zed.dev/install.sh | sh
+        echo "zed installed."
     fi
 }
 
@@ -280,9 +263,14 @@ install_opencode() {
     
     local url="https://opencode.ai/download/stable/linux-x64-deb"
     local deb="/tmp/opencode-${arch}.deb"
-    curl -fsSL "${url}" -o "${deb}" || { echo "opencode download failed."; return; }
-    $sudo dpkg -i "${deb}" || true
-    $sudo apt-get install -f -y || echo "opencode dependency fix failed."
+    if ! curl -fsSL "${url}" -o "${deb}"; then
+        echo "opencode download failed." >&2
+        return 1
+    fi
+    if ! $sudo dpkg -i "${deb}"; then
+        $sudo apt-get install -f -y
+        $sudo dpkg -i "${deb}"
+    fi
     rm -f "${deb}"
     echo "opencode installed."
 }
@@ -292,10 +280,10 @@ echo "--------------------------------"
 echo "gui tools setup"
 echo "--------------------------------"
 install_brave_browser
-install_element_desktop
-install_ghostty
 install_cloudflare_warp
 install_cursor
+install_element_desktop
+install_ghostty
 install_github_desktop
 install_obsidian
 install_ruby_fusuma

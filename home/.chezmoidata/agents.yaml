@@ -1,0 +1,342 @@
+agents:
+  # skills add <owner/repo> -s <skill> -a zed -y -g
+  # rosie-skills install <owner/repo> <skill> -a warp -y -g
+  skills:
+    "xingkongliang/skills-manager":
+      - "manage-skills"
+    "mattpocock/skills":
+      - "tdd"
+      - "grill-with-docs"
+      - "grill-me"
+      - "improve-codebase-architecture"
+      - "diagnosing-bugs"
+      - "to-spec"
+      - "to-tickets"
+      - "ask-matt"
+      - "wayfinder"
+      - "domain-modeling"
+      - "grilling"
+      - "handoff"
+      - "wait-what"
+      - "writing-for-agents"
+      - "codebase-design"
+      - "implement"
+      - "prototype"
+      - "setup-matt-pocock-skills"
+      - "triage"
+    "fission-ai/openspec":
+      - "openspec-archive-change"
+      - "openspec-apply-change"
+      - "openspec-explore"
+      - "openspec-propose"
+      - "openspec-sync-specs"
+      - "openspec-update-change"
+    "rivet-dev/skills":
+      - "rivet-actors"
+      - "rivet-agentos"
+      # - "rivetkit-client-javascript"
+      # - "rivetkit-client-react"
+      # - "rivetkit-client-swift"
+      # - "rivetkit-client-swiftui"
+      # - "multiplayer-game"
+      # - "sandbox-agent"
+    "bobmatnyc/claude-mpm-skills":
+      - "drizzle"
+      # - "playwright-e2e-testing"
+      # - "github-actions"
+      # - "hono-cloudflare"
+    "cloudflare/skills":
+      - "cloudflare"
+      - "durable-objects"
+      - "agents-sdk"
+      - "workers-best-practices"
+    # "cloudflare/workerd":
+    # - "test-driven-investigation"
+    # - "rust-review"
+    # - "dad-jokes"
+    "cloudflare/security-audit-skill":
+      - "security-audit"
+    "cloudflare/kumo":
+      - "kumo-design"
+    "xrpl-commons/xrpl-dev-skill":
+      - "xrpl-dev"
+    "peersyst/xrplskills":
+      - "xrpl"
+      - "xrpl-standards"
+    # "xrplf/xrpl-dev-portal":
+    # - "xrpl-payments"
+    # - "xrpl-agent-wallet"
+    "softaworks/agent-toolkit":
+      - "skill-judge"
+      - "agent-md-refactor"
+      - "crafting-effective-readmes"
+      - "dependency-updater"
+      - "professional-communication"
+      - "naming-analyzer"
+    "nextlevelbuilder/ui-ux-pro-max-skill":
+      - "ui-ux-pro-max"
+    "vercel-labs/skills":
+      - "find-skills"
+    "vercel-labs/opensrc":
+      - "opensrc"
+    "vercel-labs/agent-skills":
+      - "writing-guidelines"
+    "vercel-labs/agent-browser":
+      - "agent-browser"
+    "obra/superpowers":
+      - "writing-plans"
+      - "executing-plans"
+      - "test-driven-development"
+    "badlogic/pi-skills":
+      - "transcribe"
+      - "youtube-transcript"
+    # - "brave-search"
+    # - "browser-tools"
+    # - "vscode"
+    "openai/skills":
+      - "security-best-practices"
+    "anthropics/skills":
+      - "pdf"
+      - "docx"
+      - "pptx"
+      - "xlsx"
+      - "doc-coauthoring"
+      - "algorithmic-art"
+      # - "brand-guidelines"
+      # - "canvas-design"
+      # - "internal-comms"
+      # - "web-artifacts-builder"
+      # - "webapp-testing"
+      # - "mcp-builder"
+      # - "frontend-design"
+      # - "skill-creator"
+      # - "claude-api"
+    "claude-office-skills/skills":
+      - "chart-designer"
+    "seflless/deepwiki":
+      - "deepwiki"
+    "mcp-use/mcp-use":
+      - "mcp-apps-builder"
+    "github/awesome-copilot":
+      - "documentation-writer"
+    "ysm-dev/skills":
+      - "web-search"
+    "eachlabs/skills":
+      - "3d-model-generation"
+    "patricio0312rev/skills":
+      - "framer-motion-animator"
+    "freshtechbro/claudedesignskills":
+      - "threejs-webgl"
+    "cathrynlavery/diagram-design":
+      - "diagram-design"
+    "digitalsamba/claude-code-video-toolkit":
+      - "ffmpeg"
+    "blacktop/dotfiles":
+      - "ratatui-tui"
+    "tt-a1i/archify":
+      - "archify"
+    "graphify-labs/graphify":
+      - "graphify"
+    "OthmanAdi/planning-with-files":
+      - "planning-with-files"
+    "resend/resend-skills":
+      - "resend"
+    "ayghri/i-have-adhd":
+      - "i-have-adhd"
+    "jackwener/opencli":
+      - "opencli-browser"
+    "hkuds/cli-anything":
+      - "cli-anything-notebooklm"
+      - "cli-anything-obsidian"
+    "humanlayer/skills":
+      - "show-me"
+    "ccxt/ccxt":
+      - "ccxt-python"
+      - "ccxt-typescript"
+      - "ccxt-cli"
+    "dmmulroy/anti-slop":
+      - "install-anti-slop"
+    "dmmulroy/better-result":
+      - "adopt-better-result"
+    "coderabbitai/skills":
+      - "autofix"
+      - "code-review"
+    "backnotprop/bro":
+      - "bro"
+    "upstash/context7":
+      - "find-docs"
+    "yusukebe/ax":
+      - "ax"
+    "yusukebe/hono-skill":
+      - "hono"
+    "antfu/skills":
+      - "vite"
+      - "vitest"
+      - "slidev"
+    "maddhruv/absolute":
+      - "absolute-audit"
+    "alinaqi/maggy":
+      - "pwa-development"
+    "microsoft/playwright-cli":
+      - "playwright-cli"
+    "remix-run/agent-skills":
+      - "react-router-framework-mode"
+    "remix-run/remix":
+      - "remix"
+    "astrolicious/agent-skills":
+      - "astro"
+    "tejovanthn/rasikalife":
+      - "conform"
+    "open-circle/agent-skills":
+      - "valibot"
+    "pproenca/dot-skills":
+      - "nuqs"
+    "jotaijs/jotai-skills":
+      - "jotai"
+    "millionco/react-doctor":
+      - "react-doctor"
+    "better-auth/skills":
+      - "better-auth-best-practices"
+    "tanstack-skills/tanstack-skills":
+      - "tanstack-query"
+      - "tanstack-table"
+    "saadeghi/daisyui":
+      - "daisyui"
+    "mengto/skills":
+      - "cobejs"
+    "nutlope/hallmark":
+      - "hallmark"
+    "thedotmack/claude-mem":
+      - "babysit"
+
+    # "wshobson/agents":
+    # - "react-state-management"
+    # - "github-actions-templates"
+    # - "api-design-principles"
+    # - "code-review-excellence"
+    # - "postgresql-table-design"
+
+    # "sergiodxa/agent-skills":
+    # - "frontend-react-router-best-practices"
+    # - "async-best-practices"
+    # - "frontend-tailwind-best-practices"
+    # - "frontend-react-best-practices"
+    # - "skill-writing-best-practices"
+
+    # "railwayapp/railway-skills":
+    # - "use-railway"
+    # - "railway-docs"
+
+    # ogulcancelik/herdr
+    # - "herdr"
+
+    # "tldraw/tldraw":
+    # - "skill-creator"
+    # - "write-pr"
+    # - "write-release-notes"
+    # - "write-tbp"
+
+    # "coreyhaines31/marketingskills":
+    # - "ab-test-setup"
+
+    # "101-skills/skills":
+    # - "ai-video-generation"
+
+    # "belt-sh/cli":
+    # - "belt"
+    # "uinaf/skills:"
+    # - "vite-plus"
+    # - "docs"
+    # "flare-foundation/flare-ai-skills":
+    # - "flare-fassets"
+    # - "flare-ftso"
+    # - "flare-smartaccounts"
+    # - "flare-general"
+    # - "flare-fdc"
+    # - "flare-fcc"
+    # "coinbase/agentic-wallet-skills":
+    # - "trade"
+    # - "x402"
+
+    # "brave/brave-search-skills":
+    # - "answers"
+    # - "images-search"
+    # - "llm-context"
+    # - "local-descriptions"
+    # - "local-pois"
+    # - "news-search"
+    # - "spellcheck"
+    # - "suggest"
+    # - "videos-search"
+
+    # "openai/skills":
+    # - "cloudflare-deploy"
+    # - "develop-web-game"
+    # - "gh-fix-ci"
+    # - "imagegen"
+    # - "jupyter-notebook"
+    # - "notion-knowledge-capture"
+    # - "notion-meeting-intelligence"
+    # - "notion-research-documentation"
+    # - "notion-spec-to-implementation"
+    # - "openai-docs" # not in skills list -g
+    # - "playwright"
+    # - "security-best-practices"
+    #
+    # "openai/codex":
+    # - "test-tui"
+
+    # "figma/mcp-server-guide":
+    # - "figma-create-design-system-rules"
+
+    # blender
+    # "vladmdgolam/agent-skills":
+    # - "blender-mcp"
+    # "sfkislev/flue":
+    # - Blender"
+    # "affaan-m/everything-claude-code":
+    # - "blender-motion-state-inspection"
+
+    # "kepano/obsidian-skills":
+    # - "obsidian-markdown
+    # - "json-canvas"
+    # - "obsidian-bases"
+    # - "obsidian-cli"
+    # - "defuddle"
+
+    # "crypto-agent-trading":
+    # - "crypto-agent-trading"
+
+    # "pbakaus/impeccable":
+    # - "animate"
+    # - "audit"
+    # - "clarify"
+    # - "critique"
+    # - "teach-impeccable"
+
+    # "egonex-ai/understand-anything":
+    # - "understand"
+    # - "understand-onboard"
+    # - "understand-knowledge"
+    # - "understand-explain"
+    # - "understand-domain"
+    # - "understand-diff"
+    # - "understand-dashboard"
+    # - "understand-chat"
+
+    # "orval-labs/orval:
+    # - "orval"
+    # "withastro/flue":
+    # - "flue"
+    # "remotion-dev/skills":
+    # - "remotion-best-practices"
+    # "leonardomso/rust-skills":
+    # - "rust-skills" # not in skills list -g
+    # "mizchi/skills":
+    # - "empirical-prompt-tuning"
+    # "deckardger/tanstack-agent-skills":
+    # - "tanstack-query-best-practices"
+    # "imbue-openhost/openhost":
+    # - "openhost-context"
+    # "teng-lin/notebooklm-py":
+    # - "notebooklm"

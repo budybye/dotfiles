@@ -9,6 +9,8 @@ sudo=""
 if [ "$(id -u)" -ne 0 ]; then
     sudo="sudo"
 fi
+
+# systemd 環境か？
 systemd_running() {
     [ -d /run/systemd/system ] && command -v systemctl >/dev/null 2>&1
 }

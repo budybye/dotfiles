@@ -1,68 +1,4 @@
 packages:
-  darwin:
-    formula:
-      - "cask"
-      - "mas"
-      # 基本系
-      - "git"
-      - "curl"
-      - "make"
-      - "zsh"
-      - "bash"
-      - "tree"
-      # 開発系
-      # - "autoconf"
-      - "automake"
-      # - "ain"
-      # - "bash-completion"
-      # - "byobu"
-      # - "ddgr"
-      # - "ca-certificates"
-
-      # ジョーク系コマンド
-      # - "cmatrix"
-      # - "fortune"
-      # - "figlet"
-
-      # 音楽系
-      # - "mackup"
-      - "mpd"
-      - "ncmpcpp"
-      # - 'ffmpeg'
-      # - 'yt-dlp'
-
-      # 便利コマンド
-      # - "translate-shell"
-      # - "moreutils"
-      - "multitail"
-      - "nmap"
-      # - 'vim'
-      # - 'termshark'
-
-      # rust 系
-      - "mise"
-      # - "sheldon"
-      # - "starship"
-      # - 'bat'
-      # - 'lsd'
-      # - 'fzf'
-      # - 'ripgrep'
-
-    cask:
-      - "bitwarden"
-      - "brave-browser"
-      - "cloudflare-warp"
-      - "cursor"
-      - "font-hackgen-nerd"
-      - "github"
-      - "musicbrainz-picard"
-      - "obsidian"
-      - "onyx"
-      - "raycast"
-      - "ghostty"
-      - "zen"
-      - "zed"
-
   linux:
     cli:
       - "apt-utils"
@@ -90,6 +26,7 @@ packages:
       - "language-pack-ja"
       - "manpages-ja"
       - "fcitx5-mozc"
+      # - "im-config"
       
       - "openssh-server"
       - "avahi-daemon"
@@ -98,7 +35,7 @@ packages:
       - "ca-certificates"
       - "lsb-release"
       - "libssl-dev"
-      - "libfuse2"
+      # - "libfuse2"
       # - 'libfuse2t64'
       - "libnss3-tools"
       - "libinput-tools"
@@ -129,13 +66,11 @@ packages:
       - "nmap"
       - "ufw"
       - "rsyslog"
-      - "im-config"
+      
       - "command-not-found"
       - "ruby"
+      - "rustup"
       - "nx"
-
-      - "oneko"
-      - "nyancat"
 
     gui:
       - "xfce4"
@@ -143,28 +78,25 @@ packages:
       - "xrdp"
       - "xorgxrdp"
       - "dbus-x11"
+      - 'lightdm'
       # - "sddm"
-      # - "gnome-remote-desktop"
-      - 'gdm3'
-      # - 'lightdm'
+      # - 'gdm3'
       # - 'tasksel'
       # - 'task-xfce-desktop'
-
-      - "snap"
-      - "snapd"
+      # - "gnome-remote-desktop"
       
       - "libpulse-dev"
       - "gnome-keyring"
-      # - 'pulseaudio'
       - "pipewire"
       - "pipewire-audio"
       - "pipewire-pulse"
       - "wireplumber"
       - "libspa-0.2-dev"
       - "libpipewire-0.3-dev"
-      # - "asahi-audio"
-      - "autoconf"
       - "libtool"
+      # - 'pulseaudio'
+      # - "asahi-audio"
+      # - "autoconf"
 
       - "xdg-utils"
       - "plank"
@@ -172,15 +104,17 @@ packages:
       - "remmina"
       - "xsel"
       - "xclip"
-  snap:
-    classic:
-      - "ghostty"
+      - "oneko"
+      - "nyancat"
+  # snap:
+    # classic:
+      # - "ghostty"
       # - "alacritty"
       # - 'obsidian amd64'
       # - 'code' amd64
       # - 'codium' arm64
-    latest:
-      - "multipass"
+    # latest:
+      # - "multipass"
       # - 'brave'
       # - 'element-desktop'
       # - "bruno"
@@ -191,6 +125,38 @@ packages:
       # - 'postman'
       # - "speedtest-cli"
 
+  windows:
+    winget:
+      - "Microsoft.PowerShell"
+      - "Microsoft.PowerToys"
+      - "Microsoft.VisualStudioCode"
+      - "Docker.DockerDesktop"
+      - "Brave.Brave"
+      - "twpayne.chezmoi"
+      - "fastfetch"
+      - "jj-vcs.jj"
+      - "ZedIndustries.Zed"
+    scoop:
+      - "git"
+      - "curl"
+      - "make"
+      - "mise"
+
+  curl: # -fsSL オプション？
+    - "curl https://mise.run | sh"
+    - "curl https://cli.coderabbit.ai/install.sh | sh"
+    - "curl https://fx.sh/setup.sh | sh"
+    # - "curl https://www.xalgorix.com/install | sh"
+    # - "curl https://nixos.org/nix/install | sh"
+    # - "curl https://hermes-agent.nousresearch.com/install.sh | sh"
+    # - "curl https://code-server.dev/install.sh | sh"    
+
+    #gui
+    - "curl https://zed.dev/install.sh | sh"
+    # - "curl https://vicinae.com/install.sh | sh"
+    # - "curl https://raw.githubusercontent.com/watzon/cursor-linux-installer/main/install.sh | sh -s -- latest"
+
+  # code --install-extension ms-ceintl.vscode-language-pack-ja
   extensions:
     - "42crunch.vscode-openapi"
     - "adpyke.codesnap"
@@ -263,496 +229,3 @@ packages:
     # - "xdebug.php-debug"
     - "yoavbls.pretty-ts-errors"
     # - "yzhang.markdown-all-in-one"
-
-  windows:
-    winget:
-      - "Microsoft.PowerShell"
-      - "Microsoft.PowerToys"
-      - "Microsoft.VisualStudioCode"
-      - "Docker.DockerDesktop"
-      - "Brave.Brave"
-      - "twpayne.chezmoi"
-      - "fastfetch"
-      - "jj-vcs.jj"
-      - "ZedIndustries.Zed"
-
-    scoop:
-      - "git"
-      - "curl"
-      - "make"
-      - "mise"
-
-  # cargo:
-    # - "navi"
-    # - "memvid-core"
-    # - "boringtun-cli"
-    # - "vaultwarden"
-    
-    # - "onehistory"
-    # - "lazyfile"
-    # - "octorus"
-    # - "sheldon"
-    # - "starship"
-    # - "ratty"
-    # - "jj-starship"
-    # - "kmon"
-    # - "duckduckgo"
-    # - 'alacritty'
-    # - 'cargo-binstall'
-    # - 'bat'
-    # - 'lsd'
-    # - 'fd-find'
-    # - 'ripgrep'
-    # - 'xh'
-    # - 'zoxide'
-    # - 'zellij'
-    # - "coreutils"
-    # - "sniffnet"
-    # - 'fermyon'
-
-  # npm:
-    # - "pm2"
-    # - "defuddle"
-    # - "just-scrape"
-    # - "nx"
-    # - "@hono/cli"
-    # - 'workers-fetch'
-    # - 'localflare'
-    # - "docusaurus"
-    # - "plash"
-    # - "rnsec"
-    # - "skills"
-    # - "context-mode"
-    # - "greptile"
-    # - "planning-with-files"
-    # - "@fission-ai/openspec"
-    # - "ctx7"
-    # - "musubi-ssd"
-    # - "bigpowers"
-    # - "react-doctor"
-    # - "@testsprite/testsprite-cli"
-    # - 'docsify-cli'
-    # - "opensrc"
-    # - "hunkdiff"
-    # - "@officecli/officecli"
-    # - '@github/copilot'
-    
-    # - "vscode-langservers-extracted" 
-    # - "pyright"
-    # - "typescript-language-server" 
-    # - "yaml-language-server"
-   
-    # - "@bitwarden/cli"
-    # - "@marp-team/marp-cli"
-    # - '@hubai/cli'
-    # - 'wscat'
-    # - 'surge'
-    # - 'repomix'
-    # - 'zx'
-
-  agents:
-    skills:
-      # rosie-skills install <owner/repo> <skill> -a warp -y
-      "xingkongliang/skills-manager":
-        - "manage-skills"
-      "mattpocock/skills":
-        - "tdd"
-        - "grill-with-docs"
-        - "grill-me"
-        - "improve-codebase-architecture"
-        - "diagnosing-bugs"
-        - "to-spec"
-        - "to-tickets"
-        - "ask-matt"
-        - "wayfinder"
-        - "domain-modeling"
-        - "grilling"
-        - "handoff"
-        - "wait-what"
-        - "writing-for-agents"
-        - "codebase-design"
-        - "implement"
-        - "prototype"
-        - "setup-matt-pocock-skills"
-        - "triage"
-        # - "code-review"
-        # - "caveman"
-      "fission-ai/openspec":
-        - "openspec-archive-change"
-        - "openspec-apply-change"
-        - "openspec-explore"
-        - "openspec-propose"
-        - "openspec-sync-specs"
-        - "openspec-update-change"
-      "rivet-dev/skills":
-        - "rivet-actors"
-        - "rivet-agentos"
-      "bobmatnyc/claude-mpm-skills":
-        - "drizzle"
-      "cloudflare/skills":
-        - "cloudflare"
-        - "durable-objects"
-        - "agents-sdk"
-        - "workers-best-practices"
-      "cloudflare/security-audit-skill":
-        - "security-audit"
-      "cloudflare/kumo":
-        - "kumo-design"
-      # "xrplf/xrpl-dev-portal":
-      # - "xrpl-payments"
-      # - "xrpl-agent-wallet"
-      "xrpl-commons/xrpl-dev-skill":
-        - "xrpl-dev"
-      "peersyst/xrplskills":
-        - "xrpl"
-        - "xrpl-standards"
-      "softaworks/agent-toolkit":
-        - "skill-judge"
-        - "agent-md-refactor"
-        - "crafting-effective-readmes"
-        - "dependency-updater"
-        - "professional-communication"
-        - "naming-analyzer"
-        # - "mermaid-diagrams"
-        # - "game-changing-features"
-        # - "arp-slide"
-        # - "schema-designer"
-      # "nextlevelbuilder/ui-ux-pro-max-skill":
-      #   - "ui-ux-pro-max"
-      "vercel-labs/skills":
-        - "find-skills"
-      "vercel-labs/opensrc":
-        - "opensrc"
-      "vercel-labs/agent-skills":
-        - "writing-guidelines"
-      "vercel-labs/agent-browser":
-        - "agent-browser"
-      "obra/superpowers":
-        - "writing-plans"
-        - "executing-plans"
-        - "test-driven-development"
-      # "openai/skills":
-      #   - "security-best-practices"
-      "anthropics/skills":
-        - "pdf"
-        - "docx"
-        - "pptx"
-        - "xlsx"
-        - "doc-coauthoring"
-        - "algorithmic-art"
-      "claude-office-skills/skills":
-        - "chart-designer"
-      # "seflless/deepwiki":
-      #   - "deepwiki"
-      "mcp-use/mcp-use":
-        - "mcp-apps-builder"
-      "github/awesome-copilot":
-        - "documentation-writer"
-      "ysm-dev/skills":
-        - "web-search"
-      "eachlabs/skills":
-        - "3d-model-generation"
-      "patricio0312rev/skills":
-        - "framer-motion-animator"
-      "freshtechbro/claudedesignskills":
-        - "threejs-webgl"
-      "cathrynlavery/diagram-design":
-        - "diagram-design"
-      # "digitalsamba/claude-code-video-toolkit":
-      #   - "ffmpeg"
-      # "blacktop/dotfiles":
-        # - "ratatui-tui"
-      "tt-a1i/archify":
-        - "archify"
-      # "graphify-labs/graphify":
-        # - "graphify"
-      "resend/resend-skills":
-        - "resend"
-      "ayghri/i-have-adhd":
-        - "i-have-adhd"
-      "jackwener/opencli":
-        - "opencli-browser"
-      "hkuds/cli-anything":
-        - "cli-anything-notebooklm"
-        - "cli-anything-obsidian"
-      "humanlayer/skills":
-        - "show-me"
-      # "ccxt/ccxt":
-      #   - "ccxt-python"
-      #   - "ccxt-typescript"
-      #   - "ccxt-cli"
-      "dmmulroy/anti-slop":
-        - "install-anti-slop"
-      "dmmulroy/better-result":
-        - "adopt-better-result"
-      "coderabbitai/skills":
-        - "autofix"
-        - "code-review"
-      "backnotprop/bro":
-        - "bro"
-      # "upstash/context7":
-        # - "find-docs"
-      "yusukebe/ax":
-        - "ax"
-      # "yusukebe/hono-skill":
-      #   - "hono"
-      "antfu/skills":
-        - "vite"
-        - "vitest"
-        - "slidev"
-      "maddhruv/absolute":
-        - "absolute-audit"
-      #   - "vite-plus"
-      "alinaqi/maggy":
-        - "pwa-development"
-      # "microsoft/playwright-cli":
-      #   - "playwright-cli"
-      "remix-run/agent-skills":
-        - "react-router-framework-mode"
-      # "remix-run/remix":
-      #   - "remix"
-      "astrolicious/agent-skills":
-        - "astro"
-      # "tejovanthn/rasikalife":
-      #   - "conform"
-      "open-circle/agent-skills":
-        - "valibot"
-      # "pproenca/dot-skills":
-      #   - "nuqs"
-      "jotaijs/jotai-skills":
-        - "jotai"
-      "millionco/react-doctor":
-        - "react-doctor"
-      "better-auth/skills":
-        - "better-auth-best-practices"
-      "tanstack-skills/tanstack-skills":
-        - "tanstack-query"
-        - "tanstack-table"
-      "saadeghi/daisyui":
-        - "daisyui"
-      "mengto/skills":
-        - "cobejs"
-      "nutlope/hallmark":
-        - "hallmark"
-      "thedotmack/claude-mem":
-        - "babysit"
-    
-      # "rivet-dev/skills":
-      # - "rivetkit-client-javascript"
-      # - "rivetkit-client-react"
-      # - "rivetkit-client-swift"
-      # - "rivetkit-client-swiftui"
-      # - "multiplayer-game"
-      # - "sandbox-agent"
-
-      # "bobmatnyc/claude-mpm-skills":
-      # - "playwright-e2e-testing" 
-      # - "github-actions"
-      # - "hono-cloudflare"
-
-      # "wshobson/agents":
-      # - "react-state-management"
-      # - "github-actions-templates"
-      # - "api-design-principles"
-      # - "code-review-excellence"
-      # - "postgresql-table-design"
-
-      # "sergiodxa/agent-skills": 
-      # - "frontend-react-router-best-practices"
-      # - "async-best-practices"
-      # - "frontend-tailwind-best-practices"
-      # - "frontend-react-best-practices"
-      # - "skill-writing-best-practices"
-
-      # "cloudflare/skills": 
-      # - "agents-sdk"
-      # - "workers-best-practices"
-      # "cloudflare/workerd":
-      # - "test-driven-investigation"
-      # - "rust-review"
-      # - "dad-jokes"
-
-      # "railwayapp/railway-skills":
-      # - "use-railway"
-      # - "railway-docs"
-
-      # ogulcancelik/herdr
-      # - "herdr"
-      # 
-      # "tldraw/tldraw":
-      # - "skill-creator"
-      # - "write-pr"
-      # - "write-release-notes"
-      # - "write-tbp"
-
-      # "coreyhaines31/marketingskills":
-      # - "ab-test-setup"
-
-      # "101-skills/skills":
-      # - "ai-video-generation"
-
-      # "belt-sh/cli":
-      # - "belt"
-      # "uinaf/skills:"
-      # - "vite-plus"
-      # - "docs"
-      # "flare-foundation/flare-ai-skills": 
-      # - "flare-fassets"
-      # - "flare-ftso"
-      # - "flare-smartaccounts"
-      # - "flare-general"
-      # - "flare-fdc"
-      # - "flare-fcc"
-      # "coinbase/agentic-wallet-skills": 
-      # - "trade"
-      # - "x402"
-
-      # "brave/brave-search-skills":
-      # - "answers"
-      # - "images-search"
-      # - "llm-context"
-      # - "local-descriptions"
-      # - "local-pois"
-      # - "news-search"
-      # - "spellcheck"
-      # - "suggest"
-      # - "videos-search"
-      
-      # "badlogic/pi-skills":
-      # - "brave-search"
-      # - "browser-tools"
-      # - "transcribe"
-      # - "vscode"
-      # - "youtube-transcript"
-
-      # "openai/skills":
-      # - "cloudflare-deploy"
-      # - "develop-web-game"
-      # - "gh-fix-ci"
-      # - "imagegen"
-      # - "jupyter-notebook"
-      # - "notion-knowledge-capture"
-      # - "notion-meeting-intelligence"
-      # - "notion-research-documentation"
-      # - "notion-spec-to-implementation"
-      # - "openai-docs" # not in skills list -g
-      # - "playwright"
-      # - "security-best-practices"
-      # 
-      # "openai/codex": 
-      # - "test-tui"
-
-      # "figma/mcp-server-guide":
-      # - "figma-create-design-system-rules"
-
-      # blender
-      # "vladmdgolam/agent-skills": 
-      # - "blender-mcp"
-      # "sfkislev/flue":
-      # - Blender"
-      # "affaan-m/everything-claude-code": 
-      # - "blender-motion-state-inspection"
-
-      # "kepano/obsidian-skills":
-      # - "obsidian-markdown
-      # - "json-canvas"
-      # - "obsidian-bases" 
-      # - "obsidian-cli" 
-      # - "defuddle"
-
-      # "anthropics/skills":
-      # - "brand-guidelines" 
-      # - "canvas-design" 
-      # - "internal-comms"
-      # - "web-artifacts-builder" 
-      # - "webapp-testing" 
-      # - "mcp-builder" 
-      # - "frontend-design" 
-      # - "skill-creator" # 実体は tldraw/tldraw（上記）
-      # - "claude-api"
-
-      # "crypto-agent-trading":
-      # - "crypto-agent-trading"
-
-      # "pbakaus/impeccable":
-      # - "animate"
-      # - "audit"
-      # - "clarify"
-      # - "critique"
-      # - "teach-impeccable"
-
-      # "egonex-ai/understand-anything": 
-      # - "understand"
-      # - "understand-onboard"
-      # - "understand-knowledge"
-      # - "understand-explain"
-      # - "understand-domain"
-      # - "understand-diff"
-      # - "understand-dashboard"
-      # - "understand-chat"
-      
-      # "graphify-labs/graphify":
-      # - "graphify"
-      # "OthmanAdi/planning-with-files":
-      # - "planning-with-files"
-      
-      # "orval-labs/orval: 
-      # - "orval"
-      
-      # "withastro/flue":
-      # - "flue"
-      # "remotion-dev/skills":
-      # - "remotion-best-practices"
-
-      # "leonardomso/rust-skills": 
-      # - "rust-skills" # not in skills list -g
-      # "mizchi/skills": 
-      # - "empirical-prompt-tuning"
-      # "deckardger/tanstack-agent-skills": 
-      # - "tanstack-query-best-practices"
-      # "imbue-openhost/openhost": 
-      # - "openhost-context"
-      # "teng-lin/notebooklm-py": 
-      # - "notebooklm"
-
-  curl: # -fsSL オプション？
-    - "curl https://mise.run | sh"
-    - "curl https://cli.coderabbit.ai/install.sh | sh"
-    - "curl https://cursor.com/install | sh"
-    - "curl https://aka.ms/apm-unix | sh"
-    - "curl https://fx.sh/setup.sh | sh"
-    - "curl https://zed.dev/install.sh | sh"
-    # - "curl https://www.xalgorix.com/install | sh"
-    # - "curl https://nixos.org/nix/install | sh"
-    # - "curl https://hermes-agent.nousresearch.com/install.sh | sh"
-    # - "curl https://vicinae.com/install.sh | sh"
-    # - "curl https://vite.plus | sh"
-    # - "curl https://code-server.dev/install.sh | sh"
-    
-    # - "curl https://herdr.dev/install.sh | sh"
-    # - "curl https://raw.githubusercontent.com/watzon/cursor-linux-installer/main/install.sh | sh -s -- latest"
-    # - "curl https://x.ai/cli/install.sh | sh"
-    # - "curl https://ax.yusuke.run/install | sh"
-    # - "curl https://raw.githubusercontent.com/Dicklesworthstone/pi_agent_rust/main/install.sh?$(date +%s) | sh"
-    # - "curl https://raw.githubusercontent.com/colbymchenry/codegraph/main/install.sh | sh"
-
-  # go:
-    # - "aqua"
-    # - "hammer"
-    # - "websocat"
-    # - "jjui"
-    # - 'act'
-    # - 'age'
-    # - 'caddy'
-    # - 'chezmoi'
-    # - 'docker'
-    # - 'rclone'
-
-  # python:
-  #   - "miasm"
-  #   - "pypdf"
-  #   - "defusedxml"
-  #   - "lxml"
-  #   - "graphifyy"
-    # - "ddgr"
-    # - "crow-cli"

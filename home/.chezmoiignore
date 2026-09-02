@@ -25,7 +25,6 @@ key.txt*
 .chezmoiscripts/linux/gui.sh
 .chezmoiscripts/linux/docker.sh
 .chezmoiscripts/linux/setup.sh
-.chezmoiscripts/linux/snap.sh
 {{ else if eq (env "DOCKER") "true" }}
 .config/mise.toml
 .ssh/authorized_keys
@@ -39,7 +38,6 @@ key.txt*
 .chezmoiscripts/linux/gui.sh
 .chezmoiscripts/linux/docker.sh
 .chezmoiscripts/linux/setup.sh
-.chezmoiscripts/linux/snap.sh
 {{ end }}
 
 {{ if eq .github false }}
@@ -80,7 +78,7 @@ key.txt*
 *profile
 .aliases
 .env*
-.chezmoiscripts/*.sh
+.chezmoiscripts/**/*.sh
 {{ else }}
 .config/scoop
 .chezmoiscripts/windows/**

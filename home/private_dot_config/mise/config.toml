@@ -5,6 +5,9 @@
 # コメントアウト行も意図的に残している（再有効化用）。
 
 [tools]
+# "http:android-cli" = "latest"
+# "http:cursor-agent" = "latest"
+# "http:grok" = "latest"
 # =============================================================================
 # JavaScript / TypeScript — runtimes / npm CLIs / agent tooling
 # =============================================================================
@@ -75,8 +78,6 @@ watchexec = "latest" # auto runner
 "npm:ctx7" = "latest"
 "npm:npkill" = "latest"
 "npm:@hey-api/openapi-ts" = "latest"
-# "npm:@openhands/agent-canvas" = "latest"
-# "npm:@context-labs/autodoc" = "latest"
 "npm:react-doctor" = "latest"
 "npm:codeburn" = "latest" # code
 "npm:jj-stack" = "latest"
@@ -84,8 +85,10 @@ watchexec = "latest" # auto runner
 "npm:duckduckgo-cli" = "latest" # web
 "npm:@testsprite/testsprite-cli" = "latest" # test
 "npm:@cyberstrike-io/cyberstrike" = "latest"
-"npm:@keygraph/shannon" = "latest"
-"npm:@tessl/cli" = "latest"
+# "npm:@openhands/agent-canvas" = "latest"
+# "npm:@context-labs/autodoc" = "latest"
+# "npm:@tessl/cli" = "latest" # agents
+# "npm:@keygraph/shannon" = "latest" # agents
 # "npm:iii-sdk" = "latest"
 # "npm:docusaurus" = "latest"
 # "npm:musubi-ssd" = "latest"
@@ -186,7 +189,6 @@ glow = "latest"
 # "github:plandex-ai/plandex" = "latest"
 
 # "go:github.com/d2lang/d2" = "latest" # diagram
-# "go:github.com/d2lang/d2" = "latest" # diagram
 # "go:github.com/GoogleContainerTools/skaffold" = "latest" # kube
 # "go:github.com/wavetermdev/waveterm" = "latest" # agent
 # "go:github.com/goccy/go-llama" = "latest"
@@ -241,9 +243,9 @@ yazi = "latest"
 
 # HTTP / markdown
 hurl = "latest"
-# htmlq = "latest"
 railway = "latest"
 ast-grep = "latest"
+# htmlq = "latest"
 # websocat = "latest"  # registry 名。下記 github:vi/websocat を使用
 
 # github (Rust)
@@ -252,7 +254,6 @@ ast-grep = "latest"
 "github:tsl0922/ttyd" = "latest"
 "github:vercel-labs/opensrc" = "latest" # context
 "github:vercel-labs/agent-browser" = "latest" # test
-"github:vercel-labs/fx" = "latest" # agent
 "github:rossmacarthur/sheldon" = "latest" # zsh plugin
 "github:boborder/lazyxrp" = "latest" # my tools
 "github:orhun/ratty" = "latest" # tui
@@ -276,10 +277,10 @@ ast-grep = "latest"
 "github:gleam-lang/gleam" = "latest" # web
 "github:agavra/tuicr" = "latest" # code review
 
-"cargo:cloudflare/boringtun" = "latest"
 "cargo:denisidoro/navi" = "latest" # file 
 "cargo:denoland/celld" = "latest" # self-host durable objects
 "cargo:orhun/kmon" = "latest" 
+# "cargo:cloudflare/boringtun" = "latest"
 # "cargo:orhun/duckduckgo-cli" = "latest" 
 # "cargo:choose" = "latest" 
 # "cargo:alacritty" = "latest"
@@ -318,6 +319,7 @@ yt-dlp = "latest"
 
 # github (Python)
 "github:microsoft/pyright" = "latest"
+"github:microsoft/apm" = "latest"
 "github:graphify-labs/graphify" = "latest" # graph
 "github:pandas-dev/pandas" = "latest" # 計算
 "github:hacs/integration" = "latest" # auth
@@ -367,10 +369,10 @@ clickhouse = "latest"
 solidity = "latest"      # ethereum/solidity (C++)
 
 # github (C / C++)
-"github:colbymchenry/codegraph" = "latest" # graph
 "github:ushironoko/octorus" = "latest" # gh
 "github:Slackadays/Clipboard" = "latest" # clipboard
 "github:hashcat/hashcat" = "latest" # crack
+# "github:colbymchenry/codegraph" = "latest" # graph
 # "github:apple/foundationdb" = "latest" # db
 
 
