@@ -325,10 +325,10 @@ yt-dlp = "latest"
 "github:hacs/integration" = "latest" # auth
 
 "pipx:pytest" = "latest" # test
-"pipx:thefuck" = "latest" # uv tool install --python 3.11 thefuck しないとエラー
 "pipx:opendoor" = "latest"
 "pipx:marimo" = "latest" # note
 "pipx:observal-cli" = "latest"
+# "pipx:thefuck" = "latest" # uv tool install --python 3.11 thefuck しないとエラー
 # "pipx:ragas" = "latest" # RAG
 # "pipx:ddgr" = "latest" # web search
 # "pipx:setuptools" = "latest" # dev tools

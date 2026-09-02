@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-set -eu
+# set -eu
+set -u
 
 # アーキテクチャを取得
 arch="$(dpkg --print-architecture)"
@@ -39,11 +40,11 @@ install_cloudflare_warp() {
     warp-cli --accept-tos disconnect
 }
 
-## 代変えインストーラー https://github.com/watzon/cursor-linux-installer
+# 代変えインストーラー https://github.com/watzon/cursor-linux-installer
 install_cursor() {
     APP_DIR="${HOME}/Applications"
-    APP_IMAGE="${APP_DIR}/cursor"
     mkdir -p "$APP_DIR"
+    # APP_IMAGE="${APP_DIR}/cursor"
     
     if command -v cursor >/dev/null 2>&1; then
         echo "cursor already installed."
@@ -55,7 +56,7 @@ install_cursor() {
     fi
     
     # cursor の実行方法を表示
-    echo "'use command: ${APP_IMAGE} --no-sandbox'"
+    # echo "'use command: ${APP_IMAGE} --no-sandbox'"
     echo "cursor installed."
 }
 

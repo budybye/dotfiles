@@ -3,12 +3,12 @@ FROM ubuntu:26.04 AS base
 # パッケージのインストールを非対話形式で行う
 ENV DEBIAN_FRONTEND=noninteractive
 ENV DOCKER=true
+ENV REMOTE_CONTAINER=true
 
 ENV TZ=Asia/Tokyo
 ENV LANG=ja_JP.UTF-8
 ENV LC_ALL=ja_JP.UTF-8
 ENV LANGUAGE=ja_JP:ja
-
 
 # 日本語環境を設定
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
