@@ -99,11 +99,11 @@ jobs:
         uses: docker/build-push-action@v7
         with:
           context: .devcontainer
-          file: ${{ matrix.flavor.dockerfile }}
+          file: .devcontainer/${{ matrix.flavor.dockerfile }}
           build-args: |
             DOTFILES_REF=${{ github.ref_name }}
           cache-from: type=gha,scope=${{ matrix.flavor.name }}-${{ env.PLATFORM_PAIR }}
-          cache-to: type=gha,mode=max,scope=${{ matrix.flavor.name }}-${{ env.PLATFORM_PAIR }}
+          cache-to: type=gha,mode=min,scope=${{ matrix.flavor.name }}-${{ env.PLATFORM_PAIR }}
           platforms: ${{ matrix.platform }}
           labels: ${{ steps.meta.outputs.labels }}
           annotations: ${{ steps.meta.outputs.annotations }}

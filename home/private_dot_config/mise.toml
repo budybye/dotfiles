@@ -223,7 +223,6 @@ adopt = true
 "brew-cask:brave-browser" = { os = "macos" }
 "brew-cask:cloudflare-warp" = { os = "macos" }
 "brew-cask:cursor" = { os = "macos" }
-# "brew-cask:cursor-cli" = "latest"
 "brew-cask:coderabbit" = { os = "macos" }
 "brew-cask:element" = { os = "macos" }
 "brew-cask:font-hackgen-nerd" = { os = "macos" }

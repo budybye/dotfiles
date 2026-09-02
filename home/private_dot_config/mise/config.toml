@@ -184,7 +184,7 @@ glow = "latest"
 # "github:modu-ai/moai-adk" = "latest" # agent
 # "github:plandex-ai/plandex" = "latest"
 
-"go:github.com/d2lang/d2" = "latest" # diagram
+# "go:github.com/d2lang/d2" = "latest" # diagram
 # "go:github.com/GoogleContainerTools/skaffold" = "latest" # kube
 # "go:github.com/wavetermdev/waveterm" = "latest" # agent
 # "go:github.com/goccy/go-llama" = "latest"

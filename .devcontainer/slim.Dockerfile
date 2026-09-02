@@ -9,16 +9,17 @@ ENV LANG=ja_JP.UTF-8
 ENV LC_ALL=ja_JP.UTF-8
 ENV LANGUAGE=ja_JP:ja
 
-RUN apt-get update -y && \
-    apt-get install -y --fix-broken
 
 # 日本語環境を設定
-RUN apt-get install -y \
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    apt-get update -y && \
+    apt-get install -y --no-install-recommends \
     language-pack-ja \
     language-pack-ja-base \
     manpages-ja \
     tzdata \
-    locales
+    locales && \
+    rm -rf /var/lib/apt/lists/*
 
 RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezone && \
     locale-gen ja_JP.UTF-8 && \
@@ -27,7 +28,9 @@ RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezo
     echo LC_ALL=${LC_ALL} >> /etc/default/locale
 
 # CLI パッケージをインストール
-RUN apt-get install -y \
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    apt-get update -y && \
+    apt-get install -y --no-install-recommends \
     zsh \
     make \
     curl \
@@ -45,10 +48,13 @@ RUN apt-get install -y \
     byobu \
     openssh-server \
     ca-certificates \
-    apt-transport-https
+    apt-transport-https && \
+    rm -rf /var/lib/apt/lists/*
 
 # 開発用パッケージをインストール
-RUN apt-get install -y \
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    apt-get update -y && \
+    apt-get install -y --no-install-recommends \
     g++ \
     cmake \
     build-essential \
@@ -57,7 +63,8 @@ RUN apt-get install -y \
     software-properties-common \
     python3 \
     rustup \
-    ruby
+    ruby && \
+    rm -rf /var/lib/apt/lists/*
     
 # ENTRYPOINT を/usr/bin/にコピーしてシンボリックリンクを作成
 COPY ./run.sh /usr/bin/

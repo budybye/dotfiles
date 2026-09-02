@@ -9,7 +9,7 @@ add_newline = true
 scan_timeout = 420
 
 # コマンドタイムアウト
-command_timeout = 8000
+command_timeout = 4200
 
 # カラーパレットの定義
 palette = 'color'
@@ -93,18 +93,18 @@ RedHatEnterprise = " "
 
 # ユーザー名
 [username]
+disabled = false
 style_user = "fg:dd bg:gray"
 style_root = "fg:red bg:gray"
 format = '[($user)@]($style bold)'
-disabled = false
 show_always = true
 
 # ホスト名
 [hostname]
 ssh_only = false
+disabled = false
 style = "fg:dd bg:gray"
 format = '[$ssh_symbol$hostname:]($style bold)'
-disabled = false
 
 [directory]
 style = "fg:dd bg:navy"
@@ -193,10 +193,10 @@ format = '[ $time]($style bold)'
 
 # バッテリー表示
 [battery]
+disabled = false
 full_symbol = ' '
 charging_symbol = ' '
 discharging_symbol = '⚠️ '
-disabled = false
 format = '[ $symbol$percentage]($style bold)'
 
 # バッテリーを表示するタイミング、表示する際の文字の色する際の文字の色
@@ -219,15 +219,16 @@ format = '[$duration]($style bold)'
 # IPアドレス
 [localip]
 ssh_only = true
+disabled = false
 style = "fg:dd bg:gray"
 format = '[@$localipv4]($style bold) '
-disabled = false
 
 [docker_context]
 format = "[🐋$context](fg:blue bold) "
 
 [mise]
-disabled = false
+# mise doctor が重い
+disabled = true
 symbol = "󰏗 "
 style = "fg:gray bg:dd"
 format = "[ $symbol$health]($style bold)"
@@ -239,13 +240,13 @@ success_symbol = "[♨︎ ](fg:green bold)"
 error_symbol = "[♨︎ ](fg:red bold)"
 
 [shell]
+disabled = false
 fish_indicator = ' '
 powershell_indicator = '_ '
 style = 'fg:green'
 # format = '[$indicator](strikethrough fg:red bold) [kush]($style bold) [](fg:yellow bold) '
 format = '[$indicator](fg:green bold) [](fg:yellow bold) '
 #format = '[$indicator\$]($style bold) '
-disabled = false
 
 # x86 or arm64
 [custom.arch]
