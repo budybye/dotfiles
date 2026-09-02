@@ -10,6 +10,10 @@ if [ "$(id -u)" -ne 0 ]; then
     sudo="sudo"
 fi
 
+install_gui() {
+    $sudo apt-get install -y xfce4 xfce4-goodies xrdp xorgxrdp dbus-x11 lightdm gnome-keyring libinput-tools xdg-utils plank picard remmina xsel xclip oneko nyancat
+}
+
 install_brave_browser() {
     if command -v brave-browser >/dev/null 2>&1; then
         echo "brave browser already installed."
@@ -112,7 +116,7 @@ install_ruby_fusuma() {
         $sudo gem install fusuma
         $sudo groupadd -f input
         $sudo usermod -aG input "$(whoami)"
-        fusuma -d
+        fusuma -d || true
         echo "fusuma installed."
     else
         echo "gem command not found."
@@ -280,15 +284,16 @@ echo "gui.sh"
 echo "--------------------------------"
 echo "gui tools setup"
 echo "--------------------------------"
+install_gui
 install_brave_browser
 install_cloudflare_warp
-install_cursor # エラー不可避
+install_cursor # scriptエラー不可避
 install_element_desktop
 install_ghostty
 install_github_desktop
 install_obsidian
 install_ruby_fusuma
-install_zed # エラー不可避
+install_zed # scriptエラー不可避
 install_zen
 # install_opencode
 # install_tabby_terminal

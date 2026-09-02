@@ -71,6 +71,45 @@ install_mise() {
     echo "mise setup completed."
 }
 
+# 日本語ロケール・タイムゾーン・fcitx5 入力 systemd で分岐
+japan_setup() {
+    echo "japan setup start..."
+    # Ubuntu のパッケージ名は locales (単数形 locale ではない)
+    $sudo apt-get install -y language-pack-ja-base language-pack-ja manpages-ja tzdata locales fcitx5-mozc
+    
+
+    if [ -d /run/systemd/system ] && command -v systemctl >/dev/null 2>&1; then
+        $sudo apt-get install -y im-config
+        $sudo localectl set-locale LANG=ja_JP.UTF-8
+        # localectl は LANGUAGE のコロン区切り値をロケールとして拒否するため update-locale を使う
+        $sudo update-locale LANGUAGE=ja_JP:ja
+        # コンテナ/Debian では keymap 設定非対応 ("Setting X11 and console keymaps is not supported in Debian.")
+        if ! $sudo localectl set-x11-keymap jp; then
+            echo "X11 keymap setup skipped (not supported on this system)." >&2
+        fi
+        
+        if ! $sudo localectl set-keymap jp106; then
+            echo "Console keymap setup skipped (not supported on this system)." >&2
+        fi
+
+        $sudo timedatectl set-timezone Asia/Tokyo
+    # else
+    #     # systemd なし (Docker 等): localectl/timedatectl は使えない
+    #     $sudo locale-gen ja_JP.UTF-8
+    #     $sudo update-locale LANG=ja_JP.UTF-8 LANGUAGE=ja_JP:ja LC_ALL=ja_JP.UTF-8
+    #     $sudo ln -snf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
+    #     echo 'Asia/Tokyo' | $sudo tee /etc/timezone >/dev/null
+    fi
+
+    if [ -n "${DISPLAY:-}" ] || [ -n "${WAYLAND_DISPLAY:-}" ]; then
+        $sudo im-config -n fcitx5
+    else
+        echo "Skipping im-config: no graphical session."
+    fi
+
+    echo "japan setup completed."
+}
+
 install_flatpak() {
     if command -v flatpak >/dev/null 2>&1; then
         echo "flatpak already installed."
@@ -118,6 +157,7 @@ install_coderabbit() {
 
 echo "cli.sh"
 echo "--------------------------------"
+japan_setup
 change_shell_to_zsh
 install_mise
 install_flatpak

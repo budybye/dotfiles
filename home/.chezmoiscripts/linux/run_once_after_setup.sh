@@ -10,11 +10,6 @@ if [ "$(id -u)" -ne 0 ]; then
     sudo="sudo"
 fi
 
-# systemd 環境か？
-systemd_running() {
-    [ -d /run/systemd/system ] && command -v systemctl >/dev/null 2>&1
-}
-
 # pulseaudio-module-xrdp が libpulse の modlibexecdir に入っているか
 xrdp_pulse_modules_installed() {
     local modlibexecdir match
@@ -42,7 +37,7 @@ japan_setup() {
     $sudo apt-get install -y language-pack-ja-base language-pack-ja manpages-ja tzdata locales fcitx5-mozc
     
 
-    if systemd_running; then
+    if [ -d /run/systemd/system ] && command -v systemctl >/dev/null 2>&1; then
         $sudo apt-get install -y im-config
         $sudo localectl set-locale LANG=ja_JP.UTF-8
         # localectl は LANGUAGE のコロン区切り値をロケールとして拒否するため update-locale を使う
@@ -119,7 +114,7 @@ xrdp_setup() {
         $sudo ufw reload
     fi
 
-    if systemd_running; then
+    if [ -d /run/systemd/system ] && command -v systemctl >/dev/null 2>&1; then
         $sudo systemctl enable xrdp
         $sudo systemctl start xrdp
         $sudo systemctl enable lightdm
@@ -200,7 +195,7 @@ pipewire_setup() {
         fi
     fi
 
-    if systemd_running; then
+    if [ -d /run/systemd/system ] && command -v systemctl >/dev/null 2>&1; then
         systemctl --user enable --now pipewire pipewire-pulse wireplumber
     fi
 
@@ -210,7 +205,7 @@ pipewire_setup() {
 echo "setup.sh"
 echo "--------------------------------"
 
-japan_setup
+# japan_setup
 xrdp_setup
 pipewire_setup
 # write_xsession
