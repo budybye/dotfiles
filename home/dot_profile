@@ -149,8 +149,8 @@ fi
 if command -v mise >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/mise"
     export MISE_CONFIG_DIR="${XDG_CONFIG_HOME}/mise"
-    unset MISE_CONFIG_FILE MISE_GLOBAL_CONFIG_FILE
     export MISE_INSTALL_PATH="${HOME}/.local/bin/mise"
+    # unset MISE_CONFIG_FILE MISE_GLOBAL_CONFIG_FILE
     # touch "${MISE_CONFIG_DIR}/shorthands.toml"
     # export MISE_SHORTHANDS_FILE="${MISE_CONFIG_DIR}/shorthands.toml"
     # miseディレクトリ全体のパーミッションを修正
@@ -173,7 +173,7 @@ fi
 if command -v cursor >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/cursor"
     export CURSOR_CONFIG_DIR="${XDG_CONFIG_HOME}/cursor"
-    export CURSOR_API_KEY="${CURSOR_API_KEY:-}"
+    # export CURSOR_API_KEY="${CURSOR_API_KEY:-}"
 fi
 
 if command -v claude >/dev/null 2>&1; then
@@ -194,8 +194,8 @@ fi
 
 if command -v omp >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/omp/profiles/god/agent"
+    export PI_CONFIG_DIR=".config/omp" #default は ~/.omp XDGに ~/.config/omp 
     export OMP_PROFILE="god" # PI_CODING_AGENT_DIR を無視する為に
-    export PI_CONFIG_DIR=".config/omp" #default は ~/.omp
 fi
 
 if command -v docker >/dev/null 2>&1; then
@@ -249,9 +249,9 @@ if command -v npm >/dev/null 2>&1; then
     mkdir -p "${XDG_CACHE_HOME}/npm"
     mkdir -p "${XDG_DATA_HOME}/npm"
 
-    if [ -f "${XDG_RUNTIME_DIR}/npm" ]; then
-        mkdir -p "${XDG_RUNTIME_DIR}/npm"
-    fi
+    # if [ -f "${XDG_RUNTIME_DIR}/npm" ]; then
+    #     mkdir -p "${XDG_RUNTIME_DIR}/npm"
+    # fi
 
     mkdir -p "${XDG_DATA_HOME}/node"
     touch "${XDG_DATA_HOME}/node/node_repl_history"
@@ -262,7 +262,8 @@ if command -v pnpm >/dev/null 2>&1; then
     mkdir -p "${XDG_DATA_HOME}/pnpm"
     export PNPM_HOME="${XDG_DATA_HOME}/pnpm"
     mkdir -p "${XDG_DATA_HOME}/pnpm-store"
-    # export store-dir="${XDG_DATA_HOME}/pnpm-store"
+    # store-dir="${XDG_DATA_HOME}/pnpm-store"
+    # export store-dir
 fi
 
 if command -v bun >/dev/null 2>&1; then
@@ -398,7 +399,7 @@ fi
 # if command -v android >/dev/null 2>&1; then
 #     export ANDROID_HOME="${HOME}/Library/Android/sdk"
 #     mkdir -p "${XDG_CONFIG_HOME}/android"
-#     # export ANDROID_USER_HOME="${XDG_CONFIG_HOME}/android"
+#     export ANDROID_USER_HOME="${XDG_CONFIG_HOME}/android"
 #     export PATH="${ANDROID_HOME}/bin:${PATH}"
 # fi
 
@@ -492,9 +493,9 @@ if command -v mpd >/dev/null 2>&1; then
     export MPD_HOST="127.0.0.1"
     export MPD_PORT="6600"
     # プロセスが実行されていなければ起動する
-    # if ! pgrep -x mpd >/dev/null 2>&1; then
-    #   mpd "${HOME}/.config/mpd/mpd.conf" >/dev/null 2>&1
-    # fi
+    if ! pgrep -x mpd >/dev/null 2>&1; then
+      mpd "${HOME}/.config/mpd/mpd.conf" >/dev/null 2>&1
+    fi
 fi
 
 if command -v ncmpcpp >/dev/null 2>&1; then

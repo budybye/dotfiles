@@ -7,25 +7,30 @@
 .chezmoiexternal.*
 key.txt*
 
+{{ if eq .github false }}
+.config/gh/**
+.config/git/user.conf
+.config/jj/config.toml
+{{ end }}
+
+{{ if eq .age false }}
+.ssh/id_rsa*
+.ssh/id_ed25519*
+.env*
+{{ end }}
+
+{{ if eq .ssh false }}
+.ssh/**
+{{ end }}
+
 {{ if eq (env "GITHUB_ACTIONS") "true" }}
 .ssh/authorized_keys
 .ssh/id_ed25519*
 .ssh/id_rsa*
+.env*
 {{ end }}
 
-{{ if eq (env "REMOTE_CONTAINERS") "true" }}
-.config/mise.toml
-.ssh/authorized_keys
-.ssh/id_ed25519*
-.ssh/id_rsa*
-.env*
-.chezmoiscripts/age.sh
-.chezmoiscripts/vscode.sh
-.chezmoiscripts/linux/cli.sh
-.chezmoiscripts/linux/gui.sh
-.chezmoiscripts/linux/docker.sh
-.chezmoiscripts/linux/setup.sh
-{{ else if eq (env "DOCKER") "true" }}
+{{ if eq (env "DOCKER") "true" }}
 .config/mise.toml
 .ssh/authorized_keys
 .ssh/id_ed25519*
@@ -40,19 +45,20 @@ key.txt*
 .chezmoiscripts/linux/setup.sh
 {{ end }}
 
-{{ if eq .github false }}
-.config/git/user*
-{{ end }}
+# docker との重複を解消したい
 
-{{ if eq .age false }}
-.ssh/id_rsa*
+{{ if eq (env "REMOTE_CONTAINERS") "true" }}
+.config/mise.toml
+.ssh/authorized_keys
 .ssh/id_ed25519*
+.ssh/id_rsa*
 .env*
 .chezmoiscripts/age.sh
-{{ end }}
-
-{{ if eq .ssh false }}
-.ssh/**
+.chezmoiscripts/vscode.sh
+.chezmoiscripts/linux/cli.sh
+.chezmoiscripts/linux/gui.sh
+.chezmoiscripts/linux/docker.sh
+.chezmoiscripts/linux/setup.sh
 {{ end }}
 
 {{ if ne .chezmoi.os "darwin" }}

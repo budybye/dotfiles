@@ -7,7 +7,7 @@ set -eu
 if command -v skills >/dev/null 2>&1; then
     skills_command=(skills)
 elif command -v npx >/dev/null 2>&1; then
-    skills_command=(npx --yes skills)
+    skills_command=(npx skills)
 else
     printf '%s\n' 'skills CLI is not installed and npx is unavailable.' >&2
     exit 1

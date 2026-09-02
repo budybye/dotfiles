@@ -34,8 +34,8 @@ show_all_files = true
 show_pathbar = true
 # ステータスバーを表示する
 show_status_bar = true
-# タブバーを表示する
-show_tabbar = true
+# タブバーを表示する 廃止された？
+# show_tab_bar = true
 # 拡張機能 警告非表示
 show_extensions_warning = false
 
@@ -76,7 +76,8 @@ autohide-time-modifier = 0.13
 # Dock が表示されるまでの待ち時間を無効にする
 autohide-delay = 0.01
 # Wipe all app icons from the Dock （Dock に標準で入っている全てのアプリを消す、Finder とごみ箱は消えない）
-persistent-apps = []
+persistent-apps = ""
+
 # アニメーション無効
 launchanim = false
 # 最近使ったアプリを Dock に表示しない
@@ -191,9 +192,12 @@ WarnOnEmptyTrash = false
 
 # Mac用
 [bootstrap.brew]
-adopt = true
+adopt = false
 
-# [bootstrap.packages.tap]
+# [bootstrap.brew.taps]
+# "yusukebe/tap"
+# "nikitabobko/tap"
+# "jnsahaj/lumen"
 
 [bootstrap.packages]
 "brew:cask" = { os = "macos" }

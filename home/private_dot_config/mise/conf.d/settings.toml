@@ -1,0 +1,77 @@
+[settings]
+# 相対: 0s / 7d / 6mo / 1y、絶対: 2024-06-01
+# 0s = 無効（最新を即採用）。サプライチェーン遅延が欲しければ 3d/7d に。
+minimum_release_age = "0s"
+# minimum_release_age = "12h"
+
+# mise.lock を作成する
+lockfile = false
+
+# `mise install`でダウンロードしたアーカイブを常に保持するように設定
+always_keep_download = false        # デフォルトではインストール後に削除
+always_keep_install = false         # デフォルトでは失敗時に削除
+
+# プラグイン自動更新のチェック間隔（duration 文字列。現状未実装: https://github.com/jdx/mise/issues/128）
+plugin_autoupdate_last_check_duration = '1 week' # 0 で無効化
+
+# これらのプレフィックスを持つ設定ファイルはデフォルトで信頼される
+# ~/dotfiles は ~/.local/share/chezmoi への symlink。実パスも併記する。
+trusted_config_paths = [
+  '~/dotfiles',
+  '~/.local/share/chezmoi',
+]
+
+# 慣習的なバージョンファイル（.nvmrc 等）を有効にするツール
+# （旧 legacy_version_file / asdf_compat は deprecated・無効のため削除済み）
+idiomatic_version_file_enable_tools = [
+  "node",
+]
+# idiomatic_version_file_disable_tools = ['python']
+
+verbose = false       # true でインストールの全出力。`MISE_VERBOSE`
+http_timeout = "30s"  # HTTP タイムアウト。`MISE_HTTP_TIMEOUT`
+jobs = 8              # 並行インストール数（デフォルト 4）
+raw = false           # true でプラグインを直接 stdin/stdout/stderr にパイプ
+yes = true            # すべてのプロンプトに自動で yes
+
+#not_found_auto_install = true # `MISE_NOT_FOUND_AUTO_INSTALL`
+#task_output = "prefix"
+#paranoid = false       # `MISE_PARANOID`
+#safe = false           # `MISE_SAFE`（テンプレート exec / hooks を禁止）
+
+# shorthands_file = '~/.config/mise/shorthands.toml'
+# disable_default_shorthands = false
+# disable_tools = ['rust']
+
+# env_file はグローバルだと config_root=$HOME → ~/.env を探す。
+# プロジェクト単位で使うなら各 mise.toml 側に書く。
+env_file = '.env'
+
+# 実験的機能を有効にする
+experimental = true
+
+age.key_file = "~/.config/mise/age.txt"
+
+# 設定ファイルを持つディレクトリに入るときの表示
+status.missing_tools = "if_other_versions_installed"
+status.show_env = false
+status.show_tools = false
+
+# Rust toolchain は mise core (`rust = "stable"`) + rustup。
+# Path は `~` / テンプレを展開しないので絶対パスで XDG に固定。
+rust.cargo_home = "~/.local/share/cargo"
+rust.rustup_home = "~/.local/share/rustup"
+
+# package manager
+cargo.binstall = true
+pipx.uvx = true
+npm.bun = true
+
+# auto-self-update
+auto_update = true
+
+[[env]]
+_.path = [
+  '~/.local/bin',
+  './node_modules/.bin',
+]

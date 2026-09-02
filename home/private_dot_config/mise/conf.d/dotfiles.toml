@@ -1,0 +1,16 @@
+# https://mise.jdx.dev/dotfiles.html
+[settings]
+dotfiles.root = "~/.dotfiles"
+dotfiles.default_mode = "symlink"
+
+# [dotfiles]
+# "~/.zshrc" = {}                                                       # ~/.dotfiles/.zshrc
+# "~/.gitconfig" = "dotfiles/gitconfig"                                # explicit source
+# "~/.config/alacritty.toml" = { mode = "copy" }                       # ~/.dotfiles/.config/alacritty.toml
+# "~/.config/starship.toml" = { source = "dotfiles/starship.toml", mode = "copy" }
+# "~/.config/tool.conf" = { content = "enabled = true\n" }                # inline whole-file content
+# "~/.ssh/config" = { source = "dotfiles/ssh_config.tmpl", mode = "template" }
+# "~/.config/nvim" = "dotfiles/nvim"                                   # symlink the directory itself
+# "~/.local/bin" = { source = "dotfiles/bin", mode = "symlink-each" }  # symlink each file within
+# "~/managed-home" = { source = "home", mode = "symlink-each", manifest = "git" }
+# "~/hosts/dev" = { line = "127.0.0.1 dev.local" }                     # edit one line in ~/hosts

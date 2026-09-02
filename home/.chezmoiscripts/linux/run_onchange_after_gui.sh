@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -Eeuo pipefail
+set -eu
 
 # アーキテクチャを取得
 arch="$(dpkg --print-architecture)"

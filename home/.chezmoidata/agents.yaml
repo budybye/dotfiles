@@ -167,7 +167,7 @@ agents:
       - "find-docs"
     "yusukebe/ax":
       - "ax"
-    "yusukebe/hono-skill":
+    "honojs/skills":
       - "hono"
     "antfu/skills":
       - "vite"
@@ -340,3 +340,6 @@ agents:
     # - "openhost-context"
     # "teng-lin/notebooklm-py":
     # - "notebooklm"
+
+  # mcp:
+  # plugins:

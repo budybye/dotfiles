@@ -5,8 +5,9 @@
 # コメントアウト行も意図的に残している（再有効化用）。
 
 [tools]
+# https://mise.jdx.dev/dev-tools/backends/http.html
 # "http:android-cli" = "latest"
-# "http:cursor-agent" = "latest"
+# "http:cursor-cli" = "latest"
 # "http:grok" = "latest"
 # =============================================================================
 # JavaScript / TypeScript — runtimes / npm CLIs / agent tooling
@@ -24,7 +25,6 @@ wacli = "latest"         # whats up
 # opencode = "latest"      # anomalyco/opencode (TypeScript)
 # gemini = "latest"
 # codex = "latest"
-orval = "latest"
 
 # secrets / config (JS/TS)
 bitwarden = "latest"     # bitwarden/clients (TypeScript)
@@ -41,6 +41,7 @@ devcontainer-cli = "latest"
 viteplus = "latest"      # npm:vite-plus
 prettier = "latest"
 json5 = "latest"
+orval = "latest"
 hunk = "latest"          # modem-dev/hunk (TypeScript)
 just = "latest" # test
 watchexec = "latest" # auto runner
@@ -96,7 +97,7 @@ watchexec = "latest" # auto runner
 # "npm:docsify-cli" = "latest"
 # "npm:plash" = "latest"
 
-# "npm:pyright" = "latest"
+# "npm:pyright" = "latest" # pipx版が正
 "npm:vscode-langservers-extracted" = "latest"
 "npm:typescript-language-server" = "latest" 
 "npm:yaml-language-server" = "latest"
@@ -105,7 +106,7 @@ watchexec = "latest" # auto runner
 # Go — runtime & Go 製 CLI（infra / git / cloud / TUI）
 # =============================================================================
 go = "latest"
-aqua = "latest"
+aqua = "latest" # pm
 act = "latest" # actions
 ghq = "latest" # gh
 shfmt = "latest" # format
@@ -191,18 +192,18 @@ glow = "latest"
 # "go:github.com/d2lang/d2" = "latest" # diagram
 # "go:github.com/GoogleContainerTools/skaffold" = "latest" # kube
 # "go:github.com/wavetermdev/waveterm" = "latest" # agent
-# "go:github.com/goccy/go-llama" = "latest"
-# "go:github.com/xalgorix/xalgorix" = "latest"
+# "go:github.com/goccy/go-llama" = "latest" # llm
+# "go:github.com/xalgorix/xalgorix" = "latest" # agent
 
 # =============================================================================
 # Rust — toolchain & Rust 製 CLI
 # =============================================================================
 rust = "stable"
 cargo-binstall = "latest"
-# biome = "latest"
 usage = "latest"         # jdx/usage (Rust)
 sentry = "latest"        # getsentry/sentry-cli (Rust)
 wasm-tools = "latest"       
+# biome = "latest"
 
 # VCS / shell UX
 jj = "latest"
@@ -280,8 +281,8 @@ ast-grep = "latest"
 "cargo:denisidoro/navi" = "latest" # file 
 "cargo:denoland/celld" = "latest" # self-host durable objects
 "cargo:orhun/kmon" = "latest" 
-# "cargo:cloudflare/boringtun" = "latest"
-# "cargo:orhun/duckduckgo-cli" = "latest" 
+# "cargo:cloudflare/boringtun" = "latest" # tunnel
+# "cargo:orhun/duckduckgo-cli" = "latest" # web npm版が正
 # "cargo:choose" = "latest" 
 # "cargo:alacritty" = "latest"
 # "cargo:gitlogue" = "latest"
@@ -294,13 +295,12 @@ ast-grep = "latest"
 # "cargo:cargo-leptos" = "latest" 
 # "cargo:worker-build" = "latest" 
 
-# "cargo:vaultwarden" = "latest" 
+# "cargo:vaultwarden" = "latest" # bitwarden oss
 # "cargo:abenz1267/walker" = "latest"
 # "cargo:memvid" = "latest" 
 # "cargo:tw93/Kaku" = "latest" # AI treminal
 
 # "github:Hmbown/CodeWhale" = "latest" # AI Agent
-# "github:rustdesk/rustdesk" = "latest"
 # "github:habitat-sh/habitat" = "latest"
 
 # =============================================================================
@@ -375,7 +375,6 @@ solidity = "latest"      # ethereum/solidity (C++)
 # "github:colbymchenry/codegraph" = "latest" # graph
 # "github:apple/foundationdb" = "latest" # db
 
-
 # "github:ClickHouse/ClickHouse" = "latest" # db
 # "github:folkertvanheusden/multitail" = "latest" # cli
 
@@ -424,7 +423,7 @@ ffmpeg = "latest"        # C
 
 # desktop / GUI（無効化中・用途グループ）
 # "github:ownself/wewa" = "latest" # rust web-wall-papper
-
+# "github:rustdesk/rustdesk" = "latest"
 # "github:zed-industries/zed" = "latest"         # Rust
 # "github:zen-browser/desktop" = "latest"        # JavaScript
 # "github:obsidianmd/obsidian-releases" = "latest"
@@ -438,78 +437,3 @@ ffmpeg = "latest"        # C
 "npm:cmatrix" = "latest"
 "pipx:fortune" = "latest"
 "pipx:lolcat" = "latest"
-
-[settings]
-# 相対: 0s / 7d / 6mo / 1y、絶対: 2024-06-01
-# 0s = 無効（最新を即採用）。サプライチェーン遅延が欲しければ 3d/7d に。
-minimum_release_age = "0s"
-# minimum_release_age = "12h"
-
-# `mise install`でダウンロードしたアーカイブを常に保持するように設定
-always_keep_download = false        # デフォルトではインストール後に削除
-always_keep_install = false         # デフォルトでは失敗時に削除
-
-# プラグイン自動更新のチェック間隔（duration 文字列。現状未実装: https://github.com/jdx/mise/issues/128）
-plugin_autoupdate_last_check_duration = '1 week' # 0 で無効化
-
-# これらのプレフィックスを持つ設定ファイルはデフォルトで信頼される
-# ~/dotfiles は ~/.local/share/chezmoi への symlink。実パスも併記する。
-trusted_config_paths = [
-  '~/dotfiles',
-  '~/.local/share/chezmoi',
-]
-
-# 慣習的なバージョンファイル（.nvmrc 等）を有効にするツール
-# （旧 legacy_version_file / asdf_compat は deprecated・無効のため削除済み）
-idiomatic_version_file_enable_tools = [
-  "node",
-]
-# idiomatic_version_file_disable_tools = ['python']
-
-verbose = false       # true でインストールの全出力。`MISE_VERBOSE`
-http_timeout = "30s"  # HTTP タイムアウト。`MISE_HTTP_TIMEOUT`
-jobs = 8              # 並行インストール数（デフォルト 4）
-raw = false           # true でプラグインを直接 stdin/stdout/stderr にパイプ
-yes = true            # すべてのプロンプトに自動で yes
-
-#not_found_auto_install = true # `MISE_NOT_FOUND_AUTO_INSTALL`
-#task_output = "prefix"
-#paranoid = false       # `MISE_PARANOID`
-#safe = false           # `MISE_SAFE`（テンプレート exec / hooks を禁止）
-
-# shorthands_file = '~/.config/mise/shorthands.toml'
-# disable_default_shorthands = false
-# disable_tools = ['rust']
-
-# env_file はグローバルだと config_root=$HOME → ~/.env を探す。
-# プロジェクト単位で使うなら各 mise.toml 側に書く。
-env_file = '.env'
-
-# 実験的機能を有効にする
-experimental = true
-
-age.key_file = "~/.config/mise/age.txt"
-
-# 設定ファイルを持つディレクトリに入るときの表示
-status.missing_tools = "if_other_versions_installed"
-status.show_env = false
-status.show_tools = false
-
-# Rust toolchain は mise core (`rust = "stable"`) + rustup。
-# Path は `~` / テンプレを展開しないので絶対パスで XDG に固定。
-rust.cargo_home = "~/.local/share/cargo"
-rust.rustup_home = "~/.local/share/rustup"
-
-# package manager
-cargo.binstall = true
-pipx.uvx = true
-npm.bun = true
-
-# auto-self-update
-auto_update = true
-
-[[env]]
-_.path = [
-  '~/.local/bin',
-  './node_modules/.bin',
-]

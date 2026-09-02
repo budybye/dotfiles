@@ -13,27 +13,17 @@
     refreshPeriod = "168h"
 
 {{- if eq .chezmoi.os "darwin" }}
+
 ["Music/riddim"]
     type = "archive"
     url = "https://ipfs.420.gal/ipfs/QmNsCCRxHsvRkJWPiY1kwqecXepP9oX8a18EgUqFsssRJH"
     exact = true
     stripComponents = 1
     refreshPeriod = "168h"
+
 {{- end }}
 
 {{- if eq .chezmoi.os "linux" }}
-
-{{/* [".local/bin/age"] */}}
-{{/* type = "archive-file" */}}
-{{/* url = {{ gitHubLatestReleaseAssetURL "FiloSottile/age" (printf "age-*-%s-%s.tar.gz" .chezmoi.os .chezmoi.arch) | quote }} */}}
-{{/* executable = true */}}
-{{/* path = "age/age" */}}
-
-{{/* [".local/bin/age-keygen"] */}}
-{{/* type = "archive-file" */}}
-{{/* url = {{ gitHubLatestReleaseAssetURL "FiloSottile/age" (printf "age-*-%s-%s.tar.gz" .chezmoi.os .chezmoi.arch) | quote }} */}}
-{{/* executable = true */}}
-{{/* path = "age/age-keygen" */}}
 
 [".local/share/themes/WhiteSur-gtk-theme-cinnamon-xfce"]
     type = "archive"
@@ -79,5 +69,22 @@
     type = "file"
     url = "https://github.com/mjun0812/RobotoMonoJP/releases/download/v5.0.0/RobotoMonoJP-Regular.ttf"
     refreshPeriod = "168h"
+
+{{/* linux で age true なら */}}
+{{- if eq .age }}
+
+{{/* [".local/bin/age"] */}}
+{{/* type = "archive-file" */}}
+{{/* url = {{ gitHubLatestReleaseAssetURL "FiloSottile/age" (printf "age-*-%s-%s.tar.gz" .chezmoi.os .chezmoi.arch) | quote }} */}}
+{{/* executable = true */}}
+{{/* path = "age/age" */}}
+
+{{/* [".local/bin/age-keygen"] */}}
+{{/* type = "archive-file" */}}
+{{/* url = {{ gitHubLatestReleaseAssetURL "FiloSottile/age" (printf "age-*-%s-%s.tar.gz" .chezmoi.os .chezmoi.arch) | quote }} */}}
+{{/* executable = true */}}
+{{/* path = "age/age-keygen" */}}
+
+{{- end }}
 
 {{- end }}

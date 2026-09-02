@@ -1,6 +1,3 @@
-[tools]
-node = "22"
-
 [tasks.help]
 description = 'help command'
 run = "echo dotfile"
