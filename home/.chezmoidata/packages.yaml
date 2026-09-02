@@ -396,12 +396,11 @@ packages:
         - "security-audit"
       "cloudflare/kumo":
         - "kumo-design"
-      # "xrplf/xrpl-dev-portal":
+      "xrplf/xrpl-dev-portal":
+      - "xrpl-payments"
       # - "xrpl-agent-wallet"
-      # - "xrpl-payments"
       "xrpl-commons/xrpl-dev-skill":
         - "xrpl-dev"
-        - "xrpl-agent-wallet"
       "peersyst/xrplskills":
         - "xrpl"
         - "xrpl-standards"
