@@ -95,7 +95,9 @@ RUN usermod -aG sudo ubuntu && \
 USER ubuntu
 WORKDIR /home/ubuntu
 ARG DOTFILES_REF=main
+ARG DOTFILES_REV=unknown
 RUN --mount=type=secret,id=github_token,env=GITHUB_TOKEN \
+    echo "dotfiles revision: ${DOTFILES_REV}" && \
     if [ -n "${GITHUB_TOKEN:-}" ]; then \
         auth="$(printf 'x-access-token:%s' "${GITHUB_TOKEN}" | base64 -w0)"; \
         git -c "http.extraheader=AUTHORIZATION: basic ${auth}" \

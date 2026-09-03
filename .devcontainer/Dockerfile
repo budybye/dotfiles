@@ -88,9 +88,6 @@ RUN apt-get install -y \
     apt-transport-https \
     software-properties-common \
     command-not-found \
-    rustup \
-    python3 \
-    ruby \
     flatpak
 
 # ENTRYPOINT を/usr/bin/にコピーしてシンボリックリンクを作成
@@ -108,7 +105,9 @@ USER ubuntu
 WORKDIR /home/ubuntu
 # GitHub の dotfiles repository を Chezmoi source にする
 ARG DOTFILES_REF=main
+ARG DOTFILES_REV=unknown
 RUN --mount=type=secret,id=github_token,env=GITHUB_TOKEN \
+    echo "dotfiles revision: ${DOTFILES_REV}" && \
     if [ -n "${GITHUB_TOKEN:-}" ]; then \
         auth="$(printf 'x-access-token:%s' "${GITHUB_TOKEN}" | base64 -w0)"; \
         git -c "http.extraheader=AUTHORIZATION: basic ${auth}" \

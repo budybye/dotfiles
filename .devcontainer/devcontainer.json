@@ -4,10 +4,14 @@
   "build": {
     "context": ".",
     "dockerfile": "slim.Dockerfile",
+    "options": [
+      "--secret=id=github_token,env=GITHUB_TOKEN"
+    ],
     "args": {
       "DEV_UID": "1024",
       "DEV_GID": "1024",
       "DOTFILES_REF": "${localEnv:DOTFILES_REF:main}",
+      "DOTFILES_REV": "${localEnv:DOTFILES_REV:unknown}",
     }
   },
   // "dockerComposeFile": "compose.yaml",

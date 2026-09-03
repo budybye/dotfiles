@@ -53,7 +53,6 @@ jobs:
         run: |
           platform=${{ matrix.platform }}
           echo "PLATFORM_PAIR=${platform//\//-}" >> $GITHUB_ENV
-          echo "ARCH=${platform#linux/}" >> $GITHUB_ENV
 
       - name: Checkout
         uses: actions/checkout@v6
@@ -75,14 +74,6 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
 
-      # Build runner の不要な Docker/apt cache だけ削除する。
-      # 大量の system package purge は runner 初期化を遅くするため行わない。
-      - name: Clean space
-        run: |
-          df -h
-          docker system prune --all --force --volumes || true
-          sudo apt-get clean
-          df -h
 
 
       - name: Login to GitHub Container Registry
@@ -102,6 +93,7 @@ jobs:
           file: .devcontainer/${{ matrix.flavor.dockerfile }}
           build-args: |
             DOTFILES_REF=${{ github.ref_name }}
+            DOTFILES_REV=${{ github.sha }}
           cache-from: type=gha,scope=${{ matrix.flavor.name }}-${{ env.PLATFORM_PAIR }}
           cache-to: type=gha,mode=min,scope=${{ matrix.flavor.name }}-${{ env.PLATFORM_PAIR }}
           platforms: ${{ matrix.platform }}
@@ -120,23 +112,47 @@ jobs:
           touch "/tmp/digests/${digest#sha256:}"
 
       - name: Build devcontainer
-        if: matrix.flavor.name == 'dev'
+        if: matrix.flavor.name == 'dev' && github.event_name != 'schedule'
         id: devcontainer
         uses: devcontainers/ci@v0.3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DOTFILES_REF: ${{ github.ref_name }}
+          DOTFILES_REV: ${{ github.sha }}
         with:
           imageName: ${{ env.REGISTRY_IMAGE }}
           imageTag: ${{ env.PLATFORM_PAIR }}-${{ matrix.flavor.name }}
+          cacheFrom: ${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }}-dev
           push: never
 
       - name: Dev push by digest
         if: matrix.flavor.name == 'dev' && github.event_name != 'schedule'
+        shell: bash
         run: |
-          /usr/bin/docker push "${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }}-${{ matrix.flavor.name }}" | \
-            grep digest | \
-            sed -n 's/^.*digest: sha256:\([a-f0-9]*\).*$/\1/p' > /tmp/devcontainer-cache
+          set -o pipefail
+
+          image="${{ env.REGISTRY_IMAGE }}:${{ env.PLATFORM_PAIR }}-${{ matrix.flavor.name }}"
+          push_log="$(mktemp)"
+          trap 'rm -f "${push_log}"' EXIT
+
+          if ! docker push "${image}" 2>&1 | tee "${push_log}"; then
+            echo "Docker push failed for ${image}." >&2
+            exit 1
+          fi
+
+          digest=""
+          while IFS= read -r line; do
+            if [[ "${line}" =~ digest:\ sha256:([0-9a-f]{64}) ]]; then
+              digest="${BASH_REMATCH[1]}"
+            fi
+          done < "${push_log}"
+
+          if [[ ! "${digest}" =~ ^[0-9a-f]{64}$ ]]; then
+            echo "Unable to extract image digest for ${image}." >&2
+            exit 1
+          fi
+
+          printf '%s\n' "${digest}" > /tmp/devcontainer-cache
 
       - name: Set dev digest
         if: matrix.flavor.name == 'dev' && github.event_name != 'schedule'
@@ -161,26 +177,18 @@ jobs:
       packages: write
     needs: [build]
     if: github.event_name != 'schedule'
-    strategy:
-      fail-fast: false
-      matrix:
-        flavor:
-          - name: full
-          - name: slim
-          - name: dev
     steps:
       - name: Download digests
         uses: actions/download-artifact@v8
         with:
           path: /tmp/digests
-          pattern: digests-*-${{ matrix.flavor.name }}
-          merge-multiple: true
+          pattern: digests-*
+          merge-multiple: false
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
 
       - name: Docker meta
-        if: matrix.flavor.name == 'full'
         id: meta
         uses: docker/metadata-action@v6
         with:
@@ -198,34 +206,33 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Create full manifest list and push
-        if: matrix.flavor.name == 'full'
+
+      - name: Create manifest lists and push
         working-directory: /tmp/digests
+        shell: bash
         run: |
-          docker buildx imagetools create \
-            -t "${{ env.REGISTRY_IMAGE }}:full" \
-            -t "${{ env.REGISTRY_IMAGE }}:latest" \
-            $(jq -cr '.tags | map("-t " + .) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON") \
-            $(printf '${{ env.REGISTRY_IMAGE }}@sha256:%s ' *)
+          shopt -s nullglob
 
-          docker buildx imagetools inspect "${{ env.REGISTRY_IMAGE }}:full"
+          for flavor in full slim dev; do
+            digest_files=(digests-*-"${flavor}"/*)
+            if [ "${#digest_files[@]}" -eq 0 ]; then
+              echo "No digest artifacts found for ${flavor}." >&2
+              exit 1
+            fi
 
-      - name: Create slim manifest list and push
-        if: matrix.flavor.name == 'slim'
-        working-directory: /tmp/digests
-        run: |
-          docker buildx imagetools create \
-            -t "${{ env.REGISTRY_IMAGE }}:slim" \
-            $(printf '${{ env.REGISTRY_IMAGE }}@sha256:%s ' *)
+            refs=()
+            for digest_file in "${digest_files[@]}"; do
+              refs+=("${{ env.REGISTRY_IMAGE }}@sha256:$(basename "${digest_file}")")
+            done
 
-          docker buildx imagetools inspect "${{ env.REGISTRY_IMAGE }}:slim"
+            tags=(-t "${{ env.REGISTRY_IMAGE }}:${flavor}")
+            if [ "${flavor}" = "full" ]; then
+              tags+=(-t "${{ env.REGISTRY_IMAGE }}:latest")
+              while IFS= read -r tag; do
+                tags+=(-t "${tag}")
+              done < <(jq -r '.tags[]' <<< "${DOCKER_METADATA_OUTPUT_JSON}")
+            fi
 
-      - name: Create dev manifest list and push
-        if: matrix.flavor.name == 'dev'
-        working-directory: /tmp/digests
-        run: |
-          docker buildx imagetools create \
-            -t "${{ env.REGISTRY_IMAGE }}:dev" \
-            $(printf '${{ env.REGISTRY_IMAGE }}@sha256:%s ' *)
-
-          docker buildx imagetools inspect "${{ env.REGISTRY_IMAGE }}:dev"
+            docker buildx imagetools create "${tags[@]}" "${refs[@]}"
+            docker buildx imagetools inspect "${{ env.REGISTRY_IMAGE }}:${flavor}"
+          done
