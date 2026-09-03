@@ -97,7 +97,8 @@ WORKDIR /home/ubuntu
 ARG DOTFILES_REF=main
 RUN --mount=type=secret,id=github_token,env=GITHUB_TOKEN \
     if [ -n "${GITHUB_TOKEN:-}" ]; then \
-        git -c http.extraheader="AUTHORIZATION: bearer ${GITHUB_TOKEN}" \
+        auth="$(printf 'x-access-token:%s' "${GITHUB_TOKEN}" | base64 -w0)"; \
+        git -c "http.extraheader=AUTHORIZATION: basic ${auth}" \
             clone --depth=1 --branch "${DOTFILES_REF}" https://github.com/budybye/dotfiles.git; \
     else \
         git clone --depth=1 --branch "${DOTFILES_REF}" https://github.com/budybye/dotfiles.git; \

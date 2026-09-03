@@ -134,7 +134,7 @@ oapi-codegen = "latest"
 # swag = "latest"
 
 # cloud / storage / git UX
-gcloud = "latest"
+# gcloud = "latest"
 rclone = "latest"
 gh = "latest"
 lazygit = "latest"
@@ -365,8 +365,8 @@ ninja = "latest"
 duckdb = "latest"
 sqlite = "latest"
 fastfetch = "latest"
-clickhouse = "latest"
 solidity = "latest"      # ethereum/solidity (C++)
+# clickhouse = "latest"
 
 # github (C / C++)
 "github:ushironoko/octorus" = "latest" # gh
