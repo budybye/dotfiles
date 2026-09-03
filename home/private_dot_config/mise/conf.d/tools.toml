@@ -110,7 +110,7 @@ aqua = "latest" # pm
 act = "latest" # actions
 ghq = "latest" # gh
 shfmt = "latest" # format
-mage = "latest" # build
+# mage = "latest" # build
 # jwt = "latest"
 
 # web / proxy / cert / crypto
@@ -161,9 +161,9 @@ fx = "latest"
 ubi = "latest"
 fzf = "latest"
 checkmake = "latest"
-# sampler = "latest"
 topgrade = "latest" # tui
 glow = "latest"
+# sampler = "latest"
 # gum = "latest"
 # direnv = "latest"
 

@@ -309,6 +309,7 @@ adopt = false
 "apt:ruby" = "latest"
 "apt:rustup" = "latest"
 "apt:command-not-found" = "latest"
+"apt:unzip" = "latest"
 # "apt:stow" = "latest"
 
 # GUI

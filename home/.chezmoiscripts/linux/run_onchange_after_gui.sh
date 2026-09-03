@@ -11,7 +11,7 @@ if [ "$(id -u)" -ne 0 ]; then
 fi
 
 install_gui() {
-    $sudo apt-get update -y
+    $sudo apt-get update
     $sudo apt-get install -y xfce4 xfce4-goodies xrdp xorgxrdp dbus-x11 lightdm gnome-keyring libinput-tools xdg-utils plank picard remmina xsel xclip oneko nyancat
 }
 
@@ -21,7 +21,7 @@ install_brave_browser() {
     else
         $sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
         echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main" | $sudo tee /etc/apt/sources.list.d/brave-browser-release.list
-        $sudo apt-get update -y
+        $sudo apt-get update
         $sudo apt-get install -y brave-browser
         echo "brave browser installed."
     fi
@@ -33,16 +33,16 @@ install_cloudflare_warp() {
     else
         $sudo curl -fsSL https://pkg.cloudflareclient.com/pubkey.gpg | $sudo gpg --yes --dearmor --output /usr/share/keyrings/cloudflare-warp-archive-keyring.gpg
         echo "deb [signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg] https://pkg.cloudflareclient.com/ $(lsb_release -cs) main" | $sudo tee /etc/apt/sources.list.d/cloudflare-client.list
-        $sudo apt-get update -y
+        $sudo apt-get update 
         $sudo apt-get install -y cloudflare-warp
         echo "cloudflare warp installed."
     fi
 
-    warp-cli --accept-tos registration new
-    warp-cli --accept-tos mode warp
-    warp-cli --accept-tos dns families malware
-    warp-cli --accept-tos connect
-    warp-cli --accept-tos disconnect
+    # warp-cli --accept-tos registration new
+    # warp-cli --accept-tos mode warp
+    # warp-cli --accept-tos dns families malware
+    # warp-cli --accept-tos connect
+    # warp-cli --accept-tos disconnect
 }
 
 # 代変えインストーラー https://github.com/watzon/cursor-linux-installer
@@ -72,7 +72,7 @@ install_element_desktop() {
         $sudo apt-get install -y wget apt-transport-https
         $sudo wget -O /usr/share/keyrings/element-io-archive-keyring.gpg https://packages.element.io/debian/element-io-archive-keyring.gpg
         echo "deb [signed-by=/usr/share/keyrings/element-io-archive-keyring.gpg] https://packages.element.io/debian/ default main" | $sudo tee /etc/apt/sources.list.d/element-io.list
-        $sudo apt-get update -y
+        $sudo apt-get update
         $sudo apt-get install -y element-desktop
         echo "element desktop installed."
     fi
@@ -130,7 +130,7 @@ install_tabby_terminal() {
         echo "tabby terminal already installed."
     else
         curl https://packagecloud.io/install/repositories/eugeny/tabby/script.deb.sh | $sudo bash
-        $sudo apt-get update -y
+        $sudo apt-get update
         $sudo apt-get install -y tabby-terminal
         echo "tabby terminal installed."
     fi
@@ -144,7 +144,7 @@ install_vscode() {
         $sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
         echo "deb [arch=${arch} signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" | $sudo tee /etc/apt/sources.list.d/vscode.list > /dev/null
         $sudo rm -f packages.microsoft.gpg
-        $sudo apt-get update -y
+        $sudo apt-get update
         $sudo apt-get install -y code
         echo "vscode installed."
     fi
@@ -229,7 +229,7 @@ install_obsidian() {
             echo "obsidian already installed."
             return
         fi
-        if ! $sudo apt-get update -y; then
+        if ! $sudo apt-get update; then
             echo "obsidian dependency index update failed." >&2
             return 1
         fi
@@ -287,7 +287,7 @@ echo "gui tools setup"
 echo "--------------------------------"
 install_gui
 install_brave_browser
-install_cloudflare_warp
+# install_cloudflare_warp
 install_cursor # scriptエラー不可避
 install_element_desktop
 install_ghostty
