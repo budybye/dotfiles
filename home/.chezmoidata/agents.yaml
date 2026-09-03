@@ -135,8 +135,8 @@ agents:
       - "ratatui-tui"
     "tt-a1i/archify":
       - "archify"
-    "graphify-labs/graphify":
-      - "graphify"
+    # "graphify-labs/graphify":
+    #   - "graphify" # ubuntu だとエラーになる?
     "OthmanAdi/planning-with-files":
       - "planning-with-files"
     "resend/resend-skills":

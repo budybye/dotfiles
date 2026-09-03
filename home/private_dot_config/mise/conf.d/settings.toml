@@ -36,9 +36,9 @@ yes = true            # すべてのプロンプトに自動で yes
 
 # auto-self-update
 auto_update = true
-auto_update_check_duration = "7d"
-cache_prune_age = "14d"
-gpg_verify = false
+# auto_update_check_duration = "7d"
+# cache_prune_age = "14d"
+# gpg_verify = false
 
 #not_found_auto_install = true # `MISE_NOT_FOUND_AUTO_INSTALL`
 #task_output = "prefix"
@@ -53,7 +53,7 @@ gpg_verify = false
 # プロジェクト単位で使うなら各 mise.toml 側に書く。
 env_file = '.env'
 
-auto_env = true
+# auto_env = true
 
 env_conf_d = true
 
