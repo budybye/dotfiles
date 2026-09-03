@@ -16,6 +16,7 @@ DOTFILES_VERSION := $(shell git describe --tags --match '[0-9]*.[0-9]*.[0-9]*' -
 
 # Docker settings
 DOCKER_IMAGE := ubuntu-dev
+DOCKER_SLIM_IMAGE := ubuntu-dev-slim
 DOCKER_CONTAINER := ubuntu-dev
 DOCKER_HOST := docker
 DOCKER_PORTS := -p 33389:3389 -p 2222:22
@@ -97,9 +98,17 @@ verify: ## Verify chezmoi scripts
 
 .PHONY: docker-build
 docker-build: ## Build Docker image
+	@test -n "$${GITHUB_TOKEN:-}" || { echo "GITHUB_TOKEN is required for Docker builds." >&2; exit 1; }
 	@echo "Building Docker image: $(DOCKER_IMAGE)..."
-	cd .devcontainer && docker build -t $(DOCKER_IMAGE) .
+	cd .devcontainer && DOCKER_BUILDKIT=1 docker build --secret id=github_token,env=GITHUB_TOKEN -t $(DOCKER_IMAGE) .
 	@echo "✓ Docker image built successfully"
+
+.PHONY: docker-slim-build
+docker-slim-build: ## Build Slim CLI Docker image
+	@test -n "$${GITHUB_TOKEN:-}" || { echo "GITHUB_TOKEN is required for Docker builds." >&2; exit 1; }
+	@echo "Building Slim Docker image: $(DOCKER_SLIM_IMAGE)..."
+	cd .devcontainer && DOCKER_BUILDKIT=1 docker build --secret id=github_token,env=GITHUB_TOKEN -f slim.Dockerfile -t $(DOCKER_SLIM_IMAGE) .
+	@echo "✓ Slim Docker image built successfully"
 
 .PHONY: docker-run
 docker-run: docker-build ## Build and run Docker container

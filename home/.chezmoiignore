@@ -7,19 +7,19 @@
 .chezmoiexternal.*
 key.txt*
 
-{{ if eq .github false }}
+{{ if not .github }}
 .config/gh/**
 .config/git/user.conf
 .config/jj/config.toml
 {{ end }}
 
-{{ if eq .age false }}
+{{ if not .age }}
 .ssh/id_rsa*
 .ssh/id_ed25519*
 .env*
 {{ end }}
 
-{{ if eq .ssh false }}
+{{ if not .ssh }}
 .ssh/**
 {{ end }}
 
@@ -28,6 +28,8 @@ key.txt*
 .ssh/id_ed25519*
 .ssh/id_rsa*
 .env*
+{{ else }}
+.chezmoiscripts/watch.sh
 {{ end }}
 
 {{ if eq (env "DOCKER") "true" }}
@@ -35,7 +37,6 @@ key.txt*
 .ssh/id_ed25519*
 .ssh/id_rsa*
 .env*
-.chezmoiscripts/skills.sh
 .chezmoiscripts/linux/setup.sh
 {{ end }}
 

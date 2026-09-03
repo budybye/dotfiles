@@ -47,8 +47,14 @@ yes = true            # すべてのプロンプトに自動で yes
 # プロジェクト単位で使うなら各 mise.toml 側に書く。
 env_file = '.env'
 
+auto_env = true
+
+env_conf_d = true
+
 # 実験的機能を有効にする
 experimental = true
+
+color_theme = "catppuccin"
 
 age.key_file = "~/.config/mise/age.txt"
 
@@ -69,6 +75,9 @@ npm.bun = true
 
 # auto-self-update
 auto_update = true
+auto_update_check_duration = "7d"
+cache_prune_age = "14d"
+gpg_verify = false
 
 [[env]]
 _.path = [

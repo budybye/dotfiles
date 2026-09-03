@@ -86,6 +86,7 @@ watchexec = "latest" # auto runner
 "npm:duckduckgo-cli" = "latest" # web
 "npm:@testsprite/testsprite-cli" = "latest" # test
 "npm:@cyberstrike-io/cyberstrike" = "latest"
+"npm:console-ninja" = "latest"
 # "npm:@openhands/agent-canvas" = "latest"
 # "npm:@context-labs/autodoc" = "latest"
 # "npm:@tessl/cli" = "latest" # agents
@@ -102,6 +103,7 @@ watchexec = "latest" # auto runner
 "npm:typescript-language-server" = "latest" 
 "npm:yaml-language-server" = "latest"
 
+"github:spicetify/cli" = "latest" # spotify
 # =============================================================================
 # Go — runtime & Go 製 CLI（infra / git / cloud / TUI）
 # =============================================================================
@@ -278,9 +280,9 @@ ast-grep = "latest"
 "github:gleam-lang/gleam" = "latest" # web
 "github:agavra/tuicr" = "latest" # code review
 
-"cargo:denisidoro/navi" = "latest" # file 
-"cargo:denoland/celld" = "latest" # self-host durable objects
-"cargo:orhun/kmon" = "latest" 
+# "cargo:denisidoro/navi" = "latest" # file 
+# "cargo:denoland/celld" = "latest" # self-host durable objects
+# "cargo:orhun/kmon" = "latest" 
 # "cargo:cloudflare/boringtun" = "latest" # tunnel
 # "cargo:orhun/duckduckgo-cli" = "latest" # web npm版が正
 # "cargo:choose" = "latest" 
@@ -328,6 +330,7 @@ yt-dlp = "latest"
 "pipx:opendoor" = "latest"
 "pipx:marimo" = "latest" # note
 "pipx:observal-cli" = "latest"
+"pipx:trafilatura" = "latest"
 # "pipx:thefuck" = "latest" # uv tool install --python 3.11 thefuck しないとエラー
 # "pipx:ragas" = "latest" # RAG
 # "pipx:ddgr" = "latest" # web search

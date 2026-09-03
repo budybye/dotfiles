@@ -56,6 +56,8 @@ make help
 ```sh
 # Full image を build
 make docker-build
+# Slim CLI image を build
+make docker-slim-build
 
 # Full image を起動
 make docker-run

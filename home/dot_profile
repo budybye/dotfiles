@@ -147,9 +147,9 @@ fi
 
 if command -v mise >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/mise"
-    export MISE_CONFIG_DIR="${XDG_CONFIG_HOME}/mise"
     export MISE_INSTALL_PATH="${HOME}/.local/bin/mise"
-    # unset MISE_CONFIG_FILE MISE_GLOBAL_CONFIG_FILE
+    export MISE_CONFIG_DIR="${XDG_CONFIG_HOME}/mise"
+    export MISE_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/mise"
     # touch "${MISE_CONFIG_DIR}/shorthands.toml"
     # export MISE_SHORTHANDS_FILE="${MISE_CONFIG_DIR}/shorthands.toml"
     # miseディレクトリ全体のパーミッションを修正

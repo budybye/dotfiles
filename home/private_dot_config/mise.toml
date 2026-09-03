@@ -347,8 +347,9 @@ adopt = false
 # "apt:snapd" = "latest"
 # "apt:oneko" = "latest"
 # "apt:nyancat" = "latest"
-# "apt:libfuse2" = { os = "linux" } # amd
-# "apt:libfuse2t64" = { os = "linux" } # arm
+
+# Ubuntu 24.04+ uses libfuse2t64 on both amd64 and arm64.
+# "apt:libfuse2t64" = { os = "linux" }
  
 # "apt:docker.io" = "latest"
 # "apt:docker-compose-v2" = "latest"

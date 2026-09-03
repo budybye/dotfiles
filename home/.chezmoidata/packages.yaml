@@ -147,6 +147,7 @@ packages:
     - "curl https://mise.run | sh"
     - "curl https://cli.coderabbit.ai/install.sh | sh"
     - "curl https://fx.sh/setup.sh | sh"
+    - "curl -fsSL https://raw.githubusercontent.com/spicetify/cli/main/install.sh | sh"
     # - "curl https://www.xalgorix.com/install | sh"
     # - "curl https://nixos.org/nix/install | sh"
     # - "curl https://hermes-agent.nousresearch.com/install.sh | sh"

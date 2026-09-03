@@ -16,7 +16,6 @@ services:
     # volumes:
     #   - ${HOME}/Developer:/home/ubuntu/Developer
     # environment:
-      # REMOTE_CONTAINERS: true
       # MISE_GITHUB_TOKEN: ${MISE_GITHUB_TOKEN:-}
     shm_size: 512m # ブラウザ対策
     # Local-only convenience default; ports are loopback-bound.
