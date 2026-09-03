@@ -37,6 +37,7 @@ key.txt*
 .ssh/id_ed25519*
 .ssh/id_rsa*
 .env*
+.chezmoiscripts/skills.sh
 .chezmoiscripts/linux/setup.sh
 {{ end }}
 

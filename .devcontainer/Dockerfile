@@ -91,7 +91,6 @@ RUN apt-get install -y \
     rustup \
     python3 \
     ruby \
-    nodejs \
     flatpak
 
 # ENTRYPOINT を/usr/bin/にコピーしてシンボリックリンクを作成
