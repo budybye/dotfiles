@@ -66,7 +66,7 @@ install_mise() {
         # mise bootstrap macos launchd-agents apply || echo "mas bootstrap failed."
     fi
     
-    if [ -f "${HOME}/.config/mise/config.toml" ]; then
+    if [ -f "${HOME}/.config/mise/conf.d/settings.toml" ]; then
         mise i -y || echo "mise install failed."
     fi
     

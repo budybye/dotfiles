@@ -71,6 +71,18 @@ make logs
 
 Compose の RDP と SSH port は localhost に bind します。remote access が必要な場合は VPN または Zero Trust tunnel を使います。
 
+### Docker build の GitHub token
+
+Docker build は dotfiles を clone して `make init` を実行します。Mise が GitHub の tool metadata を取得するため、local build では `GITHUB_TOKEN` を設定してください。未設定でも build は開始しますが、GitHub API の rate limit で失敗する可能性があります。
+
+```sh
+# GitHub CLI の認証済み token を一時的に渡す
+GITHUB_TOKEN="$(gh auth token)" make up
+```
+`make up` は Compose の BuildKit secret を使います。`make docker-build` は直接 `docker build` を実行して secret を渡さないため、token を使う local build では `make up` を使ってください。
+
+GitHub Actions では workflow の `secrets.GITHUB_TOKEN` を BuildKit secret として渡します。token を `.env`、Dockerfile の `ARG` / `ENV`、image layer に保存しないでください。
+
 ## Multipass
 
 ```sh

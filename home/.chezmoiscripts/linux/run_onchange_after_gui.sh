@@ -287,7 +287,7 @@ echo "gui tools setup"
 echo "--------------------------------"
 install_gui
 install_brave_browser
-# install_cloudflare_warp
+# install_cloudflare_warp # systemd 必須？
 install_cursor # scriptエラー不可避
 install_element_desktop
 install_ghostty
