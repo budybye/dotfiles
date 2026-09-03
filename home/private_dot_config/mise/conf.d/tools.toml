@@ -103,7 +103,7 @@ watchexec = "latest" # auto runner
 "npm:typescript-language-server" = "latest" 
 "npm:yaml-language-server" = "latest"
 
-"github:spicetify/cli" = "latest" # spotify
+# "github:spicetify/cli" = "latest" # spotify
 # =============================================================================
 # Go — runtime & Go 製 CLI（infra / git / cloud / TUI）
 # =============================================================================

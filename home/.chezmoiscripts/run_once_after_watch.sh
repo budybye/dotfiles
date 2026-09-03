@@ -2,12 +2,14 @@
 
 set -eu
 
+env
+
 ls -a "${HOME}"
 
 ls -a "${HOME}/dotfiles"
 
-mise dr
+mise dr || true
 
-chezmoin doctor
+chezmoin doctor || true
 
 xrp
