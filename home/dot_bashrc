@@ -64,12 +64,11 @@ fi
 if [ -f /etc/bash_completion ]; then
     . "/etc/bash_completion"
 fi
-_bash_comp_dir="${XDG_CONFIG_HOME:-${HOME}/.config}/bash-completion"
-mkdir -p "${_bash_comp_dir}/completions"
-export BASH_COMPLETION_COMPAT_DIR="${_bash_comp_dir}/completions"
-touch "${_bash_comp_dir}/bash_completion"
-export BASH_COMPLETION_USER_FILE="${_bash_comp_dir}/bash_completion"
-unset _bash_comp_dir
+
+export BASH_COMPLETION_COMPAT_DIR="${XDG_CONFIG_HOME:-${HOME}/.config}/bash-completion/completions"
+mkdir -p "${BASH_COMPLETION_COMPAT_DIR}/completions"
+touch "${BASH_COMPLETION_COMPAT_DIR}/bash_completion"
+export BASH_COMPLETION_USER_FILE="${BASH_COMPLETION_COMPAT_DIR}/bash_completion"
 
 # aliasファイルの読み込み
 if [ -f "${HOME}/.aliases" ]; then

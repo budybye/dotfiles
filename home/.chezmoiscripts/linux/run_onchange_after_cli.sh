@@ -54,8 +54,6 @@ install_mise() {
         $sudo apt-get install -y mise || echo "mise install failed."
     fi
 
-    export PATH="${HOME}/.local/bin:${HOME}/.local/share/mise/shims:${HOME}/.local/share/mise/installs:$PATH"
-    
     mise --version || echo "mise not found"
 
     if [ -f "${HOME}/.config/mise.toml" ]; then
@@ -66,7 +64,10 @@ install_mise() {
         mise i -y || echo "mise install failed."
     fi
 
+    eval "$(mise activate bash --shims)"
     eval "$(mise activate bash)"
+    export PATH="${HOME}/.local/bin:${HOME}/.local/share/mise/shims:${HOME}/.local/share/mise/installs:$PATH"
+    
     echo "mise setup completed."
 }
 

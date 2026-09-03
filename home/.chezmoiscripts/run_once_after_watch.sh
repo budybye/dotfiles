@@ -8,6 +8,6 @@ ls -a "${HOME}/dotfiles"
 
 mise dr
 
-chezmoin doctor
+chezmoi doctor
 
 xrp
