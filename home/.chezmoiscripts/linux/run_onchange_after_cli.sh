@@ -64,7 +64,7 @@ install_mise() {
         mise i -y || echo "mise install failed."
     fi
 
-    eval "$(mise activate bash --shims)"
+    # eval "$(mise activate bash --shims)"
     eval "$(mise activate bash)"
     export PATH="${HOME}/.local/bin:${HOME}/.local/share/mise/shims:${HOME}/.local/share/mise/installs:$PATH"
     

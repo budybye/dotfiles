@@ -1,6 +1,6 @@
 setupVersion: 2
 modelRoles:
-  default: openai-codex/gpt-5.6-luna:high
+  default: openai-codex/gpt-5.6-luna
 defaultThinkingLevel: auto
 dev:
   autoqaConsent: granted
@@ -16,6 +16,10 @@ retry:
       - openai-codex/gpt-5.6-luna
       - cursor/composer-2.5
       - sakura/preview/Kimi-K2.7-Code
+      - openrouter/deepseek/deepseek-v4-flash:free
+      - openrouter/z-ai/glm-5.2:free
+      - opencode-zen/deepseek-v4-flash-free
+      - cloudflare-ai-gateway/workers-ai/@cf/moonshotai/kimi-k2.7-code
 memory:
   backend: mnemopi
   mnemopi:

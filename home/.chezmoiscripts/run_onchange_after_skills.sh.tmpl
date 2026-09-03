@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
+
 set -eu
 
 # agents.yaml の agents.skills が変更された時に再実行される
 # ハッシュ: {{ .agents.skills | toJson | sha256sum }}
+
+export PATH="${HOME}/.local/bin:${HOME}/.local/share/mise/shims:${HOME}/.local/share/mise/installs:$PATH"
 
 if command -v skills >/dev/null 2>&1; then
     skills_command=(skills)
