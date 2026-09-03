@@ -95,8 +95,15 @@ RUN usermod -aG sudo ubuntu && \
 USER ubuntu
 WORKDIR /home/ubuntu
 ARG DOTFILES_REF=main
-RUN git clone --depth=1 --branch "${DOTFILES_REF}" https://github.com/budybye/dotfiles.git
 RUN --mount=type=secret,id=github_token,env=GITHUB_TOKEN \
+    if [ -n "${GITHUB_TOKEN:-}" ]; then \
+        git -c http.extraheader="AUTHORIZATION: bearer ${GITHUB_TOKEN}" \
+            clone --depth=1 --branch "${DOTFILES_REF}" https://github.com/budybye/dotfiles.git; \
+    else \
+        git clone --depth=1 --branch "${DOTFILES_REF}" https://github.com/budybye/dotfiles.git; \
+    fi
+RUN --mount=type=secret,id=github_token,env=GITHUB_TOKEN \
+    export MISE_GITHUB_TOKEN="${GITHUB_TOKEN:-}" && \
     cd dotfiles && make init
 
 USER root

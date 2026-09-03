@@ -36,13 +36,13 @@ key.txt*
 .ssh/id_rsa*
 .env*
 .chezmoiscripts/linux/setup.sh
-.chezmoiscripts/skills.sh
 {{ end }}
 
 # DOCKER との重複を解消したい
 
 {{ if eq (env "REMOTE_CONTAINERS") "true" }}
 .chezmoiscripts/vscode.sh
+.chezmoiscripts/skills.sh
 .chezmoiscripts/linux/gui.sh
 .chezmoiscripts/linux/docker.sh
 {{ end }}
