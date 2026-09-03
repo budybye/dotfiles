@@ -36,6 +36,7 @@ key.txt*
 .ssh/id_rsa*
 .env*
 .chezmoiscripts/linux/setup.sh
+.chezmoiscripts/skills.sh
 {{ end }}
 
 # DOCKER との重複を解消したい
