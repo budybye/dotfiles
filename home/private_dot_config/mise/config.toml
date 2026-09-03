@@ -1,0 +1,8 @@
+[shell_alias]
+# ll = "ls -la"
+# la = "ls -A"
+gs = "git status"
+gc = "git commit"
+
+[hooks]
+enter = "echo '( ´Д`)y━･~~'"

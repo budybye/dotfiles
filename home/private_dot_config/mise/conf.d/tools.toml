@@ -322,7 +322,6 @@ yt-dlp = "latest"
 # github (Python)
 "github:microsoft/pyright" = "latest"
 "github:microsoft/apm" = "latest"
-"github:graphify-labs/graphify" = "latest" # graph
 "github:pandas-dev/pandas" = "latest" # 計算
 "github:hacs/integration" = "latest" # auth
 
@@ -330,6 +329,7 @@ yt-dlp = "latest"
 "pipx:opendoor" = "latest"
 "pipx:marimo" = "latest" # note
 "pipx:observal-cli" = "latest"
+"pipx:graphifyy" = "latest"
 "pipx:trafilatura" = "latest"
 # "pipx:thefuck" = "latest" # uv tool install --python 3.11 thefuck しないとエラー
 # "pipx:ragas" = "latest" # RAG

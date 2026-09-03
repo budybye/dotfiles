@@ -1,15 +1,13 @@
 #!/usr/bin/env bash
 
-set -eu
-
 env
 
 ls -a "${HOME}"
 
 ls -a "${HOME}/dotfiles"
 
-mise dr || true
+mise dr
 
-chezmoin doctor || true
+chezmoin doctor
 
 xrp

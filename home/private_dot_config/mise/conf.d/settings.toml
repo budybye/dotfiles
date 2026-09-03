@@ -34,6 +34,12 @@ jobs = 8              # 並行インストール数（デフォルト 4）
 raw = false           # true でプラグインを直接 stdin/stdout/stderr にパイプ
 yes = true            # すべてのプロンプトに自動で yes
 
+# auto-self-update
+auto_update = true
+auto_update_check_duration = "7d"
+cache_prune_age = "14d"
+gpg_verify = false
+
 #not_found_auto_install = true # `MISE_NOT_FOUND_AUTO_INSTALL`
 #task_output = "prefix"
 #paranoid = false       # `MISE_PARANOID`
@@ -72,12 +78,6 @@ rust.rustup_home = "~/.local/share/rustup"
 cargo.binstall = true
 pipx.uvx = true
 npm.bun = true
-
-# auto-self-update
-auto_update = true
-auto_update_check_duration = "7d"
-cache_prune_age = "14d"
-gpg_verify = false
 
 [[env]]
 _.path = [
