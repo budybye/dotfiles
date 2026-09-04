@@ -1,0 +1,3 @@
+[shell]
+name = "zsh"
+args = ["-l"]

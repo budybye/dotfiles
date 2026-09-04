@@ -167,6 +167,8 @@ agents:
       - "find-docs"
     "yusukebe/ax":
       - "ax"
+    "yusukebe/skills":
+      - "hono-inertia"
     "honojs/skills":
       - "hono"
     "antfu/skills":
@@ -342,4 +344,5 @@ agents:
     # - "notebooklm"
 
   # mcp:
+
   # plugins:

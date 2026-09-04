@@ -50,9 +50,8 @@ jobs:
           GATEWAY: ${{ secrets.GATEWAY }}
           IPFS_HASH: ${{ steps.ipfs.outputs.hash }}
         run: |
-          set -eu
-          : "${GATEWAY:?GATEWAY secret is required}"
-          : "${IPFS_HASH:?IPFS hash output is required}"
-          git clone "https://${GATEWAY}/ipfs/${IPFS_HASH}" /tmp/dotfiles
-          test -f /tmp/dotfiles/HEAD
-          rm -rf /tmp/dotfiles
+          echo ${{ steps.ipfs.outputs.hash }}
+          # Pinは成功しているが filebase が対応してない？
+          # git clone https://${{ secrets.GATEWAY }}/ipfs/${{ steps.ipfs.outputs.hash }} dotfiles /tmp/dotfiles
+          # test -f /tmp/dotfiles/HEAD
+          # rm -rf /tmp/dotfiles

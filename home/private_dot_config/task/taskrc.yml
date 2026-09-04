@@ -1,0 +1,24 @@
+# Global settings
+verbose: true
+silent: false
+color: true
+disable-fuzzy: false
+concurrency: 2
+interactive: true
+temp-dir: .task
+remote:
+  insecure: false
+  offline: false
+  timeout: '30s'
+  cache-expiry: '24h'
+  cache-dir: ~/.task
+  trusted-hosts:
+    - github.com
+    - gitlab.com
+  cacert: ''
+  cert: ''
+  cert-key: ''
+
+# Enable experimental features
+experiments:
+  GENTLE_FORCE: 1

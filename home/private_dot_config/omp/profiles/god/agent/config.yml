@@ -20,6 +20,7 @@ retry:
       - openrouter/z-ai/glm-5.2:free
       - opencode-zen/deepseek-v4-flash-free
       - cloudflare-ai-gateway/workers-ai/@cf/moonshotai/kimi-k2.7-code
+      - google-ai-studio/gemini-3.5-flash
 memory:
   backend: mnemopi
   mnemopi:
