@@ -61,6 +61,7 @@ watchexec = "latest" # auto runner
 "npm:just-scrape" = "latest"
 "npm:nx" = "latest"
 "npm:@antfu/ni" = "latest"
+"npm:@brave/brave-search-cli" = "latest"
 "npm:ndrstnd" = "latest"
 "npm:taze" = "latest"
 "npm:@hono/cli" = "latest"

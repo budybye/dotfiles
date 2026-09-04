@@ -31,37 +31,36 @@ install_cloudflare_warp() {
     if command -v warp-cli >/dev/null 2>&1; then
         echo "cloudflare warp already installed."
     else
-        $sudo curl -fsSL https://pkg.cloudflareclient.com/pubkey.gpg | $sudo gpg --yes --dearmor --output /usr/share/keyrings/cloudflare-warp-archive-keyring.gpg
+        curl -fsSL https://pkg.cloudflareclient.com/pubkey.gpg | $sudo gpg --yes --dearmor --output /usr/share/keyrings/cloudflare-warp-archive-keyring.gpg
         echo "deb [signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg] https://pkg.cloudflareclient.com/ $(lsb_release -cs) main" | $sudo tee /etc/apt/sources.list.d/cloudflare-client.list
         $sudo apt-get update 
         $sudo apt-get install -y cloudflare-warp
         echo "cloudflare warp installed."
     fi
 
-    # warp-cli --accept-tos registration new
-    # warp-cli --accept-tos mode warp
-    # warp-cli --accept-tos dns families malware
-    # warp-cli --accept-tos connect
-    # warp-cli --accept-tos disconnect
+    warp-cli --accept-tos registration new
+    warp-cli --accept-tos mode warp
+    warp-cli --accept-tos dns families malware
+    warp-cli --accept-tos connect
+    warp-cli --accept-tos disconnect
 }
 
 # 代変えインストーラー https://github.com/watzon/cursor-linux-installer
 install_cursor() {
     APP_DIR="${HOME}/Applications"
     mkdir -p "$APP_DIR"
-    # APP_IMAGE="${APP_DIR}/cursor"
     
     if command -v cursor >/dev/null 2>&1; then
         echo "cursor already installed."
     elif command -v curl >/dev/null 2>&1; then
-        curl -L https://raw.githubusercontent.com/watzon/cursor-linux-installer/main/install.sh | sh -s -- latest || true
-    else
-        echo "curl command not found." >&2
-        return 1
+        curl -L https://raw.githubusercontent.com/watzon/cursor-linux-installer/main/install.sh | sh -s -- latest || true # scriptエラー
     fi
     
     # cursor の実行方法を表示
-    # echo "'use command: ${APP_IMAGE} --no-sandbox'"
+    # if [ arch === "arm64" ]; then
+    #     APP_IMAGE="${APP_DIR}/cursor"
+    #     echo "'use command: ${APP_IMAGE} --no-sandbox'"
+    # fi
     echo "cursor installed."
 }
 
@@ -76,6 +75,14 @@ install_element_desktop() {
         $sudo apt-get install -y element-desktop
         echo "element desktop installed."
     fi
+}
+
+install_ferdium() {
+    if command -v pacstall >/dev/null 2>&1; then
+        $sudo bash -c "$(wget -q https://pacstall.dev/q/install -O -)"
+    fi
+    pacstall -I ferdium-deb || echo "ferdium install failed."  
+    echo "ferdium installed."
 }
 
 install_github_desktop() {
@@ -189,8 +196,8 @@ install_ghostty() {
 install_zed() {
     if command -v zed >/dev/null 2>&1; then
         echo "zed already installed."
-    else 
-        curl -fsSL https://zed.dev/install.sh | sh || true
+    else
+        curl -fsSL https://zed.dev/install.sh | sh || true # scriptエラー
         echo "zed installed."
     fi
 }
@@ -287,15 +294,16 @@ echo "gui tools setup"
 echo "--------------------------------"
 install_gui
 install_brave_browser
+install_cursor
 # install_cloudflare_warp # systemd 必須？
-install_cursor # scriptエラー不可避
-install_element_desktop
 install_ghostty
+install_ferdium
 install_github_desktop
 install_obsidian
 install_ruby_fusuma
-install_zed # scriptエラー不可避
+install_zed
 install_zen
+# install_element_desktop
 # install_opencode
 # install_tabby_terminal
 # install_vscode

@@ -104,6 +104,9 @@ RUN --mount=type=secret,id=github_token,env=GITHUB_TOKEN \
             clone --depth=1 --branch "${DOTFILES_REF}" https://github.com/budybye/dotfiles.git; \
     else \
         git clone --depth=1 --branch "${DOTFILES_REF}" https://github.com/budybye/dotfiles.git; \
+    fi && \
+    if [ "${DOTFILES_REV}" != "unknown" ]; then \
+        test "$(git -C dotfiles rev-parse HEAD)" = "${DOTFILES_REV}"; \
     fi
 RUN --mount=type=secret,id=github_token,env=GITHUB_TOKEN \
     export MISE_GITHUB_TOKEN="${GITHUB_TOKEN:-}" && \

@@ -114,6 +114,9 @@ RUN --mount=type=secret,id=github_token,env=GITHUB_TOKEN \
             clone --depth=1 --branch "${DOTFILES_REF}" https://github.com/budybye/dotfiles.git; \
     else \
         git clone --depth=1 --branch "${DOTFILES_REF}" https://github.com/budybye/dotfiles.git; \
+    fi && \
+    if [ "${DOTFILES_REV}" != "unknown" ]; then \
+        test "$(git -C dotfiles rev-parse HEAD)" = "${DOTFILES_REV}"; \
     fi
 # mise rate limit 回避に GITHUB_TOKEN 設定
 RUN --mount=type=secret,id=github_token,env=GITHUB_TOKEN \

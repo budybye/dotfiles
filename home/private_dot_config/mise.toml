@@ -194,7 +194,8 @@ WarnOnEmptyTrash = false
 [bootstrap.brew]
 adopt = false
 
-# [bootstrap.brew.taps]
+[bootstrap.brew.taps]
+"ferdium/ferdium" = "latest"
 # "yusukebe/tap"
 # "nikitabobko/tap"
 # "jnsahaj/lumen"
@@ -228,7 +229,7 @@ adopt = false
 "brew-cask:cloudflare-warp" = { os = "macos" }
 "brew-cask:cursor" = { os = "macos" }
 "brew-cask:coderabbit" = { os = "macos" }
-"brew-cask:element" = { os = "macos" }
+"brew-cask:ferdium" = { os = "macos" }
 "brew-cask:font-hackgen-nerd" = { os = "macos" }
 "brew-cask:ghostty" = { os = "macos" }
 "brew-cask:keyclu" = { os = "macos" }
