@@ -20,29 +20,39 @@ jobs:
       #   with:
       #     fetch-depth: 0
 
-      - name: create bare clone
+      - name: Create bare clone
         run: |
           git clone --mirror https://github.com/budybye/dotfiles.git dotfiles
           cd dotfiles
           git update-server-info
-          mv objects/pack/*.pack .
-          git unpack-objects < *.pack
-          rm -f *.pack objects/pack/*
+          for pack in objects/pack/*.pack; do
+            [ -e "${pack}" ] || continue
+            pack_name="${pack##*/}"
+            mv "${pack}" .
+            git unpack-objects < "${pack_name}"
+            rm -f "${pack_name}"
+          done
+          rm -f objects/pack/*
 
       - name: Pin to IPFS
-        uses: aquiladev/ipfs-action@master
+        uses: aquiladev/ipfs-action@v1
         id: ipfs
         with:
-          path: .
+          path: ./dotfiles
           service: filebase
           pinName: dotfiles
           filebaseBucket: ${{ secrets.FILEBASE_BUCKET }}
           filebaseKey: ${{ secrets.FILEBASE_KEY }}
           filebaseSecret: ${{ secrets.FILEBASE_SECRET }}
 
-      - name: Print IPFS Hash
+      - name: Verify Git clone through IPFS gateway
+        env:
+          GATEWAY: ${{ secrets.GATEWAY }}
+          IPFS_HASH: ${{ steps.ipfs.outputs.hash }}
         run: |
-          echo ${{ steps.ipfs.outputs.hash }}
-          cd /tmp
-          # git clone https://${{ secrets.GATEWAY }}/ipfs/${{ steps.ipfs.outputs.hash }} dotfiles
-          # ls -la dotfiles && rm -rf dotfiles
+          set -eu
+          : "${GATEWAY:?GATEWAY secret is required}"
+          : "${IPFS_HASH:?IPFS hash output is required}"
+          git clone "https://${GATEWAY}/ipfs/${IPFS_HASH}" /tmp/dotfiles
+          test -f /tmp/dotfiles/HEAD
+          rm -rf /tmp/dotfiles
