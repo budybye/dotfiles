@@ -123,6 +123,8 @@ install_flatpak() {
 }
 
 install_go_aqua() {
+    export PATH="${HOME}/.local/bin:${HOME}/.local/share/mise/shims:${HOME}/.local/share/mise/installs:$PATH"
+
     if command -v go >/dev/null 2>&1; then
         echo "go already installed."
     elif command -v mise >/dev/null 2>&1; then
@@ -152,7 +154,7 @@ install_coderabbit() {
     if command -v coderabbit >/dev/null 2>&1; then
         echo "coderabbit already installed."
     elif command -v curl >/dev/null 2>&1; then
-        curl -fsSL https://cli.coderabbit.ai/install.sh | bash || echo "coderabbit install failed."
+        curl -fsSL https://cli.coderabbit.ai/install.sh | sh || echo "coderabbit install failed."
     fi
     coderabbit --version || echo "coderabbit not found."
 }

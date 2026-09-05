@@ -12,7 +12,8 @@ fi
 
 install_gui() {
     $sudo apt-get update
-    $sudo apt-get install -y xfce4 xfce4-goodies xrdp xorgxrdp dbus-x11 lightdm gnome-keyring libinput-tools xdg-utils plank picard remmina xsel xclip oneko nyancat libfuse2t64
+    $sudo apt-get install -y xfce4 xrdp xorgxrdp dbus-x11 lightdm gnome-keyring libinput-tools xdg-utils plank picard remmina xsel xclip oneko nyancat libfuse2t64
+    # $sudo apt-get install -y xfce4 xfce4-goodies xrdp xorgxrdp dbus-x11 lightdm gnome-keyring libinput-tools xdg-utils plank picard remmina xsel xclip oneko nyancat libfuse2t64
 }
 
 install_brave_browser() {
@@ -52,10 +53,21 @@ install_cursor() {
     
     if command -v cursor >/dev/null 2>&1; then
         echo "cursor already installed."
-    elif command -v curl >/dev/null 2>&1; then
-        curl -L https://raw.githubusercontent.com/watzon/cursor-linux-installer/main/install.sh | bash -s -- latest || true # scriptエラー
+    # elif command -v curl >/dev/null 2>&1; then
+        # curl -L https://raw.githubusercontent.com/watzon/cursor-linux-installer/main/install.sh | bash -s -- latest || echo "cursor install failed."
+      else
+        # Cursor の GPG キーを追加
+        curl -fsSL https://downloads.cursor.com/keys/anysphere.asc | gpg --dearmor | $sudo tee /etc/apt/keyrings/cursor.gpg > /dev/null
+        
+        # Cursor リポジトリを追加
+        echo "deb [arch=amd64,arm64 signed-by=/etc/apt/keyrings/cursor.gpg] https://downloads.cursor.com/aptrepo stable main" | $sudo tee /etc/apt/sources.list.d/cursor.list > /dev/null
+        
+        # 更新してインストール
+        sudo apt-get update
+        sudo apt-get install cursor -y 
     fi
-    
+
+    # arm64 だと失敗する
     # cursor の実行方法を表示
     # if [ arch === "arm64" ]; then
     #     APP_IMAGE="${APP_DIR}/cursor"
@@ -79,7 +91,8 @@ install_element_desktop() {
 
 install_ferdium() {
     if command -v pacstall >/dev/null 2>&1; then
-        $sudo bash -c "$(wget -q https://pacstall.dev/q/install -O -)"
+        # $sudo bash -c "$(wget -q https://pacstall.dev/q/install -O -)"
+        $sudo apt install pacstall
     fi
     
     pacstall -I ferdium-deb || echo "ferdium install failed."  
@@ -212,6 +225,16 @@ install_zed() {
     fi
 }
 
+install_vicinae() {
+    if command -v vicinae >/dev/null 2>&1; then
+        echo "vicinae already installed."
+    else
+        curl https://vicinae.com/install.sh | bash
+        echo "vicinae installed."
+    fi
+}
+
+
 install_obsidian() {
     # amd64: deb / arm64: AppImage
     # v1.13.8 is mobile-only; keep this on a desktop release.
@@ -311,6 +334,7 @@ install_ferdium
 install_github_desktop
 install_obsidian
 install_ruby_fusuma
+install_vicinae
 install_zed
 install_zen
 # install_element_desktop

@@ -117,11 +117,12 @@ packages:
     # latest:
       # - "multipass"
       # - 'brave'
+      # - "ferdium"
+      # - "chromium"
+      # - "clipboard"
       # - 'element-desktop'
       # - "bruno"
       # - "microk8s"
-      # - "chromium"
-      # - "clipboard"
       # - 'bitwarden'
       # - 'postman'
       # - "speedtest-cli"
@@ -150,11 +151,9 @@ packages:
     # - "curl https://code-server.dev/install.sh | sh"    
 
     - "curl https://cli.coderabbit.ai/install.sh | bash"
-    # - "curl -fsSL https://raw.githubusercontent.com/spicetify/cli/main/install.sh | bash"
     # - "curl https://www.xalgorix.com/install | bash"
     # - "curl https://nixos.org/nix/install | bash"
 
     #gui
     - "curl https://zed.dev/install.sh | sh"
-    # - "curl https://vicinae.com/install.sh | sh"
-    # - "curl https://raw.githubusercontent.com/watzon/cursor-linux-installer/main/install.sh | sh -s -- latest"
+    # - "curl https://vicinae.com/install.sh | bash"
