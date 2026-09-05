@@ -116,7 +116,7 @@ install_flatpak() {
     if command -v flatpak >/dev/null 2>&1; then
         echo "flatpak already installed."
     else
-        $sudo apt-get install -y flatpak || echo "flatpak install failed."
+        $sudo apt-get install -y flatpak
     fi
     $sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo || echo "flatpak install failed.."
     flatpak --version || echo "flatpak not found"

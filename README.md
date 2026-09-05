@@ -99,11 +99,11 @@ make clean-vm
 ## 対応プラットフォーム
 
 - macOS Sequoia 15 以降
-- Ubuntu 24.04 LTS
+- Ubuntu 26.04 LTS
 - Docker
 - Multipass
 
-WSL2、Windows、FreeBSD は将来対応です。対応範囲と package 要件は [要件定義](docs/requirements.md) を参照してください。
+WSL2、Windows、FreeBSD は将来対応予定です。対応範囲と package 要件は [要件定義](docs/requirements.md) を参照してください。
 
 ## 構成
 

@@ -64,7 +64,7 @@ install_cursor() {
         
         # 更新してインストール
         sudo apt-get update
-        sudo apt-get install cursor -y 
+        sudo apt-get install -y cursor 
     fi
 
     # arm64 だと失敗する
@@ -92,7 +92,7 @@ install_element_desktop() {
 install_ferdium() {
     if command -v pacstall >/dev/null 2>&1; then
         # $sudo bash -c "$(wget -q https://pacstall.dev/q/install -O -)"
-        $sudo apt install pacstall
+        $sudo apt-get install -y pacstall
     fi
     
     pacstall -I ferdium-deb || echo "ferdium install failed."  
@@ -313,6 +313,7 @@ install_opencode() {
         echo "opencode download failed." >&2
         return 1
     fi
+    
     if ! $sudo dpkg -i "${deb}"; then
         $sudo apt-get install -f -y
         $sudo dpkg -i "${deb}"
