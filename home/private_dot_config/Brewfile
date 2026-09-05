@@ -31,7 +31,7 @@ brew "bash"
 # brew "biome"
 # brew "blueutil"
 # brew "boost
-brew "ca-certificates"
+# brew "ca-certificates"
 # brew "caddy"
 brew "cask"
 # brew "chezmoi"
@@ -394,8 +394,8 @@ mas "Microsoft Excel", id: 462058435
 # mas "Microsoft Word", id: 462054704
 # mas "Microsoft PowerPoint", id: 462062816
 
-mas "LINE", id: 539883307
 mas "RunCat", id: 1429033973
+# mas "LINE", id: 539883307
 # mas "Shazam", id: 897118787
 # mas "Plash", id: 1494023538
 # mas "Hidden Bar", id: 1452453066

@@ -53,7 +53,7 @@ install_cursor() {
     if command -v cursor >/dev/null 2>&1; then
         echo "cursor already installed."
     elif command -v curl >/dev/null 2>&1; then
-        curl -L https://raw.githubusercontent.com/watzon/cursor-linux-installer/main/install.sh | sh -s -- latest || true # scriptエラー
+        curl -L https://raw.githubusercontent.com/watzon/cursor-linux-installer/main/install.sh | bash -s -- latest || true # scriptエラー
     fi
     
     # cursor の実行方法を表示
@@ -81,6 +81,7 @@ install_ferdium() {
     if command -v pacstall >/dev/null 2>&1; then
         $sudo bash -c "$(wget -q https://pacstall.dev/q/install -O -)"
     fi
+    
     pacstall -I ferdium-deb || echo "ferdium install failed."  
     echo "ferdium installed."
 }

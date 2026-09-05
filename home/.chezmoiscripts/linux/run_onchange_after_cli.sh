@@ -144,7 +144,7 @@ install_mkcert() {
     elif command -v mise >/dev/null 2>&1; then
         mise use -g -y mkcert@latest || echo "mkcert install failed."
     fi
-    mkcert -install || echo "mkcert setup failed."
+    # mkcert -install || echo "mkcert setup failed."
     mkcert --version || echo "mkcert not found."
 }
 
@@ -152,7 +152,7 @@ install_coderabbit() {
     if command -v coderabbit >/dev/null 2>&1; then
         echo "coderabbit already installed."
     elif command -v curl >/dev/null 2>&1; then
-        curl -fsSL https://cli.coderabbit.ai/install.sh | sh || echo "coderabbit install failed."
+        curl -fsSL https://cli.coderabbit.ai/install.sh | bash || echo "coderabbit install failed."
     fi
     coderabbit --version || echo "coderabbit not found."
 }

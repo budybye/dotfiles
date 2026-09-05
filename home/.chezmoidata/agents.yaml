@@ -214,7 +214,17 @@ agents:
       - "hallmark"
     "thedotmack/claude-mem":
       - "babysit"
-
+    "kepano/obsidian-skills":
+      - "obsidian-markdown"
+      - "obsidian-cli"
+      - "json-canvas"
+    # - "obsidian-bases"
+    # - "defuddle"
+    "remotion-dev/skills":
+    - "remotion-best-practices"
+    # "uinaf/skills:"
+    # - "vite-plus"
+    
     # "wshobson/agents":
     # - "react-state-management"
     # - "github-actions-templates"
@@ -242,16 +252,12 @@ agents:
     # - "write-release-notes"
     # - "write-tbp"
 
-    # "coreyhaines31/marketingskills":
-    # - "ab-test-setup"
-
     # "101-skills/skills":
     # - "ai-video-generation"
 
     # "belt-sh/cli":
     # - "belt"
-    # "uinaf/skills:"
-    # - "vite-plus"
+
     # "flare-foundation/flare-ai-skills":
     # - "flare-fassets"
     # - "flare-ftso"
@@ -262,10 +268,12 @@ agents:
     # "coinbase/agentic-wallet-skills":
     # - "trade"
     # - "x402"
+    # "crypto-agent-trading":
+    # - "crypto-agent-trading"
 
     # "openai/skills":
       # - "security-best-practices"
-    # - "cloudflare-deploy"
+      # - "cloudflare-deploy"
     # - "develop-web-game"
     # - "gh-fix-ci"
     # - "imagegen"
@@ -276,9 +284,6 @@ agents:
     # - "notion-spec-to-implementation"
     # - "openai-docs" # not in skills list -g
     # - "playwright"
-    #
-    # "openai/codex":
-    # - "test-tui"
 
     # "figma/mcp-server-guide":
     # - "figma-create-design-system-rules"
@@ -290,16 +295,6 @@ agents:
     # - Blender"
     # "affaan-m/everything-claude-code":
     # - "blender-motion-state-inspection"
-
-    "kepano/obsidian-skills":
-      - "obsidian-markdown"
-      - "obsidian-cli"
-      - "json-canvas"
-    # - "obsidian-bases"
-    # - "defuddle"
-
-    # "crypto-agent-trading":
-    # - "crypto-agent-trading"
 
     # "pbakaus/impeccable":
     # - "animate"
@@ -322,14 +317,10 @@ agents:
     # - "orval"
     # "withastro/flue":
     # - "flue"
-    "remotion-dev/skills":
-    - "remotion-best-practices"
-    # "leonardomso/rust-skills":
-    # - "rust-skills" # not in skills list -g
-    # "mizchi/skills":
-    # - "empirical-prompt-tuning"
+
     # "deckardger/tanstack-agent-skills":
     # - "tanstack-query-best-practices"
+
     # "imbue-openhost/openhost":
     # - "openhost-context"
     # "teng-lin/notebooklm-py":

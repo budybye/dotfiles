@@ -5,21 +5,21 @@ set -eu
 # agents.yaml の agents.skills が変更された時に再実行される
 # ハッシュ: {{ .agents.skills | toJson | sha256sum }}
 
+# ここでPATHを追加しないと見つからない
 export PATH="${HOME}/.local/bin:${HOME}/.local/share/mise/shims:${HOME}/.local/share/mise/installs:$PATH"
 
 if command -v skills >/dev/null 2>&1; then
     skills_command=(skills)
 elif command -v bunx >/dev/null 2>&1; then
     skills_command=(bunx skills)
-elif command -v npx >/dev/null 2>&1; then
-    skills_command=(npx skills)
 else
-    printf '%s\n' 'skills CLI is not installed and npx is unavailable.' >&2
+    printf '%s\n' 'skills CLI is not installed and bunx is unavailable.' >&2
     exit 1
 fi
 
 echo "skills"
 echo "--------------------------------"
+# -a zed を指定すると ~/.agents/skills/ にインストールされて symlinkは貼られない
 
 {{- range $repo, $skills := .agents.skills }}
 {{- range $skill := $skills }}
