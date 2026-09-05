@@ -12,8 +12,8 @@ fi
 
 install_gui() {
     $sudo apt-get update
-    $sudo apt-get install -y xfce4 xrdp xorgxrdp dbus-x11 lightdm gnome-keyring libinput-tools xdg-utils plank picard remmina xsel xclip oneko nyancat libfuse2t64
-    # $sudo apt-get install -y xfce4 xfce4-goodies xrdp xorgxrdp dbus-x11 lightdm gnome-keyring libinput-tools xdg-utils plank picard remmina xsel xclip oneko nyancat libfuse2t64
+    # $sudo apt-get install -y xfce4 xrdp xorgxrdp dbus-x11 lightdm gnome-keyring libinput-tools xdg-utils plank picard remmina xsel xclip oneko nyancat libfuse2t64
+    $sudo apt-get install -y xfce4 xfce4-goodies xrdp xorgxrdp dbus-x11 lightdm gnome-keyring libinput-tools xdg-utils plank picard remmina xsel xclip oneko nyancat libfuse2t64
 }
 
 install_brave_browser() {
@@ -220,7 +220,7 @@ install_zed() {
     if command -v zed >/dev/null 2>&1; then
         echo "zed already installed."
     else
-        curl -fsSL https://zed.dev/install.sh | sh || true # scriptエラー
+        curl -f https://zed.dev/install.sh | sh || true # scriptエラー
         echo "zed installed."
     fi
 }
@@ -229,7 +229,7 @@ install_vicinae() {
     if command -v vicinae >/dev/null 2>&1; then
         echo "vicinae already installed."
     else
-        curl https://vicinae.com/install.sh | bash
+        curl -fsSL https://vicinae.com/install | bash || echo "vicinae install failed."
         echo "vicinae installed."
     fi
 }
