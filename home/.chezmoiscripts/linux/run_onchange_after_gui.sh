@@ -120,7 +120,6 @@ install_ruby_fusuma() {
     if command -v gem >/dev/null 2>&1; then
         echo "ruby already installed."
     elif command -v mise >/dev/null 2>&1; then
-        activate_mise
         mise use -g -y ruby
         echo "ruby installed."
     else
