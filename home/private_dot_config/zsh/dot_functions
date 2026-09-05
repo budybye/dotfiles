@@ -145,7 +145,7 @@ if command -v docker >/dev/null 2>&1; then
         docker build -t "$IMAGE_NAME" . && docker push "$IMAGE_NAME"
     }
     ARCH=${ARCH:-$(dpkg --print-architecture 2>/dev/null || uname -m)}
-    alias dx='docker run --rm -itd --privileged --platform linux/${ARCH} --hostname docker --name ubuntu-dev -p 33389:3389 -p 2222:22 ghcr.io/budybye/ubuntu-dev:main ubuntu ubuntu yes'
+    alias dx='docker run --rm -itd --privileged --hostname container --name dev -p 127.0.0.1:33389:3389 -p ghcr.io/budybye/ubuntu-dev ubuntu ubuntu yes'
 fi
 
 if command -v podman >/dev/null 2>&1; then

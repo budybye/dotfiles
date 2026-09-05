@@ -196,9 +196,6 @@ adopt = false
 
 [bootstrap.brew.taps]
 "ferdium/ferdium" = "latest"
-# "yusukebe/tap" = "latest"
-# "nikitabobko/tap" = "latest"
-# "jnsahaj/lumen" = "latest"
 
 [bootstrap.packages]
 "brew:cask" = { os = "macos" }
@@ -206,40 +203,43 @@ adopt = false
 
 "brew:automake" = { os = "macos" }
 "brew:bash" = { os = "macos" }
-"brew:tree" = { os = "macos" }
-"brew:pkgconf" = { os = "macos" }
 "brew:gcc" = { os = "macos" }
 "brew:gawk" = { os = "macos" }
 "brew:gnupg" = { os = "macos" }
-"brew:nmap" = { os = "macos" }
-"brew:qemu" = { os = "macos" }
 "brew:git" = { os = "macos" }
 "brew:make" = { os = "macos" }
-"brew:mise" = { os = "macos" }
+# "brew:mise" = { os = "macos" }
 "brew:multitail" = "latest"
 "brew:moreutils" = "latest"
-"brew:zsh" = "latest"
-
 "brew:mpd" = "latest"
 "brew:mpc" = "latest"
 "brew:ncmpcpp" = "latest"
+"brew:nmap" = { os = "macos" }
+"brew:pkgconf" = { os = "macos" }
+"brew:qemu" = { os = "macos" }
+"brew:tree" = { os = "macos" }
+"brew:zsh" = "latest"
 
-"brew-cask:bitwarden" = { os = "macos" }
+# "brew-cask:bitwarden" = { os = "macos" }
 "brew-cask:brave-browser" = { os = "macos" }
-"brew-cask:cloudflare-warp" = { os = "macos" }
+# "brew-cask:cloudflare-warp" = { os = "macos" }
 "brew-cask:cursor" = { os = "macos" }
-"brew-cask:coderabbit" = { os = "macos" }
-"brew-cask:ferdium" = { os = "macos" }
+# "brew-cask:coderabbit" = { os = "macos" }
+# "brew-cask:ferdium/ferdium/ferdium" = { os = "macos" }
 "brew-cask:font-hackgen-nerd" = { os = "macos" }
+"brew-cask:google-chrome" = { os = "macos" }
 "brew-cask:ghostty" = { os = "macos" }
+# "brew-cask:github" = { os = "macos" }
 "brew-cask:keyclu" = { os = "macos" }
 # "brew-cask:skills-manager" = { os = "macos" }
 "brew-cask:musicbrainz-picard" = { os = "macos" }
 "brew-cask:obsidian" = { os = "macos" }
-# "brew-cask:onyx" = { os = "macos" } # なぜかエラー
+# "brew-cask:onyx" = { os = "macos" } # ciでなぜかエラー
+# "brew-cask:openhuman" = { os = "macos" } # ciでなぜかエラー
+# "brew-cask:open-design" = { os = "macos" } # ciでなぜかエラー
 # "brew-cask:stablyai/orca/orca" = "latest"
 "brew-cask:orbstack" = { os = "macos" }
-"brew-cask:raycast" = { os = "macos" }
+# "brew-cask:raycast" = { os = "macos" }
 "brew-cask:tradingview" = { os = "macos" }
 # "brew-cask:visual-studio-code" = "latest"
 # "brew-cask:windows-app" = "latest"

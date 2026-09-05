@@ -100,20 +100,20 @@ layout {
         }
     }
 
-    tab name="xrp" {
-        pane {
-            name "lazyxrp"
-            cwd "~/Developer/rust/lazyxrp"
-            command "cargo"
-            args "clippy"
-        }
-        pane {
-            name "rippled"
-            cwd "~/Developer/rippled"
-            command "make"
-            args "help"
-        }
-    }
+    // tab name="xrp" {
+    //     pane {
+    //         name "lazyxrp"
+    //         cwd "~/Developer/rust/lazyxrp"
+    //         command "cargo"
+    //         args "clippy"
+    //     }
+    //     pane {
+    //         name "rippled"
+    //         cwd "~/Developer/rippled"
+    //         command "make"
+    //         args "help"
+    //     }
+    // }
     
     tab name="docker" {
         pane {

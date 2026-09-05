@@ -21,7 +21,7 @@
   "workspaceFolder": "/workspaces/chezmoi",
   "overrideCommand": false,
   "forwardPorts": [22],
-  // "privileged": true,
+  "privileged": true,
   // "initializeCommand": "echo 'Dev container initializing...'",
   // "onCreateCommand": "echo 'Dev container creating...'",
   // "postCreateCommand": "echo 'Dev container post created...'",
