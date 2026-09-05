@@ -19,7 +19,7 @@ DOCKER_IMAGE := ubuntu-dev
 DOCKER_SLIM_IMAGE := ubuntu-dev-slim
 DOCKER_CONTAINER := ubuntu-dev
 DOCKER_HOST := docker
-DOCKER_PORTS := -p 33389:3389 -p 2222:22
+DOCKER_PORTS := -p 127.0.0.1:33389:3389
 DOCKER_WORKDIR := /home/dev
 DOCKER_USER := dev
 

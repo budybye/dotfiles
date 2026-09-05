@@ -37,23 +37,38 @@ jobs:
 
           git fetch --tags origin
 
+          semver_pattern='^[0-9]+\.[0-9]+\.[0-9]+$'
           semver_latest() {
-            git tag -l '[0-9]*.[0-9]*.[0-9]*' --sort=-v:refname | head -n1
+            git tag -l '[0-9]*.[0-9]*.[0-9]*' --sort=-v:refname |
+              while IFS= read -r candidate; do
+                if [[ "${candidate}" =~ ${semver_pattern} ]]; then
+                  printf '%s\n' "${candidate}"
+                  break
+                fi
+              done
           }
 
-          # このコミットに semver タグが既にあれば再利用（再実行・リリースのみ失敗時）
-          existing_tag=$(git tag -l '[0-9]*.[0-9]*.[0-9]*' --points-at "$HEAD_SHA" --sort=-v:refname | head -n1)
+          # このコミットに strict SemVer タグが既にあれば再利用
+          existing_tag="$(
+            git tag -l '[0-9]*.[0-9]*.[0-9]*' \
+              --points-at "$HEAD_SHA" \
+              --sort=-v:refname |
+              while IFS= read -r candidate; do
+                if [[ "${candidate}" =~ ${semver_pattern} ]]; then
+                  printf '%s\n' "${candidate}"
+                  break
+                fi
+              done
+          )"
           if [ -n "$existing_tag" ]; then
             new_tag="$existing_tag"
             echo "コミット ${HEAD_SHA} に既存タグ: ${new_tag}"
           else
             latest_tag=$(semver_latest)
             [ -z "$latest_tag" ] && latest_tag="0.0.0"
-            if ! [[ "$latest_tag" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            if [[ ! "$latest_tag" =~ ${semver_pattern} ]]; then
               latest_tag="0.0.0"
             fi
-            echo "最新の semver タグ: ${latest_tag}"
-
             IFS='.' read -r major minor patch <<< "$latest_tag"
             new_patch=$((patch + 1))
             new_tag="${major}.${minor}.${new_patch}"
@@ -79,14 +94,19 @@ jobs:
             echo "リリース ${new_tag} は既に存在する"
           fi
 
-          echo "tag=${new_tag}" >> "$GITHUB_OUTPUT"
+          printf 'tag=%s\n' "$new_tag" >> "$GITHUB_OUTPUT"
 
       # tag push の webhook が push.yaml を起動しない場合の保険（0.8.123 など）
       - name: Trigger GHCR build
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_TAG: ${{ steps.release.outputs.tag }}
         run: |
           set -euo pipefail
-          tag="${{ steps.release.outputs.tag }}"
-          echo "push.yaml を ref=${tag} で起動"
-          gh workflow run push.yaml --ref "$tag"
+          semver_pattern='^[0-9]+\.[0-9]+\.[0-9]+$'
+          if [[ ! "${RELEASE_TAG}" =~ ${semver_pattern} ]]; then
+            echo "Invalid release tag: ${RELEASE_TAG}" >&2
+            exit 1
+          fi
+          echo "push.yaml を ref=${RELEASE_TAG} で起動"
+          gh workflow run push.yaml --ref "${RELEASE_TAG}"

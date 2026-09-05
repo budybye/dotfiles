@@ -91,15 +91,25 @@ install_github_desktop() {
     else
         local version="3.4.13"
         local release="release-${version}-linux1"
-        local deb="/tmp/GitHubDesktop-linux-${arch}-${version}-linux1.deb"
         local url="https://github.com/shiftkey/desktop/releases/download/${release}/GitHubDesktop-linux-${arch}-${version}-linux1.deb"
+        local tmpdir
+        local deb
 
-        $sudo curl -fsSL "${url}" -o "${deb}"
-        $sudo dpkg -i "${deb}" || {
+        tmpdir="$(mktemp -d "${TMPDIR:-/tmp}/github-desktop.XXXXXX")"
+        deb="${tmpdir}/GitHubDesktop.deb"
+        cleanup_github_desktop() {
+            rm -rf -- "${tmpdir}"
+        }
+        trap cleanup_github_desktop EXIT
+
+        curl -fsSL "${url}" -o "${deb}"
+        if ! $sudo dpkg -i "${deb}"; then
             $sudo apt-get install -f -y
             $sudo dpkg -i "${deb}"
-        }
-        $sudo rm -f "${deb}"
+        fi
+
+        trap - EXIT
+        cleanup_github_desktop
         echo "github desktop ${version} installed."
     fi
 }

@@ -559,3 +559,8 @@ if command -v ratty >/dev/null 2>&1; then
     mkdir -p "${XDG_CACHE_HOME}/ratty"
     export RATTY_HOME="${XDG_CONFIG_HOME}/ratty"
 fi
+
+if command -v w3m >/dev/null 2>&1; then
+    mkdir -p "${XDG_CONFIG_HOME}/w3m"
+    export W3M_DIR="${XDG_CONFIG_HOME}/w3m"
+fi

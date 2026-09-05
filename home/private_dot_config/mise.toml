@@ -196,9 +196,9 @@ adopt = false
 
 [bootstrap.brew.taps]
 "ferdium/ferdium" = "latest"
-# "yusukebe/tap"
-# "nikitabobko/tap"
-# "jnsahaj/lumen"
+# "yusukebe/tap" = "latest"
+# "nikitabobko/tap" = "latest"
+# "jnsahaj/lumen" = "latest"
 
 [bootstrap.packages]
 "brew:cask" = { os = "macos" }
@@ -237,6 +237,7 @@ adopt = false
 "brew-cask:musicbrainz-picard" = { os = "macos" }
 "brew-cask:obsidian" = { os = "macos" }
 # "brew-cask:onyx" = { os = "macos" } # なぜかエラー
+# "brew-cask:stablyai/orca/orca" = "latest"
 "brew-cask:orbstack" = { os = "macos" }
 "brew-cask:raycast" = { os = "macos" }
 "brew-cask:tradingview" = { os = "macos" }

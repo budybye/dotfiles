@@ -22,7 +22,11 @@ env:
   REGISTRY_IMAGE: ghcr.io/budybye/ubuntu-dev
 jobs:
   build-images:
-    # 3時間
+    # Release builds may use only protected tag refs; schedules refresh cache without publishing.
+    if: >-
+      github.event_name == 'schedule' ||
+      ((github.event_name == 'push' || github.event_name == 'workflow_dispatch') &&
+       github.ref_type == 'tag')
     timeout-minutes: 180
     permissions:
       contents: read
@@ -53,9 +57,21 @@ jobs:
           platform=${{ matrix.platform }}
           echo "PLATFORM_PAIR=${platform//\//-}" >> $GITHUB_ENV
 
+      - name: Validate release ref
+        if: github.event_name != 'schedule'
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          set -eu
+          if [[ ! "${RELEASE_TAG}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Release ref is not strict SemVer: ${RELEASE_TAG}" >&2
+            exit 1
+          fi
+
       - name: Checkout
         uses: actions/checkout@v6
-
+        with:
+          ref: ${{ github.sha }}
       # - name: Set up QEMU
       #   uses: docker/setup-qemu-action@v3
       - name: Docker meta
@@ -131,7 +147,9 @@ jobs:
     permissions:
       contents: read
       packages: write
-    if: github.event_name != 'schedule'
+    if: >-
+      (github.event_name == 'push' || github.event_name == 'workflow_dispatch') &&
+      github.ref_type == 'tag'
     strategy:
       fail-fast: false
       matrix:
@@ -153,9 +171,20 @@ jobs:
           platform=${{ matrix.platform }}
           echo "PLATFORM_PAIR=${platform//\//-}" >> $GITHUB_ENV
 
+      - name: Validate release ref
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          set -eu
+          if [[ ! "${RELEASE_TAG}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Release ref is not strict SemVer: ${RELEASE_TAG}" >&2
+            exit 1
+          fi
+
       - name: Checkout
         uses: actions/checkout@v6
-
+        with:
+          ref: ${{ github.sha }}
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
 
@@ -229,8 +258,20 @@ jobs:
     needs:
       - build-images
       - build-dev
-    if: github.event_name != 'schedule'
+    if: >-
+      (github.event_name == 'push' || github.event_name == 'workflow_dispatch') &&
+      github.ref_type == 'tag'
     steps:
+      - name: Validate release ref
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          set -eu
+          if [[ ! "${RELEASE_TAG}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Release ref is not strict SemVer: ${RELEASE_TAG}" >&2
+            exit 1
+          fi
+
       - name: Download digests
         uses: actions/download-artifact@v8
         with:

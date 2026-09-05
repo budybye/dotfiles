@@ -136,10 +136,14 @@ xrdp_setup() {
 # xrdp 音声リダイレクト: PipeWire + pulseaudio-module-xrdp
 # RDP クライアントの音声は module-xrdp-sink/source 経由。PipeWire では pipewire-pulse が Pulse 互換層になる。
 pipewire_setup() {
-    local build_root="${HOME}/.local/src"
-    local pulse_src_dir="${HOME}/pulseaudio.src"
-    local module_dir="${build_root}/pulseaudio-module-xrdp"
-    local modlibexecdir
+    local build_root pulse_src_dir module_dir modlibexecdir
+    local pulse_repo="https://github.com/neutrinolabs/pulseaudio-module-xrdp.git"
+    local pulse_commit="c27d5395a15b75dd2cd199b6938d4994e6f173fb"
+
+    build_root="$(mktemp -d "${TMPDIR:-/tmp}/pulseaudio-module-xrdp.XXXXXX")"
+    pulse_src_dir="${HOME}/pulseaudio.src"
+    module_dir="${build_root}/pulseaudio-module-xrdp"
+    trap "rm -rf -- '${build_root}'" EXIT
 
     echo "pipewire setup start..."
 
@@ -170,9 +174,13 @@ pipewire_setup() {
         echo "xrdp pulse modules already installed."
     else
         enable_pulse_deb_src
-        mkdir -p "${build_root}"
-        if [ ! -d "${module_dir}/.git" ]; then
-            git clone https://github.com/neutrinolabs/pulseaudio-module-xrdp.git "${module_dir}"
+        git init "${module_dir}"
+        git -C "${module_dir}" remote add origin "${pulse_repo}"
+        git -C "${module_dir}" fetch --depth=1 origin "${pulse_commit}"
+        git -C "${module_dir}" checkout --detach "${pulse_commit}"
+        if [ -n "$(git -C "${module_dir}" status --porcelain)" ]; then
+            echo "Pinned pulseaudio source tree is dirty." >&2
+            exit 1
         fi
 
         cd "${module_dir}"

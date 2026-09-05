@@ -1,16 +1,5 @@
 {
   "providers": {
-    "standard-compute": {
-      "baseUrl": "https://api.stdcmpt.com/v1",
-      "apiKey": "sk_live_A1KX-olZneFZ30djj56-BShAueAFbdIyyGGR2dxu2eU",
-      "api": "openai-completions",
-      "models": [
-        {
-          "id": "standardcompute",
-          "name": "standardcompute"
-        }
-      ]
-    },
     "sakura": {
       "baseUrl": "https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/custom-sakura/v1",
       "apiKey": "$SAKURA_API_KEY",

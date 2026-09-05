@@ -58,6 +58,8 @@ agents:
       - "security-audit"
     "cloudflare/kumo":
       - "kumo-design"
+    "blader/humanizer": 
+    - "humanizer"
     "xrpl-commons/xrpl-dev-skill":
       - "xrpl-dev"
     "peersyst/xrplskills":
@@ -73,6 +75,8 @@ agents:
       - "dependency-updater"
       - "professional-communication"
       - "naming-analyzer"
+      - "marp-slide"
+      - "database-schema-designer"
     "nextlevelbuilder/ui-ux-pro-max-skill":
       - "ui-ux-pro-max"
     "vercel-labs/skills":
@@ -101,7 +105,7 @@ agents:
       - "pptx"
       - "xlsx"
       - "doc-coauthoring"
-      - "algorithmic-art"
+      # - "algorithmic-art"
       # - "brand-guidelines"
       # - "canvas-design"
       # - "internal-comms"
@@ -137,8 +141,8 @@ agents:
       - "archify"
     # "graphify-labs/graphify":
     #   - "graphify" # ubuntu だとエラーになる?
-    "OthmanAdi/planning-with-files":
-      - "planning-with-files"
+    # "OthmanAdi/planning-with-files":
+      # - "planning-with-files"
     "resend/resend-skills":
       - "resend"
     "ayghri/i-have-adhd":
@@ -248,7 +252,6 @@ agents:
     # - "belt"
     # "uinaf/skills:"
     # - "vite-plus"
-    # - "docs"
     # "flare-foundation/flare-ai-skills":
     # - "flare-fassets"
     # - "flare-ftso"
@@ -260,18 +263,8 @@ agents:
     # - "trade"
     # - "x402"
 
-    # "brave/brave-search-skills":
-    # - "answers"
-    # - "images-search"
-    # - "llm-context"
-    # - "local-descriptions"
-    # - "local-pois"
-    # - "news-search"
-    # - "spellcheck"
-    # - "suggest"
-    # - "videos-search"
-
     # "openai/skills":
+      # - "security-best-practices"
     # - "cloudflare-deploy"
     # - "develop-web-game"
     # - "gh-fix-ci"
@@ -283,7 +276,6 @@ agents:
     # - "notion-spec-to-implementation"
     # - "openai-docs" # not in skills list -g
     # - "playwright"
-    # - "security-best-practices"
     #
     # "openai/codex":
     # - "test-tui"
@@ -299,11 +291,11 @@ agents:
     # "affaan-m/everything-claude-code":
     # - "blender-motion-state-inspection"
 
-    # "kepano/obsidian-skills":
-    # - "obsidian-markdown
-    # - "json-canvas"
+    "kepano/obsidian-skills":
+      - "obsidian-markdown"
+      - "obsidian-cli"
+      - "json-canvas"
     # - "obsidian-bases"
-    # - "obsidian-cli"
     # - "defuddle"
 
     # "crypto-agent-trading":
@@ -330,8 +322,8 @@ agents:
     # - "orval"
     # "withastro/flue":
     # - "flue"
-    # "remotion-dev/skills":
-    # - "remotion-best-practices"
+    "remotion-dev/skills":
+    - "remotion-best-practices"
     # "leonardomso/rust-skills":
     # - "rust-skills" # not in skills list -g
     # "mizchi/skills":
