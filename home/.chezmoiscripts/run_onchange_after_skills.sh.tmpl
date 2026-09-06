@@ -20,15 +20,46 @@ fi
 echo "skills"
 echo "--------------------------------"
 # -a zed を指定すると ~/.agents/skills/ にインストールされて symlinkは貼られない
+scan_failed=0
+removed_skills=()
+high_skills=()
 
 {{- range $repo, $skills := .agents.skills }}
 {{- range $skill := $skills }}
 "${skills_command[@]}" add {{ shellQuote $repo }} -s {{ shellQuote $skill }} -a zed -y -g
 skill_path="${HOME}/.agents/skills/"{{ shellQuote $skill }}
-skillspector scan "$skill_path" --no-llm
+scan_status=0
+scan_output="$(skillspector scan "$skill_path" --no-llm 2>&1)" || scan_status=$?
+printf '%s\n' "$scan_output"
+if [[ "$scan_output" =~ Severity[[:space:]]+CRITICAL ]]; then
+    "${skills_command[@]}" rm {{ shellQuote $skill }} -a zed -g -y
+    removed_skills+=({{ shellQuote $skill }})
+elif [[ "$scan_output" =~ Severity[[:space:]]+HIGH ]]; then
+    high_skills+=({{ shellQuote $skill }})
+fi
+if [ "$scan_status" -ne 0 ]; then
+    scan_failed=1
+fi
 {{- end }}
 {{- end }}
 
 echo "--------------------------------"
 skillspector -v || true
+if [ "${#removed_skills[@]}" -gt 0 ]; then
+    echo "CRITICAL skills removed:"
+    printf '  - %s\n' "${removed_skills[@]}"
+else
+    echo "No CRITICAL skills removed."
+fi
+if [ "${#high_skills[@]}" -gt 0 ]; then
+    echo "HIGH skills retained for review:"
+    printf '  - %s\n' "${high_skills[@]}"
+else
+    echo "No HIGH skills found."
+fi
+if [ "$scan_failed" -ne 0 ]; then
+    echo "skills install completed with scan failures." >&2
+    exit "$scan_failed"
+fi
 echo "skills install completed."
+
