@@ -309,6 +309,7 @@ adopt = false
 "apt:ufw" = "latest"
 "apt:rsyslog" = "latest"
 "apt:ruby" = "latest"
+"apt:rsync" = "latest"
 # "apt:rustup" = "latest"
 "apt:command-not-found" = "latest"
 "apt:unzip" = "latest"

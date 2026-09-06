@@ -17,8 +17,10 @@ elif command -v uname >/dev/null 2>&1; then
 fi
 export ARCH
 
+# 非 XDG標準だがよく使われるし 使ってる PATH
 mkdir -p "${HOME}/.local/bin"
 chmod 755 "${HOME}/.local/bin"
+export XDG_BIN_DIR="${HOME}/.local/bin"
 
 # パスを再設定 — mise shims を先頭に置き、非インタラクティブシェル（AI エージェント含む）でもツールを使えるようにする
 export PATH="${HOME}/.local/share/mise/shims:${HOME}/.local/bin:${HOME}/.local/share/cargo/bin:${HOME}/.local/share/go/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:${PATH}"
@@ -75,11 +77,14 @@ export XDG_PICTURES_DIR="${HOME}/Pictures"
 export XDG_VIDEOS_DIR="${HOME}/Movies"
 export XDG_TEMPLATES_DIR="${HOME}/Templates"
 
+# 地域設定
 export TZ="Asia/Tokyo"
+# LC_ALL > LC_CTYPE > LANG
 export LANG="ja_JP.UTF-8"
-export LC_ALL="ja_JP.UTF-8"
 # TUIの表示乱れ防止
 export LC_CTYPE="en_US.UTF-8"
+# 上書きされる
+export LC_ALL="ja_JP.UTF-8"
 
 export TERM="xterm-256color"
 mkdir -p "${XDG_DATA_HOME}/terminfo"
@@ -90,10 +95,10 @@ mkdir -p "${XDG_STATE_HOME}/less"
 touch "${XDG_STATE_HOME}/less/history"
 export LESSHISTFILE="${XDG_STATE_HOME}/less/history"
 
-if [ -d "/tmp" ]; then
-    export TMPDIR="/tmp"
+# if [ -d "/tmp" ]; then
+    # export TMPDIR="/tmp"
     # chmod 1777 "/tmp"
-fi
+# fi
 
 if [ -f "${XDG_RUNTIME_DIR}/Xauthority" ]; then
     export XAUTHORITY="${XDG_RUNTIME_DIR}/Xauthority"
@@ -245,14 +250,10 @@ if command -v npm >/dev/null 2>&1; then
     touch "${XDG_CONFIG_HOME}/npm/config/npm-init.js"
     touch "${XDG_CONFIG_HOME}/npm/npmrc"
     export NPM_CONFIG_USERCONFIG="${XDG_CONFIG_HOME}/npm/npmrc"
-    mkdir -p "${XDG_CACHE_HOME}/npm"
-    mkdir -p "${XDG_DATA_HOME}/npm"
-
-    # if [ -f "${XDG_RUNTIME_DIR}/npm" ]; then
-    #     mkdir -p "${XDG_RUNTIME_DIR}/npm"
-    # fi
-
-    mkdir -p "${XDG_DATA_HOME}/node"
+    mkdir -p \
+        "${XDG_CACHE_HOME}/npm" \
+        "${XDG_DATA_HOME}/npm" \
+        "${XDG_DATA_HOME}/node"
     touch "${XDG_DATA_HOME}/node/node_repl_history"
     export NODE_REPL_HISTORY="${XDG_DATA_HOME}/node/node_repl_history"
 fi
@@ -261,8 +262,6 @@ if command -v pnpm >/dev/null 2>&1; then
     mkdir -p "${XDG_DATA_HOME}/pnpm"
     export PNPM_HOME="${XDG_DATA_HOME}/pnpm"
     mkdir -p "${XDG_DATA_HOME}/pnpm-store"
-    # store-dir="${XDG_DATA_HOME}/pnpm-store"
-    # export store-dir
 fi
 
 if command -v bun >/dev/null 2>&1; then

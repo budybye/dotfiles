@@ -12,7 +12,6 @@ fi
 
 install_gui() {
     $sudo apt-get update
-    # $sudo apt-get install -y xfce4 xrdp xorgxrdp dbus-x11 lightdm gnome-keyring libinput-tools xdg-utils plank picard remmina xsel xclip oneko nyancat libfuse2t64
     $sudo apt-get install -y xfce4 xfce4-goodies xrdp xorgxrdp dbus-x11 lightdm gnome-keyring libinput-tools xdg-utils plank picard remmina xsel xclip oneko nyancat libfuse2t64
 }
 
@@ -53,9 +52,7 @@ install_cursor() {
     
     if command -v cursor >/dev/null 2>&1; then
         echo "cursor already installed."
-    # elif command -v curl >/dev/null 2>&1; then
-        # curl -L https://raw.githubusercontent.com/watzon/cursor-linux-installer/main/install.sh | bash -s -- latest || echo "cursor install failed."
-      else
+    elif command -v curl >/dev/null 2>&1; then
         # Cursor の GPG キーを追加
         curl -fsSL https://downloads.cursor.com/keys/anysphere.asc | gpg --dearmor | $sudo tee /etc/apt/keyrings/cursor.gpg > /dev/null
         
@@ -206,10 +203,6 @@ install_ghostty() {
     if command -v ghostty >/dev/null 2>&1; then
         echo "ghostty already installed."
     else
-    # PPA は amd64 / arm64 両対応 (https://github.com/mkasberg/ghostty-ubuntu)
-    # $sudo apt-get install -y software-properties-common || echo "software-properties-common install failed."
-    # $sudo add-apt-repository -y ppa:mkasberg/ghostty-ubuntu
-    # $sudo apt-get update -y
     # 26.04 以上なら apt install ghostty で入る
     $sudo apt-get install -y ghostty
     echo "ghostty installed."
