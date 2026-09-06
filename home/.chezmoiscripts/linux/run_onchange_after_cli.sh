@@ -74,12 +74,10 @@ install_mise() {
 # 日本語ロケール・タイムゾーン・fcitx5 入力 systemd で分岐
 japan_setup() {
     echo "japan setup start..."
-    # $sudo sudo add-apt-repository ppa:fcitx-team/nightly -y
     $sudo sudo apt-get update -y
     # Ubuntu のパッケージ名は locales (単数形 locale ではない)
     $sudo apt-get install -y language-pack-ja-base language-pack-ja manpages-ja tzdata locales fcitx5-mozc
     
-
     if [ -d /run/systemd/system ] && command -v systemctl >/dev/null 2>&1; then
         $sudo apt-get install -y im-config
         $sudo localectl set-locale LANG=ja_JP.UTF-8

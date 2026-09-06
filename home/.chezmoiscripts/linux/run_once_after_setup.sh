@@ -10,65 +10,6 @@ if [ "$(id -u)" -ne 0 ]; then
     sudo="sudo"
 fi
 
-# pulseaudio-module-xrdp が libpulse の modlibexecdir に入っているか
-xrdp_pulse_modules_installed() {
-    local modlibexecdir match
-    modlibexecdir="$(pkg-config --variable=modlibexecdir libpulse)"
-    for match in "${modlibexecdir}"/*xrdp*; do
-        if [ -e "${match}" ]; then
-            return 0
-        fi
-    done
-    return 1
-}
-
-# pulseaudio-module-xrdp のビルドに必要な deb-src を有効化 (Ubuntu 24.04+ の .sources 形式)
-enable_pulse_deb_src() {
-    if [ -f /etc/apt/sources.list.d/ubuntu.sources ] && ! grep -q 'deb-src' /etc/apt/sources.list.d/ubuntu.sources; then
-        $sudo sed -i 's/Types: deb$/Types: deb deb-src/' /etc/apt/sources.list.d/ubuntu.sources
-        $sudo apt-get update -y
-    fi
-}
-
-# 日本語ロケール・タイムゾーン・fcitx5 入力
-japan_setup() {
-    echo "japan setup start..."
-    # Ubuntu のパッケージ名は locales (単数形 locale ではない)
-    $sudo apt-get install -y language-pack-ja-base language-pack-ja manpages-ja tzdata locales fcitx5-mozc
-    
-
-    if [ -d /run/systemd/system ] && command -v systemctl >/dev/null 2>&1; then
-        $sudo apt-get install -y im-config
-        $sudo localectl set-locale LANG=ja_JP.UTF-8
-        # localectl は LANGUAGE のコロン区切り値をロケールとして拒否するため update-locale を使う
-        $sudo update-locale LANGUAGE=ja_JP:ja
-        # コンテナ/Debian では keymap 設定非対応 ("Setting X11 and console keymaps is not supported in Debian.")
-        if ! $sudo localectl set-x11-keymap jp; then
-            echo "X11 keymap setup skipped (not supported on this system)." >&2
-        fi
-        
-        if ! $sudo localectl set-keymap jp106; then
-            echo "Console keymap setup skipped (not supported on this system)." >&2
-        fi
-
-        $sudo timedatectl set-timezone Asia/Tokyo
-    else
-        # systemd なし (Docker 等): localectl/timedatectl は使えない
-        $sudo locale-gen ja_JP.UTF-8
-        $sudo update-locale LANG=ja_JP.UTF-8 LANGUAGE=ja_JP:ja LC_ALL=ja_JP.UTF-8
-        $sudo ln -snf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
-        echo 'Asia/Tokyo' | $sudo tee /etc/timezone >/dev/null
-    fi
-
-    if [ -n "${DISPLAY:-}" ] || [ -n "${WAYLAND_DISPLAY:-}" ]; then
-        $sudo im-config -n fcitx5
-    else
-        echo "Skipping im-config: no graphical session."
-    fi
-
-    echo "japan setup completed."
-}
-
 # xrdp リモートデスクトップ: 表示マネージャー・グループ・ファイアウォール
 xrdp_setup() {
     echo "xrdp setup start..."
@@ -93,13 +34,8 @@ xrdp_setup() {
     # wayland で起動する場合
     # startxfce4 --wayland
 
-    # packages.yaml の linux.gui と揃える (sddm)
     $sudo apt-get install -y lightdm
-    # $sudo apt-get install -y gdm3
-    # $sudo apt-get install -y sddm
-
     $sudo dpkg-reconfigure lightdm
-    
     # リモートセッションで画面ロックが邪魔にならないよう削除
     # $sudo apt-get remove -y light-locker xscreensaver
 
@@ -126,11 +62,31 @@ xrdp_setup() {
 
     echo "xrdp setup completed."
 
+    # ログイン後、ubuntu ユーザーのパスワード再設定を推奨
     echo "以下のコマンドを実行してパスワードを更新してください"
     echo "sudo passwd $(whoami)"
-    # ログイン後、ubuntu ユーザーのパスワード再設定を推奨
     # パスワードを再設定しないとログインできない?
     # echo "$(whoami):$(whoami)" | $sudo chpasswd
+}
+
+# pulseaudio-module-xrdp が libpulse の modlibexecdir に入っているか
+xrdp_pulse_modules_installed() {
+    local modlibexecdir match
+    modlibexecdir="$(pkg-config --variable=modlibexecdir libpulse)"
+    for match in "${modlibexecdir}"/*xrdp*; do
+        if [ -e "${match}" ]; then
+            return 0
+        fi
+    done
+    return 1
+}
+
+# pulseaudio-module-xrdp のビルドに必要な deb-src を有効化 (Ubuntu 24.04+ の .sources 形式)
+enable_pulse_deb_src() {
+    if [ -f /etc/apt/sources.list.d/ubuntu.sources ] && ! grep -q 'deb-src' /etc/apt/sources.list.d/ubuntu.sources; then
+        $sudo sed -i 's/Types: deb$/Types: deb deb-src/' /etc/apt/sources.list.d/ubuntu.sources
+        $sudo apt-get update -y
+    fi
 }
 
 # xrdp 音声リダイレクト: PipeWire + pulseaudio-module-xrdp
@@ -204,12 +160,8 @@ pipewire_setup() {
 
 echo "setup.sh"
 echo "--------------------------------"
-
-# japan_setup
 xrdp_setup
 pipewire_setup
-# write_xsession
-
 echo "--------------------------------"
 echo "GUI setup done!!"
 echo "--------------------------------"

@@ -24,6 +24,8 @@ echo "--------------------------------"
 {{- range $repo, $skills := .agents.skills }}
 {{- range $skill := $skills }}
 "${skills_command[@]}" add {{ shellQuote $repo }} -s {{ shellQuote $skill }} -a zed -y -g
+skill_path="${HOME}/.agents/skills/"{{ shellQuote $skill }}
+skillspector scan "$skill_path" --no-llm
 {{- end }}
 {{- end }}
 

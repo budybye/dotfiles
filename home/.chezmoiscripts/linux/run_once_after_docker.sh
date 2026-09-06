@@ -23,12 +23,12 @@ install_docker() {
         $sudo apt-get update
 
         $sudo apt-get install -y \
-        docker-ce \
-        docker-ce-cli \
-        containerd.io \
-        docker-buildx-plugin \
-        docker-compose-plugin || \
-        echo "docker install failed."
+            docker-ce \
+            docker-ce-cli \
+            containerd.io \
+            docker-buildx-plugin \
+            docker-compose-plugin || \
+              echo "docker install failed."
 
         $sudo groupadd -f docker
         $sudo usermod -aG docker "$(whoami)"

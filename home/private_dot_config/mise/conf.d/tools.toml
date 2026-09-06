@@ -369,7 +369,7 @@ ninja = "latest"
 duckdb = "latest"
 sqlite = "latest"
 fastfetch = "latest"
-solidity = "0.8.36"      # ethereum/solidity (C++)
+solidity = "latest"      # ethereum/solidity (C++)
 # clickhouse = "latest"
 
 # github (C / C++)

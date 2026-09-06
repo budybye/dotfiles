@@ -59,12 +59,12 @@ agents:
     "cloudflare/kumo":
       - "kumo-design"
     "blader/humanizer": 
-    - "humanizer"
+    - "humanizer" # high
     "xrpl-commons/xrpl-dev-skill":
       - "xrpl-dev"
     "peersyst/xrplskills":
       - "xrpl"
-      - "xrpl-standards"
+      # - "xrpl-standards" # high
     # "xrplf/xrpl-dev-portal":
     # - "xrpl-payments"
     # - "xrpl-agent-wallet"
@@ -78,7 +78,7 @@ agents:
       - "marp-slide"
       - "database-schema-designer"
     "nextlevelbuilder/ui-ux-pro-max-skill":
-      - "ui-ux-pro-max"
+      - "ui-ux-pro-max" # high
     "vercel-labs/skills":
       - "find-skills"
     "vercel-labs/opensrc":
@@ -100,7 +100,7 @@ agents:
     "openai/skills":
       - "security-best-practices"
     "anthropics/skills":
-      - "pdf"
+      - "pdf" # high
       - "docx"
       - "pptx"
       - "xlsx"
@@ -163,7 +163,7 @@ agents:
     "dmmulroy/better-result":
       - "adopt-better-result"
     "coderabbitai/skills":
-      - "autofix"
+      - "autofix" # high
       - "code-review"
     "backnotprop/bro":
       - "bro"
@@ -184,7 +184,7 @@ agents:
     "alinaqi/maggy":
       - "pwa-development"
     "microsoft/playwright-cli":
-      - "playwright-cli"
+      - "playwright-cli" # high
     "remix-run/agent-skills":
       - "react-router-framework-mode"
     "remix-run/remix":

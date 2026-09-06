@@ -73,6 +73,10 @@ extensions:
     - "yoavbls.pretty-ts-errors"
     # - "yzhang.markdown-all-in-one"
 
+  # pi:
+    # - "npm:hotmilk"
+    # - "npm:graphify-pi"
+
   # chrome:
 
   # zed:

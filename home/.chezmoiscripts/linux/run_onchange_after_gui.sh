@@ -144,7 +144,7 @@ install_ruby_fusuma() {
         $sudo gem install fusuma
         $sudo groupadd -f input
         $sudo usermod -aG input "$(whoami)"
-        fusuma -d || true
+        fusuma -d
         echo "fusuma installed."
     else
         echo "gem command not found."
@@ -221,10 +221,12 @@ install_zed() {
 install_vicinae() {
     if command -v vicinae >/dev/null 2>&1; then
         echo "vicinae already installed."
-    else
-        curl -fsSL https://vicinae.com/install | bash || echo "vicinae install failed."
-        echo "vicinae installed."
+    # script だと $TERM がないのでエラー
+    elif ! curl -fsSL https://vicinae.com/install | TERM="${TERM:-dumb}" bash; then
+        echo "vicinae install failed." >&2
+        return 1
     fi
+        echo "vicinae installed."
 }
 
 
