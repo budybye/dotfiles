@@ -5,7 +5,7 @@ set -eu
 # agents.yaml の agents.skills が変更された時に再実行される
 # ハッシュ: {{ .agents.skills | toJson | sha256sum }}
 
-# ここでPATHを追加しないと見つからない
+# ここでPATHを追加しないと見つからない？
 export PATH="${HOME}/.local/bin:${HOME}/.local/share/mise/shims:${HOME}/.local/share/mise/installs:$PATH"
 
 if command -v skills >/dev/null 2>&1; then
@@ -19,10 +19,10 @@ fi
 
 echo "skills"
 echo "--------------------------------"
-# -a zed を指定すると ~/.agents/skills/ にインストールされて symlinkは貼られない
 scan_failed=0
 removed_skills=()
 high_skills=()
+# -a zed を指定すると ~/.agents/skills/ にインストールされて symlinkは貼られない
 
 {{- range $repo, $skills := .agents.skills }}
 {{- range $skill := $skills }}
@@ -44,7 +44,7 @@ fi
 {{- end }}
 
 echo "--------------------------------"
-skillspector -v || true
+
 if [ "${#removed_skills[@]}" -gt 0 ]; then
     echo "CRITICAL skills removed:"
     printf '  - %s\n' "${removed_skills[@]}"
@@ -62,4 +62,4 @@ if [ "$scan_failed" -ne 0 ]; then
     exit "$scan_failed"
 fi
 echo "skills install completed."
-
+echo "--------------------------------"

@@ -33,7 +33,7 @@ agents:
       - "openspec-update-change"
     "rivet-dev/skills":
       - "rivet-actors"
-      - "rivet-agentos"
+      # - "rivet-agentos" # CRITICAL
       # - "rivetkit-client-javascript"
       # - "rivetkit-client-react"
       # - "rivetkit-client-swift"
@@ -59,7 +59,9 @@ agents:
     "cloudflare/kumo":
       - "kumo-design"
     "blader/humanizer": 
-    - "humanizer" # high
+      - "humanizer" # high
+    "gamedev-skills/awesome-gamedev-agent-skills": 
+      - "fps-shooter"
     "xrpl-commons/xrpl-dev-skill":
       - "xrpl-dev"
     "peersyst/xrplskills":
@@ -77,8 +79,8 @@ agents:
       - "naming-analyzer"
       - "marp-slide"
       - "database-schema-designer"
-    "nextlevelbuilder/ui-ux-pro-max-skill":
-      - "ui-ux-pro-max" # high
+    # "nextlevelbuilder/ui-ux-pro-max-skill":
+      # - "ui-ux-pro-max" # CRITICAL
     "vercel-labs/skills":
       - "find-skills"
     "vercel-labs/opensrc":
@@ -97,13 +99,13 @@ agents:
     # - "brave-search"
     # - "browser-tools"
     # - "vscode"
-    "openai/skills":
-      - "security-best-practices"
+    # "openai/skills":
+      # - "security-best-practices" # CRITICAL
     "anthropics/skills":
-      - "pdf" # high
-      - "docx"
-      - "pptx"
-      - "xlsx"
+      # - "pdf" # CRITICAL
+      # - "docx" # CRITICAL
+      # - "pptx" # CRITICAL
+      # - "xlsx" # CRITICAL
       - "doc-coauthoring"
       # - "algorithmic-art"
       # - "brand-guidelines"
@@ -131,20 +133,20 @@ agents:
       - "framer-motion-animator"
     "freshtechbro/claudedesignskills":
       - "threejs-webgl"
-    "cathrynlavery/diagram-design":
-      - "diagram-design"
+    # "cathrynlavery/diagram-design":
+      # - "diagram-design" # CRITICAL
     "digitalsamba/claude-code-video-toolkit":
       - "ffmpeg"
     "blacktop/dotfiles":
       - "ratatui-tui"
-    "tt-a1i/archify":
-      - "archify"
+    # "tt-a1i/archify":
+      # - "archify" # CRITICAL
     # "graphify-labs/graphify":
     #   - "graphify" # ubuntu だとエラーになる?
     # "OthmanAdi/planning-with-files":
       # - "planning-with-files"
-    "resend/resend-skills":
-      - "resend"
+    # "resend/resend-skills":
+      # - "resend" # CRITICAL
     "ayghri/i-have-adhd":
       - "i-have-adhd"
     "jackwener/opencli":
@@ -184,7 +186,7 @@ agents:
     "alinaqi/maggy":
       - "pwa-development"
     "microsoft/playwright-cli":
-      - "playwright-cli" # high
+      - "playwright-cli"
     "remix-run/agent-skills":
       - "react-router-framework-mode"
     "remix-run/remix":
@@ -210,8 +212,8 @@ agents:
       - "daisyui"
     "mengto/skills":
       - "cobejs"
-    "nutlope/hallmark":
-      - "hallmark"
+    # "nutlope/hallmark":
+      # - "hallmark" # CRITICAL
     "thedotmack/claude-mem":
       - "babysit"
     "kepano/obsidian-skills":
@@ -220,8 +222,8 @@ agents:
       - "json-canvas"
     # - "obsidian-bases"
     # - "defuddle"
-    "remotion-dev/skills":
-    - "remotion-best-practices"
+    # "remotion-dev/skills":
+    # - "remotion-best-practices" # CRITICAL
     # "uinaf/skills:"
     # - "vite-plus"
     

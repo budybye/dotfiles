@@ -45,7 +45,7 @@ EnumerateSkipFirst=False
 
 [Behavior]
 # デフォルトで有効にする
-ActiveByDefault=False
+ActiveByDefault=True
 # 入力状態を共有する
 ShareInputState=No
 # アプリケーションにプリエディットを表示する
@@ -63,11 +63,11 @@ DefaultPageSize=5
 # XKB オプションより優先する
 OverrideXkbOption=False
 # カスタム XKB オプション
-CustomXkbOption=
+# CustomXkbOption=
 # Force Enabled Addons
-EnabledAddons=
+# EnabledAddons=
 # Force Disabled Addons
-DisabledAddons=
+# DisabledAddons=
 # Preload input method to be used by default
 PreloadInputMethod=True
 # パスワード欄に入力メソッドを許可する

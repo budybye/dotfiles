@@ -229,6 +229,15 @@ install_vicinae() {
     echo "vicinae installed."
 }
 
+install_openhuman() {
+    # Official installer handles Linux amd64 and arm64 release assets.
+    if command -v openhuman >/dev/null 2>&1 || [ -x "${HOME}/.local/bin/openhuman" ]; then
+        echo "openhuman already installed."
+        return
+    fi
+    curl -fsSL https://raw.githubusercontent.com/tinyhumansai/openhuman/main/scripts/install.sh | bash
+    echo "openhuman installed."
+}
 
 install_obsidian() {
     # amd64: deb / arm64: AppImage
@@ -331,6 +340,7 @@ install_github_desktop
 install_obsidian
 install_ruby_fusuma
 install_vicinae
+install_openhuman
 install_zed
 install_zen
 # install_element_desktop
