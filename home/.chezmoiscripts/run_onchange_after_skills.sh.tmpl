@@ -37,7 +37,7 @@ if [[ "$scan_output" =~ Severity[[:space:]]+CRITICAL ]]; then
 elif [[ "$scan_output" =~ Severity[[:space:]]+HIGH ]]; then
     high_skills+=({{ shellQuote $skill }})
 fi
-if [ "$scan_status" -ne 0 ]; then
+if [ "$scan_status" -ne 0 ] && [[ "$scan_output" != *"SkillSpector Security Report"* ]]; then
     scan_failed=1
 fi
 {{- end }}
