@@ -3,7 +3,7 @@ providers:
   cloudflare-ai-gateway:
     baseUrl: https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/openai/v1
     # headers:
-      # cf-aig-authorization
+      # cf-aig-authorization:
     apiKey: CLOUDFLARE_API_KEY
     auth: apiKey
     api: openai-responses
@@ -54,7 +54,7 @@ providers:
 
   anthropic:
     baseUrl: https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/anthropic
-    # apiKey: CLOUDFLARE_API_KEY
+    apiKey: CLOUDFLARE_API_KEY
     auth: apiKey
     headers:
       cf-aig-authorization: "!printf 'Bearer %s' \"$CLOUDFLARE_API_KEY\""

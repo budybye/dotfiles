@@ -1,6 +1,6 @@
 name: Push to ghcr
 # semver tag push または tag.yaml の workflow_dispatch で full/slim/dev image を GHCR 更新。
-# main push では起動しない。schedule はイメージを公開せず、registry cache を更新する。
+# main push では起動しない。schedule はイメージを公開せず、BuildKit キャッシュを更新する。
 # full は default GUI image、slim は CLI image、dev は Dev Containers image。
 on:
   push:
@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
   schedule:
-    # 日本時間(UTC+9) 16:20 — プラットフォーム別キャッシュの定期更新のみ
+    # 日本時間(UTC+9) 16:20 — プラットフォーム別 BuildKit キャッシュの定期更新のみ
     - cron: "20 7 * * *"
 
 concurrency:
@@ -20,10 +20,9 @@ concurrency:
 
 env:
   REGISTRY_IMAGE: ghcr.io/budybye/ubuntu-dev
-  REGISTRY_CACHE_IMAGE: ghcr.io/budybye/ubuntu-dev-cache
 jobs:
   build-images:
-    # Release builds publish images; schedules refresh shared registry caches without publishing images.
+    # Release builds publish images; schedules refresh BuildKit caches without publishing images.
     if: >-
       github.event_name == 'schedule' ||
       ((github.event_name == 'push' || github.event_name == 'workflow_dispatch') &&
@@ -88,10 +87,13 @@ jobs:
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
+        with:
+          cleanup: false
 
 
 
       - name: Login to GitHub Container Registry
+        if: github.event_name != 'schedule'
         uses: docker/login-action@v4
         with:
           registry: ghcr.io
@@ -107,8 +109,8 @@ jobs:
           build-args: |
             DOTFILES_REF=${{ github.ref_name }}
             DOTFILES_REV=${{ github.sha }}
-          cache-from: type=registry,ref=${{ env.REGISTRY_CACHE_IMAGE }}:v2-${{ matrix.flavor.name }}-${{ env.PLATFORM_PAIR }}
-          cache-to: type=registry,ref=${{ env.REGISTRY_CACHE_IMAGE }}:v2-${{ matrix.flavor.name }}-${{ env.PLATFORM_PAIR }},mode=min
+          cache-from: type=gha,scope=ubuntu-dev-${{ matrix.flavor.name }}-${{ env.PLATFORM_PAIR }}
+          cache-to: type=gha,scope=ubuntu-dev-${{ matrix.flavor.name }}-${{ env.PLATFORM_PAIR }},mode=max
           platforms: ${{ matrix.platform }}
           labels: ${{ steps.meta.outputs.labels }}
           annotations: ${{ steps.meta.outputs.annotations }}
@@ -187,6 +189,8 @@ jobs:
           ref: ${{ github.sha }}
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
+        with:
+          cleanup: false
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v4
@@ -281,6 +285,8 @@ jobs:
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
+        with:
+          cleanup: false
 
       - name: Docker meta
         id: meta

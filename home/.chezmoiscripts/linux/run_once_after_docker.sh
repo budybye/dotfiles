@@ -34,9 +34,9 @@ install_docker() {
         $sudo usermod -aG docker "$(whoami)"
         $sudo systemctl enable docker
 
-        if [ -f /var/run/docker.sock ]; then
-            $sudo chmod 666 /var/run/docker.sock
-        fi
+        # if [ -f /var/run/docker.sock ]; then
+        #     $sudo chmod 666 /var/run/docker.sock
+        # fi
 
         # Dockerデーモンの起動（systemdを使用しない方法）
         if [ -f /var/run/docker.pid ]; then

@@ -147,7 +147,7 @@ if command -v brew >/dev/null 2>&1; then
     export HOMEBREW_NO_INSTALL_CLEANUP=1
     export HOMEBREW_NO_ENV_HINTS=1
     export HOMEBREW_REQUIRE_TAP_TRUST=0
-    export HOMEBREW_FORBIDDEN_FORMULAE="npm pnpm bun python python3 pip uv rust cargo"
+    export HOMEBREW_FORBIDDEN_FORMULAE="npm pnpm bun python python3 pip uv rust cargo go"
 fi
 
 if command -v mise >/dev/null 2>&1; then

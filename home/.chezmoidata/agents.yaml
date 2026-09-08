@@ -46,7 +46,7 @@ agents:
       # - "github-actions"
       # - "hono-cloudflare"
     "cloudflare/skills":
-      - "cloudflare"
+      - "cloudflare" # CRITICAL
       - "durable-objects"
       - "agents-sdk"
       - "workers-best-practices"
@@ -55,7 +55,7 @@ agents:
     # - "rust-review"
     # - "dad-jokes"
     "cloudflare/security-audit-skill":
-      - "security-audit"
+      - "security-audit" # CRITICAL
     "cloudflare/kumo":
       - "kumo-design"
     "blader/humanizer": 
@@ -180,7 +180,7 @@ agents:
     "antfu/skills":
       - "vite"
       - "vitest"
-      - "slidev"
+      - "slidev" # CRITICAL
     "maddhruv/absolute":
       - "absolute-audit"
     "alinaqi/maggy":
@@ -188,7 +188,7 @@ agents:
     "microsoft/playwright-cli":
       - "playwright-cli"
     "remix-run/agent-skills":
-      - "react-router-framework-mode"
+      - "react-router-framework-mode" # CRITICAL
     "remix-run/remix":
       - "remix"
     "astrolicious/agent-skills":

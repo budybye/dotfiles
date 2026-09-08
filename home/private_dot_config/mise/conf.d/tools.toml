@@ -237,7 +237,7 @@ herdr = "latest"    # ogulcancelik/herdr (Rust)
 # oxlint = "latest"
 
 # system / disk / perf
-dua = "latest"
+# dua = "latest"
 dust = "latest"
 bottom = "latest"
 coreutils = "latest"
@@ -342,6 +342,7 @@ yt-dlp = "latest"
 # "pipx:taipy" = "latest" # agents
 # "pipx:semantica" = "latest" # agents
 # "pipx:crow-cli" = "latest" # agents
+# "pipx:pdftotext" = "latest" # pdf
 
 "pipx:sherlock-project/sherlock" = "latest"
 "pipx:NVIDIA/skillspector" = "latest"
