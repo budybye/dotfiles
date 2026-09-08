@@ -1,6 +1,6 @@
 name: Push to ghcr
 # semver tag push または tag.yaml の workflow_dispatch で full/slim/dev image を GHCR 更新。
-# main push では起動しない。schedule はイメージを公開せず、GHA cache を更新する。
+# main push では起動しない。schedule はイメージを公開せず、registry cache を更新する。
 # full は default GUI image、slim は CLI image、dev は Dev Containers image。
 on:
   push:
@@ -20,9 +20,10 @@ concurrency:
 
 env:
   REGISTRY_IMAGE: ghcr.io/budybye/ubuntu-dev
+  REGISTRY_CACHE_IMAGE: ghcr.io/budybye/ubuntu-dev-cache
 jobs:
   build-images:
-    # Release builds may use only protected tag refs; schedules refresh cache without publishing.
+    # Release builds publish images; schedules refresh shared registry caches without publishing images.
     if: >-
       github.event_name == 'schedule' ||
       ((github.event_name == 'push' || github.event_name == 'workflow_dispatch') &&
@@ -91,7 +92,6 @@ jobs:
 
 
       - name: Login to GitHub Container Registry
-        if: github.event_name != 'schedule'
         uses: docker/login-action@v4
         with:
           registry: ghcr.io
@@ -107,8 +107,8 @@ jobs:
           build-args: |
             DOTFILES_REF=${{ github.ref_name }}
             DOTFILES_REV=${{ github.sha }}
-          cache-from: type=gha,scope=v2-${{ matrix.flavor.name }}-${{ env.PLATFORM_PAIR }}
-          cache-to: type=gha,mode=min,scope=v2-${{ matrix.flavor.name }}-${{ env.PLATFORM_PAIR }}
+          cache-from: type=registry,ref=${{ env.REGISTRY_CACHE_IMAGE }}:v2-${{ matrix.flavor.name }}-${{ env.PLATFORM_PAIR }}
+          cache-to: type=registry,ref=${{ env.REGISTRY_CACHE_IMAGE }}:v2-${{ matrix.flavor.name }}-${{ env.PLATFORM_PAIR }},mode=min
           platforms: ${{ matrix.platform }}
           labels: ${{ steps.meta.outputs.labels }}
           annotations: ${{ steps.meta.outputs.annotations }}
@@ -307,7 +307,8 @@ jobs:
         run: |
           shopt -s nullglob
 
-          for flavor in full slim dev; do
+          # Publish full last so the latest tag is the newest manifest in GHCR.
+          for flavor in slim dev full; do
             digest_files=(digests-*-"${flavor}"/*)
             if [ "${#digest_files[@]}" -eq 0 ]; then
               echo "No digest artifacts found for ${flavor}." >&2

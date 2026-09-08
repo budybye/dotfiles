@@ -220,7 +220,7 @@ adopt = false
 "brew:tree" = { os = "macos" }
 "brew:zsh" = "latest"
 
-# "brew-cask:bitwarden" = { os = "macos" }
+"brew-cask:bitwarden" = { os = "macos" }
 "brew-cask:brave-browser" = { os = "macos" }
 # "brew-cask:cloudflare-warp" = { os = "macos" }
 "brew-cask:cursor" = { os = "macos" }

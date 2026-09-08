@@ -5,8 +5,8 @@ providers:
     # headers:
       # cf-aig-authorization
     apiKey: CLOUDFLARE_API_KEY
-    api: openai-responses
     auth: apiKey
+    api: openai-responses
     models:
       - id: gpt-5.6-luna
         name: gpt-5.6-luna
@@ -14,8 +14,8 @@ providers:
   sakura:
     baseUrl: https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/custom-sakura/v1
     apiKey: CLOUDFLARE_API_KEY
-    api: openai-responses
     auth: apiKey
+    api: openai-responses
     models:
       - id: gpt-oss-120b
         name: Chappy
@@ -25,8 +25,8 @@ providers:
   standard-compute:
     baseUrl: https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/custom-standard-compute/v1
     apiKey: CLOUDFLARE_API_KEY
-    api: openai-responses
     auth: apiKey
+    api: openai-responses
     models:
       - id: standard-compute
         name: standard-compute
@@ -34,8 +34,8 @@ providers:
   opencode-go:
     baseUrl: https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/custom-opencode-go/v1
     apiKey: CLOUDFLARE_API_KEY
-    api: openai-responses
     auth: apiKey
+    api: openai-responses
     models:
       - id: gpt-5.6-luna
         name: gpt-5.6-luna
@@ -46,19 +46,19 @@ providers:
   opencode-zen:
     baseUrl: https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/custom-opencode-zen/v1
     apiKey: CLOUDFLARE_API_KEY
-    api: openai-responses
     auth: apiKey
+    api: openai-responses
     models:
       - id: deepseek-v4-flash-free
         name: deepseek-v4-flash-free
 
   anthropic:
     baseUrl: https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/anthropic
-    apiKey: CLOUDFLARE_API_KEY
-    api: openai-responses
+    # apiKey: CLOUDFLARE_API_KEY
     auth: apiKey
     headers:
       cf-aig-authorization: "!printf 'Bearer %s' \"$CLOUDFLARE_API_KEY\""
+    api: openai-responses
     models:
       - id: anthropic/claude-opus-5
         name: Opus-5
@@ -66,10 +66,10 @@ providers:
   google-ai-studio:
     baseUrl: https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/google-ai-studio/v1beta
     apiKey: GOOGLE_API_KEY
-    api: google-generative-ai
     auth: apiKey
     headers:
       cf-aig-authorization: "!printf 'Bearer %s' \"$CLOUDFLARE_API_KEY\""
+    api: google-generative-ai
     models:
       - id: gemini-3.5-flash
         name: Gemini 3.5 Flash

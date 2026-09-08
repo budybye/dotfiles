@@ -125,8 +125,8 @@ agents:
       - "mcp-apps-builder"
     "github/awesome-copilot":
       - "documentation-writer"
-    "ysm-dev/skills":
-      - "web-search"
+    # "ysm-dev/skills":
+      # - "web-search" # ImageResize 失敗する
     "eachlabs/skills":
       - "3d-model-generation"
     "patricio0312rev/skills":

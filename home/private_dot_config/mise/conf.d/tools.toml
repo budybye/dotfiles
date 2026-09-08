@@ -1,7 +1,6 @@
 # mise tools — 実装言語ブロック単位で管理。
 # 各ブロック末尾に github: を置く（GitHub primary language / mise backend 基準）。
 # 例外: uv/ruff は実装が Rust でも Python エコシステムとして Python ブロックへ。
-# Shell/misc と desktop GUI は用途グループ（言語横断）。
 # コメントアウト行も意図的に残している（再有効化用）。
 
 [tools]
@@ -9,6 +8,7 @@
 # "http:android-cli" = "latest"
 # "http:cursor-cli" = "latest"
 # "http:grok" = "latest"
+
 # =============================================================================
 # JavaScript / TypeScript — runtimes / npm CLIs / agent tooling
 # =============================================================================
@@ -51,13 +51,14 @@ watchexec = "latest" # auto runner
 "github:can1357/oh-my-pi" = "latest"
 "github:marp-team/marp-cli" = "latest"
 "github:microsoft/typescript" = "latest"
-"github:yusukebe/ax" = "latest" # curl
+"github:yusukebe/ax" = "latest" # web
 # "github:Egonex-AI/Understand-Anything" = "latest" #graph
 # "github:backnotprop/plannotator" = "latest"
 
 # npm
 "npm:pm2" = "latest"
 "npm:defuddle" = "latest"
+# "npm:omp-web" = "latest"
 "npm:just-scrape" = "latest"
 "npm:nx" = "latest"
 "npm:@antfu/ni" = "latest"
@@ -74,13 +75,14 @@ watchexec = "latest" # auto runner
 "npm:rosie-skills" = "latest"
 "npm:context-mode" = "latest"
 "npm:greptile" = "latest"
-"npm:planning-with-files" = "latest"
+# "npm:planning-with-files" = "latest"
 "npm:@fission-ai/openspec" = "latest"
 "npm:@jackwener/opencli" = "latest"
 "npm:ctx7" = "latest"
 "npm:npkill" = "latest"
 "npm:@hey-api/openapi-ts" = "latest"
 "npm:react-doctor" = "latest"
+# "npm:react-scan" = "latest"
 "npm:codeburn" = "latest" # code
 "npm:jj-stack" = "latest"
 "npm:jj-ryu" = "latest"
@@ -427,12 +429,6 @@ ffmpeg = "latest"        # C
 
 # desktop / GUI（無効化中・用途グループ）
 # "github:ownself/wewa" = "latest" # rust web-wall-papper
-# "github:rustdesk/rustdesk" = "latest"
-# "github:zed-industries/zed" = "latest"         # Rust
-# "github:zen-browser/desktop" = "latest"        # JavaScript
-# "github:obsidianmd/obsidian-releases" = "latest"
-# "github:vicinaehq/vicinae" = "latest"          # C++
-# "github:generalaction/emdash" = "latest"
 # "github:webadderallorg/Recordly" = "latest"    # TypeScript
 
 #ジョーク系
