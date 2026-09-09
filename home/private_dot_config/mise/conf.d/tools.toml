@@ -295,10 +295,10 @@ ast-grep = "latest"
 # "cargo:gitlogue" = "latest"
 # "cargo:gittype" = "latest"
 
-"cargo:rustlings" = "latest" 
-"cargo:cargo-audit" = "latest" 
+# "cargo:rustlings" = "latest" 
+# "cargo:cargo-audit" = "latest" 
 # "cargo:cargo-deny" = "latest" 
-"cargo:cargo-generate" = "latest" 
+# "cargo:cargo-generate" = "latest" 
 # "cargo:cargo-leptos" = "latest" 
 # "cargo:worker-build" = "latest" 
 
