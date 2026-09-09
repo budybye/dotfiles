@@ -294,6 +294,7 @@ ast-grep = "latest"
 # "cargo:alacritty" = "latest"
 # "cargo:gitlogue" = "latest"
 # "cargo:gittype" = "latest"
+# "cargo:kameo_console" = "latest"
 
 # "cargo:rustlings" = "latest" 
 # "cargo:cargo-audit" = "latest" 
