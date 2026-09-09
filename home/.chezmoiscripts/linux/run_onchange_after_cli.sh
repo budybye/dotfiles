@@ -162,9 +162,10 @@ echo "--------------------------------"
 japan_setup
 change_shell_to_zsh
 install_mise
-install_flatpak
 install_go_aqua
 install_mkcert
+install_flatpak
 install_coderabbit
+echo "--------------------------------"
 echo "CLI tools install done."
 echo "--------------------------------"

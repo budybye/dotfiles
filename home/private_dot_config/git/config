@@ -113,9 +113,5 @@
 	helper = 
 	helper = !/Users/hotmilk/.local/share/mise/installs/gh/latest/gh_2.97.0_macOS_arm64/bin/gh auth git-credential
 
-[credential "https://gist.github.com"]
-	helper = 
-	helper = !/Users/hotmilk/.local/share/mise/installs/gh/latest/gh_2.97.0_macOS_arm64/bin/gh auth git-credential
-
 [coderabbit]
 	machineId = cli/1a4d0ca15ac647399db6b5c0fadd3875

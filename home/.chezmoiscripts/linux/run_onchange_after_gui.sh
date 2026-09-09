@@ -381,27 +381,25 @@ install_opencode() {
 
 echo "gui.sh"
 echo "--------------------------------"
-echo "gui tools setup"
-echo "--------------------------------"
 install_gui
-install_orca
+install_brave_browser
 install_cursor
 # install_cloudflare_warp # systemd 必須？
-install_ghostty
+# install_element_desktop
 install_ferdium
+install_ghostty
 install_github_desktop
 install_obsidian
-install_ruby_fusuma
-install_vicinae
 install_openhuman
-install_zed
-install_zen
-# install_element_desktop
+install_orca
 # install_opencode
 # install_tabby_terminal
+install_ruby_fusuma
+install_vicinae
 # install_vscode
 # install_wireshark
-
+install_zed
+install_zen
 echo "--------------------------------"
 echo "desktop setup complete"
 echo "--------------------------------"

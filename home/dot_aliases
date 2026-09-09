@@ -246,7 +246,7 @@ if command -v docker >/dev/null 2>&1; then
     }
 
     ARCH=${ARCH:-$(dpkg --print-architecture || uname -m)}
-    alias dx='docker run --rm -itd --privileged --hostname continer --name dev -p 127.1:33389:3389 -p ghcr.io/budybye/ubuntu-dev:latest ubuntu ubuntu yes'
+    alias dx='docker run --rm -itd --privileged --hostname continer --name dev -p 127.0.0.1:33389:3389 ghcr.io/budybye/ubuntu-dev:latest ubuntu ubuntu yes'
 
     ## 停止コンテナ、タグ無しイメージ、未使用ボリューム、未使用ネットワーク一括削除
     alias drm="docker system prune -af --volumes"
@@ -303,13 +303,16 @@ if command -v brew >/dev/null 2>&1; then
     alias bcp="brew cleanup --prune=all"
     alias bd="brew deps --installed --tree"
     function bu() {
-        brew autoremove && brew update && brew upgrade --greedy && brew doctor
+        brew update && brew upgrade --greedy && brew autoremove
     }
     function bf() {
-      brew bundle cleanup --force --file "${HOME}"/.config/Brewfile
+        brew bundle cleanup --force --file "${HOME}"/.config/Brewfile && brew doctor
     }
     function bb() {
-        bf && bu
+        bu && bf
+    }
+    function bbb() {
+        brew bundle dump --force --file "${HOME}"/.config/homebrew/Brewfile
     }
 fi
 

@@ -4,9 +4,9 @@ cask_args appdir: "/Applications"
 
 # tap "yusukebe/tap"
 # tap "nikitabobko/tap"
-
 # tap "jnsahaj/lumen"
-tap "ferdium/ferdium"
+
+tap "ferdium/ferdium", trusted: true
 
 # formula
 
@@ -247,7 +247,7 @@ cask "font-hackgen-nerd"
 # cask "font-sauce-code-pro-nerd-font"
 cask "ghostty"
 cask "github"
-cask "google-chrome"
+# cask "google-chrome"
 # cask "gimp"
 # cask "google-cloud-sdk"
 # cask "grandperspective"

@@ -115,11 +115,11 @@ layout {
     //     }
     // }
     
-    tab name="docker" {
-        pane {
-            name "lazydocker"
-            cwd "~/Developer"
-            command "lazydocker"
-        }
-    }
+    // tab name="docker" {
+    //     pane {
+    //         name "lazydocker"
+    //         cwd "~/Developer"
+    //         command "lazydocker"
+    //     }
+    // }
 }

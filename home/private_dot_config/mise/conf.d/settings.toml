@@ -1,8 +1,8 @@
 [settings]
 # 相対: 0s / 7d / 6mo / 1y、絶対: 2024-06-01
 # 0s = 無効（最新を即採用）。サプライチェーン遅延が欲しければ 3d/7d に。
-minimum_release_age = "0s"
-# minimum_release_age = "12h"
+# minimum_release_age = "0s"
+minimum_release_age = "12h"
 
 # mise.lock を作成する
 lockfile = false
