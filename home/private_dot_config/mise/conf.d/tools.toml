@@ -194,6 +194,8 @@ glow = "latest"
 # "github:modu-ai/moai-adk" = "latest" # agent
 # "github:plandex-ai/plandex" = "latest"
 
+"aqua:tsenart/vegeta" = "latest"
+
 # "go:github.com/d2lang/d2" = "latest" # diagram
 # "go:github.com/GoogleContainerTools/skaffold" = "latest" # kube
 # "go:github.com/wavetermdev/waveterm" = "latest" # agent
@@ -293,10 +295,10 @@ ast-grep = "latest"
 # "cargo:gitlogue" = "latest"
 # "cargo:gittype" = "latest"
 
-# "cargo:rustlings" = "latest" 
-# "cargo:cargo-audit" = "latest" 
+"cargo:rustlings" = "latest" 
+"cargo:cargo-audit" = "latest" 
 # "cargo:cargo-deny" = "latest" 
-# "cargo:cargo-generate" = "latest" 
+"cargo:cargo-generate" = "latest" 
 # "cargo:cargo-leptos" = "latest" 
 # "cargo:worker-build" = "latest" 
 

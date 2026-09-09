@@ -5,7 +5,7 @@ description: ドキュメント索引
 
 # ドキュメント索引
 
-See [bootstrap.md](bootstrap.md), [platform-matrix.md](platform-matrix.md), [context.md](context.md), [references.md](references.md), [security.md](security.md), [audit-checklist.md](audit-checklist.md), [git-to-jj.md](git-to-jj.md).
+- [keybindings.md](keybindings.md), [bootstrap.md](bootstrap.md), [platform-matrix.md](platform-matrix.md), [context.md](context.md), [references.md](references.md), [security.md](security.md), [audit-checklist.md](audit-checklist.md), [git-to-jj.md](git-to-jj.md).
 
 ## 正本パス（ハイブリッド）
 

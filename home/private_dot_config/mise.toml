@@ -248,8 +248,8 @@ adopt = false
 
 "mas:634148309" = "latest" # logic
 "mas:1429033973" = "latest" # runcat
-"mas:539883307" = "latest" # line
 "mas:462058435" = "latest" # excel
+# "mas:539883307" = "latest" # line
 
 "apt:apt-utils" = { os = "linux" }
 "apt:curl" = { os = "linux" }
@@ -310,9 +310,9 @@ adopt = false
 "apt:rsyslog" = "latest"
 "apt:ruby" = "latest"
 "apt:rsync" = "latest"
-# "apt:rustup" = "latest"
 "apt:command-not-found" = "latest"
 "apt:unzip" = "latest"
+# "apt:rustup" = "latest"
 # "apt:stow" = "latest"
 
 # GUI

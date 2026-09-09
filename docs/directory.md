@@ -40,7 +40,7 @@ description: directory ファイル情報説明
 │   │   ├── TEMPLATE.md              # 計画ひな型
 │   │   └── *.md                     # 日付付き実装計画
 │   ├── plan.md                     # 計画書・索引・実行ガイド
-│   ├── problems.md                 # 環境差の注意点・プラットフォーム差・ライブラリの癖
+│   ├── keybindings.md              # キーバインド設定の管理場所・区分
 │   ├── requirements.md             # 要件定義書
 │   ├── security.md                 # セキュリティ方針・暗号化・シークレット管理
 │   ├── reference.md                # ツール・ライブラリの公式ドキュメント・リポジトリ一覧

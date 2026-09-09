@@ -209,6 +209,59 @@ install_ghostty() {
     fi
 }
 
+install_orca() {
+    local install_dir="${HOME}/Applications"
+    local appimage="${install_dir}/orca"
+    local tmpdir
+    local fuse_package="libfuse2"
+    local gtk_package="libgtk-3-0"
+    local atk_package="libatk1.0-0"
+    local atk_bridge_package="libatk-bridge2.0-0"
+    local alsa_package="libasound2"
+    local cups_package="libcups2"
+    local atspi_package="libatspi2.0-0"
+
+    if [ -x "${appimage}" ]; then
+        echo "orca already installed."
+        return
+    fi
+
+    if apt-cache show libgtk-3-0t64 >/dev/null 2>&1; then
+        gtk_package="libgtk-3-0t64"
+        atk_package="libatk1.0-0t64"
+        atk_bridge_package="libatk-bridge2.0-0t64"
+        alsa_package="libasound2t64"
+        cups_package="libcups2t64"
+        atspi_package="libatspi2.0-0t64"
+        fuse_package="libfuse2t64"
+    fi
+
+    mkdir -p "${install_dir}"
+
+    $sudo apt-get update
+    $sudo apt-get install -y \
+        curl file jq xvfb zlib1g-dev ca-certificates git \
+        "${gtk_package}" libnss3 "${atk_package}" "${atk_bridge_package}" libgbm1 \
+        "${alsa_package}" libxtst6 "${cups_package}" libdrm2 libxkbcommon0 \
+        libpango-1.0-0 libcairo2 "${atspi_package}" libxcomposite1 \
+        libxdamage1 libxfixes3 libxrandr2 libxrender1 libx11-xcb1 \
+        libxcb-dri3-0 libxss1 "${fuse_package}"
+
+    tmpdir="$(mktemp -d "${TMPDIR:-/tmp}/orca.XXXXXX")"
+    cleanup_orca() {
+        rm -rf -- "${tmpdir}"
+    }
+    trap cleanup_orca EXIT
+
+    curl -fsSL https://github.com/stablyai/orca/releases/latest/download/orca-linux.AppImage \
+        -o "${tmpdir}/orca-linux.AppImage"
+    install -D -m 755 "${tmpdir}/orca-linux.AppImage" "${appimage}"
+
+    trap - EXIT
+    cleanup_orca
+    echo "orca installed: ${appimage}"
+}
+
 install_zed() {
     if command -v zed >/dev/null 2>&1; then
         echo "zed already installed."
@@ -331,7 +384,7 @@ echo "--------------------------------"
 echo "gui tools setup"
 echo "--------------------------------"
 install_gui
-install_brave_browser
+install_orca
 install_cursor
 # install_cloudflare_warp # systemd 必須？
 install_ghostty
