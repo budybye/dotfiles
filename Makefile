@@ -30,13 +30,17 @@ MP_MEMORY := 8G
 MP_DISK := 42G
 MP_TIMEOUT := 43210
 
+.PHONY: help version init update apply check test completion doctor verify
+.PHONY: docker-build docker-slim-build docker-run up down exec logs
+.PHONY: vm-create vm-info vm-stop vm-start ssh
+.PHONY: git-commit git-status age-keygen
+.PHONY: clean-docker clean-vm clean list-vms list-containers system-info
+
 ##@ General
 
-.PHONY: help
 help: ## Display this help message
-	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make <target>\n"} /^[a-zA-Z_0-9-]+:.*?##/ { printf "  %-15s %s\n", $$1, $$2 } /^##@/ { printf "\n%s\n", substr($$0, 5) }' $(MAKEFILE_LIST)
+	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make <target>\n"} /^[a-zA-Z_0-9-]+:.*?##/ { printf "  %-20s %s\n", $$1, $$2 } /^##@/ { printf "\n%s\n", substr($$0, 5) }' $(MAKEFILE_LIST)
 
-.PHONY: version
 version: ## Show version information
 	@echo "dotfiles version: $(DOTFILES_VERSION)"
 	@echo "OS: $(OS)"
@@ -44,19 +48,16 @@ version: ## Show version information
 
 ##@ Setup & Installation
 
-.PHONY: init
 init: ## Initialize dotfiles with chezmoi
 	@echo "Initializing dotfiles..."
 	./install.sh
 	@echo "✓ Dotfiles initialized successfully"
 
-.PHONY: update
 update: ## Update dotfiles from remote repository
 	@echo "Updating dotfiles..."
 	chezmoi update
 	@echo "✓ Dotfiles updated successfully"
 
-.PHONY: apply
 apply: ## Apply dotfiles changes
 	@echo "Applying dotfiles changes..."
 	chezmoi apply
@@ -64,13 +65,11 @@ apply: ## Apply dotfiles changes
 
 ##@ Development
 
-.PHONY: check
 check: ## Check dotfiles configuration
 	@echo "Checking dotfiles configuration..."
 	chezmoi diff
 	@echo "✓ Configuration check completed"
 
-.PHONY: test
 test: ## Run tests (template syntax, dry-run)
 	@echo "Verifying template syntax..."
 	@chezmoi execute-template '{{ .chezmoi.sourceDir }}' >/dev/null && echo "  sourceDir: OK" || true
@@ -78,17 +77,14 @@ test: ## Run tests (template syntax, dry-run)
 	@chezmoi apply --dry-run 2>/dev/null && echo "  dry-run: OK" || echo "  dry-run: skipped (age passphrase may be required)"
 	@echo "✓ Tests completed"
 
-.PHONY: completion
 completion: ## Generate chezmoi shell completion (zsh)
 	@chezmoi completion zsh
 
-.PHONY: doctor
 doctor: ## Run chezmoi doctor (health check)
 	@echo "Running chezmoi doctor..."
 	chezmoi doctor
 	@echo "✓ Doctor completed"
 
-.PHONY: verify
 verify: ## Verify chezmoi scripts
 	@echo "Verifying chezmoi scripts..."
 	@chezmoi verify 2>/dev/null && echo "  verify: OK" || echo "  verify: skipped (age passphrase may be required)"
@@ -96,21 +92,18 @@ verify: ## Verify chezmoi scripts
 
 ##@ Docker
 
-.PHONY: docker-build
 docker-build: ## Build Docker image
 	@test -n "$${GITHUB_TOKEN:-}" || { echo "GITHUB_TOKEN is required for Docker builds." >&2; exit 1; }
 	@echo "Building Docker image: $(DOCKER_IMAGE)..."
 	cd .devcontainer && DOCKER_BUILDKIT=1 docker build --secret id=github_token,env=GITHUB_TOKEN -t $(DOCKER_IMAGE) .
 	@echo "✓ Docker image built successfully"
 
-.PHONY: docker-slim-build
 docker-slim-build: ## Build Slim CLI Docker image
 	@test -n "$${GITHUB_TOKEN:-}" || { echo "GITHUB_TOKEN is required for Docker builds." >&2; exit 1; }
 	@echo "Building Slim Docker image: $(DOCKER_SLIM_IMAGE)..."
 	cd .devcontainer && DOCKER_BUILDKIT=1 docker build --secret id=github_token,env=GITHUB_TOKEN -f slim.Dockerfile -t $(DOCKER_SLIM_IMAGE) .
 	@echo "✓ Slim Docker image built successfully"
 
-.PHONY: docker-run
 docker-run: docker-build ## Build and run Docker container
 	@echo "Running Docker container: $(DOCKER_CONTAINER)..."
 	docker run \
@@ -129,7 +122,6 @@ docker-run: docker-build ## Build and run Docker container
 		$(DOCKER_IMAGE)
 	@echo "✓ Docker container started"
 
-.PHONY: up
 up: ## Start Docker Compose services
 	@echo "Starting Docker Compose services..."
 	cd .devcontainer && docker compose up -d --build
@@ -141,19 +133,16 @@ down: ## Stop Docker Compose services
 	cd .devcontainer && docker compose down
 	@echo "✓ Services stopped"
 
-.PHONY: exec
 exec: ## Execute bash in Docker container
 	@echo "Executing bash in $(DOCKER_CONTAINER)..."
 	docker exec -it $(DOCKER_CONTAINER) /bin/bash
 
-.PHONY: logs
 logs: ## Show Docker container logs
 	@echo "Showing logs for $(DOCKER_CONTAINER)..."
 	docker logs -f $(DOCKER_CONTAINER)
 
 ##@ Virtual Machine (Multipass)
 
-.PHONY: vm-create
 vm-create: ## Create Multipass VM
 	@echo "Creating Multipass VM: $(MP_VM)..."
 	multipass launch \
@@ -166,31 +155,26 @@ vm-create: ## Create Multipass VM
 	@echo "✓ VM created successfully"
 	@multipass exec $(MP_VM) -- tail -5 /var/log/cloud-init.log
 
-.PHONY: vm-info
 vm-info: ## Show VM information
 	@echo "VM Information:"
 	multipass info $(MP_VM)
 
-.PHONY: vm-stop
 vm-stop: ## Stop Multipass VM
 	@echo "Stopping VM: $(MP_VM)..."
 	multipass stop $(MP_VM)
 	@echo "✓ VM stopped"
 
-.PHONY: vm-start
 vm-start: ## Start Multipass VM
 	@echo "Starting VM: $(MP_VM)..."
 	multipass start $(MP_VM)
 	@echo "✓ VM started"
 
-.PHONY: ssh
 ssh: ## SSH into Multipass VM
 	@echo "Connecting to $(MP_VM) via SSH..."
 	ssh $(MP_VM)
 
 ##@ Git Operations
 
-.PHONY: git-commit
 git-commit: ## Add, commit, and push changes
 	@echo "Committing and pushing changes..."
 	git add -A
@@ -202,14 +186,12 @@ git-commit: ## Add, commit, and push changes
 	git commit -m "$$msg" && git push origin main
 	@echo "✓ Changes pushed successfully"
 
-.PHONY: git-status
 git-status: ## Show git status
 	@echo "Git Status:"
 	git status
 
 ##@ Security & Encryption
 
-.PHONY: age-keygen
 age-keygen: ## Generate local Mise age identity
 	@mkdir -p "$(HOME)/.config/mise"
 	@chezmoi age-keygen --output="$(HOME)/.config/mise/age.txt"
@@ -218,7 +200,6 @@ age-keygen: ## Generate local Mise age identity
 
 ##@ Cleanup
 
-.PHONY: clean-docker
 clean-docker: ## Clean Docker resources
 	@echo "Cleaning Docker resources..."
 	docker container prune -f || true
@@ -226,14 +207,12 @@ clean-docker: ## Clean Docker resources
 	docker volume prune -f || true
 	@echo "✓ Docker resources cleaned"
 
-.PHONY: clean-vm
 clean-vm: ## Delete Multipass VM
 	@echo "Deleting VM: $(MP_VM)..."
 	multipass delete $(MP_VM) || true
 	multipass purge || true
 	@echo "✓ VM deleted"
 
-.PHONY: clean
 clean: clean-docker ## Clean all temporary resources
 	@echo "Cleaning temporary files..."
 	find . -name "*.tmp" -delete || true
@@ -242,17 +221,14 @@ clean: clean-docker ## Clean all temporary resources
 
 ##@ Information
 
-.PHONY: list-vms
 list-vms: ## List all Multipass VMs
 	@echo "Multipass VMs:"
 	multipass list
 
-.PHONY: list-containers
 list-containers: ## List all Docker containers
 	@echo "Docker Containers:"
 	docker ps -a
 
-.PHONY: system-info
 system-info: ## Display system information
 	@echo "System Information:"
 	@echo "OS: $(OS)"
