@@ -318,6 +318,7 @@ adopt = false
 # GUI
 # "apt:xfce4" = "latest"
 # "apt:xfce4-goodies" = "latest"
+# "apt:xubuntu-wallpapers" = "latest"
 # "apt:xrdp" = "latest"
 # "apt:xorgxrdp" = "latest"
 # "apt:dbus-x11" = "latest"
