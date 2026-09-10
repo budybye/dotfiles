@@ -21,10 +21,10 @@ pnpm = "latest"
 # AI / agent / DX
 pi = "latest"            # earendil-works/pi (TypeScript)
 wacli = "latest"         # whats up
-# copilot = "latest"
+# codex = "latest"
 # opencode = "latest"      # anomalyco/opencode (TypeScript)
 # gemini = "latest"
-# codex = "latest"
+# copilot = "latest"
 
 # secrets / config (JS/TS)
 bitwarden = "latest"     # bitwarden/clients (TypeScript)
@@ -42,9 +42,9 @@ viteplus = "latest"      # npm:vite-plus
 prettier = "latest"
 json5 = "latest"
 orval = "latest"
-# hunk = "latest"          # modem-dev/hunk (TypeScript)
 just = "latest" # test
 watchexec = "latest" # auto runner
+# hunk = "latest"          # modem-dev/hunk (TypeScript)
 # marp-cli = "latest"  # → github:marp-team/marp-cli
 
 # github (TypeScript / JavaScript)
@@ -58,7 +58,7 @@ watchexec = "latest" # auto runner
 # npm
 "npm:pm2" = "latest"
 "npm:defuddle" = "latest"
-# "npm:omp-web" = "latest"
+"npm:omp-web" = "latest"
 "npm:just-scrape" = "latest"
 "npm:nx" = "latest"
 "npm:@antfu/ni" = "latest"
@@ -70,6 +70,7 @@ watchexec = "latest" # auto runner
 "npm:ccxt-cli" = "latest"
 "npm:workers-fetch" = "latest"
 "npm:localflare" = "latest"
+"npm:zenn-cli" = "latest"
 "npm:rnsec" = "latest"
 "npm:skills" = "latest"
 "npm:rosie-skills" = "latest"
@@ -85,18 +86,18 @@ watchexec = "latest" # auto runner
 # "npm:react-scan" = "latest"
 "npm:codeburn" = "latest" # code
 "npm:jj-stack" = "latest"
-"npm:jj-ryu" = "latest"
+# "npm:jj-ryu" = "latest"
 "npm:duckduckgo-cli" = "latest" # web
 "npm:@testsprite/testsprite-cli" = "latest" # test
 "npm:@cyberstrike-io/cyberstrike" = "latest"
 "npm:console-ninja" = "latest"
+# "npm:musubi-ssd" = "latest"
 # "npm:@openhands/agent-canvas" = "latest"
 # "npm:@context-labs/autodoc" = "latest"
 # "npm:@tessl/cli" = "latest" # agents
 # "npm:@keygraph/shannon" = "latest" # agents
 # "npm:iii-sdk" = "latest"
 # "npm:docusaurus" = "latest"
-# "npm:musubi-ssd" = "latest"
 # "npm:bigpowers" = "latest"
 # "npm:docsify-cli" = "latest"
 # "npm:plash" = "latest"
@@ -140,18 +141,18 @@ oapi-codegen = "latest"
 
 # cloud / storage / git UX
 # gcloud = "latest"
-rclone = "latest"
 gh = "latest"
 lazygit = "latest"
 lazydocker = "latest"
 lazyssh = "latest"
+rclone = "latest" # file sync
 pinact = "latest"
 jjui = "latest"          # idursun/jjui (Go)
 
 # security / policy / cost / IaC
 trivy = "latest" # security scanner
 infracost = "latest"
-opentofu = "latest" # cloud
+# opentofu = "latest" # cloud
 # kubectx = "latest"
 # neonctl = "latest"
 # opensearch = "latest"
@@ -179,7 +180,6 @@ glow = "latest"
 "github:smallstep/cli" = "latest" # auth
 "github:fatedier/frp" = "latest" # ssh
 "github:jonaslu/ain" = "latest" # curl 
-"github:daichirata/hammer" = "latest" # gcloud
 "github:reviewdog/reviewdog" = "latest" # review
 "github:syncthing/syncthing" = "latest" # file sync
 "github:ankitpokhrel/jira-cli" = "latest" # github
@@ -190,9 +190,10 @@ glow = "latest"
 "github:pranshuparmar/witr" = "latest" # 天気
 "github:gcla/termshark" = "latest" # wiresharckのtui
 "github:go-gitea/gitea" = "latest" # git系
+# "github:daichirata/hammer" = "latest" # gcloud
 # "github:gabe565/moreutils-go" = "latest" #moreutils
 # "github:modu-ai/moai-adk" = "latest" # agent
-# "github:plandex-ai/plandex" = "latest"
+# "github:plandex-ai/plandex" = "latest" # plan
 
 "aqua:tsenart/vegeta" = "latest"
 
@@ -348,12 +349,13 @@ yt-dlp = "latest"
 # "pipx:pdftotext" = "latest" # pdf
 
 "pipx:sherlock-project/sherlock" = "latest"
-"pipx:NVIDIA/skillspector" = "latest"
+"pipx:NVIDIA/skillspector" = "latest" # skill scan
 "pipx:headroomlabs-ai/headroom" = "latest" # agents
 # "pipx:teng-lin/notebooklm-py" = "latest"
 
 # "pipx:cea-sec/miasm" = "latest"
 
+"conda:openai" = "latest" # graphify label が依存？
 "conda:pypdf" = "latest"
 "conda:lxml" = "latest"
 "conda:defusedxml" = "latest"

@@ -10,7 +10,8 @@ on:
 
   schedule:
     # 日本時間(UTC+9) 16:20 — プラットフォーム別 BuildKit キャッシュの定期更新のみ
-    - cron: "20 7 * * *"
+    - cron: "20 16 * * *"
+      timezone: "Asia/Tokyo"
 
 concurrency:
   # schedule は main と別グループ — workflow_dispatch / 旧 main push がキャッシュ更新をキャンセルしない

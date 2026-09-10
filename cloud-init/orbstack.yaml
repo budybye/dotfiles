@@ -1,0 +1,46 @@
+#cloud-config
+# OrbStack local Linux machine: CLI-first, without xrdp/desktop packages.
+# Create with: orb create ubuntu orb-dev -c cloud-init/orbstack.yaml
+# Enter with:  orb -m orb-dev
+
+hostname: orb-dev
+manage_etc_hosts: true
+timezone: Asia/Tokyo
+locale: ja_JP.UTF-8
+
+package_update: true
+package_upgrade: true
+package_reboot_if_required: false
+package_cleanup: true
+
+# Keep this list small. The repository's full Linux bootstrap is intentionally
+# not invoked here because it installs the GUI profile as well.
+packages:
+  - ca-certificates
+  - curl
+  - git
+  - gh
+  - gnupg
+  - jq
+  - age
+  - make
+  - build-essential
+  - pkg-config
+  - libssl-dev
+  - zsh
+  - tmux
+  - vim
+  - ripgrep
+  - fd-find
+  - fzf
+  - unzip
+  - sudo
+  - locales
+  - language-pack-ja
+
+# OrbStack provides machine access; do not enable password-based SSH login.
+ssh_pwauth: false
+
+final_message: |
+  OrbStack cloud-init finished.
+  Use `orb -m orb-dev` to enter the machine.

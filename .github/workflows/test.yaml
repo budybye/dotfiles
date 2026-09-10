@@ -90,6 +90,19 @@ jobs:
       - name: make
         run: make init
 
+  orbstack:
+    runs-on: macos-26
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v6
+      - name: Install OrbStack
+        run: brew install --cask orbstack
+      - name: Start OrbStack machine
+        run: |
+          orb create ubuntu orb-dev -c cloud-init/orbstack.yaml
+          orb -m orb-dev cloud-init status --wait
+          orb -m orb-dev uname -a
+
   powershell:
     runs-on: windows-latest
     steps:

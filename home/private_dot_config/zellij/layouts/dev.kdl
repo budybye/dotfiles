@@ -20,31 +20,33 @@ layout {
 
     tab name="101" {
         pane split_direction="vertical" {
-            pane split_direction="horizontal" {
-                pane {
-                    name "home"
-                    cwd "~"
-                    command "btm"
-                }
-                pane {
-                    name "dotfiles"
-                    cwd "~/dotfiles"
-                    command "fastfetch"
-                    focus true
-                }
+            pane {
+                name "home"
+                cwd "~"
+                command "btm"
             }
-            pane split_direction="horizontal" {
-                pane {
-                    name "ncmpcpp"
-                    cwd "~/Music"
-                    command "ncmpcpp"
-                }
-                pane {
-                    name "Data"
-                    cwd "~/data"
-                    command "cat"
-                    args "./cat.txt"
-                }
+            pane {
+                name "dotfiles"
+                cwd "~/dotfiles"
+                command "fastfetch"
+                focus true
+            }
+        }
+    }
+
+        tab name="102" {
+        pane split_direction="horizonatl" {
+            pane {
+                name "ncmpcpp"
+                cwd "~/Music"
+                command "ncmpcpp"
+                focus true
+            }
+            pane {
+                name "Data"
+                cwd "~/data"
+                command "cat"
+                args "./cat.txt"
             }
         }
     }

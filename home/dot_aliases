@@ -269,6 +269,13 @@ if command -v multipass >/dev/null 2>&1; then
     # alias ms="mp stop ubuntu && mp delete -p ubuntu && mp list"
 fi
 
+# OrbStack
+if command -v orb >/dev/null 2>&1; then
+    alias ob="orb"
+    alias oc='orb create ubuntu orb-dev -c "${HOME}/dotfiles/cloud-init/orbstack.yaml"'
+    alias os='orb -m orb-dev'
+fi
+
 # kube
 if command -v kubectl >/dev/null 2>&1; then
     alias k="kubectl"

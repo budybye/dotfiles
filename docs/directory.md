@@ -26,6 +26,7 @@ description: directory ファイル情報説明
 │   ├── lxd.yaml                    # LXD設定
 │   ├── multipass.yaml              # Multipass設定
 │   ├── network-config              # ネットワーク設定
+│   ├── orbstack.yaml               # OrbStack設定
 │   ├── template.cfg                # テンプレート設定
 │   └── user-data                   # ユーザーデータ
 ├── docs/                           # ドキュメント

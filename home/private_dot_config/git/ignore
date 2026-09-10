@@ -110,6 +110,11 @@ sites/*/files
 .atl
 .codegraph
 graphify-out
+.graphifyignore
+
+# openspec
+# openspec/*
+# !openspec/config.yaml
 
 # musubi
 steering

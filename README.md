@@ -96,12 +96,22 @@ make vm-stop
 make clean-vm
 ```
 
+## OrbStack
+
+```sh
+orb create ubuntu orb-dev -c cloud-init/orbstack.yaml
+orb -m orb-dev
+```
+
+OrbStack用のcloud-initはCLI中心で、xrdpやデスクトップ環境を含めません。
+
 ## 対応プラットフォーム
 
 - macOS Sequoia 15 以降
 - Ubuntu 26.04 LTS
 - Docker
 - Multipass
+- OrbStack
 
 WSL2、Windows、FreeBSD は将来対応予定です。対応範囲と package 要件は [要件定義](docs/requirements.md) を参照してください。
 

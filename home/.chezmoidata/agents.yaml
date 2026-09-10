@@ -226,6 +226,13 @@ agents:
     # - "remotion-best-practices" # CRITICAL
     # "uinaf/skills:"
     # - "vite-plus"
+    "leonardomso/rust-skills":
+      - "rust-skills"
+    "jeffallan/claude-skills":
+      - "rust-engineer"
+      
+    # "0xinit/cryptoskills": 
+      # - "ethers-js"
     
     # "wshobson/agents":
     # - "react-state-management"
