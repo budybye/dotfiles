@@ -5,7 +5,7 @@ description: dotfiles セキュリティ — 脅威モデルとレビューチ�
 
 # セキュリティガイド
 
-このリポジトリの秘密情報・信頼境界・供給鎖リスクの整理です。プロのペンテストの代替ではありません。実施タイミングは `openspec/changes/chezmoi-to-mise-migration/tasks.md` §11 を参照。
+このリポジトリの秘密情報・信頼境界・供給鎖リスクの整理です。プロのペンテストの代替ではありません。実施タイミングは [ROADMAP.md](../ROADMAP.md) の M4 と、対象変更の完了条件に従います。
 
 ## 秘密の境界（chezmoi vs mise）
 
@@ -42,7 +42,7 @@ description: dotfiles セキュリティ — 脅威モデルとレビューチ�
 | S5 | GitHub token が source state/image layer にない | `GITHUB_TOKEN` / `MISE_GITHUB_TOKEN` の経路確認 |
 | S6 | age identity の権限が `600` | `stat ~/.config/mise/age.txt` |
 | S7 | Mise `age.strict` が意図せず無効化されていない | Mise config review |
-| S8 | 外部 URL と install script が supply-chain 境界内にある | `.chezmoiexternal.toml.tmpl` / scripts review |
+| S8 | 外部 URL と install script が supply-chain 境界内にある | `.chezmoiexternal.toml` / scripts review |
 
 ### 実施ゲート
 
@@ -60,8 +60,18 @@ description: dotfiles セキュリティ — 脅威モデルとレビューチ�
 
 ## 関連
 
-- [audit-checklist.md](audit-checklist.md)
-- [bootstrap.md](bootstrap.md)
+- [README.md の Platform rules](../README.md#platform-rules)
 - `home/.chezmoi.toml.tmpl`, `home/.chezmoiignore`
 - `home/private_dot_config/mise/config.toml`
-- OpenSpec: `openspec/changes/chezmoi-to-mise-migration/design.md` — **Security review**
+- [ROADMAP.md](../ROADMAP.md)
+
+## 監査チェックリスト
+
+移行前 baseline と変更後に、次を確認する:
+
+1. `chezmoi managed/unmanaged/ignored` と `.chezmoiscripts` の所有境界
+2. `encrypted_*`、CI/Docker の secret 除外、外部 URL の固定
+3. package parity と二重 apply の冪等性
+4. `chezmoi verify`、秘密情報を含まないログ、rollback 手順
+
+詳細な実施順序は `ROADMAP.md` の M4 と対象変更の完了条件に従う。

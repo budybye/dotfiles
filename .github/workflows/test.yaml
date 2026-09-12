@@ -67,7 +67,7 @@ jobs:
           sudo apt-get autoremove -y >/dev/null 2>&1 || true
           sudo apt-get autoclean -y >/dev/null 2>&1 || true
           df -h
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: make
         run: make init
 
@@ -76,7 +76,7 @@ jobs:
     env:
       MISE_GITHUB_TOKEN: ${{ secrets.MISE_GITHUB_TOKEN }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: make
         run: make init
 
@@ -86,28 +86,35 @@ jobs:
     env:
       MISE_GITHUB_TOKEN: ${{ secrets.MISE_GITHUB_TOKEN }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: make
         run: make init
 
-  orbstack:
-    runs-on: macos-26
-    timeout-minutes: 30
-    steps:
-      - uses: actions/checkout@v6
-      - name: Install OrbStack
-        run: brew install --cask orbstack
-      - name: Start OrbStack machine
-        run: |
-          orb create ubuntu orb-dev -c cloud-init/orbstack.yaml
-          orb -m orb-dev cloud-init status --wait
-          orb -m orb-dev uname -a
+#  orbstack:
+#    # Requires a physical self-hosted macOS runner; hosted macOS lacks nested virtualization.
+#    if: vars.ORBSTACK_RUNNER == 'true'
+#    runs-on: [self-hosted, macOS]
+#    timeout-minutes: 30
+#    steps:
+#      - uses: actions/checkout@v7
+#      - name: Install OrbStack
+#        run: brew install --cask orbstack
+#      - name: Reset OrbStack test machine
+#        run: orb delete orb-dev || true
+#      - name: Start OrbStack machine
+#        run: |
+#          orb create ubuntu orb-dev -c cloud-init/orbstack.yaml
+#          orb -m orb-dev cloud-init status --wait
+#          orb -m orb-dev uname -a
+#      - name: Cleanup OrbStack machine
+#        if: always()
+#        run: orb delete orb-dev || true
 
   powershell:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v6
-      - uses: MinoruSekine/setup-scoop@v4.0.1
+      - uses: actions/checkout@v7
+      - uses: MinoruSekine/setup-scoop@v5.0.1
         with:
           buckets: extras
           apps: curl make git
@@ -115,10 +122,10 @@ jobs:
   windows-11-arm64:
     runs-on: windows-11-arm
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       # - name: Install winget
-      #   uses: Cyberboss/install-winget@v1
+      # - uses: Cyberboss/install-winget@v1
       # - name: Install winget
       #   run: |
       #     winget install Microsoft.PowerToys
@@ -126,14 +133,14 @@ jobs:
   wsl2:
     runs-on: windows-2025
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
   lxd:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Setup LXD
-        uses: canonical/setup-lxd@main
+        uses: canonical/setup-lxd@v1
         with:
           channel: latest/edge
 
@@ -153,9 +160,9 @@ jobs:
   rpi:
     runs-on: ubuntu-26.04-arm
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Setup LXD
-        uses: canonical/setup-lxd@main
+        uses: canonical/setup-lxd@v1
         with:
           channel: latest/edge
 
@@ -172,6 +179,6 @@ jobs:
   #   env:
   #     MISE_GITHUB_TOKEN: ${{ secrets.MISE_GITHUB_TOKEN }}
   #   steps:
-  #     - uses: actions/checkout@v6
+#     - uses: actions/checkout@v7
   #     - name: make
   #       run: make init

@@ -30,25 +30,15 @@ description: directory ファイル情報説明
 │   ├── template.cfg                # テンプレート設定
 │   └── user-data                   # ユーザーデータ
 ├── docs/                           # ドキュメント
-│   ├── architecture/               # C4 アーキテクチャ図（Mermaid）
-│   │   ├── README.md               # 索引
-│   │   ├── c4-context.md           # Level 1 System Context
-│   │   ├── c4-containers.md        # Level 2 Container
-│   │   ├── c4-components-source.md # Level 3 Source tree
-│   │   ├── c4-deployment.md        # Level 4 Deployment
-│   │   └── c4-dynamic-*.md         # apply / bootstrap / CI フロー
-│   ├── plans/                      # 実装計画（.cursor/plans/ への参照・索引用）
-│   │   ├── TEMPLATE.md              # 計画ひな型
-│   │   └── *.md                     # 日付付き実装計画
-│   ├── plan.md                     # 計画書・索引・実行ガイド
-│   ├── keybindings.md              # キーバインド設定の管理場所・区分
-│   ├── requirements.md             # 要件定義書
-│   ├── security.md                 # セキュリティ方針・暗号化・シークレット管理
-│   ├── reference.md                # ツール・ライブラリの公式ドキュメント・リポジトリ一覧
-│   ├── design.md                   # 詳細設計書（XDG仕様含む）
-│   ├── tasks.md                    # タスク管理と実行計画書(AI管理、更新)
-│   ├── tech.md                     # 技術スタック・実装詳細・ワークフロー（Chezmoi、パッケージ管理含む）
-│   └── directory.md                # ディレクトリ構成設計
+│   ├── requirements.md             # 要件定義・ゴール
+│   ├── architecture.md             # 詳細設計・アーキテクチャ
+│   ├── test.md                     # 検証設計・テストガイド
+│   ├── tech.md                     # 技術スタック・正本
+│   ├── directory.md                # ディレクトリ構成・命名規則
+│   ├── security.md                 # セキュリティ・秘密情報
+│   ├── problems.md                 # 環境差分・注意点
+│   └── references.md               # 外部資料・参照リンク
+├── ROADMAP.md                      # 目標・進捗
 ├── home/                           # ホームディレクトリ設定
 │   ├── .chezmoidata/               # Chezmoiデータ
 │   │   └── packages.yaml           # パッケージ設定
@@ -177,7 +167,7 @@ description: directory ファイル情報説明
 │   │       ├── dot_zprofile
 │   │       └── dot_zshrc
 │   ├── .chezmoi.toml.tmpl          # Chezmoiメイン設定
-│   ├── .chezmoiexternal.toml.tmpl  # 外部リソース管理
+│   ├── .chezmoiexternal.toml       # 外部リソース管理
 │   ├── .chezmoiignore              # 除外ファイル設定
 │   ├── dot_bash_profile            # Bashプロファイル
 │   ├── dot_bashrc                  # Bash設定
@@ -207,8 +197,7 @@ description: directory ファイル情報説明
 
 ### Chezmoi 管理
 
-- **メイン設定**: `home/.chezmoi.toml.tmpl`
-- **外部リソース**: `home/.chezmoiexternal.toml.tmpl`
+- **外部リソース**: `home/.chezmoiexternal.toml`
 - **除外設定**: `home/.chezmoiignore`
 - **データ設定**: `home/.chezmoidata/`
 
@@ -237,8 +226,7 @@ description: directory ファイル情報説明
 
 ### Chezmoi 設定ファイル
 
-- `.chezmoi.toml.tmpl`: メイン chezmoi 設定テンプレート
-- `.chezmoiexternal.toml.tmpl`: 外部ファイルとアーカイブ管理
+- `.chezmoiexternal.toml`: 外部ファイルとアーカイブ管理
 - `.chezmoiignore`: chezmoi で無視するファイル
 - `.chezmoidata/`: テンプレート変数データ
 
@@ -298,241 +286,5 @@ Chezmoi スクリプトは `.chezmoiscripts/` ディレクトリ内に配置す�
 {{ if ne .chezmoi.os "linux" }}
 .config/fcitx5
 .config/fusuma
-.local/share/fonts
-.local/share/icons
-.local/share/themes
-.chezmoiscripts/linux/**
-{{ end }}
 
-.chezmoiexternal.*
-key.txt.age
-```
-
-この設計により、OS 固有の設定ファイルを適切に除外し、クロスプラットフォーム対応を実現しています。
-
-### 外部ファイル管理
-
-`.chezmoiexternal.toml.tmpl`で外部リソースを管理します：
-
-#### サポートされるタイプ
-
-- `file`: 単一ファイルダウンロード
-- `archive`: アーカイブを展開
-- `archive-file`: アーカイブから特定ファイルを展開
-- `git-repo`: Git リポジトリのクローン/更新
-
-#### 設定例
-
-```toml
-[".vim/autoload/plug.vim"]
-    type = "file"
-    url = "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
-    refreshPeriod = "168h"
-
-[".oh-my-zsh"]
-    type = "archive"
-    url = "https://github.com/ohmyzsh/ohmyzsh/archive/master.tar.gz"
-    exact = true
-    stripComponents = 1
-    refreshPeriod = "168h"
-
-# GitHub releaseから最新のバイナリを取得
-[".local/bin/age"]
-    type = "archive-file"
-    url = {{ gitHubLatestReleaseAssetURL "FiloSottile/age" (printf "age-*-%s-%s.tar.gz" .chezmoi.os .chezmoi.arch) | quote }}
-    executable = true
-    path = "age/age"
-    refreshPeriod = "168h"
-```
-
-### テンプレート変数システム
-
-#### 組み込み変数
-
-- OS 固有設定: `{{ if eq .chezmoi.os "darwin" }}`
-- アーキテクチャ設定: `{{ .chezmoi.arch }}`
-- ユーザ情報: `{{ .chezmoi.username }}`
-- ホスト情報: `{{ .chezmoi.hostname }}`
-
-#### カスタムデータ
-
-- `.chezmoidata/`ディレクトリ内の YAML/TOML/JSON ファイル
-- `.chezmoi.toml.tmpl`の`[data]`セクション
-- 環境変数: `{{ env "VAR_NAME" }}`
-
-#### パスワードマネージャ統合
-
-```go
-{{ bitwarden "item" "name" }}
-{{ onepassword "vault" "item" "field" }}
-{{ keepassxc "database" "entry" "attribute" }}
-```
-
-#### Go テンプレート構文
-
-- Go text/template を拡張した sprig 関数ライブラリを活用
-- OS 固有設定に`{{ if eq .chezmoi.os "darwin" }}`パターンを使用
-- 環境変数アクセスに`{{ env "VAR_NAME" }}`を使用
-- `{{ bitwarden "item" "name" }}`等でパスワードマネージャ統合を活用
-
-##### 条件付き設定
-
-```go
-# 環境ベースの設定
-{{ if eq .chezmoi.hostname "work-laptop" }}
-# 仕事固有設定
-{{ else if eq .chezmoi.hostname "personal-desktop" }}
-# 個人設定
-{{ end }}
-
-# 機能フラグ
-{{ if .features.development }}
-# 開発ツールとエイリアス
-{{ end }}
-```
-
-##### マルチ環境サポート
-
-```toml
-# .chezmoi.toml.tmpl
-[data]
-    {{- if eq .chezmoi.hostname "work-laptop" }}
-    profile = "work"
-    git_email = {{ onepassword "Work" "git" "email" | quote }}
-    {{- else }}
-    profile = "personal"
-    git_email = {{ bitwarden "personal" "git-email" | quote }}
-    {{- end }}
-```
-
-### コマンドリファレンス
-
-#### 日常操作
-
-```sh
-# 設定ファイルを編集（透明暗号化サポート付き）
-chezmoi edit ~/.ssh/config
-
-# 変更をプレビュー
-chezmoi diff
-
-# 変更を適用
-chezmoi apply
-
-# ソースディレクトリに移動
-chezmoi cd
-
-# 設定のヘルスチェック
-chezmoi doctor
-```
-
-#### ファイル管理
-
-```sh
-# 新しい設定ファイルを追加
-chezmoi add ~/.gitconfig
-
-# テンプレートとして追加
-chezmoi add --template ~/.ssh/config
-
-# 暗号化ファイルとして追加
-chezmoi add --encrypt ~/.ssh/private_key
-
-# 実行可能ファイルとして追加
-chezmoi add --executable ~/.local/bin/script
-```
-
-#### セキュリティと暗号化
-
-##### Age 暗号化
-
-Chezmoi の encrypted files は age passphrase/symmetric で暗号化します。`chezmoi decrypt` / `chezmoi apply` の実行時に passphrase を入力します。
-
-```sh
-# Chezmoi encrypted file の追加
-chezmoi add --encrypt ~/.ssh/private_key
-
-# Mise direct-age 用 identity
-make age-keygen
-```
-
-Mise runtime secrets は `mise set --age-encrypt --prompt` で `mise.toml` に保存します。Mise identity は Chezmoi passphrase と分離します。
-
-#### GitHub token
-
-Mise は CI の `GITHUB_TOKEN` と local の `gh` credential fallback を使います。token を source state、`.env`、Docker image に保存しません。
-
-#### テストと検証
-
-##### ローカルテスト
-
-```sh
-# 設定チェックを実行（Makefile経由）
-make check
-# 詳細: [設計書 - Makefile 設計 - 開発](./design.md#開発)
-
-# 分離されたDocker環境でテスト（Makefile経由）
-make docker-run
-# 詳細: [設計書 - Makefile 設計 - Docker コマンド](./design.md#docker-コマンド)
-
-# chezmoi設定を検証
-chezmoi diff
-chezmoi doctor
-chezmoi verify
-```
-
-##### デバッグツール
-
-```sh
-# トラブルシューティングのための詳細出力
-chezmoi apply --verbose
-
-# 変更をプレビューするためのドライラン
-chezmoi apply --dry-run
-
-# テンプレート実行のデバッグ
-chezmoi execute-template < template.tmpl
-
-# 外部ファイルソースを検証
-chezmoi managed
-```
-
-#### ヘルスモニタリング
-
-```sh
-# 総合的なシステム情報（Makefile経由）
-make system-info
-
-# リソース一覧（Makefile経由）
-make list-containers
-make list-vms
-# 詳細: [設計書 - Makefile 設計 - 情報コマンド](./design.md#情報コマンド)
-
-# Chezmoi固有のヘルスチェック
-chezmoi doctor
-chezmoi verify
-chezmoi unmanaged
-```
-
-### Chezmoi リファレンスドキュメント
-
-#### 優先ドキュメント
-
-1. [Chezmoi 公式ユーザーガイド](https://chezmoi.io/user-guide/command-overview/) - コマンド概要とワークフロー
-2. [Chezmoi テンプレート機能](https://chezmoi.io/user-guide/templating/) - テンプレート構文とベストプラクティス
-3. [Chezmoi 外部ファイル管理](https://chezmoi.io/user-guide/include-files-from-elsewhere/) - 外部リソース統合
-4. [Chezmoi パスワードマネージャ統合](https://chezmoi.io/user-guide/password-managers/) - シークレット管理
-5. [Chezmoi 暗号化](https://chezmoi.io/user-guide/encryption/) - Age/GPG 暗号化
-6. [Chezmoi リファレンス](https://chezmoi.io/reference/) - 完全な API リファレンス
-
-#### ベストプラクティスリファレンス
-
-- [Tom Payne の dotfiles](https://github.com/twpayne/dotfiles) - Chezmoi 作成者によるリファレンス実装
-- [Chezmoi 設計哲学](https://chezmoi.io/user-guide/frequently-asked-questions/design/) - 設計哲学と制約
-
-## 関連ドキュメント
-
-- [要件定義](./requirements.md) - 対応 OS・ツール要件
-- [設計書](./design.md) - Makefile 設計
-- [タスク管理](./tasks.md)
-- [技術スタック](./tech.md) - パッケージ管理
+[Showing lines 1-300 of 539. Use :301 to continue]

@@ -16,7 +16,7 @@ jobs:
       contents: read
     steps:
       # - name: Checkout
-      #   uses: actions/checkout@v6
+      #   uses: actions/checkout@v7
       #   with:
       #     fetch-depth: 0
 
@@ -35,7 +35,7 @@ jobs:
           rm -f objects/pack/*
 
       - name: Pin to IPFS
-        uses: aquiladev/ipfs-action@master
+        uses: aquiladev/ipfs-action@v0.3.2-0
         id: ipfs
         with:
           path: ./dotfiles

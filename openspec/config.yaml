@@ -1,34 +1,55 @@
 schema: spec-driven
+
 githubCopilot:
   cloudAgent: false
 
-# Project context (optional)
-# This is shown to AI when creating artifacts.
-# Add your tech stack, conventions, style guides, domain knowledge, etc.
-# Example:
-#   context: |
-#     Tech stack: TypeScript, React, Node.js
-#     We use conventional commits
-#     Domain: e-commerce platform
+# Repository context for optional, structured change planning.
+context: |
+  This repository manages macOS and Ubuntu dotfiles with Chezmoi and Mise.
 
-# Per-artifact rules (optional)
-# Add custom rules for specific artifacts.
-# Example:
-#   rules:
-#     proposal:
-#       - Keep proposals under 500 words
-#       - Always include a "Non-goals" section
-#     tasks:
-#       - Break tasks into chunks of max 2 hours
+  Canonical sources:
+  - README.md: entry point, document index, and source-of-truth map
+  - AGENTS.md: agent workflow and repository constraints
+  - docs/: human-facing requirements, architecture, operations, security, and reference docs
+  - ROADMAP.md: project milestones and high-level implementation order
+  - executable configuration files: actual behavior and package/tool definitions
 
-# Per-operation guidance (optional)
-# Add advisory guidance for how apply and archive work should be conducted.
-# This is separate from artifact rules above.
-# Example:
-#   operations:
-#     apply:
-#       guidance:
-#         - Keep test summaries concise
-#     archive:
-#       guidance:
-#         - Summarize the archive outcome before finishing
+  OpenSpec is optional. Use openspec/changes/ for detailed requirements, design,
+  and implementation tasks when a change benefits from structured tracking. Keep
+  planning detail out of docs/; docs/ must remain useful without OpenSpec.
+  OpenSpec artifacts may reference README.md, docs/, and ROADMAP.md. Do not add
+  reverse dependencies from docs/ to OpenSpec. Archived changes belong under
+  openspec/changes/archive/.
+
+  Read only the documentation relevant to the artifact:
+  - README.md and ROADMAP.md for project scope and milestones
+  - docs/architecture.md: system design and ownership boundaries
+  - docs/problems.md: platform differences and known pitfalls
+  - docs/requirements.md: goals and supported platforms
+  - docs/security.md: trust boundaries and audit gates
+  - docs/test.md: verification contracts
+  - docs/directory.md: layout and naming rules
+  - docs/references.md: external sources
+  - docs/tech.md: technology choices and configuration sources of truth
+
+  Do not duplicate full tool catalogs, command references, or generated directory
+  listings in OpenSpec artifacts. Link to the executable source of truth instead.
+
+rules:
+  proposal:
+    - State the problem, scope, non-goals, and affected capabilities.
+    - Link to canonical README/docs/ROADMAP content instead of duplicating it.
+  design:
+    - Record decisions, boundaries, risks, and rollback considerations.
+    - Keep behavior contracts separate from operational how-to documentation.
+  tasks:
+    - Use numbered checkbox tasks with an observable verification condition.
+
+operations:
+  apply:
+    guidance:
+      - Verify the relevant README/docs/ROADMAP contract before changing implementation files.
+  archive:
+    guidance:
+      - Archive only completed changes and preserve the archive metadata.
+      - Summarize whether delta specs were synced and list any warnings.

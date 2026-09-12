@@ -16,7 +16,7 @@
 ## 4. Secrets and external resources
 
 - [ ] 4.1 Harden age and Bitwarden template branches for real hosts versus CI, containers, and sandboxes; verify missing-secret behavior fails clearly without installing placeholder credentials
-- [ ] 4.2 Pin or verify external resource references in `home/.chezmoiexternal.toml.tmpl`; verify template rendering, refresh metadata, and preservation of an existing resource when refresh fails
+- [ ] 4.2 Pin or verify external resource references in `home/.chezmoiexternal.toml`; verify template rendering, refresh metadata, and preservation of an existing resource when refresh fails
 
 ## 5. Validation and CI gates
 

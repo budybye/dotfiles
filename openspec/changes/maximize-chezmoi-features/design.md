@@ -1,6 +1,6 @@
 ## Context
 
-See `proposal.md` for motivation. The repository already uses a Chezmoi source tree, a templated `home/.chezmoi.toml.tmpl`, `.chezmoidata/packages.yaml`, platform-specific `.chezmoiscripts` directories, encrypted files, and `.chezmoiexternal.toml.tmpl`. `Makefile` already exposes `apply`, `check`, `test`, `doctor`, and `verify`, but several checks are best-effort and current platform decisions mix OS detection with usernames and environment flags.
+See `proposal.md` for motivation. The repository already uses a Chezmoi source tree, a templated `home/.chezmoi.toml.tmpl`, `.chezmoidata/packages.yaml`, platform-specific `.chezmoiscripts` directories, encrypted files, and `.chezmoiexternal.toml`. `Makefile` already exposes `apply`, `check`, `test`, `doctor`, and `verify`, but several checks are best-effort and current platform decisions mix OS detection with usernames and environment flags.
 
 The reference `twpayne/dotfiles` repository uses feature booleans such as `ephemeral`, `work`, `headless`, and `personal`, derives a normalized OS identifier, and keeps the installer as a small `chezmoi init --apply --source=...` wrapper. The official Chezmoi source and documentation define the complete attribute model, `.chezmoitemplates`, templated `.chezmoiignore`, `chezmoi data`, `chezmoi ignored`, and `chattr`.
 
@@ -52,7 +52,7 @@ Package installation and bootstrap remain separate from configuration rendering.
 
 Retain age and Bitwarden as the existing secret mechanisms. Template branches may disable secret access in CI, containers, and sandboxes, but a real host that requires a secret must report the missing prerequisite instead of silently writing placeholder credentials.
 
-Keep external downloads in `.chezmoiexternal.toml.tmpl`, with refresh periods and exact or pinned references where supported. Validate URLs and archive paths before application and preserve the previous target resource when refresh fails.
+Keep external downloads in `.chezmoiexternal.toml`, with refresh periods and exact or pinned references where supported. Validate URLs and archive paths before application and preserve the previous target resource when refresh fails.
 
 **Alternative rejected:** downloading resources from lifecycle scripts. That hides dependencies, complicates idempotence, and bypasses Chezmoi's refresh behavior.
 

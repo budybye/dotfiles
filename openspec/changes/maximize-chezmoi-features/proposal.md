@@ -28,7 +28,7 @@ Chezmoi is already the repository's configuration source of truth, but several c
 - `home/.chezmoi.toml.tmpl`
 - `home/.chezmoidata/`
 - `home/.chezmoiscripts/`
-- `home/.chezmoiexternal.toml.tmpl`
+- `home/.chezmoiexternal.toml`
 - `home/.chezmoiignore`
 - `home/` file attribute prefixes and platform-specific layouts
 - Reference repositories:

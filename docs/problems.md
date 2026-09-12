@@ -16,7 +16,7 @@ description: 環境差の吸収における注意点、プラットフォーム�
 | テンプレート変数 | `{{ .chezmoi.os }}` は `darwin` / `linux` / `windows` のいずれか                                             |
 | WSL2             | WSL2 上では `linux` として検出される。Ubuntu と区別する場合は `env "WSL_DISTRO_NAME"` や hostname で判定する |
 
-参照: [home/.chezmoi.toml.tmpl](../home/.chezmoi.toml.tmpl), [docs/plans/2025-02-19-wsl2-support.md](plans/2025-02-19-wsl2-support.md)
+参照: [home/.chezmoi.toml.tmpl](../home/.chezmoi.toml.tmpl), [要件定義](requirements.md)
 
 ### アーキテクチャ
 
@@ -25,7 +25,7 @@ description: 環境差の吸収における注意点、プラットフォーム�
 | テンプレート変数 | `{{ .chezmoi.arch }}` は `amd64` / `arm64`                                                           |
 | GitHub Releases  | リリースによって `x86_64` 表記を使う場合がある。必要に応じてマッピングする（例: `amd64` → `x86_64`） |
 
-参照: [docs/tech.md](tech.md), [home/private_dot_config/zsh/dot_aliases](../home/private_dot_config/zsh/dot_aliases)
+参照: [docs/tech.md](tech.md), [home/dot_aliases](../home/dot_aliases)
 
 ### アーキテクチャ取得（シェルスクリプト）
 
@@ -36,7 +36,7 @@ description: 環境差の吸収における注意点、プラットフォーム�
 
 スクリプトで両方に対応する例: `ARCH=${ARCH:-$(dpkg --print-architecture 2>/dev/null || uname -m)}`
 
-参照: [home/dot_profile](../home/dot_profile), [home/.chezmoiscripts/linux/run_onchange_after_gui.sh.tmpl](../home/.chezmoiscripts/linux/run_onchange_after_gui.sh.tmpl)
+参照: [home/dot_profile](../home/dot_profile), [home/.chezmoiscripts/linux/run_onchange_after_gui.sh](../home/.chezmoiscripts/linux/run_onchange_after_gui.sh)
 
 ### パス
 
@@ -101,11 +101,11 @@ description: 環境差の吸収における注意点、プラットフォーム�
 | ツール/設定                 | 癖                                                                                                                                                                  | 対処例                                                                                                                    |
 | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
 | zsh .profile 読み込み       | zsh では `source` が bash 由来の構文。`emulate sh -c "source ..."` で bash 互換モードにして読み込む                                                                 | [home/private_dot_config/zsh/dot_zprofile](../home/private_dot_config/zsh/dot_zprofile)                                   |
-| bash 非インタラクティブシェル（AI エージェント） | Claude Code 等の AI エージェントは bash をログインシェル（`bash --login -c "..."`）として起動するため `.profile` は読まれる。ただし `.bashrc` には `[ -z "$PS1" ] && return` による早期終了があるため読まれない。エイリアスは `.bashrc` 経由のため使用不可。フルコマンドを使うこと。 | [home/dot_profile](../home/dot_profile), [home/dot_claude/CLAUDE.md](../home/dot_claude/CLAUDE.md) |
+| bash 非インタラクティブシェル（AI エージェント） | Claude Code 等の AI エージェントは bash をログインシェル（`bash --login -c "..."`）として起動するため `.profile` は読まれる。ただし `.bashrc` には `[ -z "$PS1" ] && return` による早期終了があるため読まれない。エイリアスは `.bashrc` 経由のため使用不可。フルコマンドを使うこと。 | [Claude rules](../home/private_dot_config/claude/rules/) |
 | 対話シェル判定              | Bash の `[ -z "$PS1" ]` は Zsh で誤動作する（PS1 が未設定の場合がある）。`[[ -o interactive ]]` を使用する                                                          | [home/private_dot_config/zsh/dot_zshrc](../home/private_dot_config/zsh/dot_zshrc)                                         |
 | zellij/tmux 自動起動        | Cursor/VS Code の統合ターミナルでは zellij が即終了してターミナルが閉じる。`TERM_PROGRAM` が vscode または Cursor のときはスキップする                              | [home/private_dot_config/zsh/dot_zprofile](../home/private_dot_config/zsh/dot_zprofile)                                   |
-| gitHubLatestReleaseAssetURL | リリースによりアーキテクチャ名が異なる（amd64 vs x86_64）。パターンマッチで取得できない場合はマッピングを検討する                                                   | [home/.chezmoiexternal.toml.tmpl](../home/.chezmoiexternal.toml.tmpl)                                                     |
-| dpkg                        | Linux (Debian/Ubuntu) 専用。macOS では存在しない。スクリプト内で `dpkg --print-architecture` を使う場合は、Linux 専用スクリプトに限定するかフォールバックを用意する | [home/.chezmoiscripts/linux/run_onchange_after_cli.sh.tmpl](../home/.chezmoiscripts/linux/run_onchange_after_cli.sh.tmpl) |
+| gitHubLatestReleaseAssetURL | リリースによりアーキテクチャ名が異なる（amd64 vs x86_64）。パターンマッチで取得できない場合はマッピングを検討する                                                   | [home/.chezmoiexternal.toml](../home/.chezmoiexternal.toml)                                                     |
+| dpkg                        | Linux (Debian/Ubuntu) 専用。macOS では存在しない。スクリプト内で `dpkg --print-architecture` を使う場合は、Linux 専用スクリプトに限定するかフォールバックを用意する | [home/.chezmoiscripts/linux/run_onchange_after_cli.sh](../home/.chezmoiscripts/linux/run_onchange_after_cli.sh) |
 
 ## 5. ライブラリ・ツール固有の癖
 
@@ -113,7 +113,7 @@ description: 環境差の吸収における注意点、プラットフォーム�
 | -------------- | ------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------- |
 | Starship       | OS ごとにアイコン定義が異なる（Windows, Linux 等）                                   | [home/private_dot_config/starship/starship.toml](../home/private_dot_config/starship/starship.toml)   |
 | Neovim         | Windows の VSCode 統合ターミナル向けの色設定がある                                   | [home/private_dot_config/nvim/colors/monokai.vim](../home/private_dot_config/nvim/colors/monokai.vim) |
-| Docker         | `ARCH` は `dpkg --print-architecture \|\| uname -m` で取得。WSL では dpkg が利用可能 | [home/private_dot_config/zsh/dot_aliases](../home/private_dot_config/zsh/dot_aliases)                 |
+| Docker         | `ARCH` は `dpkg --print-architecture \|\| uname -m` で取得。WSL では dpkg が利用可能 | [home/dot_aliases](../home/dot_aliases)                 |
 | Karabiner      | macOS 専用。`pbpaste` 等の macOS コマンドに依存する                                  | [home/.chezmoiignore](../home/.chezmoiignore)                                                         |
 | fcitx5, Fusuma | Linux 専用。.chezmoiignore で darwin では適用しない                                  | [home/.chezmoiignore](../home/.chezmoiignore)                                                         |
 
@@ -147,5 +147,15 @@ gh は認証トークンを**システムのキーリング**に保存する（m
 ## 関連ドキュメント
 
 - [要件定義](requirements.md) - 対応 OS・ツール要件
-- [設計書](design.md) - クロスプラットフォーム設計
+- [アーキテクチャ](architecture.md) - クロスプラットフォーム設計
 - [ディレクトリ構成](directory.md) - テンプレート変数・OS 分岐の例
+
+## Ubuntu xrdp / XFCE
+
+- 安定したリモートデスクトップ経路は `xrdp + xorgxrdp + Xorg + XFCE`。
+- xrdp は native Wayland を直接起動せず、`.xsession` / `startwm.sh` から XFCE X11 を起動する。
+- xrdp-only host に SDDM/GDM3/LightDM は不要。ローカル greeter が必要な場合だけ一つ選ぶ。
+- `xrdp`、`xorgxrdp`、`xfce4-session` の導入後に service/user/session 設定を行う。
+- Docker は systemd や display manager を前提にせず、GUI image と CLI image を分離する。
+
+確認順: package convergence → `xrdp-sesman` → Xorg/XFCE session → RDP smoke test。Ubuntu 26.04 の package 名は Resolute の index で確認する。

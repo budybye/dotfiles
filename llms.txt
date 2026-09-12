@@ -47,7 +47,7 @@
 - [Docling](https://context7.com/websites/docling-project_github_io_docling/llms.txt) #document #ai #format
 - [Pipedream](https://context7.com/websites/pipedream/llms.txt) #automation #workflow #integration
 - [Openspec](https://context7.com/fission-ai/openspec/llms.txt) #spec #api #open-source
-- [agent-spce](https://context7.com/websites/oracle_github_io_agent-spec/llms.txt) #agent #spec #oracle
+- [agent-spec](https://context7.com/websites/oracle_github_io_agent-spec/llms.txt) #agent #spec #oracle
 - [emdash](https://context7.com/generalaction/emdash/llms.txt) #ai #dashboard #tool
 - [factory](https://context7.com/websites/factory_ai/llms.txt) #ai #factory #automation
 - [pi Subagents](https://context7.com/nicktomlin/pi-subagents/llms.txt) #pi #agent #subagent #orchestration
@@ -552,7 +552,7 @@
 - [Cloudflare Documentation](https://developers.cloudflare.com/llms.txt) #cloudflare #docs #cdn #security
 - [GitHub Documentation](https://docs.github.com/llms.txt) #github #docs #git #collaboration
 - [Apple Developer](https://context7.com/context7/developer_apple/llms.txt) #apple #developer #ios #macos
-- [Appke Human Interface](https://context7.com/context7/developer_apple-design-human-interface-guidelines/llms.txt) #apple #design #guidelines #ui
+- [Apple Human Interface](https://context7.com/context7/developer_apple-design-human-interface-guidelines/llms.txt) #apple #design #guidelines #ui
 - [Visual Studio Code](https://context7.com/microsoft/vscode-docs/llms.txt) #vscode #docs #ide #microsoft
 - [Go project-layout](https://context7.com/golang-standards/project-layout/llms.txt) #go #project-layout #best-practices
 

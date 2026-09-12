@@ -61,7 +61,7 @@ P1 + P4
 
 | Stream A | Stream B | Constraint |
 |----------|----------|------------|
-| Phase 0 code | `docs/bootstrap.md` skeleton | Doc must be updated when P0 lands |
+| Phase 0 code | `docs/architecture.md` bootstrap section | Doc must be updated when P0 lands |
 | Phase 1 `mise.toml` edits | Parity table (task 1.1) | Table must be committed before §5.3 delete |
 | `maximize-chezmoi-features` 1.2 | Phase 4 planning | Merge context model once; avoid duplicate `host_profiles` designs |
 | Audit inventory (§10.1) | Phase 1 inventory (§1.1) | Reuse same parity/inventory artifact |
@@ -121,31 +121,31 @@ P1 + P4
 
 | Tier | Audience | Files | Update trigger |
 |------|----------|-------|----------------|
-| **Entry** | Humans + agents | `README.md`, `AGENTS.md`, `docs/README.md` (new index) | Any phase completion |
-| **Operations** | Setup / rebuild | `docs/bootstrap.md`, `docs/platform-matrix.md` | Phase 1, 4 |
-| **Reference** | Day-to-day lookup | `docs/context.md`, `docs/references.md`, `docs/tech.md` | Phase 4, ongoing |
-| **Migration** | One-time transitions | `docs/git-to-jj.md`, OpenSpec `changes/*` | Phase 4–5 |
-| **Assurance** | Audit / security | `docs/audit-checklist.md`, `docs/security.md` (new) | Phase 5 |
-| **Troubleshooting** | Debugging | `docs/problems.md`, `docs/go-template.md` | When branching changes |
-| **Structure** | Contributors | `docs/directory.md`, `docs/design.md` | When tree or ownership shifts |
+| **Entry** | Humans + agents | `README.md`, `AGENTS.md`, eight canonical `docs/*.md` files | Any phase completion |
+| **Operations** | Setup / rebuild | `docs/architecture.md`, `docs/requirements.md`, `docs/test.md` | Phase 1, 4 |
+| **Reference** | Day-to-day lookup | `docs/references.md`, `docs/tech.md` | Phase 4, ongoing |
+| **Migration** | One-time transitions | `docs/tech.md`, `ROADMAP.md`, local OpenSpec `changes/*` | Phase 4–5 |
+| **Assurance** | Audit / security | `docs/security.md`, `docs/test.md` | Phase 5 |
+| **Troubleshooting** | Debugging | `docs/problems.md`, `docs/architecture.md` | When branching changes |
+| **Structure** | Contributors | `docs/directory.md`, `docs/architecture.md` | When tree or ownership shifts |
 
 ### Doc ownership rules (hybrid model)
 
 1. **Single source of truth per fact** — e.g. OS packages → `mise.toml`, not `packages.yaml` + `tech.md` duplicate lists.
 2. **`references.md`** = external URLs + pointer to internal canonical path (not duplicate prose).
-3. **`tech.md`** = what we use; **`design.md`** = why; **`bootstrap.md`** = how to run.
-4. **OpenSpec `changes/`** = active migration plan; **`docs/`** = steady-state after merge.
-5. **Deprecate in place** — when slimming `packages.yaml`, add one-line redirect in `tech.md` / `references.md` until phase 1 ships.
+3. **`tech.md`** = what we use; **`architecture.md`** = why and how the steady-state is structured.
+4. **Local OpenSpec `changes/`** = optional active migration plan; **`docs/`** = public steady-state after merge.
+5. **Deprecate in place** — when slimming `packages.yaml`, record the ownership boundary in `tech.md` / `references.md` until phase 1 ships.
 
 ### Documentation deliverables by phase
 
 | Phase | New / updated docs |
 |-------|-------------------|
-| 0 | `bootstrap.md` § "Prerequisites" (chezmoi + mise curl) |
-| 1 | `bootstrap.md` full flow; `tech.md` ownership table; `references.md` mise bootstrap links |
-| 4 | `platform-matrix.md`, `context.md`; `problems.md` feature-flag section |
-| 5 | `audit-checklist.md`, `security.md`; `docs/README.md` index |
-| ongoing | `git-to-jj.md` (exists); align `AGENTS.md` |
+| 0 | `architecture.md` bootstrap section (chezmoi + mise curl) |
+| 1 | `architecture.md` full flow; `tech.md` ownership table; `references.md` mise bootstrap links |
+| 4 | `architecture.md` profile boundaries; `problems.md` feature-flag section |
+| 5 | `security.md`, `test.md` audit and verification sections |
+| ongoing | `tech.md` VCS section; align `AGENTS.md` |
 
 ---
 
@@ -163,7 +163,7 @@ Coordinate with `openspec/changes/maximize-chezmoi-features` task **1.1** (manag
 | Templates | `chezmoi execute-template` per `docs/fixtures/` context | Renders without host secrets on CI profiles |
 | Lifecycle scripts | List `.chezmoiscripts/**`; map phase `run_once`/`onchange`/`before`/`after` | Each script has owner (mise vs chezmoi) in matrix |
 | Encrypted files | `find home -name 'encrypted_*'` | All listed in `security.md`; none plaintext |
-| External resources | `.chezmoiexternal.toml.tmpl` | URLs pinned; refresh policy documented |
+| External resources | `.chezmoiexternal.toml` | URLs pinned; refresh policy documented |
 | Package duplication | Parity table (`tasks.md` §1.1) | Zero duplicate authoritative rows |
 | Bootstrap idempotency | Run `chezmoi apply` + `mise bootstrap * apply` twice | Second run is no-op or status-only |
 | Permissions | `chezmoi verify` | Passes on representative host |
@@ -194,7 +194,7 @@ Output: `docs/audit-report-YYYY-MM.md` (gitignored or committed summary without 
 | Privileged scripts | Unintended system changes | Chezmoi `run_once` / Mise tasks | Review sudo boundaries |
 | Multi-account GitHub SSH | Host alias misconfiguration | Managed `config.tmpl`; static public key | No cross-account key bleed |
 | Devcontainer | Secrets enabled during build | `DOCKER=true` and encrypted target ignores | Re-verify Docker build |
-| Third-party externals | Unpinned archive/tag drift | `.chezmoiexternal.toml.tmpl` | Pin and verify external URLs |
+| Third-party externals | Unpinned archive/tag drift | `.chezmoiexternal.toml` | Pin and verify external URLs |
 
 ### Security review checklist
 
@@ -207,7 +207,7 @@ Output: `docs/audit-report-YYYY-MM.md` (gitignored or committed summary without 
 | S5 | GitHub tokens remain external | Actions `GITHUB_TOKEN`; local `gh` fallback |
 | S6 | Mise age identity has mode 600 | `stat ~/.config/mise/age.txt` |
 | S7 | Mise age strict mode is enabled | Mise config review |
-| S8 | External URLs remain within supply-chain policy | `.chezmoiexternal.toml.tmpl` review |
+| S8 | External URLs remain within supply-chain policy | `.chezmoiexternal.toml` review |
 
 ### Review timing
 
@@ -317,8 +317,8 @@ Keep `packages.yaml` temporarily as a read-only reference during migration, then
 | **1** | Package parity, CLI/GUI split, mise tasks, Makefile delegate | **§10.1 audit + §11.1 security S1–S6 before §5** |
 | **2** | macOS defaults dedup | After P1 |
 | **3** | Docker task, optional runtime secrets | After P1 stable |
-| **4** | `host_profiles` + docs (`bootstrap`, `platform-matrix`, `context`) | After P1 + maximize-chezmoi 1.2 |
-| **5** | Audit + security passes; `audit-checklist.md`, `security.md`, `docs/README.md` | Baseline before §5; repeat after P1/P4 |
+| **4** | `host_profiles` + canonical docs (`architecture`, `problems`, `requirements`, `test`) | After P1 + maximize-chezmoi 1.2 |
+| **5** | Audit + security passes; canonical `security.md` and `test.md` | Baseline before §5; repeat after P1/P4 |
 
 **Rollback:** restore `install.sh`, `packages.yaml`, script guards, Makefile from git.
 
@@ -331,7 +331,13 @@ Keep `packages.yaml` temporarily as a read-only reference during migration, then
 | `packages.yaml` final | extensions + agents.skills |
 | Audit / security when | baseline before §5; after P1 and P4 |
 | Doc canonical for packages | `mise.toml` after P1 |
-| git vs jj | hybrid — `docs/git-to-jj.md` |
+| git vs jj | hybrid — `docs/tech.md` and `ROADMAP.md` |
 
 See also: **Execution priority**, **Impact scope**, **Documentation organization**, **Dotfiles audit**, **Security review** at top of this document.
+
+## Recovered integration notes
+
+- The retired Superpowers plans were folded into this change and the canonical eight-document set.
+- OpenSpec remains optional and local-only; README, docs, and ROADMAP remain sufficient without it.
+- Historical plan material belongs under the local-only `openspec/changes/archive/` directory when available.
 [Showing lines 1-300 of 305. Use :301 to continue]

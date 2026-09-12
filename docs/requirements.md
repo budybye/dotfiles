@@ -28,7 +28,7 @@ description: 要件定義書
 ### セキュリティ
 
 - 機密情報の暗号化（age）
-- パスワードマネージャー統合（Bitwarden）
+- パスワードマネージャー統合（Bitwarden desktop は macOS の任意パッケージ）
 - SSH 鍵の安全な管理
 
 ### メンテナンス性
@@ -57,7 +57,7 @@ description: 要件定義書
 ## ツール要件
 
 このシステムで管理・使用するツールの要件定義です。
-参照の温度感は [参考文献](./reference.md) の `active / optional / legacy` タグを補助情報として使い、採用要件の正本は本書と [技術スタック](./tech.md)、および設定ファイル（`home/private_dot_config/mise/config.toml`、`home/.chezmoidata/packages.yaml`、`home/private_dot_config/aquaproj-aqua/aqua.yaml`）とします。
+参照の温度感は [参考文献](./references.md) の `active / optional / legacy` タグを補助情報として使い、採用要件の正本は本書と [技術スタック](./tech.md)、および設定ファイル（`home/private_dot_config/mise/config.toml`、`home/.chezmoidata/packages.yaml`、`home/private_dot_config/aquaproj-aqua/aqua.yaml`）とします。
 
 ### コアツール要件
 
@@ -69,7 +69,7 @@ description: 要件定義書
 | Git            | brew  |    apt    |    apt    |            |      |
 | GitHub Actions |  ✅   |    ✅     |    ✅     |            |      |
 | GitHub CLI     | brew  |    apt    |    apt    |            |      |
-| Bitwarden CLI  | brew  | npm/snap  | npm/snap  |            |      |
+| Bitwarden desktop | brew | — | — |            |      |
 | Docker         | brew  |    apt    |    apt    |            |      |
 | Dev Container  |  ✅   |    ✅     |    ✅     |            |      |
 | Multipass      | brew  |   snap    |   snap    |            |      |
@@ -152,7 +152,14 @@ description: 要件定義書
 
 ## 関連ドキュメント
 
-- [設計書](./design.md)
+- [アーキテクチャ](./architecture.md)
 - [技術スタック](./tech.md)
-- [タスク管理](./tasks.md)
+- [ロードマップ](../ROADMAP.md)
 - [ディレクトリ構成](./directory.md)
+
+## プロファイル要件
+
+- workstation は full package / GUI profile として扱う。
+- CI は Linux CLI package を基本とし、GUI・display manager・system service を含めない。
+- Docker は CLI-only package とし、secret、xrdp、SDDM、systemd を持ち込まない。
+- profile の package 定義は Mise、Chezmoi data は extensions / skills / platform-specific data に限定する。

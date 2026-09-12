@@ -1,13 +1,13 @@
 ## 1. OpenSpec main specs
 
-- [ ] 1.1 Archive or copy this change's deltas into `openspec/specs/<capability>/spec.md` for documentation, directory, tech, security, go-template, architecture, github-identity, machine-profile
-- [ ] 1.2 Fill `openspec/config.yaml` project context from AGENTS.md + tech source-of-truth paths (no tool catalogs)
+- [x] 1.1 Keep the structured deltas and capability specs available locally for optional planning
+- [x] 1.2 Fill `openspec/config.yaml` project context from AGENTS.md + canonical documentation paths (no tool catalogs)
 
-## 2. Architecture move
+## 2. Architecture and documentation boundaries
 
-- [ ] 2.1 Copy `docs/architecture/c4-*.md` to `openspec/specs/architecture/` keeping filenames
-- [ ] 2.2 Rewrite C4 cross-links so they do not point at `docs/`
-- [ ] 2.3 Put reading order in `openspec/specs/architecture/spec.md` (already specified)
+- [x] 2.1 Keep `docs/architecture.md` as the public architecture entry point
+- [x] 2.2 Keep OpenSpec artifacts optional and prevent reverse dependencies from `docs/` to OpenSpec
+- [x] 2.3 Keep the eight canonical docs aligned with executable configuration sources
 
 ## 3. GitHub identity
 
@@ -22,12 +22,12 @@
 - [ ] 4.3 Gate `linux.gui` packages and Linux GUI scripts on desktop hostnames
 - [ ] 4.4 Leave Ubuntu hostname rows blank or fail-closed until the operator fills them
 
-## 5. Retarget and delete docs
+## 5. Public documentation and local planning
 
-- [ ] 5.1 Point README.md and AGENTS.md at `openspec/`
-- [ ] 5.2 Fix CI / workflow `docs/` path references
-- [ ] 5.3 Delete `docs/` including architecture after links are clean
-- [ ] 5.4 Run `graphify update .`
+- [x] 5.1 Keep README.md and AGENTS.md usable without OpenSpec
+- [x] 5.2 Fix stale documentation links and remove retired public doc paths
+- [x] 5.3 Keep OpenSpec files local-only via the root `.gitignore`
+- [x] 5.4 Run `graphify update .`
 
 ## 6. Verify
 

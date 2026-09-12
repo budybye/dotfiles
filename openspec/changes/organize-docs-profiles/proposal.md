@@ -1,6 +1,6 @@
 ## Why
 
-Repo docs live as a stale wiki in `docs/` (duplicate tool lists, dead paths, a leftover task process). OpenSpec is empty after init, so there is no requirement source of truth. At the same time the machine still treats GitHub as one identity and Ubuntu as one package profile, even though `budybye`/`boborder` and `linux.cli`/`linux.gui` already exist as facts.
+Repo docs had duplicate indexes, dead paths, and a leftover task process. The repository now keeps eight canonical docs as its public source of truth; OpenSpec remains optional and local-only.
 
 ## What Changes
 
@@ -10,7 +10,7 @@ Repo docs live as a stale wiki in `docs/` (duplicate tool lists, dead paths, a l
 - Stop republishing tool catalogs in markdown. Tool how-to comes from picked skills; install truth stays in `packages.yaml`, mise, and aqua.
 - Default GitHub identity is `budybye`. `boborder` is reachable with `gh auth switch`. `dayjobdoor` is unused and out of scope.
 - Split Ubuntu into desktop vs minimal by `.chezmoi.hostname`. Hostname table is the switch. `linux.gui` applies only to desktop hostnames.
-- Drop `docs/tasks.md` (OpenSpec change `tasks.md` replaces it). Drop or absorb `docs/references.md` into `tech` (not a spec).
+- Keep the eight canonical docs as the public operational documentation; use local OpenSpec artifacts only for detailed change planning when needed.
 
 ## Capabilities
 

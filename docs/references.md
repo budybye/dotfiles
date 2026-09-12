@@ -17,9 +17,7 @@ description: ツール・ライブラリの公式ドキュメント・リポジ�
 
 README は概要、`docs/` は詳細という責務分離を前提とします。
 
-- **ドキュメント索引**: [docs/README.md](README.md) — ティア別一覧と正本パス
-- **VCS 移行**: [Git → Jujutsu (jj)](git-to-jj.md)
-- **監査**: [audit-checklist.md](audit-checklist.md)
+- **ドキュメント索引**: [README.md](../README.md) — 文書と正本パス
 - **セキュリティ**: [security.md](security.md)
 
 ---
@@ -201,3 +199,7 @@ README は概要、`docs/` は詳細という責務分離を前提とします�
 
 - [Plash](https://plash.app/) · [Shazam](https://www.shazam.com/) · [RunCat](https://github.com/Kyome22/RunCat_for_Mac)
 - [Speedtest](https://www.speedtest.net/) · [speedtest-cli](https://github.com/sivel/speedtest-cli) · [Hidden Bar](https://github.com/dwarvesf/hidden) · [Hyper Cursor](https://hypercursor.com/)
+
+## 統合済み調査資料
+
+旧調査資料の結論は `docs/tech.md`、`docs/problems.md`、`docs/architecture.md` に要約統合した。外部 URL はこのファイルに集約する。

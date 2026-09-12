@@ -54,12 +54,14 @@ make help
 `.devcontainer/` には Full GUI image と Slim CLI image の Dockerfile があります。Full image は XFCE と xrdp、Slim image は SSH と CLI ツールを含みます。CI は `linux/amd64` と `linux/arm64` の image を GHCR に公開します。
 
 ```sh
-# Full image を build
+# ローカルで build（GHCR と同じタグ形式で保存するだけ。push は CI）
 make docker-build
-# Slim CLI image を build
 make docker-slim-build
 
-# Full image を起動
+# 公開済み GHCR image を pull して起動（ローカル build とは別）
+make docker-ghcr-run
+
+# ローカル build 済みの Full image を起動
 make docker-run
 
 # Compose service を起動・停止
@@ -71,17 +73,20 @@ make exec
 make logs
 ```
 
+公開済み image の pull だけを行う場合は `make docker-pull` または `make docker-slim-pull` を使います。`docker-ghcr-run` は `ubuntu-dev-ghcr` という別 container 名で起動します。
+
 Compose の RDP と SSH port は localhost に bind します。remote access が必要な場合は VPN または Zero Trust tunnel を使います。
 
 ### Docker build の GitHub token
 
-Docker build は dotfiles を clone して `make init` を実行します。Mise が GitHub の tool metadata を取得するため、local build では `GITHUB_TOKEN` を設定してください。未設定でも build は開始しますが、GitHub API の rate limit で失敗する可能性があります。
+Docker build は dotfiles を clone して `make init` を実行します。Mise が GitHub の tool metadata を取得するため、local build では `GITHUB_TOKEN` を設定してください。
 
 ```sh
 # GitHub CLI の認証済み token を一時的に渡す
+GITHUB_TOKEN="$(gh auth token)" make docker-build
+GITHUB_TOKEN="$(gh auth token)" make docker-slim-build
 GITHUB_TOKEN="$(gh auth token)" make up
 ```
-`make up` は Compose の BuildKit secret を使います。`make docker-build` は直接 `docker build` を実行して secret を渡さないため、token を使う local build では `make up` を使ってください。
 
 GitHub Actions では workflow の `secrets.GITHUB_TOKEN` を BuildKit secret として渡します。token を `.env`、Dockerfile の `ARG` / `ENV`、image layer に保存しないでください。
 
@@ -128,14 +133,38 @@ WSL2、Windows、FreeBSD は将来対応予定です。対応範囲と package �
 
 | ドキュメント | 内容 |
 | --- | --- |
-| [ドキュメント索引](docs/README.md) | ドキュメントと source of truth |
-| [技術スタック](docs/tech.md) | ツールと package manager |
-| [ディレクトリ構成](docs/directory.md) | Chezmoi の配置と運用 |
-| [要件定義](docs/requirements.md) | OS と tool の要件 |
-| [環境差の注意点](docs/problems.md) | platform 差分と troubleshooting |
-| [設計書](docs/design.md) | 設計方針と Makefile |
+| [要件定義](docs/requirements.md) | 目的、制約、対応範囲 |
+| [アーキテクチャ](docs/architecture.md) | Chezmoi、Mise、bootstrap、レイヤー設計 |
+| [検証ガイド](docs/test.md) | ローカル、CI、OS別の検証 |
+| [技術スタック](docs/tech.md) | 技術選定と設定の正本 |
+| [ディレクトリ構成](docs/directory.md) | Chezmoi の配置と命名規則 |
 | [セキュリティ](docs/security.md) | age、SSH、secret、CI |
+| [環境差の注意点](docs/problems.md) | platform 差分と troubleshooting |
 | [参考文献](docs/references.md) | 公式 docs と repository |
+| [ROADMAP](ROADMAP.md) | 目標と進捗 |
+
+README、docs、ROADMAPだけでプロジェクトの運用情報を完結させます。詳細な変更計画を必要とする場合は、ローカルのOpenSpecをGit管理外で任意に利用できます。
+
+### 正本パス
+
+| 関心事 | 正本 |
+| --- | --- |
+| OS パッケージ、macOS defaults | `home/private_dot_config/mise.toml` |
+| CLI ツール、runtime | `home/private_dot_config/mise/config.toml` |
+| VS Code、skills、Chezmoi data | `home/.chezmoidata/packages.yaml` |
+| 暗号化ファイル | Chezmoi の `encrypted_*` |
+| 開発タスク | `.mise.toml` の `[tasks]` |
+
+### Platform rules
+
+- `brew:*`、`brew-cask:*`、`mas:*` → `os = "macos"`
+- `apt:*` → `os = "linux"`
+- `home/private_dot_config/mise/ci.toml` → Mac full packages / Linux CLI packages
+- `home/private_dot_config/mise/docker.toml` → Linux CLI packages only
+- `bootstrap.services` / `bootstrap.compose` → Ubuntu VM の systemd / Docker
+- `bootstrap.macos.launchd` → macOS の LaunchAgent
+- Docker container では system service bootstrap を実行しない
+
 
 ## GitHub Actions
 

@@ -1,9 +1,9 @@
 ---
-name: design
-description: dotfiles 詳細設計
+name: architecture
+description: dotfiles アーキテクチャ・詳細設計
 ---
 
-# 設計書 - Chezmoi Dotfiles Management System
+# アーキテクチャ設計 - Chezmoi Dotfiles Management System
 
 ## プロジェクト概要
 
@@ -16,7 +16,7 @@ description: dotfiles 詳細設計
 1. **セキュリティ優先設計**
 
    - 機密情報の暗号化（age）
-   - パスワードマネージャー統合
+   - Bitwarden desktop は macOS の任意パッケージ
    - SSH 鍵の安全な管理
 
 2. **クロスプラットフォーム対応**
@@ -47,6 +47,14 @@ description: dotfiles 詳細設計
 - **アクセス制御**: ファイル属性による権限管理
 
 詳細は [セキュリティ](security.md) を参照。
+
+### 移行計画の境界
+
+- Chezmoi は passphrase/symmetric の暗号化ファイルとテンプレートを保持する
+- Mise は package bootstrap、tool version、runtime age secret を担当する
+- CI は CLI profile、Docker は CLI-only profile、Ubuntu VM は full GUI profile を使う
+- Docker は SDDM と private key、GitHub token、Mise age identity を持たない
+- 詳細な順序と未完了項目は [ROADMAP.md](../ROADMAP.md) に記録する
 
 ### クロスプラットフォーム設計
 
@@ -125,7 +133,7 @@ Makefile は、dotfiles システム、開発環境、および関連インフ�
 1. **一般操作**: `help`、`version`
 2. **セットアップとインストール**: `init`、`update`、`apply`
 3. **開発**: `check`、`test`、`completion`、`doctor`、`verify`
-4. **Docker**: `docker-build`、`docker-run`、`up`、`down`、`exec`、`logs`
+4. **Docker**: `docker-build`、`docker-slim-build`、`docker-run`、`docker-ghcr-run`、`docker-pull`、`docker-slim-pull`、`up`、`down`、`exec`、`logs`
 5. **仮想マシン（Multipass）**: `vm-create`、`vm-info`、`vm-start`、`vm-stop`、`ssh`
 6. **Git 操作**: `git-commit`、`git-status`
 7. **セキュリティ**: `age-keygen`
@@ -141,12 +149,15 @@ Makefile は、dotfiles システム、開発環境、および関連インフ�
 
 #### Docker 設定変数
 
-- `DOCKER_IMAGE`: `ubuntu-dev`
+- `DOCKER_REGISTRY_IMAGE`: `ghcr.io/budybye/ubuntu-dev`
+- `DOCKER_IMAGE`: `ghcr.io/budybye/ubuntu-dev:latest`
+- `DOCKER_SLIM_IMAGE`: `ghcr.io/budybye/ubuntu-dev:slim`
+- `DOCKER_DEV_IMAGE`: `ghcr.io/budybye/ubuntu-dev:dev`
 - `DOCKER_CONTAINER`: `ubuntu-dev`
-- `DOCKER_HOST`: `docker`
-- `DOCKER_PORTS`: `-p 33389:3389 -p 2222:22`
-- `DOCKER_WORKDIR`: `/home/dev`
-- `DOCKER_USER`: `dev`
+- `DOCKER_HOST`: `container`
+- `DOCKER_PORTS`: `-p 127.0.0.1:33389:3389`
+- `DOCKER_WORKDIR`: `/home/ubuntu`
+- `DOCKER_USER`: `ubuntu`
 
 #### Multipass 設定変数
 
@@ -248,19 +259,40 @@ make verify
 
 ##### `docker-build`
 
-`.devcontainer/`ディレクトリから Docker イメージをビルドします。
+`.devcontainer/`ディレクトリから Full image をローカル build します。タグは `ghcr.io/budybye/ubuntu-dev:latest` です。GHCR への push は CI が行います。
 
 ```sh
 make docker-build
 ```
 
+##### `docker-slim-build`
+
+`.devcontainer/slim.Dockerfile` から Slim CLI image をローカル build します。タグは `ghcr.io/budybye/ubuntu-dev:slim` です。
+
+```sh
+make docker-slim-build
+```
+
 ##### `docker-run`
 
-完全設定で Docker コンテナをビルドして実行します。
+ローカル build 済みの Full image を `ubuntu-dev` container として起動します。
 
 ```sh
 make docker-run
 ```
+
+##### `docker-ghcr-run`
+
+公開済みの `ghcr.io/budybye/ubuntu-dev:latest` を pull して、ローカル build とは別の `ubuntu-dev-ghcr` container として実行します。
+
+```sh
+make docker-ghcr-run
+```
+
+##### `docker-pull` / `docker-slim-pull`
+
+公開済みの Full / Slim image を pull します。起動は行いません。
+
 
 ##### `up`
 
@@ -427,7 +459,7 @@ make system-info
 ## 関連ドキュメント
 
 - [要件定義](./requirements.md)
-- [タスク管理](./tasks.md)
+- [ロードマップ](../ROADMAP.md)
 - [技術スタック](./tech.md) - パッケージ管理
 - [ディレクトリ構成](./directory.md) - Chezmoi スクリプト設計
 
@@ -437,3 +469,30 @@ make system-info
 - [Mise age secrets](https://mise.jdx.dev/environments/secrets/age.html)
 - [Mise GitHub tokens](https://mise.jdx.dev/dev-tools/github-tokens.html)
 - [XDG Base Directory Specification](https://specifications.freedesktop.org/basedir-spec/)
+
+## Bootstrap and profile boundaries
+
+`make init` is the compatibility entry point:
+
+```text
+install.sh → chezmoi apply → platform bootstrap → Mise tools
+```
+
+| Profile | Package scope | GUI / service scope |
+|---|---|---|
+| workstation | full macOS or Ubuntu package set | local GUI and services allowed |
+| ci | macOS manager set or Linux CLI packages | Linux GUI and system services excluded |
+| docker | Linux CLI packages | no SDDM, xrdp, PipeWire, or systemd |
+
+`MISE_CONFIG_FILE` selects a CI or Docker package profile. `MISE_GLOBAL_CONFIG_FILE` points tool installation at `mise/config.toml`. Package profiles and tool definitions must not be mixed.
+
+## VCS and template boundaries
+
+- jj is the preferred local VCS; colocated Git remains for remotes, CI, and compatibility.
+- `home/dot_local/bin/executable_jjj` owns the repository-specific jj workflow.
+- Chezmoi Go templates use `{{-` / `-}}` only for intentional whitespace trimming; inline values normally omit trim markers.
+- Detailed implementation order belongs in `ROADMAP.md` and optional OpenSpec changes, not in this architecture reference.
+
+## Remote desktop boundary
+
+Ubuntu full GUI uses `xrdp + xorgxrdp + Xorg + XFCE`. Docker remains CLI-first: no display manager, systemd service, or native Wayland xrdp path. SDDM is only a local-login choice, never an xrdp prerequisite.

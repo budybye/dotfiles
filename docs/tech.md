@@ -7,8 +7,8 @@ description: 技術スタック パッケージ管理 ライブラリ説明
 ## ドキュメント方針
 
 - このファイルは「実際に使っている技術と管理元」を記載する
-- 詳細な手順は `README.md`、参照リンク集は `docs/reference.md` に集約する
-- `docs/reference.md` のタグ（`active` / `optional` / `legacy`）は参照の温度感を示す補助情報で、採用判断の正本は本ファイルと設定ファイルに置く
+- 詳細な手順と文書索引は `../README.md`、参照リンク集は `references.md` に集約する
+- `references.md` のタグ（`active` / `optional` / `legacy`）は参照の温度感を示す補助情報で、採用判断の正本は本ファイルと設定ファイルに置く
 - source of truth は次の3つ
   - `home/private_dot_config/mise/config.toml`
   - `home/.chezmoidata/packages.yaml`
@@ -111,6 +111,7 @@ description: 技術スタック パッケージ管理 ライブラリ説明
 - **`schedule`（毎日）** — プラットフォーム・flavor 別の GitHub Actions BuildKit キャッシュ更新のみ。`latest` / semver タグは付けない。concurrency は `scheduled-cache-refresh` で `workflow_dispatch`（main）と分離
 - **`ipfs.yaml`** — `main` push で IPFS ピン（コンテナとは独立）
 - 非 semver タグ（例: `push`）は `tag.yaml` の対象外。リモートに上げないこと
+- **OrbStack smoke test** — GitHub-hosted macOS の nested virtualization 制約により、`test.yaml` の job は現在コメントアウト中。物理 macOS self-hosted runner 導入時に復帰する
 
 ### クラウド・インフラ
 
@@ -178,7 +179,15 @@ Mise で管理する主要な言語および関連ツール。
 
 - [README](../README.md)
 - [要件定義](./requirements.md)
-- [設計書](./design.md)
+- [アーキテクチャ](./architecture.md)
 - [ディレクトリ構成](./directory.md)
 - [環境差の注意点](./problems.md)
-- [参考文献](./reference.md)
+- [参考文献](./references.md)
+
+## VCS / キーバインド / skill 運用
+
+- jj をローカル操作の標準とし、Git は remote・CI・互換境界に残す。
+- キーバインドは各アプリ設定とこの責務表を正本とし、terminal → multiplexer → shell の順で競合を解消する。
+- skill manager は一つを project owner にし、複数 manager に同名 skill を登録しない。認証情報は lock/report に保存しない。
+
+VCS の移行項目は `ROADMAP.md` M2、ツール・package の実値は Mise / Chezmoi data / Aqua の設定ファイルを参照する。

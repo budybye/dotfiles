@@ -6,22 +6,19 @@ SHELL := bash
 .SHELLFLAGS := -ceuo pipefail
 .DEFAULT_GOAL := help
 
-# Variables
-ARCH := $(shell uname -m)
-# Docker は amd64/arm64 を期待。uname は x86_64/aarch64 を返す
-DOCKER_ARCH := $(if $(filter x86_64,$(ARCH)),amd64,$(if $(filter aarch64 arm64,$(ARCH)),arm64,$(ARCH)))
-OS := $(shell uname -s | tr '[:upper:]' '[:lower:]')
 # 真のバージョンは git の semver タグ（CI の tag.yaml と一致）
 DOTFILES_VERSION := $(shell git describe --tags --match '[0-9]*.[0-9]*.[0-9]*' --abbrev=0 2>/dev/null || echo dev)
 
 # Docker settings
-DOCKER_IMAGE := ubuntu-dev
-DOCKER_SLIM_IMAGE := ubuntu-dev-slim
-DOCKER_CONTAINER := ubuntu-dev
-DOCKER_HOST := docker
-DOCKER_PORTS := -p 127.0.0.1:33389:3389
-DOCKER_WORKDIR := /home/dev
-DOCKER_USER := dev
+DOCKER_REGISTRY_IMAGE ?= ghcr.io/budybye/ubuntu-dev
+DOCKER_IMAGE ?= $(DOCKER_REGISTRY_IMAGE):latest
+DOCKER_SLIM_IMAGE ?= $(DOCKER_REGISTRY_IMAGE):slim
+DOCKER_DEV_IMAGE ?= $(DOCKER_REGISTRY_IMAGE):dev
+DOCKER_CONTAINER ?= ubuntu-dev
+DOCKER_HOST ?= container
+DOCKER_PORTS ?= -p 127.0.0.1:33389:3389
+DOCKER_WORKDIR ?= /home/ubuntu
+DOCKER_USER ?= ubuntu
 
 # Multipass settings
 MP_VM := ubuntu
@@ -30,8 +27,7 @@ MP_MEMORY := 8G
 MP_DISK := 42G
 MP_TIMEOUT := 43210
 
-.PHONY: help version init update apply check test completion doctor verify
-.PHONY: docker-build docker-slim-build docker-run up down exec logs
+.PHONY: docker-build docker-slim-build docker-pull docker-slim-pull docker-run docker-ghcr-run up down exec logs
 .PHONY: vm-create vm-info vm-stop vm-start ssh
 .PHONY: git-commit git-status age-keygen
 .PHONY: clean-docker clean-vm clean list-vms list-containers system-info
@@ -92,19 +88,25 @@ verify: ## Verify chezmoi scripts
 
 ##@ Docker
 
-docker-build: ## Build Docker image
+docker-build: ## Build the full Docker image tagged for GHCR
 	@test -n "$${GITHUB_TOKEN:-}" || { echo "GITHUB_TOKEN is required for Docker builds." >&2; exit 1; }
 	@echo "Building Docker image: $(DOCKER_IMAGE)..."
-	cd .devcontainer && DOCKER_BUILDKIT=1 docker build --secret id=github_token,env=GITHUB_TOKEN -t $(DOCKER_IMAGE) .
-	@echo "✓ Docker image built successfully"
+	cd .devcontainer && DOCKER_BUILDKIT=1 docker build --secret id=github_token,env=GITHUB_TOKEN -t "$(DOCKER_IMAGE)" .
+	@echo "✓ Docker image built successfully: $(DOCKER_IMAGE)"
 
-docker-slim-build: ## Build Slim CLI Docker image
+docker-slim-build: ## Build the Slim CLI image tagged for GHCR
 	@test -n "$${GITHUB_TOKEN:-}" || { echo "GITHUB_TOKEN is required for Docker builds." >&2; exit 1; }
 	@echo "Building Slim Docker image: $(DOCKER_SLIM_IMAGE)..."
-	cd .devcontainer && DOCKER_BUILDKIT=1 docker build --secret id=github_token,env=GITHUB_TOKEN -f slim.Dockerfile -t $(DOCKER_SLIM_IMAGE) .
-	@echo "✓ Slim Docker image built successfully"
+	cd .devcontainer && DOCKER_BUILDKIT=1 docker build --secret id=github_token,env=GITHUB_TOKEN -f slim.Dockerfile -t "$(DOCKER_SLIM_IMAGE)" .
+	@echo "✓ Slim Docker image built successfully: $(DOCKER_SLIM_IMAGE)"
 
-docker-run: docker-build ## Build and run Docker container
+docker-pull: ## Pull the published full GHCR image
+	docker pull "$(DOCKER_IMAGE)"
+
+docker-slim-pull: ## Pull the published Slim GHCR image
+	docker pull "$(DOCKER_SLIM_IMAGE)"
+
+docker-run: docker-build ## Build and run the full Docker image
 	@echo "Running Docker container: $(DOCKER_CONTAINER)..."
 	docker run \
 		--rm \
@@ -112,15 +114,31 @@ docker-run: docker-build ## Build and run Docker container
 		--detach \
 		--tty \
 		--privileged \
-		--name $(DOCKER_CONTAINER) \
-		--hostname $(DOCKER_HOST) \
-		--user $(DOCKER_USER) \
-		--workdir $(DOCKER_WORKDIR) \
+		--name "$(DOCKER_CONTAINER)" \
+		--hostname "$(DOCKER_HOST)" \
+		--user "$(DOCKER_USER)" \
+		--workdir "$(DOCKER_WORKDIR)" \
 		--env DOCKER=true \
-		--platform linux/$(DOCKER_ARCH) \
 		$(DOCKER_PORTS) \
-		$(DOCKER_IMAGE)
+		"$(DOCKER_IMAGE)"
 	@echo "✓ Docker container started"
+
+docker-ghcr-run: docker-pull ## Pull and run the published GHCR image
+	@echo "Running GHCR Docker container: $(DOCKER_CONTAINER)-ghcr..."
+	docker run \
+		--rm \
+		--interactive \
+		--detach \
+		--tty \
+		--privileged \
+		--name "$(DOCKER_CONTAINER)-ghcr" \
+		--hostname "$(DOCKER_HOST)-ghcr" \
+		--user "$(DOCKER_USER)" \
+		--workdir "$(DOCKER_WORKDIR)" \
+		--env DOCKER=true \
+		$(DOCKER_PORTS) \
+		"$(DOCKER_IMAGE)"
+	@echo "✓ GHCR Docker container started"
 
 up: ## Start Docker Compose services
 	@echo "Starting Docker Compose services..."
@@ -231,8 +249,6 @@ list-containers: ## List all Docker containers
 
 system-info: ## Display system information
 	@echo "System Information:"
-	@echo "OS: $(OS)"
-	@echo "Architecture: $(ARCH)"
 	@echo "Shell: $(SHELL)"
 	@echo "Dotfiles Version: $(DOTFILES_VERSION)"
 	@command -v chezmoi >/dev/null && echo "Chezmoi: $$(chezmoi --version)" || echo "Chezmoi: Not installed"

@@ -40,13 +40,13 @@
 
 ## 6. Hybrid workflow, Makefile compatibility, and documentation
 
-- [x] 6.1 Document profile-specific setup: local `make init`; Mac CI `make init` then brew/brew-cask/mas/defaults/launchd workflow steps; Ubuntu CI `ci.toml`; Docker `docker.toml` — verified in `docs/bootstrap.md`
+- [x] 6.1 Document profile-specific setup: local `make init`; Mac CI `make init` then brew/brew-cask/mas/defaults/launchd workflow steps; Ubuntu CI `ci.toml`; Docker `docker.toml` — verified in `docs/architecture.md`, `docs/requirements.md`, and `docs/test.md`
 - [ ] 6.2 Confirm `ssh_setup` remains explicit and non-destructive while encrypted SSH files, `config.tmpl`, and `authorized_keys.tmpl` remain Chezmoi-managed; verify `chezmoi apply` does not generate or replace SSH keys, and `ssh_setup --generate` is required for new key creation
 - [ ] 6.3 Add root `.mise.toml` tasks: `setup`, `install`, `apply`, `bootstrap:packages`, `bootstrap:macos`, `bootstrap:tools`, `post-apply` — verify `mise run setup` matches documented flow
 - [ ] 6.4 Refactor `Makefile` to thin wrappers delegating to mise (`init` → `mise run setup`, `apply` → `mise run apply`, `test` → `mise run test`) — verify `.github/workflows/test.yaml` `make init` still passes on ubuntu-amd64
 - [ ] 6.5 Migrate Makefile docker/vm targets to `.mise.toml` (`docker:build`, `docker:run`, `vm:create`, …) with Makefile aliases — verify `make docker-build` and `mise run docker:build` behave identically
 - [ ] 6.6 Document zsh stack: ZDOTDIR (`dot_zshenv`) + chezmoi `~/.config/zsh/*` + sheldon (`plugins.toml`) + mise activate in `.zshrc` + platform-specific login shell handling — verify fresh Linux `make init` lands in zsh with sheldon and mise on PATH
-- [x] 6.7 Document Linux profiles: CLI-only (CI/headless) vs GUI (Ubuntu VM xfce/xrdp + `run_once_after_setup.sh`) vs Docker (`DOCKER=true` guards) — verified in `docs/platform-matrix.md`
+- [x] 6.7 Document Linux profiles: CLI-only (CI/headless) vs GUI (Ubuntu VM xfce/xrdp + `run_once_after_setup.sh`) vs Docker (`DOCKER=true` guards) — verified in `docs/architecture.md` and `docs/problems.md`
 - [x] 6.8 Add `home/private_dot_config/mise/ci.toml` (macOS full / Linux CLI) and `docker.toml` (Linux CLI only); verify both parse independently
 - [x] 6.9 Rename current image flavor `slim` to `full`, preserve separate `dev`, retain temporary `slim` full alias, and remove full/dev registry cache — verify workflow YAML parses
 
@@ -69,27 +69,32 @@ Coordinate with `openspec/changes/maximize-chezmoi-features` tasks 1.2, 6.1, and
 
 - [ ] 9.1 Add `home/.chezmoidata/host_profiles.yaml` (or equivalent) and refactor `home/.chezmoi.toml.tmpl` to derive `env`, `profile`, `features`, and `identity` from env-overlays + host profile — verify `chezmoi data` on mac, linux personal, and `GITHUB_ACTIONS=true` matches expected booleans without username `if/else` chains for secrets
 - [ ] 9.2 Simplify `home/.chezmoiignore` to use `features.*` gates instead of repeating `github`/`bitwarden`/`age`/`ssh` blocks — verify `chezmoi ignored` output is unchanged on representative hosts (diff before/after)
-- [ ] 9.3 Add `docs/platform-matrix.md`: mac / linux-cli / linux-gui / windows / docker-ci ownership table (mise vs chezmoi per row) — verify every row links to a real config path
-- [ ] 9.4 Add `docs/bootstrap.md`: `make init` → `mise run setup` flow, CLI vs GUI profile, when to run `chezmoi apply` twice — verify commands match implemented tasks from section 6
-- [ ] 9.5 Add `docs/context.md`: document `chezmoi data` keys (`osid`, `env`, `profile`, `features`, `identity`) and `.chezmoiignore` rules — verify examples run with `chezmoi execute-template`
-- [ ] 9.6 Update `docs/tech.md`, `docs/references.md`, `docs/problems.md`, and `AGENTS.md` for hybrid ownership (`mise.toml` OS packages, slim `packages.yaml`, bootstrap URLs) — verify no doc still lists `packages.yaml` darwin/linux as authoritative after phase 1 slimming
-- [ ] 9.7 (Optional) Add CI-safe fixture checks: `chezmoi data` for labeled contexts under `docs/fixtures/` or workflow step — verify template render succeeds for darwin, linux-cli, windows, github-actions without host secrets
-- [ ] 9.8 Add `docs/git-to-jj.md`: colocated migration, git↔jj command table, `jjj` usage, `_reserve/*` bookmarks, Makefile→mise `vcs:*` migration plan — verify doc links to `executable_jjj` and `claude/rules/git.md`; add `jj = "latest"` to `mise/config.toml` and `.mise.toml` tasks `vcs:status` / `vcs:push` (delegating to `jjj`) when implementing
+- [ ] 9.3 Keep the canonical documentation set aligned with profile ownership and real config paths — verify every profile row links to `docs/architecture.md`, `docs/problems.md`, or `docs/requirements.md`
+- [ ] 9.4 Keep the bootstrap flow documented in `docs/architecture.md` and `docs/test.md` — verify commands match implemented tasks
+- [ ] 9.5 Keep Chezmoi context and ignore rules documented in `docs/architecture.md` — verify examples run with `chezmoi execute-template`
+- [ ] 9.6 Update `docs/tech.md`, `docs/references.md`, `docs/problems.md`, and `AGENTS.md` for hybrid ownership — verify no doc lists obsolete package authorities
+- [ ] 9.7 (Optional) Add CI-safe fixture checks: `chezmoi data` for labeled contexts under a local fixture or workflow step — verify template render succeeds for darwin, linux-cli, windows, github-actions without host secrets
+- [ ] 9.8 Keep VCS migration notes in `docs/tech.md` and `ROADMAP.md` — verify references to `executable_jjj` and `claude/rules/git.md` remain valid
 
 ## 10. Dotfiles audit (phase 5 — gate before §5 script retirement)
 
 Coordinate with `maximize-chezmoi-features` task 1.1; reuse parity table from §1.1 where possible.
 
-- [ ] 10.1 **Baseline audit (required before §5):** Run managed/unmanaged/ignored inventory (`chezmoi managed`, `chezmoi unmanaged`, `chezmoi ignored`); map each `.chezmoiscripts/**` script to mise vs chezmoi owner; list all `encrypted_*` paths — verify audit artifact committed as `docs/audit-report-YYYY-MM.md` (no secrets) or OpenSpec appendix
+- [ ] 10.1 **Baseline audit (required before §5):** Run managed/unmanaged/ignored inventory (`chezmoi managed`, `chezmoi unmanaged`, `chezmoi ignored`); map each `.chezmoiscripts/**` script to mise vs chezmoi owner; list all `encrypted_*` paths — verify the audit result is recorded locally without secrets
 - [ ] 10.2 **Post-migration audit (after §5.3):** Re-run inventory; confirm zero duplicate package authority (YAML vs `mise.toml`); verify idempotent double-apply (`chezmoi apply` + `mise bootstrap packages apply` ×2) — verify parity table shows single owner per package row
 - [ ] 10.3 **Post-context audit (after §9.1–9.2):** Diff `chezmoi ignored` and `chezmoi data` across darwin, linux-cli, github-actions, docker fixtures — verify CI profile never gains age/BW/ssh secrets
-- [ ] 10.4 Add `docs/audit-checklist.md` with repeatable steps, cadence (baseline / post-migration / quarterly), and command reference — verify checklist covers mise hybrid scope (not chezmoi-only)
-- [ ] 10.5 Add `docs/README.md` doc index: tier (entry / operations / reference / assurance), canonical path per topic, links to `bootstrap.md`, `platform-matrix.md`, `security.md` — verify no doc claims `packages.yaml` as OS package authority after phase 1
+- [ ] 10.4 Keep repeatable audit steps, cadence (baseline / post-migration / quarterly), and command reference in `docs/security.md` and `docs/test.md` — verify checklist covers mise hybrid scope
+- [x] 10.5 Keep the eight-document index and canonical paths aligned — verify README and `docs/directory.md` list only the canonical docs
 
 ## 11. Security review (phase 5 — baseline + post-migration)
 
 - [ ] 11.1 **Baseline review (required before secret-hook removal):** Execute S1–S4 from `design.md` — secret scan, passphrase decrypt, CI/Docker ignore verification, and Dockerfile secret review.
 - [ ] 11.2 **GitHub/Mise review:** Confirm Actions uses `GITHUB_TOKEN`, local uses `gh` fallback, and no token file/export is committed.
 - [ ] 11.3 **Age identity review:** Confirm Mise runtime identity is separate from Chezmoi passphrase and has mode `600`.
-- [ ] 11.4 **Supply-chain review:** Review `.chezmoiexternal.toml.tmpl`, `install.sh`, and Mise tasks for allowed URLs and no age GitHub API dependency.
+- [ ] 11.4 **Supply-chain review:** Review `.chezmoiexternal.toml`, `install.sh`, and Mise tasks for allowed URLs and no age GitHub API dependency.
 - [ ] 11.5 **Post-change verification:** Run OpenSpec validation, shell/template checks, and Docker xrdp smoke test with non-secret logs.
+
+## 12. Recovered documentation and planning integration
+
+- [x] 12.1 Fold the two historical Superpowers plans into the migration intent and the canonical documentation set — verify README, ROADMAP, and the eight docs remain sufficient without OpenSpec
+- [x] 12.2 Keep historical planning local-only under `openspec/changes/archive/` when the source files are available — verify no public documentation links to local OpenSpec paths

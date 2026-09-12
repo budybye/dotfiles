@@ -41,6 +41,6 @@ This repository already uses Chezmoi for dotfile deployment and lifecycle script
 - `install.sh` — add curl mise install after chezmoi, before `chezmoi init --apply`
 - Root `.mise.toml` — add `setup` / bootstrap / docker / vm tasks; keep `Makefile` as thin compatibility wrapper (`make init` → `mise run setup`)
 - Split Linux **CLI-only** vs **GUI** bootstrap packages before retiring chezmoi gui script (CI/headless must not pull xfce/xrdp)
-- `docs/audit-checklist.md`, `docs/security.md`, `docs/README.md` — audit and security documentation (phase 5)
+- `docs/security.md`, `docs/test.md`, `README.md`, and `ROADMAP.md` — audit, security, and verification documentation
 - Coordinate audit inventory with `openspec/changes/maximize-chezmoi-features` task 1.1
 - External references: [mise bootstrap](https://mise.jdx.dev/bootstrap.html), [mise dotfiles](https://mise.jdx.dev/dotfiles.html) (deferred to later phases)
