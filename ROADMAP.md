@@ -21,22 +21,43 @@ README.md と docs/ が運用・設計の正本です。詳細な変更計画は
 - GitHub Actions は複数 OS、Docker、LXD、arm64 環境を検証する
 - SemVer git tag がリリースバージョンの単一ソースである
 
+## 目標の優先順位
+
+実施順は 短期 → 中期 → 長期。番号は各期間内の優先順位。
+
+| 期間 | 順 | 目標 | 依存・補足 |
+|---|---|---|---|
+| 完了 | - | M1 ドキュメントと正本の整理 | 残タスクは短期6へ移行 |
+| 短期 | 1 | Ubuntu 26.04 環境の安定化 | CI / VM / LXD の土台 |
+| 短期 | 2 | Ubuntu profile 境界の整理 | 1 と並行可 |
+| 短期 | 3 | cloud-init 最適化 | 1 と並行可 |
+| 短期 | 4 | Obsidian vault の git 管理 | 独立 |
+| 短期 | 5 | クロスプラットフォーム設計の前提整理 | 長期 M5 の入力 |
+| 短期 | 6 | ドキュメント参照リンクの自動チェック | M1 残タスク |
+| 中期 | 1 | M2 Mise / Chezmoi 移行 | 進行中 |
+| 中期 | 2 | M3 Chezmoi 機能の標準化 | M2 完了後 |
+| 中期 | 3 | M4 品質・セキュリティ監査 | 継続 / M3 と並行可 |
+| 中期 | 4 | M6 Mise 最適化と軽量化 | M2 完了後 |
+| 長期 | 1 | M5 Windows / WSL と汎用化 | 短期5 の設計を踏襲 |
+
 ## 短期目標
 
 - [ ] Ubuntu 26.04 の hosted runner / VM / LXD 環境を安定化し、`make init`、Chezmoi apply、Mise bootstrap の再現性を確認する
 - [ ] Ubuntu slim / minimal profile の責務を整理し、CLI-only image と GUI profile の package・service 境界を明確化する
 - [ ] cloud-init の共通処理、待機条件、ログ出力、冪等性を最適化し、Ubuntu / LXD / ARM64 の初期化時間と失敗率を下げる
+- [ ] Obsidian vault を git 管理に組み込み、chezmoi / dotfiles リポジトリとの同期境界と運用方針を定義する
+- [ ] macOS / Ubuntu / Windows / WSL / Docker を通したクロスプラットフォーム設計の前提と profile 境界を整理する
+- [ ] 参照リンクと実ファイル構成の定期チェックを自動化(M1 残タスク)
 
-## マイルストーン
+## 中期目標
 
-### M1: ドキュメントと正本の整理
+### M1: ドキュメントと正本の整理(完了)
 
 - [x] README にドキュメント索引と正本パスを統合
 - [x] 設計書を `docs/architecture.md` に統一
 - [x] `docs/test.md` を追加
 - [x] `docs/tasks.md` の運用を `ROADMAP.md` に移行
 - [x] Superpowers の2つの計画を README、docs、ROADMAP に統合
-- [ ] 参照リンクと実ファイル構成の定期チェックを自動化
 
 ### M2: Mise / Chezmoi 移行
 
@@ -59,13 +80,6 @@ README.md と docs/ が運用・設計の正本です。詳細な変更計画は
 - [ ] package parity と duplicate authority を定期監査
 - [ ] CI failure policy と recovery 手順を更新
 
-### M5: Windows / WSL と汎用化
-
-- [ ] Windows native の Chezmoi apply と package bootstrap を安定化する
-- [ ] WSL2 を Linux CLI profile として検証し、Windows native との差分を文書化する
-- [ ] macOS、Ubuntu、Windows、WSL、Docker で共有できる profile / feature 境界を整理する
-- [ ] ユーザー名・ホスト名・OS 固有分岐を減らし、未知の環境でも安全に fail-closed する
-
 ### M6: Mise 最適化と軽量化
 
 - [ ] Mise を tool version、package bootstrap、defaults、task orchestration の正本として整理する
@@ -73,6 +87,15 @@ README.md と docs/ が運用・設計の正本です。詳細な変更計画は
 - [ ] CLI-only / GUI / Docker の最小構成を分離し、不要な GUI package と外部依存を入れない
 - [ ] CI、Docker、WSL のキャッシュと並列実行を最適化し、再現性を維持したまま実行時間を短縮する
 - [ ] package parity、生成物、キャッシュ容量を定期測定し、軽量化の効果を検証する
+
+## 長期目標
+
+### M5: Windows / WSL と汎用化
+
+- [ ] Windows native の Chezmoi apply と package bootstrap を安定化する
+- [ ] WSL2 を Linux CLI profile として検証し、Windows native との差分を文書化する
+- [ ] macOS、Ubuntu、Windows、WSL、Docker で共有できる profile / feature 境界を整理する
+- [ ] ユーザー名・ホスト名・OS 固有分岐を減らし、未知の環境でも安全に fail-closed する
 
 ## 詳細な変更計画
 

@@ -21,21 +21,21 @@ layout {
     tab name="101" {
         pane split_direction="vertical" {
             pane {
-                name "home"
-                cwd "~"
-                command "btm"
-            }
-            pane {
                 name "dotfiles"
                 cwd "~/dotfiles"
                 command "fastfetch"
                 focus true
             }
+            pane {
+                name "home"
+                cwd "~"
+                command "btm"
+            }
         }
     }
 
-        tab name="102" {
-        pane split_direction="horizonatl" {
+    tab name="102" {
+        pane split_direction="horizontal" {
             pane {
                 name "ncmpcpp"
                 cwd "~/Music"
@@ -86,24 +86,16 @@ layout {
     }
     
     tab name="edit" {
-        pane split_direction="vertical" {
-            pane {
-                name "omp"
-                cwd "~/Developer"
-                command "omp"
-                args "-c"
-            }
-            pane {
-                name "pi"
-                cwd "~/Developer/docs"
-                command "pi"
-                args "-c"
-            }
+        pane {
+             name "omp"
+            cwd "~/Developer/docs"
+            command "omp"
+            args "-c"
         }
     }
 
     // tab name="xrp" {
-    //     pane {
+    //     pane split_direction="vertical" {
     //         name "lazyxrp"
     //         cwd "~/Developer/rust/lazyxrp"
     //         command "cargo"
