@@ -25,7 +25,7 @@ description: 技術スタック パッケージ管理 ライブラリ説明
 ## 対応 OS・プラットフォーム
 
 - **macOS Sequoia**
-- **Ubuntu 24.04 LTS**
+- **Ubuntu 26.04 LTS** (Docker image・GitHub Actions runner・LXD/RPi CI で確認済み。Multipass / OrbStack は image ピン未指定)
 - **Docker / Dev Container**
 - **Multipass**
 - **Windows (Winget / Scoop 経由で一部管理)**
@@ -36,7 +36,7 @@ description: 技術スタック パッケージ管理 ライブラリ説明
 
 - **設定ファイル**: `home/private_dot_config/mise/config.toml`
 - **参照ファイル**: `.tool-versions` (プロジェクトルート)
-- **役割**: 90+ ツールの統合管理（言語ランタイム、CLI、セキュリティツール等）
+- **役割**: 200+ ツールの統合管理（言語ランタイム、CLI、セキュリティツール等）。実数は `mise ls | sort -u` を参照
 - **運用**:
   - 多くのツールを `latest` で管理
   - `legacy_version_file = true` と `asdf_compat = true` を有効化
@@ -93,6 +93,7 @@ description: 技術スタック パッケージ管理 ライブラリ説明
 - **act**（GitHub Actions ローカル実行）
 - **task**（Taskfile / make 代替）
 - **pre-commit**
+- **graphify**（コードベース知識グラフ。除外は `.graphifyignore`）
 - **github actions（workflow）** — 下記「GitHub Actions パイプライン」
 
 #### GitHub Actions パイプライン
@@ -165,8 +166,7 @@ Mise で管理する主要な言語および関連ツール。
 
 ### Mise設定ファイル
 - **パス**: `home/private_dot_config/mise/config.toml`
-- **役割**: 詳細なツールバージョンと設定管理
-- **内容**: 90+ ツールのバージョン、環境変数、プラグイン設定
+- **内容**: 200+ ツールのバージョン、環境変数、プラグイン設定（正確な一覧は `mise ls`）
 - **参照**: パッケージマネージャー別一覧
 
 ### Aqua設定ファイル

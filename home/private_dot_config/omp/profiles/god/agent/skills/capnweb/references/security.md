@@ -39,7 +39,7 @@ Never add `Access-Control-Allow-Origin: *` casually when browser credentials or 
 
 ## Runtime validation
 
-TypeScript types disappear at runtime. Validate every untrusted input before using it in database filters, shell commands, file paths, HTML, authorization decisions, or resource allocation. Zod, Valibot, or hand-written guards are application choices; place validation at the RPC boundary and return bounded errors. Avoid logging raw credentials or arbitrary remote values.
+TypeScript types disappear at runtime. Validate every untrusted input before using it in database filters, shell commands, file paths, HTML, authorization decisions, or resource allocation. Prefer the companion package `capnweb-validate` per the official [runtime validation guide](https://capnweb.com/guides/validation/): build-time validators are generated from the exported TypeScript types (via `@validateRpc()` and a bundler plugin or CLI — an untransformed decorator throws a configuration error at startup), every method is covered, and it fails closed. Compose it with a schema library such as Zod, ArkType, or typia, or use [ts-runtime-checks](https://github.com/GoogleFeud/ts-runtime-checks) for type-to-check transforms; otherwise use runtime guards at the RPC boundary and return bounded errors. Avoid logging raw credentials or arbitrary remote values.
 
 A TypeScript `private` method is still callable remotely because it is erased. Use `#private` for runtime privacy and expose a small public `RpcTarget` surface.
 
@@ -53,13 +53,13 @@ An `RpcTarget` or callback is a bearer capability. Returning or retaining a stub
 - dispose/revoke capabilities when access ends;
 - document whether a returned capability is single-use, session-scoped, or durable.
 
-Remember that a mapper's captured stubs are transmitted to the peer. A malicious peer may invoke captured capabilities in ways the application did not expect.
+A mapper's captured stubs are transmitted to the peer. A malicious peer may invoke captured capabilities in ways the application did not expect.
 
 ## Resource exhaustion
 
 Promise pipelining can enqueue substantial work before intermediate results are pulled. Protect expensive methods with authentication, quotas, concurrency controls, pagination, rate limits, timeouts, and idempotency where needed. For Workers, review per-request CPU behavior, especially for long-lived WebSocket sessions and Durable Objects.
 
-Apply size limits before expensive processing. Configure both Cap'n Web receiver limits and native transport/socket limits (`ws` payload limits, Bun payload limits, proxy/load-balancer limits). Cap'n Web's own message check may run only after a transport has delivered a complete frame, so transport buffering is a separate risk. Limit stream chunk sizes, total bytes, and duration.
+Apply size limits before expensive processing. Configure both Cap'n Web receiver limits (`RpcSessionOptions.limits`: message size, nesting depth, bigint digits) and native transport/socket limits (`ws` payload limits, Bun payload limits, proxy/load-balancer limits). Cap'n Web's own message check may run only after a transport has delivered a complete frame, so transport buffering is a separate risk. Limit stream chunk sizes, total bytes, and duration.
 
 ## MessagePort and custom transports
 

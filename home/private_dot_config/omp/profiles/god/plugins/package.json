@@ -3,8 +3,6 @@
   "private": true,
   "dependencies": {
     "@dietrichgebert/ponytail": "https://github.com/DietrichGebert/ponytail",
-    "context-mode": "npm:context-mode@^1.0.169",
-    "graphify-pi": "npm:graphify-pi",
-    "pi-docparser": "npm:pi-docparser"
+    "context-mode": "^1.0.169"
   }
 }

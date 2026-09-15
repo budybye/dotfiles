@@ -135,7 +135,7 @@ WSL2、Windows、FreeBSD は将来対応予定です。対応範囲と package �
 | --- | --- |
 | [要件定義](docs/requirements.md) | 目的、制約、対応範囲 |
 | [アーキテクチャ](docs/architecture.md) | Chezmoi、Mise、bootstrap、レイヤー設計 |
-| [検証ガイド](docs/test.md) | ローカル、CI、OS別の検証 |
+| [検証ガイド](docs/testing.md) | ローカル、CI、OS別の検証 |
 | [技術スタック](docs/tech.md) | 技術選定と設定の正本 |
 | [ディレクトリ構成](docs/directory.md) | Chezmoi の配置と命名規則 |
 | [セキュリティ](docs/security.md) | age、SSH、secret、CI |

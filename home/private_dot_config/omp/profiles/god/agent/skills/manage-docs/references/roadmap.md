@@ -13,5 +13,6 @@ Axes (not required headings):
 - Priority: only if a ranked list already exists (issues, ADR). Do not invent P0/P1.
 - Sequence: only if A must precede B in code or requirements.
 - Milestones: named, dated, done-condition. A milestone without a done-condition is a wish.
+- Release / semver: only if tags or a version file already exist. Quote the tagging workflow and release policy; do not invent a scheme.
 
 Do not copy `requirements.md`. ROADMAP is when / how far; requirements is what ships.

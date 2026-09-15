@@ -55,7 +55,7 @@ README.md と docs/ が運用・設計の正本です。詳細な変更計画は
 
 - [x] README にドキュメント索引と正本パスを統合
 - [x] 設計書を `docs/architecture.md` に統一
-- [x] `docs/test.md` を追加
+- [x] `docs/test.md` を追加（現 `docs/testing.md`）
 - [x] `docs/tasks.md` の運用を `ROADMAP.md` に移行
 - [x] Superpowers の2つの計画を README、docs、ROADMAP に統合
 
@@ -113,7 +113,7 @@ README.md と docs/ が運用・設計の正本です。詳細な変更計画は
 
 1. 目標やマイルストーンを変更したら、このファイルを更新する
 2. 実装手順やチェック項目はまずこのファイルに記録し、必要な場合だけローカルの計画ファイルへ展開する
-3. 完了条件は `docs/test.md` と対応する workflow / command にリンクする
+3. 完了条件は `docs/testing.md` と対応する workflow / command にリンクする
 4. 技術の採用可否は `docs/tech.md` と実設定ファイルを更新してから記録する
 5. ローカルの計画ファイルを使った場合も、完了条件はこのファイルと正本ドキュメントへ反映する
 
@@ -122,7 +122,7 @@ README.md と docs/ が運用・設計の正本です。詳細な変更計画は
 - [README](README.md)
 - [要件定義](docs/requirements.md)
 - [アーキテクチャ](docs/architecture.md)
-- [検証ガイド](docs/test.md)
+- [検証ガイド](docs/testing.md)
 - [技術スタック](docs/tech.md)
 - [セキュリティ](docs/security.md)
 - [ドキュメント](docs/)

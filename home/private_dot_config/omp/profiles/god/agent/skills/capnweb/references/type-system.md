@@ -37,7 +37,7 @@ For recursive targets, callbacks, unions, nullable mapper results, streams, and 
 - TypeScript `private` is not remotely private.
 - JavaScript `#private` names are not exposed through the RPC proxy.
 - Own instance properties are not the same as prototype methods and should not be treated as a public state API.
-- Validate untrusted input at the RPC boundary with a runtime schema/guard before databases, queries, filesystem, HTML, or resource allocation.
+- Validate untrusted input at the RPC boundary, preferably with `capnweb-validate` (derived from the exported types), composed with a schema/guard for value-level constraints — before databases, queries, filesystem, HTML, or resource allocation.
 - Keep serialized DTOs plain and versionable; return a target only when live authority is intended.
 
 ## Export conditions and upgrades

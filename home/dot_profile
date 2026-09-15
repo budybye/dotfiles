@@ -549,6 +549,11 @@ if command -v discord >/dev/null 2>&1; then
     export DISCORD_USER_DATA_DIR="${XDG_DATA_HOME}/discord"
 fi
 
+if command -v openspec >/dev/null 2>&1; then
+    export OPENSPEC_TELEMETRY=0
+    export DO_NOT_TRACK=1
+fi
+
 if command -v opensrc >/dev/null 2>&1; then
     mkdir -p "${XDG_DATA_HOME}/opensrc"
     export OPENSRC_HOME="${XDG_DATA_HOME}/opensrc"

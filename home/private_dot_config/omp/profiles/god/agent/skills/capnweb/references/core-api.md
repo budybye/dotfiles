@@ -2,18 +2,6 @@
 
 Read this for API design, call semantics, serialization choices, and lifecycle bugs. Confirm details against the installed `capnweb` version and the official [README](https://github.com/cloudflare/capnweb/blob/main/README.md).
 
-## Contents
-
-- [Minimal shape](#minimal-shape)
-- [Pass by value vs reference](#pass-by-value-vs-reference)
-- [`RpcStub` and `RpcPromise`](#rpcstub-and-rpcpromise)
-- [HTTP batch](#http-batch)
-- [WebSocket and pipelining](#websocket-and-pipelining)
-- [Promise pipelining and `.map()`](#promise-pipelining-and-map)
-- [Streams](#streams)
-- [Disposal and ownership](#disposal-and-ownership)
-- [Errors](#errors)
-
 ## Minimal shape
 
 ```ts
@@ -48,7 +36,7 @@ console.log(await api.hello('World'))
 
 ## Pass by value vs reference
 
-Common pass-by-value values include primitives, plain objects, arrays, `bigint`, `Date`, byte containers, `Error` subclasses, `Blob`, Fetch `URL`/`Headers`/`Request`/`Response`, and readable/writable streams. Values are copied and must form a tree; do not rely on cycles or aliases. Check the package source/types before using less common platform values. `Map`, `Set`, and application classes that do not extend `RpcTarget` are not portable assumptions.
+Common pass-by-value values include primitives, plain objects, arrays, `bigint`, `Date`, `RegExp`, byte containers, `Error` subclasses, `Blob`, `URL`, Fetch `Headers`/`Request`/`Response`, and readable/writable streams. Values are copied and must form a tree; do not rely on cycles or aliases. Check the package source/types before using less common platform values. `Map`, `Set`, and application classes that do not extend `RpcTarget` are not portable assumptions.
 
 Use a `RpcTarget` when the receiver needs a live capability. Own instance properties are not exposed as remote properties; prototype methods are callable. TypeScript `private` is erased at runtime and is not a security boundary. Use JavaScript `#private` names for methods that must be inaccessible over RPC.
 

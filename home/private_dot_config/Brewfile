@@ -5,8 +5,7 @@ cask_args appdir: "/Applications"
 # tap "yusukebe/tap"
 # tap "nikitabobko/tap"
 # tap "jnsahaj/lumen"
-
-tap "ferdium/ferdium", trusted: true
+# tap "ferdium/ferdium", trusted: true
 
 # formula
 
@@ -236,7 +235,7 @@ cask "coderabbit"
 # cask "fig"
 # cask "flux-app"
 # cask "franz"
-cask "ferdium/ferdium/ferdium"
+cask "ferdium"
 # cask "figma"
 # cask "finch"
 cask "font-hackgen-nerd"
@@ -395,8 +394,8 @@ mas "Microsoft Excel", id: 462058435
 # mas "Microsoft PowerPoint", id: 462062816
 
 mas "RunCat", id: 1429033973
+mas "Shazam", id: 897118787
 # mas "LINE", id: 539883307
-# mas "Shazam", id: 897118787
 # mas "Plash", id: 1494023538
 # mas "Hidden Bar", id: 1452453066
 # mas "Hyper Cursor", id: 1634220679

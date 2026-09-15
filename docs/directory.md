@@ -32,7 +32,7 @@ description: directory ファイル情報説明
 ├── docs/                           # ドキュメント
 │   ├── requirements.md             # 要件定義・ゴール
 │   ├── architecture.md             # 詳細設計・アーキテクチャ
-│   ├── test.md                     # 検証設計・テストガイド
+│   ├── testing.md                # 検証設計・テストガイド
 │   ├── tech.md                     # 技術スタック・正本
 │   ├── directory.md                # ディレクトリ構成・命名規則
 │   ├── security.md                 # セキュリティ・秘密情報

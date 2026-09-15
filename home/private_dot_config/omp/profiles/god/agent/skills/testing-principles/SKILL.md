@@ -1,77 +1,96 @@
 ---
 name: testing-principles
-description: Behavior-focused testing guidance for this repository's TypeScript/JavaScript worker and server tests, especially Vitest unit/server, MCP smoke, workflow, mock, console-spy, audit-log-spy, fixture, and test-isolation changes. Use when writing, reviewing, or restructuring these tests or choosing their test boundary.
+description: Behavior-focused testing guidance for TypeScript/JavaScript tests (Vitest, Jest, Testing Library). Use when writing, reviewing, restructuring, or deleting tests; choosing unit/integration/smoke/E2E boundaries; consolidating over-split suites; or cleaning up low-signal agent-generated tests (magic-number asserts, tiny wrappers, stale bug histories).
 ---
 
 # Testing Principles
 
-Use **contract-first** tests: identify observable behavior, choose smallest test level that proves it, then keep setup, actions, assertions, and side effects in one legible flow.
+Use **contract-first** tests: identify observable behavior, choose the smallest test level that proves it, then keep setup, actions, assertions, and side effects in one legible workflow.
+
+## Workflow model
+
+Model each test on a **manual tester's workflow**, not on assertion count.
+
+- One user-facing workflow or state transition → one top-level `test(...)`.
+- **Single Arrange** per test; multiple Acts and Asserts are fine when they belong to the same workflow.
+- Keep intermediate-state assertions inside the workflow that produces them — modern runners show which assertion failed with enough context that mechanical "one assertion per test" splits are unnecessary and harmful.
+- Re-render the same component for prop updates inside one test; do not mount it twice in the same test for separate concerns.
 
 ## Test-level choice
 
-| Contract | Test level | Boundary that justifies it |
-|---|---|---|
-| Pure transformation or isolated handler behavior | Unit | No meaningful module, storage, or transport interaction |
-| Multiple in-process modules, persistence, middleware, or server behavior | Integration/server | Interaction across real local boundaries matters |
-| Real MCP HTTP transport, OAuth, or package-app session wiring | MCP smoke | `packages/worker/src/mcp/*.mcp-e2e.test.ts` boundary is required |
-| Browser navigation, rendering, or user input | E2E | Browser behavior cannot be proven in-process |
+Choose the smallest level whose failure class covers the risk under test:
 
-Keep E2E to a few important happy paths. Prefer fast local unit/server tests when they prove same contract. Add a slower test only when its boundary catches a failure the smaller test cannot observe.
+| Test level | Failures only this level catches |
+|---|---|
+| Unit | Wrong results from pure logic or isolated handlers |
+| Integration/server | Miswired interaction across real local boundaries — persistence, middleware, handlers |
+| Smoke / contract | Transport, auth, or session failures invisible in-process |
+| E2E | Browser-only failures: rendering, navigation, real input |
+
+Keep E2E to a few important happy paths. Add a slower test only when its boundary catches a failure the smaller test cannot observe.
 
 ## Test design
 
 - Name intent plainly, including expected behavior: `auth handler returns 400 for invalid JSON`.
-- Keep each independent contract in its own top-level `test(...)`; combine assertions when they depend on the same rendered object, request, response, or state transition.
-- Inline setup per test. Build factories that return ready-to-run objects; avoid shared mutable state because leaked state makes failures order-dependent.
-- Keep related intermediate-state assertions inside workflow that produces them; this preserves causal failure context.
-- Use disposable objects only when cleanup is real; otherwise avoid `using` and `Symbol.dispose`.
-- Start from observable contract. Do not test guarantees already provided by TypeScript's type system.
-- Keep tests offline: use local fakes and fixtures, not public internet or third-party services.
-- Assert structured output, user-visible outcomes, or stable public contracts. Avoid incidental prose, tool descriptions, usage hints, warnings, and configuration strings.
-- Add regression tests when failure is plausible and flow justifies maintenance cost; avoid low-value bug-history tests.
+- Split independent contracts into separate tests; combine assertions when they depend on the same rendered object, request, response, or state transition.
+- Inline setup per test; build factories that return ready-to-run objects; use `using`/`Symbol.dispose` only when cleanup is real.
+- Start from observable contract; keep tests offline with local fakes and fixtures, not public internet or third-party services.
+- Assert structured output, user-visible outcomes, or stable public contracts.
+- Add regression tests when failure is plausible and the flow justifies maintenance cost — not bug histories whose contract value has lapsed.
+- Delete or merge **low-signal tests**: tiny wrappers, magic-number asserts, impossible edge cases, and suites that only duplicate what a shorter workflow test already proves. More green checks ≠ more confidence.
 
 ## Console output
 
-Global setup guards console output (`packages/worker/src/test-support/console-spies.ts`). Unexpected `console.error` and `console.warn` fail tests; `console.info` and `console.debug` are silenced.
+When the project guards console output in global test setup, unexpected `console.error` and `console.warn` should fail tests unless explicitly handled. Keep allowlists narrow so unrelated regressions stay visible. If the project has no guard, add one in global setup before allowlisting anything — never silence ad hoc inside a single test.
 
-Keep output allowlisted so unrelated regressions remain visible:
-
-- Logging is part of contract: import exported `consoleError`/`consoleWarn` spies, silence with `.mockImplementation(() => {})`, then assert calls. Prefer stable first-argument tags plus `expect.any(Error)`; assert count when deterministic.
-- Logging is incidental: use `silenceExpectedConsoleWarns([...])` or `silenceExpectedConsoleErrors([...])` with exact expected message tags.
-- Bundler/registry runtime noise: use `silenceIncidentalRuntimeWarnings()` from `packages/worker/src/test-support/incidental-runtime-warnings.ts`.
-
-Blanket console mocks hide unexpected warnings and errors; keep them scoped to expected noise and assert contract logging explicitly.
-
-## Audit-log side effects
-
-Node-unit tests globally mock the audit-log sink through `packages/worker/src/test-support/audit-log-spy.ts` and setup files. Import `logAuditEventSpy` and assert expected events, including `not.toHaveBeenCalled()` when no event is expected.
-
-When testing the real audit pipeline, opt out with:
+When logging is part of the contract, assert it with the project's exported spies:
 
 ```ts
-vi.unmock('#worker/audit-log.ts')
+test('retries on 429', () => {
+  consoleWarn.mockImplementation(() => {}); // project console spy from test setup
+  retry(request);
+  expect(consoleWarn).toHaveBeenCalledWith('http.retry', expect.any(Error));
+});
 ```
 
-When overriding another audit-log export (for example `getRequestIp`), declare a local `vi.mock('#worker/audit-log.ts', ...)` and route `logAuditEvent` back through shared `logAuditEventSpy`.
+Prefer stable first-argument tags plus `expect.any(Error)`; assert call count when deterministic.
 
-## Project test commands
+When the guard fails a test, classify the failing tag before silencing it:
 
-Run server/unit tests with:
+| Failing output is | Action |
+|---|---|
+| Contract logging | Assert with the project's `consoleError`/`consoleWarn` spies as above |
+| Expected incidental noise | Use the project's allowlist helper with exact expected message tags |
+| Known runtime/tooling noise | Use the project's scoped runtime-noise silencer, if one exists |
+| None of these | Investigate — an unexpected warning is often the regression the guard exists to surface |
 
-```sh
-npm run test
-```
+## Side-effect sinks
 
-Use targeted Vitest paths when diagnosis needs them. This avoids Playwright discovery and accidental matching of `packages/worker/src/mcp/mcp-server.mcp-e2e.test.ts`.
+When global test setup mocks a side-effect sink (audit log, metrics, analytics), import the shared spy and assert expected events, including `not.toHaveBeenCalled()` when no event is expected.
+
+When testing the real pipeline, opt out with `vi.unmock()` on the **same module id the setup file registered** — read the setup file or spy module comment for the exact path/alias.
+
+When overriding other exports from that module, declare a local `vi.mock(...)` and route the sink function back through the shared spy so per-test assertions stay consistent.
+
+## Running tests
+
+Use the project's documented test command for the boundary you changed. Prefer targeted file or project paths when diagnosing failures — broad patterns often pull in slow smoke or E2E suites unrelated to the change.
+
+## NEVER
+
+- **NEVER** split one assertion per test mechanically. Shared setup across tests leaks mutable state and makes failures order-dependent; modern runners already pinpoint failing assertions inside one workflow test.
+- **NEVER** mount the same component twice in one test for separate concerns. Prop-update re-renders inside one workflow are fine.
+- **NEVER** blanket-mock console. It hides the unexpected warnings and errors the guard exists to surface; scope mocks to expected noise.
+- **NEVER** share mutable state between tests. Leaked state makes failures order-dependent.
+- **NEVER** test guarantees already provided by TypeScript's type system — a failing type check already fails CI.
+- **NEVER** assert incidental prose, tool descriptions, usage hints, warnings, or configuration strings — they are unstable contracts.
+- **NEVER** keep low-signal tests for coverage. Tiny wrappers, magic-number asserts, and stale bug-history tests erode suite trust without catching real regressions.
+- **NEVER** run broad test path patterns when targeted paths suffice. They waste time and often match unrelated slow suites.
 
 ## Completion check
 
-Before finishing a test change, verify every modified workflow has:
+Before finishing a test change, verify:
 
-1. A test name stating behavior and expected result.
-2. Setup isolated from other tests and no newly introduced shared mutable state.
-3. A test level justified by its observable boundary.
-4. Dependent intermediate and final assertions in one workflow; independent contracts split.
-5. Network and third-party dependencies local or faked.
-6. Expected console and audit-log side effects asserted or explicitly allowlisted.
-7. `npm run test` exercised for modified unit/server workflows; MCP smoke or E2E changes use the corresponding boundary-specific command, and any unavailable command is documented with a targeted substitute.
+1. Each test's level is justified by the boundary it observes.
+2. Console and side-effect assertions are made or explicitly allowlisted.
+3. The appropriate project test command ran for the changed boundary; if unavailable, document a targeted substitute.

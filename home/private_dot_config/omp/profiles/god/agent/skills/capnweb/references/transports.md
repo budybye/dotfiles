@@ -46,10 +46,13 @@ When an application already uses Hono, prefer the maintained `@hono/capnweb` ada
 Typical shape:
 
 ```ts
+import { newRpcResponse } from '@hono/capnweb'
+import { upgradeWebSocket } from 'hono/cloudflare-workers' // runtime-specific
+
 app.all('/api', c => newRpcResponse(c, new Api(), { upgradeWebSocket }))
 ```
 
-Keep authentication, route middleware, CORS, and error policy explicit around the adapter.
+On Node.js, the upgrade needs `createNodeWebSocket({ app })` from `@hono/node-ws` plus `injectWebSocket(server)` after `serve`; import `upgradeWebSocket` from the adapter matching the deployment target (`hono/cloudflare-workers`, `@hono/node-ws`, Deno equivalent). Standard route middleware (`bearerAuth`, CORS, logging) runs before the RPC route.
 
 ## MessagePort
 

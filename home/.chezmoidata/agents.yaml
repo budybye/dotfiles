@@ -76,9 +76,15 @@ agents:
       - "crafting-effective-readmes"
       - "dependency-updater"
       - "professional-communication"
+      - "game-changing-features"
       - "naming-analyzer"
       - "marp-slide"
       - "database-schema-designer"
+      - "c4-architecture"
+      - "mermaid-diagrams"
+  
+      - "react-dev"
+      - "react-useeffect"
     # "nextlevelbuilder/ui-ux-pro-max-skill":
       # - "ui-ux-pro-max" # CRITICAL
     "vercel-labs/skills":
@@ -119,6 +125,13 @@ agents:
       # - "claude-api"
     "claude-office-skills/skills":
       - "chart-designer"
+    "iofficeai/officecli":
+      - "officecli-pptx"
+      - "officecli-docx"
+      - "officecli-xlsx"
+      - "officecli-academic-paper"
+      - "morph-ppt"
+      - "officecli-data-dashboard"
     "seflless/deepwiki":
       - "deepwiki"
     "mcp-use/mcp-use":
@@ -167,6 +180,8 @@ agents:
     "coderabbitai/skills":
       - "autofix" # high
       - "code-review"
+    "lobehub/lobehub": 
+      - "i18n"
     "backnotprop/bro":
       - "bro"
     "upstash/context7":

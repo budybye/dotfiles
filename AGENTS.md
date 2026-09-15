@@ -5,7 +5,6 @@ Chezmoi-managed dotfiles (macOS / Ubuntu, XDG-aligned). Stay within the requeste
 ## Rules
 
 - Manage with chezmoi, **jj** (primary VCS; git for remotes/CI via colocated repos), and make.
-- Planning: `ROADMAP.md` is the project roadmap; OpenSpec is optional detail when a change needs structured artifacts.
 - Propose changes that were not requested or that affect appearance only, then get approval.
 - Keep dependencies minimal. Put formatting and lint changes in separate commits.
 - Shell scripts: `#!/usr/bin/env bash`, `set -eu`, check tool availability with `command -v`.
@@ -22,4 +21,4 @@ Chezmoi-managed dotfiles (macOS / Ubuntu, XDG-aligned). Stay within the requeste
 ## Further docs
 
 - Start with [README.md](README.md), which owns the document index and source-of-truth map.
-- Use [ROADMAP.md](ROADMAP.md) for milestones and active work.
+- Use [ROADMAP.md](ROADMAP.md) for milestones and active work. OpenSpec stays optional and local (untracked) for structured change plans.

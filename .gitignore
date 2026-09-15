@@ -1,2 +1,4 @@
 openspec/
 !openspec/config.yaml
+# Local Pi runtime state
+.atl/

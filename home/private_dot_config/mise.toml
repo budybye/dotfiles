@@ -194,8 +194,8 @@ WarnOnEmptyTrash = false
 [bootstrap.brew]
 adopt = false
 
-[bootstrap.brew.taps]
-"ferdium/ferdium" = "latest"
+# [bootstrap.brew.taps]
+# "ferdium/ferdium" = "latest"
 
 [bootstrap.packages]
 "brew:cask" = { os = "macos" }
@@ -226,6 +226,7 @@ adopt = false
 "brew-cask:cursor" = { os = "macos" }
 # "brew-cask:coderabbit" = { os = "macos" }
 # "brew-cask:ferdium/ferdium/ferdium" = { os = "macos" }
+"brew-cask:ferdium" = { os = "macos" }
 "brew-cask:font-hackgen-nerd" = { os = "macos" }
 "brew-cask:google-chrome" = { os = "macos" }
 "brew-cask:ghostty" = { os = "macos" }
@@ -249,6 +250,7 @@ adopt = false
 "mas:634148309" = "latest" # logic
 "mas:1429033973" = "latest" # runcat
 "mas:462058435" = "latest" # excel
+"mas:897118787" = "latest" # shazam
 # "mas:539883307" = "latest" # line
 
 "apt:apt-utils" = { os = "linux" }
@@ -330,6 +332,7 @@ adopt = false
 # "apt:gnome-remote-desktop" = "latest"
 # "apt:libinput-tools" = "latest"
 # "apt:gnome-keyring" = "latest"
+# "apt:zenity" = "latest"
 
 # "apt:libpulse-dev" = "latest"
 # "apt:dh-autoreconf" = "latest"

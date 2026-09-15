@@ -1,5 +1,5 @@
 ---
-name: test
+name: testing
 description: dotfiles のローカル・CI・環境別検証ガイド
 ---
 

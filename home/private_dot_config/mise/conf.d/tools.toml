@@ -56,15 +56,16 @@ watchexec = "latest" # auto runner
 # "github:backnotprop/plannotator" = "latest"
 
 # npm
+"npm:omp-web" = "latest"
 "npm:pm2" = "latest"
 "npm:defuddle" = "latest"
-"npm:omp-web" = "latest"
 "npm:just-scrape" = "latest"
 "npm:nx" = "latest"
 "npm:@antfu/ni" = "latest"
 "npm:@brave/brave-search-cli" = "latest"
 "npm:ndrstnd" = "latest"
-"npm:taze" = "latest"
+"npm:taze" = "latest" # version
+"npm:spynel" = "latest" # agents
 "npm:@hono/cli" = "latest"
 "npm:executor" = "latest"
 "npm:ccxt-cli" = "latest"
@@ -168,7 +169,7 @@ ubi = "latest"
 fzf = "latest"
 checkmake = "latest"
 topgrade = "latest" # tui
-glow = "latest"
+# glow = "latest"
 # sampler = "latest"
 # gum = "latest"
 # direnv = "latest"
@@ -286,6 +287,8 @@ ast-grep = "latest"
 "github:gleam-lang/gleam" = "latest" # web
 "github:agavra/tuicr" = "latest" # code review
 
+# "cargo:can1357/pon" = "latest"
+
 # "cargo:denisidoro/navi" = "latest" # file 
 # "cargo:denoland/celld" = "latest" # self-host durable objects
 # "cargo:orhun/kmon" = "latest" 
@@ -349,12 +352,17 @@ yt-dlp = "latest"
 # "pipx:pdftotext" = "latest" # pdf
 
 "pipx:sherlock-project/sherlock" = "latest"
+# "pipx:microsoft/agent-governance-toolkit[full]" = "latest"
 "pipx:NVIDIA/skillspector" = "latest" # skill scan
 "pipx:headroomlabs-ai/headroom" = "latest" # agents
 # "pipx:teng-lin/notebooklm-py" = "latest"
 
 # "pipx:cea-sec/miasm" = "latest"
 
+"conda:markitdown" = "latest"
+# "pipx:markitdown-ocr" = "latest"
+
+"conda:pdftotext" = "latest" # pdf
 "conda:openai" = "latest" # graphify label が依存？
 "conda:pypdf" = "latest"
 "conda:lxml" = "latest"
@@ -411,7 +419,7 @@ dotnet = "latest"
 
 # github (Swift / C# など)
 # "github:manaflow-ai/cmux" = "latest"       # Swift
-"github:iofficeai/officecli" = "latest"    # C#
+"github:iofficeai/officecli" = "latest"    # C# 万能 office tools
 # "github:ClusterVR/ClusterCreatorKit" = "latest" 
 
 # =============================================================================

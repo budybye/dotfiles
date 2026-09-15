@@ -28,8 +28,8 @@ providers:
     auth: apiKey
     api: openai-responses
     models:
-      - id: standard-compute
-        name: standard-compute
+      - id: standardcompute
+        name: standardcompute
 
   opencode-go:
     baseUrl: https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/custom-opencode-go/v1
@@ -52,29 +52,29 @@ providers:
       - id: deepseek-v4-flash-free
         name: deepseek-v4-flash-free
 
-  anthropic:
-    baseUrl: https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/anthropic
-    apiKey: CLOUDFLARE_API_KEY
-    auth: apiKey
-    headers:
-      cf-aig-authorization: "!printf 'Bearer %s' \"$CLOUDFLARE_API_KEY\""
-    api: openai-responses
-    models:
-      - id: anthropic/claude-opus-5
-        name: Opus-5
+  # anthropic:
+  #   baseUrl: https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/anthropic
+  #   apiKey: CLOUDFLARE_API_KEY
+  #   auth: apiKey
+  #   headers:
+  #     cf-aig-authorization: "!printf 'Bearer %s' \"$CLOUDFLARE_API_KEY\""
+  #   api: openai-responses
+  #   models:
+  #     - id: anthropic/claude-opus-5
+  #       name: Opus-5
 
-  google-ai-studio:
-    baseUrl: https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/google-ai-studio/v1beta
-    apiKey: GOOGLE_API_KEY
-    auth: apiKey
-    headers:
-      cf-aig-authorization: "!printf 'Bearer %s' \"$CLOUDFLARE_API_KEY\""
-    api: google-generative-ai
-    models:
-      - id: gemini-3.5-flash
-        name: Gemini 3.5 Flash
-      - id: gemini-3.1-flash-lite
-        name: Gemini 3.1 Flash lite
+  # google-ai-studio:
+  #   baseUrl: https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/google-ai-studio/v1beta
+  #   apiKey: GOOGLE_API_KEY
+  #   auth: apiKey
+  #   headers:
+  #     cf-aig-authorization: "!printf 'Bearer %s' \"$CLOUDFLARE_API_KEY\""
+  #   api: google-generative-ai
+  #   models:
+  #     - id: gemini-3.5-flash
+  #       name: Gemini 3.5 Flash
+  #     - id: gemini-3.1-flash-lite
+  #       name: Gemini 3.1 Flash lite
         
   openrouter:
     baseUrl: https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/openrouter/v1

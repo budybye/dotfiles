@@ -1,34 +1,52 @@
 setupVersion: 2
 modelRoles:
-  default: openai-codex/gpt-6-astra
-  slow: opencode-go/glm-5.3:max
-  advisor: opencode-go/glm-5.3:medium
-  vision: openai-codex/gpt-5.6-luna:medium
-  commit: openai-codex/gpt-5.6-luna:medium
-  task: openai-codex/gpt-5.6-luna:medium
-  tiny: openai-codex/gpt-5.6-luna:low
-  smol: openai-codex/gpt-5.6-luna:low
-  plan: cursor/cursor-grok-4.6:auto
+  default: standard-compute/standardcompute
+  smol: "@default"
+  tiny: "@default"
+  plan: standard-compute/standardcompute:medium
+  slow: standard-compute/standardcompute:high
+  advisor: standard-compute/standardcompute:minimal # 読み取り 常にオンにできる
+  commit: "@default"
+  vision: "@default"
+  designer: "@default"
+  task: standard-compute/standardcompute:medium
 defaultThinkingLevel: auto
+# デフォルトで advisor 有効化
+advisor:
+  enabled: true
+# plan, fast/slow, careful, yolo
+magicKeywords.enabled: true
 dev:
-  autoqaConsent: granted
-  maxRetries: 3
+  autoqaConsent: denied # ログ送信
 theme:
   dark: dark-monokai
   light: titanium
 composer:
   shape: box
+# 10分待機 してリトライ
 retry:
-  fallbackChains:
-    default:
-      - cursor/composer-2.5
+  enabled: true
+  modelFallback: false
+  maxRetries: 2
+  maxDelayMs: 654321
 ttsr:
   builtinRules: false
+# vault:// でobsidian 操作できるようになる
 vault:
   enabled: true
+# プロジェクト毎に記憶保持
 memory:
-  backend: mnemopi
+  # backend: local
+  backend: mnemopi # sqlite
   mnemopi:
     - scoping: per-project
     - noEmbeddings: true
     - llmMode: none
+compaction:
+  enabled: true        # 自動圧縮を有効化
+  threshold: 0.8   # コンテキスト使用率 80% で圧縮開始
+autoLearn:
+  enabled: true # 自動でスキル作成
+# .omp/hooks/audit-log.ts など
+# hooks:
+  # - path: ./hooks/audit-log.ts

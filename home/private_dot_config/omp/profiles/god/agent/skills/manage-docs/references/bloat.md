@@ -6,7 +6,7 @@
 Do not split on line count. Split only at a contract boundary that already has owner and source (architecture vs directory vs tech vs product). No matching row: do not split; report Unknowns. Interactive: one question. Non-interactive: blocked.
 
 - Same table twice → link, do not copy.
-- Rename / split onto catalog names → NEVER (ownership dies; the new name looks like Bootstrap coverage).
+- Rename / split onto catalog names on the agent's own initiative → NEVER (ownership dies; the new name looks like Bootstrap coverage). A user-named **Reorganize** may rename onto catalog names.
 - `guidance.md` only if more than ~6 docs **and** navigation fails. An index "in case" is a second spec.
 - **navigation fails** (same as SKILL.md Terms): after the documented reading order, the reader cannot name one owner, one source, and one entry for the topic, or two files still claim the same axis.
 - Never `docs/README.md`.

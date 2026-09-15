@@ -17,6 +17,7 @@ key.txt*
 .ssh/id_rsa*
 .ssh/id_ed25519*
 .env*
+.config/**/agent/models.yml
 {{ end }}
 
 {{ if not .ssh }}

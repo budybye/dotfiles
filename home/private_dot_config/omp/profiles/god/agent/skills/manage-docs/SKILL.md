@@ -7,11 +7,16 @@ description: >-
   Only AGENTS.md is agent-only (the exploration procedure).
   Use for: /manage-docs, /make-docs, /update-docs, write docs, spec, init docs,
   generate AGENTS.md, docs drift, stale README, Sync Full after a release,
-  Sync Post-ship after a named change, Add-topic (DESIGN / operations / product / pattern).
+  Sync Post-ship after a named change, Add-topic (DESIGN / operations / product / pattern),
+  Reorganize (merge / dedup / rename / move / split existing docs on request).
   Do not use for: tutorials, changelog authorship, or pure prose rewrites.
 ---
 
 # /manage-docs
+
+## Quick route
+
+Prose only → **Stop** · no `docs/` → **Bootstrap** · structural change to existing docs → **Reorganize** · named existing file → **Sync Targeted** · one contract row + `docs/` exists → **Add-topic** · everything / release → **Sync Full** · this session shipped → **Post-ship** · ambiguous → one question, else **blocked**. First match wins; signal nuances (partial `docs/`, tie-breaks) live in the Router table — it is the source of truth.
 
 ## Read this first (canonical)
 
@@ -28,7 +33,7 @@ Unless one row's trigger matches exactly, **Do NOT Load any reference**, includi
 | [`references/roadmap.md`](references/roadmap.md) | Add-topic or Targeted is `ROADMAP.md` **and** user asked for its structure | whether to create it; catalog why; split |
 | [`references/bloat.md`](references/bloat.md) | asked to split; one file unreadably long; docs exceed ~6 **and navigation fails**; adding `guidance.md`; same table in two files | ordinary Bootstrap/Sync/Verify; DESIGN/ROADMAP structure; catalog why |
 
-After a router row wins, **run only that section** (Stop / Bootstrap / Sync / Add-topic).
+After a router row wins, **run only that section** (Stop / Bootstrap / Sync Targeted / Sync Full / Sync Post-ship / Reorganize / Add-topic / Fallback).
 
 ### Terms
 
@@ -66,19 +71,24 @@ Mixed routes produce create+sync in one pass and leave both trees wrong.
 
 | # | Signal | Route |
 |---|---|---|
-| 1 | Prose only / rebuild existing docs into this catalog | **Stop** |
+| 1 | Prose only / cosmetic rebuild of existing docs into this catalog | **Stop** |
 | 2 | No `docs/` (init / README-only / spec-only / missing README / add a row but no tree) | **Bootstrap** |
-| 3 | Named **existing** `README` or one docs path; `docs/` exists | **Sync Targeted** |
-| 4 | One contract row with a reason (UI → DESIGN, quality gate → pattern); **`docs/` exists** | **Add-topic** |
-| 5 | Reconcile every quote / after a release / across manifests / no change set | **Sync Full** |
-| 6 | This change, PR, or session shipped; no filename | **Sync Post-ship** |
-| 7 | Ambiguous | Fallback |
+| 3 | Named structural change to existing docs (merge / dedup / rename / move / split); **`docs/` exists** | **Reorganize** |
+| 4 | Named **existing** `README` or one docs path; `docs/` exists | **Sync Targeted** |
+| 5 | One contract row with a reason (UI → DESIGN, quality gate → pattern); **`docs/` exists** | **Add-topic** |
+| 6 | Reconcile every quote / after a release / across manifests / no change set | **Sync Full** |
+| 7 | This change, PR, or session shipped; no filename | **Sync Post-ship** |
+| 8 | Ambiguous | Fallback |
 
-**Tie-break:** 3 vs 6: named file → Targeted, else Post-ship. Even one `docs/` file is not Bootstrap.
+**Tie-break:** 4 vs 7: named file → Targeted, else Post-ship. Even one `docs/` file is not Bootstrap.
 
 **Full vs Post-ship:** a named change set or "just shipped this" → **Post-ship** (only those rows). "everything" / "release" / "all manifests" / no change set → **Full**. Both phrases and a change set exists → Post-ship.
 
-**Row 7:** Interactive: one question, create from nothing or sync facts? Non-interactive: **blocked**. A 50/50 mix writes empty catalog files and "syncs" them in the same turn. Read failures and missing links use the State table, not Fallback.
+**Row 8:** Interactive: one question, create from nothing or sync facts? Non-interactive: **blocked**. A 50/50 mix writes empty catalog files and "syncs" them in the same turn. Read failures and missing links use the State table, not Fallback.
+
+**Example (row 8 boundary):** "docs feel stale," `docs/` exists, no named file, no change set → row 6 (Sync Full), not row 8. Row 8 is only when create-vs-sync is itself undecidable.
+
+**Boundary (row 1 vs 3):** structural verbs ("merge A into B", "rename X to Y") → row 3 even when phrased as catalog alignment; "rewrite for clarity" / "fit this catalog" with no structural verb and no named files → row 1.
 
 | Mix | Route |
 |---|---|
@@ -134,7 +144,7 @@ Add only when:
 | `./docs/requirements.md` | What ships / does not, how done looks | How it works, schedules |
 | `./docs/architecture.md` | Duties, data flow, schemas (intent) | Tech picks, path names, appearance |
 | `./docs/product.md` | Jobs and failures per actor | Single-actor acceptance, screens, threats |
-| `./docs/test.md` | Which test proves which requirement | Bare test-path list |
+| `./docs/testing.md` | Which test proves which requirement | Bare test-path list |
 | `./docs/tech.md` | Why this stack, constraints, rejected options | Layer diagrams, data flow |
 | `./docs/directory.md` | Allowed names, forbidden paths | Tree dumps |
 | `./docs/pattern.md` | Lint/format quality design (tools, gates, why, what is not linted) | Indent/quotes, pasted config |
@@ -183,7 +193,21 @@ Does not create `docs/` (that invents intent while quoting runtime). **Full** = 
 
 Monorepo: root README ↔ root manifest; package README ↔ that package. Root scripts copied into every package make a wrong command canonical (NEVER). Polyglot: command source is the CI job that actually runs. Picking a "main language" is a silent Gaps resolution.
 
-**Example:** "added `--dry-run` and one dependency, sync docs," no filename → row 6. Read sources; patch only README deps + flag (runtime quotes). `--dry-run` default false in code and true in `docs/` → **drift** (Terms). Report: Scope=post-ship / sources / patched=README / drifts=dep, --dry-run / Gaps=none.
+**Example:** "added `--dry-run` and one dependency, sync docs," no filename → row 7. Read sources; patch only README deps + flag (runtime quotes). `--dry-run` default false in code and true in `docs/` → **drift** (Terms). Report: Scope=post-ship / sources / patched=README / drifts=dep, --dry-run / Gaps=none.
+
+---
+
+## Reorganize
+
+Named structural change to an existing tree — merge, dedup, rename, move, split — on explicit request; `docs/` exists. Cosmetic re-cataloging on the agent's own initiative stays row 1 **Stop**.
+
+- Ownership survives the move: same decision, new home. Renaming onto catalog names is the user's call, never the agent's.
+- Facts do not change during a move; runtime quotes still follow the Sync table.
+- Dedup: one fact, two files → owner per Placement; the loser becomes a link or dies. Two-runtime-source conflicts stay **Gaps**; do not silently pick.
+- Clean cutover: every reference to a moved / merged / renamed / deleted file updates in the same pass (indexes, related-docs lists, cross-links); grep-verify zero stale links before reporting.
+- Split only at a contract boundary with owner and source, per [`references/bloat.md`](references/bloat.md).
+
+**Example:** "merge setup.md into architecture.md, rename test.md to testing.md" → row 3. Content moves under the surviving owner's headings, every link updates, the emptied file dies, report ownership decisions + Gaps.
 
 ---
 
@@ -191,9 +215,9 @@ Monorepo: root README ↔ root manifest; package README ↔ that package. Root s
 
 One contract row, owner + source, **and `docs/` already exists**. Do not rename onto catalog names. Rename steals ownership and looks like Bootstrap.
 
-**Example (ok):** "added a UI, record the design," `docs/` exists → row 4 → one `DESIGN.md`. Do not touch architecture duties.
+**Example (ok):** "added a UI, record the design," `docs/` exists → row 5 → one `DESIGN.md`. Do not touch architecture duties.
 
-**Example (no):** "add pattern.md," no `docs/` → row 2, never row 4. After three files, Minimal profile decides pattern.md.
+**Example (no):** "add pattern.md," no `docs/` → row 2, never row 5. After three files, Minimal profile decides pattern.md.
 
 ---
 
@@ -211,7 +235,7 @@ Keep this block short; do not paste this skill.
 
 - `docs/tasks.md` / `docs/README.md`: live work in issues/ROADMAP; index is `guidance.md`
 - Guess commands, deps, or defaults: the lie becomes the next source
-- Rename / split / overwrite existing docs to fit the catalog: ownership dies; the new name looks like Bootstrap coverage
+- Rename / split / overwrite existing docs to fit the catalog on the agent's own initiative; a user-named structural change runs **Reorganize**: ownership dies; the new name looks like Bootstrap coverage
 - Full README rewrite on Targeted / reword with no clash: diffs must cite Terms (**Gaps** or **drift**)
 - Change code defaults while "fixing" docs: mixed diffs hide both
 - Lint/format essays in AGENTS / paste tool config into `pattern.md`: AGENTS stops being the entry; config files own the bits, `pattern.md` owns why the gate exists
@@ -228,6 +252,7 @@ Keep this block short; do not paste this skill.
 - Bootstrap: Skipped + why; if README was touched, AGENTS / docs remain reachable
 - Sync: no out-of-scope prose; no code/config edits unless asked
 - Add-topic: new content matches contract Role only; nothing from that row's **Does not** column
+- Reorganize: facts unchanged in moves; every ownership decision listed; zero stale links after cutover
 
 Failed item → **blocked**: which check, truth vs docs, human must choose?
 
@@ -237,4 +262,5 @@ Failed item → **blocked**: which check, truth vs docs, human must choose?
 - **Bootstrap**: Created / Skipped (why) / Sources+owners / Unknowns
 - **Sync**: Scope (`full` \| `targeted` \| `post-ship`) / sources read / Files patched / Drifts fixed / Gaps
 - **Add-topic**: Created (path) / Skipped (why) / source+owner
+- **Reorganize**: moved / merged / renamed / deleted / links updated / ownership decisions / Gaps
 - **Trace**: claim → source path
