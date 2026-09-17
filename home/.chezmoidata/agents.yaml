@@ -125,13 +125,13 @@ agents:
       # - "claude-api"
     "claude-office-skills/skills":
       - "chart-designer"
-    "iofficeai/officecli":
-      - "officecli-pptx"
-      - "officecli-docx"
-      - "officecli-xlsx"
-      - "officecli-academic-paper"
-      - "morph-ppt"
-      - "officecli-data-dashboard"
+    # "iofficeai/officecli":
+    #   - "officecli-pptx"
+    #   - "officecli-docx"
+    #   - "officecli-xlsx"
+    #   - "officecli-academic-paper"
+    #   - "morph-ppt"
+    #   - "officecli-data-dashboard"
     "seflless/deepwiki":
       - "deepwiki"
     "mcp-use/mcp-use":

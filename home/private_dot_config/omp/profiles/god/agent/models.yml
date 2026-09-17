@@ -30,6 +30,8 @@ providers:
     models:
       - id: standardcompute
         name: standardcompute
+        contextWindow: 1234567 
+        maxTokens: 13700
 
   opencode-go:
     baseUrl: https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/custom-opencode-go/v1

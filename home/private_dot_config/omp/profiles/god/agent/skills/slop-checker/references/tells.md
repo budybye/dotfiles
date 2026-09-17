@@ -2,16 +2,28 @@
 
 ## Notes
 
-Load this when the SKILL.md catalog is not enough — for a thorough review, a contested edit, or when the author wants the reasoning behind a flag.
+Load this when the piece is slop-dense, an edit is contested, or the author asks why a phrase was flagged. Otherwise do not load it.
 
 ## Overused AI lexicon
 
 Swap for plain words or cut. Not banned outright — flagged for scrutiny. If the plain word is worse, keep the original.
 
+### Cut outright (filler, cliché, overclaim)
+
+| Flagged word | Usually means | Plainer choice |
+| --- | --- | --- |
+| tapestry / landscape / realm | (filler noun) | cut, or name the actual thing |
+| in today's (fast-paced) world | (throat-clearing opener) | cut |
+| it's worth noting / it should be noted | (padding) | cut |
+| at the end of the day | (filler) | cut |
+| a double-edged sword | (cliché) | name the specific tradeoff |
+| game-changer / revolutionary | (overclaim) | say the concrete change |
+
+### Swap or scrutinize (a real word sits behind the flag)
+
 | Flagged word | Usually means | Plainer choice |
 | --- | --- | --- |
 | delve (into) | look at, examine | look at, dig into |
-| tapestry / landscape / realm | (filler noun) | cut, or name the actual thing |
 | underscore / highlight | show, stress | show |
 | leverage (verb) | use | use |
 | seamless / frictionless | easy, smooth | easy, or say how |
@@ -22,13 +34,8 @@ Swap for plain words or cut. Not banned outright — flagged for scrutiny. If th
 | foster / cultivate | build, grow | build |
 | elevate / unlock / empower | improve, enable | improve, let |
 | myriad / plethora | many | many, or a number |
-| in today's (fast-paced) world | (throat-clearing opener) | cut |
 | when it comes to | for, about | for |
-| it's worth noting / it should be noted | (padding) | cut |
-| at the end of the day | (filler) | cut |
 | that being said | but, still | but |
-| a double-edged sword | (cliché) | name the specific tradeoff |
-| game-changer / revolutionary | (overclaim) | say the concrete change |
 
 ## Structural tells beyond word choice
 

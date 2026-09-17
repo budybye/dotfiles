@@ -1,52 +1,43 @@
 setupVersion: 2
 modelRoles:
-  default: standard-compute/standardcompute
   smol: "@default"
   tiny: "@default"
-  plan: standard-compute/standardcompute:medium
-  slow: standard-compute/standardcompute:high
-  advisor: standard-compute/standardcompute:minimal # 読み取り 常にオンにできる
+  plan: "@default"
+  slow: "@default"
   commit: "@default"
-  vision: "@default"
-  designer: "@default"
+  vision: standard-compute/standardcompute:auto
+  designer: standard-compute/standardcompute:high
   task: standard-compute/standardcompute:medium
+  advisor: standard-compute/standardcompute:low
+  default: standard-compute/standardcompute
 defaultThinkingLevel: auto
-# デフォルトで advisor 有効化
 advisor:
   enabled: true
-# plan, fast/slow, careful, yolo
-magicKeywords.enabled: true
+magicKeywords:
+  enabled: true
 dev:
-  autoqaConsent: denied # ログ送信
+  autoqaConsent: denied
 theme:
   dark: dark-monokai
   light: titanium
 composer:
   shape: box
-# 10分待機 してリトライ
-retry:
-  enabled: true
-  modelFallback: false
-  maxRetries: 2
-  maxDelayMs: 654321
-ttsr:
-  builtinRules: false
-# vault:// でobsidian 操作できるようになる
-vault:
-  enabled: true
-# プロジェクト毎に記憶保持
+# retry:
+#   enabled: true
+#   maxRetries: 2
+#   maxDelayMs: 654321
 memory:
-  # backend: local
-  backend: mnemopi # sqlite
+  backend: mnemopi
   mnemopi:
     - scoping: per-project
     - noEmbeddings: true
     - llmMode: none
+ttsr:
+  builtinRules: false
+vault:
+  enabled: true
 compaction:
-  enabled: true        # 自動圧縮を有効化
-  threshold: 0.8   # コンテキスト使用率 80% で圧縮開始
+  enabled: false
+  threshold: 0.8
 autoLearn:
-  enabled: true # 自動でスキル作成
-# .omp/hooks/audit-log.ts など
-# hooks:
-  # - path: ./hooks/audit-log.ts
+  enabled: true

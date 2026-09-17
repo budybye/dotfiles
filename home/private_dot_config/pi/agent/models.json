@@ -9,10 +9,6 @@
       },
       "models": [
         {
-          "id": "gpt-oss-120b",
-          "name": "Chappy"
-        },
-        {
           "id": "preview/Kimi-K2.7-Code",
           "name": "Kimi-k2.7-code"
         }
