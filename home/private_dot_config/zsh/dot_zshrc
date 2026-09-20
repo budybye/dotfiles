@@ -136,6 +136,10 @@ if command -v uv > /dev/null 2>&1; then
     eval "$(uv generate-shell-completion zsh)"
 fi
 
+# if command -v taskctl > /dev/null 2>&1; then
+#     . <(taskctl completion zsh)
+# fi
+
 # Vite+ bin (https://viteplus.dev) — PATH 先頭に prepend する
 if [ -f "${HOME}/.config/vite-plus/env" ]; then
     . "${HOME}/.config/vite-plus/env"

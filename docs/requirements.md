@@ -51,6 +51,8 @@ description: 要件定義書
 
 ### 将来対応予定
 
+- **Kali Linux**: 対応進行中（ROADMAP M7）。Docker GUI image と LXD 経路のみ（`images:kali/current/cloud`）。multipass は Ubuntu 専用、OrbStack machine は Ubuntu / Debian 専用のため VM は LXD のみ。RDP は Ubuntu と同一の `xrdp + xorgxrdp + Xorg + XFCE` 経路
+- **Omarchy**: 候補（未検証）。Arch + Hyprland（Wayland）構成のため xrdp は直接対応せず、リモートアクセスは wayvnc など別経路が前提。Docker / LXD より VM / 実機向き
 - **Windows**: ネイティブ Windows サポート（予定）
 - **FreeBSD**: FreeBSD + jail 対応（予定）
 

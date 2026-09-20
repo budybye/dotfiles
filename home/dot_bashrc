@@ -55,6 +55,10 @@ if command -v thefuck > /dev/null 2>&1; then
     eval "$(thefuck --alias)"
 fi
 
+# if command -v taskctl > /dev/null 2>&1; then
+#     . <(taskctl completion bash)
+# fi
+
 # mise
 if command -v mise > /dev/null 2>&1; then
     eval "$(mise activate bash)"

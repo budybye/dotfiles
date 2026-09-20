@@ -143,7 +143,7 @@ WSL2、Windows、FreeBSD は将来対応予定です。対応範囲と package �
 | [参考文献](docs/references.md) | 公式 docs と repository |
 | [ROADMAP](ROADMAP.md) | 目標と進捗 |
 
-README、docs、ROADMAPだけでプロジェクトの運用情報を完結させます。詳細な変更計画を必要とする場合は、ローカルのOpenSpecをGit管理外で任意に利用できます。
+詳細な変更計画を必要とする場合は、ローカルのOpenSpecをGit管理外で利用できます。
 
 ### 正本パス
 

@@ -397,7 +397,7 @@ install_orca
 install_ruby_fusuma
 install_vicinae
 # install_vscode
-# install_wireshark
+install_wireshark
 install_zed
 install_zen
 echo "--------------------------------"

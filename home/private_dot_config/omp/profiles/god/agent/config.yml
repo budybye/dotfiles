@@ -2,42 +2,47 @@ setupVersion: 2
 modelRoles:
   smol: "@default"
   tiny: "@default"
-  plan: "@default"
-  slow: "@default"
+  vision: "@default"
   commit: "@default"
-  vision: standard-compute/standardcompute:auto
-  designer: standard-compute/standardcompute:high
-  task: standard-compute/standardcompute:medium
-  advisor: standard-compute/standardcompute:low
-  default: standard-compute/standardcompute
+  task: "@default"
+  slow: anthropic/claude-opus-5-5:auto
+  plan: anthropic/claude-opus-5-5:auto
+  designer: openrouter/google/gemini-3.8-flash:middle
+  advisor: openrouter/deepseek/deepseek-v4.1:low
+  judge: openrouter/typesafe/jev-router:auto
+  default: openrouter/openrouter/free
 defaultThinkingLevel: auto
 advisor:
-  enabled: true
+  enabled: false
+prewalk:
+  enabled: false
 magicKeywords:
+  enabled: true
+autoLearn:
+  enabled: true
+vault:
   enabled: true
 dev:
   autoqaConsent: denied
+read:
+  defaultLimit: 1000
+ttsr:
+  builtinRules: false
+compaction:
+  enabled: false
+  threshold: 0.8
+composer:
+  shape: box
 theme:
   dark: dark-monokai
   light: titanium
-composer:
-  shape: box
-# retry:
-#   enabled: true
-#   maxRetries: 2
-#   maxDelayMs: 654321
+browser:
+  headless: true
+goal:
+  statusInFooter: true
 memory:
   backend: mnemopi
   mnemopi:
     - scoping: per-project
     - noEmbeddings: true
     - llmMode: none
-ttsr:
-  builtinRules: false
-vault:
-  enabled: true
-compaction:
-  enabled: false
-  threshold: 0.8
-autoLearn:
-  enabled: true

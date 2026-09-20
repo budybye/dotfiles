@@ -152,8 +152,10 @@ agents:
       - "ffmpeg"
     "blacktop/dotfiles":
       - "ratatui-tui"
-    # "tt-a1i/archify":
-      # - "archify" # CRITICAL
+    "RhysSullivan/skills": 
+      - "quality-code"
+    "tt-a1i/archify":
+      - "archify" # CRITICAL
     # "graphify-labs/graphify":
     #   - "graphify" # ubuntu だとエラーになる?
     # "OthmanAdi/planning-with-files":
@@ -162,6 +164,8 @@ agents:
       # - "resend" # CRITICAL
     "ayghri/i-have-adhd":
       - "i-have-adhd"
+    "herdrdev/herdr": 
+      - "herdr"
     "jackwener/opencli":
       - "opencli-browser"
     "hkuds/cli-anything":

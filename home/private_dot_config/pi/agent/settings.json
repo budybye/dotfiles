@@ -4,33 +4,25 @@
     "keepRecentTokens": 22000,
     "reserveTokens": 16384
   },
-  "defaultModel": "standardcompute",
-  "defaultProvider": "standard-compute",
+  "defaultModel": "z-ai/glm-5.3-flash",
+  "defaultProvider": "openrouter",
   "defaultThinkingLevel": "medium",
   "enableInstallTelemetry": false,
   "enableSkillCommands": true,
   "enabledModels": [
-    "sakura/preview/Kimi-K2.7-Code",
-    "openrouter/openrouter/free",
-    "openrouter/stealth/ox-alpha",
-    "opencode-go/gpt-5.6-luna",
-    "opencode-go/deepseek-v4-flash",
-    "opencode-go/ox-alpha-free",
-    "opencode-zen/deepseek-v4-flash-free",
-    "cloudflare-workers-ai/@cf/deepseek-ai/deepseek-v4-flash-0731",
+    "openrouter/z-ai/glm-5.3-flash",
+    "cloudflare-workers-ai/@cf/zai-org/glm-5.3-flash",
     "cloudflare-ai-gateway/gpt-5.6-luna",
-    "openai-codex/gpt-5.6-luna",
-    "xai/grok-4.6"
+    "sakura/preview/Kimi-K2.7-Code",
+    "openrouter/openrouter/free"
   ],
-  "lastChangelogVersion": "0.84.4",
+  "lastChangelogVersion": "1.0.2",
   "language": "ja",
   "locale": "ja-JP",
   "npmCommand": [
     "bun"
   ],
-  "packages": [
-    "npm:hotmilk"
-  ],
+  "packages": [],
   "retry": {
     "enabled": true,
     "maxRetries": 3,
@@ -40,12 +32,9 @@
   "sessionDir": ".pi/sessions",
   "shellCommandPrefix": "shopt -s expand_aliases\neval \"$(grep '^alias ' ~/.aliases)\"",
   "skills": [
-    "~/.agents/skills",
-    "~/.claude/skills",
-    "~/.codex/skills",
-    "~/.gemini/skills"
+    "~/.agents/skills"
   ],
-  "steeringMode": "one-at-a-time",
+  "steeringMode": "all",
   "thinkingBudgets": {
     "max": 42000,
     "high": 32768,
@@ -53,5 +42,6 @@
     "low": 4096,
     "minimal": 1024
   },
-  "theme": "dark"
+  "theme": "dark",
+  "followUpMode": "all"
 }

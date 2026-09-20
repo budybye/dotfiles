@@ -1,0 +1,118 @@
+#!/usr/bin/env bash
+# herdr-dev — herdr 起動エントリポイント: server 確保 → dev プリセット保証(タブ単位) → attach
+# 使い方: autostart(zprofile / bash_profile)から呼ぶ。herdr 内の shell からの手動実行でも可
+#         (その場合は構築のみで attach しない)。
+# 仕様: プリセット構成要素(tab 102 / Dev / Docs / lazydocker)はタブ単位で冪等に保証される —
+#       閉じられたタブは次回起動時に個別に復活する(プリセット常駐)。workspace も同様。
+# 作り直し: herdr workspace close <workspace_id> && herdr-dev
+# server が稼働中の通常起動 = タブ単位の存在保証のみ(既存 pane には触れない)。
+# 自前で server を起動した場合 = snapshot 復元直後(pane は素 shell のみ)なので
+# dev を閉じてコマンド再実行込みで完全再構築する。
+# 応答 ID は CLI reference v0.9.1 準拠: .result.{workspace.workspace_id, tab.tab_id,
+# root_pane.pane_id, pane.pane_id}
+set -eu
+
+command -v herdr >/dev/null 2>&1 || exit 1
+
+# 1) server 未稼働なら headless で起動して ready を待つ(失敗しても herdr 本体が起動する)
+FRESH=0
+SERVER_PID=""
+if ! herdr status 2>/dev/null | grep -q 'status: running'; then
+  nohup herdr server >/dev/null 2>&1 &
+  SERVER_PID=$!
+  i=0
+  until herdr status 2>/dev/null | grep -q 'status: running' || [ "$i" -ge 30 ]; do
+    i=$((i + 1))
+    sleep 0.5
+  done
+  # 正の確認: 稼働中 server が「自分が起動したプロセス」であることのみ FRESH=1 とする
+  # (status 探測の一時的失敗で既存 server が生きている場合は FRESH=0 → 破壊操作なし)
+  if herdr status 2>/dev/null | grep -q 'status: running' && kill -0 "$SERVER_PID" 2>/dev/null; then
+    FRESH=1
+  fi
+fi
+herdr status 2>/dev/null | grep -q 'status: running' || exit 0
+# FRESH 時は boot 直後の API が不安定(restore 反映待ち)なので、実際に問い合わせが通るまで待つ
+if [ "$FRESH" = 1 ]; then
+  i=0
+  until herdr workspace list >/dev/null 2>&1 || [ "$i" -ge 20 ]; do
+    i=$((i + 1))
+    sleep 0.5
+  done
+  sleep 1
+fi
+
+# 2) dev プリセット保証(タブ単位で冪等)
+if herdr status 2>/dev/null | grep -q 'status: running' && command -v jq >/dev/null 2>&1; then
+  ensure_dev_layout() {
+    if [ "${FRESH:-}" = 1 ]; then
+      # server 再起動直後: 復元 pane は素 shell のみ(コマンドは死んでいる)。
+      # close を試みた後のリスト再取得が冪等性の正本(list 直後は restore 反映が不安定なため 1s 待つ)
+      sleep 1
+      herdr workspace close "$(herdr workspace list | jq -r '.. | objects | select((.label? // "") == "dev") | (.workspace_id? // .id? // empty)' 2>/dev/null | head -1)" >/dev/null 2>&1 || true
+    fi
+    W=$(herdr workspace list | jq -r '.. | objects | select((.label? // "") == "dev") | (.workspace_id? // .id? // empty)' 2>/dev/null | head -1)
+    if [ -z "$W" ]; then
+      # workspace create は最初の tab と root pane を同時に作る — それを tab「101」として流用
+      R=$(herdr workspace create --label dev --cwd "$HOME/dotfiles")
+      W=$(printf '%s' "$R" | jq -r '.result.workspace.workspace_id')
+      T=$(printf '%s' "$R" | jq -r '.result.tab.tab_id')
+      P=$(printf '%s' "$R" | jq -r '.result.root_pane.pane_id')
+      herdr tab rename "$T" 101
+      herdr pane run "$P" fastfetch
+      P=$(herdr pane split --pane "$P" --direction right --cwd "$HOME" | jq -r '.result.pane.pane_id')
+      herdr pane run "$P" btm
+    fi
+
+    TABS=$(herdr tab list 2>/dev/null || true)
+    if [ -z "$TABS" ]; then
+      sleep 1
+      TABS=$(herdr tab list 2>/dev/null || true)
+    fi
+    [ -n "$TABS" ] || return 1
+    has_tab() {
+      printf '%s' "$TABS" | jq -re --arg w "$W" --arg l "$1" \
+        '.result.tabs[] | select(.workspace_id == $w and .label == $l) | .tab_id' >/dev/null 2>&1
+    }
+
+    if ! has_tab 102; then
+      R=$(herdr tab create --workspace "$W" --label 102 --cwd "$HOME/Music")
+      P=$(printf '%s' "$R" | jq -r '.result.root_pane.pane_id')
+      herdr pane run "$P" ncmpcpp
+      P=$(herdr pane split --pane "$P" --direction down --cwd "$HOME/data" | jq -r '.result.pane.pane_id')
+      herdr pane run "$P" "cat $HOME/data/cat.txt"
+    fi
+
+    if ! has_tab Dev; then
+      R=$(herdr tab create --workspace "$W" --label Dev --cwd "$HOME/Developer")
+      P=$(printf '%s' "$R" | jq -r '.result.root_pane.pane_id')
+      PB=$(herdr pane split --pane "$P" --direction down | jq -r '.result.pane.pane_id') # 下段(全幅)
+      herdr pane split --pane "$P" --direction right >/dev/null # 上段右(素 shell)
+      herdr pane split --pane "$PB" --direction right >/dev/null # 下段右(素 shell)
+    fi
+
+    if ! has_tab Docs; then
+      R=$(herdr tab create --workspace "$W" --label Docs --cwd "$HOME/Developer/docs")
+      P=$(printf '%s' "$R" | jq -r '.result.root_pane.pane_id')
+      herdr agent start pi --kind pi --pane "$P" -- -c
+      # herdr agent start omp --kind omp --pane "$P" -- -c
+    fi
+
+    # tab「lazydocker」: docker 稼働 + lazydocker 導入時のみ(条件付き)
+    if ! has_tab lazydocker && command -v docker >/dev/null 2>&1 && command -v lazydocker >/dev/null 2>&1 \
+       && docker info >/dev/null 2>&1; then
+      R=$(herdr tab create --workspace "$W" --label lazydocker --cwd "$HOME/Developer")
+      P=$(printf '%s' "$R" | jq -r '.result.root_pane.pane_id')
+      herdr pane run "$P" lazydocker
+      echo "tab「lazydocker」を作成しました(docker 稼働中)"
+    fi
+
+    echo "dev プリセットを保証しました($W)"
+  }
+  ensure_dev_layout || echo "プリセット保証に失敗 — 既存セッションに attach します" >&2
+fi
+
+# 3) attach(herdr 内からの手動実行時は構築のみ)
+if [ -z "${HERDR_ENV:-}" ]; then
+  herdr
+fi

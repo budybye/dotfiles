@@ -2,11 +2,8 @@
   "providers": {
     "sakura": {
       "baseUrl": "https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/custom-sakura/v1",
-      "apiKey": "$SAKURA_API_KEY",
+      "apiKey": "$CLOUDFLARE_API_KEY",
       "api": "openai-completions",
-      "headers": {
-        "cf-aig-authorization": "!printf 'Bearer %s' \"$CLOUDFLARE_API_KEY\""
-      },
       "models": [
         {
           "id": "preview/Kimi-K2.7-Code",
@@ -28,47 +25,18 @@
         }
       ]
     },
-    "opencode-go": {
-      "baseUrl": "https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/custom-opencode-go/v1",
-      "apiKey": "$OPENCODE_GO_API_KEY",
-      "api": "openai-completions",
-      "headers": {
-        "cf-aig-authorization": "!printf 'Bearer %s' \"$CLOUDFLARE_API_KEY\""
-      },
-      "models": [
-        {
-          "id": "gpt-5.6-luna",
-          "name": "gpt-5.6-luna"
-        },
-        {
-          "id": "kimi-k3",
-          "name": "kimi-k3"
-        },
-        {
-          "id": "glm-5.2",
-          "name": "glm-5.2"
-        },
-        {
-          "id": "deepseek-v4-flash",
-          "name": "deepseek-v4-flash"
-        }
-      ]
-    },
     "opencode-zen": {
       "baseUrl": "https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/custom-opencode-zen/v1",
-      "apiKey": "$OPENCODE_GO_API_KEY",
+      "apiKey": "$CLOUDFLARE_API_KEY",
       "api": "openai-completions",
-      "headers": {
-        "cf-aig-authorization": "!printf 'Bearer %s' \"$CLOUDFLARE_API_KEY\""
-      },
       "models": [
         {
-          "id": "deepseek-v4-flash-free",
-          "name": "deepseek-v4-flash-free"
+          "id": "muse-spark-1.3-contributor-free",
+          "name": "muse-spark-1.3-contributor-free"
         }
       ]
     },
-    "anthropic": {
+    "anthropic-gateway": {
       "baseUrl": "https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/anthropic",
       "api": "anthropic-messages",
       "headers": {
@@ -77,8 +45,8 @@
       "apiKey": "$ANTHROPIC_API_KEY",
       "models": [
         {
-          "id": "anthropic/claude-opus-5",
-          "name": "Opus-5"
+          "id": "claude-opus-5.5",
+          "name": "Opus-5.5"
         }
       ]
     },
@@ -102,15 +70,20 @@
     },
     "openrouter": {
       "baseUrl": "https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/openrouter/v1",
-      "apiKey": "$OPENROUTER_API_KEY",
+      "apiKey": "$CLOUDFLARE_API_KEY",
       "api": "openai-completions",
-      "headers": {
-        "cf-aig-authorization": "!printf 'Bearer %s' \"$CLOUDFLARE_API_KEY\""
-      },
       "models": [
         {
+          "id": "z-ai/glm-5.3-flash",
+          "name": "glm-5.3-flash"
+        },
+        {
           "id": "openrouter/openrouter/free",
-          "name": "openrouter:free"
+          "name": "free-model"
+        },
+        {
+          "id": "qwen/qwen3.8-27b:free",
+          "name": "qwen3.8-27b:free"
         }
       ]
     }

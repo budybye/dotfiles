@@ -100,6 +100,9 @@ abbr agu='apt update -y && apt upgrade -y'
 abbr aq='apt search'
 abbr pkg='dpkg'
 
+# cleanup (パッケージマネージャのキャッシュ掃除)
+abbr cleanup='bun pm -g cache rm; pnpm store prune; uv cache prune; npm cache clean --force; deno clean; go clean -cache; mise prune && mise cache clear'
+
 # ツール系
 abbr sc='shellcheck'
 

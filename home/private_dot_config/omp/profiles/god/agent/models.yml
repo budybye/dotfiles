@@ -1,69 +1,76 @@
 providers:
-  # openaiだけ動く状態 /compat/v1 だと headersが足りない？
-  cloudflare-ai-gateway:
+  openai-gateway:
     baseUrl: https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/openai/v1
-    # headers:
-      # cf-aig-authorization:
     apiKey: CLOUDFLARE_API_KEY
     auth: apiKey
     api: openai-responses
     models:
-      - id: gpt-5.6-luna
-        name: gpt-5.6-luna
-  
+      - id: gpt-6-luna
+        name: gpt-6-luna
+      - id: gpt-6-sol
+        name: gpt-6-sol
+
+  anthropic-gateway:
+    baseUrl: https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/default/anthropic/v1
+    apiKey: CLOUDFLARE_API_KEY
+    auth: apiKey
+    api: anthropic-messages
+    models:
+      - id: claude-opus-5-5
+        name: opus-5.5
+      # - id: claude-sonnet-5-5
+      #   name: sonnet-5.5
+        
   sakura:
     baseUrl: https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/custom-sakura/v1
     apiKey: CLOUDFLARE_API_KEY
     auth: apiKey
     api: openai-responses
     models:
-      - id: gpt-oss-120b
-        name: Chappy
       - id: preview/Kimi-K2.7-Code
         name: Kimi
-
-  standard-compute:
-    baseUrl: https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/custom-standard-compute/v1
+        
+  openrouter:
+    baseUrl: https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/openrouter/v1
     apiKey: CLOUDFLARE_API_KEY
-    auth: apiKey
     api: openai-responses
+    auth: apiKey
     models:
-      - id: standardcompute
-        name: standardcompute
-        contextWindow: 1234567 
-        maxTokens: 13700
+      - id: z-ai/glm-5.3-flash
+        name: glm-5.3-flash
+      - id: z-ai/glm-5.3
+        name: glm-5.3
+      - id: deepseek/deepseek-v4.1-flash
+        name: deepseek-v4.1-flash
+      - id: google/gemini-3.8-flash
+        name: gemini-3.8-flash
+      - id: openai/gpt-6-luna
+        name: gpt-6-luna
+      - id: typesafe/jev-router
+        name: jev-router
+      - id: openrouter/free
+        name: free-model
 
-  opencode-go:
-    baseUrl: https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/custom-opencode-go/v1
-    apiKey: CLOUDFLARE_API_KEY
-    auth: apiKey
-    api: openai-responses
-    models:
-      - id: gpt-5.6-luna
-        name: gpt-5.6-luna
-      - id: kimi-k3
-        name: kimi-k3
-      - id: deepseek-v4-flash
-        name: deepseek-v4-flash
-  opencode-zen:
-    baseUrl: https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/custom-opencode-zen/v1
-    apiKey: CLOUDFLARE_API_KEY
-    auth: apiKey
-    api: openai-responses
-    models:
-      - id: deepseek-v4-flash-free
-        name: deepseek-v4-flash-free
-
-  # anthropic:
-  #   baseUrl: https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/anthropic
+  # opencode-go:
+  #   baseUrl: https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/custom-opencode-go/v1
   #   apiKey: CLOUDFLARE_API_KEY
   #   auth: apiKey
-  #   headers:
-  #     cf-aig-authorization: "!printf 'Bearer %s' \"$CLOUDFLARE_API_KEY\""
   #   api: openai-responses
   #   models:
-  #     - id: anthropic/claude-opus-5
-  #       name: Opus-5
+  #     - id: gpt-6-luna
+  #       name: gpt-6-luna
+  #     - id: kimi-k3
+  #       name: kimi-k3
+  #     - id: glm-5.3-flash
+  #       name: glm-5.3-flash
+  # opencode-zen:
+  #   baseUrl: https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/custom-opencode-zen/v1
+  #   apiKey: CLOUDFLARE_API_KEY
+  #   auth: apiKey
+  #   api: openai-responses
+  #   models:
+  #     - id: muse-spark-1.3-contributor-free
+  #       name: muse-spark-1.3-contributor-free
 
   # google-ai-studio:
   #   baseUrl: https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/google-ai-studio/v1beta
@@ -77,12 +84,3 @@ providers:
   #       name: Gemini 3.5 Flash
   #     - id: gemini-3.1-flash-lite
   #       name: Gemini 3.1 Flash lite
-        
-  openrouter:
-    baseUrl: https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/openrouter/v1
-    apiKey: CLOUDFLARE_API_KEY
-    api: openai-responses
-    auth: apiKey
-    models:
-      - id: openrouter/openrouter/free
-        name: openrouter:free

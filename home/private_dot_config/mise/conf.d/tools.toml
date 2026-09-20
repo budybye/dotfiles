@@ -56,32 +56,35 @@ watchexec = "latest" # auto runner
 # "github:backnotprop/plannotator" = "latest"
 
 # npm
-"npm:omp-web" = "latest"
+# "npm:omp-web" = "latest" 
 "npm:pm2" = "latest"
 "npm:defuddle" = "latest"
 "npm:just-scrape" = "latest"
 "npm:nx" = "latest"
+"npm:cf" = "latest"
 "npm:@antfu/ni" = "latest"
 "npm:@brave/brave-search-cli" = "latest"
 "npm:ndrstnd" = "latest"
 "npm:taze" = "latest" # version
-"npm:spynel" = "latest" # agents
-"npm:@hono/cli" = "latest"
-"npm:executor" = "latest"
-"npm:ccxt-cli" = "latest"
+# "npm:spynel" = "latest" # agents
+# "npm:specsmd" = "latest" # agents spec
+"npm:@hono/cli" = "latest" # hono docs/test
+"npm:executor" = "latest" # codemode
+"npm:ccxt-cli" = "latest" # trade
+"npm:mygo-cli" = "latest" # trade
 "npm:workers-fetch" = "latest"
 "npm:localflare" = "latest"
 "npm:zenn-cli" = "latest"
 "npm:rnsec" = "latest"
-"npm:skills" = "latest"
-"npm:rosie-skills" = "latest"
-"npm:context-mode" = "latest"
+"npm:skills" = "latest" # agent skills
+"npm:rosie-skills" = "latest" # scan skill
+"npm:context-mode" = "latest" # agent tiny
 "npm:greptile" = "latest"
 # "npm:planning-with-files" = "latest"
 "npm:@fission-ai/openspec" = "latest"
 "npm:@jackwener/opencli" = "latest"
 "npm:ctx7" = "latest"
-"npm:npkill" = "latest"
+"npm:npkill" = "latest" #
 "npm:@hey-api/openapi-ts" = "latest"
 "npm:react-doctor" = "latest"
 # "npm:react-scan" = "latest"
@@ -164,11 +167,13 @@ infracost = "latest"
 # format / data / HTTP / UX helpers
 yamlfmt = "latest"
 yq = "latest"
+yj = "latest"
 fx = "latest"
 ubi = "latest"
 fzf = "latest"
 checkmake = "latest"
 topgrade = "latest" # tui
+auto-doc = "latest"
 # glow = "latest"
 # sampler = "latest"
 # gum = "latest"
@@ -191,12 +196,14 @@ topgrade = "latest" # tui
 "github:pranshuparmar/witr" = "latest" # 天気
 "github:gcla/termshark" = "latest" # wiresharckのtui
 "github:go-gitea/gitea" = "latest" # git系
+"github:agent0ai/spynel" = "latest" # plan
 # "github:daichirata/hammer" = "latest" # gcloud
 # "github:gabe565/moreutils-go" = "latest" #moreutils
 # "github:modu-ai/moai-adk" = "latest" # agent
 # "github:plandex-ai/plandex" = "latest" # plan
 
-"aqua:tsenart/vegeta" = "latest"
+"aqua:tsenart/vegeta" = "latest" # bench
+"aqua:taskctl/taskctl" = "latest" # tasks
 
 # "go:github.com/d2lang/d2" = "latest" # diagram
 # "go:github.com/GoogleContainerTools/skaffold" = "latest" # kube
@@ -429,6 +436,7 @@ jq = "latest"            # C
 has = "latest"
 shellcheck = "latest"    # Haskell
 hadolint = "latest"      # Haskell
+pandoc = "latest"      # Haskell
 neovim = "latest"
 ffmpeg = "latest"        # C
 # ansible = "latest"
@@ -443,7 +451,7 @@ ffmpeg = "latest"        # C
 
 # desktop / GUI（無効化中・用途グループ）
 # "github:ownself/wewa" = "latest" # rust web-wall-papper
-# "github:webadderallorg/Recordly" = "latest"    # TypeScript
+# "github:webadderallorg/Recordly" = "latest" # TypeScript
 
 #ジョーク系
 "npm:cowsay" = "latest"    

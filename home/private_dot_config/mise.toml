@@ -223,12 +223,11 @@ adopt = false
 "brew-cask:bitwarden" = { os = "macos" }
 "brew-cask:brave-browser" = { os = "macos" }
 # "brew-cask:cloudflare-warp" = { os = "macos" }
-"brew-cask:cursor" = { os = "macos" }
+# "brew-cask:cursor" = "latest"
 # "brew-cask:coderabbit" = { os = "macos" }
-# "brew-cask:ferdium/ferdium/ferdium" = { os = "macos" }
-"brew-cask:ferdium" = { os = "macos" }
+"brew-cask:ferdium" = "latest"
 "brew-cask:font-hackgen-nerd" = { os = "macos" }
-"brew-cask:google-chrome" = { os = "macos" }
+# "brew-cask:google-chrome" = { os = "macos" }
 "brew-cask:ghostty" = { os = "macos" }
 # "brew-cask:github" = { os = "macos" }
 "brew-cask:keyclu" = { os = "macos" }
@@ -238,12 +237,13 @@ adopt = false
 # "brew-cask:onyx" = { os = "macos" } # ciでなぜかエラー
 # "brew-cask:openhuman" = { os = "macos" } # ciでなぜかエラー
 # "brew-cask:open-design" = { os = "macos" } # ciでなぜかエラー
-# "brew-cask:stablyai/orca/orca" = "latest"
-"brew-cask:orbstack" = { os = "macos" }
+"brew-cask:stablyai/orca/orca" = "latest"
+"brew-cask:orbstack" = "latest"
 # "brew-cask:raycast" = { os = "macos" }
 "brew-cask:tradingview" = { os = "macos" }
 # "brew-cask:visual-studio-code" = "latest"
 # "brew-cask:windows-app" = "latest"
+# "brew-cask:wireshark-app" = "latest"
 "brew-cask:zed" = "latest"
 "brew-cask:zen" = "latest"
 

@@ -1,9 +1,11 @@
-// タブ1: 4ペイン home
-// タブ2: 4ペイン Developer
-// タブ3: 1ペイン herdr
-// タブ4: 2ペイン 並列 pi/omp
-// タブ5: 2ペイン 縦列 lazyxrp/rippled
-// タブ6: 1ペイン lazydocker
+// タブ1: 4ペイン home vertical
+// タブ2: 4ペイン mpd horizontal
+// タブ3: 4ペイン Developer
+// タブ4: 1ペイン herdr
+// タブ5: 1ペイン omp
+// タブ6: 2ペイン spynel
+// タブ7: 2ペイン 縦列 lazyxrp/rippled
+// タブ8: 1ペイン lazydocker
 
 layout {
     // デフォルトタブテンプレート
@@ -85,15 +87,14 @@ layout {
         }
     }
     
-    tab name="edit" {
+    tab name="Docs" {
         pane {
-             name "omp"
+            name "spynel"
             cwd "~/Developer/docs"
-            command "omp"
-            args "-c"
+            command "spynel"
         }
     }
-
+    
     // tab name="xrp" {
     //     pane split_direction="vertical" {
     //         name "lazyxrp"

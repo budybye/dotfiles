@@ -1,20 +1,32 @@
 {
   "$schema": "https://raw.githubusercontent.com/can1357/oh-my-pi/main/packages/coding-agent/src/config/mcp-schema.json",
   "mcpServers": {
-    "context-mode": {
-      "type": "stdio",
-      "command": "context-mode"
-    },
     "mise": {
       "command": "mise",
-      "args": ["mcp"],
+      "args": [
+        "mcp"
+      ],
       "env": {
         "MISE_EXPERIMENTAL": "1"
+      }
+    },
+    "kody": {
+      "type": "http",
+      "url": "https://kody.codes/mcp",
+      "oauth": {
+        "redirectUri": "https://kody.codes/account/mcp-servers/oauth/callback"
       }
     },
     "cloudflare-docs": {
       "type": "http",
       "url": "https://docs.mcp.cloudflare.com/mcp"
+    },
+    "context-mode": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "/Users/hotmilk/.config/omp/profiles/god/plugins/node_modules/context-mode/server.bundle.mjs"
+      ]
     }
   }
 }

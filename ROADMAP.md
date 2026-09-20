@@ -5,11 +5,15 @@ description: プロジェクトの目標・進捗・バージョン計画
 
 # Roadmap - Chezmoi Dotfiles
 
-## 目的
+## GOAL
+
+**最上位ゴール**: いつ・どの環境でも、自分用に最適化された設定を使える状態を半永続的に維持する (動的)。
+
+完了条件を持たない上位目標であり、優先順位表の外に置く。短期〜長期の全マイルストーン (M5-M7、継続監査 M4) はこのゴールへの手段であり、環境が増える・変わるたびに本ファイルの目標に分解して維持する。
 
 このファイルは、プロジェクトの中長期目標、到達点、進行中の作業、リリース方針を管理します。
 
-README.md と docs/ が運用・設計の正本です。詳細な変更計画は必要な場合だけローカルで管理します。
+README.md と docs/ が運用・設計の正本です。
 
 個別の実装手順はこのファイルに重複させず、必要に応じてローカルの計画ファイルに置きます。
 
@@ -38,6 +42,7 @@ README.md と docs/ が運用・設計の正本です。詳細な変更計画は
 | 中期 | 2 | M3 Chezmoi 機能の標準化 | M2 完了後 |
 | 中期 | 3 | M4 品質・セキュリティ監査 | 継続 / M3 と並行可 |
 | 中期 | 4 | M6 Mise 最適化と軽量化 | M2 完了後 |
+| 中期 | 5 | M7 Kali Linux 対応 (Docker / VM RDP) | M6 と並行可。短期 1 / 2 が前提 |
 | 長期 | 1 | M5 Windows / WSL と汎用化 | 短期5 の設計を踏襲 |
 
 ## 短期目標
@@ -87,6 +92,14 @@ README.md と docs/ が運用・設計の正本です。詳細な変更計画は
 - [ ] CLI-only / GUI / Docker の最小構成を分離し、不要な GUI package と外部依存を入れない
 - [ ] CI、Docker、WSL のキャッシュと並列実行を最適化し、再現性を維持したまま実行時間を短縮する
 - [ ] package parity、生成物、キャッシュ容量を定期測定し、軽量化の効果を検証する
+
+### M7: Kali Linux 対応 (Docker / VM RDP)
+
+- [ ] Docker: Kali GUI image を追加し、xrdp + XFCE セッションを Ubuntu Full image と共通化する
+- [ ] VM: Kali cloud-init を LXD 経路で追加する (multipass は Ubuntu 専用、OrbStack machine は Ubuntu / Debian 専用のため Kali は LXD のみ。image は `images:kali/current/cloud` — `current` エイリアスは cloud-init 無しの `default` variant を解決するため `cloud-init status --wait` が破綻する)
+- [ ] chezmoi template の OS 分岐に kali (`os_release.id`) を追加し、未知環境は fail-closed を維持する
+- [ ] CI: test.yaml に Kali LXD ジョブ、Docker build 検証に Kali image を追加する
+- [ ] docs (tech.md, requirements.md, testing.md) に Kali の位置づけを記録する
 
 ## 長期目標
 

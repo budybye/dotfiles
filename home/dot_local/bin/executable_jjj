@@ -31,9 +31,9 @@ fi
 bookmark="${2:-}"
 remote="${3:-origin}"
 
+# .jj がなければ colocate で初期化（既存 .git を取り込む）
 if ! jj root >/dev/null 2>&1; then
-  printf '%s\n' "not a jj repository; initialize it first with: jj git init --colocate" >&2
-  exit 1
+  jj git init --colocate
 fi
 
 # gitとの不整合を解消（stale index対策）
@@ -93,11 +93,16 @@ if is_reserved_bookmark "${bookmark}"; then
   exit 1
 fi
 
-# 未作成なら作るだけ（既存bookmarkを@へ動かさない）
+# 未作成なら作るだけ（既存bookmarkを@へ動かさない）。
 bookmark_list="$(jj bookmark list --template 'name ++ "\n"')"
 if ! printf '%s\n' "${bookmark_list}" | grep -Fx -- "${bookmark}" >/dev/null; then
   jj bookmark create "${bookmark}" -r @
 fi
+
+# colocate init 直後は git の main が local に入るが main@origin は untracked のまま。
+# このままだと push が "Non-tracking remote bookmark exists" で失敗するため track する。
+# remote 側に無ければ何もしない。
+jj bookmark track "${bookmark}@${remote}" >/dev/null 2>&1 || true
 
 # 変更にメッセージを付けて確定し、ブックマークをコミットに移して指定先へプッシュ
 jj describe -m "${msg}"

@@ -111,7 +111,7 @@ fi
 # 個人的によく使うディレクトリを作成
 mkdir -p \
     "${HOME}/Applications" \
-    "${HOME}/Developer/project" \
+    "${HOME}/Developer/docs" \
     "${HOME}/data"
 
 # デフォルトのエディタを設定

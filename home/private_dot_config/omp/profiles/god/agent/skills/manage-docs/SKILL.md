@@ -4,10 +4,10 @@ description: >-
   Bootstrap, Sync, and Add-topic for project documentation without fabricating facts.
   docs/ holds INTENT (specs, design, rationale); code / CI / manifests hold RUNTIME FACTS
   (commands, defaults, dependencies); the root README and CONTRIBUTING are the ENTRY POINT.
-  Only AGENTS.md is agent-only (the exploration procedure).
+  Agent-only: AGENTS.md (exploration), REVIEW.md (review guidance).
   Use for: /manage-docs, /make-docs, /update-docs, write docs, spec, init docs,
-  generate AGENTS.md, docs drift, stale README, Sync Full after a release,
-  Sync Post-ship after a named change, Add-topic (DESIGN / operations / product / pattern),
+  generate AGENTS.md / REVIEW.md, docs drift, stale README, Sync Full after a release,
+  Sync Post-ship after a named change, Add-topic (DESIGN / operations / product / pattern / review),
   Reorganize (merge / dedup / rename / move / split existing docs on request).
   Do not use for: tutorials, changelog authorship, or pure prose rewrites.
 ---
@@ -32,6 +32,8 @@ Unless one row's trigger matches exactly, **Do NOT Load any reference**, includi
 | [`references/design.md`](references/design.md) | Add-topic or Targeted is `DESIGN.md` **and** user asked for its structure | whether to create it; catalog why; split |
 | [`references/roadmap.md`](references/roadmap.md) | Add-topic or Targeted is `ROADMAP.md` **and** user asked for its structure | whether to create it; catalog why; split |
 | [`references/bloat.md`](references/bloat.md) | asked to split; one file unreadably long; docs exceed ~6 **and navigation fails**; adding `guidance.md`; same table in two files | ordinary Bootstrap/Sync/Verify; DESIGN/ROADMAP structure; catalog why |
+
+The table is the canonical trigger source; each reference's own header mirrors its row — update both in the same change.
 
 After a router row wins, **run only that section** (Stop / Bootstrap / Sync Targeted / Sync Full / Sync Post-ship / Reorganize / Add-topic / Fallback).
 
@@ -58,6 +60,7 @@ After a router row wins, **run only that section** (Stop / Bootstrap / Sync Targ
 - **Intent**: `docs/`, DESIGN, ROADMAP.
 - **Facts**: code / CI / manifests.
 - **Exploration**: `AGENTS.md` only. Short bans and reading order.
+- **Review guidance**: `REVIEW.md` only. Scrutiny areas, ignore list, review language; links to `docs/` over restatement.
 
 Humans and agents read every file. "Root = entry + docs/ = intent" is default, not required. Single-layer docs or no AGENTS: keep placement; do not invent a catalog. Cannot decide → stop and ask. Non-interactive: **blocked**, because a guessed layout is coverage.
 
@@ -75,7 +78,7 @@ Mixed routes produce create+sync in one pass and leave both trees wrong.
 | 2 | No `docs/` (init / README-only / spec-only / missing README / add a row but no tree) | **Bootstrap** |
 | 3 | Named structural change to existing docs (merge / dedup / rename / move / split); **`docs/` exists** | **Reorganize** |
 | 4 | Named **existing** `README` or one docs path; `docs/` exists | **Sync Targeted** |
-| 5 | One contract row with a reason (UI → DESIGN, quality gate → pattern); **`docs/` exists** | **Add-topic** |
+| 5 | One contract row with a reason (UI → DESIGN, quality gate → pattern, review guidance → REVIEW.md, test matrix → testing, threats → security); **`docs/` exists** | **Add-topic** |
 | 6 | Reconcile every quote / after a release / across manifests / no change set | **Sync Full** |
 | 7 | This change, PR, or session shipped; no filename | **Sync Post-ship** |
 | 8 | Ambiguous | Fallback |
@@ -89,6 +92,8 @@ Mixed routes produce create+sync in one pass and leave both trees wrong.
 **Example (row 8 boundary):** "docs feel stale," `docs/` exists, no named file, no change set → row 6 (Sync Full), not row 8. Row 8 is only when create-vs-sync is itself undecidable.
 
 **Boundary (row 1 vs 3):** structural verbs ("merge A into B", "rename X to Y") → row 3 even when phrased as catalog alignment; "rewrite for clarity" / "fit this catalog" with no structural verb and no named files → row 1.
+
+New boundary clause → add its one-line example in the same edit (pattern above).
 
 | Mix | Route |
 |---|---|
@@ -124,6 +129,7 @@ Add only when:
 - UI → `DESIGN.md`. Pixels in architecture mix structure with appearance.
 - Operations is how the product is run (on-call, deploy, watch) → `maintenance.md`. Otherwise ops takes over app design.
 - Lint/format **gates** beyond the default formatter → `pattern.md` (formatter-only: skip; indent is not a design). Example skip: only `rustfmt` or Prettier, no project-specific rule gate → no `pattern.md`.
+- External review agent reviews PRs (Devin Review, CodeRabbit, …) → thin `REVIEW.md`: review-only guidance + links to `docs/`; also let the tool ingest `docs/**` so links resolve. No review agent → skip.
 - Rejected technical options exist → `tech.md`. Otherwise the next session reopens the stack.
 - Forbidden paths overflow architecture → `directory.md`.
 - More than ~6 docs files **and** navigation fails → `guidance.md`. An index "in case" becomes a second spec.
@@ -141,6 +147,7 @@ Add only when:
 | File | Role | Does not |
 |---|---|---|
 | `./AGENTS.md` | Short bans, reading order, update rules | Long spec / quality prose (second `docs/`) |
+| `./REVIEW.md` | Review-agent guidance: scrutiny areas, ignore list, review language | Restating `security.md` / `problems.md` / `pattern.md` — link instead |
 | `./docs/requirements.md` | What ships / does not, how done looks | How it works, schedules |
 | `./docs/architecture.md` | Duties, data flow, schemas (intent) | Tech picks, path names, appearance |
 | `./docs/product.md` | Jobs and failures per actor | Single-actor acceptance, screens, threats |
@@ -156,11 +163,14 @@ Add only when:
 | `./DESIGN.md` | What is seen / operated | State, data flow; logo-to-3D headings without source |
 | `./ROADMAP.md` | What / when / how far (**or** issues, one side) | Duplicating requirements; undated horizon buckets |
 | `./openspec/` (optional) | Plans, change proposals | Overwriting `docs/` before merge |
+| `./docs/archive/` (optional) | Retired docs kept for history | Live intent; second spec source |
 | `README` / `CONTRIBUTING` | Human door; runtime quotes only (see Placement) | Intent source; root scripts copied into every package |
 
 Diagrams only when they carry the file's job. Duplicate tables: link. Split or add `guidance.md` only when the load table requires [`references/bloat.md`](references/bloat.md).
 
 **`openspec/`:** Create or update only when the user asks for a change proposal or the repo already uses OpenSpec. Drafts live beside `docs/` until merge; do not patch intent in `docs/` from an unmerged proposal. After merge: **Sync Post-ship** on intent rows the change touched; runtime quotes still follow the Sync table.
+
+**`docs/archive/`:** Create only when the user asks or the tree already has one. Archived files are not intent sources; Sync and navigation ignore them.
 
 ---
 

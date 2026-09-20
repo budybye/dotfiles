@@ -14,5 +14,6 @@ Axes (not required headings):
 - Sequence: only if A must precede B in code or requirements.
 - Milestones: named, dated, done-condition. A milestone without a done-condition is a wish.
 - Release / semver: only if tags or a version file already exist. Quote the tagging workflow and release policy; do not invent a scheme.
+- Notation: one date format and one status vocabulary for every row. Mixed notation is a second roadmap (Gaps): report, do not reconcile by inventing.
 
 Do not copy `requirements.md`. ROADMAP is when / how far; requirements is what ships.

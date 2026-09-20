@@ -1,6 +1,6 @@
-# ブックマークレット集: タブをmarkdownリンクで出力
+# Bookmarklets
 
-実行したタブを `- [title](url)` 形式で出力する。ブックマークのURL欄に各節の1行を貼り付けて使用。Chrome・Firefoxの両方で動作し、環境に無いAPIは自動でフォールバックする。
+実行したタブを `- [title](url)` 形式で出力する。ブックマークのURL欄に各節の1行を貼り付けて使用。Chrome・Firefoxの両方で動作し、環境に無いAPIは自動でフォールバックする。10は「全タブをブックマーク」で書き出したHTMLから一括でリスト化する。
 
 目次
 
@@ -10,9 +10,10 @@
 - [4. Google翻訳(ページ内表示)](#4-google翻訳ページ内表示)
 - [5. 決めたページをまとめて開く](#5-決めたページをまとめて開く)
 - [6. ページ内リンクを一括収集](#6-ページ内リンクを一括収集)
-- [7. ページをmarkdownでコピー](#7-ページをmarkdownでコピー)
+- [7. ページをMarkdownでコピー](#7-ページをmarkdownでコピー)
 - [8. ページ状態レポート(デバッグ用)](#8-ページ状態レポートデバッグ用)
 - [9. 要素消去モード](#9-要素消去モード)
+- [10. 全タブを一括でリスト化(書き出しHTMLから)](#10-全タブを一括でリスト化書き出しhtmlから)
 
 ## 1. クリップボードにコピー
 
@@ -56,15 +57,15 @@ javascript:(()=>{const d='https://github.com https://youtube.com';const p=prompt
 
 ## 6. ページ内リンクを一括収集
 
-現在のページの全リンク(`a[href]`)を走査し、markdownリストとしてクリップボードへ一括コピー。同一URLの重複・ページ自身へのリンク・`href="#"`形式のページ内リンク・テキスト無し・`javascript:`/`mailto:`は除外。出現順。行の形式・エスケープは[1]と同じ。コピー不可環境では[1]と同じフォールバック。
+現在のページの全リンク(`a[href]`)を走査し、Markdownリストとしてクリップボードへ一括コピー。同一URLの重複・ページ自身へのリンク・`href="#"`形式のページ内リンク・テキスト無し・`javascript:`/`mailto:`は除外。出現順。行の形式・エスケープは[1]と同じ。コピー不可環境では[1]と同じフォールバック。
 
 ```javascript
-javascript:(()=>{const e=s=>s.replace(/\\/g,'\\\\').replace(/[\[\]]/g,'\\$&').replace(/\s+/g,' ').trim(),o=[],v=new Set(),pg=location.href.split('#')[0];for(const a of document.querySelectorAll('a[href]')){const u=a.href;if(!/^https?:/.test(u)||u===pg||v.has(u)||(a.getAttribute('href')||'').startsWith('#'))continue;const t=e(a.textContent);if(!t)continue;v.add(u);o.push(`- [${t}](${u.replace(/\(/g,'%'+'28').replace(/\)/g,'%'+'29')})`)}const s=o.join('\n');if(!s){alert('リンクが見つかりません');return}const fb=()=>{const ta=document.createElement('textarea');ta.value=s;ta.style.cssText='position:fixed;top:0;left:0;opacity:0';document.body.appendChild(ta);ta.select();document.execCommand('copy')||prompt('コピー失敗—手動でコピー:',s);ta.remove()};try{navigator.clipboard.writeText(s).catch(fb)}catch(x){fb()}})()
+javascript:(()=>{const e=s=>s.replace(/\\/g,'\\\\').replace(/[\[\]]/g,'\\$&').replace(/\s+/g,' ').trim(),o=[],v=new Set(),pg=location.href.split('#')[0];for(const a of document.querySelectorAll('a[href]')){const u=a.href;if(!/^https?:/.test(u)||u.split('#')[0]===pg||v.has(u)||(a.getAttribute('href')||'').startsWith('#'))continue;const t=e(a.textContent);if(!t)continue;v.add(u);o.push(`- [${t}](${u.replace(/\(/g,'%'+'28').replace(/\)/g,'%'+'29')})`)}const s=o.join('\n');if(!s){alert('リンクが見つかりません');return}const fb=()=>{const ta=document.createElement('textarea');ta.value=s;ta.style.cssText='position:fixed;top:0;left:0;opacity:0';document.body.appendChild(ta);ta.select();document.execCommand('copy')||prompt('コピー失敗—手動でコピー:',s);ta.remove()};try{navigator.clipboard.writeText(s).catch(fb)}catch(x){fb()}})()
 ```
 
-## 7. ページをmarkdownでコピー
+## 7. ページをMarkdownでコピー
 
-現在のページ(選択範囲があればその部分のみ)を簡易markdown化してクリップボードへ。見出し・段落・リンク・画像・強調・コードブロック・リスト・引用・表を対象に、script/style/nav/footer/aside/form等のノイズを除去。冒頭にタイトルとURLを付記。行のエスケープは[1]と同じ。簡易変換のため入れ子リストは平滑化、複雑なレイアウトは崩れる場合あり。
+現在のページ(選択範囲があればその部分のみ)を簡易Markdown化してクリップボードへ。見出し・段落・リンク・画像・強調・コードブロック・リスト・引用・表を対象に、script/style/nav/footer/aside/form等のノイズを除去。冒頭にタイトルとURLを付記。行のエスケープは[1]と同じ。簡易変換のため入れ子リストは平滑化、複雑なレイアウトは崩れる場合あり。
 
 ```javascript
 javascript:(()=>{const esc=s=>s.replace(/\\/g,'\\\\').replace(/[\[\]]/g,'\\$&').replace(/\s+/g,' ').trim(),pu=u=>u.replace(/\(/g,'%'+'28').replace(/\)/g,'%'+'29'),F='`'.repeat(3),root=document.createElement('div'),sel=getSelection();if(sel&&sel.rangeCount&&!sel.isCollapsed)root.appendChild(sel.getRangeAt(0).cloneContents());else root.appendChild((document.querySelector('main,article')||document.body).cloneNode(true));root.querySelectorAll('script,style,noscript,nav,footer,aside,form,svg,iframe,button').forEach(n=>n.remove());const conv=n=>{if(n.nodeType===3)return n.textContent;if(n.nodeType!==1)return '';const c=[...n.childNodes].map(conv).join(''),t=n.tagName;if(/^H[1-6]$/.test(t))return '\n\n'+'#'.repeat(+t[1])+' '+c.trim()+'\n\n';if(t==='P'||t==='DIV'||t==='SECTION'||t==='ARTICLE'||t==='MAIN'||t==='HEADER'||t==='FIGURE')return '\n\n'+c.trim()+'\n\n';if(t==='BR')return '\n';if(t==='HR')return '\n\n---\n\n';if(t==='A'){const h=n.href;return h&&/^https?:/.test(h)&&!(n.getAttribute('href')||'').startsWith('#')?`[${esc(c)||h}](${pu(h)})`:c}if(t==='IMG'){const s=n.src;return s&&/^https?:/.test(s)?`![${esc(n.getAttribute('alt')||'')}](${pu(s)})`:''}if(t==='STRONG'||t==='B')return c.trim()?'**'+c.trim()+'**':c;if(t==='EM'||t==='I')return c.trim()?'*'+c.trim()+'*':c;if(t==='CODE')return n.parentElement&&n.parentElement.tagName==='PRE'?c:c.trim()?'`'+c.trim()+'`':c;if(t==='PRE')return '\n\n'+F+'\n'+c.trim()+'\n'+F+'\n\n';if(t==='BLOCKQUOTE')return '\n\n'+c.trim().split('\n').map(l=>'> '+l).join('\n')+'\n\n';if(t==='UL'||t==='OL')return '\n\n'+[...n.children].map((li,i)=>(t==='OL'?(i+1)+'. ':'- ')+conv(li).trim().replace(/\n+/g,' ')).join('\n')+'\n\n';if(t==='TR')return '\n|'+[...n.children].map(td=>conv(td).trim().replace(/\n+/g,' ')).join(' | ')+' |';if(t==='TABLE')return '\n\n'+c.trim()+'\n\n';return c};const body=conv(root).replace(/\n{3,}/g,'\n\n').trim();if(!body){alert('コンテンツなし');return}const out='# '+document.title.replace(/\n/g,' ')+'\n\n'+location.href+'\n\n'+body+'\n';const fb=()=>{const ta=document.createElement('textarea');ta.value=out;ta.style.cssText='position:fixed;top:0;left:0;opacity:0';document.body.appendChild(ta);ta.select();document.execCommand('copy')||prompt('コピー失敗—手動でコピー:',out);ta.remove()};try{navigator.clipboard.writeText(out).catch(fb)}catch(x){fb()}})()
@@ -72,7 +73,7 @@ javascript:(()=>{const esc=s=>s.replace(/\\/g,'\\\\').replace(/[\[\]]/g,'\\$&').
 
 ## 8. ページ状態レポート(デバッグ用)
 
-ページの基本情報(タイトル・URL・UA・viewport・画面サイズ・devicePixelRatio・日時・選択範囲)とフォーム入力値をmarkdownレポート化してクリップボードへ。[Network Information API](https://developer.mozilla.org/docs/Web/API/Network_Information_API)対応環境(Chrome系のみ)では推定通信品質も記載する(`4g`などの値は実際の通信方式を示すものではない)。パスワード・ファイル・hidden入力の値は除外。エージェントへのバグ報告・状況共有用。実行前のコンソールエラーは取得できない(ブックマークレットからは過去のログへアクセス不可)。
+ページの基本情報(タイトル・URL・UA・viewport・画面サイズ・devicePixelRatio・日時・選択範囲)とフォーム入力値をMarkdownレポート化してクリップボードへ。[Network Information API](https://developer.mozilla.org/docs/Web/API/Network_Information_API)対応環境(Chrome系のみ)では推定通信品質も記載する(`4g`などの値は実際の通信方式を示すものではない)。パスワード・ファイル・hidden入力の値は除外。エージェントへのバグ報告・状況共有用。実行前のコンソールエラーは取得できない(ブックマークレットからは過去のログへアクセス不可)。
 
 ```javascript
 javascript:(()=>{const L=[],d=document,P=k=>L.push(k);P('# '+d.title.replace(/\n/g,' '));P('- URL: '+location.href);P('- viewport: '+window.innerWidth+'x'+window.innerHeight);P('- 画面: '+screen.width+'x'+screen.height+' @'+window.devicePixelRatio+'x');const cn=navigator.connection;if(cn&&cn.effectiveType)P('- 回線: '+cn.effectiveType);P('- UA: '+navigator.userAgent);P('- 日時: '+new Date().toLocaleString());const s=d.getSelection();if(s&&s.rangeCount&&!s.isCollapsed)P('- 選択: '+s.toString().replace(/\s+/g,' ').trim().slice(0,500));const fs=[...d.querySelectorAll('input,select,textarea')].filter(e=>e.type!=='hidden'&&e.type!=='password'&&e.type!=='file');if(fs.length){P('');P('## フォーム');for(const e of fs){const n=e.id||e.name||e.type;const v=(e.type==='checkbox'||e.type==='radio')?(e.checked?'on':'off'):String(e.value||'').slice(0,200);P(`- ${n}(${e.type}): ${v}`)}}const out=L.join('\n')+'\n';const fb=()=>{const ta=document.createElement('textarea');ta.value=out;ta.style.cssText='position:fixed;top:0;left:0;opacity:0';document.body.appendChild(ta);ta.select();document.execCommand('copy')||prompt('コピー失敗—手動でコピー:',out);ta.remove()};try{navigator.clipboard.writeText(out).catch(fb)}catch(x){fb()}})()
@@ -84,4 +85,12 @@ javascript:(()=>{const L=[],d=document,P=k=>L.push(k);P('# '+d.title.replace(/\n
 
 ```javascript
 javascript:(()=>{if(window.__erx){window.__erx();return}const st=document.createElement('style');st.textContent='html{cursor:crosshair!important}.__erx{outline:3px solid #e53935!important;outline-offset:-3px!important}';document.head.appendChild(st);const b=document.createElement('div');b.id='__erb';b.textContent='消去モード: クリックで要素削除 / Escで終了';b.style.cssText='position:fixed;left:8px;bottom:8px;z-index:2147483647;background:#111;color:#fff;padding:4px 10px;border-radius:4px;font:12px sans-serif';document.body.appendChild(b);let cur=null;const ov=e=>{if(cur)cur.classList.remove('__erx');cur=e.target;cur.classList.add('__erx')};const cl=e=>{const el=e.target;if(el.closest&&el.closest('#__erb'))return;if(el===document.documentElement||el===document.body)return;e.preventDefault();e.stopPropagation();el.remove();if(cur){cur.classList.remove('__erx');cur=null}};const key=e=>{if(e.key==='Escape')exit()};function exit(){document.removeEventListener('mouseover',ov,true);document.removeEventListener('click',cl,true);document.removeEventListener('keydown',key,true);if(cur)cur.classList.remove('__erx');st.remove();b.remove();delete window.__erx}document.addEventListener('mouseover',ov,true);document.addEventListener('click',cl,true);document.addEventListener('keydown',key,true);window.__erx=exit})();
+```
+
+## 10. 全タブを一括でリスト化(書き出しHTMLから)
+
+ブックマークレットから他のタブを列挙するAPIは存在しないため、ブラウザ標準の「全タブをブックマーク」で作ったフォルダを経由する。手順: (1) 全タブをまとめて1フォルダにブックマーク(Chrome・FirefoxともCmd+Shift+D) (2) ブックマークマネージャ(Chrome)/ライブラリ(Firefox)からブックマークをHTMLで書き出す (3) 任意のページでこのブックマークレットを実行し、書き出したHTMLを選択 (4) フォルダ名(部分一致・空=全ブックマーク)を入力すると、そのフォルダ内の全リンク(下層フォルダ含む・出現順)を`- [title](url)`行としてクリップボードへ出力。スキームは問わない(chrome://等も残る)。書き出しHTMLにはブックマーク全体が入るため、普段はフォルダ名での絞り込みを推奨。行の形式・エスケープは[1]と同じ。コピー不可環境では[1]と同じフォールバック。
+
+```javascript
+javascript:(async()=>{const e=s=>s.replace(/\\/g,'\\\\').replace(/[\[\]]/g,'\\$&').replace(/\s+/g,' ').trim(),pu=u=>u.replace(/\(/g,'%'+'28').replace(/\)/g,'%'+'29'),i=document.createElement('input');i.type='file';i.accept='.html,text/html';i.style.display='none';i.onchange=async()=>{let s='';try{const doc=new DOMParser().parseFromString(await i.files[0].text(),'text/html'),fs=[...doc.querySelectorAll('h3')],p=prompt('フォルダ名(部分一致・空=全ブックマーク):\n'+fs.map((h,k)=>k+': '+h.textContent.trim()).join('\n'),'');if(p!==null){let src=doc;if(p){const hit=fs.filter(h=>h.textContent.includes(p)),d=hit.length===1&&hit[0].closest('dt'),dl=d?d.querySelector('dl')||(d.nextElementSibling&&d.nextElementSibling.tagName==='DL'?d.nextElementSibling:0):0;src=dl||0;if(!src)alert(hit.length>1?'複数一致—フォルダ名を具体化してください:\n'+hit.map(h=>h.textContent).join('\n'):'フォルダが見つかりません')}if(src)s=[...src.querySelectorAll('a')].map(a=>`- [${e(a.textContent)}](${pu(a.getAttribute('href')||'')})`).join('\n')}}catch(x){alert('読み込み失敗: '+x.message)}finally{i.remove()}if(!s)return;const fb=()=>{const ta=document.createElement('textarea');ta.value=s;ta.style.cssText='position:fixed;top:0;left:0;opacity:0';document.body.appendChild(ta);ta.select();document.execCommand('copy')||prompt('コピー失敗—手動でコピー:',s);ta.remove()};try{navigator.clipboard.writeText(s).catch(fb)}catch(x){fb()}};document.body.appendChild(i);i.click()})()
 ```

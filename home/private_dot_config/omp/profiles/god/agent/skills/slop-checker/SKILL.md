@@ -85,13 +85,14 @@ The test: could the author defend this choice if asked? If yes, keep it. Slop ca
 
 ## Guardrails
 
-- Never change facts, numbers, names, citations, or technical claims during a phrasing pass.
+- Never change facts, numbers, names, citations, or technical claims during a phrasing pass. The accident this guards against is meaning drift: rewording quietly narrows or widens the author's qualifiers ("often" → "always", "some teams" → "teams"). If your rewording changes scope, you changed meaning — revert.
 - Never restructure or re-argue. Phrasing only, unless explicitly asked for more.
 - Validate every candidate before editing; report false positives you chose to keep and why.
 - Do not introduce new slop while removing old (e.g. replacing a kicker with a different formulaic kicker).
 - One tell fixed cleanly beats three fixed clumsily. Stop when the remaining candidates are voice, not slop.
 - Very long piece: work section by section, carrying voice notes across sections so rhythm calls stay local.
-- Slop-dense piece: when most sentences flag (roughly a third of the catalog hits), phrase-by-phrase edits are the wrong tool — say the piece reads machine-drafted and offer a section-level rewrite instead.
+- Slop-dense piece: when most sentences flag (roughly a third of the catalog hits), phrase-by-phrase edits are the wrong tool — say the piece reads machine-drafted and offer a section-level rewrite instead. A rewrite is bound by the same rules: keep every load-bearing claim and voice marker, pass the author-defense test, and check you did not flatten the piece into uniform short sentences — that only trades one slop shape for another.
 - Technical writing: never touch code blocks, inline code, identifiers, or markup structure; the phrasing pass covers prose only.
-- The catalog is tuned for English prose. For other languages, apply the structural tells and the voice test; treat the lexicon list as English-only.
+- The catalog is tuned for English prose. For other languages, apply the structural tells and the voice test; the lexicon list is English-only.
+  - The structural tells transfer as-is: uniform paragraphs, opening definitions, closing summaries, list-padding. Formulaic patterns localize rather than translate — Japanese: 「まず〜、次に〜、最後に〜」signposting, 「重要なのは〜だ」importance-flagging, 「以上のように〜」closing summary; Chinese: 「值得注意的是」importance-flagging, 「综上所述」closing summary, 「不仅…而且…」correlative bloat. The function stays constant; only the surface changes.
 - Slop-as-content: flagged patterns inside quotations, dialogue, parody, pastiche, or a text whose subject is slop itself (e.g. a writing sample under review) are content — validate them out; never edit the quoted material.
