@@ -369,7 +369,7 @@ yt-dlp = "latest"
 "conda:markitdown" = "latest"
 # "pipx:markitdown-ocr" = "latest"
 
-"conda:pdftotext" = "latest" # pdf
+# "conda:pdftotext" = "latest" # pdf
 "conda:openai" = "latest" # graphify label が依存？
 "conda:pypdf" = "latest"
 "conda:lxml" = "latest"
