@@ -18,8 +18,8 @@ providers:
     models:
       - id: claude-opus-5-5
         name: opus-5.5
-      # - id: claude-sonnet-5-5
-      #   name: sonnet-5.5
+      - id: claude-sonnet-5-5
+        name: sonnet-5.5
         
   sakura:
     baseUrl: https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/custom-sakura/v1

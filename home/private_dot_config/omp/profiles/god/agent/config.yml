@@ -2,20 +2,19 @@ setupVersion: 2
 modelRoles:
   smol: "@default"
   tiny: "@default"
-  vision: "@default"
   commit: "@default"
+  judge: cloudflare-workers-ai/@cf/cloudflare/clef
+  vision: "@default"
   task: "@default"
-  slow: anthropic/claude-opus-5-5:auto
-  plan: anthropic/claude-opus-5-5:auto
-  designer: openrouter/google/gemini-3.8-flash:middle
-  advisor: openrouter/deepseek/deepseek-v4.1:low
-  judge: openrouter/typesafe/jev-router:auto
-  default: openrouter/openrouter/free
+  designer: "@default"
+  plan: "@default"
+  slow: "@default"
+  advisor: anthropic/claude-opus-5-5
+  default: anthropic/claude-sonnet-5-5
 defaultThinkingLevel: auto
 advisor:
-  enabled: false
-prewalk:
-  enabled: false
+  enabled: true
+  reviewMode: agent-end
 magicKeywords:
   enabled: true
 autoLearn:
@@ -29,8 +28,8 @@ read:
 ttsr:
   builtinRules: false
 compaction:
-  enabled: false
-  threshold: 0.8
+  enabled: true
+  thresholdPercent: 42
 composer:
   shape: box
 theme:
@@ -42,7 +41,25 @@ goal:
   statusInFooter: true
 memory:
   backend: mnemopi
-  mnemopi:
-    - scoping: per-project
-    - noEmbeddings: true
-    - llmMode: none
+mnemopi:
+  noEmbeddings: true
+  llmMode: none
+providers:
+  anthropic:
+    slowMode: auto
+    serverSideFallback: true
+retry:
+  usageAwareFallback: false
+  fallbackChains:
+    anthropic/claude-fable-5-1:
+      - anthropic/claude-opus-5-5
+    anthropic/claude-opus-5-5:
+      - anthropic/claude-sonnet-5-5
+    anthropic/claude-sonnet-5-5:
+      - anthropic/claude-haiku-5-5
+task:
+  agentModelOverrides:
+    scout: "@default"
+    sonic: "@default"
+    reviewer: anthropic/claude-opus-5-5
+    security-reviewer: anthropic/claude-opus-5-5

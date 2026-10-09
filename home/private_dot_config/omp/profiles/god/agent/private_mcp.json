@@ -10,23 +10,12 @@
         "MISE_EXPERIMENTAL": "1"
       }
     },
-    "kody": {
-      "type": "http",
-      "url": "https://kody.codes/mcp",
-      "oauth": {
-        "redirectUri": "https://kody.codes/account/mcp-servers/oauth/callback"
-      }
-    },
     "cloudflare-docs": {
       "type": "http",
       "url": "https://docs.mcp.cloudflare.com/mcp"
     },
     "context-mode": {
-      "type": "stdio",
-      "command": "node",
-      "args": [
-        "/Users/hotmilk/.config/omp/profiles/god/plugins/node_modules/context-mode/server.bundle.mjs"
-      ]
+      "command": "context-mode"
     }
   }
 }

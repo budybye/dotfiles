@@ -1,23 +1,11 @@
 {
   "mcpServers": {
-    "brave-devtools": {
-      "command":"npx",
-      "args":["-y", "brave-mcp@latest"]
-    },
-    "ccxt": { 
-      "command": "npx", 
-      "args": ["-y", "ccxt-mcp"]
-    },
     "mise": {
       "command": "mise",
       "args": ["mcp"],
       "env": {
         "MISE_EXPERIMENTAL": "1"
       }
-    },
-    "mcp-mermaid": {
-      "command": "npx",
-      "args": ["-y", "mcp-mermaid"]
     },
     "cloudflare-docs": {
       "command": "url",
