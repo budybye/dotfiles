@@ -2,3 +2,9 @@ openspec/
 !openspec/config.yaml
 # Local Pi runtime state
 .atl/
+
+# omp runtime state (sqlite + lock)
+home/private_dot_config/omp/**/*.db
+home/private_dot_config/omp/**/*.db-shm
+home/private_dot_config/omp/**/*.db-wal
+home/private_dot_config/omp/**/config.yml.lock
