@@ -17,6 +17,12 @@ else
     exit 1
 fi
 
+# スキャンできない状態で未検査 skill を入れない
+if ! command -v skillspector >/dev/null 2>&1; then
+    printf '%s\n' 'skillspector is not installed.' >&2
+    exit 1
+fi
+
 echo "skills"
 echo "--------------------------------"
 scan_failed=0

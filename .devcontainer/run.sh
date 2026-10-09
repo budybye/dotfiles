@@ -2,7 +2,7 @@
 set -euo pipefail
 
 usage() {
-    printf 'Usage: %s USER PASSWORD SUDO\\n' "$0" >&2
+    printf 'Usage: %s USER PASSWORD SUDO\n' "$0" >&2
 }
 
 if [ "$#" -ne 3 ]; then
@@ -16,7 +16,7 @@ sudo_user="$3"
 
 case "${user_name}" in
     ""|*[!a-zA-Z0-9_-]*)
-        printf 'Invalid username: %s\\n' "${user_name}" >&2
+        printf 'Invalid username: %s\n' "${user_name}" >&2
         exit 2
         ;;
 esac
@@ -34,10 +34,10 @@ if [ "${password}" = "__NO_PASSWORD__" ]; then
     password_authentication=no
 else
     if [ -z "${password}" ]; then
-        printf 'A non-empty password is required\\n' >&2
+        printf 'A non-empty password is required\n' >&2
         exit 1
     fi
-    printf '%s:%s\\n' "${user_name}" "${password}" | chpasswd
+    printf '%s:%s\n' "${user_name}" "${password}" | chpasswd
 fi
 
 if [ "${sudo_user}" = "yes" ]; then

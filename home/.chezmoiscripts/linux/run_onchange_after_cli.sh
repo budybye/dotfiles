@@ -44,7 +44,7 @@ install_mise() {
         echo "mise already installed."
 
     elif command -v curl >/dev/null 2>&1; then
-        curl https://mise.run | sh || echo "mise install failed."
+        curl -fsSL https://mise.run | sh || echo "mise install failed."
 
     else
         $sudo install -dm 755 /etc/apt/keyrings
@@ -74,7 +74,7 @@ install_mise() {
 # 日本語ロケール・タイムゾーン・fcitx5 入力 systemd で分岐
 japan_setup() {
     echo "japan setup start..."
-    $sudo sudo apt-get update -y
+    $sudo apt-get update -y
     # Ubuntu のパッケージ名は locales (単数形 locale ではない)
     $sudo apt-get install -y language-pack-ja-base language-pack-ja manpages-ja tzdata locales fcitx5-mozc
     
@@ -101,10 +101,10 @@ japan_setup() {
     #     echo 'Asia/Tokyo' | $sudo tee /etc/timezone >/dev/null
     fi
 
-    if [ -n "${DISPLAY:-}" ] || [ -n "${WAYLAND_DISPLAY:-}" ]; then
+    if command -v im-config >/dev/null 2>&1 && { [ -n "${DISPLAY:-}" ] || [ -n "${WAYLAND_DISPLAY:-}" ]; }; then
         $sudo im-config -n fcitx5
     else
-        echo "Skipping im-config: no graphical session."
+        echo "Skipping im-config: no graphical session or im-config not installed."
     fi
 
     echo "japan setup completed."

@@ -55,7 +55,6 @@ RUN apt-get install -y \
     gzip \
     age \
     gnupg \
-    wget \
     xsel \
     xdotool \
     vim \
@@ -97,7 +96,8 @@ RUN chmod +x /usr/bin/entrypoint
 
 # ubuntuユーザー設定
 RUN usermod -aG sudo ubuntu && \
-    echo "ubuntu ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
+    echo "ubuntu ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/ubuntu && \
+    chmod 0440 /etc/sudoers.d/ubuntu && \
     mkdir -p /home/ubuntu && \
     chown -R ubuntu:ubuntu /home/ubuntu
 

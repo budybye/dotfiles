@@ -31,9 +31,11 @@ start_xrdp_services() {
 
 # error が発生した場合に xrdp サービスを停止
 stop_xrdp_services() {
+    # 引数があればそれを、なければ直前の終了ステータスで終了する
+    local rc="${1:-$?}"
     $sudo xrdp --kill
     $sudo xrdp-sesman --kill
-    exit 0
+    exit "$rc"
 }
 
 # xrdp が使う XFCE X11 セッションをここで用意する。
@@ -74,14 +76,14 @@ mod=$(($# % 3))
 if [[ $# -eq 0 ]]; then
     echo "No input parameters. exiting..."
     echo "there should be 3 input parameters per user"
-    exit
+    exit 1
 fi
 
 # 引数が3の倍数でない場合は終了
 if [[ $mod -ne 0 ]]; then
     echo "incorrect input. exiting..."
     echo "there should be 3 input parameters per user"
-    exit
+    exit 1
 fi
 echo "You entered ${users} user(s)"
 
@@ -100,12 +102,10 @@ while [ $# -ne 0 ]; do
             $sudo useradd -m -s /bin/bash -g "$1" "$1"
         fi
     fi
-    wait
 
     # パスワードを設定
     # getent passwd | grep $1
-    echo "$1":"$2" | $sudo chpasswd
-    wait
+    printf '%s:%s\n' "$1" "$2" | $sudo chpasswd
 
     # スーパーユーザーかどうか
     # echo "sudo is $3"
@@ -115,7 +115,6 @@ while [ $# -ne 0 ]; do
     
     configure_xsession "$1"
 
-    wait
     # echo "user '$1' is added"
 
     # Shift all the parameters down by three
@@ -126,5 +125,6 @@ echo -e "starting xrdp services...\n"
 echo "RDP_PORT is ${RDP_PORT:-3389}"
 
 # SIGKILL/SIGSTOP は trap 不可
-trap "stop_xrdp_services" SIGTERM SIGHUP SIGINT EXIT
+trap "stop_xrdp_services 0" SIGTERM SIGHUP SIGINT
+trap "stop_xrdp_services" EXIT
 start_xrdp_services

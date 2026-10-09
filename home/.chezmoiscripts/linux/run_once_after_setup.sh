@@ -34,8 +34,8 @@ xrdp_setup() {
     # wayland で起動する場合
     # startxfce4 --wayland
 
-    $sudo apt-get install -y lightdm
-    $sudo dpkg-reconfigure lightdm
+    $sudo env DEBIAN_FRONTEND=noninteractive apt-get install -y lightdm
+    $sudo env DEBIAN_FRONTEND=noninteractive dpkg-reconfigure -f noninteractive lightdm
     # リモートセッションで画面ロックが邪魔にならないよう削除
     # $sudo apt-get remove -y light-locker xscreensaver
 
@@ -152,7 +152,7 @@ pipewire_setup() {
     fi
 
     if [ -d /run/systemd/system ] && command -v systemctl >/dev/null 2>&1; then
-        systemctl --user enable --now pipewire pipewire-pulse wireplumber
+        systemctl --user enable --now pipewire pipewire-pulse wireplumber || echo "systemctl --user failed (no user session?)." >&2
     fi
 
     echo "pipewire setup completed."

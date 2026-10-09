@@ -10,7 +10,7 @@ if command -v mise >/dev/null 2>&1; then
     echo "mise already installed."
 
 elif command -v curl >/dev/null 2>&1; then
-    curl https://mise.run | sh || echo "mise install failed."
+    curl -fsSL https://mise.run | sh || echo "mise install failed."
     export PATH="${HOME}/.local/bin:${PATH}"
 
 else
@@ -64,11 +64,11 @@ echo "identity: ${identity}..."
 
 {{/* ~/.config/chezmoi/key.txt が存在しない場合は復号 */}}
 
-if [ ! -f ${identity} ]; then
-    mkdir -p ${HOME}/.config/chezmoi
+if [ ! -f "${identity}" ]; then
+    mkdir -p "${HOME}/.config/chezmoi"
     echo "Please enter your age passphrase:"
     chezmoi age decrypt --output "${identity}" --passphrase "${key_path}"
-    chmod 600 ${identity}
+    chmod 600 "${identity}"
 fi
 
 echo "Decrypt-private-key complete."

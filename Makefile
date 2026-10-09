@@ -27,6 +27,7 @@ MP_MEMORY := 8G
 MP_DISK := 42G
 MP_TIMEOUT := 43210
 
+.PHONY: help version init update apply check test completion doctor verify
 .PHONY: docker-build docker-slim-build docker-pull docker-slim-pull docker-run docker-ghcr-run up down exec logs
 .PHONY: vm-create vm-info vm-stop vm-start ssh
 .PHONY: git-commit git-status age-keygen
@@ -39,8 +40,8 @@ help: ## Display this help message
 
 version: ## Show version information
 	@echo "dotfiles version: $(DOTFILES_VERSION)"
-	@echo "OS: $(OS)"
-	@echo "Architecture: $(ARCH)"
+	@echo "OS: $(shell uname -s)"
+	@echo "Architecture: $(shell uname -m)"
 
 ##@ Setup & Installation
 
@@ -68,7 +69,7 @@ check: ## Check dotfiles configuration
 
 test: ## Run tests (template syntax, dry-run)
 	@echo "Verifying template syntax..."
-	@chezmoi execute-template '{{ .chezmoi.sourceDir }}' >/dev/null && echo "  sourceDir: OK" || true
+	@chezmoi execute-template '{{ .chezmoi.sourceDir }}' >/dev/null && echo "  sourceDir: OK"
 	@echo "Dry-run apply..."
 	@chezmoi apply --dry-run 2>/dev/null && echo "  dry-run: OK" || echo "  dry-run: skipped (age passphrase may be required)"
 	@echo "✓ Tests completed"
@@ -145,7 +146,6 @@ up: ## Start Docker Compose services
 	cd .devcontainer && docker compose up -d --build
 	@echo "✓ Services started"
 
-.PHONY: down
 down: ## Stop Docker Compose services
 	@echo "Stopping Docker Compose services..."
 	cd .devcontainer && docker compose down
@@ -211,6 +211,7 @@ git-status: ## Show git status
 ##@ Security & Encryption
 
 age-keygen: ## Generate local Mise age identity
+	@test ! -e "$(HOME)/.config/mise/age.txt" || { echo "$(HOME)/.config/mise/age.txt already exists; refusing to overwrite." >&2; exit 1; }
 	@mkdir -p "$(HOME)/.config/mise"
 	@chezmoi age-keygen --output="$(HOME)/.config/mise/age.txt"
 	@chmod 600 "$(HOME)/.config/mise/age.txt"
@@ -233,8 +234,7 @@ clean-vm: ## Delete Multipass VM
 
 clean: clean-docker ## Clean all temporary resources
 	@echo "Cleaning temporary files..."
-	find . -name "*.tmp" -delete || true
-	find . -name "*.log" -delete || true
+	find . \( -path ./.git -o -path ./.jj \) -prune -o -type f \( -name "*.tmp" -o -name "*.log" \) -print -delete
 	@echo "✓ Cleanup completed"
 
 ##@ Information
