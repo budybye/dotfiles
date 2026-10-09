@@ -1,0 +1,32 @@
+---
+syntax: sh
+tags: [ dotfiles, chezmoi ]
+---
+# source dir
+chezmoi cd
+chezmoi source-path
+
+# edit / add
+chezmoi edit ~/.config/<file>
+chezmoi add ~/.config/<file>
+chezmoi add --encrypt ~/.config/<file>
+
+# preview / apply
+chezmoi diff
+chezmoi apply -v
+chezmoi apply --dry-run -v
+chezmoi init --apply --source=~/dotfiles
+
+# state
+chezmoi status
+chezmoi managed
+chezmoi unmanaged
+chezmoi forget ~/.config/<file>
+
+# templates
+chezmoi execute-template < file.tmpl
+chezmoi data
+
+# diagnose
+chezmoi doctor
+chezmoi verify

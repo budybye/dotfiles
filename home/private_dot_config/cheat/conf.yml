@@ -5,7 +5,7 @@ formatter: terminal256
 pager: less -FRX
 cheatpaths:
   - name: community
-    path: /path/to/community/cheatsheets
+    path: ~/.config/cheat/community
     readonly: true
   - name: personal
     path: ~/.config/cheat/cheatsheets
