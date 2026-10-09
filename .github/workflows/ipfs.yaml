@@ -1,5 +1,6 @@
 name: Ipfs Pinning
 # mainブランチにpushされたら ipfsにピン留めする
+# https://docs.ipfs.tech/how-to/websites-on-ipfs/deploy-github-action/#what-is-the-ipfs-deploy-action
 on:
   push:
     branches:
@@ -34,6 +35,7 @@ jobs:
           done
           rm -f objects/pack/*
 
+      # https://github.com/ipshipyard/ipfs-deploy-action 変更候補
       - name: Pin to IPFS
         uses: aquiladev/ipfs-action@v0.3.2-0
         id: ipfs
