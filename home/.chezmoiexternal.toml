@@ -5,23 +5,12 @@
     url = "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
     refreshPeriod = "168h"
 
-["data"]
+[".config/cheat/community"]
     type = "archive"
-    url = "https://ipfs.420.gal/ipfs/QmWhQuZH4AwEu9UT8APDpi4UDcC78WHPTUtQhxtNChTFWg"
+    url = "https://github.com/cheat/cheatsheets/archive/refs/heads/master.tar.gz"
     exact = true
     stripComponents = 1
     refreshPeriod = "168h"
-
-{{- if eq .chezmoi.os "darwin" }}
-
-["Music/riddim"]
-    type = "archive"
-    url = "https://ipfs.420.gal/ipfs/QmNsCCRxHsvRkJWPiY1kwqecXepP9oX8a18EgUqFsssRJH"
-    exact = true
-    stripComponents = 1
-    refreshPeriod = "168h"
-
-{{- end }}
 
 {{- if eq .chezmoi.os "linux" }}
 
@@ -69,22 +58,5 @@
     type = "file"
     url = "https://github.com/mjun0812/RobotoMonoJP/releases/download/v5.0.0/RobotoMonoJP-Regular.ttf"
     refreshPeriod = "168h"
-
-{{/* linux で age true なら */}}
-{{- if .age }}
-
-{{/* [".local/bin/age"] */}}
-{{/* type = "archive-file" */}}
-{{/* url = {{ gitHubLatestReleaseAssetURL "FiloSottile/age" (printf "age-*-%s-%s.tar.gz" .chezmoi.os .chezmoi.arch) | quote }} */}}
-{{/* executable = true */}}
-{{/* path = "age/age" */}}
-
-{{/* [".local/bin/age-keygen"] */}}
-{{/* type = "archive-file" */}}
-{{/* url = {{ gitHubLatestReleaseAssetURL "FiloSottile/age" (printf "age-*-%s-%s.tar.gz" .chezmoi.os .chezmoi.arch) | quote }} */}}
-{{/* executable = true */}}
-{{/* path = "age/age-keygen" */}}
-
-{{- end }}
 
 {{- end }}

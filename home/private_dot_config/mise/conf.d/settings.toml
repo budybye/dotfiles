@@ -1,18 +1,20 @@
 [settings]
 # 相対: 0s / 7d / 6mo / 1y、絶対: 2024-06-01
-# 0s = 無効（最新を即採用）。サプライチェーン遅延が欲しければ 3d/7d に。
-minimum_release_age = "0s"
-# minimum_release_age = "12h"
+# 公開から 3d 未満のバージョンは採用しない（供給網リスク緩和）。
+minimum_release_age = "3d"
+# 自分で管理・即追従したい tool は除外
+minimum_release_age_excludes = [
+  "github:can1357/oh-my-pi",
+  "github:boborder/lazyxrp",
+]
 
 # mise.lock を作成する
 lockfile = false
 
-# `mise install`でダウンロードしたアーカイブを常に保持するように設定
-always_keep_download = false        # デフォルトではインストール後に削除
+# 失敗したインストールの残骸をデバッグ用に保持（旧 always_keep_download は deprecated のため削除）
 always_keep_install = false         # デフォルトでは失敗時に削除
 
-# プラグイン自動更新のチェック間隔（duration 文字列。現状未実装: https://github.com/jdx/mise/issues/128）
-plugin_autoupdate_last_check_duration = '1 week' # 0 で無効化
+# （plugin_autoupdate_last_check_duration は未実装で 2027.10.5 に削除予定のため削除）
 
 # これらのプレフィックスを持つ設定ファイルはデフォルトで信頼される
 # ~/dotfiles は ~/.local/share/chezmoi への symlink。実パスも併記する。
@@ -25,6 +27,9 @@ trusted_config_paths = [
 # （旧 legacy_version_file / asdf_compat は deprecated・無効のため削除済み）
 idiomatic_version_file_enable_tools = [
   "node",
+  "python",  # .python-version
+  "ruby",    # .ruby-version
+  "go",      # .go-version
 ]
 # idiomatic_version_file_disable_tools = ['python']
 
@@ -34,9 +39,15 @@ jobs = 8              # 並行インストール数（デフォルト 4）
 raw = false           # true でプラグインを直接 stdin/stdout/stderr にパイプ
 yes = true            # すべてのプロンプトに自動で yes
 
-# auto-self-update
-auto_update = true
-# auto_update_check_duration = "7d"
+# activate 後に遅延ロード(sheldon defer 等)が PATH を足しても mise の tool を先頭に保つ
+activate_aggressive = true
+
+# mise 本体の自動更新（2026.10.7+）
+self_update.auto = true
+# self_update.check_duration = "7d"
+
+# グローバル tool の自動更新（24h ごと）。minimum_release_age で新着を寝かせてから採用。
+tool_update.global_auto = true
 # cache_prune_age = "14d"
 # gpg_verify = false
 
@@ -76,8 +87,8 @@ rust.rustup_home = "~/.local/share/rustup"
 
 # package manager
 cargo.binstall = true
-pipx.uvx = true
-npm.bun = true
+pypi.uvx = true                # 旧 pipx.uvx。pipx: バックエンドを uv で実行
+npm.package_manager = "bun"    # 旧 npm.bun。npm: バックエンドを bun で実行
 
 [[env]]
 _.path = [

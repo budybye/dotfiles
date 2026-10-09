@@ -137,7 +137,7 @@ flyctl = "latest"
 
 # dotfiles / tasks / docs
 chezmoi = "latest"
-cheat = "latest"
+"go:github.com/cheat/cheat/cmd/cheat" = "latest" # aqua 版は darwin-amd64 のみ配布のため go ビルド
 cmdx = "latest"
 task = "latest"
 oapi-codegen = "latest"
@@ -201,6 +201,7 @@ auto-doc = "latest"
 # "github:gabe565/moreutils-go" = "latest" #moreutils
 # "github:modu-ai/moai-adk" = "latest" # agent
 # "github:plandex-ai/plandex" = "latest" # plan
+"github:dutchcoders/transfer.sh" = "latest" # files
 
 "aqua:tsenart/vegeta" = "latest" # bench
 "aqua:taskctl/taskctl" = "latest" # tasks
@@ -425,8 +426,9 @@ dotnet = "latest"
 # neko = "latest"
 
 # github (Swift / C# など)
-# "github:manaflow-ai/cmux" = "latest"       # Swift
 "github:iofficeai/officecli" = "latest"    # C# 万能 office tools
+# "github:manaflow-ai/cmux" = "latest"       # Swift
+# "github:basecamp/writebook" = "latest"       # ruby
 # "github:ClusterVR/ClusterCreatorKit" = "latest" 
 
 # =============================================================================

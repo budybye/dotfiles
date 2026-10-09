@@ -383,15 +383,15 @@ echo "gui.sh"
 echo "--------------------------------"
 install_gui
 install_brave_browser
-install_cursor
+# install_cursor
 # install_cloudflare_warp # systemd 必須？
 # install_element_desktop
 install_ferdium
 install_ghostty
 install_github_desktop
 install_obsidian
-install_openhuman
 install_orca
+# install_openhuman
 # install_opencode
 # install_tabby_terminal
 install_ruby_fusuma
