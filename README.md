@@ -142,6 +142,8 @@ WSL2、Windows、FreeBSD は将来対応予定です。対応範囲と package �
 | [環境差の注意点](docs/problems.md) | platform 差分と troubleshooting |
 | [参考文献](docs/references.md) | 公式 docs と repository |
 | [ROADMAP](ROADMAP.md) | 目標と進捗 |
+| [キーマップ設計](DESIGN.md) | ghostty / zellij / herdr / pi・omp のキー所有権と配色 |
+| [Bookmarklets](assets/bookmarklets.md) | ブラウザタブのリスト化など bookmarklet 集 |
 
 詳細な変更計画を必要とする場合は、ローカルのOpenSpecをGit管理外で利用できます。
 
