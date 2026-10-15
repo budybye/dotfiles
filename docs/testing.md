@@ -27,8 +27,8 @@ make doctor
 ```
 
 - `make check`: `chezmoi diff` で適用差分を確認
-- `make test`: template の dry-run と `chezmoi apply --dry-run` を確認
-- `make verify`: Chezmoi の source / script を検証
+- `make test`: template 構文（`sourceDir` 展開）と `chezmoi apply --dry-run` を確認
+- `make verify`: `chezmoi verify` で適用先が source と一致するか確認（script の構文検証ではない）
 - `make doctor`: Chezmoi の環境診断
 
 秘密情報が必要な処理は、CI や共有ログへ passphrase・token を出力しません。
@@ -54,7 +54,7 @@ mise config ls
 | 変更 | 必須確認 |
 | --- | --- |
 | template / `.chezmoiignore` / `.chezmoidata` | `make test`、`chezmoi execute-template`、`chezmoi diff` |
-| shell / lifecycle script | `bash -n` または `zsh -n`、対象範囲の `shellcheck`、`make verify` |
+| shell / lifecycle script | `bash -n` または `zsh -n`、対象範囲の `shellcheck`、`make test` |
 | package / Mise profile | `mise config ls`、対象 profile の bootstrap status、platform matrix |
 | secrets / encrypted file | 平文を作らないこと、`chezmoi ignored`、秘密情報を含まないログ |
 | Dockerfile / Compose | `make docker-build` または `make up`、起動後の service smoke test |
@@ -74,6 +74,7 @@ mise config ls
 | `lxd` | Ubuntu + LXD | cloud-init、container 起動、OS 情報 |
 | `rpi` | Ubuntu arm64 + LXD | cloud-init、OS 情報 |
 | `powershell` | Windows | Scoop / CLI bootstrap の入口 |
+| `windows-11-arm64` | Windows arm64 | checkout / runner 境界 |
 | `wsl2` | Windows | checkout / runner 境界 |
 
 OrbStack の job は GitHub-hosted macOS の nested virtualization 制約により現在コメントアウトしています。物理 macOS self-hosted runner を導入した場合だけ復帰します。

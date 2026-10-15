@@ -82,8 +82,8 @@ doctor: ## Run chezmoi doctor (health check)
 	chezmoi doctor
 	@echo "✓ Doctor completed"
 
-verify: ## Verify chezmoi scripts
-	@echo "Verifying chezmoi scripts..."
+verify: ## Verify destination matches chezmoi source
+	@echo "Verifying destination state..."
 	@chezmoi verify 2>/dev/null && echo "  verify: OK" || echo "  verify: skipped (age passphrase may be required)"
 	@echo "✓ Verify completed"
 
