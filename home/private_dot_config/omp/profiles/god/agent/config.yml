@@ -1,20 +1,20 @@
 setupVersion: 2
 modelRoles:
-  smol: "@default"
-  tiny: "@default"
-  commit: "@default"
+  smol: anthropic/claude-haiku-5-5
+  tiny: "@smol"
+  commit: "@smol"
   judge: cloudflare-workers-ai/@cf/cloudflare/clef
   vision: "@default"
   task: "@default"
-  designer: "@default"
-  plan: "@default"
-  slow: "@default"
+  designer: "@advisor"
+  plan: "@advisor"
+  slow: "@advisor"
   advisor: anthropic/claude-opus-5-5
   default: anthropic/claude-sonnet-5-5
 defaultThinkingLevel: auto
 advisor:
   enabled: true
-  reviewMode: agent-end
+  reviewMode: turn
 magicKeywords:
   enabled: true
 autoLearn:
@@ -61,5 +61,5 @@ task:
   agentModelOverrides:
     scout: "@default"
     sonic: "@default"
-    reviewer: anthropic/claude-opus-5-5
-    security-reviewer: anthropic/claude-opus-5-5
+    reviewer: "@advisor"
+    security-reviewer: "@advisor"

@@ -136,6 +136,10 @@ if command -v uv > /dev/null 2>&1; then
     eval "$(uv generate-shell-completion zsh)"
 fi
 
+if command -v omp > /dev/null 2>&1; then
+    eval "$(omp completions zsh)"
+fi
+
 # if command -v taskctl > /dev/null 2>&1; then
 #     . <(taskctl completion zsh)
 # fi

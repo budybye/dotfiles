@@ -59,6 +59,10 @@ fi
 #     . <(taskctl completion bash)
 # fi
 
+if command -v omp > /dev/null 2>&1; then
+    eval "$(omp completions bash)"
+fi
+
 # mise
 if command -v mise > /dev/null 2>&1; then
     eval "$(mise activate bash)"

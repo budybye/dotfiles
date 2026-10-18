@@ -5,7 +5,7 @@ cask_args appdir: "/Applications"
 # tap "yusukebe/tap"
 # tap "nikitabobko/tap"
 # tap "jnsahaj/lumen"
-# tap "stablyai/orca" , trusted: true
+tap "stablyai/orca", trusted: true
 
 # formula
 
@@ -300,6 +300,7 @@ cask "orbstack"
 # cask "openhuman"
 # cask "opencode-desktop"
 # cask "orca"
+cask "stablyai/orca/orca"
 # cask "paw"
 # cask "pencil"
 # cask "pokerstars"
@@ -346,7 +347,7 @@ cask "raycast"
 # cask "tor-browser"
 # cask "temurin"
 # cask "the-unarchiver"
-# cask "t3-code"
+cask "t3-code"
 cask "tradingview"
 # cask "unity"
 # cask "unity-hub"

@@ -15,7 +15,11 @@
       "url": "https://docs.mcp.cloudflare.com/mcp"
     },
     "context-mode": {
-      "command": "context-mode"
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "/Users/hotmilk/.config/omp/profiles/god/plugins/node_modules/context-mode/server.bundle.mjs"
+      ]
     }
   }
 }

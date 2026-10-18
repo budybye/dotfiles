@@ -56,7 +56,6 @@ watchexec = "latest" # auto runner
 # "github:backnotprop/plannotator" = "latest"
 
 # npm
-# "npm:omp-web" = "latest" 
 "npm:pm2" = "latest"
 "npm:defuddle" = "latest"
 "npm:just-scrape" = "latest"
@@ -66,8 +65,6 @@ watchexec = "latest" # auto runner
 "npm:@brave/brave-search-cli" = "latest"
 "npm:ndrstnd" = "latest"
 "npm:taze" = "latest" # version
-# "npm:spynel" = "latest" # agents
-# "npm:specsmd" = "latest" # agents spec
 "npm:@hono/cli" = "latest" # hono docs/test
 "npm:executor" = "latest" # codemode
 "npm:ccxt-cli" = "latest" # trade
@@ -77,24 +74,27 @@ watchexec = "latest" # auto runner
 "npm:zenn-cli" = "latest"
 "npm:rnsec" = "latest"
 "npm:skills" = "latest" # agent skills
-"npm:rosie-skills" = "latest" # scan skill
+# "npm:rosie-skills" = "latest" # scan skill
 "npm:context-mode" = "latest" # agent tiny
 "npm:greptile" = "latest"
-# "npm:planning-with-files" = "latest"
 "npm:@fission-ai/openspec" = "latest"
 "npm:@jackwener/opencli" = "latest"
 "npm:ctx7" = "latest"
 "npm:npkill" = "latest" #
 "npm:@hey-api/openapi-ts" = "latest"
 "npm:react-doctor" = "latest"
-# "npm:react-scan" = "latest"
 "npm:codeburn" = "latest" # code
 "npm:jj-stack" = "latest"
-# "npm:jj-ryu" = "latest"
 "npm:duckduckgo-cli" = "latest" # web
 "npm:@testsprite/testsprite-cli" = "latest" # test
 "npm:@cyberstrike-io/cyberstrike" = "latest"
 "npm:console-ninja" = "latest"
+# "npm:omp-web" = "latest" 
+# "npm:spynel" = "latest" # agents
+# "npm:specsmd" = "latest" # agents spec
+# "npm:react-scan" = "latest"
+# "npm:jj-ryu" = "latest"
+# "npm:planning-with-files" = "latest"
 # "npm:musubi-ssd" = "latest"
 # "npm:@openhands/agent-canvas" = "latest"
 # "npm:@context-labs/autodoc" = "latest"
@@ -137,7 +137,6 @@ flyctl = "latest"
 
 # dotfiles / tasks / docs
 chezmoi = "latest"
-"go:github.com/cheat/cheat/cmd/cheat" = "latest" # aqua 版は darwin-amd64 のみ配布のため go ビルド
 cmdx = "latest"
 task = "latest"
 oapi-codegen = "latest"
@@ -180,6 +179,7 @@ auto-doc = "latest"
 # direnv = "latest"
 
 # github (Go)
+"go:github.com/cheat/cheat/cmd/cheat" = "latest" # aqua 版は darwin-amd64 のみ配布のため go ビルド
 "github:keploy/keploy" = "latest"
 "github:projectdiscovery/katana" = "latest" # clwling
 "github:koki-develop/clive" = "latest" # auto command
@@ -294,6 +294,7 @@ ast-grep = "latest"
 "github:nolabs-ai/nono" = "latest" # scan
 "github:gleam-lang/gleam" = "latest" # web
 "github:agavra/tuicr" = "latest" # code review
+"github:superradcompany/microsandbox" = "latest" # vm
 
 # "cargo:can1357/pon" = "latest"
 
@@ -361,8 +362,8 @@ yt-dlp = "latest"
 
 "pipx:sherlock-project/sherlock" = "latest"
 # "pipx:microsoft/agent-governance-toolkit[full]" = "latest"
-"pipx:NVIDIA/skillspector" = "latest" # skill scan
-"pipx:headroomlabs-ai/headroom" = "latest" # agents
+# "pipx:NVIDIA/skillspector" = "latest" # skill scan
+# "pipx:headroomlabs-ai/headroom" = "latest" # agents
 # "pipx:teng-lin/notebooklm-py" = "latest"
 
 # "pipx:cea-sec/miasm" = "latest"

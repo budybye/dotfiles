@@ -4,11 +4,6 @@
   process = git-lfs filter-process
   required = true
 
-#[user]
-#	name = name
-#	email = email
-#	useConfigOnly = true
-
 # user.confからユーザー情報を読み込む
 [include]
 	path = ~/.config/git/user.conf
@@ -111,5 +106,17 @@
 
 [coderabbit]
 	machineId = cli/1a4d0ca15ac647399db6b5c0fadd3875
-[user]
-	email = 88989797+boborder@users.noreply.github.com
+
+# ~/Developer/dayjobdoor 配下は dayjobdoor に固定(user.conf より後なので優先される)
+[includeIf "gitdir:~/Developer/dayjobdoor/"]
+    path = ~/.config/git/dayjobdoor.conf
+
+# ~/Developer/boborder 配下は boborder の noreply に固定
+[includeIf "gitdir:~/Developer/boborder/"]
+    path = ~/.config/git/boborder.conf
+[credential "https://github.com"]
+	helper = 
+	helper = !/Users/hotmilk/.local/share/mise/installs/gh/latest/gh_2.102.0_macOS_arm64/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/Users/hotmilk/.local/share/mise/installs/gh/latest/gh_2.102.0_macOS_arm64/bin/gh auth git-credential

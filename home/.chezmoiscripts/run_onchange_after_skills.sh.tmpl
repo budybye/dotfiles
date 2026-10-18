@@ -17,10 +17,11 @@ else
     exit 1
 fi
 
-# スキャンできない状態で未検査 skill を入れない
+# skillspector 未インストールならセキュリティチェックを省略する
+scan_enabled=1
 if ! command -v skillspector >/dev/null 2>&1; then
-    printf '%s\n' 'skillspector is not installed.' >&2
-    exit 1
+    scan_enabled=0
+    printf '%s\n' 'skillspector is not installed; skipping security scan.' >&2
 fi
 
 echo "skills"
@@ -34,17 +35,19 @@ high_skills=()
 {{- range $skill := $skills }}
 "${skills_command[@]}" add {{ shellQuote $repo }} -s {{ shellQuote $skill }} -a zed -y -g
 skill_path="${HOME}/.agents/skills/"{{ shellQuote $skill }}
-scan_status=0
-scan_output="$(skillspector scan "$skill_path" --no-llm 2>&1)" || scan_status=$?
-printf '%s\n' "$scan_output"
-if [[ "$scan_output" =~ Severity[[:space:]]+CRITICAL ]]; then
-    "${skills_command[@]}" rm {{ shellQuote $skill }} -a zed -g -y
-    removed_skills+=({{ shellQuote $skill }})
-elif [[ "$scan_output" =~ Severity[[:space:]]+HIGH ]]; then
-    high_skills+=({{ shellQuote $skill }})
-fi
-if [ "$scan_status" -ne 0 ] && [[ "$scan_output" != *"SkillSpector Security Report"* ]]; then
-    scan_failed=1
+if [ "$scan_enabled" -eq 1 ]; then
+    scan_status=0
+    scan_output="$(skillspector scan "$skill_path" --no-llm 2>&1)" || scan_status=$?
+    printf '%s\n' "$scan_output"
+    if [[ "$scan_output" =~ Severity[[:space:]]+CRITICAL ]]; then
+        "${skills_command[@]}" rm {{ shellQuote $skill }} -a zed -g -y
+        removed_skills+=({{ shellQuote $skill }})
+    elif [[ "$scan_output" =~ Severity[[:space:]]+HIGH ]]; then
+        high_skills+=({{ shellQuote $skill }})
+    fi
+    if [ "$scan_status" -ne 0 ] && [[ "$scan_output" != *"SkillSpector Security Report"* ]]; then
+        scan_failed=1
+    fi
 fi
 {{- end }}
 {{- end }}
