@@ -15,10 +15,10 @@ Chezmoi-managed dotfiles (macOS / Ubuntu, XDG-aligned). Stay within the requeste
 ## Workflow
 
 1. **Analyze** — Summarize the task. Check stack in [docs/tech.md](docs/tech.md), layout rules in [docs/directory.md](docs/directory.md). Look for similar existing implementations.
-2. **Implement** — Follow layout rules and implement. Report progress briefly per step.
-3. **Verify** — Review with `git diff` or `jj diff`. On errors, isolate the cause, fix, and re-verify.
+2. **Implement** — Follow layout rules and implement.
+3. **Verify** — Review with `jj diff`. On errors, isolate the cause, fix, and re-verify.
 
 ## Further docs
 
 - Start with [README.md](README.md), which owns the document index and source-of-truth map.
-- Use [ROADMAP.md](ROADMAP.md) for milestones and active work. OpenSpec stays optional and local (untracked) for structured change plans.
+- Use [ROADMAP.md](ROADMAP.md) for milestones and active work.

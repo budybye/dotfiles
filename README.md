@@ -145,8 +145,6 @@ WSL2、Windows、FreeBSD は将来対応予定です。対応範囲と package �
 | [キーマップ設計](DESIGN.md) | ghostty / zellij / herdr / pi・omp のキー所有権と配色 |
 | [Bookmarklets](assets/bookmarklets.md) | ブラウザタブのリスト化など bookmarklet 集 |
 
-詳細な変更計画を必要とする場合は、ローカルのOpenSpecをGit管理外で利用できます。
-
 ### 正本パス
 
 | 関心事 | 正本 |

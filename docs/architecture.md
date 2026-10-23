@@ -174,12 +174,26 @@ install.sh → chezmoi apply → platform bootstrap → Mise tools
 
 `MISE_CONFIG_FILE` selects a CI or Docker package profile. `MISE_GLOBAL_CONFIG_FILE` points tool installation at `mise/config.toml`. Package profiles and tool definitions must not be mixed.
 
+## Ownership split (steady state)
+
+| Tool | Owns |
+|---|---|
+| Mise | tool versions, OS packages, macOS UI defaults, curl app installers, age-encrypted runtime env values, GitHub token resolution |
+| Chezmoi | templated dotfiles, passphrase-encrypted files, SSH config, VS Code extensions, agent skills, snap / Windows, platform scripts, external resources |
+
+`install.sh` is the only place that installs Mise. `packages.yaml` ends up holding only Chezmoi-owned `extensions`, `agents.skills`, `snap`, and Windows entries. Mise runtime age keys and the Chezmoi passphrase stay independent.
+
+## Machine profile and GitHub identity
+
+- A hostname → profile map (`desktop` / `minimal` / `darwin`) lives in `.chezmoidata`, not only in prose. `minimal` hosts get `linux.cli` and no `linux.gui` packages or GUI scripts; unknown hostnames fail closed and never install the full desktop set.
+- GitHub default account is `budybye`; `boborder` is reached with `gh auth switch`. No other account is supported or documented here.
+
 ## VCS and template boundaries
 
 - jj is the preferred local VCS; colocated Git remains for remotes, CI, and compatibility.
 - `home/dot_local/bin/executable_jjj` owns the repository-specific jj workflow.
 - Chezmoi Go templates use `{{-` / `-}}` only for intentional whitespace trimming; inline values normally omit trim markers.
-- Detailed implementation order belongs in `ROADMAP.md` and optional OpenSpec changes, not in this architecture reference.
+- Detailed implementation order belongs in `ROADMAP.md`, not in this architecture reference.
 
 ## Remote desktop boundary
 

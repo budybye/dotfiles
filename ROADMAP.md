@@ -15,7 +15,7 @@ description: プロジェクトの目標・進捗・バージョン計画
 
 README.md と docs/ が運用・設計の正本です。
 
-個別の実装手順はこのファイルに重複させず、必要に応じてローカルの計画ファイルに置きます。
+実装手順と完了条件は本ファイルのマイルストーンに直接記録します。
 
 ## 現在地
 
@@ -49,6 +49,8 @@ README.md と docs/ が運用・設計の正本です。
 
 - [ ] Ubuntu 26.04 の hosted runner / VM / LXD 環境を安定化し、`make init`、Chezmoi apply、Mise bootstrap の再現性を確認する
 - [ ] Ubuntu slim / minimal profile の責務を整理し、CLI-only image と GUI profile の package・service 境界を明確化する
+- [ ] hostname → profile (`desktop` / `minimal` / `darwin`) の対応表を `.chezmoidata` に置き、`linux.gui` package と Linux GUI script を desktop のみに限定する。`101` は本 Mac、未登録 hostname は fail-closed (または minimal)。Ubuntu の hostname 行は運用者が埋めるまで空欄
+- [ ] GitHub 既定アカウントを `budybye` にし (source 管理の gh `hosts.yml` の `user:` を含む)、`boborder` は `gh auth switch` で切り替える。それ以外のアカウントは repo の既定・docs に載せない。path-based `includeIf` は採用しない
 - [ ] cloud-init の共通処理、待機条件、ログ出力、冪等性を最適化し、Ubuntu / LXD / ARM64 の初期化時間と失敗率を下げる
 - [ ] Obsidian vault を git 管理に組み込み、chezmoi / dotfiles リポジトリとの同期境界と運用方針を定義する
 - [ ] macOS / Ubuntu / Windows / WSL / Docker を通したクロスプラットフォーム設計の前提と profile 境界を整理する
@@ -67,22 +69,41 @@ README.md と docs/ が運用・設計の正本です。
 ### M2: Mise / Chezmoi 移行
 
 - [ ] package bootstrap の正本を Mise に集約
+  - [ ] `install.sh` が `chezmoi init --apply` の前に Mise を導入する唯一の入口になる (他 script の Mise install、`packages.yaml` の mise curl 行は削除)
+  - [ ] `packages.yaml` と `mise.toml` `[bootstrap.packages]` の package parity 表を作り、必要 package が正本ちょうど1行に存在することを確認する
+  - [ ] Linux bootstrap を CLI と GUI (xfce4, xrdp, pipewire 等) に分離し、headless CI で desktop stack を入れない
+  - [ ] cursor / coderabbit / zed の curl installer を冪等な Mise task へ移し、`packages.yaml` の `curl:` を削除する
+  - [ ] Docker CE apt repo 導入を Mise task 化し、`act` の curl 経路を `mise/config.toml` に一本化する
 - [ ] 重複する Chezmoi install script を段階的に縮退
-- [ ] macOS defaults と platform profile の責務を整理
+  - [ ] 縮退は parity 表と CLI/GUI 分離の完了後、baseline 監査 (M4) と security review の後に行う (darwin bootstrap / linux cli・gui script は早期 exit guard から)
+  - [ ] テンプレートが参照しなくなってから `packages.yaml` を `extensions` / `agents.skills` / `snap` (と Windows) のみに縮める。snap は Chezmoi に残す
+- [ ] macOS defaults と platform profile の責務を整理 (Mise `[bootstrap.macos.*]` への移行は完了、残りは platform profile)
 - [ ] `make` 互換入口を維持したまま Mise task を追加
+  - [ ] root `.mise.toml` に `setup` / `install` / `apply` / `bootstrap:*` / `post-apply` / docker / vm task を置き、Makefile は Mise へ委譲する薄い wrapper にする (CI の `make init` を維持)
+- [ ] ssh_setup を明示実行のみ・非破壊に保つ (`chezmoi apply` で SSH 鍵を生成・置換しない。新規生成は `ssh_setup --generate`)
+- [ ] Mise runtime age と Chezmoi passphrase の鍵を分離したまま、Mise `[env]` による runtime secret を有効化する (有効化前に security.md へ鍵の分離を記録)
 
 ### M3: Chezmoi 機能の標準化
 
 - [ ] template、`.chezmoiignore`、`.chezmoidata` の利用規則を統一
+  - [ ] OS / distro / host / CI / container / sandbox の正規化 context と feature boolean を `.chezmoi.toml.tmpl` と `.chezmoidata/` に集約する。OS 判定は `.chezmoi.os` / `.chezmoi.osRelease`、hostname は意図的な差分のみ、username は主判定に使わない
+  - [ ] 複数 target で共有する内容は `.chezmoitemplates` に置く
+  - [ ] generated / cache / host-local / secret 由来のファイルを `.chezmoiignore` で通常管理から分離する
 - [ ] lifecycle script の順序、冪等性、fail-closed 条件を検証
+  - [ ] file attribute (`private_` / `executable_` / `once_` / `onchange_` / `before_` / `after_` 等) を `chattr` で監査・正規化する
+  - [ ] script は prerequisite を確認し、反復実行しても安全で、実失敗時は非 0 で終了する。1 script group ずつ移行する
 - [ ] secrets、external resource、generated file の境界を明文化
-- [ ] macOS、Ubuntu、container の代表環境で apply / rollback を確認
+  - [ ] age / Bitwarden branch は CI・container・sandbox では無効化し、実ホストで secret 不足なら placeholder を書かずに明示エラーにする
+  - [ ] `.chezmoiexternal.toml` は version / exact ref を固定し、refresh 失敗時は既存 resource を保持する
+- [ ] macOS、Ubuntu、container の代表環境で apply / rollback を確認 (rollback は source revision の revert → 直前の正常 revision で再 apply。target の削除は diff を確認してから)
+- [ ] `make check` / `make test` / `make verify` で template・script・attribute・platform の失敗を skip せず可視化する (`chezmoi data` / `diff` / `managed` / `ignored` / `execute-template` / `apply --dry-run` / `verify`)。ネットワーク依存の external 検証は高速な構文・template 検査から分離する
 
 ### M4: 継続的な品質・セキュリティ監査
 
 - [ ] template、script、attribute、platform branch の CI 検証を強化
 - [ ] secrets と supply chain の baseline / post-change review を実施
 - [ ] package parity と duplicate authority を定期監査
+- [ ] 大規模な script 縮退 (M2) の前に baseline 監査 (inventory・secret posture・script risk) を実施し、縮退後に security review を再実施する
 - [ ] CI failure policy と recovery 手順を更新
 
 ### M6: Mise 最適化と軽量化
@@ -110,10 +131,6 @@ README.md と docs/ が運用・設計の正本です。
 - [ ] macOS、Ubuntu、Windows、WSL、Docker で共有できる profile / feature 境界を整理する
 - [ ] ユーザー名・ホスト名・OS 固有分岐を減らし、未知の環境でも安全に fail-closed する
 
-## 詳細な変更計画
-
-詳細な変更計画は、必要な場合だけローカルで管理します。計画ファイルはGitHubへ公開せず、README、docs、ROADMAPだけで通常運用を完結させます。
-
 ## リリース方針
 
 - バージョンの正本は SemVer の git tag
@@ -125,10 +142,9 @@ README.md と docs/ が運用・設計の正本です。
 ## 更新ルール
 
 1. 目標やマイルストーンを変更したら、このファイルを更新する
-2. 実装手順やチェック項目はまずこのファイルに記録し、必要な場合だけローカルの計画ファイルへ展開する
+2. 実装手順やチェック項目はこのファイルに記録する
 3. 完了条件は `docs/testing.md` と対応する workflow / command にリンクする
 4. 技術の採用可否は `docs/tech.md` と実設定ファイルを更新してから記録する
-5. ローカルの計画ファイルを使った場合も、完了条件はこのファイルと正本ドキュメントへ反映する
 
 ## 関連ドキュメント
 

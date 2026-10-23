@@ -9,49 +9,58 @@ description: 技術スタック パッケージ管理 ライブラリ説明
 - このファイルは「実際に使っている技術と管理元」を記載する
 - 詳細な手順と文書索引は `../README.md`、参照リンク集は `references.md` に集約する
 - `references.md` のタグ（`active` / `optional` / `legacy`）は参照の温度感を示す補助情報で、採用判断の正本は本ファイルと設定ファイルに置く
-- source of truth は次の3つ
-  - `home/private_dot_config/mise/config.toml`
-  - `home/.chezmoidata/packages.yaml`
+- source of truth は次の5つ
+  - `home/private_dot_config/mise/conf.d/tools.toml`（ツール定義）
+  - `home/private_dot_config/mise/conf.d/settings.toml`（mise 設定）
+  - `home/private_dot_config/mise.toml`（`mise bootstrap`: macOS defaults と brew / cask / mas / apt パッケージ）
+  - `home/.chezmoidata/packages.yaml`（Windows の winget / scoop と `curl | sh` インストーラ）
   - `home/private_dot_config/aquaproj-aqua/aqua.yaml`
 
 ## コア技術
 
 - **Chezmoi**: dotfiles 管理の中核
 - **Mise**: 言語ランタイムと CLI の統合管理
-- **Homebrew / APT / Snap / Winget / Scoop**: OS ごとのパッケージ管理
+- **Homebrew / APT / Winget / Scoop**: OS ごとのパッケージ管理（macOS・Linux は `mise bootstrap`、Windows は `packages.yaml`）
 - **Aqua**: 宣言的な追加 CLI 管理
 - **Cargo / npm / Go / Python**: 言語別 CLI 配布
 
 ## 対応 OS・プラットフォーム
 
 - **macOS Sequoia**
-- **Ubuntu 26.04 LTS** (Docker image・GitHub Actions runner・LXD/RPi CI で確認済み。Multipass / OrbStack は image ピン未指定)
+- **Ubuntu 26.04 LTS** (Docker image・GitHub Actions runner・LXD/RPi CI で確認済み。OrbStack は image ピン未指定)
 - **Docker / Dev Container**
-- **Multipass**
 - **Windows (Winget / Scoop 経由で一部管理)**
 
 ## パッケージ管理
 
 ### Mise（主軸）
 
-- **設定ファイル**: `home/private_dot_config/mise/config.toml`
-- **参照ファイル**: `.tool-versions` (プロジェクトルート)
-- **役割**: 200+ ツールの統合管理（言語ランタイム、CLI、セキュリティツール等）。実数は `mise ls | sort -u` を参照
+- **ツール定義**: `home/private_dot_config/mise/conf.d/tools.toml`（有効 215 / コメントアウト 141。実数は `mise ls`。コメントアウト行は再有効化用に残す）
+- **設定**: `home/private_dot_config/mise/conf.d/settings.toml`。`config.toml` は shell alias と hooks のみ
 - **運用**:
-  - 多くのツールを `latest` で管理
-  - `legacy_version_file = true` と `asdf_compat = true` を有効化
+  - ほぼ全て `latest` 指定。`lockfile = false`
+  - `minimum_release_age = "3s"`（設定内コメントは 3d 想定だが、現状の値では公開直後のバージョン回避はほぼ効かない。`node` / `pi` など一部は除外）
+  - `self_update.auto` と `tool_update.global_auto` で本体・グローバル tool を自動更新
   - `env_file = ".env"` で環境変数連携
-  - `legacy_version_file` により `.tool-versions` と同期
+  - 慣習的バージョンファイル（`.nvmrc` 等）は node / python / ruby / go のみ有効。`legacy_version_file` / `asdf_compat` は廃止済みで使わない
+  - バックエンド: `cargo.binstall = true`、`pypi.uvx = true`、`npm.package_manager = "bun"`
+  - Rust は `rust.cargo_home` / `rust.rustup_home` を XDG（`~/.local/share`）に固定
 
-### packages.yaml（クロスプラットフォーム）
+### mise bootstrap（macOS / Linux パッケージ）
+
+- **設定**: `home/private_dot_config/mise.toml`
+- **役割**:
+  - `[bootstrap.macos.*]`: キーボード・トラックパッド・Dock・Finder・`defaults` の設定
+  - `[bootstrap.packages]`: `brew:` / `brew-cask:` / `mas:`（macOS）と `apt:`（Linux）
+- **適用**: `home/.chezmoiscripts/darwin/run_onchange_after_bootstrap.sh`（brew / cask / defaults）、`linux/run_onchange_after_cli.sh`（apt）が `mise bootstrap` を実行する
+
+### packages.yaml（Windows / curl）
 
 - 設定: `home/.chezmoidata/packages.yaml`
 - 役割:
-  - `darwin.formula`, `darwin.cask`
-  - `linux.cli`, `linux.gui`, `snap`
-  - `windows.winget`, `windows.scoop`
-  - `cargo`, `npm`, `go`, `python`
-  - `claude.skills`
+  - `windows.winget`, `windows.scoop`（`windows/run_once_after_install.ps1.tmpl` が参照）
+  - `curl`: `curl | sh` で入れる CLI（mise / fx / coderabbit / zed）
+- スキル一覧は `agents.yaml`、VSCode 拡張は `extensions.yaml`（同ディレクトリ）
 
 ### Aqua（補助）
 
@@ -60,7 +69,7 @@ description: 技術スタック パッケージ管理 ライブラリ説明
 - **現在の定義**:
   - `b3nj5m1n/xdg-ninja@v0.2.0.2` (XDG Base Directory チェックツール)
 - **特徴**:
-  - checksum 検証が有効 (安全性重視)
+  - checksum 検証は `aqua.yaml` 内でコメントアウトされており、現在は無効
   - 現在は少数のツールだが、将来の拡張を見込む
 
 ## 実際に利用している主要カテゴリ
@@ -80,7 +89,6 @@ description: 技術スタック パッケージ管理 ライブラリ説明
 - **fd**（find 拡張）
 - **rg**（ripgrep）
 - **lsd**（ls 拡張）
-- **glow**（Markdown ビューア）
 - **bottom**（システムモニタ）
 
 ### 開発・CI/CD
@@ -118,7 +126,6 @@ description: 技術スタック パッケージ管理 ライブラリ説明
 
 - **wrangler**（Cloudflare Workers）
 - **cloudflared**（Cloudflare Tunnel）
-- **gcloud**（Google Cloud）
 - **caddy**（Web サーバー・リバースプロキシ）
 - **cfssl**（証明書管理）
 - **serverless**
@@ -138,7 +145,7 @@ Mise で管理する主要な言語および関連ツール。
 
 - **JavaScript/TypeScript**: node, bun, deno, pnpm
 - **Python**: python, uv（パッケージマネージャー）, pipx, ruff, hatch
-- **Go**: go, swag, cobra（プロジェクトテンプレート経由）
+- **Go**: go
 - **Rust**: rust, cargo-binstall
 - **Java**: java, maven
 
@@ -146,34 +153,16 @@ Mise で管理する主要な言語および関連ツール。
 
 - **データ・フォーマット**: jq, yq, fx, json5, yamlfmt, prettier
 - **ネットワーク**: xh, hurl, curl（システム）
-- **ストレージ**: rclone, duckdb, sqlite, redis
+- **ストレージ**: rclone, sqlite
 - **ビルド**: ninja, conan
-- **その他**: dust, dua, glow, hurl, scooter, coreutils, fastfetch, checkmake, cowsay
+- **開発補助**: just, watchexec, ast-grep, hyperfine, lychee, hadolint, pandoc, ffmpeg, neovim, yazi
+- **その他**: dust, scooter, coreutils, fastfetch, checkmake, cowsay
 
 ## 注意事項
 
-- 具体的な「どのツールが有効か」はコメントアウト状態も含め `mise/config.toml` と `packages.yaml` を優先する
+- 具体的な「どのツールが有効か」はコメントアウト状態も含め `mise/conf.d/tools.toml` と `mise.toml`（bootstrap）を優先する
 - README は概要のみを保持し、ツール一覧の重複列挙はしない
-- バージョンの厳密な固定値が必要な場合は、個別ファイル（`mise`, `aqua`, lockfile）を更新する
-
-## バージョン管理ファイル
-
-### .tool-versions
-- **パス**: `.tool-versions` (プロジェクトルート)
-- **役割**: mise/asdf 互換のバージョン管理ファイル
-- **内容**: 主要ツールのバージョン固定 (`latest` が主流)
-- **参照**: [Mise設定](#mise主軸) の `legacy_version_file = true` で統合管理
-
-### Mise設定ファイル
-- **パス**: `home/private_dot_config/mise/config.toml`
-- **内容**: 200+ ツールのバージョン、環境変数、プラグイン設定（正確な一覧は `mise ls`）
-- **参照**: パッケージマネージャー別一覧
-
-### Aqua設定ファイル
-- **パス**: `home/private_dot_config/aquaproj-aqua/aqua.yaml`
-- **役割**: 宣言的CLI配布管理
-- **内容**: 現在は `b3nj5m1n/xdg-ninja@v0.2.0.2` のみ定義
-- **参照**: パッケージマネージャー別一覧
+- バージョンの厳密な固定値が必要な場合は、個別ファイル（`tools.toml`, `aqua.yaml`）を更新する
 
 ## 関連ドキュメント
 
