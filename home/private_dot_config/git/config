@@ -63,7 +63,7 @@
 
 [commit]
 	verbose = true
-	template = /Users/hotmilk/.config/git/commit.template
+	template = ~/.config/git/commit.template
 
 [diff]
 	algorithm = histogram
@@ -116,7 +116,7 @@
     path = ~/.config/git/boborder.conf
 [credential "https://github.com"]
 	helper = 
-	helper = !/Users/hotmilk/.local/share/mise/installs/gh/latest/gh_2.102.0_macOS_arm64/bin/gh auth git-credential
+	helper = !$HOME/.local/share/mise/shims/gh auth git-credential
 [credential "https://gist.github.com"]
 	helper = 
-	helper = !/Users/hotmilk/.local/share/mise/installs/gh/latest/gh_2.102.0_macOS_arm64/bin/gh auth git-credential
+	helper = !$HOME/.local/share/mise/shims/gh auth git-credential

@@ -2,6 +2,8 @@ agents:
   # skills add <owner/repo> -s <skill> -a zed -y -g
   # rosie-skills install <owner/repo> <skill> -a warp -y -g
   skills:
+    # "nanaism/yomiyasu"
+    # "backnotprop/pstack"
     "xingkongliang/skills-manager":
       - "manage-skills"
     "mattpocock/skills":
@@ -26,13 +28,6 @@ agents:
       - "prototype"
       - "setup-matt-pocock-skills"
       - "triage"
-    "fission-ai/openspec":
-      - "openspec-archive-change"
-      - "openspec-apply-change"
-      - "openspec-explore"
-      - "openspec-propose"
-      - "openspec-sync-specs"
-      - "openspec-update-change"
     "rivet-dev/skills":
       - "rivet-actors"
       # - "rivet-agentos" # CRITICAL
@@ -150,6 +145,10 @@ agents:
       - "threejs-webgl"
     # "cathrynlavery/diagram-design":
       # - "diagram-design" # CRITICAL
+    "cloudai-x/threejs-skills":
+      - "threejs-materials"
+      - "threejs-shaders"
+      - "threejs-geometry"
     "digitalsamba/claude-code-video-toolkit":
       - "ffmpeg"
     "blacktop/dotfiles":

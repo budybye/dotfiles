@@ -391,7 +391,7 @@ ninja = "latest"
 # data / system
 # redis = "latest"
 # postgres = "latest"
-duckdb = "latest"
+# duckdb = "latest"
 sqlite = "latest"
 fastfetch = "latest"
 solidity = "latest"      # ethereum/solidity (C++)

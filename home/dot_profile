@@ -169,24 +169,32 @@ if command -v aqua >/dev/null 2>&1; then
     export AQUA_GLOBAL_CONFIG="${AQUA_GLOBAL_CONFIG:-}:${XDG_CONFIG_HOME:-${HOME}/.config}/aquaproj-aqua/aqua.yaml"
 fi
 
-if command -v code >/dev/null 2>&1; then
-    mkdir -p "${XDG_CONFIG_HOME}/Code/user-data/User"
-    export VSCODE_PORTABLE="${XDG_CONFIG_HOME}/Code"
+# VSCODE_PORTABLE は user-data まで portable 化するため使わず、拡張機能だけ Cursor と共有する
+if [ -d "${HOME}/.cursor/extensions" ]; then
+    export VSCODE_EXTENSIONS="${HOME}/.cursor/extensions"
 fi
 
 if command -v cursor >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/cursor"
     export CURSOR_CONFIG_DIR="${XDG_CONFIG_HOME}/cursor"
+    # CURSOR_DATA_DIR は projects を移すが、cursor-agent の権限チェックは ~/.cursor/projects 固定のため使わない
     # export CURSOR_API_KEY="${CURSOR_API_KEY:-}"
 fi
 
-if command -v claude >/dev/null 2>&1; then
+# GUI 版や PATH 外インストールでは command -v が偽になるため、設定ディレクトリの存在でも判定する
+if command -v claude >/dev/null 2>&1 || [ -d "${XDG_CONFIG_HOME}/claude" ]; then
     mkdir -p "${XDG_CONFIG_HOME}/claude"
     export CLAUDE_CONFIG_DIR="${XDG_CONFIG_HOME}/claude"
+    # Claude AIを常に日本語応答にする環境変数
+    export CLAUDE_DEFAULT_LANGUAGE="ja_JP"
+    export AI_RESPONSE_LANGUAGE="japanese"
+    export ANTHROPIC_LANGUAGE_PREFERENCE="ja"
 fi
 
-if command -v codex >/dev/null 2>&1; then
+# mise 経由などで PATH に無くても、移行済みデータがあれば設定する
+if command -v codex >/dev/null 2>&1 || [ -f "${XDG_CONFIG_HOME}/codex/config.toml" ]; then
     mkdir -p "${XDG_CONFIG_HOME}/codex"
+    export CODEX_HOME="${XDG_CONFIG_HOME}/codex"
     export CODEX_CONFIG_DIR="${XDG_CONFIG_HOME}/codex"
 fi
 
@@ -236,7 +244,11 @@ fi
 
 if command -v kubectl >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/kube" "${XDG_CACHE_HOME}/kube"
-    export KUBECONFIG="${XDG_CONFIG_HOME}/kube"
+    export KUBECONFIG="${XDG_CONFIG_HOME}/kube/config"
+    # OrbStack(GUI) は環境変数を継承せず ~/.kube/config へ書くため併記する
+    if [ -f "${HOME}/.kube/config" ]; then
+        export KUBECONFIG="${KUBECONFIG}:${HOME}/.kube/config"
+    fi
     export KUBECACHEDIR="${XDG_CACHE_HOME}/kube"
 fi
 
@@ -283,7 +295,6 @@ fi
 if command -v go >/dev/null 2>&1; then
     mkdir -p "${XDG_DATA_HOME}/go" "${XDG_CACHE_HOME}/go/mod"
     export GOPATH="${XDG_DATA_HOME}/go"
-    export GOROOT="${XDG_DATA_HOME}/go"
     export GOMODCACHE="${XDG_CACHE_HOME}/go/mod"
     export GOCACHE="${XDG_CACHE_HOME}/go/go-build"
     export PATH="${GOPATH}/bin:${PATH}"
@@ -403,10 +414,8 @@ fi
 
 # vim と nvim の設定
 if command -v vim >/dev/null 2>&1; then
-    mkdir -p "${XDG_CONFIG_HOME}/vim" "${XDG_CONFIG_HOME}/nvim"
-    export VIMINIT="let \$MYVIMRC = !has('nvim') ? '${XDG_CONFIG_HOME}/vim/vimrc' : '${XDG_CONFIG_HOME}/nvim/init.vim' | source \$MYVIMRC"
-    mkdir -p "${XDG_CACHE_HOME}/vim"
-    touch "${XDG_CACHE_HOME}/vim/viminfo"
+    mkdir -p "${XDG_CONFIG_HOME}/vim" "${XDG_CONFIG_HOME}/nvim" "${XDG_STATE_HOME}/vim"
+    export VIMINIT="let \$MYVIMRC = !has('nvim') ? '${XDG_CONFIG_HOME}/vim/vimrc' : '${XDG_CONFIG_HOME}/nvim/init.vim' | if !has('nvim') | set viminfofile=${XDG_STATE_HOME}/vim/viminfo | endif | source \$MYVIMRC"
 fi
 
 if command -v spacemacs >/dev/null 2>&1; then
@@ -433,10 +442,9 @@ if command -v starship >/dev/null 2>&1; then
     export STARSHIP_CACHE="${XDG_CACHE_HOME}/starship"
 fi
 
-if command -v z >/dev/null 2>&1; then
-    touch "${XDG_DATA_HOME}/z"
-    export _Z_DATA="${XDG_DATA_HOME}/z"
-fi
+# z は zsh-z の関数で command -v では検出できないため無条件に設定する
+touch "${XDG_DATA_HOME}/z"
+export _Z_DATA="${XDG_DATA_HOME}/z"
 
 if command -v fzf >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/fzf"
@@ -502,11 +510,6 @@ if command -v ncmpcpp >/dev/null 2>&1; then
     mkdir -p "${XDG_MUSIC_DIR}/lyrics"
 fi
 
-if command -v cloudflared >/dev/null 2>&1; then
-    mkdir -p "${XDG_CONFIG_HOME}/cloudflared"
-    export CLOUDFLARED_CONFIG_DIR="${XDG_CONFIG_HOME}/cloudflared"
-fi
-
 if command -v sampler >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/sampler"
     touch "${XDG_CONFIG_HOME}/sampler/config.yaml"
@@ -519,13 +522,6 @@ if command -v aws >/dev/null 2>&1; then
     export AWS_SHARED_CREDENTIALS_FILE="${XDG_CONFIG_HOME}/aws/credentials"
     touch "${XDG_CONFIG_HOME}/aws/config"
     export AWS_CONFIG_FILE="${XDG_CONFIG_HOME}/aws/config"
-fi
-
-if command -v claude >/dev/null 2>&1; then
-    # Claude AIを常に日本語応答にする環境変数
-    export CLAUDE_DEFAULT_LANGUAGE="ja_JP"
-    export AI_RESPONSE_LANGUAGE="japanese"
-    export ANTHROPIC_LANGUAGE_PREFERENCE="ja"
 fi
 
 if command -v opencode >/dev/null 2>&1; then
@@ -549,18 +545,13 @@ if command -v discord >/dev/null 2>&1; then
     export DISCORD_USER_DATA_DIR="${XDG_DATA_HOME}/discord"
 fi
 
-if command -v openspec >/dev/null 2>&1; then
-    export OPENSPEC_TELEMETRY=0
-    export DO_NOT_TRACK=1
-fi
-
 if command -v opensrc >/dev/null 2>&1; then
     mkdir -p "${XDG_DATA_HOME}/opensrc"
     export OPENSRC_HOME="${XDG_DATA_HOME}/opensrc"
 fi
 
 if command -v ratty >/dev/null 2>&1; then
-    mkdir -p "${XDG_CACHE_HOME}/ratty"
+    mkdir -p "${XDG_CONFIG_HOME}/ratty"
     export RATTY_HOME="${XDG_CONFIG_HOME}/ratty"
 fi
 

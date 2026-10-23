@@ -1,11 +1,13 @@
 [settings]
 # 相対: 0s / 7d / 6mo / 1y、絶対: 2024-06-01
 # 公開から 3d 未満のバージョンは採用しない（供給網リスク緩和）。
-minimum_release_age = "3d"
+minimum_release_age = "3s"
 # 自分で管理・即追従したい tool は除外
 minimum_release_age_excludes = [
   "github:can1357/oh-my-pi",
   "github:boborder/lazyxrp",
+  "pi",
+  "node"
 ]
 
 # mise.lock を作成する

@@ -192,7 +192,7 @@ brew "zsh"
 # cask "betterdisplay"
 cask "bitwarden"
 cask "brave-browser"
-# cask "blender"
+cask "blender"
 # cask "bruno"
 # cask "balenaetcher"
 # cask "bdash

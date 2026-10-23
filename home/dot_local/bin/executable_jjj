@@ -39,6 +39,12 @@ fi
 # gitとの不整合を解消（stale index対策）
 jj git import >/dev/null
 
+# 空の作業コピーは describe/new/push が空コミットを積むので、副作用の前に止める。
+if [ "$(jj log -r @ --no-graph -T 'empty')" = "true" ]; then
+  printf '%s\n' "no changes to commit" >&2
+  exit 0
+fi
+
 # ブックマーク名を自動検出（指定されていない場合）
 # `_reserve/*` は change-id 予約用のローカル印なので進めない。
 is_reserved_bookmark() {

@@ -6,3 +6,4 @@ gc = "git commit"
 
 [hooks]
 enter = "echo '( ´Д`)y━･~~'"
+
