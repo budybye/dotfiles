@@ -6,8 +6,8 @@
       "api": "openai-completions",
       "models": [
         {
-          "id": "preview/Kimi-K2.7-Code",
-          "name": "Kimi-k2.7-code"
+          "id": "preview/GLM-5.3-Flash",
+          "name": "GML-5.3-Flash"
         }
       ]
     },
@@ -25,17 +25,6 @@
         }
       ]
     },
-    "opencode-zen": {
-      "baseUrl": "https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/custom-opencode-zen/v1",
-      "apiKey": "$CLOUDFLARE_API_KEY",
-      "api": "openai-completions",
-      "models": [
-        {
-          "id": "muse-spark-1.3-contributor-free",
-          "name": "muse-spark-1.3-contributor-free"
-        }
-      ]
-    },
     "anthropic-gateway": {
       "baseUrl": "https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/anthropic",
       "api": "anthropic-messages",
@@ -47,6 +36,10 @@
         {
           "id": "claude-opus-5.5",
           "name": "Opus-5.5"
+        },
+        {
+          "id": "claude-sonnet-5.5",
+          "name": "Sonnet-5.5"
         }
       ]
     },
@@ -80,10 +73,6 @@
         {
           "id": "openrouter/openrouter/free",
           "name": "free-model"
-        },
-        {
-          "id": "qwen/qwen3.8-27b:free",
-          "name": "qwen3.8-27b:free"
         }
       ]
     }

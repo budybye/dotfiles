@@ -4,46 +4,32 @@
     "keepRecentTokens": 22000,
     "reserveTokens": 16384
   },
-  "defaultModel": "z-ai/glm-5.3-flash",
-  "defaultProvider": "openrouter",
-  "defaultThinkingLevel": "medium",
-  "enableInstallTelemetry": false,
-  "enableSkillCommands": true,
+  "defaultModel": "anthropic/claude-sonnet-5-5",
+  "defaultProvider": "anthropic",
   "enabledModels": [
+    "anthropic/claude-sonnet-5-5",
     "cloudflare-workers-ai/@cf/zai-org/glm-5.3-flash",
+    "cloudflare-workers-ai/@cf/deepseek-ai/deepseek-v4.1-flash-1017",
     "cloudflare-ai-gateway/gpt-5.6-luna",
-    "sakura/preview/Kimi-K2.7-Code",
-    "openrouter/openrouter/free",
-    "anthropic/claude-opus-5-5"
+    "sakura/preview/GLM-5.3-flash"
   ],
-  "lastChangelogVersion": "1.1.0",
-  "language": "ja",
-  "locale": "ja-JP",
+  "enableInstallTelemetry": false,
+  "shellCommandPrefix": "shopt -s expand_aliases\neval \"$(grep '^alias ' ~/.aliases)\"",
   "npmCommand": [
     "bun"
   ],
   "packages": [
-    "npm:@gotgenes/pi-anthropic-auth"
+    "npm:@gotgenes/pi-anthropic-auth",
+    "npm:pi-auto-compact",
+    "npm:context-mode"
   ],
-  "retry": {
-    "enabled": true,
-    "maxRetries": 3,
-    "maxRetryDelay": 60000,
-    "retryDelay": 3000
-  },
-  "sessionDir": ".pi/sessions",
-  "shellCommandPrefix": "shopt -s expand_aliases\neval \"$(grep '^alias ' ~/.aliases)\"",
   "skills": [
-    "~/.agents/skills"
+    "~/.agents/skills",
+    "!**/graphify/skill-*.md",
+    "!**/graphify/command-*.md",
+    "!**/graphify/always_on/**"
   ],
   "steeringMode": "all",
-  "thinkingBudgets": {
-    "max": 42000,
-    "high": 32768,
-    "medium": 10240,
-    "low": 4096,
-    "minimal": 1024
-  },
-  "theme": "dark",
-  "followUpMode": "all"
+  "followUpMode": "all",
+  "lastChangelogVersion": "1.4.0"
 }

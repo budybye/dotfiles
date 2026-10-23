@@ -5,5 +5,8 @@
     "enabled": true
   },
   "diff_style": "auto",
-  "theme": "kanagawa"
+  "theme": "kanagawa",
+  "plugin": [
+    "file:///Users/hotmilk/.config/opencode/plugins/orca-opencode-status-tui/tui.js"
+  ]
 }
