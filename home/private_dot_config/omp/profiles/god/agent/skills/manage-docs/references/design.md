@@ -2,10 +2,7 @@
 
 **Spec:** [google-labs-code/design.md](https://github.com/google-labs-code/design.md) (`docs/spec.md`). Spec is alpha; tokens normative, prose is how to apply them.
 
-**MANDATORY — READ ENTIRE FILE when** the SKILL.md load-table row matches exactly (Add-topic or Targeted is `DESIGN.md` **and** the user asked for its structure). Read from the top.
-**Do NOT Load** for routing, source-of-truth, Bootstrap, ordinary Sync of other files, whether to create `DESIGN.md`, catalog-split why, split, unless that parent row matches exactly. Creation is Minimal profile + contract. This file is not a procedure.
-
-Omission is default. Write a section or token only from an implementation or design source this session (screens, tokens, CSS, code, mock). No source → omit. Empty headings and invented marks are coverage. Prefer a specific reference over adjective lists ("modern, clean"). State and data flow stay in `architecture.md`.
+Write a section or token only from an implementation or design source this session (screens, tokens, CSS, code, mock). No source → omit. Empty headings and invented marks are coverage. Prefer a specific reference over adjective lists ("modern, clean").
 
 ### File layers
 
@@ -70,7 +67,6 @@ Axes per section (not a stamp TOC — only with evidence):
 
 ```bash
 npx @google/design.md lint DESIGN.md
-# Windows: npx -p @google/design.md designmd lint DESIGN.md
 ```
 
-Priority findings: `broken-ref` (error), `missing-primary` / `missing-typography` / `contrast-ratio` / `section-order` (warning). Do not invent tokens to silence lints — use `omitted:` with a reason, or leave Gaps.
+Priority findings: `broken-ref` (error), `missing-primary` / `missing-typography` / `contrast-ratio` / `section-order` (warning). Do not invent tokens to silence lints — use `omitted:` with a reason, or leave the token unknown (Unknowns).
