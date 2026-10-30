@@ -1,6 +1,6 @@
 setupVersion: 2
 modelRoles:
-  smol: anthropic/claude-sonnet-5-5
+  smol: anthropic/claude-haiku-5-5
   tiny: "@smol"
   commit: "@smol"
   judge: cloudflare-workers-ai/@cf/cloudflare/clef
@@ -9,8 +9,8 @@ modelRoles:
   designer: "@advisor"
   plan: "@advisor"
   slow: "@advisor"
-  advisor: anthropic/claude-opus-5-5
-  default: anthropic/claude-opus-5-5
+  advisor: anthropic/claude-opus-5-5:high
+  default: anthropic/claude-sonnet-5-5:xhigh
 defaultThinkingLevel: auto
 advisor:
   enabled: true
@@ -57,9 +57,13 @@ retry:
       - anthropic/claude-sonnet-5-5
     anthropic/claude-sonnet-5-5:
       - anthropic/claude-haiku-5-5
+    anthropic/claude-haiku-5-5:
+      - xai-oauth/grok-4.7
 task:
   agentModelOverrides:
     scout: "@default"
     sonic: "@default"
     reviewer: "@advisor"
     security-reviewer: "@advisor"
+marketplace:
+  autoUpdate: auto

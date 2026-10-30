@@ -11,7 +11,7 @@ providers:
         name: gpt-6-sol
 
   anthropic-gateway:
-    baseUrl: https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/default/anthropic/v1
+    baseUrl: https://gateway.ai.cloudflare.com/v1/52b4505d443ffc27a507e90c724da11a/ai/anthropic/v1
     apiKey: CLOUDFLARE_API_KEY
     auth: apiKey
     api: anthropic-messages

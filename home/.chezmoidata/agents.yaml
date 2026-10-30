@@ -2,8 +2,14 @@ agents:
   # skills add <owner/repo> -s <skill> -a zed -y -g
   # rosie-skills install <owner/repo> <skill> -a warp -y -g
   skills:
-    # "nanaism/yomiyasu"
     # "backnotprop/pstack"
+    # "mattpocock/skills"
+    "nanaism/yomiyasu":
+     - "yomiyasu"
+    "stablyai/orca": 
+     - "orca-cli"
+     - "orchestration"
+     - "computer-use"
     "xingkongliang/skills-manager":
       - "manage-skills"
     "mattpocock/skills":
@@ -271,9 +277,6 @@ agents:
     # "railwayapp/railway-skills":
     # - "use-railway"
     # - "railway-docs"
-
-    # ogulcancelik/herdr
-    # - "herdr"
 
     # "tldraw/tldraw":
     # - "skill-creator"
