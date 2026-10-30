@@ -114,7 +114,7 @@ abbr ws='websocat'
 
 abbr ports='netstat -tuln'
 
-abbr st='speedtest-cli'
+abbr st='librespeed-cli'
 
 abbr ff='fastfetch -c all'
 

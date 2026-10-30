@@ -1,4 +1,4 @@
--P ubuntu-latest=node:16-buster-slim
--P ubuntu-22.04=node:16-bullseye-slim
--P ubuntu-20.04=node:16-buster-slim
--P ubuntu-18.04=node:16-buster-slim
+-P ubuntu-latest=ghcr.io/catthehacker/ubuntu:act-latest
+-P ubuntu-26.04=ghcr.io/catthehacker/ubuntu:act-latest
+-P ubuntu-24.04=ghcr.io/catthehacker/ubuntu:act-24.04
+-P ubuntu-22.04=ghcr.io/catthehacker/ubuntu:act-22.04

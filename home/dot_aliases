@@ -325,14 +325,14 @@ fi
 
 if command -v keploy >/dev/null 2>&1; then
     alias kr="keploy record -c"
-    alias kt="keploy test --c"
+    alias kt="keploy test -c"
     alias kc="keploy config"
     alias km="keploy mock"
 fi
 
-# speedtest
-if command -v speedtest-cli >/dev/null 2>&1; then
-    alias st="speedtest-cli"
+# speedtest（Go 版の librespeed-cli。pipx:speedtest-cli は外した）
+if command -v librespeed-cli >/dev/null 2>&1; then
+    alias st="librespeed-cli"
 fi
 
 # mise

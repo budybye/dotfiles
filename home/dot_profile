@@ -289,6 +289,8 @@ fi
 
 if command -v gpg >/dev/null 2>&1; then
     mkdir -p "${XDG_DATA_HOME}/gnupg"
+    # gpg は homedir が 700 でないと警告する（既存ディレクトリにも適用する）
+    chmod 700 "${XDG_DATA_HOME}/gnupg"
     export GNUPGHOME="${XDG_DATA_HOME}/gnupg"
 fi
 
@@ -467,7 +469,7 @@ fi
 
 if command -v conan >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/conan"
-    export CONAN_USER_HOME="${XDG_CONFIG_HOME}/conan"
+    export CONAN_HOME="${XDG_CONFIG_HOME}/conan"
 fi
 
 if command -v htop >/dev/null 2>&1; then
@@ -548,11 +550,6 @@ fi
 if command -v opensrc >/dev/null 2>&1; then
     mkdir -p "${XDG_DATA_HOME}/opensrc"
     export OPENSRC_HOME="${XDG_DATA_HOME}/opensrc"
-fi
-
-if command -v ratty >/dev/null 2>&1; then
-    mkdir -p "${XDG_CONFIG_HOME}/ratty"
-    export RATTY_HOME="${XDG_CONFIG_HOME}/ratty"
 fi
 
 if command -v w3m >/dev/null 2>&1; then
