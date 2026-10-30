@@ -6,8 +6,27 @@
 [tools]
 # https://mise.jdx.dev/dev-tools/backends/http.html
 # "http:android-cli" = "latest"
-# "http:cursor-cli" = "latest"
 # "http:grok" = "latest"
+
+# coderabbit CLI（非 OSS・GitHub release なし）。公式 install.sh の代替で、版は releases/latest/VERSION から解決する。
+# SHA256SUMS は行頭が "./" 付きで checksum_url だけでは照合できないため checksum_expr で抜き出す。
+# 照合は lockfile（`mise lock --global`）がある時だけ。SHA256SUMS.sig の署名検証は mise に無い。
+"http:coderabbit".version = "latest"
+"http:coderabbit".url = 'https://cli.coderabbit.ai/releases/{{ version }}/coderabbit-{{ os(macos="darwin") }}-{{ arch() }}.zip'
+"http:coderabbit".version_list_url = "https://cli.coderabbit.ai/releases/latest/VERSION"
+"http:coderabbit".checksum_url = 'https://cli.coderabbit.ai/releases/{{ version }}/SHA256SUMS'
+"http:coderabbit".checksum_expr = '"sha256:" + split(filter(split(body, "\n"), # endsWith("  ./" + filename))[0], " ")[0]'
+
+# cursor CLI（agent）。公式 install.sh の代替。VERSION ファイルが無いので版は install.sh 内の lab/<版>/ から正規表現で取る。
+# 展開直下に同梱の node / rg があり、そのままだと mise の node / rg を PATH で奪うため、bin/ に agent と cursor-agent の symlink だけ作って公開する。
+# checksum は非公開。`mise lock --global` が計算した値を lockfile で照合する（初回は無検証）。
+"http:cursor-cli".version = "latest"
+"http:cursor-cli".url = 'https://downloads.cursor.com/lab/{{ version }}/{{ os(macos="darwin") }}/{{ arch() }}/agent-cli-package.tar.gz'
+"http:cursor-cli".version_list_url = "https://cursor.com/install"
+"http:cursor-cli".version_regex = 'lab/(\d{4}\.\d{2}\.\d{2}-[0-9a-f]+)/'
+"http:cursor-cli".strip_components = 1
+"http:cursor-cli".bin_path = "bin"
+"http:cursor-cli".postinstall = 'mkdir -p "$MISE_TOOL_INSTALL_PATH/bin" && ln -sf ../cursor-agent "$MISE_TOOL_INSTALL_PATH/bin/cursor-agent" && ln -sf ../cursor-agent "$MISE_TOOL_INSTALL_PATH/bin/agent"'
 
 # =============================================================================
 # JavaScript / TypeScript — runtimes / npm CLIs / agent tooling
@@ -15,8 +34,8 @@
 # runtimes / package managers
 bun = "latest"
 node = "latest"
-deno = "latest"
 pnpm = "latest"
+# deno = "latest"
 
 # AI / agent / DX
 pi = "latest"            # earendil-works/pi (TypeScript)
@@ -39,19 +58,18 @@ devcontainer-cli = "latest"
 
 # frontend / lint / format / toys
 viteplus = "latest"      # npm:vite-plus
-prettier = "latest"
-json5 = "latest"
-orval = "latest"
+# prettier = "latest"
+# json5 = "latest"
+# orval = "latest"
 just = "latest" # test
 watchexec = "latest" # auto runner
 # hunk = "latest"          # modem-dev/hunk (TypeScript)
-# marp-cli = "latest"  # → github:marp-team/marp-cli
 
 # github (TypeScript / JavaScript)
 "github:can1357/oh-my-pi" = "latest"
 "github:marp-team/marp-cli" = "latest"
-"github:microsoft/typescript" = "latest"
 "github:yusukebe/ax" = "latest" # web
+# "github:microsoft/typescript" = "latest"
 # "github:Egonex-AI/Understand-Anything" = "latest" #graph
 # "github:backnotprop/plannotator" = "latest"
 
@@ -66,7 +84,7 @@ watchexec = "latest" # auto runner
 "npm:ndrstnd" = "latest"
 "npm:taze" = "latest" # version
 "npm:@hono/cli" = "latest" # hono docs/test
-"npm:executor" = "latest" # codemode
+# "npm:executor" = "latest" # codemode
 "npm:ccxt-cli" = "latest" # trade
 "npm:mygo-cli" = "latest" # trade
 "npm:workers-fetch" = "latest"
@@ -81,14 +99,14 @@ watchexec = "latest" # auto runner
 "npm:@jackwener/opencli" = "latest"
 "npm:ctx7" = "latest"
 "npm:npkill" = "latest" #
-"npm:@hey-api/openapi-ts" = "latest"
+# "npm:@hey-api/openapi-ts" = "latest" # TypeScript 7 と非互換で起動時にクラッシュ（hey-api/hey-api#4235）
 "npm:react-doctor" = "latest"
 "npm:codeburn" = "latest" # code
 "npm:jj-stack" = "latest"
 "npm:duckduckgo-cli" = "latest" # web
 "npm:@testsprite/testsprite-cli" = "latest" # test
 "npm:@cyberstrike-io/cyberstrike" = "latest"
-"npm:console-ninja" = "latest"
+# "npm:console-ninja" = "latest" # npm 版は wrapper が <REPLACE> のままで動かず、正規の ~/.console-ninja/.bin を隠す
 # "npm:omp-web" = "latest" 
 # "npm:spynel" = "latest" # agents
 # "npm:specsmd" = "latest" # agents spec
@@ -201,10 +219,10 @@ auto-doc = "latest"
 # "github:gabe565/moreutils-go" = "latest" #moreutils
 # "github:modu-ai/moai-adk" = "latest" # agent
 # "github:plandex-ai/plandex" = "latest" # plan
-"github:dutchcoders/transfer.sh" = "latest" # files
-
-"aqua:tsenart/vegeta" = "latest" # bench
-"aqua:taskctl/taskctl" = "latest" # tasks
+# "github:dutchcoders/transfer.sh" = "latest" # files。サーバでコマンド名が transfersh-vX.Y.Z、CLI ではない
+# "github:lxc/incus" = { version = "latest", rename_exe = "incus" } # vm。どの OS でも client のみ（サーバは Linux パッケージか macOS は Colima）。資産名 bin.<os>.incus.<arch> を incus に改名
+# "aqua:tsenart/vegeta" = "latest" # bench。macOS arm64 は x86_64 のみで起動不可
+# "aqua:taskctl/taskctl" = "latest" # tasks。x86_64 のみ・最終安定版は 2021
 
 # "go:github.com/d2lang/d2" = "latest" # diagram
 # "go:github.com/GoogleContainerTools/skaffold" = "latest" # kube
@@ -269,7 +287,7 @@ ast-grep = "latest"
 # github (Rust)
 # "github:Dicklesworthstone/pi_agent_rust" = "latest"
 # "github:sharkdp/hyperfine" = "latest"
-"github:tsl0922/ttyd" = "latest"
+"github:tsl0922/ttyd" = { version = "latest", os = ["linux"], rename_exe = "ttyd" } # release に macOS 資産なし、Linux のみ（資産名 ttyd.aarch64 / ttyd.x86_64 を ttyd に改名）
 "github:vercel-labs/opensrc" = "latest" # context
 "github:vercel-labs/agent-browser" = "latest" # test
 "github:rossmacarthur/sheldon" = "latest" # zsh plugin
@@ -281,13 +299,13 @@ ast-grep = "latest"
 "github:jnsahaj/lumen" = "latest" # diff
 "github:t8y2/dbx" = "latest" # mcp db
 "github:pimalaya/himalaya" = "latest" # mail
-"github:vi/websocat" = "latest" # websocket
+"github:vi/websocat" = { version = "latest", rename_exe = "websocat" } # websocket。資産名 websocat.aarch64-apple-darwin のままでは PATH に出ない
 "github:DecapodLabs/decapod" = "latest" # context
 "github:meilisearch/meilisearch" = "latest" # search
-"github:GyulyVGC/sniffnet" = "latest" # monitor
+# "github:GyulyVGC/sniffnet" = "latest" # monitor。Linux AppImage を取得して macOS で起動不可
 "github:EasyTier/EasyTier" = "latest" # VPN
-"github:fish-shell/fish-shell" = "latest"  # fish 4+ は Rust
-"github:Rigellute/spotify-tui" = "latest" # spotify
+"github:fish-shell/fish-shell" = { version = "latest", os = ["linux"] } # fish 4+ は Rust。macOS の release 資産はソース tarball のみで Linux のみ
+# "github:Rigellute/spotify-tui" = "latest" # spotify。x86_64 のみ・2021 年から更新なし（後継は spotatui）
 "github:asciinema/asciinema" = "latest" # recorder
 "github:pemistahl/grex" = "latest" # test
 "github:tursodatabase/agentfs" = "latest" # fs
@@ -339,17 +357,18 @@ yt-dlp = "latest"
 # claude = "latest"        # anthropics/claude-code（primary: Python）
 
 # github (Python)
-"github:microsoft/pyright" = "latest"
+"pipx:pyright" = "latest" # PyPI 版（初回起動時に Node 版を取得）。github: 版は実行ファイルなし
 "github:microsoft/apm" = "latest"
-"github:pandas-dev/pandas" = "latest" # 計算
-"github:hacs/integration" = "latest" # auth
+# "github:pandas-dev/pandas" = "latest" # 計算。ソース tarball でライブラリ（uv add pandas）
+# "github:hacs/integration" = "latest" # Home Assistant 用で CLI ではない
 
 "pipx:pytest" = "latest" # test
-"pipx:opendoor" = "latest"
+# "pipx:opendoor" = "latest" # Python 3.15 非対応。uv tool install --python 3.14 opendoor
 "pipx:marimo" = "latest" # note
 "pipx:observal-cli" = "latest"
 "pipx:graphifyy" = "latest"
 "pipx:trafilatura" = "latest"
+# "pipx:speedtest-cli" = "latest" # st go版がある
 # "pipx:thefuck" = "latest" # uv tool install --python 3.11 thefuck しないとエラー
 # "pipx:ragas" = "latest" # RAG
 # "pipx:ddgr" = "latest" # web search
@@ -372,10 +391,10 @@ yt-dlp = "latest"
 # "pipx:markitdown-ocr" = "latest"
 
 # "conda:pdftotext" = "latest" # pdf
-"conda:openai" = "latest" # graphify label が依存？
-"conda:pypdf" = "latest"
-"conda:lxml" = "latest"
-"conda:defusedxml" = "latest"
+# "conda:openai" = "latest" # ライブラリで CLI なし・他環境から import 不可（graphifyy の依存でもない）
+# "conda:pypdf" = "latest" # 同上
+# "conda:lxml" = "latest" # 同上
+# "conda:defusedxml" = "latest" # 同上
 
 # =============================================================================
 # C / C++ — build tools / native DBs / systems tools
@@ -400,7 +419,7 @@ solidity = "latest"      # ethereum/solidity (C++)
 # github (C / C++)
 "github:ushironoko/octorus" = "latest" # gh
 "github:Slackadays/Clipboard" = "latest" # clipboard
-"github:hashcat/hashcat" = "latest" # crack
+# "github:hashcat/hashcat" = "latest" # crack。macOS 向け資産なし
 # "github:colbymchenry/codegraph" = "latest" # graph
 # "github:apple/foundationdb" = "latest" # db
 
@@ -441,7 +460,7 @@ shellcheck = "latest"    # Haskell
 hadolint = "latest"      # Haskell
 pandoc = "latest"      # Haskell
 neovim = "latest"
-ffmpeg = "latest"        # C
+"conda:ffmpeg" = "latest" # C。短縮名 ffmpeg は asdf plugin（ソースビルドで libx264 / libmp3lame なし）が優先されるため conda を明示
 # ansible = "latest"
 # android-sdk = "latest"
 # vim = "latest"
@@ -450,7 +469,7 @@ ffmpeg = "latest"        # C
 # zprint = "latest"
 # aws = "latest"
 
-"github:scop/bash-completion" = "latest"
+# "github:scop/bash-completion" = "latest" # スクリプト集で CLI ではない
 
 # desktop / GUI（無効化中・用途グループ）
 # "github:ownself/wewa" = "latest" # rust web-wall-papper
@@ -459,6 +478,6 @@ ffmpeg = "latest"        # C
 #ジョーク系
 "npm:cowsay" = "latest"    
 "npm:figlet" = "latest"
-"npm:cmatrix" = "latest"
-"pipx:fortune" = "latest"
+# "npm:cmatrix" = "latest" # ブラウザ canvas ライブラリで CLI なし（brew install cmatrix）
+# "pipx:fortune" = "latest" # fortune ファイル同梱なし。zlogin の fortune | cowsay が毎回失敗する
 "pipx:lolcat" = "latest"

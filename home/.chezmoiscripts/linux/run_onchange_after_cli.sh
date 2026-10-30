@@ -148,15 +148,6 @@ install_mkcert() {
     mkcert --version || echo "mkcert not found."
 }
 
-install_coderabbit() {
-    if command -v coderabbit >/dev/null 2>&1; then
-        echo "coderabbit already installed."
-    elif command -v curl >/dev/null 2>&1; then
-        curl -fsSL https://cli.coderabbit.ai/install.sh | sh || echo "coderabbit install failed."
-    fi
-    coderabbit --version || echo "coderabbit not found."
-}
-
 echo "cli.sh"
 echo "--------------------------------"
 japan_setup
@@ -165,7 +156,6 @@ install_mise
 install_go_aqua
 install_mkcert
 install_flatpak
-install_coderabbit
 echo "--------------------------------"
 echo "CLI tools install done."
 echo "--------------------------------"

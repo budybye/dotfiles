@@ -150,7 +150,6 @@ packages:
     # - "curl https://hermes-agent.nousresearch.com/install.sh | sh"
     # - "curl https://code-server.dev/install.sh | sh"    
 
-    - "curl https://cli.coderabbit.ai/install.sh | bash"
     # - "curl https://www.xalgorix.com/install | bash"
     # - "curl https://nixos.org/nix/install | bash"
 

@@ -1,7 +1,7 @@
 [settings]
 # 相対: 0s / 7d / 6mo / 1y、絶対: 2024-06-01
-# 公開から 3d 未満のバージョンは採用しない（供給網リスク緩和）。
-minimum_release_age = "3s"
+# 公開から 12h 未満のバージョンは採用しない（供給網リスク緩和）。
+minimum_release_age = "12h"
 # 自分で管理・即追従したい tool は除外
 minimum_release_age_excludes = [
   "github:can1357/oh-my-pi",
@@ -10,8 +10,12 @@ minimum_release_age_excludes = [
   "node"
 ]
 
-# mise.lock を作成する
-lockfile = false
+# mise.lock を更新する。グローバル tool の mise.lock は自動作成されないため `mise lock --global` で作る。
+lockfile = true
+# ロック対象は macOS arm64 のみ。mise.lock は ~/.config/mise 直下でリポジトリ管理外のため他 OS の分は使われず、
+# Linux ではその時のプラットフォームが自動で足される。リポジトリで共有するなら linux-x64 / linux-arm64 を足す
+# （2026-11 時点は java latest の linux metadata が無く、足すと `mise lock` / `mise install` が失敗する）。
+lockfile_platforms = ["macos-arm64"]
 
 # 失敗したインストールの残骸をデバッグ用に保持（旧 always_keep_download は deprecated のため削除）
 always_keep_install = false         # デフォルトでは失敗時に削除

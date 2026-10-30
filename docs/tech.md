@@ -35,15 +35,16 @@ description: 技術スタック パッケージ管理 ライブラリ説明
 
 ### Mise（主軸）
 
-- **ツール定義**: `home/private_dot_config/mise/conf.d/tools.toml`（有効 215 / コメントアウト 141。実数は `mise ls`。コメントアウト行は再有効化用に残す）
+- **ツール定義**: `home/private_dot_config/mise/conf.d/tools.toml`（有効 194 / コメントアウト 165（2026-11-01 時点）。実数は `mise ls`。コメントアウト行は再有効化用に残す。macOS で動かない `ttyd` / `fish-shell` は `os = ["linux"]` で Linux のみ）
 - **設定**: `home/private_dot_config/mise/conf.d/settings.toml`。`config.toml` は shell alias と hooks のみ
 - **運用**:
-  - ほぼ全て `latest` 指定。`lockfile = false`
-  - `minimum_release_age = "3s"`（設定内コメントは 3d 想定だが、現状の値では公開直後のバージョン回避はほぼ効かない。`node` / `pi` など一部は除外）
+  - ほぼ全て `latest` 指定。`lockfile = true`（グローバル tool のロックは `mise lock --global` を実行したマシンにだけ `~/.config/mise/mise.lock` として作られ、リポジトリ管理外。`make init` は `mise i -y` のみなので、新規マシン・CI・Docker には lockfile が無く checksum は照合されない。`lockfile_platforms` は macOS arm64 のみ。検知できるのは lock を作ったマシンでの以降の差し替えのみ）
+  - `minimum_release_age = "12h"`（公開から 12h 未満の版は採用しない。リリース日を返さない `http:` tool には効かない。`node` / `pi` / `oh-my-pi` / `lazyxrp` は除外）
   - `self_update.auto` と `tool_update.global_auto` で本体・グローバル tool を自動更新
   - `env_file = ".env"` で環境変数連携
   - 慣習的バージョンファイル（`.nvmrc` 等）は node / python / ruby / go のみ有効。`legacy_version_file` / `asdf_compat` は廃止済みで使わない
   - バックエンド: `cargo.binstall = true`、`pypi.uvx = true`、`npm.package_manager = "bun"`
+  - `http:` バックエンド: `http:coderabbit` / `http:cursor-cli`（公式 `install.sh` の代替）。coderabbit は `releases/latest/VERSION` で版を解決し `checksum_expr` で `SHA256SUMS` を照合、cursor-cli は `install.sh` 内の版を正規表現で取り、checksum 非公開のため lockfile 初回計算値で照合（初回は無検証）、同梱 `node` / `rg` を隠すため `postinstall` で `bin/` に `agent` / `cursor-agent` を作る。どちらも署名検証とリリース日（`minimum_release_age`）は効かない。対象は macOS / Linux（x64・arm64）で、Windows は `.chezmoiignore` が `.config/**` を配置しないため対象外。`make init` と devcontainer ビルドは 1 回あたり約 225 MB（cursor-cli 183 MB・coderabbit 41 MB）のダウンロードが増え、一過性の失敗で `mise i -y` が非 0 になっても `run_onchange_after_cli.sh` は `|| echo` で続行し、残りのツールは入る（`mise install` の再実行で復旧）
   - Rust は `rust.cargo_home` / `rust.rustup_home` を XDG（`~/.local/share`）に固定
 
 ### mise bootstrap（macOS / Linux パッケージ）
@@ -59,7 +60,7 @@ description: 技術スタック パッケージ管理 ライブラリ説明
 - 設定: `home/.chezmoidata/packages.yaml`
 - 役割:
   - `windows.winget`, `windows.scoop`（`windows/run_once_after_install.ps1.tmpl` が参照）
-  - `curl`: `curl | sh` で入れる CLI（mise / fx / coderabbit / zed）
+  - `curl`: `curl | sh` で入れる CLI（mise / fx / zed）
 - スキル一覧は `agents.yaml`、VSCode 拡張は `extensions.yaml`（同ディレクトリ）
 
 ### Aqua（補助）
@@ -80,8 +81,8 @@ description: 技術スタック パッケージ管理 ライブラリ説明
 - **bash**（互換用）
 - **starship**（プロンプト）
 - **sheldon**（zsh プラグインマネージャー）
-- **zellij**（ターミナルマルチプレクサ）
-- **herdr**（ターミナルマルチプレクサ・herdr）
+- **zellij**（ターミナルマルチプレクサ。herdr へ切替済みで設定のみ残置）
+- **herdr**（ターミナルマルチプレクサ。現行）
 - **atuin**（シェル履歴）
 - **zoxide**（スマート cd）
 - **fzf**（ファジー検索）
@@ -99,7 +100,7 @@ description: 技術スタック パッケージ管理 ライブラリ説明
 - **lazygit / lazydocker**（TUI）
 - **docker / devcontainer-cli**
 - **act**（GitHub Actions ローカル実行）
-- **task**（Taskfile / make 代替）
+- **task**（Taskfile / make 代替。導入のみで `Taskfile.yml` は無く、実体は Makefile）
 - **pre-commit**
 - **graphify**（コードベース知識グラフ。除外は `.graphifyignore`）
 - **github actions（workflow）** — 下記「GitHub Actions パイプライン」
@@ -143,7 +144,7 @@ description: 技術スタック パッケージ管理 ライブラリ説明
 
 Mise で管理する主要な言語および関連ツール。
 
-- **JavaScript/TypeScript**: node, bun, deno, pnpm
+- **JavaScript/TypeScript**: node, bun, pnpm
 - **Python**: python, uv（パッケージマネージャー）, pipx, ruff, hatch
 - **Go**: go
 - **Rust**: rust, cargo-binstall
@@ -151,7 +152,7 @@ Mise で管理する主要な言語および関連ツール。
 
 ### その他のユーティリティ
 
-- **データ・フォーマット**: jq, yq, fx, json5, yamlfmt, prettier
+- **データ・フォーマット**: jq, yq, fx, yamlfmt
 - **ネットワーク**: xh, hurl, curl（システム）
 - **ストレージ**: rclone, sqlite
 - **ビルド**: ninja, conan
