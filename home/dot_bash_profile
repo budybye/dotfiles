@@ -18,6 +18,7 @@ fi
 # IDEターミナル（Cursor/VSCode）や非TTY環境ではスキップ
 if [ "${SHLVL}" = 1 ] && [ -t 0 ] && \
   [ "${TERM_PROGRAM}" != "vscode" ] && \
+  [ "${TERM_PROGRAM}" != "Orca" ] && \
   [ "${TERM_PROGRAM}" != "Cursor" ] && \
   [ "${TERM_PROGRAM}" != "herdr" ] && \
   [ -z "${HERDR_ENV:-}" ] && \

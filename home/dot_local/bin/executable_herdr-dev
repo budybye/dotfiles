@@ -59,8 +59,6 @@ if herdr status 2>/dev/null | grep -q 'status: running' && command -v jq >/dev/n
       T=$(printf '%s' "$R" | jq -r '.result.tab.tab_id')
       P=$(printf '%s' "$R" | jq -r '.result.root_pane.pane_id')
       herdr tab rename "$T" 101
-      herdr pane run "$P" fastfetch
-      P=$(herdr pane split --pane "$P" --direction right --cwd "$HOME" | jq -r '.result.pane.pane_id')
       herdr pane run "$P" btm
     fi
 
@@ -78,7 +76,7 @@ if herdr status 2>/dev/null | grep -q 'status: running' && command -v jq >/dev/n
     if ! has_tab 102; then
       R=$(herdr tab create --workspace "$W" --label 102 --cwd "$HOME/Music")
       P=$(printf '%s' "$R" | jq -r '.result.root_pane.pane_id')
-      herdr pane run "$P" ncmpcpp
+      herdr pane run "$P" fastfetch
       P=$(herdr pane split --pane "$P" --direction down --cwd "$HOME/data" | jq -r '.result.pane.pane_id')
       herdr pane run "$P" "cat $HOME/data/cat.txt"
     fi

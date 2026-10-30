@@ -51,6 +51,7 @@ fi
 if [ "$SHLVL" = 1 ] && [ -t 0 ] && \
    [ "$TERM_PROGRAM" != "vscode" ] && \
    [ "$TERM_PROGRAM" != "Cursor" ] && \
+   [ "$TERM_PROGRAM" != "Orca" ] && \
    [ "$TERM_PROGRAM" != "herdr" ] && \
    [ -z "${HERDR_ENV:-}" ] && \
    [ "$TERM_PROGRAM" != "zed" ]; then
