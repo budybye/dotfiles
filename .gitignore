@@ -4,3 +4,5 @@
 
 # omp が実行時に作る lock（symlink 経由で repo に書かれる）
 config.yml.lock
+
+tmp
