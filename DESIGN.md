@@ -3,7 +3,7 @@ version: alpha
 title: ターミナルスタックのキーマップ設計
 tags: [terminal, keymap, multiplexer, tui, design]
 name: Kanagawa Dragon Terminal
-description: ghostty→zellij→herdr→pi/omp スタックの視覚言語・キー所有権・衝突解消・逸脱記録
+description: ghostty→herdr→pi/omp スタックの視覚言語・キー所有権・衝突解消・逸脱記録
 omitted:
   - section: rounded
     reason: 端末とペインに角丸なし(境界は枠線と gap のみ)
