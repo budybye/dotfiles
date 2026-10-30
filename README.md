@@ -47,7 +47,7 @@ make doctor
 make help
 ```
 
-`make check` は `chezmoi diff`、`make test` はテンプレート構文と dry-run、`make verify` は Chezmoi の検証を実行します。
+`make check` は `chezmoi diff`、`make test` は一時 destination への `chezmoi apply --dry-run`（現在の OS / profile で適用対象の template を描画し、失敗すれば異常終了）、`make verify` は適用先と source の差分検出（差分があれば失敗）を実行します。
 
 ## Docker
 

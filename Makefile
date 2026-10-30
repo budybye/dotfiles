@@ -67,11 +67,9 @@ check: ## Check dotfiles configuration
 	chezmoi diff
 	@echo "✓ Configuration check completed"
 
-test: ## Run tests (template syntax, dry-run)
-	@echo "Verifying template syntax..."
-	@chezmoi execute-template '{{ .chezmoi.sourceDir }}' >/dev/null && echo "  sourceDir: OK"
-	@echo "Dry-run apply..."
-	@chezmoi apply --dry-run 2>/dev/null && echo "  dry-run: OK" || echo "  dry-run: skipped (age passphrase may be required)"
+test: ## Run tests (render templates applicable to this OS/profile via dry-run apply)
+	@echo "Dry-run apply into a temporary destination..."
+	@d="$$(mktemp -d)" && trap 'rm -rf "$$d"' EXIT && chezmoi --destination "$$d" apply --dry-run --exclude=encrypted,externals
 	@echo "✓ Tests completed"
 
 completion: ## Generate chezmoi shell completion (zsh)
@@ -82,9 +80,9 @@ doctor: ## Run chezmoi doctor (health check)
 	chezmoi doctor
 	@echo "✓ Doctor completed"
 
-verify: ## Verify destination matches chezmoi source
+verify: ## Verify destination matches chezmoi source (fails on drift)
 	@echo "Verifying destination state..."
-	@chezmoi verify 2>/dev/null && echo "  verify: OK" || echo "  verify: skipped (age passphrase may be required)"
+	@chezmoi verify --exclude=encrypted,externals || { echo "Destination differs from source. Run 'make check' to see the diff." >&2; exit 1; }
 	@echo "✓ Verify completed"
 
 ##@ Docker

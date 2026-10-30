@@ -27,8 +27,8 @@ make doctor
 ```
 
 - `make check`: `chezmoi diff` で適用差分を確認
-- `make test`: template 構文（`sourceDir` 展開）と `chezmoi apply --dry-run` を確認
-- `make verify`: `chezmoi verify` で適用先が source と一致するか確認（script の構文検証ではない）
+- `make test`: 空の一時 destination に `chezmoi apply --dry-run` を実行し、現在の OS / profile で適用対象の template を描画する。暗号化ファイルと external は除外し、描画エラーで失敗する。他 OS・CI・Docker 限定の template は対象外で、CI は `make test` を実行しない
+- `make verify`: `chezmoi verify` で適用先が source と一致するか確認し、差分があれば失敗する（script の構文検証ではない）
 - `make doctor`: Chezmoi の環境診断
 
 秘密情報が必要な処理は、CI や共有ログへ passphrase・token を出力しません。

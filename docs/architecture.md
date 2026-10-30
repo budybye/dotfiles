@@ -130,7 +130,7 @@ Makefile は dotfiles、開発環境（Docker / Multipass）、関連インフ�
 
 ### 注意点
 
-- `make test` / `make verify`: age passphrase が必要な環境では dry-run / verify が skipped になる。テンプレート構文検証の失敗は `make test` の失敗になる
+- `make test` / `make verify`: 暗号化ファイルと external を除外して実行するため age passphrase は不要。`make test` は現在の OS / profile で適用対象の template の描画エラー、`make verify` は適用先と source の差分で失敗する
 - `make docker-build` / `make docker-slim-build`: `GITHUB_TOKEN` が必須（BuildKit secret として渡す）。ローカル build のみで、GHCR への push は CI が行う
 - `make docker-run`: `docker-build` に依存し、ローカル build 済み image を `ubuntu-dev` として起動する。`make docker-ghcr-run` は公開済み image を pull して `ubuntu-dev-ghcr` として起動し、両者は共存できる
 - `make age-keygen`: Mise direct-age 用の raw identity を `~/.config/mise/age.txt` に生成する。Chezmoi の passphrase とは別物で、既存ファイルがある場合は上書きせずに失敗する。Chezmoi encrypted files の passphrase は `chezmoi apply` 時に手動入力する
