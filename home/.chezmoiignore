@@ -6,6 +6,7 @@
 **/.DS_Store
 .chezmoiexternal.*
 key.txt*
+.config/omp/**/config.yml.lock
 
 {{ if not .github }}
 .config/gh/**

@@ -150,8 +150,6 @@ description: directory ファイル情報説明
 │   │   ├── tmux/                   # ターミナルマルチプレクサー
 │   │   │   ├── dot_tmuxrc
 │   │   │   └── tmux.conf
-│   │   ├── uv/                     # Pythonパッケージ管理
-│   │   │   └── uv.toml
 │   │   ├── vim/                    # Vim設定
 │   │   │   └── vimrc
 │   │   ├── zed/                    # Zed エディタ
