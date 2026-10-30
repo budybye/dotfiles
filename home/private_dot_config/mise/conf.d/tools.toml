@@ -39,7 +39,6 @@ pnpm = "latest"
 
 # AI / agent / DX
 pi = "latest"            # earendil-works/pi (TypeScript)
-wacli = "latest"         # whats up
 # codex = "latest"
 # opencode = "latest"      # anomalyco/opencode (TypeScript)
 # gemini = "latest"
@@ -51,18 +50,16 @@ bitwarden = "latest"     # bitwarden/clients (TypeScript)
 # bitwarden-secrets-manager = "latest"
 
 # cloud / SaaS / DX (JS/TS)
-serverless = "latest"    # npm
+serverless = "latest"    # AWS 向けデプロイ framework（npm）
 wrangler = "latest"
 devcontainer-cli = "latest"
 # graphite = "latest"      # Graphite CLI (TS 系)
 
 # frontend / lint / format / toys
-viteplus = "latest"      # npm:vite-plus
+viteplus = "latest"      # Vite+ 統合ツールチェーン（npm:vite-plus）
 # prettier = "latest"
 # json5 = "latest"
 # orval = "latest"
-just = "latest" # test
-watchexec = "latest" # auto runner
 # hunk = "latest"          # modem-dev/hunk (TypeScript)
 
 # github (TypeScript / JavaScript)
@@ -86,14 +83,14 @@ watchexec = "latest" # auto runner
 "npm:@hono/cli" = "latest" # hono docs/test
 # "npm:executor" = "latest" # codemode
 "npm:ccxt-cli" = "latest" # trade
-"npm:mygo-cli" = "latest" # trade
+"npm:mygo-cli" = "latest" # Go 製デスクトップアプリ framework の CLI
 "npm:workers-fetch" = "latest"
 "npm:localflare" = "latest"
 "npm:zenn-cli" = "latest"
 "npm:rnsec" = "latest"
 "npm:skills" = "latest" # agent skills
 # "npm:rosie-skills" = "latest" # scan skill
-"npm:context-mode" = "latest" # agent tiny
+"npm:context-mode" = "latest" # コンテキスト節約の MCP サーバ兼 hook
 "npm:greptile" = "latest"
 "npm:@fission-ai/openspec" = "latest"
 "npm:@jackwener/opencli" = "latest"
@@ -101,7 +98,7 @@ watchexec = "latest" # auto runner
 "npm:npkill" = "latest" #
 # "npm:@hey-api/openapi-ts" = "latest" # TypeScript 7 と非互換で起動時にクラッシュ（hey-api/hey-api#4235）
 "npm:react-doctor" = "latest"
-"npm:codeburn" = "latest" # code
+"npm:codeburn" = "latest" # AI コーディングのコスト / トークン集計
 "npm:jj-stack" = "latest"
 "npm:duckduckgo-cli" = "latest" # web
 "npm:@testsprite/testsprite-cli" = "latest" # test
@@ -136,7 +133,7 @@ watchexec = "latest" # auto runner
 go = "latest"
 aqua = "latest" # pm
 act = "latest" # actions
-ghq = "latest" # gh
+ghq = "latest" # リポジトリ配置管理（gh CLI ではない）
 shfmt = "latest" # format
 # mage = "latest" # build
 # jwt = "latest"
@@ -151,6 +148,7 @@ age = "latest"
 # secrets / SaaS CLIs (Go)
 doppler = "latest"       # DopplerHQ/cli (Go)
 stripe = "latest"        # stripe/stripe-cli (Go)
+wacli = "latest"         # WhatsApp CLI (Go)
 flyctl = "latest"
 
 # dotfiles / tasks / docs
@@ -186,10 +184,8 @@ yamlfmt = "latest"
 yq = "latest"
 yj = "latest"
 fx = "latest"
-ubi = "latest"
 fzf = "latest"
 checkmake = "latest"
-topgrade = "latest" # tui
 auto-doc = "latest"
 # glow = "latest"
 # sampler = "latest"
@@ -199,22 +195,22 @@ auto-doc = "latest"
 # github (Go)
 "go:github.com/cheat/cheat/cmd/cheat" = "latest" # aqua 版は darwin-amd64 のみ配布のため go ビルド
 "github:keploy/keploy" = "latest"
-"github:projectdiscovery/katana" = "latest" # clwling
+"github:projectdiscovery/katana" = "latest" # クローラ (crawling)
 "github:koki-develop/clive" = "latest" # auto command
-"github:smallstep/cli" = "latest" # auth
-"github:fatedier/frp" = "latest" # ssh
+"github:smallstep/cli" = "latest" # 証明書 / PKI CLI（step）
+"github:fatedier/frp" = "latest" # リバースプロキシ / NAT トンネル
 "github:jonaslu/ain" = "latest" # curl 
 "github:reviewdog/reviewdog" = "latest" # review
 "github:syncthing/syncthing" = "latest" # file sync
-"github:ankitpokhrel/jira-cli" = "latest" # github
+"github:ankitpokhrel/jira-cli" = "latest" # Jira CLI
 "github:micro-editor/micro" = "latest" # editor 
 "github:wtfutil/wtf" = "latest" # tui dashboard
 "github:sheepla/whois-cli" = "latest" # whois
 "github:librespeed/speedtest-cli" = "latest" # st
-"github:pranshuparmar/witr" = "latest" # 天気
-"github:gcla/termshark" = "latest" # wiresharckのtui
+"github:pranshuparmar/witr" = "latest" # プロセス / ポートの起源調査（why is this running）
+"github:gcla/termshark" = "latest" # tshark の TUI
 "github:go-gitea/gitea" = "latest" # git系
-"github:agent0ai/spynel" = "latest" # plan
+"github:agent0ai/spynel" = "latest" # 複数コーディングエージェントの管理
 # "github:daichirata/hammer" = "latest" # gcloud
 # "github:gabe565/moreutils-go" = "latest" #moreutils
 # "github:modu-ai/moai-adk" = "latest" # agent
@@ -261,10 +257,16 @@ scooter = "latest"
 hyperfine = "latest"
 
 rtk = "latest"           # rtk-ai/rtk (Rust)
-herdr = "latest"    # ogulcancelik/herdr (Rust)
+herdr = "latest"    # herdrdev/herdr (Rust)
 # tokei = "latest"
 # choose = "latest"
 # oxlint = "latest"
+
+# tasks / install helpers（Rust 製）
+just = "latest"          # コマンドランナー
+watchexec = "latest"     # ファイル変更で再実行
+ubi = "latest"           # GitHub release バイナリ導入（mise の github: と重複）
+topgrade = "latest"      # 一括更新
 
 # system / disk / perf
 # dua = "latest"
@@ -287,32 +289,32 @@ ast-grep = "latest"
 # github (Rust)
 # "github:Dicklesworthstone/pi_agent_rust" = "latest"
 # "github:sharkdp/hyperfine" = "latest"
-"github:tsl0922/ttyd" = { version = "latest", os = ["linux"], rename_exe = "ttyd" } # release に macOS 資産なし、Linux のみ（資産名 ttyd.aarch64 / ttyd.x86_64 を ttyd に改名）
 "github:vercel-labs/opensrc" = "latest" # context
-"github:vercel-labs/agent-browser" = "latest" # test
-"github:rossmacarthur/sheldon" = "latest" # zsh plugin
+"github:vercel-labs/agent-browser" = "latest" # エージェント向けブラウザ自動化
+"github:rossmacarthur/sheldon" = "latest" # zsh プラグインマネージャ
 "github:boborder/lazyxrp" = "latest" # my tools
-"github:orhun/ratty" = "latest" # tui
-"github:orhun/binsider" = "latest" # File Manager
+"github:orhun/ratty" = "latest" # GPU ターミナルエミュレータ
+"github:orhun/binsider" = "latest" # ELF バイナリ解析 TUI
 "github:orhun/halp" = "latest" # 
 "github:dmmulroy/jj-starship" = "latest" # ps1
 "github:jnsahaj/lumen" = "latest" # diff
-"github:t8y2/dbx" = "latest" # mcp db
+"github:t8y2/dbx" = "latest" # Tauri 製 GUI アプリ（CLI ではない）。MCP は別パッケージ @dbx-app/mcp-server
 "github:pimalaya/himalaya" = "latest" # mail
 "github:vi/websocat" = { version = "latest", rename_exe = "websocat" } # websocket。資産名 websocat.aarch64-apple-darwin のままでは PATH に出ない
-"github:DecapodLabs/decapod" = "latest" # context
+"github:DecapodLabs/decapod" = "latest" # エージェント作業のガバナンス（context / plan）
 "github:meilisearch/meilisearch" = "latest" # search
 # "github:GyulyVGC/sniffnet" = "latest" # monitor。Linux AppImage を取得して macOS で起動不可
 "github:EasyTier/EasyTier" = "latest" # VPN
 "github:fish-shell/fish-shell" = { version = "latest", os = ["linux"] } # fish 4+ は Rust。macOS の release 資産はソース tarball のみで Linux のみ
 # "github:Rigellute/spotify-tui" = "latest" # spotify。x86_64 のみ・2021 年から更新なし（後継は spotatui）
 "github:asciinema/asciinema" = "latest" # recorder
-"github:pemistahl/grex" = "latest" # test
+"github:pemistahl/grex" = "latest" # 例文から正規表現を生成
 "github:tursodatabase/agentfs" = "latest" # fs
-"github:nolabs-ai/nono" = "latest" # scan
-"github:gleam-lang/gleam" = "latest" # web
+"github:nolabs-ai/nono" = "latest" # エージェント実行のサンドボックス
+"github:gleam-lang/gleam" = "latest" # BEAM / JS 向け関数型言語
 "github:agavra/tuicr" = "latest" # code review
 "github:superradcompany/microsandbox" = "latest" # vm
+"github:ushironoko/octorus" = "latest" # gh 前提の PR レビュー TUI
 
 # "cargo:can1357/pon" = "latest"
 
@@ -417,7 +419,7 @@ solidity = "latest"      # ethereum/solidity (C++)
 # clickhouse = "latest"
 
 # github (C / C++)
-"github:ushironoko/octorus" = "latest" # gh
+"github:tsl0922/ttyd" = { version = "latest", os = ["linux"], rename_exe = "ttyd" } # C 製。release に macOS 資産なし、Linux のみ（資産名 ttyd.aarch64 / ttyd.x86_64 を ttyd に改名）
 "github:Slackadays/Clipboard" = "latest" # clipboard
 # "github:hashcat/hashcat" = "latest" # crack。macOS 向け資産なし
 # "github:colbymchenry/codegraph" = "latest" # graph
@@ -446,7 +448,7 @@ dotnet = "latest"
 # neko = "latest"
 
 # github (Swift / C# など)
-"github:iofficeai/officecli" = "latest"    # C# 万能 office tools
+"github:iofficeai/officecli" = "latest"    # C# 製の AI エージェント向け OOXML 編集 CLI
 # "github:manaflow-ai/cmux" = "latest"       # Swift
 # "github:basecamp/writebook" = "latest"       # ruby
 # "github:ClusterVR/ClusterCreatorKit" = "latest" 
