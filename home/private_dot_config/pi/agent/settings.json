@@ -6,11 +6,12 @@
   },
   "defaultModel": "anthropic/claude-sonnet-5-5",
   "defaultProvider": "anthropic",
+  "defaultThinkingLevel": "xhigh",
   "enabledModels": [
     "anthropic/claude-sonnet-5-5",
     "cloudflare-workers-ai/@cf/zai-org/glm-5.3-flash",
     "cloudflare-workers-ai/@cf/deepseek-ai/deepseek-v4.1-flash-1017",
-    "cloudflare-ai-gateway/gpt-5.6-luna",
+    "cloudflare-ai-gateway/claude-haiku-5.5",
     "sakura/preview/GLM-5.3-flash"
   ],
   "enableInstallTelemetry": false,
@@ -21,13 +22,11 @@
   "packages": [
     "npm:@gotgenes/pi-anthropic-auth",
     "npm:pi-auto-compact",
-    "npm:context-mode"
+    "npm:context-mode",
+    "npm:@dietrichgebert/ponytail"
   ],
   "skills": [
-    "~/.agents/skills",
-    "!**/graphify/skill-*.md",
-    "!**/graphify/command-*.md",
-    "!**/graphify/always_on/**"
+    "~/.agents/skills"
   ],
   "steeringMode": "all",
   "followUpMode": "all",
