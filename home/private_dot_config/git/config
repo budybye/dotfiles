@@ -60,6 +60,8 @@
 	ignorecase = true
 	# 日本語を正常に表示させる
 	quotepath = false
+	# delta は mise 管理（tools.toml）。未導入の環境では pager が起動せず素の出力になる
+	pager = delta
 
 [commit]
 	verbose = true
@@ -88,7 +90,7 @@
 	enabled = true
 
 [tag]
-	foreSignAnnotated = true
+	forceSignAnnotated = true
 
 [delta]
 	line-numbers = true
