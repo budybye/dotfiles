@@ -83,7 +83,7 @@ if herdr status 2>/dev/null | grep -q 'status: running' && command -v jq >/dev/n
       herdr pane run "$P" "cat $HOME/data/cat.txt"
     fi
 
-    if ! has_tab 103; then
+    if ! has_tab Dev; then
       R=$(herdr tab create --workspace "$W" --label Dev --cwd "$HOME/Developer")
       P=$(printf '%s' "$R" | jq -r '.result.root_pane.pane_id')
       PB=$(herdr pane split --pane "$P" --direction down | jq -r '.result.pane.pane_id') # 下段(全幅)
@@ -91,7 +91,7 @@ if herdr status 2>/dev/null | grep -q 'status: running' && command -v jq >/dev/n
       herdr pane split --pane "$PB" --direction right >/dev/null # 下段右(素 shell)
     fi
 
-    if ! has_tab 104; then
+    if ! has_tab Docs; then
       R=$(herdr tab create --workspace "$W" --label Docs --cwd "$HOME/Developer/docs")
       P=$(printf '%s' "$R" | jq -r '.result.root_pane.pane_id')
       herdr agent start pi --kind pi --pane "$P" -- -c
@@ -99,7 +99,7 @@ if herdr status 2>/dev/null | grep -q 'status: running' && command -v jq >/dev/n
     fi
 
     # tab「lazydocker」: docker 稼働 + lazydocker 導入時のみ(条件付き)
-    if ! has_tab container && command -v docker >/dev/null 2>&1 && command -v lazydocker >/dev/null 2>&1 \
+    if ! has_tab lazydocker && command -v docker >/dev/null 2>&1 && command -v lazydocker >/dev/null 2>&1 \
        && docker info >/dev/null 2>&1; then
       R=$(herdr tab create --workspace "$W" --label lazydocker --cwd "$HOME/Developer")
       P=$(printf '%s' "$R" | jq -r '.result.root_pane.pane_id')
