@@ -1,2 +1,3 @@
-# devcontainer secrets
+# 平文 secret（token）を含むローカル env
+.env
 .devcontainer/.env
