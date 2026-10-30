@@ -215,6 +215,7 @@ adopt = false
 "brew:mpc" = "latest"
 "brew:ncmpcpp" = "latest"
 "brew:nmap" = { os = "macos" }
+"brew:openssl@3" = { os = "macos" } # mise の sheldon (prebuilt) が libssl.3 にリンク
 "brew:pkgconf" = { os = "macos" }
 "brew:qemu" = { os = "macos" }
 "brew:tree" = { os = "macos" }

@@ -5,7 +5,7 @@ cask_args appdir: "/Applications"
 # tap "yusukebe/tap"
 # tap "nikitabobko/tap"
 # tap "jnsahaj/lumen"
-tap "stablyai/orca", trusted: true
+# tap "stablyai/orca", trusted: true
 
 # formula
 
@@ -101,14 +101,15 @@ brew "mas"
 brew "make"
 brew "moreutils"
 brew "multitail"
-brew "mpd"
-brew "mpc"
 # brew "meilisearch"
 # brew "mycli"
 # brew "mkcert"
-brew "ncmpcpp"
+# brew "mpd"
+# brew "mpc"
+# brew "ncmpcpp"
 brew "nmap"
 # brew "navi"
+brew "openssl@3" # mise の sheldon (prebuilt) が libssl.3 にリンク。bb/bcf の cleanup で消えるため明示
 # brew "ossp-uuid"
 # brew "opencode"
 # brew "tcl-tk"
@@ -198,7 +199,7 @@ cask "blender"
 # cask "bdash
 # cask "binance"
 cask "cloudflare-warp"
-cask "coderabbit"
+# cask "coderabbit"
 # cask "cursor"
 # cask "cursor-cli"
 # cask "chatgpt"
@@ -299,8 +300,7 @@ cask "orbstack"
 # cask "owlocr"
 # cask "openhuman"
 # cask "opencode-desktop"
-# cask "orca"
-cask "stablyai/orca/orca"
+# cask "stablyai/orca/orca"
 # cask "paw"
 # cask "pencil"
 # cask "pokerstars"
@@ -347,8 +347,8 @@ cask "raycast"
 # cask "tor-browser"
 # cask "temurin"
 # cask "the-unarchiver"
-cask "t3-code"
-cask "tradingview"
+# cask "t3-code"
+# cask "tradingview"
 # cask "unity"
 # cask "unity-hub"
 # cask "utm"
@@ -390,7 +390,7 @@ mas "LogicPro", id: 634148309
 # mas "xcode", id: 497799835
 # mas "Apple Developer", id: 640199958
 
-mas "Microsoft Excel", id: 462058435
+# mas "Microsoft Excel", id: 462058435
 # mas "Microsoft Word", id: 462054704
 # mas "Microsoft PowerPoint", id: 462062816
 
