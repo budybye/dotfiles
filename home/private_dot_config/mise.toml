@@ -28,7 +28,7 @@ largesize = 78
 show_recents = false
 
 [bootstrap.macos.finder]
-# 全ての拡張子のファイルを表示
+# 隠しファイルを表示
 show_all_files = true
 # パスバーを表示する
 show_pathbar = true
@@ -46,7 +46,7 @@ show_extensions_warning = false
 "com.apple.mouse.scaling" = 4.0
 # トラックパッドの動きを高速化
 "com.apple.trackpad.scaling" = 4.0
-# 隠しファイルを常にファインダーに表示する
+# 全ての拡張子のファイルを表示
 AppleShowAllExtensions = true
 # ディレクトリのスプリングロードを有効化
 "com.apple.springing.enabled" = true
@@ -80,7 +80,7 @@ autohide-delay = 0.01
 
 # アニメーション無効
 launchanim = false
-# 最近使ったアプリを Dock に表示しない
+# ウィンドウをアプリアイコンへ最小化する
 minimize-to-application = true
 
 [bootstrap.macos.defaults."com.apple.AppleMultitouchTrackpad"]
@@ -152,10 +152,8 @@ DateFormat = "EEE H:mm"
 "Apple Bitpool Min (editable)" = 40
 
 [bootstrap.macos.defaults."com.apple.finder"]
-# 新しいウィンドウでデフォルトでホームフォルダを開く
-NewWindowTarget = "PfDe"
-# 新規ウィンドウで開くパス ~/
-NewWindowTargetPath = "file://${HOME}/"
+# 新しいウィンドウでデフォルトでホームフォルダを開く（PfHm はパス指定不要）
+NewWindowTarget = "PfHm"
 # Finder のタイトルバーにフルパスを表示する
 _FXShowPosixPathInTitle = true
 # 検索時にデフォルトでカレントディレクトリを検索
@@ -165,7 +163,7 @@ DisableAllAnimations = true
 # ゴミ箱を空にする前の警告の無効化
 WarnOnEmptyTrash = false
 
-# macOS defaults restart was opt-in; use mise run macos-restart explicitly.
+# macOS defaults 反映後のアプリ再起動は、下のタスクを有効化したうえで手動で `mise run macos-restart` する想定（現在は無効）。
 # [tasks.macos-restart]
 # description = "Restart macOS apps after defaults changes"
 # run = """
@@ -190,70 +188,9 @@ WarnOnEmptyTrash = false
 # done
 # """
 
-# Mac用
-[bootstrap.brew]
-adopt = false
-
-# [bootstrap.brew.taps]
-# "ferdium/ferdium" = "latest"
-
+# macOS の brew / cask / mas / tap は ~/.config/Brewfile が唯一の定義 (darwin bootstrap が brew bundle で入れる)。
+# ここに brew:/brew-cask:/mas: を足すと bcf (brew bundle cleanup) と食い違う。
 [bootstrap.packages]
-"brew:cask" = { os = "macos" }
-"brew:mas" = { os = "macos" }
-
-"brew:automake" = { os = "macos" }
-"brew:bash" = { os = "macos" }
-"brew:gcc" = { os = "macos" }
-"brew:gawk" = { os = "macos" }
-"brew:gnupg" = { os = "macos" }
-"brew:git" = { os = "macos" }
-"brew:make" = { os = "macos" }
-# "brew:mise" = { os = "macos" }
-"brew:multitail" = "latest"
-"brew:moreutils" = "latest"
-"brew:mpd" = "latest"
-"brew:mpc" = "latest"
-"brew:ncmpcpp" = "latest"
-"brew:nmap" = { os = "macos" }
-"brew:openssl@3" = { os = "macos" } # mise の sheldon (prebuilt) が libssl.3 にリンク
-"brew:pkgconf" = { os = "macos" }
-"brew:qemu" = { os = "macos" }
-"brew:tree" = { os = "macos" }
-"brew:zsh" = "latest"
-
-"brew-cask:bitwarden" = { os = "macos" }
-"brew-cask:brave-browser" = { os = "macos" }
-# "brew-cask:cloudflare-warp" = { os = "macos" }
-# "brew-cask:cursor" = "latest"
-# "brew-cask:coderabbit" = { os = "macos" }
-"brew-cask:ferdium" = "latest"
-"brew-cask:font-hackgen-nerd" = { os = "macos" }
-# "brew-cask:google-chrome" = { os = "macos" }
-"brew-cask:ghostty" = { os = "macos" }
-# "brew-cask:github" = { os = "macos" }
-"brew-cask:keyclu" = { os = "macos" }
-# "brew-cask:skills-manager" = { os = "macos" }
-"brew-cask:musicbrainz-picard" = { os = "macos" }
-"brew-cask:obsidian" = { os = "macos" }
-# "brew-cask:onyx" = { os = "macos" } # ciでなぜかエラー
-# "brew-cask:openhuman" = { os = "macos" } # ciでなぜかエラー
-# "brew-cask:open-design" = { os = "macos" } # ciでなぜかエラー
-"brew-cask:stablyai/orca/orca" = "latest"
-"brew-cask:orbstack" = "latest"
-# "brew-cask:raycast" = { os = "macos" }
-"brew-cask:tradingview" = { os = "macos" }
-# "brew-cask:visual-studio-code" = "latest"
-# "brew-cask:windows-app" = "latest"
-# "brew-cask:wireshark-app" = "latest"
-"brew-cask:zed" = "latest"
-"brew-cask:zen" = "latest"
-
-"mas:634148309" = "latest" # logic
-"mas:1429033973" = "latest" # runcat
-"mas:462058435" = "latest" # excel
-"mas:897118787" = "latest" # shazam
-# "mas:539883307" = "latest" # line
-
 "apt:apt-utils" = { os = "linux" }
 "apt:curl" = { os = "linux" }
 "apt:make" = { os = "linux" }
@@ -298,23 +235,23 @@ adopt = false
 "apt:libwebkit2gtk-4.1-dev" = { os = "linux" }
 "apt:libgtk-layer-shell-dev" = { os = "linux" }
 
-"apt:language-pack-ja-base" = "latest"
-"apt:language-pack-ja" = "latest"
-"apt:manpages-ja" = "latest"
-"apt:fcitx5-mozc" = "latest"
+"apt:language-pack-ja-base" = { os = "linux" }
+"apt:language-pack-ja" = { os = "linux" }
+"apt:manpages-ja" = { os = "linux" }
+"apt:fcitx5-mozc" = { os = "linux" }
 # "apt:im-config" = "latest" # xrdp エラーになる
 
-"apt:mpd" = "latest"
-"apt:mpc" = "latest"
-"apt:ncmpcpp" = "latest"
-"apt:net-tools" = "latest"
-"apt:nmap" = "latest"
-"apt:ufw" = "latest"
-"apt:rsyslog" = "latest"
-"apt:ruby" = "latest"
-"apt:rsync" = "latest"
-"apt:command-not-found" = "latest"
-"apt:unzip" = "latest"
+"apt:mpd" = { os = "linux" }
+"apt:mpc" = { os = "linux" }
+"apt:ncmpcpp" = { os = "linux" }
+"apt:net-tools" = { os = "linux" }
+"apt:nmap" = { os = "linux" }
+"apt:ufw" = { os = "linux" }
+"apt:rsyslog" = { os = "linux" }
+"apt:ruby" = { os = "linux" }
+"apt:rsync" = { os = "linux" }
+"apt:command-not-found" = { os = "linux" }
+"apt:unzip" = { os = "linux" }
 # "apt:rustup" = "latest"
 # "apt:stow" = "latest"
 

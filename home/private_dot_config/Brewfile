@@ -32,7 +32,6 @@ brew "bash"
 # brew "boost
 # brew "ca-certificates"
 # brew "caddy"
-brew "cask"
 # brew "chezmoi"
 # brew "cabextract"
 # brew "cloudflared"

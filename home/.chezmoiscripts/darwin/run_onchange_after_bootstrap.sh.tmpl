@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+# Brewfile:   {{ include "private_dot_config/Brewfile" | sha256sum }}
+# mise.toml:  {{ include "private_dot_config/mise.toml" | sha256sum }}
+# tools.toml: {{ include "private_dot_config/mise/conf.d/tools.toml" | sha256sum }}
 set -eu
 
 # Xcode コマンドラインツールのインストールおよびパスの設定
@@ -7,7 +10,17 @@ install_xcode_command_line_tools() {
     if xcode-select -p >/dev/null 2>&1; then
         echo "Xcode command line tools already installed."
     else
-        xcode-select --install || echo "Xcode command line tools install failed."
+        xcode-select --install || { echo "Xcode command line tools install failed." >&2; exit 1; }
+        # --install は GUI ダイアログを出すだけで完了を待たないので、完了まで待つ
+        waited=0
+        until xcode-select -p >/dev/null 2>&1; do
+            if [ "$waited" -ge 1800 ]; then
+                echo "Xcode command line tools install timed out; rerun after the installation finishes." >&2
+                exit 1
+            fi
+            sleep 5
+            waited=$((waited + 5))
+        done
         echo "Xcode command line tools install done."
     fi
     CURRENT_PATH=$(xcode-select -p)
@@ -42,13 +55,19 @@ install_homebrew() {
         eval "$(/opt/homebrew/bin/brew shellenv)"
         echo "Homebrew installed."
     fi
+
+    # Brewfile が brew / cask / mas の唯一の定義 (bf / bcf と同じファイル)。入れるだけで upgrade は bu / bb に任せる
+    if [ -f "${HOME}/.config/Brewfile" ]; then
+        brew bundle --no-upgrade --file="${HOME}/.config/Brewfile" || echo "brew bundle failed."
+    fi
 }
 
 install_mise() {
     if command -v mise >/dev/null; then
         echo "mise already installed."
     else
-        curl https://mise.run | sh 
+        curl -fsSL https://mise.run | sh
+        export PATH="${HOME}/.local/bin:${PATH}"
         mise --version || echo "mise install failed."
     fi
 
@@ -58,11 +77,9 @@ install_mise() {
         # mise bootstrap dotfiles apply -y || echo "brew bootstrap failed."
         # mise bootstrap files apply -y || echo "brew bootstrap failed."
         # mise bootstrap packages apply -y || echo "mise bootstrap failed."
-        mise bootstrap packages apply --manager brew -y || echo "brew bootstrap failed."
-        mise bootstrap packages apply --manager brew-cask -y || echo "cask bootstrap failed."
-        # mise bootstrap packages apply --manager mas -y || echo "mas bootstrap failed."
+        # brew / cask / mas は mise.toml に持たせず、install_homebrew が Brewfile から入れる
         # mise bootstrap plugins apply -y || echo "mas bootstrap failed."
-        mise bootstrap macos defaults apply || echo "mas bootstrap failed."
+        mise bootstrap macos defaults apply -y || echo "defaults bootstrap failed."
         # mise bootstrap macos launchd-agents apply || echo "mas bootstrap failed."
     fi
     
