@@ -17,7 +17,7 @@ lockfile = true
 # （2026-11 時点は java latest の linux metadata が無く、足すと `mise lock` / `mise install` が失敗する）。
 lockfile_platforms = ["macos-arm64"]
 
-# 失敗したインストールの残骸をデバッグ用に保持（旧 always_keep_download は deprecated のため削除）
+# true にすると、失敗したインストールの残骸をデバッグ用に保持（旧 always_keep_download は deprecated のため削除）
 always_keep_install = false         # デフォルトでは失敗時に削除
 
 # （plugin_autoupdate_last_check_duration は未実装で 2027.10.5 に削除予定のため削除）
@@ -41,12 +41,14 @@ idiomatic_version_file_enable_tools = [
 
 verbose = false       # true でインストールの全出力。`MISE_VERBOSE`
 http_timeout = "30s"  # HTTP タイムアウト。`MISE_HTTP_TIMEOUT`
-jobs = 8              # 並行インストール数（デフォルト 4）
+jobs = 8              # 並行インストール数（デフォルト 8）
 raw = false           # true でプラグインを直接 stdin/stdout/stderr にパイプ
-yes = true            # すべてのプロンプトに自動で yes
+# yes は付けない。未信頼の mise.toml を手動コマンドが自動 trust してしまうため。
+# 無人実行は各スクリプトが `-y` を付ける。
 
-# activate 後に遅延ロード(sheldon defer 等)が PATH を足しても mise の tool を先頭に保つ
-activate_aggressive = true
+# activate_aggressive は false。true だと毎プロンプトで tool の PATH を先頭へ戻し、
+# venv 等がシェル内で足した PATH を潰す。代わりに sheldon defer の git-open が PATH 先頭に残る（tool は 2 番目以降）。
+activate_aggressive = false
 
 # mise 本体の自動更新（2026.10.7+）
 self_update.auto = true
@@ -66,9 +68,8 @@ tool_update.global_auto = true
 # disable_default_shorthands = false
 # disable_tools = ['rust']
 
-# env_file はグローバルだと config_root=$HOME → ~/.env を探す。
-# プロジェクト単位で使うなら各 mise.toml 側に書く。
-env_file = '.env'
+# env_file は設定しない。全階層の .env を trust 確認なしで export してしまうため。
+# 必要なプロジェクトの mise.toml 側に `[env] _.file = '.env'` を書く（trust 済みの時だけ読まれる）。
 
 # auto_env = true
 
@@ -87,7 +88,7 @@ status.show_env = false
 status.show_tools = false
 
 # Rust toolchain は mise core (`rust = "stable"`) + rustup。
-# Path は `~` / テンプレを展開しないので絶対パスで XDG に固定。
+# `~` は展開される。XDG に固定。
 rust.cargo_home = "~/.local/share/cargo"
 rust.rustup_home = "~/.local/share/rustup"
 
@@ -99,5 +100,4 @@ npm.package_manager = "bun"    # 旧 npm.bun。npm: バックエンドを bun �
 [[env]]
 _.path = [
   '~/.local/bin',
-  './node_modules/.bin',
 ]

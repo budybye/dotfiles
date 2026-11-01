@@ -1,3 +1,8 @@
+# make docker-* が必要とする GITHUB_TOKEN を、このリポジトリ内でだけ .env から読む。
+# グローバルの env_file は使わない（全階層の .env を信頼してしまうため）。
+# [env]
+# _.file = '.env'
+
 [tasks.help]
 description = 'help command'
 run = "echo dotfile"
