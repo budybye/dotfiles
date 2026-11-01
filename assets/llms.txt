@@ -62,11 +62,11 @@
 - [Awesome MCP Servers](https://context7.com/punkpeye/awesome-mcp-servers/llms.txt) #mcp #servers #awesome #tools
 - [Cloudflare MCP](https://context7.com/cloudflare/mcp-server-cloudflare/llms.txt) #mcp #cloudflare #server #integration
 - [n8n MCP](https://context7.com/czlonkowski/n8n-mcp/llms.txt) #mcp #n8n #integration #workflow
-- [figma MPC](https://context7.com/glips/figma-context-mcp/llms.txt) #mcp #figma #tools #design
-- [Playwright MPC](https://context7.com/microsoft/playwright-mcp/llms.txt) #playwright #mcp #design #testing
+- [figma MCP](https://context7.com/glips/figma-context-mcp/llms.txt) #mcp #figma #tools #design
+- [Playwright MCP](https://context7.com/microsoft/playwright-mcp/llms.txt) #playwright #mcp #design #testing
 - [Googlemap MCP](https://context7.com/cablate/mcp-google-map/llms.txt) #mcp #map #google
 - [Google Devtools MCP](https://context7.com/ChromeDevTools/chrome-devtools-mcp/llms.txt) #mcp #browser #google
-- [Mermaid MPC](https://context7.com/hustcc/mcp-mermaid/llms.txt) #mcp #mermaid #markdown #tools
+- [Mermaid MCP](https://context7.com/hustcc/mcp-mermaid/llms.txt) #mcp #mermaid #markdown #tools
 - [repomix](https://context7.com/yamadashy/repomix/llms.txt) #documentation #repository #tool
 
 ### AI・ML追加ツール
@@ -472,7 +472,7 @@
 - [wayland](https://context7.com/websites/wayland_freedesktop_html/llms.txt) #wayland #display #server #modern
 - [lightdm](https://context7.com/canonical/lightdm/llms.txt) #lightdm #display-manager #linux
 - [Chrome Exetension](https://context7.com/websites/developer_chrome_google_cn-extensions/llms.txt) #chrome #extension #browser #development
-- [Stack](https://context7.com/websites/slack_dev/llms.txt) #slack #chat #message
+- [Slack](https://context7.com/websites/slack_dev/llms.txt) #slack #chat #message
 - [Discord js](https://context7.com/context7/discord_js_org-docs/llms.txt) #discord #javascript #api #bot
 - [Figma](https://context7.com/websites/help_figma_hc_en-us/llms.txt) #figma #design #ui #collaboration
 - [Photprism](https://context7.com/photoprism/photoprism/llms.txt) #photoprism #photos #management #self-hosted
