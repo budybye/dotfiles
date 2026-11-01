@@ -1,5 +1,5 @@
-# make docker-* が必要とする GITHUB_TOKEN を、このリポジトリ内でだけ .env から読む。
-# グローバルの env_file は使わない（全階層の .env を信頼してしまうため）。
+# make docker-* が必要とする GITHUB_TOKEN は、グローバルの env_file = '.env'
+# （mise/conf.d/settings.toml）が cwd と親ディレクトリの .env から読む。ここに [env] は不要。
 # [env]
 # _.file = '.env'
 

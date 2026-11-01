@@ -9,7 +9,7 @@ modelRoles:
   designer: "@advisor"
   plan: "@advisor"
   slow: "@advisor"
-  advisor: anthropic/claude-opus-5-5:high
+  advisor: anthropic-gateway/claude-opus-5-5:high
   default: anthropic-gateway/claude-sonnet-5-5:high
 defaultThinkingLevel: auto
 advisor:
