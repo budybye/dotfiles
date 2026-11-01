@@ -50,9 +50,6 @@ commandTemplates:
   dockerComposeConfig: '{{ .DockerCompose }} config'
   checkDockerComposeConfig: '{{ .DockerCompose }} config --quiet'
   serviceTop: '{{ .DockerCompose }} top {{ .Service.Name }}'
-oS:
-  openCommand: open {{filename}}
-  openLinkCommand: open {{link}}
 stats:
   graphs:
     - caption: CPU (%)
