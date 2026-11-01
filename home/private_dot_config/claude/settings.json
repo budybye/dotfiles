@@ -3,46 +3,55 @@
     "CLAUDE_CODE_ENABLE_TELEMETRY": "0",
     "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1"
   },
+  "language": "japanese",
   "permissions": {
     "allow": [
-      "Bash(git *)",
-      "Bash(npm *)",
-      "Bash(npx *)",
-      "Bash(pnpm *)",
-      "Bash(bun *)",
-      "Bash(mise *)",
-      "Bash(chezmoi *)",
-      "Bash(make *)",
+      "Bash(git status *)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(git show *)",
+      "Bash(jj status *)",
+      "Bash(jj diff *)",
+      "Bash(jj log *)",
+      "Bash(jj show *)",
+      "Bash(jj file list *)",
+      "Bash(chezmoi diff *)",
+      "Bash(chezmoi verify *)",
+      "Bash(chezmoi managed *)",
+      "Bash(chezmoi ignored *)",
+      "Bash(mise ls *)",
+      "Bash(mise which *)",
+      "Bash(make test)",
+      "Bash(make check)",
+      "Bash(make verify)",
+      "Bash(shellcheck *)",
+      "Bash(bash -n *)",
+      "Bash(zsh -n *)",
       "Bash(ls *)",
       "Bash(cat *)",
       "Bash(echo *)",
       "Bash(which *)",
       "Bash(command -v *)"
     ],
-    "deny": ["Read(./.env*)", "Read(./.env.*)", "Read(./build)"]
-  },
-  "hooks": {
-    "PostToolUse": [
-      {
-        "matcher": "Edit|Write",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "file=$(echo \"$CLAUDE_TOOL_OUTPUT\" | jq -r '.path // empty' 2>/dev/null); [ -n \"$file\" ] && command -v prettier >/dev/null 2>&1 && prettier --write \"$file\" 2>/dev/null || true"
-          }
-        ]
-      }
+    "ask": [
+      "Bash(chezmoi execute-template *)",
+      "Bash(git push *)",
+      "Bash(jj git push *)"
+    ],
+    "deny": [
+      "Read(**/.env*)",
+      "Read(**/*.age)",
+      "Read(~/.ssh/**)",
+      "Read(~/.gnupg/**)",
+      "Read(~/.aws/**)",
+      "Read(~/.config/gh/**)",
+      "Read(~/.config/mise/age.txt)",
+      "Read(./build)",
+      "Bash(git push *--force*)",
+      "Bash(git reset --hard *)",
+      "Bash(chezmoi purge *)",
+      "Bash(chezmoi destroy *)"
     ]
-  },
-  "mcpServers": {
-    "context7": {
-      "type": "url",
-      "url": "https://mcp.context7.com/mcp"
-    },
-    "mcp-mermaid": {
-      "command": "npx",
-      "args": ["-y", "mcp-mermaid"]
-    }
   },
   "statusLine": {
     "type": "command",
