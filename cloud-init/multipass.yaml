@@ -31,9 +31,11 @@ users:
   gid: 1024
   groups: [users,sudo,adm,ssl-cert,xrdp,docker]
   shell: /usr/bin/zsh
+  ssh_import_id:
+  - gh:budybye
   
 ssh_pwauth: false
-# グローバルに github の ssh key を登録する便利 ssh-import-id
+# default user (ubuntu) に github の ssh key を登録する。budybye は users 側の ssh_import_id で別途登録
 ssh_import_id:
 - gh:budybye
 
@@ -112,8 +114,8 @@ package_autoremove: true
 package_cleanup: true
 # package_reboot_if_required: true
 snap:
-  commands: |
-    snap install yq
+  commands:
+  - snap install yq
 
 packages:
 - binfmt-support
@@ -161,9 +163,9 @@ packages:
 runcmd:
 - |
   curl -fsSL https://mise.run | sh
-  curl -fsSL get.chezmoi.io | sh -s -- -b /usr/local/bin
+  curl -fsSL https://get.chezmoi.io | sh -s -- -b /usr/local/bin
   # chezmoi init --apply budybye
-  git clone https://github.com/budybye/dotfiles.git /home/ubuntu/dotfiles
+  runuser -u ubuntu -- git clone https://github.com/budybye/dotfiles.git /home/ubuntu/dotfiles
 - |
   # groupadd -f ssl-cert
   # groupadd -f xrdp
@@ -181,7 +183,7 @@ runcmd:
   # adduser budybye docker
   # adduser ubuntu docker
 - |
-  # disable swap
+  # swappiness を 0 にする（swap 自体は無効化されない）
   sysctl vm.swappiness=0
   echo "vm.swappiness = 0" | tee -a /etc/sysctl.conf
 - |
