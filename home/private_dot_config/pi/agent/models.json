@@ -7,7 +7,7 @@
       "models": [
         {
           "id": "preview/GLM-5.3-Flash",
-          "name": "GML-5.3-Flash"
+          "name": "GLM-5.3-Flash"
         }
       ]
     },
@@ -34,11 +34,11 @@
       "apiKey": "$ANTHROPIC_API_KEY",
       "models": [
         {
-          "id": "claude-opus-5.5",
+          "id": "claude-opus-5-5",
           "name": "Opus-5.5"
         },
         {
-          "id": "claude-sonnet-5.5",
+          "id": "claude-sonnet-5-5",
           "name": "Sonnet-5.5"
         }
       ]
@@ -68,11 +68,12 @@
       "models": [
         {
           "id": "z-ai/glm-5.3-flash",
-          "name": "glm-5.3-flash"
-        },
-        {
-          "id": "openrouter/openrouter/free",
-          "name": "free-model"
+          "name": "glm-5.3-flash",
+          "reasoning": true,
+          "input": ["text", "image"],
+          "cost": { "input": 0.0285, "output": 0.0923, "cacheRead": 0.0285, "cacheWrite": 0 },
+          "contextWindow": 1048576,
+          "maxTokens": 131072
         }
       ]
     }

@@ -8,11 +8,9 @@
       }
     },
     "cloudflare-docs": {
-      "command": "url",
       "url": "https://docs.mcp.cloudflare.com/mcp"
     },
     "context7": {
-      "command": "url",
       "url": "https://mcp.context7.com/mcp"
     }
   }

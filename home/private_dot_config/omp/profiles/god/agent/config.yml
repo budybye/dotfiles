@@ -10,7 +10,7 @@ modelRoles:
   plan: "@advisor"
   slow: "@advisor"
   advisor: anthropic/claude-opus-5-5:high
-  default: anthropic/claude-sonnet-5-5:xhigh
+  default: anthropic-gateway/claude-sonnet-5-5:high
 defaultThinkingLevel: auto
 advisor:
   enabled: true
@@ -54,10 +54,13 @@ retry:
     anthropic/claude-fable-5-1:
       - anthropic/claude-opus-5-5
     anthropic/claude-opus-5-5:
+      - anthropic-gateway/claude-opus-5-5
       - anthropic/claude-sonnet-5-5
     anthropic/claude-sonnet-5-5:
+      - anthropic-gateway/claude-sonnet-5-5
       - anthropic/claude-haiku-5-5
     anthropic/claude-haiku-5-5:
+      - anthropic-gateway/claude-haiku-5-5
       - xai-oauth/grok-4.7
 task:
   agentModelOverrides:

@@ -11,11 +11,11 @@
     "anthropic/claude-sonnet-5-5",
     "cloudflare-workers-ai/@cf/zai-org/glm-5.3-flash",
     "cloudflare-workers-ai/@cf/deepseek-ai/deepseek-v4.1-flash-1017",
-    "cloudflare-ai-gateway/claude-haiku-5.5",
+    "cloudflare-ai-gateway/claude-haiku-5-5",
     "sakura/preview/GLM-5.3-flash"
   ],
   "enableInstallTelemetry": false,
-  "shellCommandPrefix": "shopt -s expand_aliases\neval \"$(grep '^alias ' ~/.aliases)\"",
+  "shellCommandPrefix": "shopt -s expand_aliases\neval \"$(grep '^alias ' ~/.aliases | grep -vE '^alias (rm|cp|mv)=')\"",
   "npmCommand": [
     "bun"
   ],
