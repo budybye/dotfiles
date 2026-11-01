@@ -16,18 +16,17 @@ else
     export ZDOTDIR="${HOME}"
 fi
 
-# ${HOME}/.zshenv 全てのzshで読まれるので ${ZDOTDIR} の指定
-# ${ZDOTDIR}/.zprofile -> .profile と .zshrc を最後に読み込む zelliji 起動
-# ${ZDOTDIR}/.zshrc -> インタラクティブシェルと.zprofileから読まれる .aliases を最後に読み込む
-# ${ZDOTDIR}/.functions -> .zshrc で読み込ままれる
-# ${ZDOTDIR}/.zlogin -> ログインシェルで読み込まれる
+# ${HOME}/.zshenv は全ての zsh で読まれるので ${ZDOTDIR} を指定する
+# 読み込み順（login + interactive の場合）:
+# ${ZDOTDIR}/.zprofile -> .profile から環境変数と PATH を設定（非対話 login ならここで .zshrc も読む）
+# ${ZDOTDIR}/.zshrc -> 対話シェルの設定。最後に .functions（alias・関数）を読み込む。.aliases は bash 用で zsh は読まない
+# ${ZDOTDIR}/.zlogin -> ログインシェルで読み込まれる。herdr などの mux をここで自動起動
 # ${ZDOTDIR}/.zlogout -> ログアウト時に読み込まれる
-# 上記の順で読み込まれるので注意
 
 # PATHを設定
 typeset -U PATH path
 path=(
-    ${PATH}
+    ${path}
     ${HOME}/.local/bin(N-/)
     /opt/homebrew/bin(N-/)
     /opt/homebrew/sbin(N-/)

@@ -1,7 +1,7 @@
 # シェル操作
 abbr q='exit'
 abbr c='clear'
-abbr rl='source ~/.zshenv'
+abbr rl='exec zsh'
 abbr reload='exec $SHELL -l'
 
 # ナビゲーション

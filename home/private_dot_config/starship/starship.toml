@@ -199,7 +199,7 @@ charging_symbol = ' '
 discharging_symbol = '⚠️ '
 format = '[ $symbol$percentage]($style bold)'
 
-# バッテリーを表示するタイミング、表示する際の文字の色する際の文字の色
+# バッテリーを表示するタイミング、表示する際の文字の色
 [[battery.display]]
 threshold = 101
 style = "fg:gray bg:ddd"

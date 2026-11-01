@@ -1,5 +1,25 @@
-# ${ZDOTDIR}.zlogin はログインシェルで読み込まれる
-# ${ZDOTDIR}.zprofileの読み込み後に読み込まれる
+# ${ZDOTDIR}/.zlogin はログインシェルで読み込まれる
+# 対話シェルでは ${ZDOTDIR}/.zshrc の後、非対話では .zprofile の後に読まれる
+# zsh -lc cmd では出力も mux 起動もしない
+[[ -o interactive ]] || return
+
+# mux session auto-start — herdr（zellij は不採用 2026-09-22 だが herdr が無い環境のフォールバックとして残す。無ければ tmux）
+# IDEターミナル（Cursor/VSCode/Zed/Orca）や herdr 内ではスキップ
+if [ "$SHLVL" = 1 ] && [ -t 0 ] && \
+   [ "$TERM_PROGRAM" != "vscode" ] && \
+   [ "$TERM_PROGRAM" != "Cursor" ] && \
+   [ "$TERM_PROGRAM" != "Orca" ] && \
+   [ "$TERM_PROGRAM" != "herdr" ] && \
+   [ -z "${HERDR_ENV:-}" ] && \
+   [ "$TERM_PROGRAM" != "zed" ]; then
+    if command -v herdr-dev >/dev/null 2>&1 && command -v herdr > /dev/null 2>&1; then
+        herdr-dev
+    elif command -v zellij > /dev/null 2>&1; then
+        zellij
+    elif command -v tmux > /dev/null 2>&1; then
+        tmux
+    fi
+fi
 
 # fortune cowsay
 if command -v fortune > /dev/null 2>&1 && \

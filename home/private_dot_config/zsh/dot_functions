@@ -1,6 +1,7 @@
-# 重複したPATHを削除
+# 重複したPATHを削除（awk の ORS=: は末尾に : を残し PATH に空要素=カレントディレクトリを入れるので取り除く）
 if command -v awk > /dev/null 2>&1; then
     PATH="$(printf %s "${PATH}" | awk -v RS=: -v ORS=: '!arr[$0]++')"
+    PATH="${PATH%:}"
     export PATH
 fi
 
@@ -178,7 +179,7 @@ fi
 # keploy
 if command -v keploy >/dev/null 2>&1; then
     alias kr="keploy record -c"
-    alias kt="keploy test --c"
+    alias kt="keploy test -c"
     alias kc="keploy config"
     # alias km="keploy mock"
 fi

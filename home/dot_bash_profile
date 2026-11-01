@@ -14,8 +14,8 @@ if [ -f "${HOME}/.bashrc" ]; then
     . "${HOME}/.bashrc"
 fi
 
-# herdr auto-start — zellij は不採用(2026-09-22、binary/config は残置)
-# IDEターミナル（Cursor/VSCode）や非TTY環境ではスキップ
+# herdr auto-start — zellij は不採用(2026-09-22)だが herdr が無い環境のフォールバックとして残す(binary/config も残置)
+# IDEターミナル（Cursor/VSCode/Zed/Orca）・herdr 内・非TTY環境ではスキップ
 if [ "${SHLVL}" = 1 ] && [ -t 0 ] && \
   [ "${TERM_PROGRAM}" != "vscode" ] && \
   [ "${TERM_PROGRAM}" != "Orca" ] && \

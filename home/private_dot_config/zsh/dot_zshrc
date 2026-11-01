@@ -1,10 +1,10 @@
-# インタラクティブシェルでのみ読み込む
+# 対話シェルと、非対話の login シェル（zsh -lc。.zprofile 経由）で読み込まれる
+# 以下の guard は無効化中なので、非対話 login でも最後まで実行される
 # [ -z "$PS1" ] && return
 # [[ -o interactive ]] || return
 
-# ${ZDOTDIR}.zshrc はインタラクティブシェルで読み込まれる
-# ${ZDOTDIR}.zprofile の最後で読み込まれてるのでzshで必ず実行される
-# ${HOME}.functions を最後に読み込む
+# ${ZDOTDIR}/.zshrc は .zprofile の後に対話シェルで読み込まれる
+# ${ZDOTDIR}/.functions を最後に読み込む
 
 # .zprofile が読まれない non_login シェル用に
 # 必要な環境変数を .profile から取得する
@@ -14,13 +14,13 @@ fi
 
 # history 履歴ファイルのパスを設定
 if [ -d "${HOME}/.local/state/zsh" ]; then
-    export HISTFILE="${HOME}/.local/state/zsh/zsh_history"
+    HISTFILE="${HOME}/.local/state/zsh/zsh_history"
 else
-    export HISTFILE="${HOME}/.zsh_history"
+    HISTFILE="${HOME}/.zsh_history"
 fi
 
-export HISTSIZE=123456
-export SAVEHIST=123456
+HISTSIZE=123456
+SAVEHIST=123456
 export HIST_STAMPS="yyyy-mm-dd"
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="#123"
 export ZSH_DISABLE_COMPFIX=true
@@ -38,14 +38,14 @@ setopt auto_pushd           # cd - [tab]で過去のディレクトリに飛べ�
 setopt auto_param_slash     # 自動スラッシュ補完
 setopt no_beep              # ビープ音を鳴らさない
 setopt no_flow_control      # ctrl+s, ctrl+q を無効にする
-setopt no_nomatch           # curlマッチしない場合にエラーにしない
+setopt no_nomatch           # glob にマッチしなくてもエラーにしない（curl の URL の ? など）
 setopt correct              # 入力間違えしていたら、候補を出す。yで選択
 setopt mark_dirs            # match directory as append slash
 setopt list_types           # autocomplete list is render file mark
 setopt print_eight_bit      # enable utf-8
 setopt pushd_ignore_dups    # 重複したディレクトリを無視
 setopt prompt_subst         # prompt内で変数を参照する
-setopt extended_glob        # ワイルドカードを展開
+setopt extended_glob        # 拡張 glob（^ ~ #）を有効にする
 
 # 色
 autoload -Uz colors && colors
@@ -62,7 +62,7 @@ else
     autoload -Uz compinit && compinit
 fi
 
-## 小文字でも大文字でもマッチさせる
+## 小文字の入力が大文字にもマッチする（片方向）
 zstyle ':completion:*' matcher-list 'm:{:a-z:}={:A-Z:}'
 
 ## 補完方法毎にグループ化する。
@@ -73,7 +73,7 @@ zstyle ':completion:*' group-name ''
 # select=2: 補完候補を一覧から選択する。補完候補が2つ以上なければすぐに補完する
 zstyle ':completion:*:default' menu select=2
 
-# 補完キャッシュを有効にする
+# 補完時にコマンドのハッシュを毎回更新する
 zstyle ':completion:*' rehash 1
 
 # cdした後に自動でlsする
@@ -89,7 +89,6 @@ tgz() {
 # homebrew
 if command -v brew > /dev/null 2>&1; then
     eval "$(/opt/homebrew/bin/brew shellenv)"
-    FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
 fi
 
 # direnv
@@ -128,8 +127,15 @@ if command -v thefuck >/dev/null 2>&1; then
     eval "$(thefuck --alias)"
 fi
 
+# wrangler の補完は生成に 1.8s 超かかる（Node 起動）ので、初回の補完時まで評価しない
+# 生成された関数名は _wrangler。lazy 側は別名にして生成スクリプトの自動実行を避ける
 if command -v wrangler > /dev/null 2>&1; then
-    eval "$(wrangler complete zsh)"
+    _wrangler_lazy() {
+        unfunction _wrangler_lazy
+        eval "$(wrangler complete zsh)"
+        _wrangler "$@"
+    }
+    compdef _wrangler_lazy wrangler
 fi
 
 if command -v uv > /dev/null 2>&1; then

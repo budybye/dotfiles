@@ -1,4 +1,5 @@
-# インタラクティブシェルでのみ読み込む
+# 対話シェルと、非対話の login シェル（bash -lc。.bash_profile 経由）で読み込まれる
+# 以下の guard は無効化中なので、非対話でも最後まで実行される
 # [ -z "${PS1}" ] && return
 
 # Source global definitions
@@ -23,7 +24,6 @@ PS1='\[\e[32m\]\u@\h\[\e[m\]:\[\e[34m\]\w\[\e[m\] \$ '
 # homebrew
 if command -v brew > /dev/null 2>&1; then
     eval "$(/opt/homebrew/bin/brew shellenv)"
-    export HOMEBREW_FORBIDDEN_FORMULAE="node python python3 pip npm pnpm yarn bun deno"
 fi
 
 # direnv

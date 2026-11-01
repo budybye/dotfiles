@@ -1,7 +1,7 @@
 if command -v x > /dev/null 2>&1; then
     x
-elif command -v ff > /dev/null 2>&1; then
-    ff
+elif command -v fastfetch > /dev/null 2>&1; then
+    fastfetch -c all
 else
     echo "🍍 🍕 🐈 ♨️ 🍄 🥦 🌈 🚲 🏄 🙏 🌞 🌕 🏴‍☠️"
     echo "( ﾟДﾟ)y─┛~~~~~~~"
