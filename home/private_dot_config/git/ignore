@@ -1,14 +1,11 @@
-# Used by Git to determine the files and directories to ignore in this project.
-#
-# This list of globs defines repository-specific exclusions.
+# 全 repo に効く global ignore（core.excludesfile）。
+# プロジェクト固有のパターンは各 repo の .gitignore に書く。
 # See https://git-scm.com/docs/gitignore
 
 .DS_Store
 *.gz
 node_modules
 *.env
-*lock.json
-bun.lock
 .envrc
 .npmrc
 
@@ -98,10 +95,6 @@ sites/*/files
 
 # Sass.
 .!*
-
-# SQL.
-*.sql
-*.sql.*
 
 # agents系
 .claude/settings.local.json

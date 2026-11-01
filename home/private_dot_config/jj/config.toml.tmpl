@@ -1,3 +1,16 @@
 [user]
 name = {{ .name | quote }}
 email = {{ .email | quote }}
+
+# git の includeIf (git/dayjobdoor.conf, git/boborder.conf) と同じ identity
+[[--scope]]
+--when.repositories = ["~/Developer/dayjobdoor"]
+[--scope.user]
+name = "dayjobdoor"
+email = "145406603+dayjobdoor@users.noreply.github.com"
+
+[[--scope]]
+--when.repositories = ["~/Developer/boborder"]
+[--scope.user]
+name = "boborder"
+email = "88989797+boborder@users.noreply.github.com"
