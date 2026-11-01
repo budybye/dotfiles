@@ -6,4 +6,4 @@ subtask: true
 
 以下の変更をレビューしてください。
 
-$input
+$ARGUMENTS

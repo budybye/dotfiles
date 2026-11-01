@@ -1,3 +1,8 @@
+---
+paths:
+  - "**/*.{ts,tsx,js,jsx,mjs,cjs}"
+---
+
 # TypeScript / JavaScript
 
 ## Types

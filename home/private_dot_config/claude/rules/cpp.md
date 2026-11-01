@@ -1,3 +1,8 @@
+---
+paths:
+  - "**/*.{c,cc,cpp,cxx,h,hh,hpp,hxx}"
+---
+
 # C++
 
 ## Core Guidelines

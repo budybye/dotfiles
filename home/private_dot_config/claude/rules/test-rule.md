@@ -20,7 +20,7 @@
 3. REFACTOR — テストを緑のまま設計を改善
 4. カバレッジ 80%+ を確認
 
-詳細は `/tdd-cycle` スキルを参照。
+詳細は `/tdd` スキルを参照。
 
 ## Test Structure (AAA Pattern)
 

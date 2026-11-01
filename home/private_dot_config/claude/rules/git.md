@@ -33,7 +33,7 @@
 - `jj squash` で変更をまとめる
 - colocated repo (`jj git init --colocate`) では git 操作も可能
 - 日常の commit+push は `jjj "message"`（`~/.local/bin/jjj`）を優先
-- 詳細は [docs/tech.md](../../../../docs/tech.md) の VCS 節と `ROADMAP.md` M2 を参照
+- 詳細はリポジトリの `docs/tech.md` の VCS 節を参照
 
 ## Safety
 

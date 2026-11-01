@@ -1,7 +1,6 @@
 {
   "provider": "openai",
   "model": "gpt-5-mini",
-  "api_key": "sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
   "theme": "catppuccin-mocha",
   "wrap": true,
   "draft": {

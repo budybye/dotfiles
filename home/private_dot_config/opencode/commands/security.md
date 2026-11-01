@@ -6,4 +6,4 @@ subtask: true
 
 セキュリティ観点でレビューしてください。
 
-$input
+$ARGUMENTS
