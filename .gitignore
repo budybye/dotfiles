@@ -1,6 +1,8 @@
 # 平文 secret（token）を含むローカル env
 .env
 .devcontainer/.env
+.env.*
+!.env.example
 
 # omp が実行時に作る lock（symlink 経由で repo に書かれる）
 config.yml.lock

@@ -2,9 +2,6 @@
 # ファイルが配置されるときの名前にする run_ once_ after_ .tmpl はつけない
 # .name などのdata は .chezmoi.toml.tmpl
 
-.DS_Store
-**/.DS_Store
-.chezmoiexternal.*
 key.txt*
 .config/omp/**/config.yml.lock
 
@@ -18,6 +15,7 @@ key.txt*
 .ssh/id_rsa*
 .ssh/id_ed25519*
 .env*
+# omp の models.yml は apiKey に環境変数 CLOUDFLARE_API_KEY を参照する。.env と同じ条件で配置する
 .config/**/agent/models.yml
 {{ end }}
 
@@ -25,20 +23,11 @@ key.txt*
 .ssh/**
 {{ end }}
 
-{{ if eq (env "GITHUB_ACTIONS") "true" }}
-.ssh/authorized_keys
-.ssh/id_ed25519*
-.ssh/id_rsa*
-.env*
-{{ else }}
+{{ if ne (env "GITHUB_ACTIONS") "true" }}
 .chezmoiscripts/watch.sh
 {{ end }}
 
 {{ if eq (env "DOCKER") "true" }}
-.ssh/authorized_keys
-.ssh/id_ed25519*
-.ssh/id_rsa*
-.env*
 .chezmoiscripts/linux/setup.sh
 {{ end }}
 
@@ -51,6 +40,8 @@ key.txt*
 {{ if ne .chezmoi.os "darwin" }}
 .config/Brewfile
 .config/karabiner
+.config/sol
+.config/cmux
 .ssh/id_rsa*
 .chezmoiscripts/darwin/**
 {{ end }}
@@ -58,15 +49,14 @@ key.txt*
 {{ if ne .chezmoi.os "linux" }}
 .config/fcitx5
 .config/fusuma
-.local/share/fonts
-.local/share/icons
-.local/share/themes
 .chezmoiscripts/linux/**
 {{ end }}
 
 {{ if eq .chezmoi.os "windows" }}
 .config/**
 .ssh/**
+.zshenv
+.local/**
 *rc
 *profile
 .aliases

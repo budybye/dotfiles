@@ -10,49 +10,22 @@ indent_size = 2
 insert_final_newline = true
 trim_trailing_whitespace = true
 
-# フォントの設定
-font_size = 13
-font_family = "HackGen35 Console NF", "RobotoMonoJP", "Consolas", "monospace"
-
 # インデント ４
-[*.{py, pyi, php, java, rs, go}]
+[*.{py,pyi,php,java,rs,go}]
 indent_size = 4
-
-# インデント 2
-[*.{c, h, cpp, js, ts, jsx, tsx, json, jsonc, yaml, yml, toml, ini, css, html, sql, txt, file, xml, cnf, conf, rc, sh, vim }]
-indent_size = 2
-
-# chezmoi ファイル dot_ と tmpl
-[{dot_}* , *.{tmpl}]
-indent_size = 2
 
 # Makefile
 [Makefile]
 indent_style = tab
 indent_size = 4
 
-# Dockerfile
-[Dockerfile]
-indent_style = space
-indent_size = 2
-
 # Markdown
-[*.{md, mdx, mdc}]
+[*.{md,mdx,mdc}]
 indent_style = tab
 tab_width = 4
 
-# CSV
-[*.csv]
-# データの区切り文字
-separator = ,
-
-# DAT
-[*.dat]
-# データの区切り文字
-separator = \t
-
 # .env
-[.env, .env.*]
+[{.env,.env.*}]
 indent_style = tab
 indent_size = 4
 
@@ -62,6 +35,6 @@ indent_style = tab
 indent_size = 2
 
 # ignore
-[*{ignore}]
+[*ignore]
 indent_style = tab
 indent_size = 2

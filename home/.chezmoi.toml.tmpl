@@ -1,9 +1,9 @@
 {{/* シークレット系 */}}
-{{- $age := false -}}{{/* age 暗号化 */}}
+{{- $age := false -}}{{/* age 暗号化。hotmilk/budybye の対話環境だけ true（CI・コンテナ・SANDBOX では暗号化 file を処理しない） */}}
 
 {{/* github系 */}}
-{{- $github := false -}}{{/* github ユーザー名を設定する */}}
-{{- $ssh := false -}}{{/* ssh AuthorizedKeys をgithubから設定する */}}
+{{- $github := false -}}{{/* gh / git user.conf / jj config の配備を許可する（.chezmoiignore） */}}
+{{- $ssh := false -}}{{/* ~/.ssh 全体（config・鍵・authorized_keys）の配備を許可する（.chezmoiignore） */}}
 
 {{/* github ユーザー名の設定 */}}
 {{- $name := "budybye" -}}
@@ -13,11 +13,6 @@
 {{- $osID := .chezmoi.os -}}
 {{- if (and (eq .chezmoi.os "linux") (hasKey .chezmoi.osRelease "id")) -}}
 {{- $osID = printf "%s-%s" .chezmoi.os .chezmoi.osRelease.id -}}
-{{- end -}}
-
-{{/* 非対話環境では encrypted files を処理しない */}}
-{{- if or (eq (env "CODESPACES") "true") (eq (env "REMOTE_CONTAINERS") "true") (eq (env "DOCKER") "true") (eq (env "GITHUB_ACTIONS") "true") (ne (env "SANDBOX") "") -}}
-{{- $age = false -}}
 {{- end -}}
 
 {{/* 環境毎に name email github ssh を設定する */}}
@@ -53,7 +48,7 @@
     {{- $github = true -}}
     {{- $ssh = false -}}
 
-{{/* Ubuntu lxd */}}
+{{/* username が budybye（OS 問わず。Ubuntu lxd など） */}}
 {{- else if eq .chezmoi.username "budybye" -}}
     {{- $age = true -}}
     {{- $github = true -}}
@@ -110,12 +105,6 @@ encryption = "age"
     github = {{ $github }}
     ssh = {{ $ssh }}
 
-{{/* git の設定 */}}
-[git]
-    autoPush = false
-    autoCommit = false
-    autoAdd = false
-
 {{/* github の設定 */}}
 [github]
     refreshPeriod = "12h"
@@ -130,7 +119,3 @@ encryption = "age"
     command = "vim"
     # command = "code"
     # commandArgs = ["--wait"]
-
-{{/* スクリプト環境変数の設定 */}}
-[scriptEnv]
-    SSS = "SouthSideSound"
