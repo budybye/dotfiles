@@ -25,7 +25,7 @@
   {
     "key": "ctrl+w ctrl+l",
     "command": "workbench.action.nextEditor",
-    "when": "editorFocus && vim.mode == 'Normal'"
+    "when": "editorFocus"
   },
   {
     "key": "cmd+i",

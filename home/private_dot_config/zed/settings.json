@@ -257,7 +257,7 @@
       "settings": {
         "classFunctions": ["cva", "cx"],
         "experimental": {
-          "classRegex": ["[cls|className]\\s\\:\\=\\s\"([^\"]*)"],
+          "classRegex": ["(?:cls|className)\\s*[:=]\\s*\"([^\"]*)\""],
         },
       },
     },

@@ -75,7 +75,7 @@ mouse-hide-while-typing = true
 # コマンドが終了したら表示内容を確認しておきたい
 wait-after-command = true
 
-# メニューバーのタイトルを非表示にする
+# ウィンドウタイトルを空白で固定する
 title = " "
 
 window-padding-x = 8

@@ -158,7 +158,7 @@ shell_mode = "non_login"
 # Size of the virtual terminal used when no client is attached.
 # Attached clients always use their own terminal size.
 [server]
-# allow_unlevated_client = true
+# allow_unelevated_clients = false
 # headless_cols = 120
 # headless_rows = 40
 

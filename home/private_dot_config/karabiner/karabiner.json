@@ -1342,7 +1342,7 @@
                         ]
                     },
                     {
-                        "description": "数値キーの設定（１〜９）",
+                        "description": "数値キーの設定（０〜９）",
                         "manipulators": [
                             {
                                 "from": {
@@ -1691,7 +1691,7 @@
                         ]
                     },
                     {
-                        "description": "Eneter、BackSpace、DELETE、単語選択、スクリーンショット",
+                        "description": "Enter、BackSpace、DELETE、単語選択、コピー、スクリーンショット",
                         "manipulators": [
                             {
                                 "from": {
@@ -1998,7 +1998,7 @@
                                         ]
                                     },
                                     {
-                                        "shell_command": "open https://www.google.co.jp/search?q=$(pbpaste)"
+                                        "shell_command": "open \"https://www.google.co.jp/search?q=$(pbpaste | xxd -p | tr -d '\\n' | sed 's/../%&/g')\""
                                     }
                                 ],
                                 "type": "basic"

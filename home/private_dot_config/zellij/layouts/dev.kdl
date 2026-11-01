@@ -1,11 +1,9 @@
-// タブ1: 4ペイン home vertical
-// タブ2: 4ペイン mpd horizontal
-// タブ3: 4ペイン Developer
-// タブ4: 1ペイン herdr
-// タブ5: 1ペイン omp
-// タブ6: 2ペイン spynel
-// タブ7: 2ペイン 縦列 lazyxrp/rippled
-// タブ8: 1ペイン lazydocker
+// タブ101: 2ペイン 縦分割 fastfetch / btm
+// タブ102: 2ペイン 横分割 ncmpcpp / cat.txt
+// タブDev: 4ペイン 各 ~/Developer
+// タブherdr: 1ペイン herdr
+// タブDocs: 1ペイン spynel
+// xrp / docker タブは下にコメントアウトで保管
 
 layout {
     // デフォルトタブテンプレート
