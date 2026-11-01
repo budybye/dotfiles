@@ -44,7 +44,7 @@ description: 要件定義書
 ### 主要プラットフォーム
 
 - **macOS**: Sequoia (15.0+) - プライマリ開発環境
-- **Ubuntu**: 26.04 LTS - Linux 開発環境（Docker / GitHub Actions / LXD / RPi で確認済み）
+- **Ubuntu**: 26.04 LTS - Linux 開発環境（`make init` は Docker build と GitHub Actions で実行。LXD / RPi の job は cloud-init の起動確認までで `make init` は実行しない）
 - **Docker**: ^24.0.0 - コンテナ化環境
 - **Multipass**: ^1.13.0 - 軽量 VM 管理
 - **WSL2**: 将来対応（未検証・ROADMAP M5）
@@ -59,33 +59,33 @@ description: 要件定義書
 ## ツール要件
 
 このシステムで管理・使用するツールの要件定義です。
-参照の温度感は [参考文献](./references.md) の `active / optional / legacy` タグを補助情報として使い、採用要件の正本は本書と [技術スタック](./tech.md)、および設定ファイル（`home/private_dot_config/mise/config.toml`、`home/.chezmoidata/packages.yaml`、`home/private_dot_config/aquaproj-aqua/aqua.yaml`）とします。
+参照の温度感は [参考文献](./references.md) の `active / optional / legacy` タグを補助情報として使い、採用要件の正本は本書と [技術スタック](./tech.md)、および設定ファイル（`home/private_dot_config/mise/conf.d/tools.toml`、`home/private_dot_config/mise.toml`、`home/private_dot_config/Brewfile`、`home/.chezmoidata/packages.yaml`、`home/private_dot_config/aquaproj-aqua/aqua.yaml`）とします。
 
 ### コアツール要件
 
 | ツール         | macOS |  Ubuntu   |  Docker   | PowerShell | WSL2 |
 | -------------- | :---: | :-------: | :-------: | :--------: | :--: |
-| Chezmoi        | brew  | curl/mise | curl/mise |            |      |
+| Chezmoi        | curl/mise | curl/mise | curl/mise |            |      |
 | Make           | brew  |    apt    |    apt    |            |      |
 | Zsh            | brew  |    apt    |    apt    |            |      |
 | Git            | brew  |    apt    |    apt    |            |      |
 | GitHub Actions |  ✅   |    ✅     |    ✅     |            |      |
-| GitHub CLI     | brew  |    apt    |    apt    |            |      |
+| GitHub CLI     | mise  |   mise    | apt/mise  |            |      |
 | Bitwarden desktop | brew | — | — |            |      |
-| Docker         | brew  |    apt    |    apt    |            |      |
+| Docker         | OrbStack | apt    |    apt    |            |      |
 | Dev Container  |  ✅   |    ✅     |    ✅     |            |      |
-| Multipass      | brew  |   snap    |   snap    |            |      |
+| Multipass      |   —   |    —      |    —      |            |      |
 | Homebrew       |  ✅   |    ❌     |    ❌     |            |      |
-| Mise           | brew  | curl/mise | curl/mise |            |      |
-| Age            | brew  | curl/mise | curl/mise |            |      |
+| Mise           | curl  |   curl    |   curl    |            |      |
+| Age            | mise  |   mise    | apt/mise  |            |      |
 | Aqua CLI       | mise  |   mise    |   mise    |            |      |
 
 ### CLI ツール要件
 
 | ツール     | macOS | Ubuntu | Docker | PowerShell | WSL2 |
 | ---------- | :---: | :----: | :----: | :--------: | :--: |
-| Byobu      | brew  |  apt   |  apt   |            |      |
-| Vim        | brew  |  apt   |  apt   |            |      |
+| Byobu      |   —   | cloud-init |  apt   |            |      |
+| Vim        |   —   |  apt   |  apt   |            |      |
 | Aqua       | mise  |  mise  |  mise  |            |      |
 | MPD        | brew  |  apt   |  apt   |            |      |
 | Ncmpcpp    | brew  |  apt   |  apt   |            |      |
@@ -97,16 +97,16 @@ description: 要件定義書
 
 | ツール         |   macOS    |   Ubuntu   |   Docker   | PowerShell | WSL2 |
 | -------------- | :--------: | :--------: | :--------: | :--------: | :--: |
-| Mise           |    brew    |    curl    |    curl    |            |      |
+| Mise           |    curl    |    curl    |    curl    |            |      |
 | cargo-binstall | mise/cargo | mise/cargo | mise/cargo |            |      |
-| Starship       |    brew    | mise/cargo | mise/cargo |            |      |
-| Sheldon        |    brew    |   cargo    |   cargo    |            |      |
-| lsd            |    brew    | cargo/apt  |    apt     |            |      |
-| bat            |    brew    | cargo/apt  |    apt     |            |      |
-| ripgrep        |    brew    | cargo/apt  |    apt     |            |      |
-| fzf            |    brew    | cargo/apt  |    apt     |            |      |
-| zoxide         |    brew    | cargo/apt  |    apt     |            |      |
-| fd-find        |    brew    | cargo/apt  |    apt     |            |      |
+| Starship       |    mise    |    mise    |    mise    |            |      |
+| Sheldon        |    mise    |    mise    |    mise    |            |      |
+| lsd            |    mise    |    mise    |    mise    |            |      |
+| bat            |    mise    |    mise    |    mise    |            |      |
+| ripgrep        |    mise    |    mise    |    mise    |            |      |
+| fzf            |    mise    |    mise    |    mise    |            |      |
+| zoxide         |    mise    |    mise    |    mise    |            |      |
+| fd-find        |    mise    |    mise    |    mise    |            |      |
 
 ### ランタイム・言語要件
 
@@ -114,13 +114,13 @@ description: 要件定義書
 | ---------- | :---: | :-------: | :-------: | :--------: | :--: |
 | Node.js    | mise  |   mise    |   mise    |            |      |
 | Bun        | mise  |   mise    |   mise    |            |      |
-| Deno       | mise  | mise/snap | mise/snap |            |      |
-| Go         | mise  | mise/snap | mise/snap |            |      |
-| Python     | mise  | mise/apt  | mise/apt  |            |      |
-| Java       | mise  | mise/apt  | mise/apt  |            |      |
-| Rust       | mise  | mise/apt  | mise/apt  |            |      |
-| Ruby       | apt   | apt       | apt       |            |      |
-| Redis      | mise  | mise/apt  | mise/apt  |            |      |
+| Deno       |   —   |     —     |     —     |            |      |
+| Go         | mise  |   mise    |   mise    |            |      |
+| Python     | mise  |   mise    |   mise    |            |      |
+| Java       | mise  |   mise    |   mise    |            |      |
+| Rust       | mise  |   mise    |   mise    |            |      |
+| Ruby       | mise  | mise/apt  | mise/apt  |            |      |
+| Redis      |   —   |     —     |     —     |            |      |
 
 ### デスクトップアプリケーション要件
 
@@ -128,16 +128,16 @@ description: 要件定義書
 | ------------------ | :---: | :------: | :------: | :--------: | :--: |
 | Xfce4              |  ❌   |   apt    |   apt    |            |      |
 | Xrdp               |  ❌   |   apt    |   apt    |            |      |
-| VSCode             | brew  |    ❌    |   apt    |            |      |
-| VSCodium           |  ❌   |   snap   |   snap   |            |      |
-| Cursor             | brew  | AppImage | AppImage |            |      |
-| GitHub Desktop     | brew  |   apt    |   apt    |            |      |
-| Tabby              | brew  |   apt    |   apt    |            |      |
+| VSCode             |  —    |    ❌    |    —     |            |      |
+| VSCodium           |  ❌   |    —     |    —     |            |      |
+| Cursor             |  —    |    —     |    —     |            |      |
+| GitHub Desktop     | brew  |   deb    |   deb    |            |      |
+| Tabby              |  —    |    —     |    —     |            |      |
 | Brave              | brew  |   apt    |   apt    |            |      |
-| Cloudflare Warp    | brew  |   apt    |   apt    |            |      |
+| Cloudflare Warp    | brew  |    —     |    —     |            |      |
 | Wireshark          | brew  |   apt    |   apt    |            |      |
 | Fusuma             |  ❌   |   gem    |   gem    |            |      |
-| Karabiner-Elements | brew  |    ❌    |    ❌    |            |      |
+| Karabiner-Elements |  —    |    ❌    |    ❌    |            |      |
 
 ## ツールインストール要件
 
@@ -145,12 +145,12 @@ description: 要件定義書
 
 ### パッケージ管理戦略
 
-- **macOS**: Homebrew（formula、cask、mas）を使用
-- **Ubuntu/Debian**: APT、Snap を使用
+- **macOS**: Homebrew（formula、cask、mas）を使用。一覧は `Brewfile` のみで、bootstrap が `brew bundle` で適用する
+- **Ubuntu/Debian**: APT を使用（Snap は未使用）
 - **ランタイム管理**: Mise（Node.js、Python、Go など）を使用
 - **Rust ツール**: Cargo または Mise を優先し、必要時に Homebrew/APT を使用
 - **宣言的CLI管理**: Aqua CLI でクロスプラットフォーム配布を管理
-- **バージョン固定**: `.tool-versions` と `mise/config.toml` で一貫性を保つ
+- **バージョン固定**: ほぼ全て `latest`。`lockfile = true` だがロックは `mise lock --global` を実行したマシンだけにできる（リポジトリ管理外。詳細は [技術スタック](./tech.md)）
 
 ## 関連ドキュメント
 
@@ -162,6 +162,6 @@ description: 要件定義書
 ## プロファイル要件
 
 - workstation は full package / GUI profile として扱う。
-- CI は Linux CLI package を基本とし、GUI・display manager・system service を含めない。
-- Docker は CLI-only package とし、secret、xrdp、SDDM、systemd を持ち込まない。
-- profile の package 定義は Mise、Chezmoi data は extensions / skills / platform-specific data に限定する。
+- CI は Linux CLI package を基本とする。ただし CI では `linux/gui.sh` と `linux/setup.sh`、Docker Full image では `linux/gui.sh` が実行される。これは意図的（Full image はデスクトップ image で、CI は `make init` 全体を検証する。`gui.sh` の追加 package は xrdp を壊す `light-locker` / `xscreensaver` を要求しない）。profile 分離は ROADMAP M2 の別課題。
+- Docker は secret、SDDM、systemd を持ち込まない。Full image は xfce4 / xorgxrdp / xrdp を含み、Slim image の Dockerfile は xrdp を入れない。
+- profile の package 定義は Mise（apt）と `Brewfile`（macOS）、Chezmoi data は extensions / skills / platform-specific data に限定する。

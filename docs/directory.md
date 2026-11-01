@@ -12,16 +12,19 @@ description: directory ファイル情報説明
 ├── .devcontainer/                  # Dev Container設定
 │   ├── compose.yaml                # Docker Compose設定
 │   ├── Dockerfile                  # Dockerイメージ定義
+│   ├── slim.Dockerfile             # CLI 向け slim イメージ定義
 │   ├── devcontainer.json           # Dev Container設定
-│   └── entrypoint.sh               # コンテナ起動スクリプト
+│   ├── entrypoint.sh               # コンテナ起動スクリプト
+│   └── run.sh                      # ユーザー作成・認証設定（USER PASSWORD SUDO）
 ├── .github/                        # GitHub設定
 │   └── workflows/                  # GitHub Actions（流れは docs/tech.md「GitHub Actions パイプライン」）
 │       ├── ipfs.yaml               # main push → IPFS ピン
 │       ├── push.yaml               # semver タグ push → GHCR（latest はここだけ）
 │       ├── tag.yaml                # test 成功後 → semver タグ + Release
-│       └── test.yaml               # main push → インストール検証（docs/*.md は paths-ignore）
+│       └── test.yaml               # main push → インストール検証（docs/**・*.md は paths-ignore）
 ├── .vscode/                        # VSCode設定
-│   └── extensions.json             # 拡張機能設定
+│   ├── extensions.json             # 拡張機能設定
+│   └── settings.json               # ワークスペース設定
 ├── cloud-init/                     # クラウド初期化設定
 │   ├── lxd.yaml                    # LXD設定
 │   ├── multipass.yaml              # Multipass設定
@@ -41,60 +44,72 @@ description: directory ファイル情報説明
 ├── ROADMAP.md                      # 目標・進捗
 ├── home/                           # ホームディレクトリ設定
 │   ├── .chezmoidata/               # Chezmoiデータ
-│   │   └── packages.yaml           # パッケージ設定
+│   │   ├── agents.yaml             # skills 一覧
+│   │   ├── extensions.yaml         # VSCode 拡張一覧（参照するスクリプトなし）
+│   │   └── packages.yaml           # Windows の winget / scoop
 │   ├── .chezmoiscripts/            # Chezmoiスクリプト
 │   │   ├── darwin/                 # macOS用スクリプト
 │   │   ├── linux/                  # Linux用スクリプト
-│   │   └── run_*.sh.tmpl           # 実行スクリプトテンプレート
-│   ├── dot_ssh/                    # SSH設定
-│   │   ├── authorized_keys.tmpl    # 認証キーテンプレート
-│   │   ├── config.tmpl             # SSH設定テンプレート
-│   │   ├── encrypted_private_id_ed25519.age # 暗号化秘密鍵
-│   │   ├── encrypted_private_id_rsa.age     # 暗号化秘密鍵
-│   │   └── id_ed25519.pub.tmpl    # 公開鍵テンプレート
+│   │   ├── windows/                # Windows用スクリプト
+│   │   └── run_*.sh[.tmpl]         # OS 共通の実行スクリプト
 │   ├── dot_local/                  # ユーザー実行ファイル（XDG準拠）
 │   │   └── bin/
 │   │       ├── executable_applist   # アプリ一覧出力
-│   │       ├── executable_dump_zsh_state
-│   │       ├── encrypted_private_executable_envars.age # 環境変数スクリプト（age暗号化）
+│   │       ├── executable_herdr-dev # herdr 起動（server 確保 → dev プリセット → attach）
 │   │       ├── executable_jjj     # jj コミット・プッシュ
 │   │       ├── executable_playlist # プレイリスト JSON / 音声取得
 │   │       ├── executable_ssh_setup # SSH セットアップ（明示実行）
-│   │       ├── executable_vibes   # 音楽関連
 │   │       └── executable_xrp     # XRP 関連
 │   ├── private_dot_config/         # 設定ファイル（XDG準拠）
 │   │   ├── act/                    # GitHub Actions CLI
 │   │   │   └── actrc
-│   │   ├── aionui/                  # Aion UI設定
-│   │   │   └── aionui-config.txt
 │   │   ├── alacritty/              # GPU加速ターミナル
 │   │   │   └── alacritty.toml
 │   │   ├── aquaproj-aqua/          # Aquaパッケージマネージャー
 │   │   │   └── aqua.yaml
+│   │   ├── atuin/                  # シェル履歴
+│   │   │   └── config.toml
 │   │   ├── bat/                    # シンタックスハイライト
 │   │   │   └── config
+│   │   ├── bottom/                 # システムモニタ
+│   │   │   └── bottom.toml
+│   │   ├── Brewfile                # Homebrew 一覧（macOS。bootstrap と bb / bcf が参照）
 │   │   ├── byobu/                  # ターミナルマルチプレクサー
 │   │   │   ├── datetime.tmux
-│   │   │   ├── dot_byoburc
 │   │   │   ├── dot_tmux.conf
 │   │   │   ├── status
 │   │   │   └── statusrc
+│   │   ├── cheat/                  # コマンドチートシート
+│   │   │   ├── cheatsheets/
+│   │   │   └── conf.yml
 │   │   ├── chrome/                 # Chrome設定
 │   │   │   └── extensions.json
-│   ├── dot_claude/                 # Claude AI設定（chezmoi適用時は ~/.claude）
-│   │   ├── CLAUDE.md
-│   │   └── settings.json.tmpl
+│   │   ├── claude/                 # Claude Code 設定（CLAUDE_CONFIG_DIR）
+│   │   │   ├── agents/
+│   │   │   ├── output-styles
+│   │   │   ├── rules/
+│   │   │   └── settings.json
+│   │   ├── cmux/                   # cmux 設定（macOS）
+│   │   │   └── settings.json
 │   │   ├── Code/                   # VSCode設定
+│   │   │   ├── extensions.json
 │   │   │   └── user-data/
 │   │   │       └── User/
 │   │   │           ├── keybindings.json
 │   │   │           └── settings.json
+│   │   ├── crossnote/              # Markdown プレビュー
+│   │   │   └── config.js
+│   │   ├── cursor/                 # Cursor 設定
+│   │   │   ├── docs.json
+│   │   │   └── mcp.json
 │   │   ├── element/                # Matrixクライアント
 │   │   │   └── config.json
 │   │   ├── fastfetch/              # システム情報表示
 │   │   │   └── config.jsonc
 │   │   ├── fcitx5/                 # 入力メソッド
 │   │   │   └── config
+│   │   ├── fish/                   # fish シェル
+│   │   │   └── config.fish
 │   │   ├── fusuma/                 # タッチパッドジェスチャー
 │   │   │   └── config.yml
 │   │   ├── gh/                     # GitHub CLI
@@ -103,30 +118,54 @@ description: directory ファイル情報説明
 │   │   ├── ghostty/                # モダンターミナル
 │   │   │   └── config
 │   │   ├── git/                    # Git設定
+│   │   │   ├── boborder.conf
 │   │   │   ├── commit.template
 │   │   │   ├── config
+│   │   │   ├── dayjobdoor.conf
 │   │   │   ├── ignore
 │   │   │   └── user.conf.tmpl
 │   │   ├── glow/                   # Markdown プレビュー
 │   │   │   └── glow.yml
+│   │   ├── hatch/                  # Python プロジェクト管理
+│   │   │   └── config.toml
+│   │   ├── herdr/                  # ターミナルマルチプレクサー
+│   │   │   └── config.toml
 │   │   ├── htop/                   # プロセスモニタ
 │   │   │   └── htoprc
 │   │   ├── jj/                     # Jujutsu VCS
 │   │   │   └── config.toml.tmpl
 │   │   ├── karabiner/              # キーボードカスタマイズ
 │   │   │   └── karabiner.json
+│   │   ├── lazydocker/             # Docker TUI
+│   │   │   └── config.yaml
+│   │   ├── lazygit/                # Git TUI
+│   │   │   └── config.yml
+│   │   ├── lazyxrp/                # lazyxrp 設定
+│   │   │   └── config.toml
 │   │   ├── lsd/                    # モダンls
 │   │   │   ├── colors.yaml
 │   │   │   ├── config.yaml
 │   │   │   └── icons.yaml
-│   │   ├── mise/                   # ランタイム管理（60+ ツール、README 参考文献に一覧）
-│   │   │   └── config.toml
+│   │   ├── lumen/                  # lumen 設定
+│   │   │   └── lumen.config.json
+│   │   ├── micro/                  # micro エディタ
+│   │   │   └── settings.json
+│   │   ├── mise/                   # ランタイム管理（ツール定義は conf.d/tools.toml）
+│   │   │   ├── conf.d/
+│   │   │   │   ├── settings.toml
+│   │   │   │   └── tools.toml
+│   │   │   └── config.toml         # shell alias と hooks のみ
+│   │   ├── mise.toml               # mise bootstrap（macOS defaults・apt）
 │   │   ├── mpd/                    # 音楽プレーヤーデーモン
 │   │   │   └── mpd.conf.tmpl
 │   │   ├── ncmpcpp/                # MPDクライアント
 │   │   │   └── config
 │   │   ├── navi/                   # コマンドチートシート
 │   │   │   └── config.yaml
+│   │   ├── neofetch/               # システム情報表示
+│   │   │   └── config.conf
+│   │   ├── notebooklm/             # NotebookLM 設定
+│   │   │   └── notebooklm-config.json
 │   │   ├── npm/                    # npm設定
 │   │   │   └── npmrc
 │   │   ├── nvim/                   # Neovim設定
@@ -135,35 +174,87 @@ description: directory ファイル情報説明
 │   │   │   ├── init.vim
 │   │   │   └── lua/
 │   │   │       └── gal.lua
+│   │   ├── omp/                    # oh-my-pi（omp）
+│   │   │   └── profiles/
+│   │   │       └── god/            # agent/（config・models・skills）と plugins/
+│   │   ├── opencode/               # OpenCode
+│   │   │   ├── agents/
+│   │   │   ├── commands/
+│   │   │   ├── AGENTS.md
+│   │   │   ├── opencode.jsonc
+│   │   │   └── tui.json
+│   │   ├── pi/                     # pi
+│   │   │   └── agent/
+│   │   ├── ratty/                  # GPU ターミナル
+│   │   │   └── ratty.toml
 │   │   ├── ripgrep/                # 高速検索
 │   │   │   └── config
 │   │   ├── sampler/                # システムモニタリング
 │   │   │   └── config.yaml
 │   │   ├── sheldon/                # シェルプラグイン管理
 │   │   │   └── plugins.toml
+│   │   ├── sol/                    # Sol ランチャー（macOS）
+│   │   │   └── config.json
 │   │   ├── starship/               # シェルプロンプト
 │   │   │   └── starship.toml
-│   │   ├── tabby/                  # AIコード補完
+│   │   ├── tabby/                  # Tabby ターミナル（Eugeny/tabby）の設定
 │   │   │   └── config.yaml
+│   │   ├── task/                   # task 設定
+│   │   │   └── taskrc.yml
+│   │   ├── termshark/              # tshark の TUI
+│   │   │   └── termshark.toml
+│   │   ├── thefuck/                # コマンド修正
+│   │   │   └── settings.py
 │   │   ├── tldr/                   # コマンドヘルプ
 │   │   │   └── config.toml
 │   │   ├── tmux/                   # ターミナルマルチプレクサー
 │   │   │   ├── dot_tmuxrc
 │   │   │   └── tmux.conf
+│   │   ├── topgrade/               # 一括更新
+│   │   │   └── topgrade.toml
+│   │   ├── translate-shell/        # 翻訳 CLI
+│   │   │   └── empty_init.trans
 │   │   ├── vim/                    # Vim設定
 │   │   │   └── vimrc
+│   │   ├── vite-plus/              # Vite+
+│   │   │   ├── env
+│   │   │   ├── env.fish
+│   │   │   └── env.ps1
+│   │   ├── wireshark/              # パケット解析
+│   │   │   ├── language
+│   │   │   └── preferences
+│   │   ├── wtf/                    # TUI ダッシュボード
+│   │   │   └── config.yml
+│   │   ├── yazi/                   # ファイラー
+│   │   │   └── yazi.toml
+│   │   ├── yt-dlp/                 # 動画ダウンロード
+│   │   │   └── config
+│   │   ├── yt-x/                   # yt-x 設定
+│   │   │   └── yt-x.config
 │   │   ├── zed/                    # Zed エディタ
 │   │   │   └── settings.json
 │   │   ├── zellij/                 # ターミナルマルチプレクサー
 │   │   │   ├── config.kdl
 │   │   │   └── layouts/
 │   │   │       └── dev.kdl
-│   │   └── zsh/                    # Zsh設定
-│   │       ├── dot_aliases
-│   │       ├── dot_zlogin
-│   │       ├── dot_zlogout
-│   │       ├── dot_zprofile
-│   │       └── dot_zshrc
+│   │   ├── zsh/                    # Zsh設定
+│   │   │   ├── dot_functions
+│   │   │   ├── dot_zlogin
+│   │   │   ├── dot_zlogout
+│   │   │   ├── dot_zprofile
+│   │   │   └── dot_zshrc
+│   │   └── zsh-abbr/               # zsh 略語
+│   │       └── user-abbreviations
+│   ├── private_dot_ssh/            # SSH設定
+│   │   ├── authorized_keys.tmpl    # 認証キーテンプレート
+│   │   ├── config.tmpl             # SSH設定テンプレート
+│   │   ├── encrypted_private_id_ed25519.age          # 暗号化秘密鍵
+│   │   ├── encrypted_private_id_ed25519_boborder.age # 暗号化秘密鍵（boborder）
+│   │   ├── encrypted_private_id_ed25519_dayjobdoor.age # 暗号化秘密鍵（dayjobdoor）
+│   │   ├── encrypted_private_id_rsa.age              # 暗号化秘密鍵
+│   │   ├── id_ed25519.pub.tmpl             # 公開鍵テンプレート
+│   │   ├── id_ed25519_boborder.pub.tmpl    # 公開鍵テンプレート（boborder）
+│   │   └── id_ed25519_dayjobdoor.pub.tmpl  # 公開鍵テンプレート（dayjobdoor）
 │   ├── .chezmoi.toml.tmpl          # Chezmoiメイン設定
 │   ├── .chezmoiexternal.toml       # 外部リソース管理
 │   ├── .chezmoiignore              # 除外ファイル設定
@@ -171,10 +262,13 @@ description: directory ファイル情報説明
 │   ├── dot_bashrc                  # Bash設定
 │   ├── dot_profile                 # シェルプロファイル
 │   ├── dot_zshenv                  # Zsh環境変数
+│   ├── dot_aliases                 # エイリアス・関数（~/.aliases）
+│   ├── encrypted_private_dot_env.age # 暗号化 .env
+│   └── key.txt.age                 # 暗号化 age 鍵（run_once_before_age.sh.tmpl が復号）
 ├── .chezmoiroot                    # Chezmoiルート設定
 ├── .editorconfig                   # エディタ設定
 ├── .gitignore                      # Git除外設定
-├── .tool-versions                  # バージョン管理
+├── mise.toml                       # mise task（help のみ。.env を読む [env] はコメントアウト中）
 ├── install.sh                      # 初期インストールスクリプト
 ├── Makefile                        # ビルド・管理スクリプト
 ├── AGENTS.md                       # AI向けの説明(必要最低限)
@@ -189,7 +283,7 @@ description: directory ファイル情報説明
 - **XDG 準拠設定**: `home/private_dot_config/` に配置
 - **シェルスクリプト**: `home/.chezmoiscripts/` に配置
 - **実行可能スクリプト**: `home/dot_local/bin/` に配置。`executable_` プレフィックスで適用時に chmod +x を付与
-- **Homebrew**: パッケージ一覧は `home/.chezmoidata/packages.yaml` で管理（Brewfile 前提の記述は使用しない）
+- **Homebrew**: formula / cask / tap / mas の一覧は `home/private_dot_config/Brewfile` のみ（darwin bootstrap が `brew bundle` で適用し、`bb` / `bcf` も読む。`mise.toml` の `[bootstrap.packages]` は apt のみ。詳細は docs/tech.md「mise bootstrap」）
 - **暗号化ファイル**: `*.age` 拡張子で暗号化
 - **テンプレートファイル**: `*.tmpl` 拡張子で管理
 
@@ -207,9 +301,9 @@ description: directory ファイル情報説明
 
 ### セキュリティ
 
-- **SSH 鍵**: `home/dot_ssh/` で暗号化管理
+- **SSH 鍵**: `home/private_dot_ssh/` で暗号化管理
 - **暗号化ファイル**: `age` で暗号化
-- **シークレット**: パスワードマネージャー経由でのみアクセス
+- **シークレット**: `age` 暗号化ファイルで保持。パスワードは Bitwarden アプリで管理し、template からは参照しない
 - **OS 別分岐**: テンプレート変数による環境別設定
 
 ## Chezmoi 設計とワークフロー
@@ -220,7 +314,7 @@ description: directory ファイル情報説明
 
 - `home/`: ホームディレクトリ設定ファイル（chezmoi ソース状態）
 - `.chezmoiroot`: Chezmoi ルートディレクトリマーカー（`home`を指す）
-- `.tool-versions`: mise/asdf 互換バージョン管理ファイル
+- `mise.toml`（ルート）: mise task 定義（`help` のみ）。`.env` を読む `[env] _.file = '.env'` はコメントアウト中
 
 ### Chezmoi 設定ファイル
 
@@ -260,16 +354,16 @@ Chezmoi スクリプトは `.chezmoiscripts/` ディレクトリ内に配置す�
 
 | Chezmoi Script                         | macOS | Ubuntu | WSL | PowerShell |
 | -------------------------------------- | :---: | :----: | :-: | :--------: |
-| run_once_before_active.sh              |  ✅   |   ✅   |     |            |
-| run_once_before_age.sh.tmpl        |  ✅   |   ✅   |     |            |
+| run_once_before_age.sh.tmpl            |  ✅   |   ✅   |     |            |
+| run_once_after_watch.sh（CI のみ）     |  ✅   |   ✅   |     |            |
 | run_onchange_after_skills.sh.tmpl      |  ✅   |   ✅   |     |            |
-| run_onchange_after_vscode.sh        |  ✅   |   ✅   |     |            |
+| run_onchange_after_vscode.sh.tmpl      |  ✅   |   ✅   |     |            |
 | darwin/run_onchange_after_bootstrap.sh.tmpl |  ✅   |        |     |            |
+| darwin/run_onchange_after_defaults.sh  |  ✅   |        |     |            |
 | linux/run_once_after_docker.sh         |       |   ✅   |     |            |
 | linux/run_onchange_after_cli.sh.tmpl   |       |   ✅   |     |            |
-| linux/run_onchange_after_gui.sh.tmpl   |       |   ✅   |     |            |
+| linux/run_onchange_after_gui.sh        |       |   ✅   |     |            |
 | linux/run_once_after_setup.sh          |       |   ✅   |     |            |
-| linux/run_onchange_after_snap.sh.tmpl  |       |   ✅   |     |            |
 | windows/run_once_after_install.ps1.tmpl|       |        |     |     ✅     |
 
 ### Chezmoiignore 設計
@@ -284,5 +378,5 @@ Chezmoi スクリプトは `.chezmoiscripts/` ディレクトリ内に配置す�
 {{ if ne .chezmoi.os "linux" }}
 .config/fcitx5
 .config/fusuma
-
-[Showing lines 1-300 of 539. Use :301 to continue]
+{{ end }}
+```

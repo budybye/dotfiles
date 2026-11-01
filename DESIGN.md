@@ -51,7 +51,7 @@ components:
 
 ## Overview
 
-ghostty(ターミナル) → zellij 0.45.1(マルチプレクサ) → herdr 0.9.1(スーパーバイザ/ペイン管理) → pi / omp 18.2.7(コーディングハーネス)。参照として zed(GUI エディタ、変更対象外)。更新: 2026-09-22。
+ghostty(ターミナル) → herdr 0.9.5(マルチプレクサ兼スーパーバイザ/ペイン管理) → pi / omp 18.14.2(コーディングハーネス)。zellij 0.45.1 は不採用(binary/config は残置、herdr が無い環境のフォールバック起動のみ)。参照として zed(GUI エディタ、変更対象外)。更新: 2026-11-01。
 
 **消費モデル**: キーは外側の層が「自分のバインドに一致するキー」を消費し、一致しないキーだけを内側に渡す。ghostty は macOS で `Alt+←/→` を `esc:b` / `esc:f` に変換して送るため、内側では `Alt+b` / `Alt+f` として観測される。
 
@@ -59,19 +59,19 @@ ghostty(ターミナル) → zellij 0.45.1(マルチプレクサ) → herdr 0.9.
 
 **キー設計原則**: 1 キー = 1 所有者(所有権マップ参照)。新ツールはデフォルト優先で導入し、衝突キーだけを退避させる。全逸脱は逸脱リストに記録する。OS レイヤー(karabiner / Raycast / fcitx5 / fusuma)はスタック外だが、突合を入力環境セクションに記録する。
 
-**状態**: 2026-09-22 移行を部分適用 — 起動経路を herdr に一本化(zprofile / bash_profile、zellij は不採用・binary/config は残置)、omp keybinding 上書きを削除して既定復帰(**pi はユーザー判断で現状維持**)。herdr config は git 復帰後に**現実効値 + 既定値コメントの統合版**へ整理(onboarding=false / kanagawa / default_shell=zsh / non_login / sidebar 28 / prompt_new_tab_name=false / toast off / CJK cursor)。既定の `/bin/zsh` は herdr pane で findcmd SIGABRT(zsh-*.ips 7 件)のため `default_shell = "zsh"` + `non_login` は意図的維持。未実施: zellij uninstall・mise/tools.toml・tech.md / directory.md・zshrc `stty -ixon`・herdr integrations。
+**状態**: 2026-09-22 移行を部分適用 — 起動経路を herdr に一本化(zlogin / bash_profile、zellij は不採用・binary/config は残置)、omp keybinding 上書きを削除して既定復帰(pi の `~/.pi/agent/keybindings.json` は残存するが、`PI_CODING_AGENT_DIR=~/.config/pi/agent` のため pi は読まない)。herdr config は git 復帰後に**現実効値 + 既定値コメントの統合版**へ整理(onboarding=false / kanagawa / default_shell=zsh / non_login / sidebar 28 / prompt_new_tab_name=false / toast off / CJK cursor)。既定の `/bin/zsh` は herdr pane で findcmd SIGABRT(zsh-*.ips 7 件)のため `default_shell = "zsh"` + `non_login` は意図的維持。未実施: zellij uninstall・mise/tools.toml・tech.md / directory.md・herdr integration の omp 側(pi 側は v10 導入済み)。`stty -ixon` は `setopt no_flow_control` が既存のため不要。
 
 ## Colors
 
-パレットは Kanagawa Dragon 一族で統一し、Monokai 系は omp dark と zed light のアクセントに限定する。front matter の `colors` トークンは starship パレット(dragon\* 10 色)と ghostty の独自背景/前景。それ以外の層はテーマ名指定で同じ血統を参照する。
+パレットは Kanagawa Dragon 一族で統一し、Monokai 系は omp dark と zed light のアクセントに限定する。front matter の `colors` トークンは starship パレット(`[palettes.color]` の 10 色。値は dragon\* 系、キー名は `gray` / `navy` / `yellow` 等)と ghostty の独自背景/前景。それ以外の層はテーマ名指定で同じ血統を参照する。
 
 | 層 | テーマ | 実値・備考 |
 |---|---|---|
 | ghostty | **Kanagawa Dragon** | 独自 bg `#112233`(surface) / fg `#D4C69A`(on-surface)。代替候補 Monokai Pro はコメントで保管 |
-| zellij | **kanagawa** | 代替候補 molokai-dark はコメントで保管 |
+| zellij | (不採用) | `config.kdl` はコメントのみ(テーマ指定なし = 既定) |
 | herdr | **kanagawa** | テーマ名指定のみ |
-| starship | **Kanagawa Dragon パレット** | `[palettes.color]` に dragon\* 系 10 色を直接定義(トークン化済み) |
-| pi | **dark**(内蔵) | settings.json `theme: "dark"` |
+| starship | **Kanagawa Dragon パレット** | `[palettes.color]` に dragon\* 系の値 10 色を直接定義(キー名は dragon\* でなく `gray` / `navy` / `yellow` 等。`yellow` = dragonOrange、`blue` = dragonAqua) |
+| pi | **dark**(内蔵) | settings.json に `theme` キーなし(既定値) |
 | omp | **dark-monokai** / light: titanium | profiles/god の config.yml |
 | zed | system 追従: dark **Kanagawa Dragon - No Italics** / light **Monokai Pro (CE)** | アイコン Material Icon Theme |
 
@@ -86,7 +86,7 @@ ghostty(ターミナル) → zellij 0.45.1(マルチプレクサ) → herdr 0.9.
 
 ## Layout
 
-**層構造(現行)**: ghostty 全画面ウィンドウ(タイトルバー非表示)→ zellij `layouts/dev.kdl`(8 タブ、`default_layout "dev"`)→ うち「herdr」タブで herdr ワークスペース → agent ペイン。移行後は herdr が唯一の mux となり層が一段なくなる(zellij 廃止計画参照)。
+**層構造(現行)**: ghostty 全画面ウィンドウ(タイトルバー非表示)→ herdr ワークスペース「dev」(`executable_herdr-dev` が構築)→ agent ペイン。zellij は不採用で、`layouts/dev.kdl`(5 タブ)は残置のみ(`default_layout` 未設定のため読まれない)。
 
 **幾何パラメータ**:
 
@@ -98,7 +98,7 @@ ghostty(ターミナル) → zellij 0.45.1(マルチプレクサ) → herdr 0.9.
 | herdr タブバー | 上部配置、単一タブ時も表示 | 既定 |
 | herdr agent パネル並び | `spaces` | 同上 |
 | zed 端末 | dock right、12pt | zed settings.json |
-| zellij レイアウト | dev.kdl(タブ 101/102/Dev/herdr/Docs/Plan) | zellij layouts |
+| zellij レイアウト | dev.kdl(タブ 101/102/Dev/herdr/Docs。残置のみ) | zellij layouts |
 
 ## Elevation & Depth
 
@@ -108,28 +108,28 @@ ghostty(ターミナル) → zellij 0.45.1(マルチプレクサ) → herdr 0.9.
 
 角丸は存在しない(omitted: rounded)。ペイン境界は枠線 + gap:
 
-- herdr: `pane_borders = true` / `pane_gaps = true`
+- herdr: `pane_borders` / `pane_gaps` は既定のまま(config.toml ではコメントアウト。それぞれ `auto` / `true`)
 - zellij: `pane_frames` 既定(true)
 - ghostty: `window-padding-balance = true` で端余白を均す
-- ghostty カーソル: `cursor-style = block` + `cursor-style-blink = true`。サイズ系(`adjust-cursor-thickness` / `adjust-cursor-height`)と `cursor-opacity`(既定 1)は未設定(v1.3.1 で利用可能なノブ)。タイピング中は `mouse-hide-while-typing = true` でマウスカーソルを退ける。
+- ghostty カーソル: `cursor-style = block` + `cursor-style-blink = true`。サイズ系(`adjust-cursor-thickness` / `adjust-cursor-height`)と `cursor-opacity`(既定 1)は未設定(v1.4.0 で利用可能なノブ)。タイピング中は `mouse-hide-while-typing = true` でマウスカーソルを退ける。
 
 ## Components
 
 | コンポーネント | 設定ファイル(dotfiles ソース) | テーマ | フォント | キー所有 |
 |---|---|---|---|---|
 | ghostty | `home/private_dot_config/ghostty/config` | Kanagawa Dragon + 独自 bg/fg | HackGen35 Console NF 13pt | plain `ctrl+文字` は消費しない |
-| zellij | `home/private_dot_config/zellij/config.kdl` | kanagawa | 端末継承 | `Ctrl+o/t/p/n/s/h/g/q` + Alt 群(所有権マップ) |
+| zellij | `home/private_dot_config/zellij/config.kdl` | 既定(テーマ指定なし) | 端末継承 | 既定のみ(config はコメントのみ。フォールバック起動時は `Ctrl+o/t/p/n/s/h/g/q` + Alt 群が有効) |
 | herdr | `home/private_dot_config/herdr/config.toml` | kanagawa | 端末継承 | `Ctrl+b` prefix のみ(direct キーなし) |
 | starship | `home/private_dot_config/starship/starship.toml` | Kanagawa Dragon パレット | 端末継承 | — |
-| pi | `~/.pi` + `home/private_dot_config/pi/agent/` | dark | 端末継承 | 既定 + `~/.pi/agent/keybindings.json`(2 件上書き) |
-| omp | `~/.omp` + `home/private_dot_config/omp/profiles/god/` | dark-monokai | 端末継承 | 既定 + `~/.omp/agent/keybindings.yml`(5 件上書き) |
+| pi | `home/private_dot_config/pi/agent/`(`~/.config/pi/agent`) | dark | 端末継承 | 既定 + `~/.config/pi/agent/keybindings.json`(chezmoi 管理、エディタ移動 6 件を上書き) |
+| omp | `home/private_dot_config/omp/profiles/god/` | dark-monokai | 端末継承 | 全既定(`keybindings.yml` なし) |
 | zed | `home/private_dot_config/zed/settings.json` | KD - No Italics / Monokai Pro (CE) | HackGen35 Console NF | `cmd` ベース(GUI 層) |
 
 ## Do's and Don'ts
 
 - **Do**: 1 キー = 1 所有者。所有者でない層は代替キーを使う。新 mux/ツールは**デフォルト優先**で導入し、衝突キーだけを所有権マップに従って退避させる。
 - **Do**: 逸脱は必ず逸脱リストに全件・理由付きで記録する。テーマは kanagawa 系で統一し、monokai はアクセントのみに使う。奥行きは透明度と境界線で表現する。
-- **Don't**: 複数層での同時主張を作らない。`Ctrl+q` = zellij Quit のような破壊的既定を「既定維持原則」の名目で放置して危険を先送りにしない(omp 側で `Ctrl+Q` は解除済み。誤爆が続くなら Quit を別キーへ退避)。
+- **Don't**: 複数層での同時主張を作らない。`Ctrl+q` = zellij Quit のような破壊的既定を「既定維持原則」の名目で放置して危険を先送りにしない(zellij は現在フォールバック起動時のみ該当。omp の `Ctrl+Q` 解除は `keybindings.yml` 削除で撤回済み。zellij を使う場合は Quit を別キーへ退避)。
 - **Don't**: 層ごとに無関係なテーマを混在させない。記録なきキー変更をしない。
 
 ## 入力環境(OS レイヤー)
@@ -165,7 +165,7 @@ ghostty(ターミナル) → zellij 0.45.1(マルチプレクサ) → herdr 0.9.
 
 ### macOS: karabiner / Raycast / システムホットキー
 
-**karabiner**(`home/private_dot_config/karabiner/karabiner.json`): JIS キーボード運用のリマップ群。扱うキー群は全て mandatory 修飾(`fn` / `right_option` / 左Cmd / 左Ctrl)をホールドした状態で発動し、素キーは不変(実測は下記):
+**karabiner**(`home/private_dot_config/karabiner/karabiner.json`): JIS キーボード運用のリマップ群。扱うキー群は全て mandatory 修飾(`fn` / `right_option` / 左Cmd / 左Ctrl)をホールドした状態で発動し、素キーは原則不変(例外は下記)。現環境では Karabiner-Elements 自体が未導入(Brewfile は `cask "karabiner-elements"` をコメントアウト、設定ファイルのみ配備):
 
 | ルール群 | 対象キー |
 |---|---|
@@ -178,7 +178,7 @@ ghostty(ターミナル) → zellij 0.45.1(マルチプレクサ) → herdr 0.9.
 
 Raycast 起動ルールは karabiner 側に**存在しない**(ホットキーは Raycast 自身が管理)。
 
-実測(jq で全 manipulator を走査): 全ての `from` が **mandatory 修飾 prefix 方式**:`fn`(カーソル移動 / F1–F12 / 記号 / Google 検索)、`right_option`(数値キー / `Cmd+Q`・`W` 相当群 / `Enter`・`BackSpace`・`DELETE` / undo・cut・copy・paste / `right_option+space` = CapsLock)、Finder・Chrome 群は `left_command` / `left_control` + `frontmost_application_if` 条件付き(一部 Cmd 系は GLOBAL)。**修飾なしの素キー(`Tab`・矢印・`Esc`・`Ctrl+文字`・`Alt+文字`)を書き換える manipulator は 0 件** → 所有権マップは macOS 上も成立する。
+実測(jq で全 manipulator を走査): 全ての `from` が **mandatory 修飾 prefix 方式**:`fn`(カーソル移動 / F1–F12 / 記号 / Google 検索)、`right_option`(数値キー / `Cmd+Q`・`W` 相当群 / `Enter`・`BackSpace`・`DELETE` / undo・cut・copy・paste / `right_option+space` = CapsLock)、Finder・Chrome 群は `left_command` / `left_control` + `frontmost_application_if` 条件付き(一部 Cmd 系は GLOBAL)。**complex_modifications に修飾なしの素キー(`Tab`・矢印・`Esc`)や `Alt+文字` を書き換える manipulator は 0 件。`Ctrl+文字` は Finder/Chrome 限定の `left_control` + 文字(t/w/n/f/l/j 等)のみ。例外として `simple_modifications` が素の `japanese_eisuu`(英数)→`right_option`、`japanese_kana`(かな)→`fn` に書き換える(IME 切替キーが全域で別キーになる)** → 端末アプリ内の所有権マップは macOS 上も成立する。
 
 **Raycast**(`/Applications/Raycast.app`): ホットキーは `Option+Space`(ユーザー設定)。Spotlight は無効化済み(symbolic hotkeys 64/65 とも enabled=0 実測)。plist は移行初期値 `initialSpotlightHotkey = "Command-49"` のみを記録しており現ホットキーは plist 外管理のため、実値はユーザー設定を正とする。`Cmd+Space` は未割当(Spotlight 無効 + Raycast が Option 側へ移動)。`Option+Space` はスタック全層で未使用(zellij Alt 群は `[` `]` 等のみ / herdr direct キーなし / omp・pi・ghostty・karabiner も space なし)→ 非衝突。**注**: `右 Option+Space` は karabiner が CapsLock トグルとして所有(mandatory `right_option` + space、GLOBAL 実測)。Raycast の `Option+Space` は左 Option で運用すること(右側で押すと karabiner が先に取る)。
 
@@ -186,7 +186,7 @@ Raycast 起動ルールは karabiner 側に**存在しない**(ホットキー�
 
 | キー | 機能 | 状態 | スタックへの影響 |
 |---|---|---|---|
-| `Ctrl+←/→` | Spaces 切替(symbolic 19/20) | **無効化済み(enabled=0)** | なし → pi/omp の `Ctrl+←/→` 語移動が到達する |
+| `Ctrl+←/→` | Spaces 切替(symbolic 19/20) | **無効化済み(enabled=0)** | なし → omp の `Ctrl+←/→` 語移動が到達する(pi は `~/.config/pi/agent/keybindings.json` が既定を置換するため `Ctrl+←/→` 語移動なし) |
 | `Ctrl+Space` / `Ctrl+Option+Space` | 入力ソース切替(60/61) | 有効 | なし(スタック全層で未使用) |
 | `Ctrl+Shift+↑` | Mission Control(32) | 有効 | なし |
 | `F11` | Show Desktop(36) | 有効 | なし |
@@ -196,34 +196,34 @@ Raycast 起動ルールは karabiner 側に**存在しない**(ホットキー�
 | ``Cmd+` `` | 同アプリのウィンドウ切替 | 有効 | なし(GUI 層) |
 | `Cmd+Shift+3/4/5` | スクリーンショット | 有効 | なし(GUI 層) |
 
-突合: karabiner のリマップは mandatory 修飾 prefix 方式でスタック所有キー(`Ctrl+b` prefix・`Ctrl+o/t/p/n/s/h/g/q`・Alt 群)に干渉しない(0 件実測、上記)。GUI 層の `Cmd` 系は端末内 TUI へ届かない。→ スタックへの影響なし。
+突合: karabiner のリマップは mandatory 修飾 prefix 方式で、Finder/Chrome 限定の `left_control` + 文字を除きスタック所有キー(`Ctrl+b` prefix・`Ctrl+o/t/p/n/s/h/g/q`・Alt 群)に干渉しない(上記実測)。GUI 層の `Cmd` 系は端末内 TUI へ届かない。→ スタックへの影響なし。
 
 **トラックパッド**(`defaults read com.apple.AppleMultitouchTrackpad` 実測): 3 本指ドラッグ = ON(`TrackpadThreeFingerDrag = 1`、お気に入り設定)、3 本指スワイプ/タップ = OFF(`TrackpadThreeFinger{Horiz,Vert}SwipeGesture = 0` / `TapGesture = 0`)、4 本指横/縦スワイプ = ON(Mission Control / Spaces 切替、`TrackpadFourFinger{Horiz,Vert}SwipeGesture = 2`)、4 本指ピンチ = ON(= 2)。Ubuntu の fusuma(3 本指ドラッグ + 4 本指スワイプで workspace 切替)はこの好みの OS 間再現。
 
-## 所有権マップ(現行)
+## 所有権マップ(zellij 運用時)
 
-各キーの所有者は 1 層のみ。所有者でない層は表の代替キーを使う。
+各キーの所有者は 1 層のみ。所有者でない層は表の代替キーを使う。現在は zellij 不採用(`config.kdl` はコメントのみ、omp の `keybindings.yml` は削除済み、pi の `~/.pi/agent/keybindings.json` は pi が読まない)のため、zellij 行と代替キーは zellij をフォールバック起動した場合にのみ当てはまる。
 
 | キー | 所有者 | 内側・他層の代替 | 備考 |
 |---|---|---|---|
-| `Ctrl+b` | **herdr prefix** | zellij tmuxモード→`Alt+t` / pi・omp 語左移動→`Alt+b`・`←` / shell 語左移動→`Alt+b` | tmux 既定と同じ prefix。mux 入替後も維持 |
+| `Ctrl+b` | **herdr prefix** | zellij tmuxモード→`Alt+t` / pi・omp 語左移動→`Alt+b`・`←` / shell 語左移動→`Alt+b` | tmux 既定と同じ prefix(`tmux.conf` は prefix を `Ctrl+q` に変更済み)。mux 入替後も維持 |
 | `Ctrl+r` | **shell & omp(履歴検索)** | zellij 設定UI→`Alt+c` | 高頻度操作を優先 |
 | `Ctrl+-` | **pi/omp undo・shell undo** | zellij 下分割→`Ctrl+p` → `d` | ユーザー追加キーを削除 |
 | `Ctrl+o` | zellij(session モード) | omp ツール出力開閉→`Ctrl+Shift+O` / pi→代替なし(omp 使用) | zellij 既定を維持 |
 | `Ctrl+t` | zellij(tab モード) | omp/pi thinking→`Shift+Tab` | zellij 既定を維持 |
 | `Ctrl+p` | zellij(pane モード) | omp モデル→`Alt+P`・`Alt+M` / pi モデル→`Ctrl+L` / shell 履歴→`↑` | zellij 既定を維持 |
 | `Ctrl+n` | zellij(resize モード) | shell 履歴→`↓` | zellij 既定を維持 |
-| `Ctrl+s` | zellij(scroll モード) | shell XOFF は発生しない(zellij が消費して抑止) | **廃止後は `stty -ixon` が必要**(zellij 廃止計画) |
+| `Ctrl+s` | zellij(scroll モード) | shell XOFF は発生しない(zellij が消費して抑止) | 廃止後も `setopt no_flow_control`(`dot_zshrc:40`)で ZLE 上の XOFF は発生しない(zellij 廃止計画) |
 | `Ctrl+h` | zellij(move モード) | shell Backspace→Backspace キー | zellij 既定を維持 |
 | `Ctrl+g` | zellij(lock 切替) | pi/omp 外部エディタ→`Alt+E` | zellij 既定を維持 |
 | `Ctrl+q` | zellij(**Quit**) | omp followUp→`Ctrl+Enter` | 誤操作でセッション終了の危険あり(下記注意) |
-| `Alt+f` | (解放 → pi/omp 語右移動) | zellij フロート切替→`Alt+w` | ghostty の `Alt+→` 変換先が `Alt+f` |
+| `Alt+f` | (解放 → omp 語右移動) | zellij フロート切替→`Alt+w` | ghostty の `Alt+→` 変換先が `Alt+f`。pi は keybindings.json が既定を置換して `alt+f` を外している |
 | `Alt+Up` | zellij(MoveFocus Up) | omp/pi dequeue→`Alt+Q` | |
 | `Alt+L` | zellij(MoveFocusOrTab) | omp display reset→`Alt+U` | |
 | `Alt+Shift+P` | zellij(グループマーキング) | omp plan モード→`Alt+G` | |
 | `Alt+h/l/j/k`・`Alt+矢印`・`Alt+n/i/o/p/=[-[]/]` | zellij 既定 | omp の `Alt+M/A/R/Q/E/G/U`・`Alt+Shift+C/L/V` 等は非衝突 | |
 
-**注意 (既知の危険)**: zellij 既定の `Ctrl+q` = Quit は、shell や pi で `Ctrl+q` を押すとセッションごと終了する。omp 側で `Ctrl+Q` を解除済みだが、zellij 既定自体は変更していない(既定維持原則)。誤爆が続くなら次回、zellij の Quit を別キーへ退避するかユーザー判断で。
+**注意 (既知の危険)**: zellij をフォールバックで起動した場合、既定の `Ctrl+q` = Quit は shell や pi/omp で押すとセッションごと終了する(omp の `Ctrl+Q` 解除は `keybindings.yml` 削除で撤回済み。zellij 既定自体は変更していない)。通常の起動経路は herdr のため該当しない。
 
 ## ツール別キーマップ(現行)
 
@@ -235,9 +235,9 @@ Raycast 起動ルールは karabiner 側に**存在しない**(ホットキー�
 
 ### zellij(`~/.config/zellij/config.kdl` → dotfiles 経由)
 
-config は既定 + 追加のマージ(`clear-defaults=true` なし)。既定値は `zellij setup --dump-config`(0.45.1) と突合。インストール済み既定のうちユーザーファイルに無いバインド(pane の `Shift+f`、`;`、scroll の `[` `]` `m` `c` 等)も引き続き有効。
+config.kdl は現在コメントのみ(= zellij 既定。2026-09-22 に不採用化して既定へ戻した)。以下の表は不採用化前に適用していた変更(`clear-defaults=true` なし = 既定 + 追加のマージ)で、現在は未適用。復元は `~/.config/zellij/config.kdl.bak-20260921` か jj 履歴。既定値は `zellij setup --dump-config`(0.45.1) と突合。
 
-変更したキー(現値→最終):
+変更したキー(不採用化前の現値→最終):
 
 | キー | 現値(適用前) | 既定 | 最終 | 
 |---|---|---|---|
@@ -260,14 +260,14 @@ config は既定 + 追加のマージ(`clear-defaults=true` なし)。既定値�
 
 ### pi(2 ファイル)
 
-**`~/.pi/agent/keybindings.json`(chezmoi 管理外、適用済みの 2 件)**:
+**`~/.pi/agent/keybindings.json`(chezmoi 管理外。実体は残存するが、`PI_CODING_AGENT_DIR=~/.config/pi/agent`(`dot_profile`)のため pi は読まず、以下 2 件は実効なし)**:
 
 | Action | 既定 | 最終 | 理由 |
 |---|---|---|---|
 | `app.editor.external` | `ctrl+g` | `alt+e` | zellij `Ctrl+g` = lock |
 | `app.message.dequeue` | `alt+up` | `alt+q` | zellij `Alt+up` = MoveFocus(Windows 既定と同じ `Alt+q` に統一) |
 
-- 反映: pi 内で `/reload`。
+- 反映: 対象外(pi が読まないファイル)。
 
 **`~/.config/pi/agent/keybindings.json`(chezmoi 管理、ユーザー独自のエディタキー)**:
 
@@ -277,11 +277,11 @@ config は既定 + 追加のマージ(`clear-defaults=true` なし)。既定値�
 | `tui.editor.cursorWordLeft` | `alt+left` + `alt+b` |
 | `tui.editor.cursorWordRight` | `alt+right` + `alt+w` |
 
-- zellij 下では `Alt+h/j/k/l/w` と `Alt+←/→` が消費されるため語移動系は効かない(zellij 廃止で完全に有効化される)。ghostty は `Alt+→` を `esc:f` として送るため `Alt+→` 相当を欲しければ `alt+f` を追加。
+- zellij 下では `Alt+h/j/k/l/w` と `Alt+←/→` が消費されるため語移動系は効かない(zellij 廃止で完全に有効化される)。ghostty は `Alt+→` を `esc:f` として送るため `Alt+→` 相当を欲しければ `alt+f` を追加。pi は設定値が既定を置換するため、既定の `ctrl+left/right`・`alt+f` による語移動は現在使えない。
 
-### omp(`~/.omp/agent/keybindings.yml` を新規作成)
+### omp(`keybindings.yml` なし)
 
-- 現値 = 全既定。**最終 = 5 件のみ**:
+- 現値 = 全既定(実効 agent dir は `~/.config/omp/profiles/god/agent/`、`keybindings.yml` は存在しない)。以下は zellij 運用時に `~/.omp/agent/keybindings.yml` として適用していた **5 件(削除済み・参考)**:
 
 | Action | 既定 | 最終 | 理由 |
 |---|---|---|---|
@@ -292,7 +292,7 @@ config は既定 + 追加のマージ(`clear-defaults=true` なし)。既定値�
 | `app.display.reset` | `Alt+L` | `Alt+U` | zellij `Alt+L` = MoveFocusOrTab |
 
 - 反映: omp セッション再起動(keybindings.yml は起動時読み込み)。`/hotkeys` で有効キーを確認。
-- エディタの Emacs 系既定(pi と共通: `Ctrl+b/f/a/e/d/k/u/w/y`、`ctrl+-` undo、`ctrl+j` 改行等)は変更せず、`Ctrl+b` のみ herdr prefix に所有権を譲る(語左移動は `Alt+b`・`←` が生きる)。
+- エディタの Emacs 系既定(pi と共通: `Ctrl+b/f/a/e/d/k/u/w/y`、`ctrl+-` undo、`ctrl+j` 改行等)は変更せず(pi のカーソル移動系のみ上記 keybindings.json で置換)、`Ctrl+b` のみ herdr prefix に所有権を譲る(語左移動は `Alt+b`・`←` が生きる)。
 
 ### zed(変更対象外)
 
@@ -300,7 +300,7 @@ config は既定 + 追加のマージ(`clear-defaults=true` なし)。既定値�
 - 既定は macOS `cmd` ベース(GUI 層でありターミナルスタックと直接衝突しない)。主要既定: `cmd+P`(ファイル検索), `cmd+shift+P`(コマンドパレット)など。
 - zed docs の取得は 404 で失敗したため、既定キーマップの完全な表は**未確認**。zed 内でコマンドパレットからキーマップ関連コマンドで確認可。
 
-## 衝突一覧(現行)
+## 衝突一覧(zellij 運用時)
 
 | キー | 衝突する層 | 解消 | 状態 |
 |---|---|---|---|
@@ -315,11 +315,13 @@ config は既定 + 追加のマージ(`clear-defaults=true` なし)。既定値�
 | `Alt+Shift+P` | zellij グループマーキング ↔ omp plan | omp を `Alt+g` へ | **解決** |
 | `Alt+L` | zellij MoveFocusOrTab ↔ omp display reset | omp を `Alt+u` へ | **解決** |
 | `Ctrl+o/t/p/n/s/h` | zellij 既定 ↔ 内側の同名キー | zellij に所有権、内側は代替キー(所有権マップ) | **所有権移譲で解決** |
-| `Ctrl+←/→`(OS) | macOS Spaces 切替 ↔ pi/omp 語移動 | macOS の Spaces 切替(symbolic 19/20)は無効化済みを確認(入力環境 セクション) | **解決(macOS 実測)/ Ubuntu 未確認** |
+| `Ctrl+←/→`(OS) | macOS Spaces 切替 ↔ omp 語移動(pi は `Ctrl+←/→` を既定から外している) | macOS の Spaces 切替(symbolic 19/20)は無効化済みを確認(入力環境 セクション) | **解決(macOS 実測)/ Ubuntu 未確認** |
 
-すべての 2 層同時主張は解消済み(所有権割当 + 代替キー明示)。残る制限: pi の `Ctrl+o`(ツール出力開閉)は pi に代替がなく omp の `Ctrl+Shift+O` を使用 / pi の picker 内 `Ctrl+r`(rename)等は zellij 所有のため使用不可(低頻度) / macOS `Ctrl+←/→` は解決済み(Spaces 無効化、入力環境 セクション)。Ubuntu 側の `Ctrl+←/→` 割当は未確認。
+以下は zellij 運用時の整理で、現在は zellij・omp 上書きとも未適用のため該当しない(zellij をフォールバック起動した場合のみ、解消前の既定衝突が復活する)。すべての 2 層同時主張は解消済み(所有権割当 + 代替キー明示)。残る制限: pi の `Ctrl+o`(ツール出力開閉)は pi に代替がなく omp の `Ctrl+Shift+O` を使用 / pi の picker 内 `Ctrl+r`(rename)等は zellij 所有のため使用不可(低頻度) / macOS `Ctrl+←/→` は解決済み(Spaces 無効化、入力環境 セクション)。Ubuntu 側の `Ctrl+←/→` 割当は未確認。
 
-## 逸脱リスト(現行・適用済)
+## 逸脱リスト(zellij 運用時・現在は未適用)
+
+現在の実効: zellij `config.kdl` はコメントのみ(1〜5 は未適用)/ omp の `keybindings.yml` なし(6〜10 は未適用)/ pi の 11 は `~/.pi/agent/keybindings.json` が読まれず未適用(実効の pi 上書きは `~/.config/pi/agent/keybindings.json` の移動キー 6 件)。
 
 1. **zellij** `Ctrl+b` → `Write 2`(+新設 `Alt+t`): herdr prefix・shell・pi/omp に ^B を届ける。tmux モードは `Alt+t` から利用可能なため機能は喪失しない。
 2. **zellij** `Ctrl+r` → `Alt+c`: shell/omp の履歴検索(Ctrl+r)を解放。設定UIはワンキーのまま。
@@ -337,7 +339,7 @@ config は既定 + 追加のマージ(`clear-defaults=true` なし)。既定値�
 
 ## 検証・復元手順
 
-**検証(実行中のセッションは停止しない。反映は次回起動/リロード時)**:
+**検証(2026-09-22 実施時の手順。1・3・4 の上書きは現在未適用。実行中のセッションは停止しない。反映は次回起動/リロード時)**:
 
 1. **zellij**: 設定はセッション開始時に読み込む。新規セッションまたは再起動後に確認: shell で `Ctrl+r` → 履歴検索 / `Ctrl+b` → zellij は何もしない(herdr ペインなら herdr prefix) / `Alt+t` → tmux モード / `Alt+w` → フロート切替 / `Alt+c` → 設定UI / `Ctrl+p` → `r`・`d` で分割
 2. **herdr**: config 変更なし。稼働中の server はそのまま。
@@ -350,63 +352,63 @@ config は既定 + 追加のマージ(`clear-defaults=true` なし)。既定値�
 
 - 編集対象は chezmoi(dotfiles)管理のシンボリックリンク。実体は `~/dotfiles/home/private_dot_config/` 配下。
 - **zellij**: `cp ~/.config/zellij/config.kdl.bak-20260921 ~/.config/zellij/config.kdl`(リンク経由で実体へ書き戻る)。新規セッションで反映。dotfiles が jj/git 管理ならそちらでの差分確認/復帰も可。
-- **omp**: `rm ~/.omp/agent/keybindings.yml` → 既定に戻る。
-- **pi**: `rm ~/.pi/agent/keybindings.json` → 既定に戻る。
+- **omp**: `keybindings.yml` は削除済み(既定)。
+- **pi**: `~/.pi/agent/keybindings.json` は pi が読まない残存ファイル(削除しても挙動は変わらない)。実効の上書きは chezmoi 管理の `~/.config/pi/agent/keybindings.json`。
 - **ghostty / herdr / zed**: 変更していないため復元不要。
 - 備考: バックアップサフィックス `bak-20260921` はタスク指定どおり(適用実施日は 2026-09-22 だが指定名を遵守)。
 
 ## mux 入替時の指針
 
 - 原則: 新 mux は**デフォルト優先**で導入し、衝突キーだけを所有権マップに従って mux 側を退避させる。内側(herdr → pi/omp)の最終キーマップは mux 非依存に設計済みで、可能な限り再編集しない。
-- herdr prefix `Ctrl+b` は tmux 既定と同じ。新 mux が tmux 系で `Ctrl+b` を消費する場合は、本設計と同じパターン(該当キーを `Write` 透過か、モード切替を `Alt+T` 相当へ退避)で処理する。
+- herdr prefix `Ctrl+b` は tmux 既定と同じ(ただし `tmux.conf` は prefix を `Ctrl+q` に変更済み)。新 mux が tmux 系で `Ctrl+b` を消費する場合は、本設計と同じパターン(該当キーを `Write` 透過か、モード切替を `Alt+T` 相当へ退避)で処理する。
 - prefix を変える場合の選定基準: (1) 全層(ghostty / mux / herdr / pi・omp / shell)で未使用 (2) 片手・1 ストローク (3) tmux 互換性 (4) shell の Emacs キーを殺さない。
 - 入替時チェックリスト: 新 mux の既定と衝突一覧を突合。優先確認キー: `Ctrl+b` `Ctrl+r` `Ctrl+q` `Ctrl+g` `Ctrl+o` `Ctrl+p` `Alt+f` `Alt+Up` `Alt+L` `Alt+Shift+P`。
 - 本指針に基づく具体的な実行計画: 次節(zellij を廃止し herdr を唯一の mux に統合)。
 
 ## zellij 廃止計画(herdr へ統合)
 
-状態: **部分適用(2026-09-22)** — 実施済み: 実施手順 3(preset `executable_herdr-dev` 新設・応答 ID は `.result.{workspace.workspace_id, tab.tab_id, root_pane.pane_id, pane.pane_id}` 準拠)/ 4(zprofile・bash_profile を `herdr` 自動起動へ、guard 追加)/ 6(zellij config.kdl を既定化・コメントのみ。layouts/dev.kdl は残置)/ 7(omp keybindings.yml 削除。pi はユーザー判断で現状維持)。herdr config は既定リセットを git 復帰で取り消した上で、**現実効値 + 既定値コメントの統合版**に整理 + reload-config 適用(`default_shell = "zsh"` + `non_login` は既定 `/bin/zsh` の findcmd SIGABRT 回避のため意図的維持)。dev workspace は crash 期に pane 子プロセス死亡(p7 欠番)で T 字化していたため `pane split --direction right` 1 回で 2×2 に修復済み。未実施: 1(uninstall はユーザー判断で保留)/ 2(herdr integrations)/ 5(zshrc `stty -ixon`)/ 8〜11。提案日: 2026-09-22。
+状態: **部分適用(2026-09-22 実施、2026-11-01 現状へ更新)** — 実施済み: 実施手順 1(herdr 0.9.5 へ更新済み)/ 2 の pi 側(integration v9 導入済み・未追跡の `~/.config/pi/agent/extensions/herdr-agent-state.ts`。omp 側は追跡済みの `herdr-omp-agent-state.ts` が未 apply のため not installed)/ 3(preset `executable_herdr-dev` 新設・応答 ID は `.result.{workspace.workspace_id, tab.tab_id, root_pane.pane_id, pane.pane_id}` 準拠)/ 4(zlogin(zsh)・bash_profile を `herdr-dev` 自動起動へ、guard 追加)/ 6(zellij config.kdl を既定化・コメントのみ。layouts/dev.kdl は残置)/ 7(omp keybindings.yml 削除。pi の `~/.pi/agent/keybindings.json` は残存するが pi は読まない)。herdr config は既定リセットを git 復帰で取り消した上で、**現実効値 + 既定値コメントの統合版**に整理 + reload-config 適用(`default_shell = "zsh"` + `non_login` は既定 `/bin/zsh` の findcmd SIGABRT 回避のため意図的維持)。dev workspace は crash 期に pane 子プロセス死亡(p7 欠番)で T 字化していたため `pane split --direction right` 1 回で 2×2 に修復済み。未実施: 2 の omp 側 / 8〜11。手順 5(`stty -ixon`)は `setopt no_flow_control` が既存のため不要。提案日: 2026-09-22。
 目的: ghostty → zellij → herdr の二重ネストを解消し、**herdr を唯一の mux** にする。キー所有権は所有権マップの方針を踏襲し、mux 層の消滅により pi/omp の逸脱 11 件を全て既定へ戻す。
 
 実測の前提(全て実機/公式ドキュメント v0.9.1 で確認):
 
 - herdr 0.9.1 は workspace/tab/pane/agent の socket API(`herdr workspace|tab|pane|agent`)を持ち、`tab create --label --cwd`、`pane split --cwd`、`pane run`、`agent start --kind omp|pi` を備える。**宣言的 layout 機能は存在しない**(`--default-config` 全量で確認済み。起動時フックも `[[keys.command]]`(手動トリガー)のみ)。
 - **永続化**(公式「Session state and restore」): detach/reattach は全 process が生きたまま復帰。**server 再起動後も workspace/tab/pane/cwd/layout/focus は snapshot 復元される**。ただし process は消滅するため、素 pane は「保存 cwd の新しい shell」として復帰する。
-- **agent 対話の resume**(server 再起動後)は公式 integration が必須: Pi は integration v2 以上(`pi --session`)、OMP は v3 以上(`omp --resume=`)。**現状 `herdr integration status` で pi / omp とも not installed**。
+- **agent 対話の resume**(server 再起動後)は公式 integration が必須: Pi は integration v2 以上(`pi --session`)、OMP は v3 以上(`omp --resume=`)。**現状、通常の shell で実行した `herdr integration status` は pi が current (v9)(未追跡の `~/.config/pi/agent/extensions/herdr-agent-state.ts`)、omp が not installed**。chezmoi が追跡するのは omp 用の `home/private_dot_config/omp/profiles/god/agent/extensions/herdr-omp-agent-state.ts`(v10。herdr が期待するファイル名)で、`chezmoi apply` 前なので omp は未導入。herdr は pi / omp とも `PI_CODING_AGENT_DIR` から extensions の場所を決めるため、omp セッション内で実行した `status` は omp の dir を pi にも当てて表示し、pi が not installed に見える(誤解を招く)。確認は omp 外の shell で行う。
 - `herdr update` は **mise 管理では無効**(Homebrew/mise/Nix はパッケージマネージャ経由と公式明記)。
 
 ### スタック変更
 
 | | 現行 | 移行後 |
 |---|---|---|
-| 起動 | ghostty → `zsh -l` → zprofile が `zellij -l dev` 自動起動 | ghostty → `zsh -l` → zprofile が `herdr`(attach or create) |
-| レイアウト | zellij `layouts/dev.kdl`(8 タブ、うち「herdr」タブで herdr をネスト) | herdr 永続 server 上に workspace「dev」+ 5 タブ |
+| 起動 | ghostty → `zsh -l` → zprofile が `zellij -l dev` 自動起動 | ghostty → `zsh -l` → zlogin が `herdr-dev`(herdr attach or create) |
+| レイアウト | zellij `layouts/dev.kdl`(5 タブ、うち「herdr」タブで herdr をネスト) | herdr 永続 server 上に workspace「dev」+ 4 タブ(101 / 102 / Dev / Docs)+ 条件付き lazydocker |
 | detach/reattach | zellij `session_serialization false` / `on_force_close "quit"`(保持なし) | process 全部継続、そのまま復帰 |
-| server 再起動(再起動・mac 再起動後) | 無し(セッション消滅) | layout/cwd/focus は snapshot 復元。**run-once コマンドは再実行されず素 shell で復帰**、omp 対話は integration で resume |
+| server 再起動(再起動・mac 再起動後) | 無し(セッション消滅) | layout/cwd/focus は snapshot 復元。**run-once コマンドは再実行されず素 shell で復帰**、agent 対話は integration で resume(pi は導入済み、omp は未導入) |
 | 層構造 | ghostty → zellij → herdr → agent | ghostty → herdr → agent |
 
 ### レイアウト移行表(dev.kdl → herdr)
 
 | zellij tab | herdr tab | 中身 |
 |---|---|---|
-| 「101」(縦 2) | tab「101」 | fastfetch @~/dotfiles + btm @ ~(横並び) |
-| 「102」(横 2) | tab「102」 | ncmpcpp @~/Music + `cat ~/data/cat.txt`(上下) |
+| 「101」(縦 2) | tab「101」 | btm @~/dotfiles(単一ペイン) |
+| 「102」(横 2) | tab「102」 | fastfetch @~/Music + `cat ~/data/cat.txt` @~/data(上下) |
 | 「Dev」(2×2) | tab「Dev」 | zsh ×4 @~/Developer |
 | 「herdr」 | **廃止**(herdr 自身がホスト) | — |
-| 「Docs」+「Plan」 | tab「Docs」(統合) | omp agent + spynel 横並び @~/Developer/docs |
+| 「Docs」+「Plan」 | tab「Docs」(統合) | pi agent(`agent start pi --kind pi -- -c`)単一ペイン @~/Developer/docs。omp 行はコメントアウト、spynel・split なし |
 | コメント済(xrp) | 作らない(元のままコメント) | — |
 | (docker / lazydocker) | **条件付き tab「lazydocker」** | docker daemon 稼働 + lazydocker 導入時のみ作成(idempotent: 毎起動時にタブ有無を確認) |
 
-再現手段: 起動エントリ **`home/dot_local/bin/executable_herdr-dev`**(zellij layouts/dev.kdl の置き換え物)。server 未稼働時は headless server を起動して ready 待ちし、**workspace と各プリセットタブ(102 / Dev / Docs / lazydocker)をタブ単位で冪等に保証**(閉じられたタブは次回起動時に個別復活。構築済みタブの pane 構成には触れない)した上で `herdr` attach する。autostart(zprofile / bash_profile)から直接呼ぶ。socket API を順に実行する:
+再現手段: 起動エントリ **`home/dot_local/bin/executable_herdr-dev`**(zellij layouts/dev.kdl の置き換え物)。server 未稼働時は headless server を起動して ready 待ちし、**workspace と各プリセットタブ(102 / Dev / Docs / lazydocker)をタブ単位で冪等に保証**(閉じられたタブは次回起動時に個別復活。構築済みタブの pane 構成には触れない)した上で `herdr` attach する。autostart(zlogin / bash_profile)から直接呼ぶ。socket API を順に実行する:
 
 1. server が未稼働なら `nohup herdr server` で起動し ready を待つ(既に稼働していれば skip)。**自前で起動した場合 = snapshot 復元直後で pane が素 shell のみ**のため、dev workspace を閉じてプリセットをコマンド再実行込みで完全再構築する(`herdr server stop` 後の `herdr-dev` でも全復元)
 2. workspace「dev」存在確認 → 無ければ `workspace create --label dev`(再実行は no-op。作り直すときは `workspace close` してから)
-3. `workspace create` の root tab を「101」に改名 → `pane run` で fastfetch → `pane split --direction right --cwd ~` → `pane run` で btm(「102」は split down、「Dev」は 2×2)
-4. 「Docs」: `tab create --label Docs --cwd ~/Developer/docs` → `pane split --direction right` → `agent start omp --kind omp -- -c`(左)+ `pane run` で spynel(旧 Docs+Plan を 1 タブに統合)
+3. `workspace create` の root tab を「101」に改名 → `pane run` で btm(「102」は `tab create` → fastfetch → `pane split --direction down` → cat、「Dev」は 2×2)
+4. 「Docs」: `tab create --label Docs --cwd ~/Developer/docs` → `agent start pi --kind pi --pane <root pane> -- -c`(omp 行はコメントアウト。split・spynel なし)
 
 実装条件: `#!/usr/bin/env bash` + `set -eu` + `command -v herdr` / `command -v jq` ガード(応答 JSON の parse 用)。pane/tab/workspace ID は作成応答から読み、推測しない。
 
-server 再起動後の挙動: layout/cwd は復元されるため bootstrap の再実行は不要。fastfetch・btm・ncmpcpp・cat・spynel は素 shell として復帰するため**手動で再実行**(detach/reattach なら process 継続で無問題)。自動再実行が必要になったら herdr plugin(event hooks)で対応(将来対応セクション参照)。
+server 再起動後の挙動: layout/cwd は復元されるため bootstrap の再実行は不要。btm・fastfetch・cat・lazydocker は素 shell として復帰するため**手動で再実行**(detach/reattach なら process 継続で無問題)。自動再実行が必要になったら herdr plugin(event hooks)で対応(将来対応セクション参照)。
 
 ### キー所有権マップ v2(廃止後)
 
@@ -414,23 +416,23 @@ server 再起動後の挙動: layout/cwd は復元されるため bootstrap の�
 |---|---|---|
 | `Ctrl+b` | **herdr prefix**(既定値のまま) | shell・pi/omp 語左は `Alt+b`・`←`。zellij の `Write 2` 透過が不要になるだけ。所有者は現行どおり herdr |
 | `Ctrl+o/t/p/n/h/g/q` | 解放 → 内側の既定 | pi `Ctrl+o`(ツール出力)・`Ctrl+g` 等が本来動作に復帰 |
-| `Ctrl+s` | **tty flow control(XOFF)** ← zellij 消滅で初めて shell に届く | zsh 起動に `stty -ixon` を追加して無効化(実施手順)。TUI(btm/ncmpcpp/omp/pi/lazygit 等)は raw mode で IXON 自体が無効のため影響なし。shell pane が対象 |
-| `Alt+f` | 解放 | pi/omp 語右(ghostty `Alt+→` の変換先) |
+| `Ctrl+s` | **tty flow control(XOFF)** | zsh は `setopt no_flow_control`(`dot_zshrc:40`)で ZLE 上は既に無効のため `stty -ixon` は不要。TUI(btm/ncmpcpp/omp/pi/lazygit 等)は raw mode で IXON 自体が無効のため影響なし |
+| `Alt+f` | 解放 | omp 語右(ghostty `Alt+→` の変換先)。pi は keybindings.json が既定を置換しているため `Alt+f` では動かない |
 | `Alt+w/c/t`・`Alt+Up`・`Alt+L`・`Alt+Shift+P` | 解放 | omp/pi 既定に復帰 |
 | `Alt+h/j/k/l`・`Alt+矢印` | 解放 | zellij 下では消費されていた pi エディタの hjkl 系キーが初めて全キー有効化される |
 
-`stty -ixon` により `Ctrl+s`(XOFF)と `Ctrl+q`(XON)の flow control を無効化。`Ctrl+q` は shell に届いても無害化され、omp followUp の既定 `Ctrl+Q` が復活する。
+zsh は `setopt no_flow_control`(`dot_zshrc:40`)により `Ctrl+s`(XOFF)と `Ctrl+q`(XON)の flow control を ZLE 上で既に無効化しており、`stty -ixon` の追加は不要。`Ctrl+q` は shell に届いても無害で、omp followUp の既定 `Ctrl+Q` が有効(omp の上書きは削除済み)。
 
 反映手順:
 
-- **pi**: `~/.pi/agent/keybindings.json`(`app.editor.external` / `app.message.dequeue` の 2 件上書き)を**削除** → 既定 `ctrl+g` / `alt+up` へ復帰。
-- **pi**: `~/.config/pi/agent/keybindings.json`(chezmoi 管理・hjkl エディタキー)は**ユーザー独自設定として維持**。注: ghostty は `Alt+→` を `esc:f`(`Alt+f`)として送るため、`cursorWordRight: [alt+left, alt+w]` は `Alt+→` では発火しない(`Alt+→` 相当を欲しければ `alt+f` を追加)。
-- **omp**: `~/.omp/agent/keybindings.yml`(5 件の上書き)を**削除** → followUp `Ctrl+Q`/`Ctrl+Enter`、dequeue `Alt+Up`/`Shift+Up`、external `Ctrl+G`、plan `Alt+Shift+P`、display reset `Alt+L` が既定へ復帰。
+- **pi**: `~/.pi/agent/keybindings.json`(`app.editor.external` / `app.message.dequeue` の 2 件上書き)は pi が読まないため実効なし(削除は任意)。既定 `ctrl+g` / `alt+up` は既に有効。
+- **pi**: `~/.config/pi/agent/keybindings.json`(chezmoi 管理・hjkl エディタキー)は**ユーザー独自設定として維持**。注: ghostty は `Alt+→` を `esc:f`(`Alt+f`)として送るため、`cursorWordRight: [alt+right, alt+w]` は `Alt+→` では発火しない。この上書きは pi 既定の `ctrl+left/right`・`alt+f` も置換して外す(`Alt+→` 相当を欲しければ `alt+f` を追加)。
+- **omp**: `keybindings.yml`(5 件の上書き)は**削除済み** → followUp `Ctrl+Q`/`Ctrl+Enter`、dequeue `Alt+Up`/`Shift+Up`、external `Ctrl+G`、plan `Alt+Shift+P`、display reset `Alt+L` が既定へ復帰。
 - **herdr**: keybind 変更**ゼロ**(prefix `ctrl+b` は既定値、direct キーなし)。
 - **ghostty**: 変更なし。
-- **zsh**: `stty -ixon` を追加(上記参照。これが新規の shell 側設定)。
+- **zsh**: 新規設定なし(`setopt no_flow_control` が既存。`stty -ixon` は不要)。
 
-→ 逸脱リスト 11 件(zellij 5 + omp 5 + pi 1)は**全件消滅**(zsh `stty -ixon` を新規逸脱として逸脱リストに記録)。
+→ 逸脱リスト 11 件(zellij 5 + omp 5 + pi 1)は**全件消滅**(zsh 側の新規逸脱なし)。
 
 ### 残る機能差(受容判断)
 
@@ -447,25 +449,25 @@ server 再起動後の挙動: layout/cwd は復元されるため bootstrap の�
 ### 実施手順
 
 1. `mise upgrade herdr` → `herdr server stop` → `herdr`(client 0.9.1 / server 0.9.0 の版差を解消。`herdr update` は mise 管理では無効)
-2. `herdr integration install omp pi` → omp セッション再起動 → `herdr integration status` で pi ≥ v2 / omp ≥ v3 を確認(server 再起動後の対話 resume 用。現状 both not installed)。**導入先は chezmoi 非管理の `~/.config/omp/profiles/god/agent/extensions/herdr-*.ts`**(実測の status 表示パス)。extensions/ 配下には既に非管理ファイル(`pi-rtk-optimizer/` 等)があるため、導入後に `chezmoi add` するか `.chezmoiignore` に明示して drift を潰す
+2. `herdr integration install omp pi` → omp セッション再起動 → omp 外の shell で `herdr integration status` を実行し pi ≥ v2 / omp ≥ v3 を確認(server 再起動後の対話 resume 用。omp セッション内では `PI_CODING_AGENT_DIR` が omp profile を指し、表示がずれる)。現状は pi が current (v9)、omp が not installed。導入先は pi が `~/.config/pi/agent/extensions/herdr-agent-state.ts`(未追跡)、omp が chezmoi 管理の `~/.config/omp/profiles/god/agent/extensions/herdr-omp-agent-state.ts`(`chezmoi apply` で配置される。以前の `herdr-agent-state.ts` symlink が残っていれば手で削除する)
 3. `executable_herdr-dev` 新設 → herdr 内 shell で 1 回実行 → タブ/ペイン/agent 構成を確認
-4. zprofile: `zellij -l dev` → `herdr` に変更。guard に `[ "${HERDR_ENV:-}" != 1 ]` を追加。tmux fallback は維持
-5. zshrc: `stty -ixon` を追加(flow control 無効化。zellij 削除で `Ctrl+s` が shell に届くため)
+4. zlogin(zsh)/ bash_profile: 自動起動を `herdr-dev` に変更(zellij は herdr が無い環境のフォールバックとして残し、zsh はさらに tmux へフォールバック)。guard に `[ -z "${HERDR_ENV:-}" ]` を追加
+5. (不要)`stty -ixon`: `setopt no_flow_control`(`dot_zshrc:40`)が既に `Ctrl+s` / `Ctrl+q` を無効化している
 6. `home/private_dot_config/zellij/`(config.kdl + layouts/dev.kdl)を source から削除し `chezmoi apply`(managed から外れた実ファイルも除去)
-7. `~/.pi/agent/keybindings.json` と `~/.omp/agent/keybindings.yml` を削除(既定復帰)
+7. omp の `keybindings.yml` は削除済み(既定復帰)。pi の `~/.pi/agent/keybindings.json` は pi が読まない残存ファイルのため削除は任意
 8. 旧 zellij セッションを quit → ghostty 新規起動 → `herdr` 起動と workspace「dev」を確認
-9. キー確認(検証手順 準拠): omp `/hotkeys` で既定復帰、pi `/reload`、shell `Ctrl+r` 履歴検索、`Ctrl+b` → herdr prefix、`Alt+b`/`Alt+f` 語移動、pi `Alt+h/j/k/l`、shell で `Ctrl+s` が画面凍結しないこと
+9. キー確認(検証手順 準拠): omp `/hotkeys` で既定復帰、pi `/reload`、shell `Ctrl+r` 履歴検索、`Ctrl+b` → herdr prefix、`Alt+b`/`Alt+f` 語移動(omp。pi は `alt+f` を外している)、pi `Alt+h/j/k/l`、shell で `Ctrl+s` が画面凍結しないこと
 10. 周辺清掃: mise `tools.toml` の `zellij = "latest"` 削除 + `mise uninstall zellij`、tech.md / directory.md の zellij 記載削除、`~/Developer/docs/DESIGN.md`(旧コピー・9/20 版)の更新
 11. 本ドキュメントを廃止後スタックへ書き換え(廃止計画を本文へ昇格、別コミット)
 
 ### ロールバック
 
-- jj revert(実施手順 4〜10)。zellij config / layouts は履歴から復元、pi/omp の上書きファイルは復元手順に従い再作成、zshrc の `stty -ixon` 行を削除。
+- jj revert(実施手順 4〜10)。zellij config / layouts は履歴から復元、pi/omp の上書きファイルは復元手順に従い再作成。
 - bootstrap script の残置は害なし。workspace「dev」のみ撤去する場合は `herdr workspace close`。
 
 ## 将来対応(本タスク対象外・現状メモ)
 
-- **aliases**: ユーザーメモの話題。シェルエイリアス(想定: `~/.zshrc` 由来)は未調査・未変更。mux/キーマップ確定後に別タスクで整理する。
+- **aliases**: ユーザーメモの話題。シェルエイリアスは zsh が `zsh/dot_functions` と zsh-abbr、bash が `dot_aliases` に定義(未調査・未変更)。mux/キーマップ確定後に別タスクで整理する。
 - **macOS システム**: `Ctrl+←/→`(Spaces)は無効化済みを確認(入力環境 セクション)。Ubuntu 側の `Ctrl+←/→` 割当は未確認。
 - **zed**: 既定キーマップの要点は docs 取得失敗のため未確認。zed 内ターミナルを常用するようになったら再確認する。
-- **herdr plugin**: server 再起動後の run-once コマンド(fastfetch/btm/ncmpcpp/cat/spynel)自動再実行が欲しくなったら、herdr plugin(event hooks)で「restore 後に pane run」を実装する。それまで手動再実行。
+- **herdr plugin**: server 再起動後の run-once コマンド(btm/fastfetch/cat/lazydocker)自動再実行が欲しくなったら、herdr plugin(event hooks)で「restore 後に pane run」を実装する。それまで手動再実行。

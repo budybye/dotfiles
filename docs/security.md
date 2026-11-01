@@ -11,10 +11,10 @@ description: dotfiles セキュリティ — 脅威モデルとレビューチ�
 
 | 種類 | 例 | 担当 | パス / 取得方法 |
 |------|-----|------|-----------------|
-| Chezmoi encrypted dotfile | SSH 鍵、`.env` | **chezmoi** | `encrypted_*`、age passphrase/symmetric |
-| Chezmoi passphrase | encrypted dotfile の復号 | **ユーザー** | `chezmoi apply` / `chezmoi decrypt` 時に手動入力 |
-| Mise direct-age | ランタイム API キー | **mise** | `~/.config/mise/age.txt`（raw identity、Chezmoi と分離） |
-| GitHub token | Mise の公開 GitHub metadata 取得 | **外部 credential** | CI の `GITHUB_TOKEN`、local の `gh` credential fallback |
+| Chezmoi encrypted dotfile | SSH 鍵、`.env`、`key.txt.age` | **chezmoi** | `encrypted_*`、age passphrase/symmetric |
+| Chezmoi passphrase | encrypted dotfile の復号 | **ユーザー** | `chezmoi apply` / `chezmoi decrypt` 時に手動入力。`run_once_before_age.sh.tmpl` は `key.txt.age` を passphrase で復号し、平文 identity `~/.config/chezmoi/key.txt`（`600`）を生成する（`.chezmoi.toml.tmpl` の `[age]` はこの identity を参照しない） |
+| Mise direct-age | ランタイム API キー（age 暗号化した env 値は未使用、ROADMAP M2） | **mise** | `~/.config/mise/age.txt`（raw identity、Chezmoi と分離） |
+| GitHub token | Mise の公開 GitHub metadata 取得 | **外部 credential** | CI の `MISE_GITHUB_TOKEN`（repo secret）、Docker build の `GITHUB_TOKEN`（BuildKit secret）、local の `gh` credential fallback |
 | CI / Docker | secrets、private key | **テンプレート境界** | `GITHUB_ACTIONS=true`、`DOCKER=true`、encrypted files ignore |
 
 **原則:** Chezmoi は passphrase/symmetric のファイル暗号化を維持。Mise direct-age は runtime env 専用。両者の passphrase/key は共用しない。
@@ -25,10 +25,12 @@ description: dotfiles セキュリティ — 脅威モデルとレビューチ�
 |------|------|------|
 | Chezmoi passphrase | シェル履歴・ログへの露出 | 対話入力。環境変数・source state に保存しない |
 | Mise age identity | CI/Docker への混入 | `~/.config/mise/age.txt` を image/source に含めない |
-| SSH private key | パーミッション不備 | `encrypted_*`、`chezmoi verify`、private mode |
-| GitHub token | ログ・image layer への混入 | CI の既存 token、local `gh` fallback。`ARG`/`ENV` に保存しない |
-| devcontainer | ビルド時の秘密混入 | `DOCKER=true`、encrypted files ignore、Dockerfile に secrets なし |
-| 外部アーカイブ | tag drift / API rate limit | age GitHub external を使用しない。URL は固定または Mise cache |
+| SSH private key | パーミッション不備。暗号化済みの鍵（`private_dot_ssh/encrypted_*.age`、`key.txt.age`）は公開リポジトリにあり、`ipfs.yaml` が履歴の mirror を IPFS に pin するため、オフライン総当たりに晒され、漏えいしても履歴から撤回できない（ROADMAP M8-1）。安全性は passphrase の強度だけに依存する。`home/private_dot_config/ipfs/` はツリーから削除済みだが、旧 PrivKey は git 履歴と IPFS mirror に残る | `encrypted_*`（scrypt passphrase）、`chezmoi verify`、private mode |
+| GitHub token | ログ・image layer への混入。ローカルの `.env` / `.devcontainer/.env`（`.gitignore` 済み）に平文の GitHub PAT が残っている | CI の既存 token、local `gh` fallback。`ARG`/`ENV` に保存しない。PAT の失効・再発行は未実施（ユーザー作業） |
+| devcontainer | ビルド時の秘密混入。公開 Full image の既定認証情報（`CMD ["ubuntu", "ubuntu", "yes"]` = パスワード `ubuntu`、`NOPASSWD:ALL`、`EXPOSE 3389`） | `DOCKER=true`、encrypted files ignore、Dockerfile に secrets なし（BuildKit secret のみ）。既定パスワードは image 側では未対処で、`make docker-run` / compose は `127.0.0.1` にのみ公開する |
+| 外部アーカイブ | tag drift / API rate limit | age GitHub external を使用しない。`.chezmoiexternal.toml` の fonts は tag 固定だが、cheat・WhiteSur ×4 は `master` / `main` のブランチ先端を参照し固定されていない |
+| mise 設定 | cwd より上位の `.env` や設定ファイルの混入 | `trusted_config_paths` は `~/dotfiles` と `~/.local/share/chezmoi` のみ。グローバルの `env_file` と `yes` は設定しない（`mise/conf.d/settings.toml`。`paranoid` は無効）。リポジトリ直下 `mise.toml` の `[env] _.file = '.env'` もコメントアウトしてあり、mise は `.env` を自動では読まない |
+| macOS Gatekeeper | 未確認アプリの実行ダイアログ | 緩和なし。`mise.toml` の `LSQuarantine = false` で意図的に無効化している |
 
 
 ## レビューチェックリスト S1–S8
@@ -62,7 +64,7 @@ description: dotfiles セキュリティ — 脅威モデルとレビューチ�
 
 - [README.md の Platform rules](../README.md#platform-rules)
 - `home/.chezmoi.toml.tmpl`, `home/.chezmoiignore`
-- `home/private_dot_config/mise/config.toml`
+- `home/private_dot_config/mise/conf.d/settings.toml`（`age.key_file`）
 - [ROADMAP.md](../ROADMAP.md)
 
 ## 監査チェックリスト

@@ -28,7 +28,9 @@ cd ~/dotfiles
 make init
 ```
 
-`make init` は `install.sh` を実行し、`~/dotfiles` を Chezmoi の source directory として登録します。
+`make init` は `install.sh` を実行します。`~/dotfiles` を checkout への symlink として作り（別の場所を指していれば異常終了）、それを Chezmoi の source directory として登録します。実体の source tree は `.chezmoiroot` により `home/` です。リモートから初期化した場合の source directory は `~/.local/share/chezmoi` になります。
+
+配置は `mode = "symlink"` です。テンプレートと暗号化ファイル以外は repo の `home/` 配下への symlink になるため、適用先のファイルを編集（またはアプリが書き換え）すると repo の作業ツリーを直接変更します。
 
 ## よく使うコマンド
 
@@ -58,10 +60,10 @@ make help
 make docker-build
 make docker-slim-build
 
-# 公開済み GHCR image を pull して起動（ローカル build とは別）
+# 公開済み GHCR image を pull して `ubuntu-dev-ghcr` で起動（image タグはローカル build と共通で、pull で上書きされる）
 make docker-ghcr-run
 
-# ローカル build 済みの Full image を起動
+# Full image を build してから起動（毎回 rebuild する）
 make docker-run
 
 # Compose service を起動・停止
@@ -73,13 +75,13 @@ make exec
 make logs
 ```
 
-公開済み image の pull だけを行う場合は `make docker-pull` または `make docker-slim-pull` を使います。`docker-ghcr-run` は `ubuntu-dev-ghcr` という別 container 名で起動します。
+公開済み image の pull だけを行う場合は `make docker-pull` または `make docker-slim-pull` を使います。`docker-ghcr-run` は `ubuntu-dev-ghcr` という別 container 名で起動します。`make up`（Compose）と `make docker-run` は同じ container 名 `ubuntu-dev` と port 33389 を使うため同時には起動できません。`make exec` / `make logs` は `ubuntu-dev` を対象にします。
 
-Compose の RDP と SSH port は localhost に bind します。remote access が必要な場合は VPN または Zero Trust tunnel を使います。
+Compose の RDP port は localhost に bind します（SSH port の行はコメントアウト中）。remote access が必要な場合は VPN または Zero Trust tunnel を使います。
 
 ### Docker build の GitHub token
 
-Docker build は dotfiles を clone して `make init` を実行します。Mise が GitHub の tool metadata を取得するため、local build では `GITHUB_TOKEN` を設定してください。
+Docker build は dotfiles を clone して `make init` を実行します。clone 元は作業コピーではなく GitHub 上の `DOTFILES_REF`（既定 `main`）で、未 push の変更は image に入りません。Mise が GitHub の tool metadata を取得するため、local build では `GITHUB_TOKEN` を設定してください。
 
 ```sh
 # GitHub CLI の認証済み token を一時的に渡す
@@ -88,7 +90,7 @@ GITHUB_TOKEN="$(gh auth token)" make docker-slim-build
 GITHUB_TOKEN="$(gh auth token)" make up
 ```
 
-GitHub Actions では workflow の `secrets.GITHUB_TOKEN` を BuildKit secret として渡します。token を `.env`、Dockerfile の `ARG` / `ENV`、image layer に保存しないでください。
+GitHub Actions では workflow の `secrets.GITHUB_TOKEN` を BuildKit secret として渡します。token を `.env`、Dockerfile の `ARG` / `ENV`、image layer に保存しないでください。`.env` と `.devcontainer/.env` は `.gitignore` 済み（追跡されるのは `.env.example` のみ）ですが、平文のため使いません。ルートの `mise.toml` の `[env] _.file = '.env'` はコメントアウトしてあり、mise は `.env` を自動では読み込みません（グローバルの `env_file` も使いません）。`make docker-*` は環境変数 `GITHUB_TOKEN` を要求します。
 
 ## Multipass
 
@@ -101,6 +103,8 @@ make vm-stop
 make clean-vm
 ```
 
+VM は chezmoi を導入して dotfiles を `/home/ubuntu/dotfiles` に clone するところまでです。適用は VM 内で `make init` を手動実行します。
+
 ## OrbStack
 
 ```sh
@@ -108,7 +112,7 @@ orb create ubuntu orb-dev -c cloud-init/orbstack.yaml
 orb -m orb-dev
 ```
 
-OrbStack用のcloud-initはCLI中心で、xrdpやデスクトップ環境を含めません。
+OrbStack用のcloud-initはCLI中心で、xrdpやデスクトップ環境を含めません。package を入れるだけで dotfiles は適用しないため、machine 内で clone して `make init` を手動実行します。
 
 ## 対応プラットフォーム
 
@@ -126,7 +130,7 @@ WSL2、Windows、FreeBSD は将来対応予定です。対応範囲と package �
 - `home/.chezmoidata/`: OS、package、環境差分のデータ
 - `home/private_dot_config/mise/`: Mise の tool 設定
 - `.devcontainer/`: Dockerfile、Compose、Dev Container 設定
-- `.github/workflows/`: test、release、GHCR build workflow
+- `.github/workflows/`: test、release、GHCR build、IPFS pin workflow
 - `docs/`: 設計、運用、セキュリティ、トラブルシューティング
 
 ## ドキュメント
@@ -149,21 +153,20 @@ WSL2、Windows、FreeBSD は将来対応予定です。対応範囲と package �
 
 | 関心事 | 正本 |
 | --- | --- |
-| OS パッケージ、macOS defaults | `home/private_dot_config/mise.toml` |
-| CLI ツール、runtime | `home/private_dot_config/mise/config.toml` |
-| VS Code、skills、Chezmoi data | `home/.chezmoidata/packages.yaml` |
+| macOS の Homebrew formula / cask / mas | `home/private_dot_config/Brewfile`（darwin bootstrap が `brew bundle` で適用） |
+| Linux の OS パッケージ（apt）、macOS defaults | `home/private_dot_config/mise.toml` |
+| CLI ツール、runtime | `home/private_dot_config/mise/conf.d/tools.toml` |
+| skills、Windows の winget / scoop | `home/.chezmoidata/`（`agents.yaml` / `packages.yaml`） |
+| VS Code 拡張 | `.devcontainer/devcontainer.json`（Dev Container）、`.vscode/extensions.json`（推奨） |
 | 暗号化ファイル | Chezmoi の `encrypted_*` |
-| 開発タスク | `.mise.toml` の `[tasks]` |
+| 開発タスク | `Makefile`（root の `mise.toml` は `help` task の stub のみ。`.env` を読む `[env]` はコメントアウト中） |
 
 ### Platform rules
 
-- `brew:*`、`brew-cask:*`、`mas:*` → `os = "macos"`
-- `apt:*` → `os = "linux"`
-- `home/private_dot_config/mise/ci.toml` → Mac full packages / Linux CLI packages
-- `home/private_dot_config/mise/docker.toml` → Linux CLI packages only
-- `bootstrap.services` / `bootstrap.compose` → Ubuntu VM の systemd / Docker
-- `bootstrap.macos.launchd` → macOS の LaunchAgent
-- Docker container では system service bootstrap を実行しない
+- `apt:*` → `{ os = "linux" }`（`mise.toml` の `[bootstrap.packages]` は apt のみ。macOS の brew / cask / mas は `Brewfile` が唯一の定義）
+- 適用側も OS ごとに絞る（Linux は `mise bootstrap packages apply --manager apt`、macOS は `brew bundle --no-upgrade --file ~/.config/Brewfile`。mas は App Store へのサインインが必要）
+- `bootstrap.services` / `bootstrap.compose` / `bootstrap.macos.launchd` は `mise.toml` でコメントアウト中
+- Docker build（`DOCKER=true`）は `linux/setup.sh` を、Dev Container（`REMOTE_CONTAINERS=true`）は `vscode.sh` / `gui.sh` / `docker.sh` を `.chezmoiignore` で除外する
 
 
 ## GitHub Actions
@@ -171,11 +174,12 @@ WSL2、Windows、FreeBSD は将来対応予定です。対応範囲と package �
 - `test.yaml`: main push 後の install test
 - `tag.yaml`: test 成功後の SemVer tag と release 作成
 - `push.yaml`: Full、Slim、Dev image の amd64 / arm64 build と GHCR publish
+- `ipfs.yaml`: main push ごとに repo 全体を mirror して IPFS に pin
 
 ## Chezmoi の基本操作
 
 ```sh
-chezmoi init --apply budybye
+chezmoi init --apply budybye   # リモート初期化。`make init` の場合は不要
 chezmoi cd
 chezmoi diff
 chezmoi apply

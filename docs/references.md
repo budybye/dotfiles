@@ -11,8 +11,8 @@ description: ツール・ライブラリの公式ドキュメント・リポジ�
 - [技術スタック](tech.md)
 - [要件定義](requirements.md)
 - [ディレクトリ構成](directory.md)
-- [Mise 設定](../home/private_dot_config/mise/config.toml)
-- [パッケージ定義](../home/.chezmoidata/packages.yaml)
+- [Mise 設定](../home/private_dot_config/mise/conf.d/tools.toml)
+- [Windows パッケージ定義](../home/.chezmoidata/packages.yaml)
 - [Aqua 設定](../home/private_dot_config/aquaproj-aqua/aqua.yaml)
 
 README は概要、`docs/` は詳細という責務分離を前提とします。
@@ -30,7 +30,7 @@ README は概要、`docs/` は詳細という責務分離を前提とします�
 - [Kubernetes](https://kubernetes.io/docs/) · [kubectl](https://kubernetes.io/docs/reference/kubectl/) · [kubectx/kubens](https://github.com/ahmetb/kubectx) · [Minikube](https://minikube.sigs.k8s.io/)
 - [Multipass](https://multipass.run/) · [Orbstack](https://orbstack.dev/) · [QEMU](https://www.qemu.org/)
 - [GitHub Actions](https://docs.github.com/en/actions) · [act](https://github.com/nektos/act)（ローカル実行）
-- [Dev Container](https://docs.github.com/en/codespaces/setting-up-your-project-for-codespaces/creating-a-dev-container-configuration) · [ghcr](https://github.com/features/packages)
+- [Dev Container](https://docs.github.com/en/codespaces/setting-up-your-project-for-codespaces/adding-a-dev-container-configuration/introduction-to-dev-containers) · [ghcr](https://github.com/features/packages)
 - [Nix](https://nixos.org/) · [Flatpak](https://flatpak.org/) · [Cloud-init](https://cloud-init.io/) · [Proxmox](https://www.proxmox.com/)
 - [Rclone](https://rclone.org/) · [Nextcloud](https://nextcloud.com/)
 - [Terraform](https://developer.hashicorp.com/terraform) · [Vagrant](https://developer.hashicorp.com/vagrant/docs) · [Packer](https://developer.hashicorp.com/packer/docs) · [Ansible](https://docs.ansible.com/)
@@ -39,10 +39,10 @@ README は概要、`docs/` は詳細という責務分離を前提とします�
 ## エディタ・IDE
 
 - [Cursor](https://cursor.com) · [VSCode](https://code.visualstudio.com/) · [VSCodium](https://vscodium.com/)
-- [Neovim](https://neovim.io/) · [Vim](https://vim.org/) · [Spacemacs](https://www.spacemacs.org/)
+- [Neovim](https://neovim.io/) · [Vim](https://www.vim.org/) · [Spacemacs](https://www.spacemacs.org/)
 - [Xcode](https://developer.apple.com/xcode/) · [Android Studio](https://developer.android.com/studio)
 - [Ghostty](https://ghostty.org/) · [Zed](https://zed.dev/) · [Tabby](https://tabby.sh/) · [Alacritty](https://alacritty.org/)
-- [Claude](https://claude.ai/)（Anthropic）· [Crossnote](https://github.com/0xGG/crossnote) · [Codex](https://github.com/github/codex)（AI CLI）
+- [Claude](https://claude.ai/)（Anthropic）· [Crossnote](https://github.com/shd101wyy/crossnote) · [Codex](https://github.com/openai/codex)（AI CLI）
 
 ## AI・LLM・MCP
 
@@ -60,7 +60,7 @@ README は概要、`docs/` は詳細という責務分離を前提とします�
 ## パッケージ・ランタイム
 
 - [Homebrew](https://brew.sh/) · [Mise](https://mise.jdx.dev/) · [Aqua](https://aquaproj.github.io/)
-- [UV](https://docs.astral.sh/uv/) · [Cargo](https://cargo.rust-lang.org/) · [Bun](https://bun.sh/) · [Go](https://go.dev/)
+- [UV](https://docs.astral.sh/uv/) · [Cargo](https://doc.rust-lang.org/cargo/) · [Bun](https://bun.sh/) · [Go](https://go.dev/)
 - [npm](https://www.npmjs.com/) · [pnpm](https://pnpm.io/) · [PM2](https://pm2.keymetrics.io/)
 - [pipx](https://pipx.pypa.io/) · [Poetry](https://python-poetry.org/) · [Jupyter](https://jupyter.org/)
 - [Java](https://openjdk.org/) · [Maven](https://maven.apache.org/)
@@ -70,36 +70,36 @@ README は概要、`docs/` は詳細という責務分離を前提とします�
 ## パッケージマネージャー運用（正本参照）
 
 - **Mise**: [公式ドキュメント](https://mise.jdx.dev/) / [GitHub](https://github.com/jdx/mise)
-  - 実設定: [home/private_dot_config/mise/config.toml](../home/private_dot_config/mise/config.toml)
+  - 実設定: [home/private_dot_config/mise/conf.d/tools.toml](../home/private_dot_config/mise/conf.d/tools.toml)
 - **Homebrew**: [公式サイト](https://brew.sh/) / [GitHub](https://github.com/Homebrew/brew)
-  - 実設定: [home/.chezmoidata/packages.yaml](../home/.chezmoidata/packages.yaml)
-- **APT**: [Debian APT Guide](https://wiki.debian.org/Apt) / [Ubuntu Package Management](https://documentation.ubuntu.com/server/explanation/software/package-management/)
-  - 実設定: [home/.chezmoidata/packages.yaml](../home/.chezmoidata/packages.yaml)
+  - 実設定: [home/private_dot_config/mise.toml](../home/private_dot_config/mise.toml)
+- **APT**: [Debian APT Guide](https://wiki.debian.org/Apt) / [Ubuntu Package Management](https://documentation.ubuntu.com/server/how-to/software/package-management/)
+  - 実設定: [home/private_dot_config/mise.toml](../home/private_dot_config/mise.toml)
 - **Aqua**: [公式ドキュメント](https://aquaproj.github.io/) / [GitHub](https://github.com/aquaproj/aqua)
   - 実設定: [home/private_dot_config/aquaproj-aqua/aqua.yaml](../home/private_dot_config/aquaproj-aqua/aqua.yaml)
 - **Cargo**: [公式ドキュメント](https://doc.rust-lang.org/cargo/) / [Rust プロジェクト](https://github.com/rust-lang/cargo)
-  - 実設定: [home/.chezmoidata/packages.yaml](../home/.chezmoidata/packages.yaml)
+  - 実設定: [home/private_dot_config/mise/conf.d/tools.toml](../home/private_dot_config/mise/conf.d/tools.toml)（`cargo:` backend は現在コメントアウト、有効なのは `cargo-binstall` のみ）
 - **Claude Skills**: [Claude Code docs](https://docs.anthropic.com/en/docs/claude-code) / [Awesome Claude Code Subagents](https://github.com/VoltAgent/awesome-claude-code-subagents)
-  - 実設定: [home/.chezmoidata/packages.yaml](../home/.chezmoidata/packages.yaml)
+  - 実設定: [home/.chezmoidata/agents.yaml](../home/.chezmoidata/agents.yaml)
 
 ## Mise 管理ツール（抜粋）
 
-`~/.config/mise/config.toml` で管理。公式ドキュメント・GitHub へのリンク。
+`~/.config/mise/conf.d/tools.toml` で管理。公式ドキュメント・GitHub へのリンク。
 
-- **ランタイム**: [Deno](https://deno.land/) · [Bun](https://bun.sh/) · [Node](https://nodejs.org/) · [pnpm](https://pnpm.io/) · [Python](https://www.python.org/) · [UV](https://docs.astral.sh/uv/) · [Go](https://go.dev/) · [Rust](https://www.rust-lang.org/) · [Java](https://openjdk.org/) · [Maven](https://maven.apache.org/)
+- **ランタイム**: [Bun](https://bun.sh/) · [Node](https://nodejs.org/) · [pnpm](https://pnpm.io/) · [Python](https://www.python.org/) · [UV](https://docs.astral.sh/uv/) · [Go](https://go.dev/) · [Rust](https://www.rust-lang.org/) · [Java](https://openjdk.org/) · [Maven](https://maven.apache.org/)
 - **CLI・開発**: [act](https://github.com/nektos/act) · [ghq](https://github.com/x-motemen/ghq) · [gh](https://cli.github.com/) · [devcontainer-cli](https://github.com/devcontainers/cli) · [Task](https://taskfile.dev/) · [lazygit](https://github.com/jesseduffield/lazygit) · [lazydocker](https://github.com/jesseduffield/lazydocker)
-- **検索・表示**: [ripgrep](https://github.com/BurntSushi/ripgrep) · [fd](https://github.com/sharkdp/fd) · [bat](https://github.com/sharkdp/bat) · [lsd](https://github.com/lsd-rs/lsd) · [dua](https://github.com/Byron/dua-cli) · [xh](https://github.com/ducaale/xh) · [fx](https://github.com/antonmedv/fx)
-- **フォーマット・Lint**: [Prettier](https://prettier.io/) · [Ruff](https://docs.astral.sh/ruff/) · [shellcheck](https://www.shellcheck.net/) · [hadolint](https://github.com/hadolint/hadolint) · [yamlfmt](https://github.com/google/yamlfmt) · [checkmake](https://github.com/checkmake/checkmake)
-- **セキュリティ・シークレット**: [Age](https://age-encryption.org/) · [Bitwarden CLI](https://github.com/bitwarden/clients) · [mkcert](https://github.com/FiloSottile/mkcert) · [Trivy](https://github.com/aquasecurity/trivy) · [Doppler](https://docs.doppler.com/) · [dotenvx](https://github.com/dotenvx/dotenvx)
-- **クラウド・インフラ**: [Wrangler](https://developers.cloudflare.com/workers/wrangler/) · [cloudflared](https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/) · [Caddy](https://caddyserver.com/) · [cfssl](https://github.com/cloudflare/cfssl) · [gcloud](https://cloud.google.com/sdk) · [rclone](https://rclone.org/) · [infracost](https://www.infracost.io/)
-- **AI・API**: [Claude CLI](https://docs.anthropic.com/) · [Stripe CLI](https://stripe.com/docs/stripe-cli) · [Sentry CLI](https://docs.sentry.io/) · [OpenCode](https://github.com/sst/opencode)
-- **DB・データ**: [DuckDB](https://duckdb.org/) · [SQLite](https://www.sqlite.org/) · [Redis](https://redis.io/) · [yq](https://github.com/mikefarah/yq) · [jq](https://github.com/jqlang/jq)
-- **その他**: [Jujutsu (jj)](https://github.com/martinvonz/jj) · [Zellij](https://zellij.dev/) · [zoxide](https://github.com/ajeetdsouza/zoxide) · [glow](https://github.com/charmbracelet/glow) · [atuin](https://github.com/atuinsh/atuin) · [lychee](https://lychee.cli.rs/) · [hurl](https://hurl.dev/) · [cheat](https://github.com/cheat/cheat) · [Conan](https://conan.io/) · [Ninja](https://ninja-build.org/) · [pre-commit](https://pre-commit.com/) · [Solidity](https://docs.soliditylang.org/) · [CocoaPods](https://cocoapods.org/)
+- **検索・表示**: [ripgrep](https://github.com/BurntSushi/ripgrep) · [fd](https://github.com/sharkdp/fd) · [bat](https://github.com/sharkdp/bat) · [lsd](https://github.com/lsd-rs/lsd) · [xh](https://github.com/ducaale/xh) · [fx](https://github.com/antonmedv/fx)
+- **フォーマット・Lint**: [Ruff](https://docs.astral.sh/ruff/) · [shellcheck](https://www.shellcheck.net/) · [hadolint](https://github.com/hadolint/hadolint) · [yamlfmt](https://github.com/google/yamlfmt) · [checkmake](https://github.com/checkmake/checkmake)
+- **セキュリティ・シークレット**: [Age](https://age-encryption.org/) · [Bitwarden CLI](https://github.com/bitwarden/clients) · [mkcert](https://github.com/FiloSottile/mkcert) · [Trivy](https://github.com/aquasecurity/trivy) · [Doppler](https://docs.doppler.com/)
+- **クラウド・インフラ**: [Wrangler](https://developers.cloudflare.com/workers/wrangler/) · [cloudflared](https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/) · [Caddy](https://caddyserver.com/) · [cfssl](https://github.com/cloudflare/cfssl) · [rclone](https://rclone.org/) · [infracost](https://www.infracost.io/)
+- **AI・API**: [Stripe CLI](https://stripe.com/docs/stripe-cli) · [Sentry CLI](https://docs.sentry.io/)
+- **DB・データ**: [SQLite](https://www.sqlite.org/) · [yq](https://github.com/mikefarah/yq) · [jq](https://github.com/jqlang/jq)
+- **その他**: [Jujutsu (jj)](https://github.com/martinvonz/jj) · [Zellij](https://zellij.dev/) · [zoxide](https://github.com/ajeetdsouza/zoxide) · [atuin](https://github.com/atuinsh/atuin) · [lychee](https://lychee.cli.rs/) · [hurl](https://hurl.dev/) · [cheat](https://github.com/cheat/cheat) · [Conan](https://conan.io/) · [Ninja](https://ninja-build.org/) · [pre-commit](https://pre-commit.com/) · [Solidity](https://docs.soliditylang.org/)
 
 ## アーカイブ参照（現行管理外を含む）
 
 以下は調査・将来候補・過去運用を含む拡張リンク集です。
-現行運用の正本は `docs/tech.md` と各設定ファイル（`mise/config.toml`, `packages.yaml`, `aqua.yaml`）を参照してください。
+現行運用の正本は `docs/tech.md` と各設定ファイル（`mise/conf.d/tools.toml`, `mise.toml`, `packages.yaml`, `aqua.yaml`）を参照してください。
 
 タグ運用:
 
@@ -121,7 +121,7 @@ README は概要、`docs/` は詳細という責務分離を前提とします�
 - [Wrangler](https://developers.cloudflare.com/workers/wrangler/) · [cloudflared](https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/) · [websocat](https://github.com/vi/websocat)
 - [Conan](https://conan.io/)（C/C++ パッケージマネージャ）
 - [tldr](https://tldr.sh/) · [navi](https://github.com/denisidoro/navi) · [glow](https://github.com/charmbracelet/glow)
-- [thefuck](https://github.com/nvbn/thefuck) · [shellcheck](https://www.shellcheck.net/) · [tree](https://mama.indstate.edu/users/ice/tree/)
+- [thefuck](https://github.com/nvbn/thefuck) · [shellcheck](https://www.shellcheck.net/) · [tree](https://github.com/Old-Man-Programmer/tree)
 - [translate-shell](https://github.com/soimort/translate-shell) · [nmap](https://nmap.org/) · [whois](https://www.gnu.org/software/inetutils/)
 - [xdg-ninja](https://github.com/b3nj5m1n/xdg-ninja) · [sd](https://github.com/chmln/sd) · [moreutils](https://joeyh.name/code/moreutils/)
 - [multitail](https://www.vanheusden.com/multitail/) · [socat](https://www.dest-unreach.org/socat/)
@@ -148,7 +148,7 @@ README は概要、`docs/` は詳細という責務分離を前提とします�
 ### [optional] 音楽・メディア
 
 - [MPD](https://www.musicpd.org/) · [mpc](https://www.musicpd.org/clients/mpc/) · [Ncmpcpp](https://github.com/ncmpcpp/ncmpcpp)
-- [ffmpeg](https://ffmpeg.org/) · [yt-dlp](https://github.com/yt-dlp/yt-dlp) · [yt-x](https://github.com/nicholaschiasson/yt-x)
+- [ffmpeg](https://ffmpeg.org/) · [yt-dlp](https://github.com/yt-dlp/yt-dlp) · [yt-x](https://github.com/Benexl/yt-x)
 - [Mixxx](https://mixxx.org/) · [MusicBrainz Picard](https://picard.musicbrainz.org/)
 - [VLC](https://www.videolan.org/) · [Mp3tag](https://www.mp3tag.de/en/) · [Audacity](https://www.audacityteam.org/) · [audacity-plugins-awesome](https://awesomeaudacityplugins.com/)
 - [mp3gain-express](https://mp3gain.sourceforge.net/) · [Mackup](https://github.com/lra/mackup)
@@ -156,13 +156,13 @@ README は概要、`docs/` は詳細という責務分離を前提とします�
 ### [active] デスクトップ・GUI
 
 - [Brave](https://brave.com/) · [Chrome](https://www.google.com/chrome/) · [Discord](https://discord.com/)
-- [Xfce](https://xfce.org/) · [Xfce-look](https://xfce-look.org/) · [xrdp](https://xrdp.org/) · [Remmina](https://remmina.org/)
+- [Xfce](https://xfce.org/) · [Xfce-look](https://xfce-look.org/) · [xrdp](https://www.xrdp.org/) · [Remmina](https://remmina.org/)
 - [Karabiner-Elements](https://karabiner-elements.pqrs.org/) · [Raycast](https://raycast.com/) · [Rectangle](https://rectangleapp.com/)
 - [Clipy](https://clipy-app.com/) · [PopClip](https://pilotmoon.com/popclip/) · [BetterDisplay](https://github.com/waydabber/BetterDisplay)
-- [Obsidian](https://obsidian.md/) · [Notion](https://notion.so/) · [TradingView](https://tradingview.com/) · [AionUI](https://aionui.app/)
+- [Obsidian](https://obsidian.md/) · [Notion](https://notion.so/) · [TradingView](https://tradingview.com/) · [AionUI](https://github.com/iOfficeAI/AionUi)
 - [awesome bookmarklets](https://awesomebookmarklets.com/) · [Microsoft Remote Desktop](https://docs.microsoft.com/windows-server/remote/remote-desktop-services/clients/remote-desktop-mac)
 - [Wireshark](https://wireshark.org/) · [AppCleaner](https://freemacsoft.net/appcleaner/)
-- [Keyclu](https://github.com/nickshanks/keyclu) · [Onyx](https://www.titanium-software.fr/onyx.html)
+- [Keyclu](https://sergii.tatarenkov.name/apps/keyclu/) · [Onyx](https://www.titanium-software.fr/onyx.html)
 - [Blender](https://www.blender.org/) · [The Unarchiver](https://theunarchiver.com/) · [Windows App](https://github.com/microsoft/WSA)（WSA）
 
 ### [optional] モニタリング・ネットワーク
@@ -177,27 +177,27 @@ README は概要、`docs/` は詳細という責務分離を前提とします�
 
 ### [optional] フォント・テーマ
 
-- [HackGen Nerd Font](https://github.com/yuru7/HackGenNerdFont) · [Roboto Mono Nerd Font JP](https://github.com/yuru7/RobotoMonoNerdFontJP)
+- [HackGen Nerd Font](https://github.com/yuru7/HackGen) · [Roboto Mono Nerd Font JP](https://github.com/yuru7/RobotoMonoNerdFontJP)
 - [WhiteSur-GTK-Theme](https://github.com/vinceliuice/WhiteSur-gtk-theme) · [Reggae One](https://fonts.google.com/specimen/Reggae+One)
 - [Monokai Pro](https://monokai.pro/) · [Monokai Pro](https://github.com/monokai/monokai-pro) · [Kanagawa](https://github.com/rebelot/kanagawa.nvim)（Neovim/VSCode/Ghostty/Zellij）
 
 ### [legacy] バージョン管理・その他
 
-- [Jujutsu (jj)](https://github.com/martinvonz/jj) · [jjui](https://github.com/idursun/jjui)
+- [jjui](https://github.com/idursun/jjui)
 - [IPFS](https://ipfs.io/) · [Element](https://element.io/)（Matrix）
 - [Fcitx5](https://github.com/fcitx/fcitx5) · [Fusuma](https://github.com/iberianpig/fusuma)
 - [Meilisearch](https://www.meilisearch.com/) · [Biome](https://biomejs.dev/)
 - [EditorConfig](https://editorconfig.org/) · [WSL2](https://docs.microsoft.com/en-us/windows/wsl/) · [Wine](https://www.winehq.org/)
 - [XRPL](https://xrpl.org/) · [XRPL.js](https://github.com/XRPLF/xrpl.js) · [Xaman](https://docs.xaman.dev/)
-- [Caddy](https://caddyserver.com/) · [nginx](https://nginx.org/) · [Resend](https://resend.com/docs) · [Elysia](https://elysiajs.com/)
+- [nginx](https://nginx.org/) · [Resend](https://resend.com/docs) · [Elysia](https://elysiajs.com/)
 - [Mermaid](https://mermaid.js.org/) · [Marp](https://marp.app/) · [MDN](https://developer.mozilla.org/)
 - [awesome](https://github.com/sindresorhus/awesome) · [awesome-zsh-plugins](https://github.com/unixorn/awesome-zsh-plugins)
 - [Raspberry Pi](https://www.raspberrypi.org/)
-- [CodeRabbit](https://coderabbit.ai/) · [Vicinae](https://vicinae.com/)
+- [Vicinae](https://vicinae.com/)
 
 ### [legacy] Mac App Store
 
-- [Plash](https://plash.app/) · [Shazam](https://www.shazam.com/) · [RunCat](https://github.com/Kyome22/RunCat_for_Mac)
+- [Plash](https://github.com/sindresorhus/Plash) · [Shazam](https://www.shazam.com/) · [RunCat](https://kyome.io/runcat/index.html)
 - [Speedtest](https://www.speedtest.net/) · [speedtest-cli](https://github.com/sivel/speedtest-cli) · [Hidden Bar](https://github.com/dwarvesf/hidden) · [Hyper Cursor](https://hypercursor.com/)
 
 ## 統合済み調査資料

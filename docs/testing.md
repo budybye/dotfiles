@@ -13,7 +13,7 @@ description: dotfiles のローカル・CI・環境別検証ガイド
 - CI matrix: [`.github/workflows/test.yaml`](../.github/workflows/test.yaml)
 - bootstrap / profile 境界: [`architecture.md`](architecture.md)
 - OS / CI / Docker の責務: [`requirements.md`](requirements.md#プロファイル要件)
-- 実際の package / tool 定義: `home/private_dot_config/mise.toml`、`home/private_dot_config/mise/`、`home/.chezmoidata/packages.yaml`
+- 実際の package / tool 定義: `home/private_dot_config/Brewfile`（macOS）、`home/private_dot_config/mise.toml`（apt）、`home/private_dot_config/mise/`、`home/.chezmoidata/packages.yaml`（Windows の winget / scoop のみ）
 
 ## ローカル検証
 
@@ -57,27 +57,31 @@ mise config ls
 | shell / lifecycle script | `bash -n` または `zsh -n`、対象範囲の `shellcheck`、`make test` |
 | package / Mise profile | `mise config ls`、対象 profile の bootstrap status、platform matrix |
 | secrets / encrypted file | 平文を作らないこと、`chezmoi ignored`、秘密情報を含まないログ |
-| Dockerfile / Compose | `make docker-build` または `make up`、起動後の service smoke test |
+| Dockerfile / Compose | `make docker-build` または `make up`、起動後の service smoke test（build は GitHub 上の `DOTFILES_REF`、既定 `main` を clone するため、未 push の変更は対象外） |
 | VM / cloud-init | 対象環境で create → provision 完了 → OS / service の確認 |
 | GitHub Actions workflow | YAML 構文、変更 job の実行、失敗時の log / summary |
 | docs / path rename | 全リンク、実在パス、README / ROADMAP の参照 |
 
+この表の確認は手動です。CI が実行するのは `make init`（`GITHUB_ACTIONS=true` の 1 profile）、LXD の cloud-init 起動、tag / 日次の image build だけです。`bash -n` / `shellcheck` / `lychee` / hadolint / actionlint / secret scan は workflow にも Make target にもありません。
+
 ## CI 検証境界
 
-`.github/workflows/test.yaml` の主な job は次の境界を検証します。
+`.github/workflows/test.yaml` は main push だけで動き（`pull_request` なし）、`docs/**` と `*.md` の変更では動きません。主な job は次の境界を検証します。
 
 | Job | 環境 | 検証 |
 | --- | --- | --- |
-| `ubuntu-amd64` | Ubuntu amd64 | `make init` |
-| `ubuntu-arm64` | Ubuntu arm64 | `make init` |
-| `darwin` | macOS | `make init` |
-| `lxd` | Ubuntu + LXD | cloud-init、container 起動、OS 情報 |
-| `rpi` | Ubuntu arm64 + LXD | cloud-init、OS 情報 |
-| `powershell` | Windows | Scoop / CLI bootstrap の入口 |
-| `windows-11-arm64` | Windows arm64 | checkout / runner 境界 |
-| `wsl2` | Windows | checkout / runner 境界 |
+| `ubuntu-amd64` | Ubuntu amd64 | `make init`（終了コードのみ） |
+| `ubuntu-arm64` | Ubuntu arm64 | `make init`（終了コードのみ） |
+| `darwin` | macOS | `make init`（終了コードのみ） |
+| `lxd` | Ubuntu + LXD | cloud-init、container 起動、OS 情報（cloud-init の終了コードは無視。`make init` は実行しない） |
+| `rpi` | Ubuntu arm64 + LXD | `cloud-init/user-data` の cloud-init、OS 情報（cloud-init の終了コードは無視） |
+| `powershell` | Windows | Scoop で `curl` / `make` / `git` を入れるだけ（chezmoi は実行しない） |
+| `windows-11-arm64` | Windows arm64 | checkout のみ |
+| `wsl2` | Windows | checkout のみ（WSL は使わない） |
 
 OrbStack の job は GitHub-hosted macOS の nested virtualization 制約により現在コメントアウトしています。物理 macOS self-hosted runner を導入した場合だけ復帰します。
+
+`GITHUB_ACTIONS=true` のとき `run_once_after_watch.sh` が環境変数名と `mise dr` / `chezmoi doctor` の診断を出力しますが、失敗は無視し、結果は検証しません。`tag.yaml` は `test.yaml` 成功後に tag と release を作って `push.yaml` を起動します。`push.yaml` の日次 schedule は image を公開せず cache を更新するだけです。`ipfs.yaml` は pin だけで検証しません。
 
 ## Docker 検証
 
@@ -88,7 +92,7 @@ GITHUB_TOKEN="$(gh auth token)" make up
 ```
 
 - token を `.env`、Dockerfile の `ARG` / `ENV`、image layer に保存しない
-- Compose の localhost bind と RDP / SSH port を確認する
+- Compose の localhost bind と RDP port を確認する（SSH port の行はコメントアウト中）
 - Full image と CLI image の責務を混同しない
 
 ## 失敗時の確認順
@@ -110,7 +114,7 @@ GITHUB_TOKEN="$(gh auth token)" make up
 
 ## 統合後の追加検証
 
-- profile 変更: `mise config ls`、`mise bootstrap packages status`、対象 platform の dry-run
+- profile 変更: `mise config ls`、対象 platform の dry-run。package の状態確認は、Linux は `mise bootstrap packages status`（apt のみが対象）、macOS は `brew bundle check --file ~/.config/Brewfile`
 - xrdp / GUI 変更: Ubuntu VM と Docker を分けて session smoke test
 - template 変更: `chezmoi execute-template`、`chezmoi verify`、`chezmoi diff`
 - VCS / keybind / skill manager 変更: 実設定ファイルと対象 command の動作確認

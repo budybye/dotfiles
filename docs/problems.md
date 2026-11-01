@@ -14,7 +14,7 @@ description: 環境差の吸収における注意点、プラットフォーム�
 | 項目             | 内容                                                                                                         |
 | ---------------- | ------------------------------------------------------------------------------------------------------------ |
 | テンプレート変数 | `{{ .chezmoi.os }}` は `darwin` / `linux` / `windows` のいずれか                                             |
-| WSL2             | WSL2 上では `linux` として検出される。Ubuntu と区別する場合は `env "WSL_DISTRO_NAME"` や hostname で判定する |
+| WSL2             | WSL2 上では `linux` として検出される。Ubuntu と区別する場合は `env "WSL_DISTRO_NAME"` や hostname で判定できる（現在の template に WSL 分岐は無い） |
 
 参照: [home/.chezmoi.toml.tmpl](../home/.chezmoi.toml.tmpl), [要件定義](requirements.md)
 
@@ -59,7 +59,7 @@ description: 環境差の吸収における注意点、プラットフォーム�
 | Dev Container  | `env "REMOTE_CONTAINERS"`               | ユーザー名 dev                 |
 | Docker         | `env "DOCKER"`                          | ユーザー名 docker              |
 | SANDBOX        | `env "SANDBOX"` が空でない              | 使い捨て VM 向け（Bitwarden/age オフ、GitHub CLI 想定、SSH テンプレオフ） |
-| WSL2           | `env "WSL_DISTRO_NAME"` または hostname | Ubuntu ネイティブとの区別      |
+| WSL2           | `env "WSL_DISTRO_NAME"` または hostname | Ubuntu ネイティブとの区別（未使用） |
 
 参照: [home/.chezmoi.toml.tmpl](../home/.chezmoi.toml.tmpl)
 
@@ -70,7 +70,7 @@ description: 環境差の吸収における注意点、プラットフォーム�
 - `home/dot_local/bin/` に配置する実行可能スクリプトは、chezmoi の `executable_` プレフィックスを付与する（例: `executable_jjj` → `~/.local/bin/jjj` に chmod +x で適用）
 - プレフィックスがないと `chezmoi apply` 後に実行権限が付かず、コマンドとして呼び出せない
 
-参照: [docs/directory.md](directory.md#配置ルール), [docs/tech.md](tech.md#実装規則)
+参照: [docs/directory.md](directory.md#配置ルール)
 
 ### .zshenv
 
@@ -82,7 +82,7 @@ description: 環境差の吸収における注意点、プラットフォーム�
 
 ### .chezmoiignore の順序
 
-- 条件分岐の順序によって結果が変わる
+- `!` の否定パターンは通常の ignore パターンより優先され、行の順序は結果に影響しない
 - `{{ if eq .chezmoi.os "windows" }}` と `{{ else }}` の対応関係に注意する
 - Windows 以外の else ブロックで linux 以外を除外する等、ネストした条件を慎重に書く
 
@@ -91,7 +91,7 @@ description: 環境差の吸収における注意点、プラットフォーム�
 ### スクリプトの OS 分岐
 
 - `.chezmoiscripts/darwin/` は macOS 以外では .chezmoiignore で除外
-- `.chezmoiscripts/linux/` は Linux 以外では .chezmoiscripts で除外
+- `.chezmoiscripts/linux/` は Linux 以外では .chezmoiignore で除外
 - `.chezmoiscripts/windows/` は Windows 以外では除外
 
 参照: [home/.chezmoiignore](../home/.chezmoiignore)
@@ -101,11 +101,11 @@ description: 環境差の吸収における注意点、プラットフォーム�
 | ツール/設定                 | 癖                                                                                                                                                                  | 対処例                                                                                                                    |
 | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
 | zsh .profile 読み込み       | zsh では `source` が bash 由来の構文。`emulate sh -c "source ..."` で bash 互換モードにして読み込む                                                                 | [home/private_dot_config/zsh/dot_zprofile](../home/private_dot_config/zsh/dot_zprofile)                                   |
-| bash 非インタラクティブシェル（AI エージェント） | Claude Code 等の AI エージェントは bash をログインシェル（`bash --login -c "..."`）として起動するため `.profile` は読まれる。ただし `.bashrc` には `[ -z "$PS1" ] && return` による早期終了があるため読まれない。エイリアスは `.bashrc` 経由のため使用不可。フルコマンドを使うこと。 | [Claude rules](../home/private_dot_config/claude/rules/) |
-| 対話シェル判定              | Bash の `[ -z "$PS1" ]` は Zsh で誤動作する（PS1 が未設定の場合がある）。`[[ -o interactive ]]` を使用する                                                          | [home/private_dot_config/zsh/dot_zshrc](../home/private_dot_config/zsh/dot_zshrc)                                         |
-| zellij/tmux 自動起動        | Cursor/VS Code の統合ターミナルでは zellij が即終了してターミナルが閉じる。`TERM_PROGRAM` が vscode または Cursor のときはスキップする                              | [home/private_dot_config/zsh/dot_zprofile](../home/private_dot_config/zsh/dot_zprofile)                                   |
-| gitHubLatestReleaseAssetURL | リリースによりアーキテクチャ名が異なる（amd64 vs x86_64）。パターンマッチで取得できない場合はマッピングを検討する                                                   | [home/.chezmoiexternal.toml](../home/.chezmoiexternal.toml)                                                     |
-| dpkg                        | Linux (Debian/Ubuntu) 専用。macOS では存在しない。スクリプト内で `dpkg --print-architecture` を使う場合は、Linux 専用スクリプトに限定するかフォールバックを用意する | [home/.chezmoiscripts/linux/run_onchange_after_cli.sh](../home/.chezmoiscripts/linux/run_onchange_after_cli.sh) |
+| bash 非インタラクティブシェル（AI エージェント） | Claude Code 等の AI エージェントは bash をログインシェル（`bash --login -c "..."`）として起動するため `.profile` は読まれ、`.bash_profile` 経由で `.bashrc` も読まれる（`.bashrc` の早期終了 guard は無効化中）。ただし非対話 bash はエイリアスを展開しないため、エイリアスは使えない。フルコマンドを使うこと。pi は `shellCommandPrefix` で `.aliases` の alias を読み込む（`rm` / `cp` / `mv` を除く）。 | [pi settings](../home/private_dot_config/pi/agent/settings.json) |
+| 対話シェル判定              | Bash の `[ -z "$PS1" ]` は Zsh で誤動作する（PS1 が未設定の場合がある）。`[[ -o interactive ]]` を使用する                                                          | [home/private_dot_config/zsh/dot_zlogin](../home/private_dot_config/zsh/dot_zlogin)                                       |
+| herdr/zellij/tmux 自動起動  | Cursor/VS Code の統合ターミナルでは zellij が即終了してターミナルが閉じる。`TERM_PROGRAM` が vscode / Cursor / Orca / zed / herdr、または `HERDR_ENV` が設定済みのときはスキップする。起動順は herdr（`herdr-dev`）、zellij、tmux（bash は tmux なし）。zsh は `.zlogin`、bash は `.bash_profile` から起動する | [home/private_dot_config/zsh/dot_zlogin](../home/private_dot_config/zsh/dot_zlogin) |
+| gitHubLatestReleaseAssetURL | リリースによりアーキテクチャ名が異なる（amd64 vs x86_64）。パターンマッチで取得できない場合はマッピングを検討する（現在の `.chezmoiexternal.toml` では未使用） | [home/.chezmoiexternal.toml](../home/.chezmoiexternal.toml)                                                     |
+| dpkg                        | Linux (Debian/Ubuntu) 専用。macOS では存在しない。スクリプト内で `dpkg --print-architecture` を使う場合は、Linux 専用スクリプトに限定するかフォールバックを用意する | [home/.chezmoiscripts/linux/run_onchange_after_cli.sh.tmpl](../home/.chezmoiscripts/linux/run_onchange_after_cli.sh.tmpl) |
 
 ## 5. ライブラリ・ツール固有の癖
 
@@ -113,7 +113,7 @@ description: 環境差の吸収における注意点、プラットフォーム�
 | -------------- | ------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------- |
 | Starship       | OS ごとにアイコン定義が異なる（Windows, Linux 等）                                   | [home/private_dot_config/starship/starship.toml](../home/private_dot_config/starship/starship.toml)   |
 | Neovim         | Windows の VSCode 統合ターミナル向けの色設定がある                                   | [home/private_dot_config/nvim/colors/monokai.vim](../home/private_dot_config/nvim/colors/monokai.vim) |
-| Docker         | `ARCH` は `dpkg --print-architecture \|\| uname -m` で取得。WSL では dpkg が利用可能 | [home/dot_aliases](../home/dot_aliases)                 |
+| Docker         | `ARCH` は `.profile` が `dpkg --print-architecture`（無ければ `uname -m`）で export する。WSL では dpkg が利用可能。同じ `.profile` が OrbStack / Docker Desktop / Podman のソケットを検出すると `DOCKER_HOST` / `DOCKER_CONTEXT` を export するため、新しいシェルでは `docker context use` より環境変数が優先される | [home/dot_profile](../home/dot_profile)                 |
 | Karabiner      | macOS 専用。`pbpaste` 等の macOS コマンドに依存する                                  | [home/.chezmoiignore](../home/.chezmoiignore)                                                         |
 | fcitx5, Fusuma | Linux 専用。.chezmoiignore で darwin では適用しない                                  | [home/.chezmoiignore](../home/.chezmoiignore)                                                         |
 
@@ -130,7 +130,7 @@ gh は認証トークンを**システムのキーリング**に保存する（m
 
 **emdash が使えない理由**: emdash は AI エージェント開発環境で、内部で gh や GitHub API を利用する。gh がキーリングに保存した認証情報は、**サンドボックス化されたアプリ**（App バンドル、別プロセス、Docker 等）からはアクセスできない。そのため emdash 起動時に gh が未認証と判定され、GitHub 連携が失敗する。対処としては `GH_TOKEN` を環境変数で渡すか、`--insecure-storage` で `hosts.yml` にトークンを書き出す方法があるが、後者はセキュリティ上推奨されない。
 
-**hosts.yml の取り扱い**: `gh auth login --insecure-storage` 使用時は OAuth トークンが `hosts.yml` にプレーンテキストで書き込まれる。その状態でコミットすると漏洩リスクがあるため、当該ファイルを `.gitignore` に追加するか、chezmoi 管理から外すことを検討する。通常運用ではキーリングを使用し、`--insecure-storage` は避ける。
+**hosts.yml の取り扱い**: symlink mode のため `~/.config/gh/hosts.yml` は repo の `home/private_dot_config/gh/hosts.yml` への symlink で、gh の書き込みはそのまま作業ツリーに入る（`gh auth switch` による `user:` の変更も同様）。`gh auth login --insecure-storage` 使用時は OAuth トークンが `hosts.yml` にプレーンテキストで書き込まれるため、source tree に token が入りコミットすると漏洩リスクがある。当該ファイルを `.gitignore` に追加するか、chezmoi 管理から外すことを検討する。通常運用ではキーリングを使用し、`--insecure-storage` は避ける。
 
 参照: [gh auth login](https://cli.github.com/manual/gh_auth_login), [cli/cli#7023](https://github.com/cli/cli/pull/7023)
 
