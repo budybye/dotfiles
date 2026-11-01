@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Linux 初回 GUI セットアップ (chezmoi run_once → ~/.local/share/chezmoi/.../setup.sh)
-# ロケール・xrdp・PipeWire 音声リダイレクトを構成する。make init / chezmoi apply --force で1回だけ実行。
+# xrdp・PipeWire 音声リダイレクトを構成する(ロケールは run_onchange_after_cli.sh の japan_setup)。
+# run_once なので初回のみ実行。再実行は `chezmoi state delete-bucket --bucket=scriptState` で状態を消してから。
 
 set -eu
 

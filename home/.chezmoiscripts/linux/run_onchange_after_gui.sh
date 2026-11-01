@@ -87,13 +87,24 @@ install_element_desktop() {
 }
 
 install_ferdium() {
-    if command -v pacstall >/dev/null 2>&1; then
-        # $sudo bash -c "$(wget -q https://pacstall.dev/q/install -O -)"
-        $sudo apt-get install -y pacstall
+    if command -v ferdium >/dev/null 2>&1; then
+        echo "ferdium already installed."
+        return
     fi
-    
-    pacstall -I ferdium-deb || echo "ferdium install failed."  
-    echo "ferdium installed."
+
+    if ! command -v pacstall >/dev/null 2>&1; then
+        # $sudo bash -c "$(wget -q https://pacstall.dev/q/install -O -)"
+        $sudo apt-get install -y pacstall || {
+            echo "pacstall install failed; skipping ferdium." >&2
+            return
+        }
+    fi
+
+    if pacstall -I ferdium-deb; then
+        echo "ferdium installed."
+    else
+        echo "ferdium install failed." >&2
+    fi
 }
 
 install_github_desktop() {
@@ -126,12 +137,12 @@ install_github_desktop() {
 }
 
 install_ruby_fusuma() {
+    # ruby は tools.toml 定義(cli.sh の mise i -y で導入)。このスクリプトは mise shims が PATH にないため追加する。
+    export PATH="${HOME}/.local/share/mise/shims:${PATH}"
+
     # ruby のインストール
     if command -v gem >/dev/null 2>&1; then
         echo "ruby already installed."
-    elif command -v mise >/dev/null 2>&1; then
-        mise use -g -y ruby
-        echo "ruby installed."
     else
         $sudo apt-get install -y ruby
         echo "ruby installed."
@@ -194,7 +205,7 @@ install_zen() {
         echo "zen already installed."
         return
     else
-        curl -fsSL https://github.com/zen-browser/updates-server/raw/refs/heads/main/install.sh | sh 
+        curl -fsSL https://github.com/zen-browser/updates-server/raw/refs/heads/main/install.sh | bash
         echo "zen latest installed."
     fi
 }
@@ -266,8 +277,11 @@ install_zed() {
     if command -v zed >/dev/null 2>&1; then
         echo "zed already installed."
     else
-        curl -f https://zed.dev/install.sh | sh || true # scriptエラー
-        echo "zed installed."
+        if curl -fsSL https://zed.dev/install.sh | sh; then
+            echo "zed installed."
+        else
+            echo "zed install failed." >&2
+        fi
     fi
 }
 

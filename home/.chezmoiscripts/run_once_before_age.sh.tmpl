@@ -50,7 +50,7 @@ echo "--------------------------------"
 
 {{ if .age }}
 
-{{/* .chezmoi.toml.tmpl と合わせる */}}
+{{/* .chezmoi.toml.tmpl の [age] は passphrase/symmetric のみで identity は参照しない */}}
 
 identity="${HOME}/.config/chezmoi/key.txt"
 

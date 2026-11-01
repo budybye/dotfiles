@@ -38,7 +38,7 @@ install_docker() {
         #     $sudo chmod 666 /var/run/docker.sock
         # fi
 
-        # Dockerデーモンの起動（systemdを使用しない方法）
+        # systemctl enable に加え、systemd 非稼働環境(コンテナ等)用に dockerd を直接起動する
         if [ -f /var/run/docker.pid ]; then
             echo "Docker daemon is already running."
         else

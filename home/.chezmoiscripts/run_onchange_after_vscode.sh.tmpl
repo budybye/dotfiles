@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-SOURCE_DIR="${HOME}/dotfiles/home/private_dot_config/Code/user-data/User"
+SOURCE_DIR={{ .chezmoi.sourceDir | shellQuote }}/private_dot_config/Code/user-data/User
 
 case "$(uname -s)" in
   Darwin)

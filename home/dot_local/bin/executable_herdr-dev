@@ -31,7 +31,6 @@ if ! herdr status 2>/dev/null | grep -q 'status: running'; then
     FRESH=1
   fi
 fi
-herdr status 2>/dev/null | grep -q 'status: running' || exit 0
 # FRESH 時は boot 直後の API が不安定(restore 反映待ち)なので、実際に問い合わせが通るまで待つ
 if [ "$FRESH" = 1 ]; then
   i=0

@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# mise.toml:  {{ include "private_dot_config/mise.toml" | sha256sum }}
+# tools.toml: {{ include "private_dot_config/mise/conf.d/tools.toml" | sha256sum }}
 set -eu
 
 sudo=""
@@ -18,7 +20,11 @@ change_shell_to_zsh() {
     zsh_path=$(command -v zsh)
     if [ "${SHELL}" != "${zsh_path}" ]; then
         # デフォルトシェルを変更
-        $sudo chsh -s "${zsh_path}" "$(whoami)" || echo "zsh default shell change failed."
+        if $sudo chsh -s "${zsh_path}" "$(whoami)"; then
+            echo "zsh default shell changed to ${zsh_path}."
+        else
+            echo "zsh default shell change failed."
+        fi
     fi
 
     # ZDOTDIRを設定
@@ -35,7 +41,6 @@ change_shell_to_zsh() {
     fi
 
     echo "Your shell is ${SHELL}"
-    echo "zsh default shell changed to ${zsh_path}."
     zsh --version || echo "zsh not found"
 }
 
@@ -123,27 +128,13 @@ install_flatpak() {
 install_go_aqua() {
     export PATH="${HOME}/.local/bin:${HOME}/.local/share/mise/shims:${HOME}/.local/share/mise/installs:$PATH"
 
-    if command -v go >/dev/null 2>&1; then
-        echo "go already installed."
-    elif command -v mise >/dev/null 2>&1; then
-        mise use -g -y go@latest || echo "go install failed."
-    fi
+    # go / aqua / mkcert は tools.toml で定義済み(mise i -y で導入)。ここでは確認のみ。
+    # `mise use -g` で補うと chezmoi 管理の mise/config.toml を書き換えてしまう。
     go version || echo "go not found"
-
-    if command -v aqua >/dev/null 2>&1; then
-        echo "aqua already installed."
-    elif command -v mise >/dev/null 2>&1; then
-        mise use -g -y aqua@latest || echo "aqua install failed."
-    fi
     aqua --version || echo "aqua not found."
 }
 
 install_mkcert() {
-    if command -v mkcert >/dev/null 2>&1; then
-        echo "mkcert already installed."
-    elif command -v mise >/dev/null 2>&1; then
-        mise use -g -y mkcert@latest || echo "mkcert install failed."
-    fi
     # mkcert -install || echo "mkcert setup failed."
     mkcert --version || echo "mkcert not found."
 }

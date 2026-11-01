@@ -2,14 +2,24 @@
 
 set -euo pipefail
 
-# jjj 
-# $1 "メッセージ" 
-# $2 "ブックマーク名" 
-# $3 "リモート名"
-# --help
-# --dry-run
+# jjj [-h|--help] ["メッセージ" ["ブックマーク名" ["リモート名"]]]
+# $1 "メッセージ"(省略時はランダムな絵文字)
+# $2 "ブックマーク名"(省略時は自動検出)
+# $3 "リモート名"(省略時は origin)
+# -h, --help  この使い方を表示して終了
 
 # 変更を確定し、ブックマークを作成・更新してプッシュする
+
+case "${1:-}" in
+  -h|--help)
+    sed -n '5,10p' "$0" | sed 's/^# \{0,1\}//'
+    exit 0
+    ;;
+  -*)
+    printf 'unknown option: %s (see --help)\n' "$1" >&2
+    exit 2
+    ;;
+esac
 
 if ! command -v jj >/dev/null 2>&1; then
   printf '%s\n' "jj not found" >&2
@@ -31,9 +41,13 @@ fi
 bookmark="${2:-}"
 remote="${3:-origin}"
 
-# .jj がなければ colocate で初期化（既存 .git を取り込む）
+# .jj がなければ、既存の .git を colocate で取り込む（.git がなければ新規作成せず終了）
 if ! jj root >/dev/null 2>&1; then
-  jj git init --colocate
+  if ! git_root="$(git rev-parse --show-toplevel 2>/dev/null)"; then
+    printf '%s\n' "not a jj or git repository; refusing to create one" >&2
+    exit 1
+  fi
+  jj git init --colocate "${git_root}"
 fi
 
 # gitとの不整合を解消（stale index対策）

@@ -218,7 +218,7 @@ restart() {
     done
 }
 
-# default は mise bootstrap に移行完了
+# 実行されるのは mise bootstrap macos defaults(mise.toml)のみ。以下の関数は呼び出しをすべてコメントアウトしており未適用。
 
 echo "defaults.sh"
 echo "--------------------------------"

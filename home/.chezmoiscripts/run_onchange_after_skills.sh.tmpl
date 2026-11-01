@@ -54,17 +54,21 @@ fi
 
 echo "--------------------------------"
 
-if [ "${#removed_skills[@]}" -gt 0 ]; then
-    echo "CRITICAL skills removed:"
-    printf '  - %s\n' "${removed_skills[@]}"
+if [ "$scan_enabled" -eq 0 ]; then
+    echo "Security scan skipped (skillspector not installed); skills were not checked."
 else
-    echo "No CRITICAL skills removed."
-fi
-if [ "${#high_skills[@]}" -gt 0 ]; then
-    echo "HIGH skills retained for review:"
-    printf '  - %s\n' "${high_skills[@]}"
-else
-    echo "No HIGH skills found."
+    if [ "${#removed_skills[@]}" -gt 0 ]; then
+        echo "CRITICAL skills removed:"
+        printf '  - %s\n' "${removed_skills[@]}"
+    else
+        echo "No CRITICAL skills removed."
+    fi
+    if [ "${#high_skills[@]}" -gt 0 ]; then
+        echo "HIGH skills retained for review:"
+        printf '  - %s\n' "${high_skills[@]}"
+    else
+        echo "No HIGH skills found."
+    fi
 fi
 if [ "$scan_failed" -ne 0 ]; then
     echo "skills install completed with scan failures." >&2
