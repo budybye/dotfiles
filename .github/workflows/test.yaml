@@ -8,6 +8,9 @@ on:
       - "*.md"
       - "README.md"
 
+permissions:
+  contents: read
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -153,7 +156,7 @@ jobs:
           lxc exec ubuntu -- tail -8 /var/log/cloud-init.log
           lxc exec ubuntu -- cat /home/budybye/.ssh/authorized_keys || true
           lxc exec ubuntu -- ls -la /home/budybye/dotfiles
-          lxc exec ubuntu -- echo "$SHELL"
+          lxc exec ubuntu -- sh -c 'echo "$SHELL"'
           lxc exec ubuntu -- cat /etc/os-release
           lxc config set core.https_address :8443
 

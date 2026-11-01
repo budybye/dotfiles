@@ -6,7 +6,7 @@ services:
       dockerfile: Dockerfile
       secrets:
         - github_token
-    container_name: ubuntu
+    container_name: ubuntu-dev
     hostname: container
     privileged: true
     # platform: linux/${ARCH:-$(dpkg --print-architecture || uname -m)}

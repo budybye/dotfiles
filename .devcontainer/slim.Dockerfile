@@ -118,11 +118,9 @@ RUN apt-get autoremove -y && \
     apt-get clean && \
     rm -rf /var/cache/apt /var/lib/apt/lists/*
 
-# マルチステージビルド
-FROM base
 EXPOSE 22
 ENTRYPOINT ["entrypoint"]
 CMD ["ubuntu", "ubuntu", "no"]
 # $1 ユーザー名
 # $2 パスワード
-# $3 sudo-no-passwd yes or other
+# $3 sudo グループに追加するか yes or other（NOPASSWD は付かない）

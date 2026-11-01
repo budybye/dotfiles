@@ -96,7 +96,7 @@ jobs:
 
           printf 'tag=%s\n' "$new_tag" >> "$GITHUB_OUTPUT"
 
-      # tag push の webhook が push.yaml を起動しない場合の保険（0.8.123 など）
+      # GITHUB_TOKEN で push したタグは workflow を起動しない（GitHub の仕様）ため、push.yaml を明示的に dispatch する
       - name: Trigger GHCR build
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -4,7 +4,7 @@
 # 引数
 # $1: ユーザー名
 # $2: パスワード
-# $3: スーパーユーザーかどうか yes or other
+# $3: sudo グループに追加するか yes or other
 
 # root ユーザーで実行された場合は sudo をつけない
 pwd
@@ -14,7 +14,7 @@ if [ "$(whoami)" = "root" ]; then
     sudo=""
 fi
 if [ "$#" -ge 2 ] && [ "$2" = "__PASSWORD_REQUIRED__" ]; then
-    : "${PASSWORD:?PASSWORD is required when using default CMD}"
+    : "${PASSWORD:?PASSWORD is required when the password argument is __PASSWORD_REQUIRED__}"
     set -- "$1" "$PASSWORD" "${@:3}"
 fi
 

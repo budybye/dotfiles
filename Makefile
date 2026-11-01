@@ -1,12 +1,11 @@
 # Makefile for dotfiles management
 # Author: budybye
 
-.ONESHELL:
 SHELL := bash
 .SHELLFLAGS := -ceuo pipefail
 .DEFAULT_GOAL := help
 
-# 真のバージョンは git の semver タグ（CI の tag.yaml と一致）
+# 最新の semver タグ。glob は tag.yaml と同じだが、strict semver の検証は tag.yaml 側だけ（1.2.3-rc1 も拾う）
 DOTFILES_VERSION := $(shell git describe --tags --match '[0-9]*.[0-9]*.[0-9]*' --abbrev=0 2>/dev/null || echo dev)
 
 # Docker settings
@@ -15,7 +14,7 @@ DOCKER_IMAGE ?= $(DOCKER_REGISTRY_IMAGE):latest
 DOCKER_SLIM_IMAGE ?= $(DOCKER_REGISTRY_IMAGE):slim
 DOCKER_DEV_IMAGE ?= $(DOCKER_REGISTRY_IMAGE):dev
 DOCKER_CONTAINER ?= ubuntu-dev
-DOCKER_HOST ?= container
+DOCKER_HOSTNAME ?= container
 DOCKER_PORTS ?= -p 127.0.0.1:33389:3389
 DOCKER_WORKDIR ?= /home/ubuntu
 DOCKER_USER ?= ubuntu
@@ -114,7 +113,7 @@ docker-run: docker-build ## Build and run the full Docker image
 		--tty \
 		--privileged \
 		--name "$(DOCKER_CONTAINER)" \
-		--hostname "$(DOCKER_HOST)" \
+		--hostname "$(DOCKER_HOSTNAME)" \
 		--user "$(DOCKER_USER)" \
 		--workdir "$(DOCKER_WORKDIR)" \
 		--env DOCKER=true \
@@ -131,7 +130,7 @@ docker-ghcr-run: docker-pull ## Pull and run the published GHCR image
 		--tty \
 		--privileged \
 		--name "$(DOCKER_CONTAINER)-ghcr" \
-		--hostname "$(DOCKER_HOST)-ghcr" \
+		--hostname "$(DOCKER_HOSTNAME)-ghcr" \
 		--user "$(DOCKER_USER)" \
 		--workdir "$(DOCKER_WORKDIR)" \
 		--env DOCKER=true \
@@ -247,7 +246,7 @@ list-containers: ## List all Docker containers
 
 system-info: ## Display system information
 	@echo "System Information:"
-	@echo "Shell: $(SHELL)"
+	@echo "Shell: $$SHELL"
 	@echo "Dotfiles Version: $(DOTFILES_VERSION)"
 	@command -v chezmoi >/dev/null && echo "Chezmoi: $$(chezmoi --version)" || echo "Chezmoi: Not installed"
 	@command -v docker >/dev/null && echo "Docker: $$(docker --version)" || echo "Docker: Not installed"

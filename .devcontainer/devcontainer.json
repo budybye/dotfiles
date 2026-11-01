@@ -15,7 +15,6 @@
     }
   },
   // "dockerComposeFile": "compose.yaml",
-  "service": "dev",
   "containerUser": "root",
   "remoteUser": "dev",
   "workspaceFolder": "/workspaces/chezmoi",
@@ -27,7 +26,6 @@
   // "postCreateCommand": "echo 'Dev container post created...'",
   // "postStartCommand": "echo 'Dev container post started...'",
   // "postAttachCommand": "echo 'Dev container post attached...'",
-  "shutdownAction": "stopCompose",
   "remoteEnv": {
     "REMOTE_CONTAINERS": "true",
   },
