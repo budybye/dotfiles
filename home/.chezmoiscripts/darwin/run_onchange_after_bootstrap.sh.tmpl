@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# Brewfile:   {{ include "private_dot_config/Brewfile" | sha256sum }}
 # mise.toml:  {{ include "private_dot_config/mise.toml" | sha256sum }}
 # tools.toml: {{ include "private_dot_config/mise/conf.d/tools.toml" | sha256sum }}
 set -eu
@@ -56,16 +55,11 @@ install_homebrew() {
         echo "Homebrew installed."
     fi
 
-    # Brewfile が brew / cask / mas の唯一の定義 (bf / bcf と同じファイル)。入れるだけで upgrade は bu / bb に任せる
-    if [ -f "${HOME}/.config/Brewfile" ]; then
-        brewfile="${HOME}/.config/Brewfile"
-        # CI の runner は App Store に sign in できず、mas の install で止まって job が打ち切られる
-        if [ "${GITHUB_ACTIONS:-}" = "true" ]; then
-            brewfile="$(mktemp)"
-            grep -v -E '^mas ' "${HOME}/.config/Brewfile" > "${brewfile}"
-        fi
-        brew bundle --no-upgrade --file="${brewfile}" || echo "brew bundle failed."
-    fi
+    # brew bundle は使わない。Brewfile の mas が CI の runner で App Store に sign in できず止まるため、
+    # brew / cask は下の mise bootstrap packages (mise.toml) で入れる。Brewfile は bb / bcf が読む
+    # if [ -f "${HOME}/.config/Brewfile" ]; then
+    #     brew bundle --no-upgrade --file="${HOME}/.config/Brewfile" || echo "brew bundle failed."
+    # fi
 }
 
 install_mise() {
@@ -83,7 +77,9 @@ install_mise() {
         # mise bootstrap dotfiles apply -y || echo "brew bootstrap failed."
         # mise bootstrap files apply -y || echo "brew bootstrap failed."
         # mise bootstrap packages apply -y || echo "mise bootstrap failed."
-        # brew / cask / mas は mise.toml に持たせず、install_homebrew が Brewfile から入れる
+        mise bootstrap packages apply --manager brew -y || echo "brew bootstrap failed."
+        mise bootstrap packages apply --manager brew-cask -y || echo "cask bootstrap failed."
+        # mise bootstrap packages apply --manager mas -y || echo "mas bootstrap failed."
         # mise bootstrap plugins apply -y || echo "mas bootstrap failed."
         mise bootstrap macos defaults apply -y || echo "defaults bootstrap failed."
         # mise bootstrap macos launchd-agents apply || echo "mas bootstrap failed."
