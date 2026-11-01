@@ -57,7 +57,7 @@ description: 技術スタック パッケージ管理 ライブラリ説明
   - `[bootstrap.macos.*]`: キーボード・トラックパッド・Dock・Finder・`defaults` の設定
   - `[bootstrap.packages]`: `apt:`（Linux）のみ。macOS の brew / cask / mas は `mise.toml` に持たせない（`bcf` と食い違うため）
 - **適用**: `home/.chezmoiscripts/darwin/run_onchange_after_bootstrap.sh.tmpl` は `brew bundle --no-upgrade --file ~/.config/Brewfile`（formula / cask / mas。upgrade は `bu` / `bb`）と `mise bootstrap macos defaults apply` を実行し、`linux/run_onchange_after_cli.sh.tmpl` は `mise bootstrap packages apply --manager apt` を実行する。darwin は `Brewfile` / `mise.toml` / `tools.toml`、linux は `mise.toml` / `tools.toml` の sha256 を埋め込み、変更時に再実行される
-- **Brewfile**: `home/private_dot_config/Brewfile`（macOS のみ配置）は bootstrap と `bb` / `bf` / `bcf` エイリアスが共通で読む一覧（`bcf` は Brewfile に無い項目を削除する）。`mas` は `brew bundle` 経由で入るため App Store へのサインインが必要で、未サインインでは `brew bundle failed.` を表示するだけで続行する
+- **Brewfile**: `home/private_dot_config/Brewfile`（macOS のみ配置）は bootstrap と `bb` / `bf` / `bcf` エイリアスが共通で読む一覧（`bcf` は Brewfile に無い項目を削除する）。`mas` は `brew bundle` 経由で入るため App Store へのサインインが必要で、未サインインでは `brew bundle failed.` を表示するだけで続行する。CI（`GITHUB_ACTIONS=true`）の runner は sign in できず `mas` の install で止まるため、bootstrap は `mas` の行を除いた一時 Brewfile で実行する
 
 ### packages.yaml（Windows）
 

@@ -58,7 +58,13 @@ install_homebrew() {
 
     # Brewfile が brew / cask / mas の唯一の定義 (bf / bcf と同じファイル)。入れるだけで upgrade は bu / bb に任せる
     if [ -f "${HOME}/.config/Brewfile" ]; then
-        brew bundle --no-upgrade --file="${HOME}/.config/Brewfile" || echo "brew bundle failed."
+        brewfile="${HOME}/.config/Brewfile"
+        # CI の runner は App Store に sign in できず、mas の install で止まって job が打ち切られる
+        if [ "${GITHUB_ACTIONS:-}" = "true" ]; then
+            brewfile="$(mktemp)"
+            grep -v -E '^mas ' "${HOME}/.config/Brewfile" > "${brewfile}"
+        fi
+        brew bundle --no-upgrade --file="${brewfile}" || echo "brew bundle failed."
     fi
 }
 
