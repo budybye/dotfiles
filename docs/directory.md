@@ -73,7 +73,7 @@ description: directory ファイル情報説明
 │   │   │   └── config
 │   │   ├── bottom/                 # システムモニタ
 │   │   │   └── bottom.toml
-│   │   ├── Brewfile                # Homebrew 一覧（macOS。bootstrap と bb / bcf が参照）
+│   │   ├── Brewfile                # Homebrew 一覧（macOS。bb / bf / bcf だけが参照。bootstrap は適用しない）
 │   │   ├── byobu/                  # ターミナルマルチプレクサー
 │   │   │   ├── datetime.tmux
 │   │   │   ├── dot_tmux.conf
@@ -283,7 +283,7 @@ description: directory ファイル情報説明
 - **XDG 準拠設定**: `home/private_dot_config/` に配置
 - **シェルスクリプト**: `home/.chezmoiscripts/` に配置
 - **実行可能スクリプト**: `home/dot_local/bin/` に配置。`executable_` プレフィックスで適用時に chmod +x を付与
-- **Homebrew**: formula / cask / tap / mas の一覧は `home/private_dot_config/Brewfile` のみ（darwin bootstrap が `brew bundle` で適用し、`bb` / `bcf` も読む。`mise.toml` の `[bootstrap.packages]` は apt のみ。詳細は docs/tech.md「mise bootstrap」）
+- **Homebrew**: bootstrap が入れる一覧は `home/private_dot_config/mise.toml` の `[bootstrap.packages]`（`brew:` / `brew-cask:`。`mas:` は適用しない）。`home/private_dot_config/Brewfile` は `bb` / `bf` / `bcf` だけが読む別の一覧で、`mise.toml` と内容が一致しない（`bcf` は Brewfile に無いものを削除する）。詳細は docs/tech.md「mise bootstrap」
 - **暗号化ファイル**: `*.age` 拡張子で暗号化
 - **テンプレートファイル**: `*.tmpl` 拡張子で管理
 

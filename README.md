@@ -90,7 +90,7 @@ GITHUB_TOKEN="$(gh auth token)" make docker-slim-build
 GITHUB_TOKEN="$(gh auth token)" make up
 ```
 
-GitHub Actions では workflow の `secrets.GITHUB_TOKEN` を BuildKit secret として渡します。token を `.env`、Dockerfile の `ARG` / `ENV`、image layer に保存しないでください。`.env` と `.devcontainer/.env` は `.gitignore` 済み（追跡されるのは `.env.example` のみ）ですが、平文のため使いません。ルートの `mise.toml` の `[env] _.file = '.env'` はコメントアウトしてあり、mise は `.env` を自動では読み込みません（グローバルの `env_file` も使いません）。`make docker-*` は環境変数 `GITHUB_TOKEN` を要求します。
+GitHub Actions では workflow の `secrets.GITHUB_TOKEN` を BuildKit secret として渡します。token を `.env`、Dockerfile の `ARG` / `ENV`、image layer に保存しないでください。`.env` と `.devcontainer/.env` は `.gitignore` 済み（追跡されるのは `.env.example` のみ）ですが、平文のため使いません。ルートの `mise.toml` の `[env] _.file = '.env'` はコメントアウトしてありますが、グローバルの `env_file = '.env'`（`mise/conf.d/settings.toml`）が cwd と全ての親ディレクトリの `.env` を、trust 確認も変数の絞り込みも無しで読み込みます。`make docker-*` は環境変数 `GITHUB_TOKEN` を要求します。
 
 ## Multipass
 
@@ -153,7 +153,7 @@ WSL2、Windows、FreeBSD は将来対応予定です。対応範囲と package �
 
 | 関心事 | 正本 |
 | --- | --- |
-| macOS の Homebrew formula / cask / mas | `home/private_dot_config/Brewfile`（darwin bootstrap が `brew bundle` で適用） |
+| macOS の Homebrew formula / cask | `home/private_dot_config/mise.toml` の `[bootstrap.packages]`（bootstrap が `brew:` / `brew-cask:` を適用。`mas:` は適用しない）。`home/private_dot_config/Brewfile` は `bb` / `bf` / `bcf` だけが読む別の一覧で、内容は一致しない（`bcf` は Brewfile に無いものを削除する） |
 | Linux の OS パッケージ（apt）、macOS defaults | `home/private_dot_config/mise.toml` |
 | CLI ツール、runtime | `home/private_dot_config/mise/conf.d/tools.toml` |
 | skills、Windows の winget / scoop | `home/.chezmoidata/`（`agents.yaml` / `packages.yaml`） |
@@ -163,8 +163,8 @@ WSL2、Windows、FreeBSD は将来対応予定です。対応範囲と package �
 
 ### Platform rules
 
-- `apt:*` → `{ os = "linux" }`（`mise.toml` の `[bootstrap.packages]` は apt のみ。macOS の brew / cask / mas は `Brewfile` が唯一の定義）
-- 適用側も OS ごとに絞る（Linux は `mise bootstrap packages apply --manager apt`、macOS は `brew bundle --no-upgrade --file ~/.config/Brewfile`。mas は App Store へのサインインが必要）
+- `apt:*` → `{ os = "linux" }`、`brew:*` / `brew-cask:*` → `{ os = "macos" }` または `"latest"`（`mise.toml` の実際の形式に従う。`mas:*` は適用しないので無効）
+- 適用側も OS ごとに絞る（Linux は `mise bootstrap packages apply --manager apt`、macOS は `--manager brew` / `--manager brew-cask`。`brew bundle` と `--manager mas` は、CI の macOS runner が App Store に sign in できず止まるためコメントアウト中）
 - `bootstrap.services` / `bootstrap.compose` / `bootstrap.macos.launchd` は `mise.toml` でコメントアウト中
 - Docker build（`DOCKER=true`）は `linux/setup.sh` を、Dev Container（`REMOTE_CONTAINERS=true`）は `vscode.sh` / `gui.sh` / `docker.sh` を `.chezmoiignore` で除外する
 

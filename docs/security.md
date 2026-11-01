@@ -29,7 +29,7 @@ description: dotfiles セキュリティ — 脅威モデルとレビューチ�
 | GitHub token | ログ・image layer への混入。ローカルの `.env` / `.devcontainer/.env`（`.gitignore` 済み）に平文の GitHub PAT が残っている | CI の既存 token、local `gh` fallback。`ARG`/`ENV` に保存しない。PAT の失効・再発行は未実施（ユーザー作業） |
 | devcontainer | ビルド時の秘密混入。公開 Full image の既定認証情報（`CMD ["ubuntu", "ubuntu", "yes"]` = パスワード `ubuntu`、`NOPASSWD:ALL`、`EXPOSE 3389`） | `DOCKER=true`、encrypted files ignore、Dockerfile に secrets なし（BuildKit secret のみ）。既定パスワードは image 側では未対処で、`make docker-run` / compose は `127.0.0.1` にのみ公開する |
 | 外部アーカイブ | tag drift / API rate limit | age GitHub external を使用しない。`.chezmoiexternal.toml` の fonts は tag 固定だが、cheat・WhiteSur ×4 は `master` / `main` のブランチ先端を参照し固定されていない |
-| mise 設定 | cwd より上位の `.env` や設定ファイルの混入 | `trusted_config_paths` は `~/dotfiles` と `~/.local/share/chezmoi` のみ。グローバルの `env_file` と `yes` は設定しない（`mise/conf.d/settings.toml`。`paranoid` は無効）。リポジトリ直下 `mise.toml` の `[env] _.file = '.env'` もコメントアウトしてあり、mise は `.env` を自動では読まない |
+| mise 設定 | cwd より上位の `.env` や設定ファイルの混入 | `trusted_config_paths` は `~/dotfiles` と `~/.local/share/chezmoi` のみ。グローバルの `env_file = '.env'` は設定している（`mise/conf.d/settings.toml`）。cwd と全ての親ディレクトリの `.env` を trust 確認も変数の絞り込みも無しで読み、`LD_PRELOAD` / `NODE_OPTIONS` 等も export されるため、clone した未信頼 repo の `.env` が緩和なしで効く。`~/.env` は chezmoi が `encrypted_private_dot_env.age`（age パスフレーズ暗号。公開リポジトリにあり、守るのはパスフレーズのみ）から配置し、mise は dotenv を復号できない。`yes` は設定しない（`paranoid` は無効）。リポジトリ直下 `mise.toml` の `[env] _.file = '.env'` はコメントアウト中 |
 | macOS Gatekeeper | 未確認アプリの実行ダイアログ | 緩和なし。`mise.toml` の `LSQuarantine = false` で意図的に無効化している |
 
 

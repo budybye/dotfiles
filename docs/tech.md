@@ -12,8 +12,8 @@ description: 技術スタック パッケージ管理 ライブラリ説明
 - source of truth は次の6つ
   - `home/private_dot_config/mise/conf.d/tools.toml`（ツール定義）
   - `home/private_dot_config/mise/conf.d/settings.toml`（mise 設定）
-  - `home/private_dot_config/mise.toml`（`mise bootstrap`: macOS defaults と apt パッケージのみ。brew / cask / mas は持たない）
-  - `home/private_dot_config/Brewfile`（macOS の Homebrew formula / cask / tap / mas の唯一の一覧。darwin bootstrap が `brew bundle` で適用する）
+  - `home/private_dot_config/mise.toml`（`mise bootstrap`: macOS defaults と、`apt:`（Linux）/ `brew:` / `brew-cask:`（macOS）パッケージ。bootstrap が入れる一覧。`mas:` の行は持つが適用しない）
+  - `home/private_dot_config/Brewfile`（macOS の Homebrew 一覧。bootstrap は適用せず、`bb` / `bf` / `bcf` エイリアスだけが読む。`mise.toml` と重複する別の一覧で、内容は一致しない）
   - `home/.chezmoidata/packages.yaml`（Windows の winget / scoop。`curl:` リストは参照するテンプレートが無く未使用）
   - `home/private_dot_config/aquaproj-aqua/aqua.yaml`
 
@@ -21,7 +21,7 @@ description: 技術スタック パッケージ管理 ライブラリ説明
 
 - **Chezmoi**: dotfiles 管理の中核
 - **Mise**: 言語ランタイムと CLI の統合管理
-- **Homebrew / APT / Winget / Scoop**: OS ごとのパッケージ管理（macOS は `Brewfile` を `brew bundle` で、Linux は `mise bootstrap`（apt）で、Windows は `packages.yaml`）
+- **Homebrew / APT / Winget / Scoop**: OS ごとのパッケージ管理（macOS は `mise bootstrap packages`（brew / brew-cask）と、`bb` / `bcf` 用の `Brewfile`、Linux は `mise bootstrap`（apt）で、Windows は `packages.yaml`）
 - **Aqua**: 宣言的な追加 CLI 管理
 - **Cargo / npm / Go / Python**: 言語別 CLI 配布
 
@@ -42,7 +42,7 @@ description: 技術スタック パッケージ管理 ライブラリ説明
   - ほぼ全て `latest` 指定。`lockfile = true`（グローバル tool のロックは `mise lock --global` を実行したマシンにだけ `~/.config/mise/mise.lock` として作られ、リポジトリ管理外。`make init` は `mise i -y` のみなので、新規マシン・CI・Docker には lockfile が無く checksum は照合されない。`lockfile_platforms` は macOS arm64 のみ。検知できるのは lock を作ったマシンでの以降の差し替えのみ）
   - `minimum_release_age = "12h"`（公開から 12h 未満の版は採用しない。リリース日を返さない `http:` tool には効かない。`node` / `pi` / `oh-my-pi` / `lazyxrp` は除外）
   - `self_update.auto` と `tool_update.global_auto` で本体・グローバル tool を自動更新
-  - グローバルの `env_file` と `yes` は設定しない（全階層の `.env` を trust 確認なしで読み、未信頼の `mise.toml` を自動 trust してしまうため）。リポジトリ直下 `mise.toml` の `[env] _.file = '.env'` もコメントアウト中で、`.env` は mise が自動では読まない
+  - グローバルの `env_file = '.env'` を設定している（意図的）。cwd と全ての親ディレクトリの `.env` を読み（近い方が勝つ。`mise.toml` は不要）、全ての `[env]` の後に適用して上書きする。trust 確認も変数の絞り込みも無く、`LD_PRELOAD` / `NODE_OPTIONS` 等も通るため、clone した未信頼 repo の `.env` も自動で export される。cwd が `$HOME` 配下なら `~/.env`（`home/encrypted_private_dot_env.age` から chezmoi が配置。age パスフレーズ暗号で公開 repo にあり、守るのはパスフレーズのみ）も読む。mise は dotenv を復号できない。トップレベルの `env_file` キーは deprecated（2027.4.0 で削除予定）だが `[settings]` の形式は対象外。`yes` は設定しない（未信頼の `mise.toml` を自動 trust してしまうため）。リポジトリ直下 `mise.toml` の `[env] _.file = '.env'` はコメントアウト中で何も足さない
   - `activate_aggressive = false`（毎プロンプトで tool の PATH を先頭へ戻さない。venv 等が足した PATH を潰さないため）
   - 慣習的バージョンファイル（`.nvmrc` 等）は node / python / ruby / go のみ有効。`legacy_version_file` / `asdf_compat` は廃止済みで使わない
   - バックエンド: `cargo.binstall = true`、`pypi.uvx = true`、`npm.package_manager = "bun"`
@@ -55,9 +55,9 @@ description: 技術スタック パッケージ管理 ライブラリ説明
 - **設定**: `home/private_dot_config/mise.toml`
 - **役割**:
   - `[bootstrap.macos.*]`: キーボード・トラックパッド・Dock・Finder・`defaults` の設定
-  - `[bootstrap.packages]`: `apt:`（Linux）のみ。macOS の brew / cask / mas は `mise.toml` に持たせない（`bcf` と食い違うため）
-- **適用**: `home/.chezmoiscripts/darwin/run_onchange_after_bootstrap.sh.tmpl` は `brew bundle --no-upgrade --file ~/.config/Brewfile`（formula / cask / mas。upgrade は `bu` / `bb`）と `mise bootstrap macos defaults apply` を実行し、`linux/run_onchange_after_cli.sh.tmpl` は `mise bootstrap packages apply --manager apt` を実行する。darwin は `Brewfile` / `mise.toml` / `tools.toml`、linux は `mise.toml` / `tools.toml` の sha256 を埋め込み、変更時に再実行される
-- **Brewfile**: `home/private_dot_config/Brewfile`（macOS のみ配置）は bootstrap と `bb` / `bf` / `bcf` エイリアスが共通で読む一覧（`bcf` は Brewfile に無い項目を削除する）。`mas` は `brew bundle` 経由で入るため App Store へのサインインが必要で、未サインインでは `brew bundle failed.` を表示するだけで続行する。CI（`GITHUB_ACTIONS=true`）の runner は sign in できず `mas` の install で止まるため、bootstrap は `mas` の行を除いた一時 Brewfile で実行する
+  - `[bootstrap.packages]`: `apt:`（Linux）、`brew:` / `brew-cask:`（macOS）、`mas:`（macOS。適用しないので無効）。`brew:` / `brew-cask:` は `{ os = "macos" }` または `"latest"`
+- **適用**: `home/.chezmoiscripts/darwin/run_onchange_after_bootstrap.sh.tmpl` は `mise bootstrap packages apply --manager brew` / `--manager brew-cask` と `mise bootstrap macos defaults apply` を実行し、`linux/run_onchange_after_cli.sh.tmpl` は `mise bootstrap packages apply --manager apt` を実行する。`brew bundle` と `--manager mas` はコメントアウト中（`brew bundle` は Brewfile の `mas` アプリ（Logic Pro / RunCat / Shazam）も入れ、CI の macOS runner は App Store に sign in できず `mas` が止まって job が timeout-minutes 60 で cancel されたため）。darwin / linux とも `mise.toml` / `tools.toml` の sha256 を埋め込み、変更時に再実行される
+- **Brewfile**: `home/private_dot_config/Brewfile`（macOS のみ配置）は `bb` / `bf` / `bcf` エイリアスだけが読む一覧で、bootstrap は適用しない。`mise.toml` とは別の一覧で、Brewfile だけにある cask（`blender` / `cloudflare-warp` / `github` / `onyx` / `raycast` / `windows-app` / `wireshark-app`）は bootstrap が入れず、`mise.toml` だけにある `mpd` / `mpc` / `ncmpcpp` / `orca` / `tradingview` は Brewfile に無い（コメントアウト）ため `bcf`（`brew bundle cleanup`）が削除する。一覧の一本化は未了（ROADMAP M2）
 
 ### packages.yaml（Windows）
 
@@ -95,7 +95,7 @@ description: 技術スタック パッケージ管理 ライブラリ説明
 - **rg**（ripgrep）
 - **lsd**（ls 拡張）
 - **bottom**（システムモニタ）
-- **ghostty / ratty**（ターミナルエミュレータ。ghostty は `Brewfile` の cask、ratty は `tools.toml`）
+- **ghostty / ratty**（ターミナルエミュレータ。ghostty は `mise.toml` / `Brewfile` の cask、ratty は `tools.toml`）
 - **fish**（Linux のみ。`tools.toml` で `os = ["linux"]`）
 
 ### 開発・CI/CD
@@ -169,7 +169,7 @@ Mise で管理する主要な言語および関連ツール。
 
 ## 注意事項
 
-- 具体的な「どのツールが有効か」はコメントアウト状態も含め `mise/conf.d/tools.toml`、`Brewfile`（macOS）、`mise.toml`（apt / macOS defaults）を優先する
+- 具体的な「どのツールが有効か」はコメントアウト状態も含め `mise/conf.d/tools.toml`、`Brewfile`（macOS の `bb` / `bcf`）、`mise.toml`（apt / brew / brew-cask / macOS defaults）を優先する
 - README は概要のみを保持し、ツール一覧の重複列挙はしない
 - バージョンの厳密な固定値が必要な場合は、個別ファイル（`tools.toml`, `aqua.yaml`）を更新する
 

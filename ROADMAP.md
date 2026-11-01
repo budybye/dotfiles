@@ -20,7 +20,7 @@ README.md と docs/ が運用・設計の正本です。
 ## 現在地
 
 - Chezmoi がテンプレート、設定、暗号化ファイル、OS・host 分岐を管理する
-- Mise がツール、Linux (apt) の package bootstrap、macOS defaults の正本へ移行中。macOS の Homebrew (formula / cask / tap / mas) は Brewfile が単独の正本で、darwin の bootstrap script が `brew bundle --no-upgrade --file ~/.config/Brewfile` で適用する
+- Mise がツール、Linux (apt) と macOS (brew / brew-cask) の package bootstrap、macOS defaults の正本へ移行中。darwin の bootstrap script は `mise bootstrap packages apply --manager brew` / `--manager brew-cask` で適用し、`brew bundle` と mas はコメントアウト中。`Brewfile` は `bb` / `bcf` だけが読む別の一覧で、`mise.toml` と重複して内容が一致しない
 - Makefile は既存利用者と CI の互換入口として維持する
 - GitHub Actions は複数 OS で `make init` を実行し、Docker image を build し、LXD で cloud-init を起動する (`powershell` / `windows-11-arm64` / `wsl2` は package 導入または checkout のみ。`lxd` / `rpi` は cloud-init の終了コードを無視する)
 - SemVer git tag がリリースバージョンの単一ソースである
@@ -74,9 +74,10 @@ README.md と docs/ が運用・設計の正本です。
 
 ### M2: Mise / Chezmoi 移行
 
-- [ ] Linux (apt) の package bootstrap の正本を Mise に集約 (macOS の Homebrew は Brewfile が単独の正本。`mise.toml` の `[bootstrap]` は macOS defaults と `apt:` のみ。済)
+- [ ] Linux (apt) の package bootstrap の正本を Mise に集約 (macOS の brew / brew-cask も `mise.toml` の `[bootstrap.packages]` から適用する。`mas:` は適用しない。済)
   - [ ] `install.sh` が `chezmoi init --apply` の前に Mise を導入する唯一の入口になる (他 script の Mise install、`packages.yaml` の mise curl 行は削除)
-  - [ ] `packages.yaml` と `mise.toml` `[bootstrap.packages]` の apt entry の package parity 表を作り (Homebrew は Brewfile のみで parity の対象外)、必要 package が正本ちょうど1行に存在することを確認する
+  - [ ] `packages.yaml` と `mise.toml` `[bootstrap.packages]` の entry の package parity 表を作り、必要 package が正本ちょうど1行に存在することを確認する
+  - [ ] macOS の `Brewfile` と `mise.toml` の `brew:` / `brew-cask:` の重複を解消する (一覧を一本化するか、どちらかを正本に決める。現状は Brewfile だけにある cask (`blender` / `cloudflare-warp` / `github` / `onyx` / `raycast` / `windows-app` / `wireshark-app`) は bootstrap が入れず、`mise.toml` だけにある `mpd` / `mpc` / `ncmpcpp` / `orca` / `tradingview` は `bcf` が削除する)
   - [ ] Linux bootstrap を CLI と GUI (xfce4, xrdp, pipewire 等) に分離し、CLI-only (slim image / minimal profile) には desktop stack を入れない。CI と Docker Full image は GUI まで検証するので `gui.sh` を実行する (意図的。Full image は Dockerfile が xfce4 / xrdp を先に入れ、`gui.sh` の追加 package は `light-locker` / `xscreensaver` を要求しないので RDP に影響しない)
   - [ ] zed の curl installer を冪等な Mise task へ移し、`packages.yaml` の未使用の `curl:` を削除する（coderabbit は `http:coderabbit`、cursor は `http:cursor-cli` として `tools.toml` へ移行済み）
   - [ ] Docker CE apt repo 導入を Mise task 化する（`act` は `tools.toml` で導入済みで、curl 経路は存在しない）
@@ -114,7 +115,7 @@ README.md と docs/ が運用・設計の正本です。
 - [ ] 大規模な script 縮退 (M2) の前に baseline 監査 (inventory・secret posture・script risk) を実施し、縮退後に security review を再実施する
 - [ ] CI failure policy と recovery 手順を更新
 - [x] mise の `lockfile = true` (`lockfile_platforms = ["macos-arm64"]`、グローバル tool は `mise lock --global`) を有効化
-- [x] グローバルの mise `env_file` / `yes` を削除し `activate_aggressive = false` にした。root `mise.toml` の `[env] _.file = '.env'` (repo 内だけで `.env` を読む設定) もコメントアウトしてあり、mise は `.env` を自動では読まない
+- [x] グローバルの mise `yes` を削除し `activate_aggressive = false` にした。`env_file = '.env'` は意図的に復活させた (cwd と全ての親ディレクトリの `.env` を trust 確認・変数の絞り込み無しで読むため、未信頼 repo の `.env` も効く)。root `mise.toml` の `[env] _.file = '.env'` はコメントアウトしてあり何も足さない
 - [x] claude `settings.json` の `permissions.allow` を read-only・開発ループのコマンドに絞り、`ask` (git push、`chezmoi execute-template`) と `deny` (secret・破壊的操作) を追加
 - [x] `home/private_dot_config/ipfs/` を tree から削除した (PrivKey は公開 git 履歴と `ipfs.yaml` の pin に残る。M8-1)
 
@@ -145,7 +146,7 @@ README.md と docs/ が運用・設計の正本です。
 - [x] 秘密鍵と `key.txt` の age 暗号文 (`home/private_dot_ssh/encrypted_private_id_{ed25519,ed25519_boborder,ed25519_dayjobdoor,rsa}.age`、`home/key.txt.age`) は公開 repo に置き続ける (現状維持)。防壁は passphrase の強度だけで、後から取り消せない。記録は `docs/security.md` の脅威表。外す場合は各マシンで `ssh_setup --generate` し、公開鍵だけを template で配る
 - [ ] `.gitignore` に `age.txt`、`*.pem`、`*.key`、`rclone.conf`、`*.local` を足す (現状は `.env`、`.env.*` (`!.env.example`)、`.devcontainer/.env`、`config.yml.lock`、`tmp` のみ)
 - [ ] gitleaks を `.githooks/pre-commit` (staged) と CI (履歴全体) に入れる (現状はどちらも無い)
-- [ ] repo ルートの `.env` と `.devcontainer/.env` に平文で残る GitHub PAT を revoke・再発行する。root `mise.toml` の `[env]` は既にコメントアウト済みで、`GITHUB_TOKEN="$(gh auth token)"` に寄せれば `.env` 自体が不要になる
+- [ ] repo ルートの `.env` と `.devcontainer/.env` に平文で残る GitHub PAT を revoke・再発行する。root `mise.toml` の `[env]` は既にコメントアウト済みだが、グローバルの `env_file` が repo 内でも `.env` を読むので、`GITHUB_TOKEN="$(gh auth token)"` に寄せれば `.env` 自体が不要になる
 - 完了条件: `git grep -nE '^[[:space:]]*(passwd|plain_text_passwd)[[:space:]]*:' -- cloud-init` が 0 件。`gitleaks git --redact` が通る。PAT を再発行済み
 
 #### M8-2: CI が収束を検証する (M3 / M4)

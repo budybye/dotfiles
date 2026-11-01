@@ -116,6 +116,7 @@ description: 環境差の吸収における注意点、プラットフォーム�
 | Docker         | `ARCH` は `.profile` が `dpkg --print-architecture`（無ければ `uname -m`）で export する。WSL では dpkg が利用可能。同じ `.profile` が OrbStack / Docker Desktop / Podman のソケットを検出すると `DOCKER_HOST` / `DOCKER_CONTEXT` を export するため、新しいシェルでは `docker context use` より環境変数が優先される | [home/dot_profile](../home/dot_profile)                 |
 | Karabiner      | macOS 専用。`pbpaste` 等の macOS コマンドに依存する                                  | [home/.chezmoiignore](../home/.chezmoiignore)                                                         |
 | fcitx5, Fusuma | Linux 専用。.chezmoiignore で darwin では適用しない                                  | [home/.chezmoiignore](../home/.chezmoiignore)                                                         |
+| Actions runner（ubuntu-26.04） | clean-space で `sudo rm -rf /opt/*` を使わない。image 20261025 以降、runner の Node（`/home/runner/actions-runner/cached/*/externals/node24`）が `/opt/runner-cache` への symlink で、消すと `actions/checkout@v7` が `.../node24/bin/node ... No such file or directory` で落ちる。`/opt/az` / `/opt/google` / `/opt/microsoft` / `/opt/pipx` / `/opt/pipx_bin` だけを消す | [.github/workflows/test.yaml](../.github/workflows/test.yaml) |
 
 ### GitHub CLI (gh) 資格情報保存
 

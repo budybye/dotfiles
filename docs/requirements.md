@@ -145,7 +145,7 @@ description: 要件定義書
 
 ### パッケージ管理戦略
 
-- **macOS**: Homebrew（formula、cask、mas）を使用。一覧は `Brewfile` のみで、bootstrap が `brew bundle` で適用する
+- **macOS**: Homebrew（formula、cask）を使用。bootstrap は `mise.toml` の `brew:` / `brew-cask:` を `mise bootstrap packages apply` で入れる。mas は適用しない。`Brewfile` は `bb` / `bcf` だけが読む別の一覧で、一本化は未了（ROADMAP M2）
 - **Ubuntu/Debian**: APT を使用（Snap は未使用）
 - **ランタイム管理**: Mise（Node.js、Python、Go など）を使用
 - **Rust ツール**: Cargo または Mise を優先し、必要時に Homebrew/APT を使用
@@ -164,4 +164,4 @@ description: 要件定義書
 - workstation は full package / GUI profile として扱う。
 - CI は Linux CLI package を基本とする。ただし CI では `linux/gui.sh` と `linux/setup.sh`、Docker Full image では `linux/gui.sh` が実行される。これは意図的（Full image はデスクトップ image で、CI は `make init` 全体を検証する。`gui.sh` の追加 package は xrdp を壊す `light-locker` / `xscreensaver` を要求しない）。profile 分離は ROADMAP M2 の別課題。
 - Docker は secret、SDDM、systemd を持ち込まない。Full image は xfce4 / xorgxrdp / xrdp を含み、Slim image の Dockerfile は xrdp を入れない。
-- profile の package 定義は Mise（apt）と `Brewfile`（macOS）、Chezmoi data は extensions / skills / platform-specific data に限定する。
+- profile の package 定義は Mise（apt / brew / brew-cask）。`Brewfile`（macOS の `bb` / `bcf` 用）は別の一覧。Chezmoi data は extensions / skills / platform-specific data に限定する。

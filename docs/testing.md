@@ -13,7 +13,7 @@ description: dotfiles のローカル・CI・環境別検証ガイド
 - CI matrix: [`.github/workflows/test.yaml`](../.github/workflows/test.yaml)
 - bootstrap / profile 境界: [`architecture.md`](architecture.md)
 - OS / CI / Docker の責務: [`requirements.md`](requirements.md#プロファイル要件)
-- 実際の package / tool 定義: `home/private_dot_config/Brewfile`（macOS）、`home/private_dot_config/mise.toml`（apt）、`home/private_dot_config/mise/`、`home/.chezmoidata/packages.yaml`（Windows の winget / scoop のみ）
+- 実際の package / tool 定義: `home/private_dot_config/mise.toml`（apt / brew / brew-cask）、`home/private_dot_config/Brewfile`（macOS の `bb` / `bcf` 用。bootstrap は適用しない）、`home/private_dot_config/mise/`、`home/.chezmoidata/packages.yaml`（Windows の winget / scoop のみ）
 
 ## ローカル検証
 
@@ -114,7 +114,7 @@ GITHUB_TOKEN="$(gh auth token)" make up
 
 ## 統合後の追加検証
 
-- profile 変更: `mise config ls`、対象 platform の dry-run。package の状態確認は、Linux は `mise bootstrap packages status`（apt のみが対象）、macOS は `brew bundle check --file ~/.config/Brewfile`
+- profile 変更: `mise config ls`、対象 platform の dry-run。package の状態確認は `mise bootstrap packages status`（Linux は apt、macOS は brew / brew-cask）。macOS の `Brewfile` は別に `brew bundle check --file ~/.config/Brewfile` で確認する
 - xrdp / GUI 変更: Ubuntu VM と Docker を分けて session smoke test
 - template 変更: `chezmoi execute-template`、`chezmoi verify`、`chezmoi diff`
 - VCS / keybind / skill manager 変更: 実設定ファイルと対象 command の動作確認
