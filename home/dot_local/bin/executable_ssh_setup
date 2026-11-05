@@ -69,7 +69,12 @@ if [ ! -f "${KEY_PATH}" ]; then
     exit 1
   }
   mkdir -p "$(dirname "${KEY_PATH}")"
-  ssh-keygen -t ed25519 -f "${KEY_PATH}" -C "$(id -un)"
+  ssh-keygen -t ed25519 -f "${KEY_PATH}" -C "$(id -un)@$(hostname -s)"
+fi
+
+if [ -L "${KEY_PATH}.pub" ]; then
+  printf 'Refusing symlink public key: %s.pub\n' "${KEY_PATH}" >&2
+  exit 1
 fi
 
 if [ ! -f "${KEY_PATH}.pub" ]; then
@@ -77,10 +82,21 @@ if [ ! -f "${KEY_PATH}.pub" ]; then
   exit 1
 fi
 
+# 秘密鍵と .pub が対応しているか確認する。passphrase 付きの鍵は問い合わせになるので確認しない。
+if derived_pub="$(ssh-keygen -y -P '' -f "${KEY_PATH}" 2>/dev/null)"; then
+  if [ "$(printf '%s' "${derived_pub}" | cut -d' ' -f1,2)" != "$(cut -d' ' -f1,2 "${KEY_PATH}.pub")" ]; then
+    printf 'Public key does not match private key: %s\n' "${KEY_PATH}" >&2
+    exit 1
+  fi
+fi
+
 chmod 600 "${KEY_PATH}"
 chmod 644 "${KEY_PATH}.pub"
-[ -f "${SSH_DIR}/authorized_keys" ] && chmod 600 "${SSH_DIR}/authorized_keys"
-[ -f "${SSH_DIR}/config" ] && chmod 600 "${SSH_DIR}/config"
+for name in authorized_keys config; do
+  if [ -f "${SSH_DIR}/${name}" ]; then
+    chmod 600 "${SSH_DIR}/${name}"
+  fi
+done
 
 printf 'SSH key ready: %s\n' "${KEY_PATH}"
 if [ "${show_public_key}" -eq 1 ]; then
