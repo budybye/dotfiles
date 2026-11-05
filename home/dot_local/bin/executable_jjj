@@ -2,17 +2,23 @@
 
 set -euo pipefail
 
-# jjj [-h|--help] ["メッセージ" ["ブックマーク名" ["リモート名"]]]
-# $1 "メッセージ"(省略時はランダムな絵文字)
-# $2 "ブックマーク名"(省略時は自動検出)
-# $3 "リモート名"(省略時は origin)
-# -h, --help  この使い方を表示して終了
+usage() {
+  cat <<'EOF'
+Usage: jjj [-h|--help] ["メッセージ" ["ブックマーク名" ["リモート名"]]]
 
-# 変更を確定し、ブックマークを作成・更新してプッシュする
+Arguments:
+  メッセージ      コミットメッセージ(省略時はランダムな絵文字)
+  ブックマーク名  進めるブックマーク(省略時は自動検出)
+  リモート名      push 先(省略時は origin)
+
+作業コピー(@)に変更があれば確定する。@ が空なら、確定済みの @- を対象にする。
+対象のコミットへブックマークを作成・移動して push する。
+EOF
+}
 
 case "${1:-}" in
   -h|--help)
-    sed -n '5,10p' "$0" | sed 's/^# \{0,1\}//'
+    usage
     exit 0
     ;;
   -*)
@@ -24,18 +30,6 @@ esac
 if ! command -v jj >/dev/null 2>&1; then
   printf '%s\n' "jj not found" >&2
   exit 1
-fi
-
-if [ -n "${1:-}" ]; then
-  msg="$1"
-else
-  emojis=(
-    '🎉' '✨' '🔧' '💄' '✏️' '📝' '🔥' '🐛' '♻️' '🚨' '🚧'
-    '🍍' '🍕' '🐈' '♨️' '🍄' '🥦' '🌈' '🚲' '🏄' '🙏' '🌞'
-    '🌕' '🏴‍☠️' '🥷' '🐳' '😈' '⛰️' '🌊' '🔫' '🚬' '☕️' '🍺'
-  )
-  emoji_index=$((RANDOM % ${#emojis[@]}))
-  msg="${emojis[emoji_index]}"
 fi
 
 bookmark="${2:-}"
@@ -53,10 +47,18 @@ fi
 # gitとの不整合を解消（stale index対策）
 jj git import >/dev/null
 
-# 空の作業コピーは describe/new/push が空コミットを積むので、副作用の前に止める。
+# 空の作業コピーに describe/new すると空コミットが積まれるので、その場合は確定済みの @- を push する。
+# @- が root なら push するものが無い。
+commit_changes=1
 if [ "$(jj log -r @ --no-graph -T 'empty')" = "true" ]; then
-  printf '%s\n' "no changes to commit" >&2
-  exit 0
+  commit_changes=0
+  if [ "$(jj log -r @- --no-graph -T 'root')" = "true" ]; then
+    printf '%s\n' "no changes to commit" >&2
+    exit 0
+  fi
+  if [ -n "${1:-}" ]; then
+    printf '%s\n' "working copy is empty; message ignored, pushing @-" >&2
+  fi
 fi
 
 # ブックマーク名を自動検出（指定されていない場合）
@@ -68,13 +70,7 @@ is_reserved_bookmark() {
   esac
 }
 
-if [ -z "${bookmark}" ] && command -v git >/dev/null 2>&1; then
-  cand="$(git symbolic-ref --short HEAD 2>/dev/null || true)"
-  if [ -n "${cand}" ] && ! is_reserved_bookmark "${cand}"; then
-    bookmark="${cand}"
-  fi
-fi
-
+# colocate では git の HEAD が常に detached なので、git のブランチ名は当てにしない。
 if [ -z "${bookmark}" ]; then
   # working copyの祖先上にあるtrunk系を優先
   for cand in main master trunk; do
@@ -113,19 +109,27 @@ if is_reserved_bookmark "${bookmark}"; then
   exit 1
 fi
 
-# 未作成なら作るだけ（既存bookmarkを@へ動かさない）。
-bookmark_list="$(jj bookmark list --template 'name ++ "\n"')"
-if ! printf '%s\n' "${bookmark_list}" | grep -Fx -- "${bookmark}" >/dev/null; then
-  jj bookmark create "${bookmark}" -r @
-fi
-
 # colocate init 直後は git の main が local に入るが main@origin は untracked のまま。
 # このままだと push が "Non-tracking remote bookmark exists" で失敗するため track する。
 # remote 側に無ければ何もしない。
 jj bookmark track "${bookmark}@${remote}" >/dev/null 2>&1 || true
 
-# 変更にメッセージを付けて確定し、ブックマークをコミットに移して指定先へプッシュ
-jj describe -m "${msg}"
-jj new
+if [ "${commit_changes}" -eq 1 ]; then
+  if [ -n "${1:-}" ]; then
+    msg="$1"
+  else
+    emojis=(
+      '🎉' '✨' '🔧' '💄' '✏️' '📝' '🔥' '🐛' '♻️' '🚨' '🚧'
+      '🍍' '🍕' '🐈' '♨️' '🍄' '🥦' '🌈' '🚲' '🏄' '🙏' '🌞'
+      '🌕' '🏴‍☠️' '🥷' '🐳' '😈' '⛰️' '🌊' '🔫' '🚬' '☕️' '🍺'
+    )
+    emoji_index=$((RANDOM % ${#emojis[@]}))
+    msg="${emojis[emoji_index]}"
+  fi
+  jj describe -m "${msg}"
+  jj new
+fi
+
+# `bookmark set` は無ければ作る。@- が確定済みのコミット。
 jj bookmark set "${bookmark}" -r @-
 jj git push --remote "${remote}" --bookmark "${bookmark}"
