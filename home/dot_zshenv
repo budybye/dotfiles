@@ -16,6 +16,9 @@ else
     export ZDOTDIR="${HOME}"
 fi
 
+# Ubuntu の /etc/zsh/zshrc が compinit するのを止める。補完は sheldon の1回だけ
+skip_global_compinit=1
+
 # ${HOME}/.zshenv は全ての zsh で読まれるので ${ZDOTDIR} を指定する
 # 読み込み順（login + interactive の場合）:
 # ${ZDOTDIR}/.zprofile -> .profile から環境変数と PATH を設定（非対話 login ならここで .zshrc も読む）

@@ -55,13 +55,6 @@ autoload -Uz colors && colors
 zstyle ':completion:*' cache-path "${HOME}/.cache/zsh/zcompcache"
 zstyle ':completion:*' use-cache on
 
-# enable completion
-if [ -d "${HOME}/.cache/zsh" ]; then
-    autoload -Uz compinit && compinit -d "${HOME}/.cache/zsh/zcompdump-${ZSH_VERSION}"
-else
-    autoload -Uz compinit && compinit
-fi
-
 ## 小文字の入力が大文字にもマッチする（片方向）
 zstyle ':completion:*' matcher-list 'm:{:a-z:}={:A-Z:}'
 
@@ -75,6 +68,10 @@ zstyle ':completion:*:default' menu select=2
 
 # 補完時にコマンドのハッシュを毎回更新する
 zstyle ':completion:*' rehash 1
+
+# compdef を使う eval（sheldon 等）より前に compinit を読み込む
+autoload -Uz compinit
+compinit -C -d "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompdump-${ZSH_VERSION}"
 
 # cdした後に自動でlsする
 chpwd() {
@@ -109,12 +106,6 @@ fi
 # atuin
 if command -v atuin > /dev/null 2>&1; then
     eval "$(atuin init zsh)"
-fi
-
-# fzf
-if command -v fzf > /dev/null 2>&1; then
-    # shellcheck source=/dev/null
-    source <(fzf --zsh)
 fi
 
 # sheldon（PATH に git-open 等を追加）

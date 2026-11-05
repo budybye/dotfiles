@@ -12,9 +12,9 @@ apply = "defer"
 defer = "{% for file in files %}zsh-defer source \"{{ file }}\"\n{% endfor %}"
 PATH = 'export PATH="$PATH:{{ dir }}"'
 
-# 補完
+# 補完。fpath を足したあとに zsh-defer で1回だけ。zshrc では呼ばない
 [plugins.compinit]
-inline = "autoload -Uz compinit && zsh-defer compinit -d \"${XDG_CACHE_HOME}/zsh/zcompdump-${ZSH_VERSION}\""
+inline = "autoload -Uz compinit && zsh-defer compinit -d \"${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompdump-${ZSH_VERSION}\""
 
 # 高速版シンタックスハイライト
 [plugins.zsh-fast-syntax-highlighting]

@@ -24,7 +24,6 @@ README.md と docs/ が運用・設計の正本です。
 - Makefile は既存利用者と CI の互換入口として維持する
 - GitHub Actions は複数 OS で `make init` を実行し、Docker image を build し、LXD で cloud-init を起動する (`powershell` / `windows-11-arm64` / `wsl2` は package 導入または checkout のみ。`lxd` / `rpi` は cloud-init の終了コードを無視する)
 - SemVer git tag がリリースバージョンの単一ソースである
-- dayjobdoor/dotfiles (Ubuntu 26.04 専用・mise 管理) との比較で取り込み項目を洗い出した (2026-10-31、M8)。事実は 2026-11-01 に本 working copy で再確認した
 
 ## 目標の優先順位
 
@@ -163,7 +162,7 @@ README.md と docs/ が運用・設計の正本です。
 - [ ] `.profile` を export のみにし、`mkdir` / `touch` / mpd 起動を `.chezmoiscripts` の `run_onchange` へ移す (`chmod -R` は削除済み)
 - [ ] `LC_ALL` (86 行) と `TERM` (88 行) の強制をやめる (`LANG` のみ)。mise は `bootstrap` の出力を英語前提で解析する箇所があり、djd は日本語ロケールで ufw の判定が壊れた (mise 2026.10.23)。外せない場合は bootstrap 実行時に `LC_ALL=C.UTF-8` を付ける
 - [x] `.zprofile` から `.zshrc` を再読み込みしない (済: 対話 shell では読まず、非対話 login (`zsh -lc`) だけ読む。mux の自動起動は `.zlogin`)
-- [ ] `compinit` を 1 回にする。現状は `.zshrc` (60, 62 行)、`sheldon/plugins.toml` (16-17 行)、Ubuntu の `/etc/zsh/zshrc` の最大 3 回。`.zshenv` に `skip_global_compinit=1` を足し、残りのどれか 1 つに絞る
+- [x] `compinit` を 1 回にする (済: `.zshenv` の `skip_global_compinit=1` で Ubuntu の `/etc/zsh/zshrc` を止め、`.zshrc` の呼び出しを削除。残るのは `sheldon/plugins.toml` の `zsh-defer compinit -d` のみ。`zsh-completions` の fpath より後に走る)
 - [ ] `eval "$(tool init)"` を `$XDG_CACHE_HOME/zsh/init/` にキャッシュする。`mise activate` は PATH を、`sheldon source` は plugins.toml の編集を出力に含むので除外する。`chezmoi apply` の後にキャッシュを消す
 - 完了条件: `hyperfine 'zsh -i -c exit'` の前後の値を `docs/testing.md` に記録する。`zsh -ic true` が何も出力しない
 
