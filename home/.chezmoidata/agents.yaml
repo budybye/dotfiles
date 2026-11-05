@@ -2,14 +2,12 @@ agents:
   # skills add <owner/repo> -s <skill> -a zed -y -g
   # rosie-skills install <owner/repo> <skill> -a warp -y -g
   skills:
-    # "backnotprop/pstack"
-    # "mattpocock/skills"
     "nanaism/yomiyasu":
      - "yomiyasu"
-    "stablyai/orca": 
-     - "orca-cli"
-     - "orchestration"
-     - "computer-use"
+    # "stablyai/orca": 
+    #  - "orca-cli"
+    #  - "orchestration"
+    #  - "computer-use"
     "xingkongliang/skills-manager":
       - "manage-skills"
     "mattpocock/skills":
@@ -36,15 +34,16 @@ agents:
       - "triage"
     "rivet-dev/skills":
       - "rivet-actors"
-      # - "rivet-agentos" # CRITICAL
+      - "rivet-agentos" # CRITICAL
+      - "rivet-secure-exec"
       # - "rivetkit-client-javascript"
       # - "rivetkit-client-react"
       # - "rivetkit-client-swift"
       # - "rivetkit-client-swiftui"
       # - "multiplayer-game"
       # - "sandbox-agent"
-    "bobmatnyc/claude-mpm-skills":
-      - "drizzle"
+    # "bobmatnyc/claude-mpm-skills":
+      # - "drizzle"
       # - "playwright-e2e-testing"
       # - "github-actions"
       # - "hono-cloudflare"
@@ -53,26 +52,31 @@ agents:
       - "durable-objects"
       - "agents-sdk"
       - "workers-best-practices"
-    # "cloudflare/workerd":
+      - "cf-cli"
+    "cloudflare/workerd":
     # - "test-driven-investigation"
     # - "rust-review"
-    # - "dad-jokes"
+      - "dad-jokes"
     "cloudflare/security-audit-skill":
       - "security-audit" # CRITICAL
-    "cloudflare/kumo":
-      - "kumo-design"
+    # "cloudflare/kumo":
+    #   - "kumo-design"
     "blader/humanizer": 
       - "humanizer" # high
     "gamedev-skills/awesome-gamedev-agent-skills": 
       - "fps-shooter"
+      
     "xrpl-commons/xrpl-dev-skill":
       - "xrpl-dev"
     "peersyst/xrplskills":
       - "xrpl"
-      # - "xrpl-standards" # high
-    # "xrplf/xrpl-dev-portal":
-    # - "xrpl-payments"
-    # - "xrpl-agent-wallet"
+      - "xrpl-standards" # high
+      - "xrpl-go"
+    "xrplf/xrpl-dev-portal":
+      - "xrpl-payments"
+      - "xrpl-agent-wallet"
+      - "xrpl-trading"
+
     "softaworks/agent-toolkit":
       - "skill-judge"
       - "agent-md-refactor"
@@ -85,11 +89,11 @@ agents:
       - "database-schema-designer"
       - "c4-architecture"
       - "mermaid-diagrams"
-  
       - "react-dev"
       - "react-useeffect"
-    # "nextlevelbuilder/ui-ux-pro-max-skill":
-      # - "ui-ux-pro-max" # CRITICAL
+
+    "nextlevelbuilder/ui-ux-pro-max-skill":
+      - "ui-ux-pro-max" # CRITICAL
     "vercel-labs/skills":
       - "find-skills"
     "vercel-labs/opensrc":
@@ -102,6 +106,14 @@ agents:
       - "writing-plans"
       - "executing-plans"
       - "test-driven-development"
+      - "systematic-debugging"
+      - "receiving-code-review"
+    "mcollina/skills":
+      - "init"
+      - "typescript-magician"
+      # - "octocat"
+    "theclaymethod/unslop":
+      - "unslop"
     "badlogic/pi-skills":
       - "transcribe"
       - "youtube-transcript"
@@ -111,11 +123,11 @@ agents:
     # "openai/skills":
       # - "security-best-practices" # CRITICAL
     "anthropics/skills":
+      - "doc-coauthoring"
       # - "pdf" # CRITICAL
       # - "docx" # CRITICAL
       # - "pptx" # CRITICAL
       # - "xlsx" # CRITICAL
-      - "doc-coauthoring"
       # - "algorithmic-art"
       # - "brand-guidelines"
       # - "canvas-design"
@@ -161,6 +173,8 @@ agents:
       - "ratatui-tui"
     "RhysSullivan/skills": 
       - "quality-code"
+      - "write-better-error-messages"
+      - "effect-client-wrapper"
     "tt-a1i/archify":
       - "archify" # CRITICAL
     # "graphify-labs/graphify":
@@ -173,11 +187,18 @@ agents:
       - "i-have-adhd"
     "herdrdev/herdr": 
       - "herdr"
+    "coreyhaines31/marketingskills":
+      - "seo-audit"
+    "addyosmani/web-quality-skills":
+     - "web-quality-audit"
+    "addyosmani/agent-skills":
+      - "code-review-and-quality"
+      - "code-simplification"
     "jackwener/opencli":
       - "opencli-browser"
-    "hkuds/cli-anything":
-      - "cli-anything-notebooklm"
-      - "cli-anything-obsidian"
+    # "hkuds/cli-anything":
+    #   - "cli-anything-notebooklm"
+    #   - "cli-anything-obsidian"
     "humanlayer/skills":
       - "show-me"
     "ccxt/ccxt":
@@ -186,8 +207,8 @@ agents:
       - "ccxt-cli"
     "dmmulroy/anti-slop":
       - "install-anti-slop"
-    "dmmulroy/better-result":
-      - "adopt-better-result"
+    # "dmmulroy/better-result":
+    #   - "adopt-better-result"
     "coderabbitai/skills":
       - "autofix" # high
       - "code-review"
@@ -203,16 +224,23 @@ agents:
       - "hono-inertia"
     "honojs/skills":
       - "hono"
+      - "hono-jsx"
+      - "hono-void"
     "antfu/skills":
       - "vite"
       - "vitest"
       # - "slidev" # CRITICAL
+    "voidzero-dev/void":
+      - "void"
+      - "migrate-cloudflare-to-void"
     "maddhruv/absolute":
       - "absolute-audit"
     "alinaqi/maggy":
       - "pwa-development"
     "microsoft/playwright-cli":
       - "playwright-cli"
+    "currents-dev/playwright-best-practices-skill":
+      - "playwright-best-practices"
     "remix-run/agent-skills":
       - "react-router-framework-mode" # CRITICAL
     "remix-run/remix":
@@ -233,6 +261,9 @@ agents:
       - "better-auth-best-practices"
     "tanstack-skills/tanstack-skills":
       - "tanstack-query"
+      - "tanstack-table"
+      - "tanstack-form"
+      - "tanstack-virtual"
       - "tanstack-table"
     "saadeghi/daisyui":
       - "daisyui"
@@ -256,18 +287,39 @@ agents:
       - "rust-skills"
     "jeffallan/claude-skills":
       - "rust-engineer"
-      
+
+    "szkocot/andrej-karpathy-skills":
+      - "karpathy-guidelines"
+    "astro-han/karpathy-llm-wiki":
+      - "karpathy-llm-wiki"
+
+    "kentcdodds/kcd-skills":
+      - "review-and-recommend"
+      - "visual-recap"
+      # - "ship-pr"
+  
+    "webpro/skills":
+      - "clean-git-repo"
+      - "eval-skill"
+      - "optimize-javascript"
+
+    "longbridge/gpui-kit/":
+      - "gpui-kit"
+
     # "0xinit/cryptoskills": 
       # - "ethers-js"
     
-    # "wshobson/agents":
+    "wshobson/agents":
+      - "monorepo-management"
+      - "api-design-principles"
     # - "react-state-management"
     # - "github-actions-templates"
-    # - "api-design-principles"
     # - "code-review-excellence"
     # - "postgresql-table-design"
 
-    # "sergiodxa/agent-skills":
+    "sergiodxa/agent-skills":
+      - "owasp-security-check"
+      - "frontend-testing-best-practices"
     # - "frontend-react-router-best-practices"
     # - "async-best-practices"
     # - "frontend-tailwind-best-practices"
@@ -287,6 +339,10 @@ agents:
     # "101-skills/skills":
     # - "ai-video-generation"
 
+    "alchemy-run/alchemy":
+      - "alchemy-domain"
+      - "alchemy-provider"
+      
     # "belt-sh/cli":
     # - "belt"
 
@@ -359,5 +415,24 @@ agents:
     # - "notebooklm"
 
   # mcp:
-
+    # url: 
+    #  - "https://docs.mcp.cloudflare.com/mcp" 
+    #  - "https://bun.com/docs/mcp"
+    #  - "https://kody.codes/mcp"
+  
+    # command:
+    #  - "context-mode"
+    #  - "mise"
+    #  - "context7"
+    #  - "brave-mcp"
+    #  - "discogs" # https://github.com/rianvdm/discogs-mcp
+    #  - "blender" # https://projects.blender.org/lab/blender_mcp/wiki/Setup
+    #  - "vroid" # https://github.com/nhodges/mcp-vroid
+  
   # plugins:
+  
+  # agent:
+    # - "pi"
+    # - "omp"
+    # - "cursor"
+    # - "opencode"
