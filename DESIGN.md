@@ -392,7 +392,7 @@ config.kdl は現在コメントのみ(= zellij 既定。2026-09-22 に不採用
 | zellij tab | herdr tab | 中身 |
 |---|---|---|
 | 「101」(縦 2) | tab「101」 | btm @~/dotfiles(単一ペイン) |
-| 「102」(横 2) | tab「102」 | fastfetch @~/Music + `cat ~/data/cat.txt` @~/data(上下) |
+| 「102」(横 2) | tab「102」 | fastfetch @~/Music + `cat ~/cat.txt` @~/(上下。cat.txt があるときだけ下段を作る) |
 | 「Dev」(2×2) | tab「Dev」 | zsh ×4 @~/Developer |
 | 「herdr」 | **廃止**(herdr 自身がホスト) | — |
 | 「Docs」+「Plan」 | tab「Docs」(統合) | pi agent(`agent start pi --kind pi -- -c`)単一ペイン @~/Developer/docs。omp 行はコメントアウト、spynel・split なし |
