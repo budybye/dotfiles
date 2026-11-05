@@ -25,7 +25,7 @@ fi
 W1P1="${HOME}" # dotfiles
 W1P2="${HOME}/dotfiles" # mpd
 W1P3="${HOME}/Music" # ncmpcpp
-W1P4="${HOME}/data" # code
+W1P4="${HOME}" # code
 
 # window 2 pane 1~4
 # W2P1 | W2P2

@@ -44,7 +44,7 @@ layout {
             }
             pane {
                 name "Data"
-                cwd "~/data"
+                cwd "~/"
                 command "cat"
                 args "./cat.txt"
             }
