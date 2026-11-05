@@ -1,6 +1,6 @@
 setupVersion: 2
 modelRoles:
-  smol: anthropic/claude-haiku-5-5
+  smol: anthropic/claude-haiku-5-5:auto
   tiny: "@smol"
   commit: "@smol"
   judge: cloudflare-workers-ai/@cf/cloudflare/clef
@@ -9,8 +9,8 @@ modelRoles:
   designer: "@advisor"
   plan: "@advisor"
   slow: "@advisor"
-  advisor: anthropic-gateway/claude-opus-5-5:high
-  default: anthropic-gateway/claude-sonnet-5-5:high
+  advisor: anthropic/claude-opus-5-5:auto
+  default: anthropic/claude-sonnet-5-5:high
 defaultThinkingLevel: auto
 advisor:
   enabled: true
@@ -54,10 +54,8 @@ retry:
     anthropic/claude-fable-5-1:
       - anthropic/claude-opus-5-5
     anthropic/claude-opus-5-5:
-      - anthropic-gateway/claude-opus-5-5
       - anthropic/claude-sonnet-5-5
     anthropic/claude-sonnet-5-5:
-      - anthropic-gateway/claude-sonnet-5-5
       - anthropic/claude-haiku-5-5
     anthropic/claude-haiku-5-5:
       - anthropic-gateway/claude-haiku-5-5

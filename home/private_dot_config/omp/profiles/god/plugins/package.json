@@ -3,6 +3,6 @@
   "private": true,
   "dependencies": {
     "@dietrichgebert/ponytail": "https://github.com/DietrichGebert/ponytail",
-    "context-mode": "^1.0.169"
+    "context-mode": "^2.1.4"
   }
 }
