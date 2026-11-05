@@ -2,6 +2,34 @@
 
 set -euo pipefail
 
+usage() {
+    cat <<'EOF'
+Usage: applist [-h|--help]
+
+/Applications/app 配下のカテゴリ dir にある Chrome アプリ(.app)から
+CrAppModeShortcutURL を集め、Markdown のリンク一覧を作る。macOS 専用。
+
+Environment:
+  APPLIST_ROOT  走査する dir(既定 /Applications/app)
+  APPLIST_DIR   出力先 dir(既定 ~/Developer/applist)
+  APPLIST_NAME  出力ファイル名(既定 applist.md)。既存ファイルは .bak に残す
+EOF
+}
+
+case "${1:-}" in
+    -h|--help)
+        usage
+        exit 0
+        ;;
+    "")
+        ;;
+    *)
+        printf 'Unknown argument: %s\n\n' "$1" >&2
+        usage >&2
+        exit 2
+        ;;
+esac
+
 if [ "$(uname -s)" != "Darwin" ]; then
     printf '%s\n' "macOS only" >&2
     exit 1
@@ -53,6 +81,10 @@ for dir in "${RD}"/*/; do
             printf '\n## %s\n' "${category_name}" >> "${tmp_file}"
             app_found=1
         fi
+
+        # URL 中の括弧は Markdown のリンクを壊すので符号化する。
+        app_url="${app_url//(/%28}"
+        app_url="${app_url//)/%29}"
 
         app_name="${app_path##*/}"
         app_name="${app_name%.app}"
