@@ -8,7 +8,9 @@ Usage: playlist [--dry-run] [--download]
 
 Options:
   --dry-run      Show work without writing files or downloading audio
-  --download     Download playlist audio as MP3 files
+                 (scan mode still fetches the playlist from the network)
+  --download     Download playlist audio as MP3 files; videos listed in
+                 PLAYLIST_DIR/.archive.txt are skipped on later runs
 
 Environment:
   PLAYLIST_ID    YouTube playlist ID
@@ -67,6 +69,7 @@ if [ "${download}" -eq 1 ]; then
     --format bestaudio \
     --audio-quality 0 \
     --extract-audio \
+    --download-archive "${PLAYLIST_DIR}/.archive.txt" \
     --output "${PLAYLIST_DIR}/%(title)s.%(ext)s" \
     --ignore-errors \
     --no-warnings \
@@ -103,6 +106,12 @@ yt-dlp -j --flat-playlist "${PLAYLIST_URL}" |
   ' > "${tmp_file}"
 
 entry_count="$(jq 'length' "${tmp_file}")"
+
+# 非公開化やレート制限で空になったときに、既存の playlist.json を空で上書きしない。
+if [ "${entry_count}" -eq 0 ]; then
+  printf 'No entries found for %s; keeping %s\n' "${PLAYLIST_ID}" "${PLAYLIST_FILE}" >&2
+  exit 1
+fi
 
 if [ "${dry_run}" -eq 1 ]; then
   printf 'Dry-run: %s entries would be written to %s\n' \
