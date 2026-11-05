@@ -37,6 +37,7 @@ idiomatic_version_file_enable_tools = [
   "ruby",    # .ruby-version
   "go",      # .go-version
 ]
+
 # idiomatic_version_file_disable_tools = ['python']
 
 verbose = false       # true でインストールの全出力。`MISE_VERBOSE`
@@ -59,10 +60,10 @@ tool_update.global_auto = true
 # cache_prune_age = "14d"
 # gpg_verify = false
 
-#not_found_auto_install = true # `MISE_NOT_FOUND_AUTO_INSTALL`
-#task_output = "prefix"
-#paranoid = false       # `MISE_PARANOID`
-#safe = false           # `MISE_SAFE`（テンプレート exec / hooks を禁止）
+# not_found_auto_install = true # `MISE_NOT_FOUND_AUTO_INSTALL`
+# task_output = "prefix"
+# paranoid = false       # `MISE_PARANOID`
+# safe = false           # `MISE_SAFE`（テンプレート exec / hooks を禁止）
 
 # shorthands_file = '~/.config/mise/shorthands.toml'
 # disable_default_shorthands = false
@@ -96,8 +97,8 @@ rust.rustup_home = "~/.local/share/rustup"
 
 # package manager
 cargo.binstall = true
-pypi.uvx = true                # 旧 pipx.uvx。pipx: バックエンドを uv で実行
-npm.package_manager = "bun"    # 旧 npm.bun。npm: バックエンドを bun で実行
+pypi.uvx = true                # バックエンドを uv で実行
+npm.package_manager = "bun"    # バックエンドを bun で実行
 
 [[env]]
 _.path = [

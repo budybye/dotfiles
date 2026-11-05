@@ -198,7 +198,8 @@ adopt = false
 [bootstrap.packages]
 "apt:apt-utils" = { os = "linux" }
 "apt:curl" = { os = "linux" }
-"brew:cask" = { os = "macos" }
+
+# "brew:cask" = { os = "macos" }
 "brew:mas" = { os = "macos" }
 
 "brew:automake" = { os = "macos" }
@@ -209,17 +210,17 @@ adopt = false
 "brew:git" = { os = "macos" }
 "brew:make" = { os = "macos" }
 # "brew:mise" = { os = "macos" }
-"brew:multitail" = "latest"
-"brew:moreutils" = "latest"
-"brew:mpd" = "latest"
-"brew:mpc" = "latest"
-"brew:ncmpcpp" = "latest"
+"brew:multitail" = { os = "macos" }
+"brew:moreutils" = { os = "macos" }
+# "brew:mpd" = "latest"
+# "brew:mpc" = "latest"
+# "brew:ncmpcpp" = "latest"
 "brew:nmap" = { os = "macos" }
 "brew:openssl@3" = { os = "macos" } # mise の sheldon (prebuilt) が libssl.3 にリンク
 "brew:pkgconf" = { os = "macos" }
 "brew:qemu" = { os = "macos" }
 "brew:tree" = { os = "macos" }
-"brew:zsh" = "latest"
+"brew:zsh" = { os = "macos" }
 
 "brew-cask:bitwarden" = { os = "macos" }
 "brew-cask:brave-browser" = { os = "macos" }
@@ -238,21 +239,21 @@ adopt = false
 # "brew-cask:onyx" = { os = "macos" } # ciでなぜかエラー
 # "brew-cask:openhuman" = { os = "macos" } # ciでなぜかエラー
 # "brew-cask:open-design" = { os = "macos" } # ciでなぜかエラー
-"brew-cask:stablyai/orca/orca" = "latest"
+# "brew-cask:stablyai/orca/orca" = "latest"
 "brew-cask:orbstack" = "latest"
 # "brew-cask:raycast" = { os = "macos" }
-"brew-cask:tradingview" = { os = "macos" }
+# "brew-cask:tradingview" = { os = "macos" }
 # "brew-cask:visual-studio-code" = "latest"
 # "brew-cask:windows-app" = "latest"
 # "brew-cask:wireshark-app" = "latest"
-"brew-cask:zed" = "latest"
-"brew-cask:zen" = "latest"
+"brew-cask:zed" = { os = "macos" }
+"brew-cask:zen" = { os = "macos" }
 
-"mas:634148309" = "latest" # logic
-"mas:1429033973" = "latest" # runcat
-"mas:462058435" = "latest" # excel
-"mas:897118787" = "latest" # shazam
-# "mas:539883307" = "latest" # line
+"mas:634148309" = { os = "macos" } # logic
+"mas:1429033973" = { os = "macos" } # runcat
+"mas:897118787" = { os = "macos" } # shazam
+# "mas:462058435" = { os = "macos" } # excel
+# "mas:539883307" = { os = "macos" } # line
 
 "apt:make" = { os = "linux" }
 "apt:zsh" = { os = "linux" }

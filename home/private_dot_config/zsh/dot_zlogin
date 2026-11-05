@@ -24,11 +24,11 @@ fi
 # fortune cowsay
 if command -v fortune > /dev/null 2>&1 && \
   command -v cowsay > /dev/null 2>&1; then
-    fortune | cowsay
+    fortune q | cowsay
 fi
 
 # figlet lolcat
-if command -v figlet > /dev/null 2>&1 && \
-  command -v lolcat > /dev/null 2>&1; then
-    echo "${USER}" | figlet | lolcat
+if command -v lolcatjs > /dev/null 2>&1 && \
+  command -v figlet > /dev/null 2>&1; then
+    echo "${USER}" | figlet | lolcatjs
 fi

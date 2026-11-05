@@ -24,7 +24,7 @@ brew "automake"
 # brew "bat"
 brew "bash"
 # brew "boringtun"
-# brew "bash-completion"
+brew "bash-completion"
 # brew "byobu"
 # brew "bison"
 # brew "biome"
@@ -74,7 +74,7 @@ brew "git"
 # brew "hadolint"
 # brew "hashcash"
 # brew "herdr"
-# brew "hashcat"
+brew "hashcat"
 # brew "hub"
 # brew "helm"
 # brew "hermes-agent"
@@ -139,7 +139,7 @@ brew "qemu"
 # brew "sqlite"
 # brew "tlrc"
 brew "tree"
-# brew "ttyd"
+brew "ttyd"
 # brew "termshark"
 # brew "thefuck"
 # brew "translate-shell"
@@ -149,6 +149,7 @@ brew "tree"
 # brew "unbound"
 # brew "uaseg"
 # brew "vim"
+brew "vegeta"
 # brew "websocat"
 # brew "watchman"
 # brew "wget"
@@ -281,7 +282,7 @@ cask "keyclu"
 # cask "mac-mouse-fix"
 # cask "macwhisper"
 # cask = "macshot"
-# cask "multipass"
+cask "multipass"
 cask "musicbrainz-picard"
 # cask "mixxx"
 # cask "mp3gain-express"
@@ -292,6 +293,7 @@ cask "musicbrainz-picard"
 # cask "ngrok"
 # cask "nuclear"
 # cask "nvidia-geforce-now"
+cask "nani"
 cask "obsidian"
 cask "onyx"
 cask "orbstack"
@@ -393,15 +395,16 @@ mas "LogicPro", id: 634148309
 # mas "Microsoft Word", id: 462054704
 # mas "Microsoft PowerPoint", id: 462062816
 
-mas "RunCat", id: 1429033973
+# mas "RunCat Neo", id: 6757801838
 mas "Shazam", id: 897118787
 # mas "LINE", id: 539883307
+# mas "RunCat", id: 1429033973
 # mas "Plash", id: 1494023538
 # mas "Hidden Bar", id: 1452453066
 # mas "Hyper Cursor", id: 1634220679
 # mas "Speedtest", id: 1153157709
-# mas "Spark", id: 1176895641
 # mas "Popclip", id: 445189367
+# mas "Spark", id: 1176895641
 # mas "iBar-Menubar icon control tool", id: 6443843900
 # mas "Telegram", id: 747648890
 # mas "Alfred", id: 405843582
