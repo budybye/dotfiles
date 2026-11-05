@@ -250,7 +250,7 @@ if command -v ipfs >/dev/null 2>&1; then
 fi
 
 # 猫のASCIIアート
-CAT_FILE="${HOME}/data/cat.txt"
+CAT_FILE="${HOME}/cat.txt"
 if [ -f "${CAT_FILE}" ]; then
     alias x='cat "${CAT_FILE}"'
 fi
