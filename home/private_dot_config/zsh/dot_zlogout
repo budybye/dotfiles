@@ -1,4 +1,4 @@
-if command -v x > /dev/null 2>&1; then
+if (( $+aliases[x] )); then
     x
 elif command -v fastfetch > /dev/null 2>&1; then
     fastfetch -c all
