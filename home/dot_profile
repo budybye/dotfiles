@@ -20,7 +20,7 @@ export ARCH
 # 非 XDG標準だがよく使われるし 使ってる PATH
 mkdir -p "${HOME}/.local/bin"
 chmod 755 "${HOME}/.local/bin"
-export XDG_BIN_DIR="${HOME}/.local/bin"
+export XDG_BIN_HOME="${HOME}/.local/bin"
 
 # パスを再設定 — mise shims 等を足し、非インタラクティブシェル（AI エージェント含む）でもツールを使えるようにする
 # 後段で aqua / bun / go / cargo / java を先頭に前置するので shims は先頭にならない（zsh は zprofile で並べ直す）
@@ -42,6 +42,8 @@ chmod 700 \
     "${HOME}/.local/share" \
     "${HOME}/.local/state" \
     "${HOME}/.cache"
+
+touch "${HOME}/.config/user-dirs.dirs"
 
 # XDG DIRECTORY
 export XDG_CONFIG_HOME="${HOME}/.config"
@@ -66,16 +68,18 @@ mkdir -p \
     "${HOME}/Movies" \
     "${HOME}/Public" \
     "${HOME}/Pictures" \
+    "${HOME}/Projects" \
     "${HOME}/Templates"
 
 export XDG_DESKTOP_DIR="${HOME}/Desktop"
 export XDG_DOWNLOAD_DIR="${HOME}/Downloads"
 export XDG_DOCUMENTS_DIR="${HOME}/Documents"
+export XDG_MUSIC_DIR="${HOME}/Music"
+export XDG_VIDEOS_DIR="${HOME}/Movies"
 export XDG_PUBLICSHARE_DIR="${HOME}/Public"
 chmod 755 "${HOME}/Public"
-export XDG_MUSIC_DIR="${HOME}/Music"
 export XDG_PICTURES_DIR="${HOME}/Pictures"
-export XDG_VIDEOS_DIR="${HOME}/Movies"
+export XDG_PROJECTS_DIR="${HOME}/Projects"
 export XDG_TEMPLATES_DIR="${HOME}/Templates"
 
 # 地域設定
@@ -103,15 +107,23 @@ if [ -f "${XDG_RUNTIME_DIR}/Xauthority" ]; then
     export XAUTHORITY="${XDG_RUNTIME_DIR}/Xauthority"
 fi
 
+if [ "$(uname)" = "Linux" ]; then
+    mkdir -p \
+      "${XDG_DATA_HOME}/Trash" \
+      "${XDG_DATA_HOME}/fonts" \
+      "${XDG_DATA_HOME}/backgrounds" \
+      "${XDG_DATA_HOME}/themes" \
+      "${XDG_DATA_HOME}/icons"
+fi
+
 if [ "$(uname)" = "Darwin" ]; then
     mkdir -p "${XDG_DATA_HOME}/trash"
 fi
 
-# 個人的によく使うディレクトリを作成
+# よく使うディレクトリを作成
 mkdir -p \
     "${HOME}/Applications" \
-    "${HOME}/Developer/docs" \
-    "${HOME}/data"
+    "${HOME}/Developer/docs"
 
 # デフォルトのエディタを設定
 if command -v zed >/dev/null 2>&1; then
@@ -310,7 +322,7 @@ fi
 if command -v python3 >/dev/null 2>&1; then
     mkdir -p "${XDG_DATA_HOME}/python" "${XDG_CACHE_HOME}/python" "${XDG_CONFIG_HOME}/python" "${XDG_STATE_HOME}/python"
     export PYTHONUSERBASE="${XDG_DATA_HOME}/python"
-    export PYTHONHISTORY="${XDG_STATE_HOME}/python/history"
+    export PYTHON_HISTORY="${XDG_STATE_HOME}/python/history"
     export PYTHONPYCACHEPREFIX="${XDG_CACHE_HOME}/python"
 fi
 
@@ -432,6 +444,12 @@ fi
 touch "${XDG_DATA_HOME}/z"
 export _Z_DATA="${XDG_DATA_HOME}/z"
 
+# enhancd は sheldon プラグインで command -v に出ない
+if [ -d "${XDG_DATA_HOME}/sheldon/repos/github.com/b4b4r07/enhancd" ]; then
+    mkdir -p "${XDG_STATE_HOME}/enhancd"
+    export ENHANCD_DIR="${XDG_STATE_HOME}/enhancd"
+fi
+
 if command -v fzf >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/fzf"
 fi
@@ -539,4 +557,11 @@ fi
 if command -v w3m >/dev/null 2>&1; then
     mkdir -p "${XDG_CONFIG_HOME}/w3m"
     export W3M_DIR="${XDG_CONFIG_HOME}/w3m"
+fi
+
+# agent-browser: config / skills を XDG 配下に移動。target/session ファイルは ~/.agent-browser 固定
+if command -v agent-browser >/dev/null 2>&1; then
+    mkdir -p "${XDG_CONFIG_HOME}/agent-browser" "${XDG_DATA_HOME}/agent-browser/skills"
+    export AGENT_BROWSER_CONFIG="${XDG_CONFIG_HOME}/agent-browser/config.json"
+    export AGENT_BROWSER_SKILLS_DIR="${XDG_DATA_HOME}/agent-browser/skills"
 fi
