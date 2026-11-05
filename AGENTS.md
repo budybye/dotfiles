@@ -4,7 +4,7 @@ Chezmoi-managed dotfiles (macOS / Ubuntu, XDG-aligned). Stay within the requeste
 
 ## Rules
 
-- Manage with chezmoi, **jj** (primary VCS; git for remotes/CI via colocated repos), and make.
+- Manage with chezmoi, mise & make.
 - Propose changes that were not requested or that affect appearance only, then get approval.
 - Keep dependencies minimal. Put formatting and lint changes in separate commits.
 - Shell scripts: `#!/usr/bin/env bash`, `set -eu`, check tool availability with `command -v`.

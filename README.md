@@ -92,6 +92,35 @@ GITHUB_TOKEN="$(gh auth token)" make up
 
 GitHub Actions では workflow の `secrets.GITHUB_TOKEN` を BuildKit secret として渡します。token を `.env`、Dockerfile の `ARG` / `ENV`、image layer に保存しないでください。`.env` と `.devcontainer/.env` は `.gitignore` 済み（追跡されるのは `.env.example` のみ）ですが、平文のため使いません。ルートの `mise.toml` の `[env] _.file = '.env'` はコメントアウトしてありますが、グローバルの `env_file = '.env'`（`mise/conf.d/settings.toml`）が cwd と全ての親ディレクトリの `.env` を、trust 確認も変数の絞り込みも無しで読み込みます。`make docker-*` は環境変数 `GITHUB_TOKEN` を要求します。
 
+### GitHub token の差し替え
+
+現状は、スコープなしの classic PAT が次の 4 か所に同じ値で入っています。差し替えるときは全てそろえ、確認してから旧 token を revoke します。
+
+| 場所 | 変数 | 差し替え方 |
+| --- | --- | --- |
+| repo 直下の `.env` と `.devcontainer/.env` | `GITHUB_TOKEN` | 行を置換する（`.devcontainer/.env` の `MISE_GITHUB_TOKEN` は `${GITHUB_TOKEN}` を参照するだけ） |
+| `~/.env`（`home/encrypted_private_dot_env.age` から展開） | `MISE_GITHUB_TOKEN` | `chezmoi edit --apply ~/.env`。暗号文が変わるので commit して push する |
+| GitHub Actions の repo secret | `MISE_GITHUB_TOKEN` | `gh secret set` |
+| 実行中の shell | `GITHUB_TOKEN` / `MISE_GITHUB_TOKEN` | `export`（`gh` は環境変数を keyring より優先するので、更新しないと revoke 後に 401 になる） |
+
+```sh
+# 1. 新しい token を作る: fine-grained PAT、Public repositories (read-only)、権限なし、期限あり
+#    https://github.com/settings/personal-access-tokens/new
+# 2. 画面にも履歴にも残さず読み込む (zsh)
+read -s "NEW?new token: "
+# 3. 差し替える
+sed -i '' "s|^GITHUB_TOKEN=.*|GITHUB_TOKEN=\"$NEW\"|" .env .devcontainer/.env
+chezmoi edit --apply ~/.env   # MISE_GITHUB_TOKEN の行を新しい値にして保存する。age の passphrase が要る
+GH_TOKEN="$(env -u GITHUB_TOKEN gh auth token --user budybye)" \
+  gh secret set MISE_GITHUB_TOKEN --repo budybye/dotfiles --body "$NEW"
+export GITHUB_TOKEN="$NEW" MISE_GITHUB_TOKEN="$NEW"
+# 4. 確認する
+gh api /user --jq .login
+# 5. 確認後に旧 token を revoke する: https://github.com/settings/tokens
+```
+
+PAT は API から消せないため、revoke は GitHub の画面で行います。
+
 ## Multipass
 
 ```sh
