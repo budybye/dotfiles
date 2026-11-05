@@ -44,6 +44,7 @@ key.txt*
 .config/cmux
 .ssh/id_rsa*
 .chezmoiscripts/darwin/**
+.local/bin/applist
 {{ end }}
 
 {{ if ne .chezmoi.os "linux" }}
