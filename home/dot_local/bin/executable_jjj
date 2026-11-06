@@ -11,7 +11,8 @@ Arguments:
   ブックマーク名  進めるブックマーク(省略時は自動検出)
   リモート名      push 先(省略時は origin)
 
-作業コピー(@)に変更があれば確定する。@ が空なら、確定済みの @- を対象にする。
+作業コピー(@)に変更があれば確定する。メッセージ省略時、@ に説明があればそれを使う。
+@ が空なら、確定済みの @- を対象にする。
 対象のコミットへブックマークを作成・移動して push する。
 EOF
 }
@@ -115,18 +116,18 @@ fi
 jj bookmark track "${bookmark}@${remote}" >/dev/null 2>&1 || true
 
 if [ "${commit_changes}" -eq 1 ]; then
+  # 引数なしで、@ に説明が既にあるときは、その説明を残す。
   if [ -n "${1:-}" ]; then
-    msg="$1"
-  else
+    jj describe -m "$1"
+  elif [ -z "$(jj log -r @ --no-graph -T 'description')" ]; then
     emojis=(
       '🎉' '✨' '🔧' '💄' '✏️' '📝' '🔥' '🐛' '♻️' '🚨' '🚧'
       '🍍' '🍕' '🐈' '♨️' '🍄' '🥦' '🌈' '🚲' '🏄' '🙏' '🌞'
       '🌕' '🏴‍☠️' '🥷' '🐳' '😈' '⛰️' '🌊' '🔫' '🚬' '☕️' '🍺'
     )
     emoji_index=$((RANDOM % ${#emojis[@]}))
-    msg="${emojis[emoji_index]}"
+    jj describe -m "${emojis[emoji_index]}"
   fi
-  jj describe -m "${msg}"
   jj new
 fi
 
