@@ -2,16 +2,6 @@
 
 set -euo pipefail
 
-if ! command -v curl >/dev/null 2>&1; then
-  printf '%s\n' "curl not found" >&2
-  exit 1
-fi
-
-if ! command -v jq >/dev/null 2>&1; then
-  printf '%s\n' "jq not found" >&2
-  exit 1
-fi
-
 usage() {
   cat <<'EOF'
 Usage: xrp [-v|--verbose] [-h|--help] [ACCOUNT [ISSUER [CURRENCY [CURRENCY_CODE]]]]
@@ -21,7 +11,7 @@ Arguments:
   ISSUER         通貨の発行者アドレス
   CURRENCY       通貨名(既定 RLUSD)
   CURRENCY_CODE  通貨コード。省略時は CURRENCY から作る
-                 (3 文字はそのまま、4 文字以上は ASCII の 16 進を 40 桁に 0 埋め)
+                 (3 文字はそのまま、それ以外は ASCII の 16 進を 40 桁に 0 埋め)
 
 Environment:
   XRP_ACCOUNT, XRP_ISSUER, XRP_CURRENCY, XRP_CURRENCY_CODE  引数の既定値
@@ -74,6 +64,16 @@ if [ "$#" -gt 4 ]; then
   exit 2
 fi
 
+if ! command -v curl >/dev/null 2>&1; then
+  printf '%s\n' "curl not found" >&2
+  exit 1
+fi
+
+if ! command -v jq >/dev/null 2>&1; then
+  printf '%s\n' "jq not found" >&2
+  exit 1
+fi
+
 # XRP Ledger public server
 readonly XRPL_SERVER="${XRPL_SERVER:-https://xrpl.ws}"
 readonly XRPL_CONNECT_TIMEOUT="${XRPL_CONNECT_TIMEOUT:-5}"
@@ -83,7 +83,8 @@ readonly XRPL_TIMEOUT="${XRPL_TIMEOUT:-15}"
 # $2: issuer
 # $3: currency
 # $4: currency_code
-# 環境変数は XRP_ 接頭辞付きだけを読む。ACCOUNT や CURRENCY は他のツールや .env と衝突する。
+# 引数の既定値は XRP_ 接頭辞付きの環境変数だけから読む(XRPL_SERVER などの接続設定は別)。
+# ACCOUNT や CURRENCY は他のツールや .env と衝突する。
 
 # default account ripple
 ACCOUNT="${1:-${XRP_ACCOUNT:-r3kmLJN5D28dHuH8vZNUZpMC43pEHpaocV}}"
@@ -91,7 +92,12 @@ ACCOUNT="${1:-${XRP_ACCOUNT:-r3kmLJN5D28dHuH8vZNUZpMC43pEHpaocV}}"
 ISSUER="${2:-${XRP_ISSUER:-rMxCKbEDwqr76QuheSUMdEGf4B9xJ8m5De}}"
 CURRENCY="${3:-${XRP_CURRENCY:-RLUSD}}"
 
-if ! [[ "${CURRENCY}" =~ ^[[:alnum:]]{1,20}$ ]] || [ "${CURRENCY}" = "XRP" ]; then
+# [[:alnum:]] はロケールによって非 ASCII を通すので、ASCII の英数字かどうかは tr で見る。
+is_ascii_alnum() {
+  [ -n "$1" ] && [ -z "$(printf '%s' "$1" | LC_ALL=C tr -d '0-9A-Za-z')" ]
+}
+
+if ! is_ascii_alnum "${CURRENCY}" || [ "${#CURRENCY}" -gt 20 ] || [ "${CURRENCY}" = "XRP" ]; then
   printf 'Invalid currency: %s\n' "${CURRENCY}" >&2
   exit 1
 fi
@@ -117,7 +123,8 @@ for addr in "${ACCOUNT}" "${ISSUER}"; do
   fi
 done
 # Currency code: 3-char standard code or 40-hex non-standard code.
-if ! [[ "${CURRENCY_CODE}" =~ ^([[:alnum:]]{3}|[0-9A-Fa-f]{40})$ ]]; then
+if ! { { is_ascii_alnum "${CURRENCY_CODE}" && [ "${#CURRENCY_CODE}" -eq 3 ]; } ||
+  { [ "${#CURRENCY_CODE}" -eq 40 ] && [ -z "$(printf '%s' "${CURRENCY_CODE}" | LC_ALL=C tr -d '0-9A-Fa-f')" ]; }; }; then
   printf 'Invalid currency code: %s\n' "${CURRENCY_CODE}" >&2
   exit 1
 fi
