@@ -42,6 +42,7 @@ README は概要、`docs/` は詳細という責務分離を前提とします�
 - [Neovim](https://neovim.io/) · [Vim](https://www.vim.org/) · [Spacemacs](https://www.spacemacs.org/)
 - [Xcode](https://developer.apple.com/xcode/) · [Android Studio](https://developer.android.com/studio)
 - [Ghostty](https://ghostty.org/) · [Zed](https://zed.dev/) · [Tabby](https://tabby.sh/) · [Alacritty](https://alacritty.org/)
+- [pi](https://github.com/earendil-works/pi) · [oh-my-pi (omp)](https://github.com/can1357/oh-my-pi)（コーディングエージェント）
 - [Claude](https://claude.ai/)（Anthropic）· [Crossnote](https://github.com/shd101wyy/crossnote) · [Codex](https://github.com/openai/codex)（AI CLI）
 
 ## AI・LLM・MCP
@@ -55,7 +56,9 @@ README は概要、`docs/` は詳細という責務分離を前提とします�
 
 - [Zsh](https://zsh.org/) · [Fish](https://fishshell.com/) · [Bash](https://www.gnu.org/software/bash/)
 - [Starship](https://starship.rs/) · [Sheldon](https://sheldon.cli.rs/) · [Fisher](https://github.com/jorgebucaran/fisher)
-- [Byobu](https://byobu.co/) · [Tmux](https://github.com/tmux/tmux) · [Zellij](https://zellij.dev/)
+- [herdr](https://github.com/herdrdev/herdr)（現行のターミナルマルチプレクサ）
+- [Byobu](https://byobu.co/) · [Tmux](https://github.com/tmux/tmux)
+- [Zellij](https://zellij.dev/)（採用は見送り。herdr が使えない環境のフォールバック起動のみ）
 
 ## パッケージ・ランタイム
 
@@ -94,7 +97,7 @@ README は概要、`docs/` は詳細という責務分離を前提とします�
 - **クラウド・インフラ**: [Wrangler](https://developers.cloudflare.com/workers/wrangler/) · [cloudflared](https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/) · [Caddy](https://caddyserver.com/) · [cfssl](https://github.com/cloudflare/cfssl) · [rclone](https://rclone.org/) · [infracost](https://www.infracost.io/)
 - **AI・API**: [Stripe CLI](https://stripe.com/docs/stripe-cli) · [Sentry CLI](https://docs.sentry.io/)
 - **DB・データ**: [SQLite](https://www.sqlite.org/) · [yq](https://github.com/mikefarah/yq) · [jq](https://github.com/jqlang/jq)
-- **その他**: [Jujutsu (jj)](https://github.com/martinvonz/jj) · [Zellij](https://zellij.dev/) · [zoxide](https://github.com/ajeetdsouza/zoxide) · [atuin](https://github.com/atuinsh/atuin) · [lychee](https://lychee.cli.rs/) · [hurl](https://hurl.dev/) · [cheat](https://github.com/cheat/cheat) · [Conan](https://conan.io/) · [Ninja](https://ninja-build.org/) · [pre-commit](https://pre-commit.com/) · [Solidity](https://docs.soliditylang.org/)
+- **その他**: [Jujutsu (jj)](https://github.com/martinvonz/jj) · [zoxide](https://github.com/ajeetdsouza/zoxide) · [atuin](https://github.com/atuinsh/atuin) · [lychee](https://lychee.cli.rs/) · [hurl](https://hurl.dev/) · [cheat](https://github.com/cheat/cheat) · [Conan](https://conan.io/) · [Ninja](https://ninja-build.org/) · [pre-commit](https://pre-commit.com/) · [Solidity](https://docs.soliditylang.org/)
 
 ## アーカイブ参照（現行管理外を含む）
 
@@ -112,7 +115,7 @@ README は概要、`docs/` は詳細という責務分離を前提とします�
 - [Age](https://age-encryption.org/) · [Bitwarden](https://bitwarden.com) · [Vaultwarden](https://github.com/dani-garcia/vaultwarden)
 - [SSH](https://www.openssh.com/) · [OpenSSL](https://www.openssl.org/) · [GnuPG](https://gnupg.org/) · [mkcert](https://github.com/FiloSottile/mkcert)
 - [Better Auth](https://www.better-auth.com/) · [Sentry](https://docs.sentry.io/) · [Trivy](https://github.com/aquasecurity/trivy)
-- [BoringTun](https://github.com/cloudflare/boringtun) · [Cloudflare Warp](https://developers.cloudflare.com/warp-client) · [WireGuard](https://www.wireguard.com/)
+- [Cloudflare Warp](https://developers.cloudflare.com/warp-client)
 
 ### [active] 開発・CLI
 
@@ -125,7 +128,7 @@ README は概要、`docs/` は詳細という責務分離を前提とします�
 - [translate-shell](https://github.com/soimort/translate-shell) · [nmap](https://nmap.org/) · [whois](https://www.gnu.org/software/inetutils/)
 - [xdg-ninja](https://github.com/b3nj5m1n/xdg-ninja) · [sd](https://github.com/chmln/sd) · [moreutils](https://joeyh.name/code/moreutils/)
 - [multitail](https://www.vanheusden.com/multitail/) · [socat](https://www.dest-unreach.org/socat/)
-- [AWS CLI](https://docs.aws.amazon.com/cli/) · [Google Cloud CLI](https://cloud.google.com/sdk/docs/install-sdk) · [pgcli](https://www.pgcli.com/) · [Keploy](https://keploy.io/) · [Hono](https://hono.dev/)
+- [AWS CLI](https://docs.aws.amazon.com/cli/) · [Google Cloud CLI](https://cloud.google.com/sdk/docs/install-sdk) · [Keploy](https://keploy.io/) · [Hono](https://hono.dev/)
 - [DBeaver](https://dbeaver.io/) · [Postman](https://www.postman.com/) · [Insomnia](https://insomnia.rest/)
 - [PowerShell](https://docs.microsoft.com/powershell/) · [mac-defaults](https://github.com/kevinSuttle/macOS-Defaults)
 - [rj](https://github.com/yusukebe/rj)（JSON クエリ）· [GitHub Desktop](https://desktop.github.com/) · [curl](https://curl.se/)
@@ -150,20 +153,20 @@ README は概要、`docs/` は詳細という責務分離を前提とします�
 - [MPD](https://www.musicpd.org/) · [mpc](https://www.musicpd.org/clients/mpc/) · [Ncmpcpp](https://github.com/ncmpcpp/ncmpcpp)
 - [ffmpeg](https://ffmpeg.org/) · [yt-dlp](https://github.com/yt-dlp/yt-dlp) · [yt-x](https://github.com/Benexl/yt-x)
 - [Mixxx](https://mixxx.org/) · [MusicBrainz Picard](https://picard.musicbrainz.org/)
-- [VLC](https://www.videolan.org/) · [Mp3tag](https://www.mp3tag.de/en/) · [Audacity](https://www.audacityteam.org/) · [audacity-plugins-awesome](https://awesomeaudacityplugins.com/)
+- [VLC](https://www.videolan.org/) · [Mp3tag](https://www.mp3tag.de/en/) · [Audacity](https://www.audacityteam.org/)
 - [mp3gain-express](https://mp3gain.sourceforge.net/) · [Mackup](https://github.com/lra/mackup)
 
 ### [active] デスクトップ・GUI
 
-- [Brave](https://brave.com/) · [Chrome](https://www.google.com/chrome/) · [Discord](https://discord.com/)
+- [Brave](https://brave.com/)
 - [Xfce](https://xfce.org/) · [Xfce-look](https://xfce-look.org/) · [xrdp](https://www.xrdp.org/) · [Remmina](https://remmina.org/)
-- [Karabiner-Elements](https://karabiner-elements.pqrs.org/) · [Raycast](https://raycast.com/) · [Rectangle](https://rectangleapp.com/)
+- [Karabiner-Elements](https://karabiner-elements.pqrs.org/) · [Raycast](https://raycast.com/)
 - [Clipy](https://clipy-app.com/) · [PopClip](https://pilotmoon.com/popclip/) · [BetterDisplay](https://github.com/waydabber/BetterDisplay)
 - [Obsidian](https://obsidian.md/) · [Notion](https://notion.so/) · [TradingView](https://tradingview.com/) · [AionUI](https://github.com/iOfficeAI/AionUi)
-- [awesome bookmarklets](https://awesomebookmarklets.com/) · [Microsoft Remote Desktop](https://docs.microsoft.com/windows-server/remote/remote-desktop-services/clients/remote-desktop-mac)
+- [Microsoft Remote Desktop](https://docs.microsoft.com/windows-server/remote/remote-desktop-services/clients/remote-desktop-mac)
 - [Wireshark](https://wireshark.org/) · [AppCleaner](https://freemacsoft.net/appcleaner/)
 - [Keyclu](https://sergii.tatarenkov.name/apps/keyclu/) · [Onyx](https://www.titanium-software.fr/onyx.html)
-- [Blender](https://www.blender.org/) · [The Unarchiver](https://theunarchiver.com/) · [Windows App](https://github.com/microsoft/WSA)（WSA）
+- [Blender](https://www.blender.org/) · [The Unarchiver](https://theunarchiver.com/) · [Windows App](https://learn.microsoft.com/en-us/windows-app/overview)
 
 ### [optional] モニタリング・ネットワーク
 
@@ -173,20 +176,27 @@ README は概要、`docs/` は詳細という責務分離を前提とします�
 ### [legacy] ジョーク・ユーティリティ
 
 - [cmatrix](https://github.com/abishekvashok/cmatrix) · [fortune](https://github.com/shlomif/fortune-mod) · [figlet](https://github.com/cmatsuoka/figlet)
-- [cowsay](https://github.com/tnalpgge/rank-amateur-cowsay) · [lolcat](https://github.com/busyloop/lolcat) · [oneko](https://github.com/nicohaku/oneko)
+- [cowsay](https://github.com/tnalpgge/rank-amateur-cowsay) · [lolcat](https://github.com/busyloop/lolcat)
 
 ### [optional] フォント・テーマ
 
-- [HackGen Nerd Font](https://github.com/yuru7/HackGen) · [Roboto Mono Nerd Font JP](https://github.com/yuru7/RobotoMonoNerdFontJP)
+- [HackGen Nerd Font](https://github.com/yuru7/HackGen) · [Roboto Mono JP](https://github.com/mjun0812/RobotoMonoJP)
 - [WhiteSur-GTK-Theme](https://github.com/vinceliuice/WhiteSur-gtk-theme) · [Reggae One](https://fonts.google.com/specimen/Reggae+One)
 - [Monokai Pro](https://monokai.pro/) · [Monokai Pro](https://github.com/monokai/monokai-pro) · [Kanagawa](https://github.com/rebelot/kanagawa.nvim)（Neovim/VSCode/Ghostty/Zellij）
 
+### [optional] Linux デスクトップ・導入済みの補助ツール
+
+- [Element](https://element.io/)（Matrix。`run_onchange_after_gui.sh` が導入）· [Fcitx5](https://github.com/fcitx/fcitx5) · [Fusuma](https://github.com/iberianpig/fusuma)
+- [jjui](https://github.com/idursun/jjui) · [Meilisearch](https://www.meilisearch.com/)（`tools.toml`）· [IPFS](https://ipfs.io/)（`ipfs.yaml` が履歴の mirror を pin）
+
+### [optional] 未導入（設定ではコメントアウト中・導入設定なし）
+
+- [pgcli](https://www.pgcli.com/) · [Rectangle](https://rectangleapp.com/) · [Chrome](https://www.google.com/chrome/) · [Discord](https://discord.com/)
+- [WireGuard](https://www.wireguard.com/) · [BoringTun](https://github.com/cloudflare/boringtun)
+
 ### [legacy] バージョン管理・その他
 
-- [jjui](https://github.com/idursun/jjui)
-- [IPFS](https://ipfs.io/) · [Element](https://element.io/)（Matrix）
-- [Fcitx5](https://github.com/fcitx/fcitx5) · [Fusuma](https://github.com/iberianpig/fusuma)
-- [Meilisearch](https://www.meilisearch.com/) · [Biome](https://biomejs.dev/)
+- [Biome](https://biomejs.dev/)
 - [EditorConfig](https://editorconfig.org/) · [WSL2](https://docs.microsoft.com/en-us/windows/wsl/) · [Wine](https://www.winehq.org/)
 - [XRPL](https://xrpl.org/) · [XRPL.js](https://github.com/XRPLF/xrpl.js) · [Xaman](https://docs.xaman.dev/)
 - [nginx](https://nginx.org/) · [Resend](https://resend.com/docs) · [Elysia](https://elysiajs.com/)

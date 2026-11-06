@@ -5,26 +5,42 @@ description: directory ファイル情報説明
 
 # ディレクトリ構成 - Chezmoi Dotfiles Management System
 
-以下のディレクトリ構造に従って実装を行ってください：
+リポジトリのディレクトリ構成は次のとおり（`git ls-files` で確認できる追跡対象。ディレクトリ単位で省略した箇所がある）：
 
-```/
-/
+```text
+.
+├── .agents/                        # AI エージェント用 skill
+│   └── skills/
+│       └── dotfiles/
+│           └── SKILL.md            # dotfiles skill
 ├── .devcontainer/                  # Dev Container設定
 │   ├── compose.yaml                # Docker Compose設定
 │   ├── Dockerfile                  # Dockerイメージ定義
 │   ├── slim.Dockerfile             # CLI 向け slim イメージ定義
 │   ├── devcontainer.json           # Dev Container設定
+│   ├── .dockerignore               # build context から .env を除外
+│   ├── .env.example                # compose 用 .env の雛形
 │   ├── entrypoint.sh               # コンテナ起動スクリプト
 │   └── run.sh                      # ユーザー作成・認証設定（USER PASSWORD SUDO）
 ├── .github/                        # GitHub設定
+│   ├── release.yml                 # Release note の changelog 分類
 │   └── workflows/                  # GitHub Actions（流れは docs/tech.md「GitHub Actions パイプライン」）
 │       ├── ipfs.yaml               # main push → IPFS ピン
 │       ├── push.yaml               # semver タグ push → GHCR（latest はここだけ）
 │       ├── tag.yaml                # test 成功後 → semver タグ + Release
-│       └── test.yaml               # main push → インストール検証（docs/**・*.md は paths-ignore）
+│       └── test.yaml               # main push → インストール検証（paths-ignore は docs/** と直下の *.md のみ）
 ├── .vscode/                        # VSCode設定
 │   ├── extensions.json             # 拡張機能設定
 │   └── settings.json               # ワークスペース設定
+├── .zed/                           # Zed 設定
+│   └── settings.json               # ファイル種別（dotfile 名 → 言語）の対応
+├── assets/                         # 画像・テキスト素材
+│   ├── PANNA.md                    # 般若心経
+│   ├── avatar.png / bg.jpeg / icon.jpg / lisa.jpg / south-park.png  # 画像
+│   ├── bookmarklets.md             # bookmarklet 集
+│   ├── cat.txt                     # herdr-dev と alias x が使う ASCII アート（`~/cat.txt` への配布は未実装）
+│   ├── llms.txt                    # context7 の llms.txt リンク集
+│   └── xrpl-logo.png / xrpl-symbol.jpg  # XRPL のロゴ
 ├── cloud-init/                     # クラウド初期化設定
 │   ├── lxd.yaml                    # LXD設定
 │   ├── multipass.yaml              # Multipass設定
@@ -41,6 +57,7 @@ description: directory ファイル情報説明
 │   ├── security.md                 # セキュリティ・秘密情報
 │   ├── problems.md                 # 環境差分・注意点
 │   └── references.md               # 外部資料・参照リンク
+├── DESIGN.md                       # ターミナルスタックのキーマップ設計
 ├── ROADMAP.md                      # 目標・進捗
 ├── home/                           # ホームディレクトリ設定
 │   ├── .chezmoidata/               # Chezmoiデータ
@@ -49,17 +66,27 @@ description: directory ファイル情報説明
 │   │   └── packages.yaml           # Windows の winget / scoop
 │   ├── .chezmoiscripts/            # Chezmoiスクリプト
 │   │   ├── darwin/                 # macOS用スクリプト
+│   │   │   ├── run_onchange_after_bootstrap.sh.tmpl  # mise bootstrap（brew / brew-cask / macOS defaults）
+│   │   │   └── run_onchange_after_defaults.sh        # macOS の defaults 設定
 │   │   ├── linux/                  # Linux用スクリプト
+│   │   │   ├── run_once_after_docker.sh              # Docker 導入
+│   │   │   ├── run_once_after_setup.sh               # xrdp・PipeWire 音声の初回セットアップ
+│   │   │   ├── run_onchange_after_cli.sh.tmpl        # mise bootstrap（apt）・ロケール
+│   │   │   └── run_onchange_after_gui.sh             # GUI（XFCE 等）導入
 │   │   ├── windows/                # Windows用スクリプト
-│   │   └── run_*.sh[.tmpl]         # OS 共通の実行スクリプト
+│   │   │   └── run_once_after_install.ps1.tmpl       # scoop / winget による導入
+│   │   ├── run_once_after_watch.sh                   # CI 診断出力（外部 xrpl.ws を呼ぶ xrp を含む）
+│   │   ├── run_once_before_age.sh.tmpl               # key.txt.age を復号
+│   │   ├── run_onchange_after_skills.sh.tmpl         # agents.yaml の skills を導入
+│   │   └── run_onchange_after_vscode.sh.tmpl         # VS Code / Cursor 設定の配置
 │   ├── dot_local/                  # ユーザー実行ファイル（XDG準拠）
 │   │   └── bin/
-│   │       ├── executable_applist   # アプリ一覧出力
+│   │       ├── executable_applist   # /Applications/app の Chrome アプリから URL 一覧（Markdown）を作る。macOS 専用（darwin 以外では適用しない）
 │   │       ├── executable_herdr-dev # herdr 起動（server 確保 → dev プリセット → attach）
 │   │       ├── executable_jjj     # jj コミット・プッシュ
 │   │       ├── executable_playlist # プレイリスト JSON / 音声取得
 │   │       ├── executable_ssh_setup # SSH セットアップ（明示実行）
-│   │       └── executable_xrp     # XRP 関連
+│   │       └── executable_xrp     # XRPL の JSON-RPC（既定 xrpl.ws）から手数料・口座残高・通貨（既定 RLUSD）の best offer を取得して表示
 │   ├── private_dot_config/         # 設定ファイル（XDG準拠）
 │   │   ├── act/                    # GitHub Actions CLI
 │   │   │   └── actrc
@@ -130,6 +157,9 @@ description: directory ファイル情報説明
 │   │   │   └── config.toml
 │   │   ├── herdr/                  # ターミナルマルチプレクサー
 │   │   │   └── config.toml
+│   │   ├── herdr-app/              # herdr アプリが起動のたびに書き出すファイル（編集しても上書きされる）
+│   │   │   ├── AGENTS.md
+│   │   │   └── settings.json
 │   │   ├── htop/                   # プロセスモニタ
 │   │   │   └── htoprc
 │   │   ├── jj/                     # Jujutsu VCS
@@ -267,6 +297,7 @@ description: directory ファイル情報説明
 │   └── key.txt.age                 # 暗号化 age 鍵（run_once_before_age.sh.tmpl が復号）
 ├── .chezmoiroot                    # Chezmoiルート設定
 ├── .editorconfig                   # エディタ設定
+├── .env.example                    # GITHUB_TOKEN の雛形（`.env` は .gitignore 済み）
 ├── .gitignore                      # Git除外設定
 ├── mise.toml                       # mise task（help のみ。.env を読む [env] はコメントアウト中）
 ├── install.sh                      # 初期インストールスクリプト
@@ -295,7 +326,7 @@ description: directory ファイル情報説明
 
 ### 環境別設定
 
-- **OS 別スクリプト**: `home/.chezmoiscripts/darwin/`, `linux/`
+- **OS 別スクリプト**: `home/.chezmoiscripts/darwin/`, `linux/`, `windows/`
 - **環境変数**: テンプレート変数で制御
 - **シークレット管理**: Chezmoi は age passphrase/symmetric、Mise runtime は `~/.config/mise/age.txt`
 

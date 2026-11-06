@@ -58,7 +58,7 @@ description: 環境差の吸収における注意点、プラットフォーム�
 | Codespaces     | `env "CODESPACES"`                      | ユーザー名 vscode              |
 | Dev Container  | `env "REMOTE_CONTAINERS"`               | ユーザー名 dev                 |
 | Docker         | `env "DOCKER"`                          | ユーザー名 docker              |
-| SANDBOX        | `env "SANDBOX"` が空でない              | 使い捨て VM 向け（Bitwarden/age オフ、GitHub CLI 想定、SSH テンプレオフ） |
+| SANDBOX        | `env "SANDBOX"` が空でない              | 使い捨て VM 向け（age オフ、GitHub CLI 想定、SSH テンプレオフ。Bitwarden 用のフラグは無い） |
 | WSL2           | `env "WSL_DISTRO_NAME"` または hostname | Ubuntu ネイティブとの区別（未使用） |
 
 参照: [home/.chezmoi.toml.tmpl](../home/.chezmoi.toml.tmpl)
@@ -80,7 +80,7 @@ description: 環境差の吸収における注意点、プラットフォーム�
 
 参照: [home/dot_zshenv](../home/dot_zshenv)
 
-### .chezmoiignore の順序
+### .chezmoiignore の書き方
 
 - `!` の否定パターンは通常の ignore パターンより優先され、行の順序は結果に影響しない
 - `{{ if eq .chezmoi.os "windows" }}` と `{{ else }}` の対応関係に注意する
@@ -129,9 +129,9 @@ gh は認証トークンを**システムのキーリング**に保存する（m
 | 保存先確認       | `gh auth status` で「keyring」または「config file」と表示             |
 | 環境変数         | `GH_TOKEN` を設定するとキーリングをスキップ（ヘッドレス・自動化向け） |
 
-**emdash が使えない理由**: emdash は AI エージェント開発環境で、内部で gh や GitHub API を利用する。gh がキーリングに保存した認証情報は、**サンドボックス化されたアプリ**（App バンドル、別プロセス、Docker 等）からはアクセスできない。そのため emdash 起動時に gh が未認証と判定され、GitHub 連携が失敗する。対処としては `GH_TOKEN` を環境変数で渡すか、`--insecure-storage` で `hosts.yml` にトークンを書き出す方法があるが、後者はセキュリティ上推奨されない。
+**サンドボックス化されたアプリで gh が未認証になる理由**: gh がキーリングに保存した認証情報は、**サンドボックス化されたアプリ**（App バンドル、別プロセス、Docker 等）からはアクセスできない。そのため、gh や GitHub API を内部で使うアプリ（例: emdash。現在は Brewfile でコメントアウトしており導入していない）は起動時に gh が未認証と判定され、GitHub 連携が失敗する。対処としては `GH_TOKEN` を環境変数で渡すか、`--insecure-storage` で `hosts.yml` にトークンを書き出す方法があるが、後者はセキュリティ上推奨されない。
 
-**hosts.yml の取り扱い**: symlink mode のため `~/.config/gh/hosts.yml` は repo の `home/private_dot_config/gh/hosts.yml` への symlink で、gh の書き込みはそのまま作業ツリーに入る（`gh auth switch` による `user:` の変更も同様）。`gh auth login --insecure-storage` 使用時は OAuth トークンが `hosts.yml` にプレーンテキストで書き込まれるため、source tree に token が入りコミットすると漏洩リスクがある。当該ファイルを `.gitignore` に追加するか、chezmoi 管理から外すことを検討する。通常運用ではキーリングを使用し、`--insecure-storage` は避ける。
+**hosts.yml の取り扱い**: symlink mode のため `~/.config/gh/hosts.yml` は repo の `home/private_dot_config/gh/hosts.yml` への symlink で、gh の書き込みはそのまま作業ツリーに入る（`gh auth switch` による `user:` の変更も同様）。`--insecure-storage` を使わなくても、キーリングが無い環境（Docker、CI、Multipass など）では gh が自動でプレーンテキスト保存にフォールバックする（[gh auth login](https://cli.github.com/manual/gh_auth_login) に記載）。`gh auth login --insecure-storage` 使用時や、このフォールバック時は OAuth トークンが `hosts.yml` にプレーンテキストで書き込まれるため、source tree に token が入りコミットすると漏洩リスクがある。当該ファイルを `.gitignore` に追加するか、chezmoi 管理から外すことを検討する。通常運用ではキーリングを使用し、`--insecure-storage` は避ける。キーリングの無い環境では `hosts.yml` を `git add` する前に差分でトークンの有無を確認する。
 
 参照: [gh auth login](https://cli.github.com/manual/gh_auth_login), [cli/cli#7023](https://github.com/cli/cli/pull/7023)
 
@@ -141,7 +141,7 @@ gh は認証トークンを**システムのキーリング**に保存する（m
 
 - [ ] OS 条件は `{{ .chezmoi.os }}` で適切に分岐しているか
 - [ ] アーキテクチャ依存のバイナリは `dpkg --print-architecture` と `uname -m` の両方に対応しているか
-- [ ] .chezmoiignore に適切な条件を追加したか（条件の順序に注意）
+- [ ] .chezmoiignore に適切な条件を追加したか（if / else の対応とネストに注意）
 - [ ] CI 環境（GITHUB_ACTIONS 等）ではスキップすべき処理か
 - [ ] 統合ターミナル（Cursor/VS Code）で自動起動するスクリプトは `TERM_PROGRAM` チェックを入れているか
 

@@ -56,8 +56,8 @@ description: 技術スタック パッケージ管理 ライブラリ説明
 - **役割**:
   - `[bootstrap.macos.*]`: キーボード・トラックパッド・Dock・Finder・`defaults` の設定
   - `[bootstrap.packages]`: `apt:`（Linux）、`brew:` / `brew-cask:`（macOS）、`mas:`（macOS。適用しないので無効）。`brew:` / `brew-cask:` は `{ os = "macos" }` または `"latest"`
-- **適用**: `home/.chezmoiscripts/darwin/run_onchange_after_bootstrap.sh.tmpl` は `mise bootstrap packages apply --manager brew` / `--manager brew-cask` と `mise bootstrap macos defaults apply` を実行し、`linux/run_onchange_after_cli.sh.tmpl` は `mise bootstrap packages apply --manager apt` を実行する。`brew bundle` と `--manager mas` はコメントアウト中（`brew bundle` は Brewfile の `mas` アプリ（Logic Pro / RunCat / Shazam）も入れ、CI の macOS runner は App Store に sign in できず `mas` が止まって job が timeout-minutes 60 で cancel されたため）。darwin / linux とも `mise.toml` / `tools.toml` の sha256 を埋め込み、変更時に再実行される
-- **Brewfile**: `home/private_dot_config/Brewfile`（macOS のみ配置）は `bb` / `bf` / `bcf` エイリアスだけが読む一覧で、bootstrap は適用しない。`mise.toml` とは別の一覧で、Brewfile だけにある cask（`blender` / `cloudflare-warp` / `github` / `onyx` / `raycast` / `windows-app` / `wireshark-app`）は bootstrap が入れず、`mise.toml` だけにある `mpd` / `mpc` / `ncmpcpp` / `orca` / `tradingview` は Brewfile に無い（コメントアウト）ため `bcf`（`brew bundle cleanup`）が削除する。一覧の一本化は未了（ROADMAP M2）
+- **適用**: `home/.chezmoiscripts/darwin/run_onchange_after_bootstrap.sh.tmpl` は `mise bootstrap packages apply --manager brew` / `--manager brew-cask` と `mise bootstrap macos defaults apply` を実行し、`linux/run_onchange_after_cli.sh.tmpl` は `mise bootstrap packages apply --manager apt` を実行する。`brew bundle` と `--manager mas` はコメントアウト中（`brew bundle` は Brewfile の `mas` アプリ（Logic Pro / Shazam。RunCat は Brewfile ではコメントアウト中）も入れ、CI の macOS runner は App Store に sign in できず `mas` が止まって job が timeout-minutes 60 で cancel されたため）。darwin / linux とも `mise.toml` / `tools.toml` の sha256 を埋め込み、変更時に再実行される
+- **Brewfile**: `home/private_dot_config/Brewfile`（macOS のみ配置）は `bb` / `bf` / `bcf` エイリアスだけが読む一覧で、bootstrap は適用しない。`mise.toml` とは別の一覧で、Brewfile だけにある cask（`blender` / `cloudflare-warp` / `github` / `multipass` / `nani` / `onyx` / `raycast` / `windows-app` / `wireshark-app`）と formula（`bash-completion` / `hashcat` / `ttyd` / `vegeta`）は bootstrap が入れない。逆に `mise.toml` だけにある brew / brew-cask は無い（`mpd` / `mpc` / `ncmpcpp` / `orca` / `tradingview` は両方でコメントアウト中）。一覧の一本化は未了（ROADMAP M2）
 
 ### packages.yaml（Windows）
 
@@ -104,6 +104,7 @@ description: 技術スタック パッケージ管理 ライブラリ説明
 - **jj / jjui / jj-starship**（Jujutsu バージョン管理）
 - **delta**（diff ビューア）
 - **lazygit / lazydocker**（TUI）
+- **git-lfs**（`git/config` の `filter "lfs"` が使う。mise で管理）
 - **docker / devcontainer-cli**
 - **act**（GitHub Actions ローカル実行）
 - **task**（Taskfile / make 代替。導入のみで `Taskfile.yml` は無く、実体は Makefile）
@@ -115,7 +116,7 @@ description: 技術スタック パッケージ管理 ライブラリ説明
 
 #### GitHub Actions パイプライン
 
-`main` への push（`test.yaml` の `paths-ignore`: `docs/**`・`*.md`・`README.md`）で次の順に実行する。
+`main` への push（`test.yaml` の `paths-ignore`: `docs/**`・repo 直下の `*.md`・`README.md`。`*` は `/` を越えないため `home/` 配下の `*.md` は対象外）で次の順に実行する。
 
 1. **`test.yaml`** — ubuntu amd64 / arm64・macOS で `make init`。LXD / RPi は cloud-init 起動確認、Windows 系 3 ジョブは checkout（+ scoop）のみ
 2. **`tag.yaml`** — 上記成功時のみ（`workflow_run`）。対象コミットに semver タグが無ければパッチ +1 の `X.Y.Z` を付与し GitHub Release を作成

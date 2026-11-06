@@ -64,38 +64,7 @@ description: dotfiles アーキテクチャ・詳細設計
 
 #### XDG Base Directory Specification
 
-XDG Base Directory Specification は、Linux デスクトップ環境において、ユーザー固有のファイル（データ、設定、キャッシュなど）を適切な場所に配置するための標準仕様です。これにより、ホームディレクトリの散乱を防ぎ、一貫したファイル管理を実現します。
-
-##### 主要なベースディレクトリ
-
-1. **ユーザー固有のデータファイル**: `$XDG_DATA_HOME` (デフォルト: `$HOME/.local/share`)
-2. **ユーザー固有の設定ファイル**: `$XDG_CONFIG_HOME` (デフォルト: `$HOME/.config`)
-3. **ユーザー固有の状態データ**: `$XDG_STATE_HOME` (デフォルト: `$HOME/.local/state`)
-4. **ユーザー固有の実行ファイル**: `$HOME/.local/bin`
-5. **ユーザー固有のキャッシュデータ**: `$XDG_CACHE_HOME` (デフォルト: `$HOME/.cache`)
-6. **ユーザー固有のランタイムファイル**: `$XDG_RUNTIME_DIR` (ログイン中のみ存在、再起動後削除)
-
-##### システム全体の検索パス
-
-1. **データファイル検索パス**: `$XDG_DATA_DIRS`
-2. **設定ファイル検索パス**: `$XDG_CONFIG_DIRS`
-
-##### 重要な規則
-
-- すべてのパスは絶対パスでなければならない
-- 優先順位: `$XDG_DATA_HOME` > `$XDG_DATA_DIRS`、`$XDG_CONFIG_HOME` > `$XDG_CONFIG_DIRS`
-- 書き込み時にディレクトリが存在しない場合は、権限 0700 で作成を試行
-
-##### 実装における活用
-
-このプロジェクトでは、設定ファイルを`home/private_dot_config/`に配置し、chezmoi 適用時に`$XDG_CONFIG_HOME`（通常は`~/.config`）に配置されます。これにより：
-
-- ホームディレクトリの整理が促進される
-- アプリケーション間での統一されたファイル配置が実現される
-- バックアップ効率が向上する（重要なファイルと一時ファイルの分離）
-- セキュリティが向上する（ランタイムファイルの適切な権限管理）
-
-参考: [XDG Base Directory Specification (公式)](https://specifications.freedesktop.org/basedir-spec/latest/)
+設定ファイルの配置は [XDG Base Directory Specification](https://specifications.freedesktop.org/basedir/latest/) に沿う。このプロジェクトでは設定ファイルを `home/private_dot_config/` に置き、chezmoi は `XDG_CONFIG_HOME` の値にかかわらず常に `~/.config` へ配置する。
 
 ## 技術スタック
 
@@ -153,10 +122,9 @@ Makefile は dotfiles、開発環境（Docker / Multipass）、関連インフ�
 
 ## 参考資料
 
-- [Chezmoi 公式ドキュメント](https://chezmoi.io/user-guide/)
+- [Chezmoi 公式ドキュメント](https://www.chezmoi.io/user-guide/setup/)
 - [Mise age secrets](https://mise.jdx.dev/environments/secrets/age.html)
 - [Mise GitHub tokens](https://mise.jdx.dev/dev-tools/github-tokens.html)
-- [XDG Base Directory Specification](https://specifications.freedesktop.org/basedir-spec/)
 
 ## Bootstrap and profile boundaries
 
@@ -172,7 +140,7 @@ install.sh → chezmoi init --apply → platform bootstrap → Mise tools
 | ci | same scripts as workstation on the runner; no separate package set | Linux `gui.sh` and `setup.sh` run (not ignored, intentionally: CI exercises the whole `make init`) |
 | docker | same Linux scripts plus Dockerfile apt packages; no separate package set | Full image: xfce4 / xorgxrdp / xrdp, `EXPOSE 3389`; `linux/setup.sh` ignored; Slim image Dockerfile installs no xrdp |
 
-Separate ci / docker package profiles (`MISE_CONFIG_FILE`, `MISE_GLOBAL_CONFIG_FILE`) are not implemented; ROADMAP M2 tracks the split. Running `gui.sh` in CI and Docker is intentional, not a missing guard: the Full image is a desktop image, and none of the extra packages `gui.sh` installs depends on or recommends `light-locker` / `xscreensaver`, which the Dockerfile removes for RDP. Package definitions are `mise.toml` `[bootstrap.packages]` (`apt:`, `brew:`, `brew-cask:`; the `mas:` entries are not applied, because `brew bundle` and `--manager mas` need an App Store sign-in that the CI macOS runner lacks). The macOS `Brewfile` is a separate list read only by the `bb` / `bf` / `bcf` aliases (bootstrap no longer applies it), and the two lists differ; reconciling them is open (ROADMAP M2). Tool definitions are `mise/conf.d/tools.toml`.
+Separate ci / docker package profiles (`MISE_CONFIG_FILE`, `MISE_GLOBAL_CONFIG_FILE`) are not implemented; ROADMAP M8-6 tracks the split. Running `gui.sh` in CI and Docker is intentional, not a missing guard: the Full image is a desktop image, and none of the extra packages `gui.sh` installs depends on or recommends `light-locker` / `xscreensaver`, which the Dockerfile removes for RDP. Package definitions are `mise.toml` `[bootstrap.packages]` (`apt:`, `brew:`, `brew-cask:`; the `mas:` entries are not applied, because `brew bundle` and `--manager mas` need an App Store sign-in that the CI macOS runner lacks). The macOS `Brewfile` is a separate list read only by the `bb` / `bf` / `bcf` aliases (bootstrap no longer applies it), and the two lists differ; reconciling them is open (ROADMAP M2). Tool definitions are `mise/conf.d/tools.toml`.
 
 ## Ownership split (target state)
 
@@ -186,7 +154,7 @@ Separate ci / docker package profiles (`MISE_CONFIG_FILE`, `MISE_GLOBAL_CONFIG_F
 ## Machine profile and GitHub identity
 
 - A hostname → profile map (`desktop` / `minimal` / `darwin`) does not exist in `.chezmoidata` yet (ROADMAP short-term goal); the Linux GUI script runs on every Linux host except `REMOTE_CONTAINERS=true`.
-- git / jj / Chezmoi data default to `budybye`; `~/Developer/dayjobdoor` and `~/Developer/boborder` switch identity through git `includeIf` and jj `[[--scope]]`, with SSH Hosts `github-dayjobdoor` / `github-boborder`. gh `hosts.yml` lists `budybye`, `dayjobdoor` and `boborder` with active user `boborder`; switch with `gh auth switch`. ROADMAP lists `budybye` as the intended gh default and no path-based `includeIf`; neither is done. The `dayjobdoor` key pair is tracked like the other accounts: the public key (`id_ed25519_dayjobdoor.pub.tmpl`) and the age-encrypted private key (`encrypted_private_id_ed25519_dayjobdoor.age`).
+- git / jj / Chezmoi data default to `budybye`; `~/Developer/dayjobdoor` and `~/Developer/boborder` switch identity through git `includeIf` and jj `[[--scope]]`, with SSH Hosts `github-dayjobdoor` / `github-boborder`. gh `hosts.yml` lists `budybye`, `dayjobdoor` and `boborder` with active user `boborder`; switch with `gh auth switch`. ROADMAP wants `budybye` as the gh default account (still open: the tracked `hosts.yml` has `user: boborder`) and says the default account must not be chosen by a path-based `includeIf`; that already holds, because `includeIf` only applies the org identities under `~/Developer/{dayjobdoor,boborder}`. The `dayjobdoor` key pair is tracked like the other accounts: the public key (`id_ed25519_dayjobdoor.pub.tmpl`) and the age-encrypted private key (`encrypted_private_id_ed25519_dayjobdoor.age`).
 
 ## VCS and template boundaries
 

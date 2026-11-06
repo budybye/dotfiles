@@ -27,7 +27,7 @@ make doctor
 ```
 
 - `make check`: `chezmoi diff` で適用差分を確認
-- `make test`: 空の一時 destination に `chezmoi apply --dry-run` を実行し、現在の OS / profile で適用対象の template を描画する。暗号化ファイルと external は除外し、描画エラーで失敗する。他 OS・CI・Docker 限定の template は対象外で、CI は `make test` を実行しない
+- `make test`: 空の一時 destination に `chezmoi apply --dry-run --exclude=encrypted,externals` を実行する。`--source` や `--config` は渡さないため、chezmoi が既定で使う source（通常 `~/.local/share/chezmoi`。`~/dotfiles` はその symlink）と、この環境の chezmoi 設定（`.chezmoi.toml.tmpl` から生成された data）で、現在の OS / profile で適用対象の template を描画する。作業ツリーが別の場所にあるとそちらは検証されない。暗号化ファイルと external は除外し、描画エラーで失敗する。他 OS・CI・Docker 限定の template は対象外で、CI は `make test` を実行しない
 - `make verify`: `chezmoi verify` で適用先が source と一致するか確認し、差分があれば失敗する（script の構文検証ではない）
 - `make doctor`: Chezmoi の環境診断
 
@@ -66,7 +66,7 @@ mise config ls
 
 ## CI 検証境界
 
-`.github/workflows/test.yaml` は main push だけで動き（`pull_request` なし）、`docs/**` と `*.md` の変更では動きません。主な job は次の境界を検証します。
+`.github/workflows/test.yaml` は main push だけで動き（`pull_request` なし）、`paths-ignore` の `docs/**` と repo 直下の `*.md`（`README.md` など）の変更だけでは動きません。`*` は `/` を含まないため、それ以外の場所の `*.md`（`home/` 配下の `AGENTS.md` など）の変更では動きます。主な job は次の境界を検証します。
 
 | Job | 環境 | 検証 |
 | --- | --- | --- |
@@ -81,7 +81,7 @@ mise config ls
 
 OrbStack の job は GitHub-hosted macOS の nested virtualization 制約により現在コメントアウトしています。物理 macOS self-hosted runner を導入した場合だけ復帰します。
 
-`GITHUB_ACTIONS=true` のとき `run_once_after_watch.sh` が環境変数名と `mise dr` / `chezmoi doctor` の診断を出力しますが、失敗は無視し、結果は検証しません。`tag.yaml` は `test.yaml` 成功後に tag と release を作って `push.yaml` を起動します。`push.yaml` の日次 schedule は image を公開せず cache を更新するだけです。`ipfs.yaml` は pin だけで検証しません。
+`GITHUB_ACTIONS=true` のとき `run_once_after_watch.sh` が環境変数名と `mise dr` / `chezmoi doctor` の診断に加え、`xrp` を実行します。`xrp` は外部の XRPL サーバー（既定 `https://xrpl.ws`、`XRPL_SERVER` で変更可）へ JSON-RPC を送るため、CI がネットワーク越しの外部サービスに依存します。いずれも失敗は無視し（`|| true`）、結果は検証しません。`tag.yaml` は `test.yaml` 成功後に tag と release を作って `push.yaml` を起動します。`push.yaml` の日次 schedule は image を公開せず cache を更新するだけです。`ipfs.yaml` は pin だけで検証しません。
 
 ## Docker 検証
 
