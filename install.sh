@@ -6,13 +6,19 @@ set -eu
 if [ ! "$(command -v chezmoi)" ]; then
   BIN="${HOME}/.local/bin"
   CHEZMOI="${BIN}/chezmoi"
+  # 最小構成の Debian / Ubuntu には curl も wget も無い。root なら apt で補う
+  if [ ! "$(command -v curl)" ] && [ ! "$(command -v wget)" ] && [ "$(id -u)" -eq 0 ] && command -v apt-get >/dev/null 2>&1; then
+    export DEBIAN_FRONTEND=noninteractive
+    apt-get update -qq
+    apt-get install -y -qq curl ca-certificates
+  fi
   # curl か wget がインストールされている場合は chezmoi をインストール
   if [ "$(command -v curl)" ]; then
     sh -c "$(curl -fsLS https://get.chezmoi.io)" -- -b "${BIN}"
   elif [ "$(command -v wget)" ]; then
     sh -c "$(wget -qO- https://get.chezmoi.io)" -- -b "${BIN}"
   else
-    echo "To install chezmoi, you must have curl or wget installed." >&2
+    echo "To install chezmoi, you must have curl or wget installed (or run as root on Debian/Ubuntu)." >&2
     exit 1
   fi
   # $PATH に ~/.local/bin がなければ追加
