@@ -16,7 +16,7 @@ concurrency:
 jobs:
   release:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     permissions:
       contents: write # リリースを作成するために必要
       actions: write # push.yaml を workflow_dispatch で起動するために必要
