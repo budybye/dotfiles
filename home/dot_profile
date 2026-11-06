@@ -11,9 +11,9 @@ export HOSTNAME
 
 ARCH="unknown"
 if command -v dpkg >/dev/null 2>&1; then
-    ARCH="$(dpkg --print-architecture)"
+  ARCH="$(dpkg --print-architecture)"
 elif command -v uname >/dev/null 2>&1; then
-    ARCH="$(uname -m)"
+  ARCH="$(uname -m)"
 fi
 export ARCH
 
@@ -28,20 +28,20 @@ export PATH="${HOME}/.local/share/mise/shims:${HOME}/.local/bin:${HOME}/.local/s
 
 # sshディレクトリのパーミッションを700に設定
 if [ -d "${HOME}/.ssh" ]; then
-    chmod 700 "${HOME}/.ssh"
+  chmod 700 "${HOME}/.ssh"
 fi
 
 # XDG DIRECTORY を作成して権限を700に設定
 mkdir -p \
-    "${HOME}/.config" \
-    "${HOME}/.local/share" \
-    "${HOME}/.local/state" \
-    "${HOME}/.cache"
+  "${HOME}/.config" \
+  "${HOME}/.local/share" \
+  "${HOME}/.local/state" \
+  "${HOME}/.cache"
 chmod 700 \
-    "${HOME}/.config" \
-    "${HOME}/.local/share" \
-    "${HOME}/.local/state" \
-    "${HOME}/.cache"
+  "${HOME}/.config" \
+  "${HOME}/.local/share" \
+  "${HOME}/.local/state" \
+  "${HOME}/.cache"
 
 touch "${HOME}/.config/user-dirs.dirs"
 
@@ -56,20 +56,20 @@ export XDG_CONFIG_DIRS="${XDG_CONFIG_DIRS:-/etc/xdg}"
 
 XDG_RUNTIME_DIR_CANDIDATE="/run/user/$(id -u)"
 if [ -d "${XDG_RUNTIME_DIR_CANDIDATE}" ]; then
-    export XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR_CANDIDATE}"
+  export XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR_CANDIDATE}"
 fi
 unset XDG_RUNTIME_DIR_CANDIDATE
 
 mkdir -p \
-    "${HOME}/Desktop" \
-    "${HOME}/Downloads" \
-    "${HOME}/Documents" \
-    "${HOME}/Music" \
-    "${HOME}/Movies" \
-    "${HOME}/Public" \
-    "${HOME}/Pictures" \
-    "${HOME}/Projects" \
-    "${HOME}/Templates"
+  "${HOME}/Desktop" \
+  "${HOME}/Downloads" \
+  "${HOME}/Documents" \
+  "${HOME}/Music" \
+  "${HOME}/Movies" \
+  "${HOME}/Public" \
+  "${HOME}/Pictures" \
+  "${HOME}/Projects" \
+  "${HOME}/Templates"
 
 export XDG_DESKTOP_DIR="${HOME}/Desktop"
 export XDG_DOWNLOAD_DIR="${HOME}/Downloads"
@@ -99,210 +99,210 @@ touch "${XDG_STATE_HOME}/less/history"
 export LESSHISTFILE="${XDG_STATE_HOME}/less/history"
 
 # if [ -d "/tmp" ]; then
-    # export TMPDIR="/tmp"
-    # chmod 1777 "/tmp"
+  # export TMPDIR="/tmp"
+  # chmod 1777 "/tmp"
 # fi
 
 if [ -f "${XDG_RUNTIME_DIR}/Xauthority" ]; then
-    export XAUTHORITY="${XDG_RUNTIME_DIR}/Xauthority"
+  export XAUTHORITY="${XDG_RUNTIME_DIR}/Xauthority"
 fi
 
 if [ "$(uname)" = "Linux" ]; then
-    mkdir -p \
-      "${XDG_DATA_HOME}/Trash" \
-      "${XDG_DATA_HOME}/fonts" \
-      "${XDG_DATA_HOME}/backgrounds" \
-      "${XDG_DATA_HOME}/themes" \
-      "${XDG_DATA_HOME}/icons"
+  mkdir -p \
+    "${XDG_DATA_HOME}/Trash" \
+    "${XDG_DATA_HOME}/fonts" \
+    "${XDG_DATA_HOME}/backgrounds" \
+    "${XDG_DATA_HOME}/themes" \
+    "${XDG_DATA_HOME}/icons"
 fi
 
 if [ "$(uname)" = "Darwin" ]; then
-    mkdir -p "${XDG_DATA_HOME}/trash"
+  mkdir -p "${XDG_DATA_HOME}/trash"
 fi
 
 # よく使うディレクトリを作成
 mkdir -p \
-    "${HOME}/Applications" \
-    "${HOME}/Developer/docs"
+  "${HOME}/Applications" \
+  "${HOME}/Developer/docs"
 
 # デフォルトのエディタを設定
 if command -v zed >/dev/null 2>&1; then
-    export EDITOR="zed --wait"
+  export EDITOR="zed --wait"
 elif command -v cursor >/dev/null 2>&1; then
-    export EDITOR="cursor --wait"
+  export EDITOR="cursor --wait"
 elif command -v code >/dev/null 2>&1; then
-    export EDITOR="code --wait"
+  export EDITOR="code --wait"
 elif command -v codium >/dev/null 2>&1; then
-    export EDITOR="codium --wait"
+  export EDITOR="codium --wait"
 elif command -v nvim >/dev/null 2>&1; then
-    export EDITOR="nvim"
+  export EDITOR="nvim"
 elif command -v vim >/dev/null 2>&1; then
-    export EDITOR="vim"
+  export EDITOR="vim"
 else
-    export EDITOR="${EDITOR:-vi}"
+  export EDITOR="${EDITOR:-vi}"
 fi
 
 if command -v brave-browser >/dev/null 2>&1; then
-    export BROWSER="brave-browser"
+  export BROWSER="brave-browser"
 elif command -v zen >/dev/null 2>&1; then
-    export BROWSER="zen"
+  export BROWSER="zen"
 elif command -v w3m >/dev/null 2>&1; then
-    export BROWSER="w3m"
+  export BROWSER="w3m"
 elif command -v chromium >/dev/null 2>&1; then
-    export BROWSER="chromium"
+  export BROWSER="chromium"
 fi
 
 if command -v brew >/dev/null 2>&1; then
-    export HOMEBREW_PREFIX="/opt/homebrew"
-    export HOMEBREW_NO_AUTO_UPDATE=1
-    export HOMEBREW_NO_INSTALL_CLEANUP=1
-    export HOMEBREW_NO_ENV_HINTS=1
-    export HOMEBREW_REQUIRE_TAP_TRUST=0
-    export HOMEBREW_FORBIDDEN_FORMULAE="npm pnpm bun python python3 pip uv rust cargo go"
+  export HOMEBREW_PREFIX="/opt/homebrew"
+  export HOMEBREW_NO_AUTO_UPDATE=1
+  export HOMEBREW_NO_INSTALL_CLEANUP=1
+  export HOMEBREW_NO_ENV_HINTS=1
+  export HOMEBREW_REQUIRE_TAP_TRUST=0
+  export HOMEBREW_FORBIDDEN_FORMULAE="npm pnpm bun python python3 pip uv rust cargo go"
 fi
 
 if command -v mise >/dev/null 2>&1; then
-    mkdir -p "${XDG_CONFIG_HOME}/mise"
-    export MISE_INSTALL_PATH="${HOME}/.local/bin/mise"
-    export MISE_CONFIG_DIR="${XDG_CONFIG_HOME}/mise"
-    export MISE_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/mise"
-    # touch "${MISE_CONFIG_DIR}/shorthands.toml"
-    # export MISE_SHORTHANDS_FILE="${MISE_CONFIG_DIR}/shorthands.toml"
+  mkdir -p "${XDG_CONFIG_HOME}/mise"
+  export MISE_INSTALL_PATH="${HOME}/.local/bin/mise"
+  export MISE_CONFIG_DIR="${XDG_CONFIG_HOME}/mise"
+  export MISE_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/mise"
+  # touch "${MISE_CONFIG_DIR}/shorthands.toml"
+  # export MISE_SHORTHANDS_FILE="${MISE_CONFIG_DIR}/shorthands.toml"
 fi
 
 if command -v aqua >/dev/null 2>&1; then
-    mkdir -p "${XDG_CONFIG_HOME}/aquaproj-aqua" "${XDG_DATA_HOME}/aquaproj-aqua"
-    export PATH="${XDG_DATA_HOME:-${HOME}/.local/share}/aquaproj-aqua/bin:${PATH}"
-    export AQUA_GLOBAL_CONFIG="${AQUA_GLOBAL_CONFIG:-}:${XDG_CONFIG_HOME:-${HOME}/.config}/aquaproj-aqua/aqua.yaml"
+  mkdir -p "${XDG_CONFIG_HOME}/aquaproj-aqua" "${XDG_DATA_HOME}/aquaproj-aqua"
+  export PATH="${XDG_DATA_HOME:-${HOME}/.local/share}/aquaproj-aqua/bin:${PATH}"
+  export AQUA_GLOBAL_CONFIG="${AQUA_GLOBAL_CONFIG:-}:${XDG_CONFIG_HOME:-${HOME}/.config}/aquaproj-aqua/aqua.yaml"
 fi
 
 # VSCODE_PORTABLE は user-data まで portable 化するため使わず、拡張機能だけ Cursor と共有する
 if [ -d "${HOME}/.cursor/extensions" ]; then
-    export VSCODE_EXTENSIONS="${HOME}/.cursor/extensions"
+  export VSCODE_EXTENSIONS="${HOME}/.cursor/extensions"
 fi
 
 if command -v cursor >/dev/null 2>&1; then
-    mkdir -p "${XDG_CONFIG_HOME}/cursor"
-    export CURSOR_CONFIG_DIR="${XDG_CONFIG_HOME}/cursor"
-    # CURSOR_DATA_DIR は projects を移すが、cursor-agent の権限チェックは ~/.cursor/projects 固定のため使わない
-    # export CURSOR_API_KEY="${CURSOR_API_KEY:-}"
+  mkdir -p "${XDG_CONFIG_HOME}/cursor"
+  export CURSOR_CONFIG_DIR="${XDG_CONFIG_HOME}/cursor"
+  # CURSOR_DATA_DIR は projects を移すが、cursor-agent の権限チェックは ~/.cursor/projects 固定のため使わない
+  # export CURSOR_API_KEY="${CURSOR_API_KEY:-}"
 fi
 
 # GUI 版や PATH 外インストールでは command -v が偽になるため、設定ディレクトリの存在でも判定する
 if command -v claude >/dev/null 2>&1 || [ -d "${XDG_CONFIG_HOME}/claude" ]; then
-    mkdir -p "${XDG_CONFIG_HOME}/claude"
-    export CLAUDE_CONFIG_DIR="${XDG_CONFIG_HOME}/claude"
+  mkdir -p "${XDG_CONFIG_HOME}/claude"
+  export CLAUDE_CONFIG_DIR="${XDG_CONFIG_HOME}/claude"
 fi
 
 # mise 経由などで PATH に無くても、移行済みデータがあれば設定する
 if command -v codex >/dev/null 2>&1 || [ -f "${XDG_CONFIG_HOME}/codex/config.toml" ]; then
-    mkdir -p "${XDG_CONFIG_HOME}/codex"
-    export CODEX_HOME="${XDG_CONFIG_HOME}/codex"
-    export CODEX_CONFIG_DIR="${XDG_CONFIG_HOME}/codex"
+  mkdir -p "${XDG_CONFIG_HOME}/codex"
+  export CODEX_HOME="${XDG_CONFIG_HOME}/codex"
+  export CODEX_CONFIG_DIR="${XDG_CONFIG_HOME}/codex"
 fi
 
 if command -v pi >/dev/null 2>&1; then
-    mkdir -p "${XDG_CONFIG_HOME}/pi/agent"
-    export PI_CODING_AGENT_DIR="${XDG_CONFIG_HOME}/pi/agent"
-    export PI_TELEMETRY=false
+  mkdir -p "${XDG_CONFIG_HOME}/pi/agent"
+  export PI_CODING_AGENT_DIR="${XDG_CONFIG_HOME}/pi/agent"
+  export PI_TELEMETRY=false
 fi
 
 if command -v omp >/dev/null 2>&1; then
-    mkdir -p "${XDG_CONFIG_HOME}/omp/profiles/god/agent"
-    export PI_CONFIG_DIR=".config/omp" #default は ~/.omp XDGに ~/.config/omp 
-    export OMP_PROFILE="god" # PI_CODING_AGENT_DIR を無視する為に
+  mkdir -p "${XDG_CONFIG_HOME}/omp/profiles/god/agent"
+  export PI_CONFIG_DIR=".config/omp" #default は ~/.omp XDGに ~/.config/omp 
+  export OMP_PROFILE="god" # PI_CODING_AGENT_DIR を無視する為に
 fi
 
 if command -v docker >/dev/null 2>&1; then
-    mkdir -p "${XDG_CONFIG_HOME}/docker"
-    export DOCKER_CONFIG="${XDG_CONFIG_HOME}/docker"
+  mkdir -p "${XDG_CONFIG_HOME}/docker"
+  export DOCKER_CONFIG="${XDG_CONFIG_HOME}/docker"
 
-    mkdir -p "${XDG_DATA_HOME}/docker/machine"
-    export MACHINE_STORAGE_PATH="${XDG_DATA_HOME}/docker/machine"
+  mkdir -p "${XDG_DATA_HOME}/docker/machine"
+  export MACHINE_STORAGE_PATH="${XDG_DATA_HOME}/docker/machine"
 
-    if [ -S "${HOME}/.orbstack/run/docker.sock" ]; then
-        export DOCKER_HOST="unix://${HOME}/.orbstack/run/docker.sock"
-        export DOCKER_CONTEXT="orbstack"
+  if [ -S "${HOME}/.orbstack/run/docker.sock" ]; then
+    export DOCKER_HOST="unix://${HOME}/.orbstack/run/docker.sock"
+    export DOCKER_CONTEXT="orbstack"
 
-    elif [ -S /var/run/docker.sock ]; then
-        export DOCKER_HOST="unix:///var/run/docker.sock"
-        export DOCKER_CONTEXT="default"
+  elif [ -S /var/run/docker.sock ]; then
+    export DOCKER_HOST="unix:///var/run/docker.sock"
+    export DOCKER_CONTEXT="default"
 
-    elif [ -S "${HOME}/.docker/run/docker.sock" ]; then
-        export DOCKER_HOST="unix://${HOME}/.docker/run/docker.sock"
-        export DOCKER_CONTEXT="desktop-linux"
-    fi
+  elif [ -S "${HOME}/.docker/run/docker.sock" ]; then
+    export DOCKER_HOST="unix://${HOME}/.docker/run/docker.sock"
+    export DOCKER_CONTEXT="desktop-linux"
+  fi
 
 elif command -v podman >/dev/null 2>&1; then
-    PODMAN_SOCKET="$(podman machine inspect --format '{{ .ConnectionInfo.SocketPath }}')"
-    export DOCKER_HOST="unix://${PODMAN_SOCKET}"
-    export DOCKER_CONTEXT="podman-machine-default"
-    export DOCKER_BUILDKIT=0
+  PODMAN_SOCKET="$(podman machine inspect --format '{{ .ConnectionInfo.SocketPath }}')"
+  export DOCKER_HOST="unix://${PODMAN_SOCKET}"
+  export DOCKER_CONTEXT="podman-machine-default"
+  export DOCKER_BUILDKIT=0
 fi
 
 if command -v orb >/dev/null 2>&1; then
-    . "${HOME}/.orbstack/shell/init.zsh" 2>/dev/null || :
-    # docker context use orbstack >/dev/null 2>&1
+  . "${HOME}/.orbstack/shell/init.zsh" 2>/dev/null || :
+  # docker context use orbstack >/dev/null 2>&1
 fi
 
 if command -v kubectl >/dev/null 2>&1; then
-    mkdir -p "${XDG_CONFIG_HOME}/kube" "${XDG_CACHE_HOME}/kube"
-    export KUBECONFIG="${XDG_CONFIG_HOME}/kube/config"
-    # OrbStack(GUI) は環境変数を継承せず ~/.kube/config へ書くため併記する
-    if [ -f "${HOME}/.kube/config" ]; then
-        export KUBECONFIG="${KUBECONFIG}:${HOME}/.kube/config"
-    fi
-    export KUBECACHEDIR="${XDG_CACHE_HOME}/kube"
+  mkdir -p "${XDG_CONFIG_HOME}/kube" "${XDG_CACHE_HOME}/kube"
+  export KUBECONFIG="${XDG_CONFIG_HOME}/kube/config"
+  # OrbStack(GUI) は環境変数を継承せず ~/.kube/config へ書くため併記する
+  if [ -f "${HOME}/.kube/config" ]; then
+    export KUBECONFIG="${KUBECONFIG}:${HOME}/.kube/config"
+  fi
+  export KUBECACHEDIR="${XDG_CACHE_HOME}/kube"
 fi
 
 if command -v minikube >/dev/null 2>&1; then
-    mkdir -p "${XDG_DATA_HOME}/minikube"
-    export MINIKUBE_HOME="${XDG_DATA_HOME}/minikube"
+  mkdir -p "${XDG_DATA_HOME}/minikube"
+  export MINIKUBE_HOME="${XDG_DATA_HOME}/minikube"
 fi
 
 if command -v npm >/dev/null 2>&1; then
-    mkdir -p "${XDG_CONFIG_HOME}/npm/config"
-    touch "${XDG_CONFIG_HOME}/npm/config/npm-init.js"
-    touch "${XDG_CONFIG_HOME}/npm/npmrc"
-    export NPM_CONFIG_USERCONFIG="${XDG_CONFIG_HOME}/npm/npmrc"
-    mkdir -p \
-        "${XDG_CACHE_HOME}/npm" \
-        "${XDG_DATA_HOME}/npm" \
-        "${XDG_DATA_HOME}/node"
-    touch "${XDG_DATA_HOME}/node/node_repl_history"
-    export NODE_REPL_HISTORY="${XDG_DATA_HOME}/node/node_repl_history"
+  mkdir -p "${XDG_CONFIG_HOME}/npm/config"
+  touch "${XDG_CONFIG_HOME}/npm/config/npm-init.js"
+  touch "${XDG_CONFIG_HOME}/npm/npmrc"
+  export NPM_CONFIG_USERCONFIG="${XDG_CONFIG_HOME}/npm/npmrc"
+  mkdir -p \
+    "${XDG_CACHE_HOME}/npm" \
+    "${XDG_DATA_HOME}/npm" \
+    "${XDG_DATA_HOME}/node"
+  touch "${XDG_DATA_HOME}/node/node_repl_history"
+  export NODE_REPL_HISTORY="${XDG_DATA_HOME}/node/node_repl_history"
 fi
 
 if command -v pnpm >/dev/null 2>&1; then
-    mkdir -p "${XDG_DATA_HOME}/pnpm"
-    export PNPM_HOME="${XDG_DATA_HOME}/pnpm"
-    mkdir -p "${XDG_DATA_HOME}/pnpm-store"
+  mkdir -p "${XDG_DATA_HOME}/pnpm"
+  export PNPM_HOME="${XDG_DATA_HOME}/pnpm"
+  mkdir -p "${XDG_DATA_HOME}/pnpm-store"
 fi
 
 if command -v bun >/dev/null 2>&1; then
-    mkdir -p "${XDG_DATA_HOME}/bun"
-    export BUN_INSTALL="${XDG_DATA_HOME}/bun"
-    export PATH="${BUN_INSTALL}/bin:${PATH}"
+  mkdir -p "${XDG_DATA_HOME}/bun"
+  export BUN_INSTALL="${XDG_DATA_HOME}/bun"
+  export PATH="${BUN_INSTALL}/bin:${PATH}"
 fi
 
 if command -v mkcert >/dev/null 2>&1 && [ -f "$(mkcert -CAROOT)/rootCA.pem" ]; then
-    NODE_EXTRA_CA_CERTS="$(mkcert -CAROOT)/rootCA.pem"
-    export NODE_EXTRA_CA_CERTS
+  NODE_EXTRA_CA_CERTS="$(mkcert -CAROOT)/rootCA.pem"
+  export NODE_EXTRA_CA_CERTS
 fi
 
 if command -v gpg >/dev/null 2>&1; then
-    mkdir -p "${XDG_DATA_HOME}/gnupg"
-    # gpg は homedir が 700 でないと警告する（既存ディレクトリにも適用する）
-    chmod 700 "${XDG_DATA_HOME}/gnupg"
-    export GNUPGHOME="${XDG_DATA_HOME}/gnupg"
+  mkdir -p "${XDG_DATA_HOME}/gnupg"
+  # gpg は homedir が 700 でないと警告する（既存ディレクトリにも適用する）
+  chmod 700 "${XDG_DATA_HOME}/gnupg"
+  export GNUPGHOME="${XDG_DATA_HOME}/gnupg"
 fi
 
 if command -v go >/dev/null 2>&1; then
-    mkdir -p "${XDG_DATA_HOME}/go" "${XDG_CACHE_HOME}/go/mod"
-    export GOPATH="${XDG_DATA_HOME}/go"
-    export GOMODCACHE="${XDG_CACHE_HOME}/go/mod"
-    export GOCACHE="${XDG_CACHE_HOME}/go/go-build"
-    export PATH="${GOPATH}/bin:${PATH}"
+  mkdir -p "${XDG_DATA_HOME}/go" "${XDG_CACHE_HOME}/go/mod"
+  export GOPATH="${XDG_DATA_HOME}/go"
+  export GOMODCACHE="${XDG_CACHE_HOME}/go/mod"
+  export GOCACHE="${XDG_CACHE_HOME}/go/go-build"
+  export PATH="${GOPATH}/bin:${PATH}"
 fi
 
 # Rust toolchain は mise (core:rust) が管理。ホームは XDG に固定して
@@ -314,93 +314,93 @@ export RUSTUP_HOME="${XDG_DATA_HOME}/rustup"
 export PATH="${CARGO_HOME}/bin:${PATH}"
 
 if command -v gem >/dev/null 2>&1; then
-    mkdir -p "${XDG_DATA_HOME}/gem" "${XDG_CACHE_HOME}/gem"
-    export GEM_HOME="${XDG_DATA_HOME}/gem"
-    export GEM_SPEC_CACHE="${XDG_CACHE_HOME}/gem"
+  mkdir -p "${XDG_DATA_HOME}/gem" "${XDG_CACHE_HOME}/gem"
+  export GEM_HOME="${XDG_DATA_HOME}/gem"
+  export GEM_SPEC_CACHE="${XDG_CACHE_HOME}/gem"
 fi
 
 if command -v python3 >/dev/null 2>&1; then
-    mkdir -p "${XDG_DATA_HOME}/python" "${XDG_CACHE_HOME}/python" "${XDG_CONFIG_HOME}/python" "${XDG_STATE_HOME}/python"
-    export PYTHONUSERBASE="${XDG_DATA_HOME}/python"
-    export PYTHON_HISTORY="${XDG_STATE_HOME}/python/history"
-    export PYTHONPYCACHEPREFIX="${XDG_CACHE_HOME}/python"
+  mkdir -p "${XDG_DATA_HOME}/python" "${XDG_CACHE_HOME}/python" "${XDG_CONFIG_HOME}/python" "${XDG_STATE_HOME}/python"
+  export PYTHONUSERBASE="${XDG_DATA_HOME}/python"
+  export PYTHON_HISTORY="${XDG_STATE_HOME}/python/history"
+  export PYTHONPYCACHEPREFIX="${XDG_CACHE_HOME}/python"
 fi
 
 if command -v pipx >/dev/null 2>&1; then
-    mkdir -p "${XDG_DATA_HOME}/pipx/venvs"
-    export PIPX_HOME="${XDG_DATA_HOME}/pipx"
-    export PIPX_HOME_ALLOW_SPACE=true
+  mkdir -p "${XDG_DATA_HOME}/pipx/venvs"
+  export PIPX_HOME="${XDG_DATA_HOME}/pipx"
+  export PIPX_HOME_ALLOW_SPACE=true
 fi
 
 if command -v poetry >/dev/null 2>&1; then
-    mkdir -p "${XDG_CONFIG_HOME}/poetry" "${XDG_CACHE_HOME}/poetry"
-    export POETRY_HOME="${XDG_CONFIG_HOME}/poetry"
-    export POETRY_CACHE="${XDG_CACHE_HOME}/poetry"
-    export POETRY_VIRTUALENVS_IN_PROJECT=true
+  mkdir -p "${XDG_CONFIG_HOME}/poetry" "${XDG_CACHE_HOME}/poetry"
+  export POETRY_HOME="${XDG_CONFIG_HOME}/poetry"
+  export POETRY_CACHE="${XDG_CACHE_HOME}/poetry"
+  export POETRY_VIRTUALENVS_IN_PROJECT=true
 fi
 
 if command -v jupyter >/dev/null 2>&1; then
-    mkdir -p "${XDG_CONFIG_HOME}/jupyter"
-    export JUPYTER_CONFIG_DIR="${XDG_CONFIG_HOME}/jupyter"
-    export IPYTHONDIR="${XDG_CONFIG_HOME}/jupyter"
+  mkdir -p "${XDG_CONFIG_HOME}/jupyter"
+  export JUPYTER_CONFIG_DIR="${XDG_CONFIG_HOME}/jupyter"
+  export IPYTHONDIR="${XDG_CONFIG_HOME}/jupyter"
 fi
 
 if command -v java >/dev/null 2>&1; then
-    # macOSの場合
-    if [ -z "${JAVA_HOME}" ] && [ "$(uname)" = "Darwin" ]; then
-        # JAVA_HOMEが未設定の場合のみ実行
-        _JAVA_HOME_CANDIDATE="$(/usr/libexec/java_home 2>/dev/null)"
-        if [ -n "${_JAVA_HOME_CANDIDATE}" ]; then
-            export JAVA_HOME="${_JAVA_HOME_CANDIDATE}"
-        fi
-    # Linuxの場合
-    elif [ -z "${JAVA_HOME}" ] && [ -d "/usr/lib/jvm" ]; then
-        # JAVA_HOMEが未設定の場合のみ実行
-        _JAVA_HOME_CANDIDATE="$(readlink -f /usr/lib/jvm/java-*-openjdk-* 2>/dev/null)"
-        if [ -n "${_JAVA_HOME_CANDIDATE}" ]; then
-          export JAVA_HOME="${_JAVA_HOME_CANDIDATE}"
-        fi
+  # macOSの場合
+  if [ -z "${JAVA_HOME}" ] && [ "$(uname)" = "Darwin" ]; then
+    # JAVA_HOMEが未設定の場合のみ実行
+    _JAVA_HOME_CANDIDATE="$(/usr/libexec/java_home 2>/dev/null)"
+    if [ -n "${_JAVA_HOME_CANDIDATE}" ]; then
+      export JAVA_HOME="${_JAVA_HOME_CANDIDATE}"
     fi
+  # Linuxの場合
+  elif [ -z "${JAVA_HOME}" ] && [ -d "/usr/lib/jvm" ]; then
+    # JAVA_HOMEが未設定の場合のみ実行
+    _JAVA_HOME_CANDIDATE="$(readlink -f /usr/lib/jvm/java-*-openjdk-* 2>/dev/null)"
+    if [ -n "${_JAVA_HOME_CANDIDATE}" ]; then
+      export JAVA_HOME="${_JAVA_HOME_CANDIDATE}"
+    fi
+  fi
 
-    # PATHへの追加もJAVA_HOMEが設定されている場合のみ行う
-    if [ -n "${JAVA_HOME}" ]; then
-        export PATH="${JAVA_HOME}/bin:${PATH}"
-    fi
-    mkdir -p "${XDG_CONFIG_HOME}/java"
-    # _JAVA_OPTIONS もJAVA_HOMEが有効な場合のみ設定する
-    if [ -n "${JAVA_HOME}" ]; then
-      export _JAVA_OPTIONS="-Djava.util.prefs.userRoot=${XDG_CONFIG_HOME}/java"
-    fi
+  # PATHへの追加もJAVA_HOMEが設定されている場合のみ行う
+  if [ -n "${JAVA_HOME}" ]; then
+    export PATH="${JAVA_HOME}/bin:${PATH}"
+  fi
+  mkdir -p "${XDG_CONFIG_HOME}/java"
+  # _JAVA_OPTIONS もJAVA_HOMEが有効な場合のみ設定する
+  if [ -n "${JAVA_HOME}" ]; then
+    export _JAVA_OPTIONS="-Djava.util.prefs.userRoot=${XDG_CONFIG_HOME}/java"
+  fi
 fi
 
 if command -v mvn >/dev/null 2>&1; then
-    mkdir -p "${XDG_CONFIG_HOME}/maven"
-    export MAVEN_CONFIG="${XDG_CONFIG_HOME}/maven"
-    mkdir -p "${XDG_DATA_HOME}/maven/repository"
-    export MAVEN_OPTS="-Dmaven.repo.local=${XDG_DATA_HOME}/maven/repository"
-    # 設定ファイルが存在する場合はMVN引数に設定（mvn は起動しない）
-    if [ -f "${MAVEN_CONFIG}/settings.xml" ]; then
-        export MAVEN_ARGS="--settings ${XDG_CONFIG_HOME}/maven/settings.xml"
-    fi
+  mkdir -p "${XDG_CONFIG_HOME}/maven"
+  export MAVEN_CONFIG="${XDG_CONFIG_HOME}/maven"
+  mkdir -p "${XDG_DATA_HOME}/maven/repository"
+  export MAVEN_OPTS="-Dmaven.repo.local=${XDG_DATA_HOME}/maven/repository"
+  # 設定ファイルが存在する場合はMVN引数に設定（mvn は起動しない）
+  if [ -f "${MAVEN_CONFIG}/settings.xml" ]; then
+    export MAVEN_ARGS="--settings ${XDG_CONFIG_HOME}/maven/settings.xml"
+  fi
 fi
 
 if command -v psql >/dev/null 2>&1; then
-    mkdir -p "${XDG_CONFIG_HOME}/pg" "${XDG_CACHE_HOME}/pg"
-    export PSQLRC="${XDG_CONFIG_HOME}/pg/psqlrc"
-    export PGPASSFILE="${XDG_CONFIG_HOME}/pg/pgpass"
-    export PGSERVICEFILE="${XDG_CONFIG_HOME}/pg/pg_service.conf"
-    export PSQL_HISTORY="${XDG_CACHE_HOME}/pg/psql_history"
+  mkdir -p "${XDG_CONFIG_HOME}/pg" "${XDG_CACHE_HOME}/pg"
+  export PSQLRC="${XDG_CONFIG_HOME}/pg/psqlrc"
+  export PGPASSFILE="${XDG_CONFIG_HOME}/pg/pgpass"
+  export PGSERVICEFILE="${XDG_CONFIG_HOME}/pg/pg_service.conf"
+  export PSQL_HISTORY="${XDG_CACHE_HOME}/pg/psql_history"
 fi
 
 if command -v redis-cli >/dev/null 2>&1; then
-    mkdir -p "${XDG_CONFIG_HOME}/redis" "${XDG_DATA_HOME}/redis"
-    export REDISCLI_HISTFILE="${XDG_DATA_HOME}/redis/rediscli_history"
-    export REDISCLI_RCFILE="${XDG_CONFIG_HOME}/redis/redisclirc"
+  mkdir -p "${XDG_CONFIG_HOME}/redis" "${XDG_DATA_HOME}/redis"
+  export REDISCLI_HISTFILE="${XDG_DATA_HOME}/redis/rediscli_history"
+  export REDISCLI_RCFILE="${XDG_CONFIG_HOME}/redis/redisclirc"
 fi
 
 if command -v wine >/dev/null 2>&1; then
-    mkdir -p "${XDG_DATA_HOME}/wineprefixes"
-    export WINEPREFIX="${XDG_DATA_HOME}/wineprefixes/default"
+  mkdir -p "${XDG_DATA_HOME}/wineprefixes"
+  export WINEPREFIX="${XDG_DATA_HOME}/wineprefixes/default"
 fi
 
 # if command -v android >/dev/null 2>&1; then
@@ -412,32 +412,32 @@ fi
 
 # vim と nvim の設定
 if command -v vim >/dev/null 2>&1; then
-    mkdir -p "${XDG_CONFIG_HOME}/vim" "${XDG_CONFIG_HOME}/nvim" "${XDG_STATE_HOME}/vim"
-    export VIMINIT="let \$MYVIMRC = !has('nvim') ? '${XDG_CONFIG_HOME}/vim/vimrc' : '${XDG_CONFIG_HOME}/nvim/init.vim' | if !has('nvim') | set viminfofile=${XDG_STATE_HOME}/vim/viminfo | endif | source \$MYVIMRC"
+  mkdir -p "${XDG_CONFIG_HOME}/vim" "${XDG_CONFIG_HOME}/nvim" "${XDG_STATE_HOME}/vim"
+  export VIMINIT="let \$MYVIMRC = !has('nvim') ? '${XDG_CONFIG_HOME}/vim/vimrc' : '${XDG_CONFIG_HOME}/nvim/init.vim' | if !has('nvim') | set viminfofile=${XDG_STATE_HOME}/vim/viminfo | endif | source \$MYVIMRC"
 fi
 
 if command -v spacemacs >/dev/null 2>&1; then
-    mkdir -p "${XDG_CONFIG_HOME}/spacemacs"
-    export SPACEMACSDIR="${XDG_CONFIG_HOME}/spacemacs"
-    if [ -f "${HOME}/.spacemacs" ]; then
-        mv "${HOME}/.spacemacs" "${SPACEMACSDIR}/init.el"
-    fi
+  mkdir -p "${XDG_CONFIG_HOME}/spacemacs"
+  export SPACEMACSDIR="${XDG_CONFIG_HOME}/spacemacs"
+  if [ -f "${HOME}/.spacemacs" ]; then
+    mv "${HOME}/.spacemacs" "${SPACEMACSDIR}/init.el"
+  fi
 fi
 
 if command -v byobu >/dev/null 2>&1; then
-    mkdir -p "${XDG_CONFIG_HOME}/byobu"
-    export BYOBU_CONFIG_DIR="${XDG_CONFIG_HOME}/byobu"
+  mkdir -p "${XDG_CONFIG_HOME}/byobu"
+  export BYOBU_CONFIG_DIR="${XDG_CONFIG_HOME}/byobu"
 fi
 
 if command -v ipfs >/dev/null 2>&1; then
-    mkdir -p "${XDG_CONFIG_HOME}/ipfs"
-    export IPFS_PATH="${XDG_CONFIG_HOME}/ipfs"
+  mkdir -p "${XDG_CONFIG_HOME}/ipfs"
+  export IPFS_PATH="${XDG_CONFIG_HOME}/ipfs"
 fi
 
 if command -v starship >/dev/null 2>&1; then
-    mkdir -p "${XDG_CACHE_HOME}/starship" "${XDG_CONFIG_HOME}/starship"
-    export STARSHIP_CONFIG="${XDG_CONFIG_HOME}/starship/starship.toml"
-    export STARSHIP_CACHE="${XDG_CACHE_HOME}/starship"
+  mkdir -p "${XDG_CACHE_HOME}/starship" "${XDG_CONFIG_HOME}/starship"
+  export STARSHIP_CONFIG="${XDG_CONFIG_HOME}/starship/starship.toml"
+  export STARSHIP_CACHE="${XDG_CACHE_HOME}/starship"
 fi
 
 # zsh-z は command -v では検出できない（alias を定義するプラグイン）ため無条件に設定する
@@ -446,122 +446,122 @@ export _Z_DATA="${XDG_DATA_HOME}/z"
 
 # enhancd は sheldon プラグインで command -v に出ない
 if [ -d "${XDG_DATA_HOME}/sheldon/repos/github.com/b4b4r07/enhancd" ]; then
-    mkdir -p "${XDG_STATE_HOME}/enhancd"
-    export ENHANCD_DIR="${XDG_STATE_HOME}/enhancd"
+  mkdir -p "${XDG_STATE_HOME}/enhancd"
+  export ENHANCD_DIR="${XDG_STATE_HOME}/enhancd"
 fi
 
 if command -v fzf >/dev/null 2>&1; then
-    mkdir -p "${XDG_CONFIG_HOME}/fzf"
+  mkdir -p "${XDG_CONFIG_HOME}/fzf"
 fi
 
 if command -v rg >/dev/null 2>&1; then
-    mkdir -p "${XDG_CONFIG_HOME}/ripgrep"
-    export RIPGREP_CONFIG_PATH="${XDG_CONFIG_HOME}/ripgrep/config"
+  mkdir -p "${XDG_CONFIG_HOME}/ripgrep"
+  export RIPGREP_CONFIG_PATH="${XDG_CONFIG_HOME}/ripgrep/config"
 fi
 
 if command -v tldr >/dev/null 2>&1; then
-    mkdir -p "${XDG_CACHE_HOME}/tldr"
-    export TLDR_CACHE_DIR="${XDG_CACHE_HOME}/tldr"
+  mkdir -p "${XDG_CACHE_HOME}/tldr"
+  export TLDR_CACHE_DIR="${XDG_CACHE_HOME}/tldr"
 fi
 
 if command -v ffmpeg >/dev/null 2>&1; then
-    mkdir -p "${XDG_DATA_HOME}/ffmpeg"
-    export FFMPEG_DATADIR="${XDG_DATA_HOME}/ffmpeg"
+  mkdir -p "${XDG_DATA_HOME}/ffmpeg"
+  export FFMPEG_DATADIR="${XDG_DATA_HOME}/ffmpeg"
 fi
 
 if command -v conan >/dev/null 2>&1; then
-    mkdir -p "${XDG_CONFIG_HOME}/conan"
-    export CONAN_HOME="${XDG_CONFIG_HOME}/conan"
+  mkdir -p "${XDG_CONFIG_HOME}/conan"
+  export CONAN_HOME="${XDG_CONFIG_HOME}/conan"
 fi
 
 if command -v htop >/dev/null 2>&1; then
-    mkdir -p "${XDG_CONFIG_HOME}/htop"
-    if [ -f "${HOME}/.htoprc" ]; then
-        mv "${HOME}/.htoprc" "${XDG_CONFIG_HOME}/htop/htoprc"
-    fi
+  mkdir -p "${XDG_CONFIG_HOME}/htop"
+  if [ -f "${HOME}/.htoprc" ]; then
+    mv "${HOME}/.htoprc" "${XDG_CONFIG_HOME}/htop/htoprc"
+  fi
 fi
 
 if command -v curl >/dev/null 2>&1; then
-    if [ -f "${HOME}/.curlrc" ]; then
-        mv "${HOME}/.curlrc" "${XDG_CONFIG_HOME}/.curlrc"
-    fi
+  if [ -f "${HOME}/.curlrc" ]; then
+    mv "${HOME}/.curlrc" "${XDG_CONFIG_HOME}/.curlrc"
+  fi
 fi
 
 if command -v ghq >/dev/null 2>&1; then
-    mkdir -p "${XDG_DATA_HOME}/ghq"
-    export GHQ_ROOT="${XDG_DATA_HOME}/ghq"
+  mkdir -p "${XDG_DATA_HOME}/ghq"
+  export GHQ_ROOT="${XDG_DATA_HOME}/ghq"
 fi
 
 if command -v mpd >/dev/null 2>&1; then
-    mkdir -p "${XDG_CONFIG_HOME}/mpd/playlists"
-    touch "${XDG_CONFIG_HOME}/mpd/mpd.conf"
-    touch "${XDG_CONFIG_HOME}/mpd/mpd.db"
-    touch "${XDG_CONFIG_HOME}/mpd/mpd.log"
-    touch "${XDG_CONFIG_HOME}/mpd/mpd.pid"
-    mkdir -p "${XDG_DATA_HOME}/mpd"
-    touch "${XDG_DATA_HOME}/mpd/state"
-    export MPD_HOST="127.0.0.1"
-    export MPD_PORT="6600"
-    # プロセスが実行されていなければ起動する
-    if ! pgrep -x mpd >/dev/null 2>&1; then
-      mpd "${HOME}/.config/mpd/mpd.conf" >/dev/null 2>&1
-    fi
+  mkdir -p "${XDG_CONFIG_HOME}/mpd/playlists"
+  touch "${XDG_CONFIG_HOME}/mpd/mpd.conf"
+  touch "${XDG_CONFIG_HOME}/mpd/mpd.db"
+  touch "${XDG_CONFIG_HOME}/mpd/mpd.log"
+  touch "${XDG_CONFIG_HOME}/mpd/mpd.pid"
+  mkdir -p "${XDG_DATA_HOME}/mpd"
+  touch "${XDG_DATA_HOME}/mpd/state"
+  export MPD_HOST="127.0.0.1"
+  export MPD_PORT="6600"
+  # プロセスが実行されていなければ起動する
+  if ! pgrep -x mpd >/dev/null 2>&1; then
+    mpd "${HOME}/.config/mpd/mpd.conf" >/dev/null 2>&1
+  fi
 fi
 
 if command -v ncmpcpp >/dev/null 2>&1; then
-    mkdir -p "${XDG_CONFIG_HOME}/ncmpcpp"
-    export NCMPCPP_CONFIG_DIR="${XDG_CONFIG_HOME}/ncmpcpp"
-    mkdir -p "${XDG_MUSIC_DIR}/lyrics"
+  mkdir -p "${XDG_CONFIG_HOME}/ncmpcpp"
+  export NCMPCPP_CONFIG_DIR="${XDG_CONFIG_HOME}/ncmpcpp"
+  mkdir -p "${XDG_MUSIC_DIR}/lyrics"
 fi
 
 if command -v sampler >/dev/null 2>&1; then
-    mkdir -p "${XDG_CONFIG_HOME}/sampler"
-    touch "${XDG_CONFIG_HOME}/sampler/config.yaml"
-    alias sampler='sampler --config "${XDG_CONFIG_HOME}"/sampler/config.yaml'
+  mkdir -p "${XDG_CONFIG_HOME}/sampler"
+  touch "${XDG_CONFIG_HOME}/sampler/config.yaml"
+  alias sampler='sampler --config "${XDG_CONFIG_HOME}"/sampler/config.yaml'
 fi
 
 if command -v aws >/dev/null 2>&1; then
-    mkdir -p "${XDG_CONFIG_HOME}/aws"
-    touch "${XDG_CONFIG_HOME}/aws/credentials"
-    export AWS_SHARED_CREDENTIALS_FILE="${XDG_CONFIG_HOME}/aws/credentials"
-    touch "${XDG_CONFIG_HOME}/aws/config"
-    export AWS_CONFIG_FILE="${XDG_CONFIG_HOME}/aws/config"
+  mkdir -p "${XDG_CONFIG_HOME}/aws"
+  touch "${XDG_CONFIG_HOME}/aws/credentials"
+  export AWS_SHARED_CREDENTIALS_FILE="${XDG_CONFIG_HOME}/aws/credentials"
+  touch "${XDG_CONFIG_HOME}/aws/config"
+  export AWS_CONFIG_FILE="${XDG_CONFIG_HOME}/aws/config"
 fi
 
 if command -v opencode >/dev/null 2>&1; then
-    mkdir -p "${XDG_CONFIG_HOME}/opencode"
-    export OPENCODE_CONFIG_DIR="${XDG_CONFIG_HOME}/opencode"
-    touch "${OPENCODE_CONFIG_DIR}/opencode.jsonc"
-    export OPENCODE_CONFIG="${OPENCODE_CONFIG_DIR}/opencode.jsonc"
+  mkdir -p "${XDG_CONFIG_HOME}/opencode"
+  export OPENCODE_CONFIG_DIR="${XDG_CONFIG_HOME}/opencode"
+  touch "${OPENCODE_CONFIG_DIR}/opencode.jsonc"
+  export OPENCODE_CONFIG="${OPENCODE_CONFIG_DIR}/opencode.jsonc"
 fi
 
 if command -v cursor-agent >/dev/null 2>&1; then
-    export CURSOR_API_KEY="${CURSOR_API_KEY:-}"
+  export CURSOR_API_KEY="${CURSOR_API_KEY:-}"
 fi
 
 if command -v vp >/dev/null 2>&1; then
-    mkdir -p "${XDG_CONFIG_HOME}/vite-plus"
-    export VITE_PLUS_HOME="${XDG_CONFIG_HOME}/vite-plus"
+  mkdir -p "${XDG_CONFIG_HOME}/vite-plus"
+  export VITE_PLUS_HOME="${XDG_CONFIG_HOME}/vite-plus"
 fi
 
 if command -v discord >/dev/null 2>&1; then
-    mkdir -p "${XDG_DATA_HOME}/discord"
-    export DISCORD_USER_DATA_DIR="${XDG_DATA_HOME}/discord"
+  mkdir -p "${XDG_DATA_HOME}/discord"
+  export DISCORD_USER_DATA_DIR="${XDG_DATA_HOME}/discord"
 fi
 
 if command -v opensrc >/dev/null 2>&1; then
-    mkdir -p "${XDG_DATA_HOME}/opensrc"
-    export OPENSRC_HOME="${XDG_DATA_HOME}/opensrc"
+  mkdir -p "${XDG_DATA_HOME}/opensrc"
+  export OPENSRC_HOME="${XDG_DATA_HOME}/opensrc"
 fi
 
 if command -v w3m >/dev/null 2>&1; then
-    mkdir -p "${XDG_CONFIG_HOME}/w3m"
-    export W3M_DIR="${XDG_CONFIG_HOME}/w3m"
+  mkdir -p "${XDG_CONFIG_HOME}/w3m"
+  export W3M_DIR="${XDG_CONFIG_HOME}/w3m"
 fi
 
 # agent-browser: config / skills を XDG 配下に移動。target/session ファイルは ~/.agent-browser 固定
 if command -v agent-browser >/dev/null 2>&1; then
-    mkdir -p "${XDG_CONFIG_HOME}/agent-browser" "${XDG_DATA_HOME}/agent-browser/skills"
-    export AGENT_BROWSER_CONFIG="${XDG_CONFIG_HOME}/agent-browser/config.json"
-    export AGENT_BROWSER_SKILLS_DIR="${XDG_DATA_HOME}/agent-browser/skills"
+  mkdir -p "${XDG_CONFIG_HOME}/agent-browser" "${XDG_DATA_HOME}/agent-browser/skills"
+  export AGENT_BROWSER_CONFIG="${XDG_CONFIG_HOME}/agent-browser/config.json"
+  export AGENT_BROWSER_SKILLS_DIR="${XDG_DATA_HOME}/agent-browser/skills"
 fi
