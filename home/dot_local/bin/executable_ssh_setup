@@ -92,11 +92,6 @@ fi
 
 chmod 600 "${KEY_PATH}"
 chmod 644 "${KEY_PATH}.pub"
-for name in authorized_keys config; do
-  if [ -f "${SSH_DIR}/${name}" ]; then
-    chmod 600 "${SSH_DIR}/${name}"
-  fi
-done
 
 printf 'SSH key ready: %s\n' "${KEY_PATH}"
 if [ "${show_public_key}" -eq 1 ]; then
