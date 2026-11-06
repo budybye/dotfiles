@@ -12,12 +12,18 @@ install_docker() {
   else
     $sudo apt-get update
     $sudo apt-get install -y ca-certificates curl
+    # Docker の apt リポジトリは ubuntu / debian で URL が違う。派生ディストリビューションは ID_LIKE に従う
+    docker_distro="$(. /etc/os-release && echo "${ID}")"
+    case "${docker_distro}" in
+      ubuntu|debian) ;;
+      *) docker_distro="$(. /etc/os-release && echo "${ID_LIKE%% *}")" ;;
+    esac
     $sudo install -m 0755 -d /etc/apt/keyrings
-    $sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+    $sudo curl -fsSL "https://download.docker.com/linux/${docker_distro}/gpg" -o /etc/apt/keyrings/docker.asc
     $sudo chmod a+r /etc/apt/keyrings/docker.asc
 
     echo \
-    "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+    "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/${docker_distro} \
         $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
     $sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
     $sudo apt-get update

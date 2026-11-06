@@ -92,7 +92,14 @@ japan_setup() {
   echo "japan setup start..."
   $sudo apt-get update -y
   # Ubuntu のパッケージ名は locales (単数形 locale ではない)
-  $sudo apt-get install -y language-pack-ja-base language-pack-ja manpages-ja tzdata locales fcitx5-mozc
+  $sudo apt-get install -y manpages-ja tzdata locales fcitx5-mozc
+  # language-pack-ja は Ubuntu だけにある。Debian は locales で ja_JP.UTF-8 を生成する
+  if apt-cache show language-pack-ja >/dev/null 2>&1; then
+    $sudo apt-get install -y language-pack-ja-base language-pack-ja
+  else
+    $sudo sed -i 's/^# *\(ja_JP.UTF-8 UTF-8\)/\1/' /etc/locale.gen
+    $sudo locale-gen
+  fi
     
   if [ -d /run/systemd/system ] && command -v systemctl >/dev/null 2>&1; then
     $sudo apt-get install -y im-config

@@ -297,8 +297,6 @@ adopt = false
 "apt:libwebkit2gtk-4.1-dev" = { os = "linux" }
 "apt:libgtk-layer-shell-dev" = { os = "linux" }
 
-"apt:language-pack-ja-base" = { os = "linux" }
-"apt:language-pack-ja" = { os = "linux" }
 "apt:manpages-ja" = { os = "linux" }
 "apt:fcitx5-mozc" = { os = "linux" }
 # "apt:im-config" = "latest" # xrdp エラーになる

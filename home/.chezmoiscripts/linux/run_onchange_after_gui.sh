@@ -12,7 +12,17 @@ fi
 
 install_gui() {
   $sudo apt-get update
-  $sudo apt-get install -y xfce4 xfce4-goodies xubuntu-wallpapers xrdp xorgxrdp dbus-x11 lightdm gnome-keyring libinput-tools xdg-utils plank picard remmina xsel xclip oneko nyancat libfuse2t64 zenity
+  $sudo apt-get install -y xfce4 xfce4-goodies xrdp xorgxrdp dbus-x11 lightdm gnome-keyring libinput-tools xdg-utils plank picard remmina xsel xclip oneko nyancat zenity
+  # libfuse2 は t64 化された世代(Ubuntu 24.04 / Debian 13 以降)で名前が変わる
+  if apt-cache show libfuse2t64 >/dev/null 2>&1; then
+    $sudo apt-get install -y libfuse2t64
+  else
+    $sudo apt-get install -y libfuse2
+  fi
+  # xubuntu-wallpapers は Ubuntu だけにある
+  if apt-cache show xubuntu-wallpapers >/dev/null 2>&1; then
+    $sudo apt-get install -y xubuntu-wallpapers
+  fi
 }
 
 install_brave_browser() {
@@ -32,7 +42,7 @@ install_cloudflare_warp() {
     echo "cloudflare warp already installed."
   else
     curl -fsSL https://pkg.cloudflareclient.com/pubkey.gpg | $sudo gpg --yes --dearmor --output /usr/share/keyrings/cloudflare-warp-archive-keyring.gpg
-    echo "deb [signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg] https://pkg.cloudflareclient.com/ $(lsb_release -cs) main" | $sudo tee /etc/apt/sources.list.d/cloudflare-client.list
+    echo "deb [signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg] https://pkg.cloudflareclient.com/ $(. /etc/os-release && echo "${VERSION_CODENAME}") main" | $sudo tee /etc/apt/sources.list.d/cloudflare-client.list
     $sudo apt-get update 
     $sudo apt-get install -y cloudflare-warp
     echo "cloudflare warp installed."

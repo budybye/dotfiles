@@ -82,10 +82,16 @@ xrdp_pulse_modules_installed() {
   return 1
 }
 
-# pulseaudio-module-xrdp のビルドに必要な deb-src を有効化 (Ubuntu 24.04+ の .sources 形式)
+# pulseaudio-module-xrdp のビルドに必要な deb-src を有効化 (Ubuntu 24.04+ / Debian 12+ の .sources 形式)
 enable_pulse_deb_src() {
-  if [ -f /etc/apt/sources.list.d/ubuntu.sources ] && ! grep -q 'deb-src' /etc/apt/sources.list.d/ubuntu.sources; then
-    $sudo sed -i 's/Types: deb$/Types: deb deb-src/' /etc/apt/sources.list.d/ubuntu.sources
+  local sources updated=0
+  for sources in /etc/apt/sources.list.d/ubuntu.sources /etc/apt/sources.list.d/debian.sources; do
+    if [ -f "${sources}" ] && ! grep -q 'deb-src' "${sources}"; then
+      $sudo sed -i 's/Types: deb$/Types: deb deb-src/' "${sources}"
+      updated=1
+    fi
+  done
+  if [ "${updated}" -eq 1 ]; then
     $sudo apt-get update -y
   fi
 }

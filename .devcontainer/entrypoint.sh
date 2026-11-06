@@ -94,7 +94,7 @@ while [ $# -ne 0 ]; do
 
   # 既存の Ubuntu イメージでも安全に再実行できるようにする
   if ! $sudo getent group "$1" >/dev/null 2>&1; then
-    $sudo addgroup "$1"
+    $sudo groupadd "$1"
   fi
     
   if ! $sudo id "$1" >/dev/null 2>&1; then
