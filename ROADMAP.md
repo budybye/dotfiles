@@ -162,7 +162,7 @@ README.md と docs/ が運用・設計の正本です。
 - [ ] `.profile` を export のみにし、`mkdir` / `touch` / mpd 起動を `.chezmoiscripts` の `run_onchange` へ移す (`chmod -R` は削除済み)
 - [ ] `LC_ALL` (90 行) と `TERM` (92 行) の強制をやめる (`LANG` のみ)。mise は `bootstrap` の出力を英語前提で解析する箇所があり、djd は日本語ロケールで ufw の判定が壊れた (mise 2026.10.23)。外せない場合は bootstrap 実行時に `LC_ALL=C.UTF-8` を付ける
 - [x] `.zprofile` から `.zshrc` を再読み込みしない (済: 対話 shell では読まず、非対話 login (`zsh -lc`) だけ読む。mux の自動起動は `.zlogin`)
-- [ ] `compinit` を 1 回にする (`.zshenv` の `skip_global_compinit=1` で Ubuntu の `/etc/zsh/zshrc` の呼び出しは止めた。ただし `.zshrc:73-74` の `compinit -C` と `sheldon/plugins.toml:17` の `zsh-defer compinit -d` がまだ両方呼ぶので 2 回走る。どちらかを削除する。sheldon 側は `zsh-completions` の fpath より後に走る)
+- [x] `compinit` は 2 回呼ぶ構成で確定（採用済みの決定。`.zshenv` の `skip_global_compinit=1` で Ubuntu の `/etc/zsh/zshrc` の呼び出しは止めた。`.zshrc` が早い段階で `compinit -C` を実行して `compdef` を使えるようにし、`sheldon/plugins.toml` の `zsh-defer compinit -d` が `zsh-completions` の fpath が出そろった後に補完定義を取り込む。どちらも削除しない）
 - [ ] `eval "$(tool init)"` を `$XDG_CACHE_HOME/zsh/init/` にキャッシュする。`mise activate` は PATH を、`sheldon source` は plugins.toml の編集を出力に含むので除外する。`chezmoi apply` の後にキャッシュを消す
 - 完了条件: `hyperfine 'zsh -i -c exit'` の前後の値を `docs/testing.md` に記録する。`zsh -ic true` が何も出力しない
 

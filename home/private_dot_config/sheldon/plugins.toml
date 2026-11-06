@@ -12,7 +12,9 @@ apply = "defer"
 defer = "{% for file in files %}zsh-defer source \"{{ file }}\"\n{% endfor %}"
 PATH = 'export PATH="$PATH:{{ dir }}"'
 
-# 補完。fpath を足したあとに zsh-defer で1回だけ。zshrc では呼ばない
+# 補完。zshrc が早い段階で `compinit -C`（compdef を使えるようにするための早期呼び出し）を実行する。
+# こちらは fpath（zsh-completions など）が出そろった後に zsh-defer で再度 compinit して補完定義を取り込む。
+# 2 回呼ぶのは意図した仕様
 [plugins.compinit]
 inline = "autoload -Uz compinit && zsh-defer compinit -d \"${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompdump-${ZSH_VERSION}\""
 
@@ -60,11 +62,26 @@ apply = ["defer"]
 github = "z-shell/zsh-navigation-tools"
 apply = ["defer"]
 
+# vim モード。`bindkey -v` で viins の Ctrl-R / 上矢印を上書きするので、
+# キーバインドを足す fzf・atuin より先に読み込む（defer は記述順に実行される）
+[plugins.zsh-vim-mode]
+github = "softmoth/zsh-vim-mode"
+apply = ["defer"]
+
 # ファイル検索 補完 インストール要
 [plugins.fzf]
 github = "junegunn/fzf"
 use = ["shell/key-bindings.zsh", "shell/completion.zsh"]
 apply = ["defer"]
+
+# fzf は Ctrl-R を atuin に任せる（.zshrc で FZF_CTRL_R_COMMAND を空にしている）。Ctrl-T / Alt-C は fzf のまま
+# vim-mode が viins を上書きした後で atuin のキーを張り直す。ウィジェット名は `atuin init zsh` のもの
+[plugins.atuin-keys]
+inline = """
+if (( $+widgets[atuin-search-viins] )); then
+  zsh-defer -c "bindkey -M viins '^R' atuin-search-viins; bindkey -M viins '^[[A' atuin-up-search-viins; bindkey -M viins '^[OA' atuin-up-search-viins; bindkey -M emacs '^R' atuin-search"
+fi
+"""
 
 # 括弧補完
 [plugins.zsh-autopair]
@@ -90,11 +107,6 @@ apply = ["defer"]
 # git を開く
 [plugins.git-open]
 github = "paulirish/git-open"
-apply = ["defer"]
-
-# vim モード
-[plugins.zsh-vim-mode]
-github = "softmoth/zsh-vim-mode"
 apply = ["defer"]
 
 [plugins.enhancd]

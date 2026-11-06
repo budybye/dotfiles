@@ -1,7 +1,7 @@
-# 対話シェルと、非対話の login シェル（zsh -lc。.zprofile 経由）で読み込まれる
-# 以下の guard は無効化中なので、非対話 login でも最後まで実行される
-# [ -z "$PS1" ] && return
-# [[ -o interactive ]] || return
+# 対話シェル専用。非対話シェル（zsh -lc cmd 等）には alias・関数・hook を入れない
+# 非対話 login の PATH 初期化は .zprofile が行う（.zshrc は読まない。mise は .profile の shims）
+# 万一非対話で読まれても何も定義しないよう guard を置く
+[[ -o interactive ]] || return
 
 # ${ZDOTDIR}/.zshrc は .zprofile の後に対話シェルで読み込まれる
 # ${ZDOTDIR}/.functions を最後に読み込む
@@ -106,6 +106,9 @@ fi
 # atuin
 if command -v atuin > /dev/null 2>&1; then
   eval "$(atuin init zsh)"
+  # fzf の key-bindings.zsh は FZF_CTRL_R_COMMAND が空なら Ctrl-R を張らない。Ctrl-R は atuin に任せる
+  # （Ctrl-T / Alt-C は fzf のまま）。vim-mode 後の張り直しは sheldon/plugins.toml の atuin-keys
+  export FZF_CTRL_R_COMMAND=
 fi
 
 # sheldon（PATH に git-open 等を追加）

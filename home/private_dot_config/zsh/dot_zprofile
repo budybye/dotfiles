@@ -42,8 +42,16 @@ path=(
 PROMPT='%F{green}%n@%m%f:%F{blue}%~ %f%F{yellow}$%f '
 
 # 対話シェルは zsh が .zprofile の後に自分で .zshrc を読むので、ここでは読まない（二重実行の回避）
-# 非対話の login シェル（zsh -lc cmd）は .zshrc を読まないため、mise 等の初期化のためにここで読む
+# 非対話の login シェル（zsh -lc cmd。AI エージェント等）は本物のコマンドを見せる必要があるので
+# .zshrc / .functions（alias・chpwd・zoxide・プロンプト等の対話用設定）は読まない
+# mise は shims で足りる。`mise activate` は config.toml の enter hook が stdout にバナーを出すので
+# 非対話では呼ばない（対話シェルは .zshrc で activate する）。システムの /usr/bin/jq 等より
+# mise の shims を優先させるため、非対話では shims を PATH 先頭に置く
 # mux の自動起動は .zlogin（.zshrc の後）
-if [[ ! -o interactive ]] && [ -f "${ZDOTDIR}/.zshrc" ]; then
-    . "${ZDOTDIR}/.zshrc"
+if [[ ! -o interactive ]]; then
+    path=(${HOME}/.local/share/mise/shims(N-/) ${path})
+    # Vite+ bin を PATH 先頭に prepend（.zshrc と同じ）
+    if [ -f "${HOME}/.config/vite-plus/env" ]; then
+        . "${HOME}/.config/vite-plus/env"
+    fi
 fi

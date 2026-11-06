@@ -1,6 +1,11 @@
-# 対話シェルと、非対話の login シェル（bash -lc。.bash_profile 経由）で読み込まれる
-# 以下の guard は無効化中なので、非対話でも最後まで実行される
-# [ -z "${PS1}" ] && return
+# 対話シェルと、非対話の login シェル（bash -lc。.bash_profile 経由）の両方で読み込まれる
+# 非対話シェル（AI エージェント等）には alias・関数（curl ラッパー等）・プロンプト・hook を入れず、
+# 本物のコマンドを見せる。mise は .profile が PATH に入れた shims で足りる
+# （`mise activate` は config.toml の enter hook が stdout にバナーを出すので非対話では呼ばない）
+case $- in
+  *i*) ;;
+  *) return 0 ;;
+esac
 
 # Source global definitions
 if [ -f /etc/bashrc ]; then

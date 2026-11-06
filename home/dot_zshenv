@@ -16,13 +16,15 @@ else
   export ZDOTDIR="${HOME}"
 fi
 
-# Ubuntu の /etc/zsh/zshrc が compinit するのを止める。補完は sheldon の1回だけ
+# Ubuntu の /etc/zsh/zshrc が compinit するのを止める。
+# compinit は自前で2回: .zshrc の `compinit -C`（compdef を早く使えるようにする）と、
+# sheldon の zsh-defer compinit（fpath が出そろった後に補完定義を取り込む）
 skip_global_compinit=1
 
 # ${HOME}/.zshenv は全ての zsh で読まれるので ${ZDOTDIR} を指定する
 # 読み込み順（login + interactive の場合）:
-# ${ZDOTDIR}/.zprofile -> .profile から環境変数と PATH を設定（非対話 login ならここで .zshrc も読む）
-# ${ZDOTDIR}/.zshrc -> 対話シェルの設定。最後に .functions（alias・関数）を読み込む。.aliases は bash 用で zsh は読まない
+# ${ZDOTDIR}/.zprofile -> .profile から環境変数と PATH を設定（非対話 login はここまで。mise は shims で足り、.zshrc は読まない）
+# ${ZDOTDIR}/.zshrc -> 対話シェルの設定。対話シェル専用で、最後に .functions（alias・関数）を読み込む。.aliases は bash 用で zsh は読まない
 # ${ZDOTDIR}/.zlogin -> ログインシェルで読み込まれる。herdr などの mux をここで自動起動
 # ${ZDOTDIR}/.zlogout -> ログアウト時に読み込まれる
 
