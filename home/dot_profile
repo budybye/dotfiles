@@ -241,7 +241,10 @@ elif command -v podman >/dev/null 2>&1; then
 fi
 
 if command -v orb >/dev/null 2>&1; then
-  . "${HOME}/.orbstack/shell/init.zsh" 2>/dev/null || :
+  # macOS 側 OrbStack の init。Linux machine には無く、zsh は存在しない file の source で shell ごと終了する(zsh -lc が exit 1)ため存在確認する
+  if [ -f "${HOME}/.orbstack/shell/init.zsh" ]; then
+    . "${HOME}/.orbstack/shell/init.zsh" 2>/dev/null || :
+  fi
   # docker context use orbstack >/dev/null 2>&1
 fi
 
