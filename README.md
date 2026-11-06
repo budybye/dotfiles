@@ -141,7 +141,7 @@ VM は chezmoi を導入して dotfiles を `/home/ubuntu/dotfiles` に clone �
 ## OrbStack
 
 ```sh
-# Ubuntu (既定) または Debian 12 / 13。同じ cloud-init を使う
+# Ubuntu (既定) または Debian 13 / 12。同じ cloud-init を使う
 orb create ubuntu orb-dev -c cloud-init/orbstack.yaml
 orb create debian:trixie orb-dev -c cloud-init/orbstack.yaml   # Debian 13。bookworm は debian:bookworm
 orb -m orb-dev
@@ -166,7 +166,7 @@ orb -m orb-dev -u root su "$USER" -s /bin/bash -c \
 
 - macOS Sequoia 15 以降
 - Ubuntu 26.04 LTS
-- Debian 13 (trixie)。12 (bookworm) も動く想定(最小構成から。curl が無ければ `install.sh` が root の apt で入れる)
+- Debian 13 (trixie)。最小構成から適用できる(curl が無ければ `install.sh` が root の apt で入れる)。12 (bookworm) も適用は通るが、glibc 2.38 以上を要求する mise の binary(atuin など)は動かない
 - Docker
 - Multipass
 - OrbStack
