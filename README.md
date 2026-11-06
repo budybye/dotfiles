@@ -28,9 +28,9 @@ cd ~/dotfiles
 make init
 ```
 
-`make init` は `install.sh` を実行します。`~/dotfiles` を checkout への symlink として作り（別の場所を指していれば異常終了）、それを Chezmoi の source directory として登録します。実体の source tree は `.chezmoiroot` により `home/` です。リモートから初期化した場合の source directory は `~/.local/share/chezmoi` になります。
+`make init` は `install.sh` を実行します。checkout が `~/dotfiles` 以外にある場合だけ、`~/dotfiles` をその checkout への symlink として作ります（上の例のように `~/dotfiles` に clone した場合は symlink を作りません。`~/dotfiles` が既にあって別の場所を指していれば異常終了します）。そのうえで `~/dotfiles` を Chezmoi の source directory として登録します。実体の source tree は `.chezmoiroot` により `home/` です。リモートから初期化した場合の source directory は `~/.local/share/chezmoi` になります。
 
-配置は `mode = "symlink"` です。テンプレートと暗号化ファイル以外は repo の `home/` 配下への symlink になるため、適用先のファイルを編集（またはアプリが書き換え）すると repo の作業ツリーを直接変更します。
+配置は `mode = "symlink"` です。テンプレート、暗号化ファイル、`executable_*` のファイル（`~/.local/bin/jjj` や `~/.local/bin/xrp` など）は symlink にならず実体のコピーになります。それ以外は repo の `home/` 配下への symlink になるため、適用先のファイルを編集（またはアプリが書き換え）すると repo の作業ツリーを直接変更します。コピーになるファイルを編集しても repo は変わらないので、source 側を編集して `chezmoi apply` してください。
 
 ## よく使うコマンド
 
@@ -75,7 +75,7 @@ make exec
 make logs
 ```
 
-公開済み image の pull だけを行う場合は `make docker-pull` または `make docker-slim-pull` を使います。`docker-ghcr-run` は `ubuntu-dev-ghcr` という別 container 名で起動します。`make up`（Compose）と `make docker-run` は同じ container 名 `ubuntu-dev` と port 33389 を使うため同時には起動できません。`make exec` / `make logs` は `ubuntu-dev` を対象にします。
+公開済み image の pull だけを行う場合は `make docker-pull` または `make docker-slim-pull` を使います。`docker-ghcr-run` は `ubuntu-dev-ghcr` という別 container 名で起動するので、container 名は `make up`（Compose）や `make docker-run`（どちらも `ubuntu-dev`）と衝突しません。ただし host 側の `127.0.0.1:33389` は `make up`（既定。`RDP_PORT` で変更可）、`make docker-run`、`make docker-ghcr-run` が共通で使うため、この 3 つは既定のままでは同時に起動できません。`make exec` / `make logs` は `ubuntu-dev` を対象にします。
 
 Compose の RDP port は localhost に bind します（SSH port の行はコメントアウト中）。remote access が必要な場合は VPN または Zero Trust tunnel を使います。
 
@@ -90,7 +90,7 @@ GITHUB_TOKEN="$(gh auth token)" make docker-slim-build
 GITHUB_TOKEN="$(gh auth token)" make up
 ```
 
-GitHub Actions では workflow の `secrets.GITHUB_TOKEN` を BuildKit secret として渡します。token を `.env`、Dockerfile の `ARG` / `ENV`、image layer に保存しないでください。`.env` と `.devcontainer/.env` は `.gitignore` 済み（追跡されるのは `.env.example` のみ）ですが、平文のため使いません。ルートの `mise.toml` の `[env] _.file = '.env'` はコメントアウトしてありますが、グローバルの `env_file = '.env'`（`mise/conf.d/settings.toml`）が cwd と全ての親ディレクトリの `.env` を、trust 確認も変数の絞り込みも無しで読み込みます。`make docker-*` は環境変数 `GITHUB_TOKEN` を要求します。
+GitHub Actions では workflow の `secrets.GITHUB_TOKEN` を BuildKit secret として渡します。token を `.env`、Dockerfile の `ARG` / `ENV`、image layer に保存しないでください。`.env` と `.devcontainer/.env` は `.gitignore` 済み（追跡されるのは `.env.example` のみ）ですが、平文のため使いません。ルートの `mise.toml` の `[env] _.file = '.env'` はコメントアウトしてありますが、グローバルの `env_file = '.env'`（`mise/conf.d/settings.toml`）が cwd と全ての親ディレクトリの `.env` を、trust 確認も変数の絞り込みも無しで読み込みます。環境変数 `GITHUB_TOKEN` を要求するのは `make docker-build` / `docker-slim-build`（これらに依存する `docker-run` を含む）で、未設定だと失敗します。`docker-pull` / `docker-slim-pull` / `docker-ghcr-run` は要求しません。
 
 ### GitHub token の差し替え
 
@@ -175,7 +175,7 @@ WSL2、Windows、FreeBSD は将来対応予定です。対応範囲と package �
 | [環境差の注意点](docs/problems.md) | platform 差分と troubleshooting |
 | [参考文献](docs/references.md) | 公式 docs と repository |
 | [ROADMAP](ROADMAP.md) | 目標と進捗 |
-| [キーマップ設計](DESIGN.md) | ghostty / zellij / herdr / pi・omp のキー所有権と配色 |
+| [キーマップ設計](DESIGN.md) | ghostty / herdr / pi・omp のキー所有権と配色（zellij は不採用で、herdr が無い環境のフォールバック起動のみ） |
 | [Bookmarklets](assets/bookmarklets.md) | ブラウザタブのリスト化など bookmarklet 集 |
 
 ### 正本パス
@@ -195,7 +195,7 @@ WSL2、Windows、FreeBSD は将来対応予定です。対応範囲と package �
 - `apt:*` → `{ os = "linux" }`、`brew:*` / `brew-cask:*` → `{ os = "macos" }` または `"latest"`（`mise.toml` の実際の形式に従う。`mas:*` は適用しないので無効）
 - 適用側も OS ごとに絞る（Linux は `mise bootstrap packages apply --manager apt`、macOS は `--manager brew` / `--manager brew-cask`。`brew bundle` と `--manager mas` は、CI の macOS runner が App Store に sign in できず止まるためコメントアウト中）
 - `bootstrap.services` / `bootstrap.compose` / `bootstrap.macos.launchd` は `mise.toml` でコメントアウト中
-- Docker build（`DOCKER=true`）は `linux/setup.sh` を、Dev Container（`REMOTE_CONTAINERS=true`）は `vscode.sh` / `gui.sh` / `docker.sh` を `.chezmoiignore` で除外する
+- Docker build（`DOCKER=true`）は `linux/setup.sh` を、`REMOTE_CONTAINERS=true` は `vscode.sh` / `gui.sh` / `docker.sh` を `.chezmoiignore` で除外する。`REMOTE_CONTAINERS=true` は Dev Container（`devcontainer.json` の `remoteEnv`）だけでなく Slim image も `slim.Dockerfile` の `ENV` で設定する（Slim は `DOCKER=true` も設定するので 4 つとも除外され、profile 名も `dev` になる）。Full image は `DOCKER=true` のみ
 
 
 ## GitHub Actions

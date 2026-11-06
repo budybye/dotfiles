@@ -20,9 +20,9 @@ README.md と docs/ が運用・設計の正本です。
 ## 現在地
 
 - Chezmoi がテンプレート、設定、暗号化ファイル、OS・host 分岐を管理する
-- Mise がツール、Linux (apt) と macOS (brew / brew-cask) の package bootstrap、macOS defaults の正本へ移行中。darwin の bootstrap script は `mise bootstrap packages apply --manager brew` / `--manager brew-cask` で適用し、`brew bundle` と mas はコメントアウト中。`Brewfile` は `bb` / `bcf` だけが読む別の一覧で、`mise.toml` と重複して内容が一致しない
+- Mise がツール、Linux (apt) と macOS (brew / brew-cask) の package bootstrap、macOS defaults の正本へ移行中。darwin の bootstrap script は `mise bootstrap packages apply --manager brew` / `--manager brew-cask` で適用し、`brew bundle` と mas はコメントアウト中。`Brewfile` は `bf` / `bcf` / `bb` だけが読む別の一覧で、`mise.toml` と重複して内容が一致しない
 - Makefile は既存利用者と CI の互換入口として維持する
-- GitHub Actions は複数 OS で `make init` を実行し、Docker image を build し、LXD で cloud-init を起動する (`powershell` / `windows-11-arm64` / `wsl2` は package 導入または checkout のみ。`lxd` / `rpi` は cloud-init の終了コードを無視する)
+- GitHub Actions の `test.yaml` は複数 OS で `make init` を実行し、LXD で cloud-init を起動する (`powershell` / `windows-11-arm64` / `wsl2` は package 導入または checkout のみ。`lxd` / `rpi` は cloud-init の終了コードを無視する)。Docker image の build と GHCR 公開は `push.yaml` (SemVer tag push と手動実行。日次の schedule は BuildKit cache の更新のみ) が行い、`test.yaml` は image を build しない
 - SemVer git tag がリリースバージョンの単一ソースである
 
 ## 目標の優先順位
@@ -73,10 +73,10 @@ README.md と docs/ が運用・設計の正本です。
 
 ### M2: Mise / Chezmoi 移行
 
-- [ ] Linux (apt) の package bootstrap の正本を Mise に集約 (macOS の brew / brew-cask も `mise.toml` の `[bootstrap.packages]` から適用する。`mas:` は適用しない。済)
+- [ ] Linux (apt) の package bootstrap の正本を Mise に集約 (macOS の brew / brew-cask も `mise.toml` の `[bootstrap.packages]` から適用する。`mas:` は適用しない。この適用経路は実装済みで、未完了なのは下の子項目)
   - [ ] `install.sh` が `chezmoi init --apply` の前に Mise を導入する唯一の入口になる (他 script の Mise install、`packages.yaml` の mise curl 行は削除)
   - [ ] `packages.yaml` と `mise.toml` `[bootstrap.packages]` の entry の package parity 表を作り、必要 package が正本ちょうど1行に存在することを確認する
-  - [ ] macOS の `Brewfile` と `mise.toml` の `brew:` / `brew-cask:` の重複を解消する (一覧を一本化するか、どちらかを正本に決める。現状は Brewfile だけにある cask (`blender` / `cloudflare-warp` / `github` / `onyx` / `raycast` / `windows-app` / `wireshark-app`) は bootstrap が入れず、`mise.toml` だけにある `mpd` / `mpc` / `ncmpcpp` / `orca` / `tradingview` は `bcf` が削除する)
+  - [ ] macOS の `Brewfile` と `mise.toml` の `brew:` / `brew-cask:` の重複を解消する (一覧を一本化するか、どちらかを正本に決める。現状は Brewfile だけにある cask 9 件 (`blender` / `cloudflare-warp` / `github` / `multipass` / `nani` / `onyx` / `raycast` / `windows-app` / `wireshark-app`) と formula 4 件 (`bash-completion` / `hashcat` / `ttyd` / `vegeta`) は bootstrap が入れない。逆に `mise.toml` だけにある有効な `brew:` / `brew-cask:` は無い。`mpd` / `mpc` / `ncmpcpp` / `orca` / `tradingview` は `Brewfile` と `mise.toml` の両方でコメントアウト済みで、`bcf` の削除対象ではない)
   - [ ] Linux bootstrap を CLI と GUI (xfce4, xrdp, pipewire 等) に分離し、CLI-only (slim image / minimal profile) には desktop stack を入れない。CI と Docker Full image は GUI まで検証するので `gui.sh` を実行する (意図的。Full image は Dockerfile が xfce4 / xrdp を先に入れ、`gui.sh` の追加 package は `light-locker` / `xscreensaver` を要求しないので RDP に影響しない)
   - [ ] zed の curl installer を冪等な Mise task へ移し、`packages.yaml` の未使用の `curl:` を削除する（coderabbit は `http:coderabbit`、cursor は `http:cursor-cli` として `tools.toml` へ移行済み）
   - [ ] Docker CE apt repo 導入を Mise task 化する（`act` は `tools.toml` で導入済みで、curl 経路は存在しない）
@@ -100,7 +100,7 @@ README.md と docs/ が運用・設計の正本です。
   - [ ] file attribute (`private_` / `executable_` / `once_` / `onchange_` / `before_` / `after_` 等) を `chattr` で監査・正規化する
   - [ ] script は prerequisite を確認し、反復実行しても安全で、実失敗時は非 0 で終了する。1 script group ずつ移行する
 - [ ] secrets、external resource、generated file の境界を明文化
-  - [ ] age / Bitwarden branch は CI・container・sandbox では無効化し、実ホストで secret 不足なら placeholder を書かずに明示エラーにする
+  - [ ] age の branch (`.chezmoi.toml.tmpl` の `age`。Bitwarden 用の branch や flag は無い) は CI・container・sandbox では無効化し、実ホストで secret 不足なら placeholder を書かずに明示エラーにする
   - [ ] `.chezmoiexternal.toml` は version / exact ref を固定し、refresh 失敗時は既存 resource を保持する
 - [ ] macOS、Ubuntu、container の代表環境で apply / rollback を確認 (rollback は source revision の revert → 直前の正常 revision で再 apply。target の削除は diff を確認してから)
 - [ ] `chezmoi apply` を 1 回実行し、移動・改名した source (`git/user.conf.tmpl`、omp の `herdr-omp-agent-state.ts`、`.chezmoiscripts` の `.sh.tmpl`) を target に反映する。apply するまで `~/.config/git/user.conf` は削除済みの source を指すため、git の既定 identity が未設定になる (jj は影響なし)。chezmoi は削除した source の target を消さないため、残骸 `~/.config/vim/autoload/plug.vim` と `~/.config/ipfs/config` (秘密鍵を含む) は手で削除する
@@ -151,18 +151,18 @@ README.md と docs/ が運用・設計の正本です。
 #### M8-2: CI が収束を検証する (M3 / M4)
 
 - 済: `make test` と `make verify` はドリフトで失敗を返す (4f0080e)
-- [ ] `.chezmoiscripts` の `|| echo` / `|| true` (41 箇所) を、必須処理は失敗させ、任意処理だけ理由コメントつきで残す (M3 の「実失敗時は非 0」と同じ作業)
+- [ ] `.chezmoiscripts` の `|| echo` / `|| true` (44 箇所) を、必須処理は失敗させ、任意処理だけ理由コメントつきで残す (M3 の「実失敗時は非 0」と同じ作業)
 - [ ] `test.yaml` の `make init` の後に収束の検査を足す: `chezmoi verify --exclude=encrypted,externals`、`mise bootstrap status --missing`、`mise doctor`。`make doctor` はこれらを含め、失敗で exit 1 にする (現状は `chezmoi doctor` のみ)
 - [ ] `lxd` / `rpi` ジョブの `|| true` を外し、`cloud-init status --wait` の終了コードと `systemctl is-active xrdp` を検査する (現状は出力するだけ)
 - 完了条件: 必須 package を 1 つ壊した branch で `test.yaml` が赤になる。結果を `docs/testing.md` に記録する
 
 #### M8-3: shell 起動コスト (M6)
 
-- 根拠: `docs/problems.md` によれば AI agent は bash を login shell で起動し、毎回 `.profile` を読む。`.profile` だけを `env -i HOME=<tmp> sh -c '. ~/.profile'` で 5 回測ると、`home/dot_profile` は 0.06〜0.14 秒 (2026-11-01、初回のみ 0.14 秒。毎回の `chmod -R 755 ~/.local/share/mise/installs` を削除して、以前の 0.17〜0.26 秒から短縮した)、djd の `.profile` は 0.06〜0.09 秒 (macOS)。`home/dot_profile` は `command -v` を 68 回、`mkdir -p` を 61 回実行し、毎回 mpd の起動 (477 行) と `mkcert -CAROOT` (276 行) も行う
+- 根拠: `docs/problems.md` によれば AI agent は bash を login shell で起動し、毎回 `.profile` を読む。`.profile` だけを `env -i HOME=<tmp> sh -c '. ~/.profile'` で 5 回測ると、`home/dot_profile` は 0.06〜0.14 秒 (2026-11-01、初回のみ 0.14 秒。毎回の `chmod -R 755 ~/.local/share/mise/installs` を削除して、以前の 0.17〜0.26 秒から短縮した)、djd の `.profile` は 0.06〜0.09 秒 (macOS)。`home/dot_profile` は `command -v` を 70 回、`mkdir -p` を 64 回実行し、毎回 mpd の起動 (496 行〜) と `mkcert -CAROOT` (289 行) も行う
 - [ ] `.profile` を export のみにし、`mkdir` / `touch` / mpd 起動を `.chezmoiscripts` の `run_onchange` へ移す (`chmod -R` は削除済み)
-- [ ] `LC_ALL` (86 行) と `TERM` (88 行) の強制をやめる (`LANG` のみ)。mise は `bootstrap` の出力を英語前提で解析する箇所があり、djd は日本語ロケールで ufw の判定が壊れた (mise 2026.10.23)。外せない場合は bootstrap 実行時に `LC_ALL=C.UTF-8` を付ける
+- [ ] `LC_ALL` (90 行) と `TERM` (92 行) の強制をやめる (`LANG` のみ)。mise は `bootstrap` の出力を英語前提で解析する箇所があり、djd は日本語ロケールで ufw の判定が壊れた (mise 2026.10.23)。外せない場合は bootstrap 実行時に `LC_ALL=C.UTF-8` を付ける
 - [x] `.zprofile` から `.zshrc` を再読み込みしない (済: 対話 shell では読まず、非対話 login (`zsh -lc`) だけ読む。mux の自動起動は `.zlogin`)
-- [x] `compinit` を 1 回にする (済: `.zshenv` の `skip_global_compinit=1` で Ubuntu の `/etc/zsh/zshrc` を止め、`.zshrc` の呼び出しを削除。残るのは `sheldon/plugins.toml` の `zsh-defer compinit -d` のみ。`zsh-completions` の fpath より後に走る)
+- [ ] `compinit` を 1 回にする (`.zshenv` の `skip_global_compinit=1` で Ubuntu の `/etc/zsh/zshrc` の呼び出しは止めた。ただし `.zshrc:73-74` の `compinit -C` と `sheldon/plugins.toml:17` の `zsh-defer compinit -d` がまだ両方呼ぶので 2 回走る。どちらかを削除する。sheldon 側は `zsh-completions` の fpath より後に走る)
 - [ ] `eval "$(tool init)"` を `$XDG_CACHE_HOME/zsh/init/` にキャッシュする。`mise activate` は PATH を、`sheldon source` は plugins.toml の編集を出力に含むので除外する。`chezmoi apply` の後にキャッシュを消す
 - 完了条件: `hyperfine 'zsh -i -c exit'` の前後の値を `docs/testing.md` に記録する。`zsh -ic true` が何も出力しない
 
@@ -172,7 +172,7 @@ README.md と docs/ が運用・設計の正本です。
 - [ ] Actions の `uses:` 33 件を commit SHA に固定する (現状 0 件)。dependabot (`github-actions`、cooldown 7 日) を足す。`permissions: contents: read` を全 workflow の既定にし (現状は `test.yaml` のみ。`push.yaml` / `ipfs.yaml` は job 単位、`tag.yaml` の job は `contents: write`)、`MISE_GITHUB_TOKEN` は job 全体ではなく必要な step にだけ渡す。checkout に `persist-credentials: false` を付ける
 - [ ] `privileged: true` (`.devcontainer/compose.yaml:11`、`devcontainer.json:23`、`Makefile:114,131`) が必要か確認して外す。djd の desktop image は privileged なしで xrdp のログインが通る
 - [ ] `make git-commit` (`git add -A` から `push origin main` まで、`Makefile:193-201`) を廃止する (jj 運用と矛盾する)
-- [ ] jactionlint と hadolint を lint に入れる
+- [ ] jactionlint ([jdx/jactionlint](https://github.com/jdx/jactionlint)。`actionlint` とは別の tool で、`tools.toml` には未導入) と hadolint (`tools.toml` には導入済みだが lint では実行していない) を lint に入れる
 - 完了条件: `git grep -nE 'uses: .*@v[0-9]'` が 0 件。`jactionlint .github/workflows/*.yaml` が通る
 
 #### M8-5: docs の整合 lint (短期 6)
@@ -191,7 +191,7 @@ README.md と docs/ が運用・設計の正本です。
 #### M8-7: xrdp 音声 (M2 の「pipewire 等」の具体化)
 
 - 根拠: Ubuntu 26.04 の apt に `pipewire-module-xrdp` 0.2-2build1 がある (xrdp 0.10.1)。djd はこれと `pulseaudio-utils` (`pactl`) を desktop module に入れ、`~/.xsession` で `pipewire` / `wireplumber` / `pipewire-pulse` を起動する。xfreerdp でログインする `test:desktop` が、`pactl get-default-sink` が `xrdp-sink` を返すまで待つ形で通り、autostart エントリを消した image では `auto_null` で赤になる (arm64 の Docker。systemd の VM 経路は未確認)
-- [ ] `.chezmoiscripts/linux/run_once_after_setup.sh` の `pipewire_setup` (73-160 行。deb-src の有効化、`pulseaudio` の削除、pulseaudio-module-xrdp の source build) を、apt の `pipewire-module-xrdp` と `pulseaudio-utils` に置き換える
+- [ ] `.chezmoiscripts/linux/run_once_after_setup.sh` の `pipewire_setup` (95-160 行。`pulseaudio` の削除、pulseaudio-module-xrdp の source build) と、それが呼ぶ `enable_pulse_deb_src` (86-94 行。deb-src の有効化) を、apt の `pipewire-module-xrdp` と `pulseaudio-utils` に置き換える
 - [ ] `.devcontainer/entrypoint.sh:52-55` は pipewire を無条件に起動する。`$XDG_RUNTIME_DIR/pipewire-0` が無いときだけ起動し、systemd のある VM では socket activation と二重にしない
 - 完了条件: Full image で RDP ログイン後に `pactl get-default-sink` が `xrdp-sink` を返す。Ubuntu VM でも同様
 
