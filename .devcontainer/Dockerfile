@@ -1,4 +1,5 @@
-FROM ubuntu:26.04 AS base
+ARG BASE_IMAGE=ubuntu:26.04
+FROM ${BASE_IMAGE} AS base
 
 # パッケージのインストールを非対話形式で行う
 ENV DEBIAN_FRONTEND=noninteractive
@@ -13,15 +14,18 @@ RUN apt-get update -y && \
     apt-get install -y --fix-broken
 
 # 日本語環境を設定
+# language-pack-ja* は Ubuntu 専用なので、apt に存在する場合だけ入れる
 RUN apt-get install -y \
-    language-pack-ja \
-    language-pack-ja-base \
     manpages-ja \
     tzdata \
     fcitx5-mozc \
-    locales
+    locales && \
+    if apt-cache show language-pack-ja >/dev/null 2>&1; then \
+        apt-get install -y language-pack-ja language-pack-ja-base; \
+    fi
 
 RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezone && \
+    sed -i 's/^# *\(ja_JP.UTF-8 UTF-8\)/\1/' /etc/locale.gen && \
     locale-gen ja_JP.UTF-8 && \
     echo LANGUAGE=${LANGUAGE} >> /etc/default/locale && \
     echo LANG=${LANG} >> /etc/default/locale && \
@@ -85,24 +89,31 @@ RUN apt-get install -y \
     libxkbcommon-dev \
     ca-certificates \
     apt-transport-https \
-    software-properties-common \
     command-not-found \
-    flatpak
+    flatpak && \
+    if apt-cache show software-properties-common >/dev/null 2>&1; then \
+        apt-get install -y software-properties-common; \
+    fi
 
 # ENTRYPOINT を/usr/bin/にコピーしてシンボリックリンクを作成
 COPY ./entrypoint.sh /usr/bin/
 RUN ln -s /usr/bin/entrypoint.sh /usr/bin/entrypoint
 RUN chmod +x /usr/bin/entrypoint
 
-# ubuntuユーザー設定
-RUN usermod -aG sudo ubuntu && \
-    echo "ubuntu ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/ubuntu && \
-    chmod 0440 /etc/sudoers.d/ubuntu && \
-    mkdir -p /home/ubuntu && \
-    chown -R ubuntu:ubuntu /home/ubuntu
+# アプリユーザー設定。Debian 系の base image には ubuntu ユーザーが無いので無ければ作る
+# CMD は exec 形式で ARG を展開できない。APP_USER を変えたら run 時の引数も合わせる
+ARG APP_USER=ubuntu
+RUN if ! id "${APP_USER}" >/dev/null 2>&1; then \
+        useradd --create-home --shell /usr/bin/zsh "${APP_USER}"; \
+    fi && \
+    usermod -aG sudo "${APP_USER}" && \
+    echo "${APP_USER} ALL=(ALL) NOPASSWD:ALL" > "/etc/sudoers.d/${APP_USER}" && \
+    chmod 0440 "/etc/sudoers.d/${APP_USER}" && \
+    mkdir -p "/home/${APP_USER}" && \
+    chown -R "${APP_USER}:$(id -gn "${APP_USER}")" "/home/${APP_USER}"
 
-USER ubuntu
-WORKDIR /home/ubuntu
+USER ${APP_USER}
+WORKDIR /home/${APP_USER}
 # GitHub の dotfiles repository を Chezmoi source にする
 ARG DOTFILES_REF=main
 ARG DOTFILES_REV=unknown

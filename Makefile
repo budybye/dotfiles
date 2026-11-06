@@ -10,9 +10,13 @@ DOTFILES_VERSION := $(shell git describe --tags --match '[0-9]*.[0-9]*.[0-9]*' -
 
 # Docker settings
 DOCKER_REGISTRY_IMAGE ?= ghcr.io/budybye/ubuntu-dev
-DOCKER_IMAGE ?= $(DOCKER_REGISTRY_IMAGE):latest
-DOCKER_SLIM_IMAGE ?= $(DOCKER_REGISTRY_IMAGE):slim
-DOCKER_DEV_IMAGE ?= $(DOCKER_REGISTRY_IMAGE):dev
+# Debian 版は BASE_IMAGE=debian:trixie-slim DOCKER_TAG_SUFFIX=-debian で build する(未指定なら Dockerfile の既定 ubuntu:26.04)
+DOCKER_BASE_IMAGE ?= $(BASE_IMAGE)
+DOCKER_TAG_SUFFIX ?=
+DOCKER_BUILD_ARGS := $(if $(DOCKER_BASE_IMAGE),--build-arg BASE_IMAGE=$(DOCKER_BASE_IMAGE))
+DOCKER_IMAGE ?= $(DOCKER_REGISTRY_IMAGE):latest$(DOCKER_TAG_SUFFIX)
+DOCKER_SLIM_IMAGE ?= $(DOCKER_REGISTRY_IMAGE):slim$(DOCKER_TAG_SUFFIX)
+DOCKER_DEV_IMAGE ?= $(DOCKER_REGISTRY_IMAGE):dev$(DOCKER_TAG_SUFFIX)
 DOCKER_CONTAINER ?= ubuntu-dev
 DOCKER_HOSTNAME ?= container
 DOCKER_PORTS ?= -p 127.0.0.1:33389:3389
@@ -89,13 +93,13 @@ verify: ## Verify destination matches chezmoi source (fails on drift)
 docker-build: ## Build the full Docker image tagged for GHCR
 	@test -n "$${GITHUB_TOKEN:-}" || { echo "GITHUB_TOKEN is required for Docker builds." >&2; exit 1; }
 	@echo "Building Docker image: $(DOCKER_IMAGE)..."
-	cd .devcontainer && DOCKER_BUILDKIT=1 docker build --secret id=github_token,env=GITHUB_TOKEN -t "$(DOCKER_IMAGE)" .
+	cd .devcontainer && DOCKER_BUILDKIT=1 docker build --secret id=github_token,env=GITHUB_TOKEN $(DOCKER_BUILD_ARGS) -t "$(DOCKER_IMAGE)" .
 	@echo "✓ Docker image built successfully: $(DOCKER_IMAGE)"
 
 docker-slim-build: ## Build the Slim CLI image tagged for GHCR
 	@test -n "$${GITHUB_TOKEN:-}" || { echo "GITHUB_TOKEN is required for Docker builds." >&2; exit 1; }
 	@echo "Building Slim Docker image: $(DOCKER_SLIM_IMAGE)..."
-	cd .devcontainer && DOCKER_BUILDKIT=1 docker build --secret id=github_token,env=GITHUB_TOKEN -f slim.Dockerfile -t "$(DOCKER_SLIM_IMAGE)" .
+	cd .devcontainer && DOCKER_BUILDKIT=1 docker build --secret id=github_token,env=GITHUB_TOKEN $(DOCKER_BUILD_ARGS) -f slim.Dockerfile -t "$(DOCKER_SLIM_IMAGE)" .
 	@echo "✓ Slim Docker image built successfully: $(DOCKER_SLIM_IMAGE)"
 
 docker-pull: ## Pull the published full GHCR image

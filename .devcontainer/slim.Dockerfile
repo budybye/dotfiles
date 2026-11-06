@@ -1,4 +1,5 @@
-FROM ubuntu:26.04 AS base
+ARG BASE_IMAGE=ubuntu:26.04
+FROM ${BASE_IMAGE} AS base
 
 # パッケージのインストールを非対話形式で行う
 ENV DEBIAN_FRONTEND=noninteractive
@@ -11,17 +12,22 @@ ENV LC_ALL=ja_JP.UTF-8
 ENV LANGUAGE=ja_JP:ja
 
 # 日本語環境を設定
+# language-pack-ja* は Ubuntu 専用なので、apt に存在する場合だけ入れる
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     apt-get update -y && \
     apt-get install -y --no-install-recommends \
-    language-pack-ja \
-    language-pack-ja-base \
     manpages-ja \
     tzdata \
     locales && \
+    if apt-cache show language-pack-ja >/dev/null 2>&1; then \
+        apt-get install -y --no-install-recommends \
+        language-pack-ja \
+        language-pack-ja-base; \
+    fi && \
     rm -rf /var/lib/apt/lists/*
 
 RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezone && \
+    sed -i 's/^# *\(ja_JP.UTF-8 UTF-8\)/\1/' /etc/locale.gen && \
     locale-gen ja_JP.UTF-8 && \
     echo LANGUAGE=${LANGUAGE} >> /etc/default/locale && \
     echo LANG=${LANG} >> /etc/default/locale && \
@@ -51,7 +57,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     apt-transport-https && \
     rm -rf /var/lib/apt/lists/*
 
-# 開発用パッケージをインストール
+# software-properties-common は Debian 13 (trixie) 以降に無いので、apt に存在する場合だけ入れる
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     apt-get update -y && \
     apt-get install -y --no-install-recommends \
@@ -60,10 +66,12 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     build-essential \
     libssl-dev \
     pkg-config \
-    software-properties-common \
     python3 \
     rustup \
     ruby && \
+    if apt-cache show software-properties-common >/dev/null 2>&1; then \
+        apt-get install -y --no-install-recommends software-properties-common; \
+    fi && \
     rm -rf /var/lib/apt/lists/*
     
 # ENTRYPOINT を/usr/bin/にコピーしてシンボリックリンクを作成
@@ -85,15 +93,20 @@ RUN groupadd -f -g "${DEV_GID}" "${DEV}" && \
       "${DEV}" && \
     echo "${DEV} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-# ubuntuユーザー設定
-RUN usermod -aG sudo ubuntu && \
-    echo "ubuntu ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
-    mkdir -p /home/ubuntu && \
-    chown -R ubuntu:ubuntu /home/ubuntu
+# アプリユーザー設定。Debian 系の base image には ubuntu ユーザーが無いので無ければ作る
+# CMD は exec 形式で ARG を展開できない。APP_USER を変えたら run 時の引数も合わせる
+ARG APP_USER=ubuntu
+RUN if ! id "${APP_USER}" >/dev/null 2>&1; then \
+        useradd --create-home --shell /usr/bin/zsh "${APP_USER}"; \
+    fi && \
+    usermod -aG sudo "${APP_USER}" && \
+    echo "${APP_USER} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
+    mkdir -p "/home/${APP_USER}" && \
+    chown -R "${APP_USER}:$(id -gn "${APP_USER}")" "/home/${APP_USER}"
 
-# ubuntu user で dotfiles を適用
-USER ubuntu
-WORKDIR /home/ubuntu
+# アプリユーザーで dotfiles を適用
+USER ${APP_USER}
+WORKDIR /home/${APP_USER}
 ARG DOTFILES_REF=main
 ARG DOTFILES_REV=unknown
 RUN --mount=type=secret,id=github_token,env=GITHUB_TOKEN \
