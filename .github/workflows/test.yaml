@@ -85,6 +85,37 @@ jobs:
       - name: make
         run: make init
 
+  # 最小構成の Debian(git・curl・sudo が無い root)から make init が通ることの確認。
+  # job container ではなく docker run にするのは、act でも同じ手順で動かすため
+  debian:
+    strategy:
+      fail-fast: false
+      matrix:
+        runs-on:
+          - ubuntu-26.04
+          - ubuntu-26.04-arm
+    runs-on: ${{ matrix.runs-on }}
+    env:
+      MISE_GITHUB_TOKEN: ${{ secrets.MISE_GITHUB_TOKEN }}
+    steps:
+      # act ではホストの docker に対して prune が走るため(ホストのイメージが消える)実行しない
+      - name: clean space
+        if: ${{ !env.ACT }}
+        run: |
+          df -h
+          docker image prune --all --force || true
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /usr/local/share/boost || true
+          sudo rm -rf "${AGENT_TOOLSDIRECTORY:-/opt/hostedtoolcache}" || true
+          df -h
+      - uses: actions/checkout@v7
+      - name: make init on debian:trixie-slim
+        run: |
+          docker run --rm \
+            -e GITHUB_ACTIONS -e MISE_GITHUB_TOKEN \
+            -v "${PWD}:/src" -w /src \
+            debian:trixie-slim \
+            bash -c 'apt-get update -qq && apt-get install -y -qq git make ca-certificates && make init'
+
   darwin:
     runs-on: macos-26
     timeout-minutes: 60

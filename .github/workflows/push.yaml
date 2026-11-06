@@ -43,6 +43,13 @@ jobs:
             dockerfile: Dockerfile
           - name: slim
             dockerfile: slim.Dockerfile
+          # Debian 版。tag は slim-debian / full-debian(latest-debian は full-debian と同じ)
+          - name: slim-debian
+            dockerfile: slim.Dockerfile
+            base_image: debian:trixie-slim
+          - name: full-debian
+            dockerfile: Dockerfile
+            base_image: debian:trixie-slim
         include:
           # ARM64ビルド用の設定
           - platform: linux/arm64
@@ -110,6 +117,7 @@ jobs:
           build-args: |
             DOTFILES_REF=${{ github.ref_name }}
             DOTFILES_REV=${{ github.sha }}
+            ${{ matrix.flavor.base_image && format('BASE_IMAGE={0}', matrix.flavor.base_image) || '' }}
           cache-from: type=gha,scope=ubuntu-dev-${{ matrix.flavor.name }}-${{ env.PLATFORM_PAIR }}
           cache-to: type=gha,scope=ubuntu-dev-${{ matrix.flavor.name }}-${{ env.PLATFORM_PAIR }},mode=max
           platforms: ${{ matrix.platform }}
@@ -315,7 +323,8 @@ jobs:
           shopt -s nullglob
 
           # Publish full last so the latest tag is the newest manifest in GHCR.
-          for flavor in slim dev full; do
+          # full-debian の glob(digests-*-full-debian)は full に、slim-debian は slim に一致しない
+          for flavor in slim dev slim-debian full-debian full; do
             digest_files=(digests-*-"${flavor}"/*)
             if [ "${#digest_files[@]}" -eq 0 ]; then
               echo "No digest artifacts found for ${flavor}." >&2
@@ -328,6 +337,9 @@ jobs:
             done
 
             tags=(-t "${{ env.REGISTRY_IMAGE }}:${flavor}")
+            if [ "${flavor}" = "full-debian" ]; then
+              tags+=(-t "${{ env.REGISTRY_IMAGE }}:latest-debian")
+            fi
             if [ "${flavor}" = "full" ]; then
               tags+=(-t "${{ env.REGISTRY_IMAGE }}:latest")
               while IFS= read -r tag; do
