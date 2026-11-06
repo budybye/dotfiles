@@ -2,12 +2,12 @@
 set -euo pipefail
 
 usage() {
-    printf 'Usage: %s USER PASSWORD SUDO\n' "$0" >&2
+  printf 'Usage: %s USER PASSWORD SUDO\n' "$0" >&2
 }
 
 if [ "$#" -ne 3 ]; then
-    usage
-    exit 2
+  usage
+  exit 2
 fi
 
 user_name="$1"
@@ -15,33 +15,33 @@ password="$2"
 sudo_user="$3"
 
 case "${user_name}" in
-    ""|*[!a-zA-Z0-9_-]*)
-        printf 'Invalid username: %s\n' "${user_name}" >&2
-        exit 2
-        ;;
+  ""|*[!a-zA-Z0-9_-]*)
+    printf 'Invalid username: %s\n' "${user_name}" >&2
+    exit 2
+    ;;
 esac
 
 if ! getent group "${user_name}" >/dev/null 2>&1; then
-    addgroup "${user_name}"
+  addgroup "${user_name}"
 fi
 
 if ! id "${user_name}" >/dev/null 2>&1; then
-    useradd -m -s /usr/bin/zsh -g "${user_name}" "${user_name}"
+  useradd -m -s /usr/bin/zsh -g "${user_name}" "${user_name}"
 fi
 
 password_authentication=yes
 if [ "${password}" = "__NO_PASSWORD__" ]; then
-    password_authentication=no
+  password_authentication=no
 else
-    if [ -z "${password}" ]; then
-        printf 'A non-empty password is required\n' >&2
-        exit 1
-    fi
-    printf '%s:%s\n' "${user_name}" "${password}" | chpasswd
+  if [ -z "${password}" ]; then
+    printf 'A non-empty password is required\n' >&2
+    exit 1
+  fi
+  printf '%s:%s\n' "${user_name}" "${password}" | chpasswd
 fi
 
 if [ "${sudo_user}" = "yes" ]; then
-    usermod -aG sudo "${user_name}"
+  usermod -aG sudo "${user_name}"
 fi
 
 install -d -m 0755 /run/sshd

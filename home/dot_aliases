@@ -1,8 +1,8 @@
 # 重複したPATHを削除（awk の ORS=: は末尾に : を残し PATH に空要素=カレントディレクトリを入れるので取り除く）
 if command -v awk > /dev/null 2>&1;then
-    PATH="$(printf %s "${PATH}" | awk -v RS=: -v ORS=: '!arr[$0]++')"
-    PATH="${PATH%:}"
-    export PATH
+  PATH="$(printf %s "${PATH}" | awk -v RS=: -v ORS=: '!arr[$0]++')"
+  PATH="${PATH%:}"
+  export PATH
 fi
 
 # よく使うコマンド
@@ -43,404 +43,404 @@ alias mkdir="mkdir -p"  # 親ディレクトリも作成
 
 # git
 if command -v git >/dev/null 2>&1 || command -v jj >/dev/null 2>&1; then
-    # alias g="git"
-    function bit() {
-        git add -A
-        if [ -z "$1" ]; then
-            git commit --allow-empty-message -m ""
-        else
-            git commit -m "$1"
-        fi
-        git push origin "$(git branch | sed -n -e "s/^\* \(.*\)/\1/p")"
-    }
+  # alias g="git"
+  function bit() {
+    git add -A
+    if [ -z "$1" ]; then
+      git commit --allow-empty-message -m ""
+    else
+      git commit -m "$1"
+    fi
+    git push origin "$(git branch | sed -n -e "s/^\* \(.*\)/\1/p")"
+  }
 fi
 
 if command -v gh >/dev/null 2>&1; then
-    alias gg="gh repo view --web"
-    alias gss="gh secret set"
-    alias gql="gh api rate_limit --jq '.resources.core'"
-    #alias gsh="gh repo view budybye/dotfiles --json ssh_url -q '.ssh_url'"
+  alias gg="gh repo view --web"
+  alias gss="gh secret set"
+  alias gql="gh api rate_limit --jq '.resources.core'"
+  #alias gsh="gh repo view budybye/dotfiles --json ssh_url -q '.ssh_url'"
 fi
 
 # vim nvim
 if command -v nvim >/dev/null 2>&1; then
-    alias v="nvim"
+  alias v="nvim"
 elif command -v vim >/dev/null 2>&1; then
-    alias v="vim"
+  alias v="vim"
 else
-    alias v='${EDITOR:-vi}'
+  alias v='${EDITOR:-vi}'
 fi
 
 if command -v curl >/dev/null 2>&1; then
-    # alias curl="curl -fsSL"   # オプション
-    function curl() {
-        command curl -fsSL "$@"
-    }
-    alias ppp="curl -4 icanhazip.com && curl -6 icanhazip.com"  # パブリックIPアドレスを表示
-    alias wt="curl wttr.in"  # 天気予報を表示
-    alias wan="curl inet-ip.info"
-    alias rate="curl rate.sx"
-    function qr() {
-        curl qrenco.de/https://"${1:-やってるか.みんな}"
-    }
+  # alias curl="curl -fsSL"   # オプション
+  function curl() {
+    command curl -fsSL "$@"
+  }
+  alias ppp="curl -4 icanhazip.com && curl -6 icanhazip.com"  # パブリックIPアドレスを表示
+  alias wt="curl wttr.in"  # 天気予報を表示
+  alias wan="curl inet-ip.info"
+  alias rate="curl rate.sx"
+  function qr() {
+    curl qrenco.de/https://"${1:-やってるか.みんな}"
+  }
 fi
 
 if command -v ping >/dev/null 2>&1; then
-    # 3回だけpingを送信 デフォルトは1.1.1.1
-    function ping() {
-        command ping -c 3 "${@:-1.1.1.1}"
-    }
+  # 3回だけpingを送信 デフォルトは1.1.1.1
+  function ping() {
+    command ping -c 3 "${@:-1.1.1.1}"
+  }
 fi
 
 if command -v websocat >/dev/null 2>&1; then
-    alias ws='websocat'
+  alias ws='websocat'
 fi
 
 if command -v netstat >/dev/null 2>&1; then
-    alias ports="netstat -tuln"  # 開いているポートを表示
+  alias ports="netstat -tuln"  # 開いているポートを表示
 fi
 
 # ip を表示
 if command -v ipconfig >/dev/null 2>&1; then
-    alias addr="ipconfig getifaddr en0 && wan"
+  alias addr="ipconfig getifaddr en0 && wan"
 elif command -v ifconfig >/dev/null 2>&1; then
-    alias addr="ifconfig en0 inet && wan"
+  alias addr="ifconfig en0 inet && wan"
 elif command -v ip >/dev/null 2>&1; then
-    alias addr="ip addr show en0 && wan"
+  alias addr="ip addr show en0 && wan"
 fi
 
 if command -v python3 >/dev/null 2>&1; then
-    alias python="python3"
+  alias python="python3"
 fi
 
 if command -v pip3 >/dev/null 2>&1; then
-    alias pip="pip3"
+  alias pip="pip3"
 fi
 
 # 宗教問題
 if command -v bun >/dev/null 2>&1; then
-    # alias npm="bun"
-    # alias npx="bunx"
-    # alias yarn="bun"
-    # alias yarnx="bunx"
-    alias dv="bun dev"
-    alias de="bun run deploy"
+  # alias npm="bun"
+  # alias npx="bunx"
+  # alias yarn="bun"
+  # alias yarnx="bunx"
+  alias dv="bun dev"
+  alias de="bun run deploy"
 fi
 
 # ツリー表示
 if command -v tree >/dev/null 2>&1; then
-    alias tree="tree -NC"   # N: 文字化け対策 C: 色を付ける
+  alias tree="tree -NC"   # N: 文字化け対策 C: 色を付ける
 fi
 
 # クリップボード mac linux
 if command -v pbcopy >/dev/null 2>&1; then
-    alias cx="pbcopy"
-    alias cv="pbpaste"
-    alias cb="pbcopy"
+  alias cx="pbcopy"
+  alias cv="pbpaste"
+  alias cb="pbcopy"
 elif command -v xsel >/dev/null 2>&1; then
-    alias cx="xsel -b -i"  # クリップボードにコピー
-    alias cv="xsel -b -o"  # クリップボードの内容をコマンドに渡す
-    alias cb="xsel -b"
+  alias cx="xsel -b -i"  # クリップボードにコピー
+  alias cv="xsel -b -o"  # クリップボードの内容をコマンドに渡す
+  alias cb="xsel -b"
 fi
 
 # http://localhost:3000 をブラウザで開く
 if command -v xdg-open >/dev/null 2>&1; then
-    alias lh="xdg-open http://localhost:3000"
-    alias ggg="xdg-open https://youtu.be"
-    alias web="xdg-open https://goog.le"
+  alias lh="xdg-open http://localhost:3000"
+  alias ggg="xdg-open https://youtu.be"
+  alias web="xdg-open https://goog.le"
 elif command -v open >/dev/null 2>&1; then
-    alias lh="open -na 'Brave Browser' --args --new-window http://localhost:3000"
-    alias ggg="open -na 'Brave Browser' --args --new-window https://youtu.be"
-    alias web="open -na 'Brave Browser' --args --new-window https://goog.le"
+  alias lh="open -na 'Brave Browser' --args --new-window http://localhost:3000"
+  alias ggg="open -na 'Brave Browser' --args --new-window https://youtu.be"
+  alias web="open -na 'Brave Browser' --args --new-window https://goog.le"
 fi
 
 # rosetta2のエイリアス
 if command -v arch >/dev/null 2>&1; then
-    alias amd='arch -x86_64 ${SHELL}'
-    alias arm='arch -arm64 ${SHELL}'
+  alias amd='arch -x86_64 ${SHELL}'
+  alias arm='arch -arm64 ${SHELL}'
 fi
 
 # ls を lsd に変更
 if command -v lsd >/dev/null 2>&1; then
-    alias ls='lsd --group-directories-first'
-    alias l='ls -la'
-    alias ll='ls -l'
-    alias la='ls -a'
-    alias lls='ls -la'
-    alias lt='ls --tree'
+  alias ls='lsd --group-directories-first'
+  alias l='ls -la'
+  alias ll='ls -l'
+  alias la='ls -a'
+  alias lls='ls -la'
+  alias lt='ls --tree'
 fi
 
 # cat を bat に 変更
 if command -v bat >/dev/null 2>&1; then
-    alias cat="bat -p"
+  alias cat="bat -p"
 fi
 
 # grep を rg に変更
 if command -v rg >/dev/null 2>&1; then
-    alias grep="rg --color=always"
-    alias vv="env | rg ''"
+  alias grep="rg --color=always"
+  alias vv="env | rg ''"
 fi
 
 # find を fd に変更
 if command -v fd >/dev/null 2>&1; then
-    alias find="fd"
+  alias find="fd"
 fi
 
 # cd を zoxide に変更
 if command -v zoxide >/dev/null 2>&1; then
-    alias cd="z"
+  alias cd="z"
 fi
 
 # tldr
 if command -v tldr >/dev/null 2>&1; then
-    function tldr() {
-        command tldr -L ja "${@:-curl}"
-    }
+  function tldr() {
+    command tldr -L ja "${@:-curl}"
+  }
 fi
 
 # herdr
 if command -v herdr >/dev/null 2>&1; then
-    alias hd="herdr"
+  alias hd="herdr"
 fi
 
 # chezmoi
 if command -v chezmoi >/dev/null 2>&1; then
-    alias cz="chezmoi"
-    alias cha="chezmoi update --verbose"
-    alias ca="chezmoi apply"
-    alias cai="chezmoi init --apply https://github.com/budybye/dotfiles.git"
-    alias ce="chezmoi execute-template"
-    alias cbd="chezmoi edit"
-    alias cec="chezmoi edit-config"
-    alias cs="chezmoi secret"
+  alias cz="chezmoi"
+  alias cha="chezmoi update --verbose"
+  alias ca="chezmoi apply"
+  alias cai="chezmoi init --apply https://github.com/budybye/dotfiles.git"
+  alias ce="chezmoi execute-template"
+  alias cbd="chezmoi edit"
+  alias cec="chezmoi edit-config"
+  alias cs="chezmoi secret"
 fi
 
 
 # vscode vscodium cursor mac ubuntu arm64
 if command -v cursor >/dev/null 2>&1; then
-    alias co="cursor"
+  alias co="cursor"
 elif [ -f "${HOME}/Applications/cursor" ]; then
-    alias co='${HOME}/Applications/cursor --no-sandbox'
+  alias co='${HOME}/Applications/cursor --no-sandbox'
 elif command -v codium >/dev/null 2>&1; then
-    alias co="codium"
+  alias co="codium"
 elif command -v code >/dev/null 2>&1; then
-    alias co="code"
+  alias co="code"
 fi
 
 # vscode 拡張機能の差分を表示
 if command -v code >/dev/null 2>&1; then
-    alias vex='code --list-extensions | jq -R -s '"'"'split("\n")[:-1]'"'"' > tmp/extensions.json && diff tmp/extensions.json ${HOME}/.config/Code/extensions.json'
+  alias vex='code --list-extensions | jq -R -s '"'"'split("\n")[:-1]'"'"' > tmp/extensions.json && diff tmp/extensions.json ${HOME}/.config/Code/extensions.json'
 fi
 
 # docker
 if command -v docker >/dev/null 2>&1; then
-    alias d="docker"
-    alias di="docker image"
-    alias dr="docker run --rm"
-    alias ds='docker stop $(docker ps -q)'
-    alias dps="docker ps --format 'table {{.Names}}\t{{.Image}}\t{{.Ports}}\t{{.Status}}'"
-    # イメージ名を引数にビルドし、プッシュする関数のエイリアス
-    function ddd() {
-        IMAGE_NAME="${1:-$(date +%Y%m%d%H%M%S)}"
-        docker build -t "$IMAGE_NAME" . && docker push "$IMAGE_NAME"
-    }
+  alias d="docker"
+  alias di="docker image"
+  alias dr="docker run --rm"
+  alias ds='docker stop $(docker ps -q)'
+  alias dps="docker ps --format 'table {{.Names}}\t{{.Image}}\t{{.Ports}}\t{{.Status}}'"
+  # イメージ名を引数にビルドし、プッシュする関数のエイリアス
+  function ddd() {
+    IMAGE_NAME="${1:-$(date +%Y%m%d%H%M%S)}"
+    docker build -t "$IMAGE_NAME" . && docker push "$IMAGE_NAME"
+  }
 
-    ARCH=${ARCH:-$(dpkg --print-architecture || uname -m)}
-    alias dx='docker run --rm -itd --privileged --hostname container --name dev -p 127.0.0.1:33389:3389 ghcr.io/budybye/ubuntu-dev:latest ubuntu ubuntu yes'
+  ARCH=${ARCH:-$(dpkg --print-architecture || uname -m)}
+  alias dx='docker run --rm -itd --privileged --hostname container --name dev -p 127.0.0.1:33389:3389 ghcr.io/budybye/ubuntu-dev:latest ubuntu ubuntu yes'
 
-    ## 停止コンテナ、タグ無しイメージ、未使用ボリューム、未使用ネットワーク一括削除
-    alias drm="docker system prune -af --volumes"
+  ## 停止コンテナ、タグ無しイメージ、未使用ボリューム、未使用ネットワーク一括削除
+  alias drm="docker system prune -af --volumes"
 fi
 
 if command -v docker-compose >/dev/null 2>&1; then
-    alias dc="docker-compose"
-    alias dcb="docker-compose build"
-    alias dcu="docker-compose up"
-    alias dcd="docker-compose down"
-    alias dcr="docker-compose restart"
-    alias dcl="docker-compose logs"
+  alias dc="docker-compose"
+  alias dcb="docker-compose build"
+  alias dcu="docker-compose up"
+  alias dcd="docker-compose down"
+  alias dcr="docker-compose restart"
+  alias dcl="docker-compose logs"
 fi
 
 # multipass
 if command -v multipass >/dev/null 2>&1; then
-    alias mp="multipass"
-    alias md="mp launch docker -c 4 -m 8G -d 42G --timeout 3600 && mp info docker"
-    alias ml='mp launch -n ubuntu -c 4 -m 8G -d 42G --timeout 7200 --cloud-init ${HOME}/dotfiles/cloud-init/multipass.yaml && mp exec ubuntu -- tail -7 /var/log/cloud-init.log'
-    # alias ms="mp stop ubuntu && mp delete -p ubuntu && mp list"
+  alias mp="multipass"
+  alias md="mp launch docker -c 4 -m 8G -d 42G --timeout 3600 && mp info docker"
+  alias ml='mp launch -n ubuntu -c 4 -m 8G -d 42G --timeout 7200 --cloud-init ${HOME}/dotfiles/cloud-init/multipass.yaml && mp exec ubuntu -- tail -7 /var/log/cloud-init.log'
+  # alias ms="mp stop ubuntu && mp delete -p ubuntu && mp list"
 fi
 
 # OrbStack
 if command -v orb >/dev/null 2>&1; then
-    alias ob="orb"
-    alias oc='orb create ubuntu orb-dev -c "${HOME}/dotfiles/cloud-init/orbstack.yaml"'
-    alias os='orb -m orb-dev'
+  alias ob="orb"
+  alias oc='orb create ubuntu orb-dev -c "${HOME}/dotfiles/cloud-init/orbstack.yaml"'
+  alias os='orb -m orb-dev'
 fi
 
 # kube
 if command -v kubectl >/dev/null 2>&1; then
-    alias k="kubectl"
-    if command -v kubectx >/dev/null 2>&1; then
-        alias kx="kubectx"
-    fi
+  alias k="kubectl"
+  if command -v kubectx >/dev/null 2>&1; then
+    alias kx="kubectx"
+  fi
 
-    if command -v kubens >/dev/null 2>&1; then
-        alias kn="kubens"
-    fi
+  if command -v kubens >/dev/null 2>&1; then
+    alias kn="kubens"
+  fi
 fi
 
 if command -v podman >/dev/null 2>&1; then
-    alias docker="podman"
+  alias docker="podman"
 fi
 
 # apt
 if command -v apt >/dev/null 2>&1; then
-    alias agi="apt install -y"
-    alias agu="apt update -y && apt upgrade -y"
-    alias aq="apt search"
+  alias agi="apt install -y"
+  alias agu="apt update -y && apt upgrade -y"
+  alias aq="apt search"
 fi
 
 if command -v dpkg  >/dev/null 2>&1; then
-    alias pkg="dpkg"
+  alias pkg="dpkg"
 fi
 
 # brew（zsh の dot_functions と同じ定義にそろえる。bf/bcf/bcp/bb の意味をシェル間で変えない）
 if command -v brew >/dev/null 2>&1; then
-    alias bs="brew -S"
-    alias bi="brew install"
-    alias bd="brew deps --installed --tree"
-    function bu() {
-        brew update && brew upgrade --greedy && brew autoremove
-    }
-    function bf() {
-        brew bundle --force --file "${HOME}/.config/Brewfile"
-    }
-    function bcf() {
-        brew bundle cleanup --force --file "${HOME}/.config/Brewfile"
-    }
-    function bcp() {
-        bcf && brew autoremove && brew cleanup --prune=all
-    }
-    function bb() {
-        bf && bcp && brew update && brew upgrade -g -y -f && brew doctor
-    }
-    function bbb() {
-        brew bundle dump --force --file "${HOME}"/.config/homebrew/Brewfile
-    }
+  alias bs="brew -S"
+  alias bi="brew install"
+  alias bd="brew deps --installed --tree"
+  function bu() {
+    brew update && brew upgrade --greedy && brew autoremove
+  }
+  function bf() {
+    brew bundle --force --file "${HOME}/.config/Brewfile"
+  }
+  function bcf() {
+    brew bundle cleanup --force --file "${HOME}/.config/Brewfile"
+  }
+  function bcp() {
+    bcf && brew autoremove && brew cleanup --prune=all
+  }
+  function bb() {
+    bf && bcp && brew update && brew upgrade -g -y -f && brew doctor
+  }
+  function bbb() {
+    brew bundle dump --force --file "${HOME}"/.config/homebrew/Brewfile
+  }
 fi
 
 if command -v keploy >/dev/null 2>&1; then
-    alias kr="keploy record -c"
-    alias kt="keploy test -c"
-    alias kc="keploy config"
-    alias km="keploy mock"
+  alias kr="keploy record -c"
+  alias kt="keploy test -c"
+  alias kc="keploy config"
+  alias km="keploy mock"
 fi
 
 # speedtest（Go 版の librespeed-cli。pipx:speedtest-cli は外した）
 if command -v librespeed-cli >/dev/null 2>&1; then
-    alias st="librespeed-cli"
+  alias st="librespeed-cli"
 fi
 
 # mise
 if command -v mise >/dev/null 2>&1; then
-    alias mi="mise"
-    alias mig="mi use -g"
-    alias mir="mi registry"
-    alias mip="mi p ls-remote"
-    alias mic="mi prune && mi cache clean"
-    alias mil="mi list && mi set"
-    alias miu="mi up && mic && mi dr && mil && mi v"
+  alias mi="mise"
+  alias mig="mi use -g"
+  alias mir="mi registry"
+  alias mip="mi p ls-remote"
+  alias mic="mi prune && mi cache clean"
+  alias mil="mi list && mi set"
+  alias miu="mi up && mic && mi dr && mil && mi v"
 fi
 
 # shelcheck
 if command -v shellcheck >/dev/null 2>&1; then
-    alias sc="shellcheck"
+  alias sc="shellcheck"
 fi
 
 # sheldon
 if command -v sheldon >/dev/null 2>&1; then
-    alias sss="sheldon lock --update"
+  alias sss="sheldon lock --update"
 fi
 
 if command -v starship >/dev/null 2>&1; then
-    alias ss="starship explain"
+  alias ss="starship explain"
 fi
 
 
 if command -v trans >/dev/null 2>&1; then
-    # 基本的な翻訳エイリアス
-    # man curl | ja
-    alias ja='trans -b -t ja'    # 任意の言語から日本語へ
-    alias en='trans -b -t en'    # 任意の言語から英語へ
+  # 基本的な翻訳エイリアス
+  # man curl | ja
+  alias ja='trans -b -t ja'    # 任意の言語から日本語へ
+  alias en='trans -b -t en'    # 任意の言語から英語へ
 fi
 
 if command -v mpd >/dev/null 2>&1 && [ -f "${HOME}/.config/mpd/mpd.conf" ]; then
-    alias mpdc='mpd ${HOME}/.config/mpd/mpd.conf'
+  alias mpdc='mpd ${HOME}/.config/mpd/mpd.conf'
 fi
 
 if command -v ncmpcpp >/dev/null 2>&1; then
-    # ncmpcppを起動して、mpdを再生する
-    function ncmp() {
-      mpd "${HOME}"/.config/mpd/mpd.conf && ncmpcpp
-    }
-    # 1 でplaylistを表示 enterで再生 2 でlyricsを表示 enterで再生
-    # https://pkgbuild.com/~jelle/ncmpcpp/
+  # ncmpcppを起動して、mpdを再生する
+  function ncmp() {
+    mpd "${HOME}"/.config/mpd/mpd.conf && ncmpcpp
+  }
+  # 1 でplaylistを表示 enterで再生 2 でlyricsを表示 enterで再生
+  # https://pkgbuild.com/~jelle/ncmpcpp/
 fi
 
 if command -v wrangler >/dev/null 2>&1; then
-    alias wr="wrangler"
-    alias wrd="wrangler deploy"
-    alias wrs="wrangler secret"
+  alias wr="wrangler"
+  alias wrd="wrangler deploy"
+  alias wrs="wrangler secret"
 fi
 
 if command -v warp-cli >/dev/null 2>&1; then
-    alias wp="warp-cli"
-    alias wpd="wp disconnect"
-    alias wpr="wp registration delete && wp --accept-tos registration new"
-    alias wpm="wp dns families malware"
-    alias wpw="wp mode warp"
-    alias wpc="wp connect"
-    alias wps="wp status"
-    alias warp="wpr && wpm && wpw && wpc && wps"
+  alias wp="warp-cli"
+  alias wpd="wp disconnect"
+  alias wpr="wp registration delete && wp --accept-tos registration new"
+  alias wpm="wp dns families malware"
+  alias wpw="wp mode warp"
+  alias wpc="wp connect"
+  alias wps="wp status"
+  alias warp="wpr && wpm && wpw && wpc && wps"
 fi
 
 if command -v cloudflared >/dev/null 2>&1; then
-    if [ -n "$RDP_HOST" ] && [ -n "$RDP_PORT" ]; then
-        alias rdp='cloudflared access rdp --hostname "${RDP_HOST}" --url localhost:${RDP_PORT}'
-    fi
+  if [ -n "$RDP_HOST" ] && [ -n "$RDP_PORT" ]; then
+    alias rdp='cloudflared access rdp --hostname "${RDP_HOST}" --url localhost:${RDP_PORT}'
+  fi
 
-    if [ -n "$RPI_HOST" ] && [ -n "$RPI_PORT" ]; then
-        alias rpi='cloudflared access rdp --hostname "${RPI_HOST}" --url localhost:${RPI_PORT}'
-    fi
+  if [ -n "$RPI_HOST" ] && [ -n "$RPI_PORT" ]; then
+    alias rpi='cloudflared access rdp --hostname "${RPI_HOST}" --url localhost:${RPI_PORT}'
+  fi
 
-    if [ -n "$SMB_HOST" ] && [ -n "$SMB_PORT" ]; then
-        alias smb='cloudflared access smb --hostname "${SMB_HOST}" --url localhost:${SMB_PORT}'
-    fi
+  if [ -n "$SMB_HOST" ] && [ -n "$SMB_PORT" ]; then
+    alias smb='cloudflared access smb --hostname "${SMB_HOST}" --url localhost:${SMB_PORT}'
+  fi
 fi
 
 if command -v element-desktop >/dev/null 2>&1; then
-    alias elem="element-desktop"
+  alias elem="element-desktop"
 fi
 
 if command -v openssl >/dev/null 2>&1; then
-    function sec() {
-        ENV_FILE="${ENV_FILE:-.env}"
-        echo "${1:-SECRET}=$(openssl rand -base64 32)" >> "${ENV_FILE}" && ls
-    }
+  function sec() {
+    ENV_FILE="${ENV_FILE:-.env}"
+    echo "${1:-SECRET}=$(openssl rand -base64 32)" >> "${ENV_FILE}" && ls
+  }
 fi
 
 # ipfs
 if command -v ipfs >/dev/null 2>&1; then
-    function pin() {
-        ipfs add -r -p -q --cid-version 1 "${@:-${HOME}/data}"
-    }
+  function pin() {
+    ipfs add -r -p -q --cid-version 1 "${@:-${HOME}/data}"
+  }
 fi
 
 if command -v fastfetch >/dev/null 2>&1; then
-    alias ff="fastfetch -c all"
+  alias ff="fastfetch -c all"
 fi
 
 # 猫のASCIIアートを表示
 CAT_FILE="${HOME}/cat.txt"
 if [ -f "${CAT_FILE}" ]; then
-    alias x='cat "${CAT_FILE}"'
+  alias x='cat "${CAT_FILE}"'
 fi

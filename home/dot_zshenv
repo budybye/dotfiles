@@ -11,9 +11,9 @@
 
 # ZDOTDIR を設定
 if [ -d "${HOME}/.config/zsh" ]; then
-    export ZDOTDIR="${ZDOTDIR:-${HOME}/.config/zsh}"
+  export ZDOTDIR="${ZDOTDIR:-${HOME}/.config/zsh}"
 else
-    export ZDOTDIR="${HOME}"
+  export ZDOTDIR="${HOME}"
 fi
 
 # Ubuntu の /etc/zsh/zshrc が compinit するのを止める。補完は sheldon の1回だけ
@@ -29,15 +29,15 @@ skip_global_compinit=1
 # PATHを設定
 typeset -U PATH path
 path=(
-    ${path}
-    ${HOME}/.local/bin(N-/)
-    /opt/homebrew/bin(N-/)
-    /opt/homebrew/sbin(N-/)
-    /usr/bin
-    /usr/sbin
-    /bin
-    /sbin
-    /usr/local/bin(N-/)
-    /usr/local/sbin(N-/)
-    /Library/Apple/usr/bin(N-/)
+  ${path}
+  ${HOME}/.local/bin(N-/)
+  /opt/homebrew/bin(N-/)
+  /opt/homebrew/sbin(N-/)
+  /usr/bin
+  /usr/sbin
+  /bin
+  /sbin
+  /usr/local/bin(N-/)
+  /usr/local/sbin(N-/)
+  /Library/Apple/usr/bin(N-/)
 )

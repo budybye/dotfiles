@@ -1,8 +1,8 @@
 if (( $+aliases[x] )); then
-    x
+  x
 elif command -v fastfetch > /dev/null 2>&1; then
-    fastfetch -c all
+  fastfetch -c all
 else
-    echo "🍍 🍕 🐈 ♨️ 🍄 🥦 🌈 🚲 🏄 🙏 🌞 🌕 🏴‍☠️"
-    echo "( ﾟДﾟ)y─┛~~~~~~~"
+  echo "🍍 🍕 🐈 ♨️ 🍄 🥦 🌈 🚲 🏄 🙏 🌞 🌕 🏴‍☠️"
+  echo "( ﾟДﾟ)y─┛~~~~~~~"
 fi

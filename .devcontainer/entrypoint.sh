@@ -10,43 +10,43 @@
 pwd
 sudo="sudo"
 if [ "$(whoami)" = "root" ]; then
-    echo "running root user"
-    sudo=""
+  echo "running root user"
+  sudo=""
 fi
 if [ "$#" -ge 2 ] && [ "$2" = "__PASSWORD_REQUIRED__" ]; then
-    : "${PASSWORD:?PASSWORD is required when the password argument is __PASSWORD_REQUIRED__}"
-    set -- "$1" "$PASSWORD" "${@:3}"
+  : "${PASSWORD:?PASSWORD is required when the password argument is __PASSWORD_REQUIRED__}"
+  set -- "$1" "$PASSWORD" "${@:3}"
 fi
 
 # xrdp サービスを開始
 start_xrdp_services() {
-    # Preventing xrdp startup failure
-    $sudo rm -rf /var/run/xrdp-sesman.pid
-    $sudo rm -rf /var/run/xrdp.pid
-    $sudo rm -rf /var/run/xrdp/xrdp-sesman.pid
-    $sudo rm -rf /var/run/xrdp/xrdp.pid
-    # Use exec ... to forward SIGNAL to child processes
-    $sudo xrdp-sesman && exec $sudo xrdp -n
+  # Preventing xrdp startup failure
+  $sudo rm -rf /var/run/xrdp-sesman.pid
+  $sudo rm -rf /var/run/xrdp.pid
+  $sudo rm -rf /var/run/xrdp/xrdp-sesman.pid
+  $sudo rm -rf /var/run/xrdp/xrdp.pid
+  # Use exec ... to forward SIGNAL to child processes
+  $sudo xrdp-sesman && exec $sudo xrdp -n
 }
 
 # error が発生した場合に xrdp サービスを停止
 stop_xrdp_services() {
-    # 引数があればそれを、なければ直前の終了ステータスで終了する
-    local rc="${1:-$?}"
-    $sudo xrdp --kill
-    $sudo xrdp-sesman --kill
-    exit "$rc"
+  # 引数があればそれを、なければ直前の終了ステータスで終了する
+  local rc="${1:-$?}"
+  $sudo xrdp --kill
+  $sudo xrdp-sesman --kill
+  exit "$rc"
 }
 
 # xrdp が使う XFCE X11 セッションをここで用意する。
 configure_xsession() {
-    local user_name="$1"
-    local user_home="/home/${user_name}"
-    local user_runtime_dir
-    user_runtime_dir="/run/user/$($sudo id -u "$user_name")"
+  local user_name="$1"
+  local user_home="/home/${user_name}"
+  local user_runtime_dir
+  user_runtime_dir="/run/user/$($sudo id -u "$user_name")"
 
-    $sudo install -d -m 700 -o "$user_name" -g "$user_name" "$user_runtime_dir"
-    $sudo tee "${user_home}/.xsession" >/dev/null <<'XSESSION'
+  $sudo install -d -m 700 -o "$user_name" -g "$user_name" "$user_runtime_dir"
+  $sudo tee "${user_home}/.xsession" >/dev/null <<'XSESSION'
 #!/bin/sh
 export XDG_RUNTIME_DIR="/run/user/$(id -u)"
 if command -v pipewire >/dev/null 2>&1; then
@@ -57,8 +57,8 @@ fi
 unset DBUS_SESSION_BUS_ADDRESS
 exec dbus-launch --exit-with-session startxfce4
 XSESSION
-    $sudo chown "${user_name}:${user_name}" "${user_home}/.xsession"
-    $sudo chmod 700 "${user_home}/.xsession"
+  $sudo chown "${user_name}:${user_name}" "${user_home}/.xsession"
+  $sudo chmod 700 "${user_home}/.xsession"
 }
 
 # エントリーポイントスクリプトが実行されたことを通知
@@ -74,51 +74,51 @@ mod=$(($# % 3))
 
 # 引数が0の場合は終了
 if [[ $# -eq 0 ]]; then
-    echo "No input parameters. exiting..."
-    echo "there should be 3 input parameters per user"
-    exit 1
+  echo "No input parameters. exiting..."
+  echo "there should be 3 input parameters per user"
+  exit 1
 fi
 
 # 引数が3の倍数でない場合は終了
 if [[ $mod -ne 0 ]]; then
-    echo "incorrect input. exiting..."
-    echo "there should be 3 input parameters per user"
-    exit 1
+  echo "incorrect input. exiting..."
+  echo "there should be 3 input parameters per user"
+  exit 1
 fi
 echo "You entered ${users} user(s)"
 
 # 引数をループしてユーザーを作成
 while [ $# -ne 0 ]; do
 
-    # 既存の Ubuntu イメージでも安全に再実行できるようにする
-    if ! $sudo getent group "$1" >/dev/null 2>&1; then
-        $sudo addgroup "$1"
-    fi
+  # 既存の Ubuntu イメージでも安全に再実行できるようにする
+  if ! $sudo getent group "$1" >/dev/null 2>&1; then
+    $sudo addgroup "$1"
+  fi
     
-    if ! $sudo id "$1" >/dev/null 2>&1; then
-        if [ "$(command -v zsh)" ]; then
-            $sudo useradd -m -s "$(command -v zsh)" -g "$1" "$1"
-        else
-            $sudo useradd -m -s /bin/bash -g "$1" "$1"
-        fi
+  if ! $sudo id "$1" >/dev/null 2>&1; then
+    if [ "$(command -v zsh)" ]; then
+      $sudo useradd -m -s "$(command -v zsh)" -g "$1" "$1"
+    else
+      $sudo useradd -m -s /bin/bash -g "$1" "$1"
     fi
+  fi
 
-    # パスワードを設定
-    # getent passwd | grep $1
-    printf '%s:%s\n' "$1" "$2" | $sudo chpasswd
+  # パスワードを設定
+  # getent passwd | grep $1
+  printf '%s:%s\n' "$1" "$2" | $sudo chpasswd
 
-    # スーパーユーザーかどうか
-    # echo "sudo is $3"
-    if [[ $3 == "yes" ]]; then
-        $sudo usermod -aG sudo "$1"
-    fi
+  # スーパーユーザーかどうか
+  # echo "sudo is $3"
+  if [[ $3 == "yes" ]]; then
+    $sudo usermod -aG sudo "$1"
+  fi
     
-    configure_xsession "$1"
+  configure_xsession "$1"
 
-    # echo "user '$1' is added"
+  # echo "user '$1' is added"
 
-    # Shift all the parameters down by three
-    shift 3
+  # Shift all the parameters down by three
+  shift 3
 done
 
 echo -e "starting xrdp services...\n"
