@@ -5,91 +5,91 @@ set -eu
 
 # Xcode コマンドラインツールのインストールおよびパスの設定
 install_xcode_command_line_tools() {
-    echo "Xcode command line tools check it..."
-    if xcode-select -p >/dev/null 2>&1; then
-        echo "Xcode command line tools already installed."
-    else
-        xcode-select --install || { echo "Xcode command line tools install failed." >&2; exit 1; }
-        # --install は GUI ダイアログを出すだけで完了を待たないので、完了まで待つ
-        waited=0
-        until xcode-select -p >/dev/null 2>&1; do
-            if [ "$waited" -ge 1800 ]; then
-                echo "Xcode command line tools install timed out; rerun after the installation finishes." >&2
-                exit 1
-            fi
-            sleep 5
-            waited=$((waited + 5))
-        done
-        echo "Xcode command line tools install done."
-    fi
-    CURRENT_PATH=$(xcode-select -p)
-    DESIRED_PATH="/Library/Developer/CommandLineTools"
+  echo "Xcode command line tools check it..."
+  if xcode-select -p >/dev/null 2>&1; then
+    echo "Xcode command line tools already installed."
+  else
+    xcode-select --install || { echo "Xcode command line tools install failed." >&2; exit 1; }
+    # --install は GUI ダイアログを出すだけで完了を待たないので、完了まで待つ
+    waited=0
+    until xcode-select -p >/dev/null 2>&1; do
+      if [ "$waited" -ge 1800 ]; then
+        echo "Xcode command line tools install timed out; rerun after the installation finishes." >&2
+        exit 1
+      fi
+      sleep 5
+      waited=$((waited + 5))
+    done
+    echo "Xcode command line tools install done."
+  fi
+  CURRENT_PATH=$(xcode-select -p)
+  DESIRED_PATH="/Library/Developer/CommandLineTools"
 
-    if [ "$CURRENT_PATH" != "$DESIRED_PATH" ]; then
-        echo "change path to $DESIRED_PATH"
-        sudo xcode-select --switch "$DESIRED_PATH" || {
-            echo "path change failed. reset initial settings."
-            sudo xcode-select --reset
-        }
-        echo "$DESIRED_PATH setup done."
-    fi
+  if [ "$CURRENT_PATH" != "$DESIRED_PATH" ]; then
+    echo "change path to $DESIRED_PATH"
+    sudo xcode-select --switch "$DESIRED_PATH" || {
+      echo "path change failed. reset initial settings."
+      sudo xcode-select --reset
+    }
+    echo "$DESIRED_PATH setup done."
+  fi
 }
 
 install_rosetta() {
-    if [[ "$(uname -m)" == "arm64" ]]; then
-        echo "Apple Silicon Mac detected. check Rosetta 2 install..."
-        /usr/bin/pgrep oahd >/dev/null || /usr/sbin/softwareupdate --install-rosetta --agree-to-license || echo "Rosetta 2 install failed."
-    else
-        echo "Rosetta 2 not needed (Intel Mac)."
-    fi
-    echo "Rosetta 2 install done."
+  if [[ "$(uname -m)" == "arm64" ]]; then
+    echo "Apple Silicon Mac detected. check Rosetta 2 install..."
+    /usr/bin/pgrep oahd >/dev/null || /usr/sbin/softwareupdate --install-rosetta --agree-to-license || echo "Rosetta 2 install failed."
+  else
+    echo "Rosetta 2 not needed (Intel Mac)."
+  fi
+  echo "Rosetta 2 install done."
 }
 
 install_homebrew() {
-    echo "Homebrew install check it..."
-    if command -v brew >/dev/null 2>&1; then
-        echo "Homebrew already installed."
-    else
-        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" || echo "Homebrew install failed."
-        eval "$(/opt/homebrew/bin/brew shellenv)"
-        echo "Homebrew installed."
-    fi
+  echo "Homebrew install check it..."
+  if command -v brew >/dev/null 2>&1; then
+    echo "Homebrew already installed."
+  else
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" || echo "Homebrew install failed."
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+    echo "Homebrew installed."
+  fi
 
-    # brew bundle は使わない。Brewfile の mas が CI の runner で App Store に sign in できず止まるため、
-    # brew / cask は下の mise bootstrap packages (mise.toml) で入れる。Brewfile は bb / bcf が読む
-    # if [ -f "${HOME}/.config/Brewfile" ]; then
-    #     brew bundle --no-upgrade --file="${HOME}/.config/Brewfile" || echo "brew bundle failed."
-    # fi
+  # brew bundle は使わない。Brewfile の mas が CI の runner で App Store に sign in できず止まるため、
+  # brew / cask は下の mise bootstrap packages (mise.toml) で入れる。Brewfile は bb / bcf が読む
+  # if [ -f "${HOME}/.config/Brewfile" ]; then
+  #     brew bundle --no-upgrade --file="${HOME}/.config/Brewfile" || echo "brew bundle failed."
+  # fi
 }
 
 install_mise() {
-    if command -v mise >/dev/null; then
-        echo "mise already installed."
-    else
-        curl -fsSL https://mise.run | sh
-        export PATH="${HOME}/.local/bin:${PATH}"
-        mise --version || echo "mise install failed."
-    fi
+  if command -v mise >/dev/null; then
+    echo "mise already installed."
+  else
+    curl -fsSL https://mise.run | sh
+    export PATH="${HOME}/.local/bin:${PATH}"
+    mise --version || echo "mise install failed."
+  fi
 
-    eval "$(mise activate bash)"
+  eval "$(mise activate bash)"
 
-    if [ -f "${HOME}/.config/mise.toml" ]; then
-        # mise bootstrap dotfiles apply -y || echo "brew bootstrap failed."
-        # mise bootstrap files apply -y || echo "brew bootstrap failed."
-        # mise bootstrap packages apply -y || echo "mise bootstrap failed."
-        mise bootstrap packages apply --manager brew -y || echo "brew bootstrap failed."
-        mise bootstrap packages apply --manager brew-cask -y || echo "cask bootstrap failed."
-        # mise bootstrap packages apply --manager mas -y || echo "mas bootstrap failed."
-        # mise bootstrap plugins apply -y || echo "mas bootstrap failed."
-        mise bootstrap macos defaults apply -y || echo "defaults bootstrap failed."
-        # mise bootstrap macos launchd-agents apply || echo "mas bootstrap failed."
-    fi
+  if [ -f "${HOME}/.config/mise.toml" ]; then
+    # mise bootstrap dotfiles apply -y || echo "brew bootstrap failed."
+    # mise bootstrap files apply -y || echo "brew bootstrap failed."
+    # mise bootstrap packages apply -y || echo "mise bootstrap failed."
+    mise bootstrap packages apply --manager brew -y || echo "brew bootstrap failed."
+    mise bootstrap packages apply --manager brew-cask -y || echo "cask bootstrap failed."
+    # mise bootstrap packages apply --manager mas -y || echo "mas bootstrap failed."
+    # mise bootstrap plugins apply -y || echo "mas bootstrap failed."
+    mise bootstrap macos defaults apply -y || echo "defaults bootstrap failed."
+    # mise bootstrap macos launchd-agents apply || echo "mas bootstrap failed."
+  fi
     
-    if [ -f "${HOME}/.config/mise/conf.d/settings.toml" ]; then
-        mise i -y || echo "mise install failed."
-    fi
+  if [ -f "${HOME}/.config/mise/conf.d/settings.toml" ]; then
+    mise i -y || echo "mise install failed."
+  fi
     
-    echo "mise setup completed."
+  echo "mise setup completed."
 }
 
 echo "bootstrap.sh"

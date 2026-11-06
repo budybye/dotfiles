@@ -7,15 +7,15 @@ echo "--------------------------------"
 # mise なければインストール
 
 if command -v mise >/dev/null 2>&1; then
-    echo "mise already installed."
+  echo "mise already installed."
 
 elif command -v curl >/dev/null 2>&1; then
-    curl -fsSL https://mise.run | sh || echo "mise install failed."
-    export PATH="${HOME}/.local/bin:${PATH}"
+  curl -fsSL https://mise.run | sh || echo "mise install failed."
+  export PATH="${HOME}/.local/bin:${PATH}"
 
 else
-    echo "mise install failed."
-    exit 1
+  echo "mise install failed."
+  exit 1
 fi
 
 mkdir -p "${HOME}/.config/mise"
@@ -26,20 +26,20 @@ echo "mise installed"
 echo "--------------------------------"
 
 if command -v age >/dev/null 2>&1; then
-    echo "age already installed"
+  echo "age already installed"
 
 elif command -v mise >/dev/null 2>&1; then
-    mise use -g -y age@latest || echo "age install failed"
+  mise use -g -y age@latest || echo "age install failed"
 
 elif command -v brew >/dev/null 2>&1; then
-    brew install age || echo "age install failed"
+  brew install age || echo "age install failed"
 
 elif command -v apt-get >/dev/null 2>&1; then
-    sudo apt-get install -y age || echo "age install failed"
+  sudo apt-get install -y age || echo "age install failed"
 
 else
-    echo "age not installed"
-    exit 1
+  echo "age not installed"
+  exit 1
 fi
 
 age --version || echo "age command not found"
@@ -65,10 +65,10 @@ echo "identity: ${identity}..."
 {{/* ~/.config/chezmoi/key.txt が存在しない場合は復号 */}}
 
 if [ ! -f "${identity}" ]; then
-    mkdir -p "${HOME}/.config/chezmoi"
-    echo "Please enter your age passphrase:"
-    chezmoi age decrypt --output "${identity}" --passphrase "${key_path}"
-    chmod 600 "${identity}"
+  mkdir -p "${HOME}/.config/chezmoi"
+  echo "Please enter your age passphrase:"
+  chezmoi age decrypt --output "${identity}" --passphrase "${key_path}"
+  chmod 600 "${identity}"
 fi
 
 echo "Decrypt-private-key complete."

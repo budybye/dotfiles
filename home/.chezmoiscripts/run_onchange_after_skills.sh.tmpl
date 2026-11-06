@@ -9,19 +9,19 @@ set -eu
 export PATH="${HOME}/.local/bin:${HOME}/.local/share/mise/shims:${HOME}/.local/share/mise/installs:$PATH"
 
 if command -v skills >/dev/null 2>&1; then
-    skills_command=(skills)
+  skills_command=(skills)
 elif command -v bunx >/dev/null 2>&1; then
-    skills_command=(bunx skills)
+  skills_command=(bunx skills)
 else
-    printf '%s\n' 'skills CLI is not installed and bunx is unavailable.' >&2
-    exit 1
+  printf '%s\n' 'skills CLI is not installed and bunx is unavailable.' >&2
+  exit 1
 fi
 
 # skillspector 未インストールならセキュリティチェックを省略する
 scan_enabled=1
 if ! command -v skillspector >/dev/null 2>&1; then
-    scan_enabled=0
-    printf '%s\n' 'skillspector is not installed; skipping security scan.' >&2
+  scan_enabled=0
+  printf '%s\n' 'skillspector is not installed; skipping security scan.' >&2
 fi
 
 echo "skills"
@@ -36,18 +36,18 @@ high_skills=()
 "${skills_command[@]}" add {{ shellQuote $repo }} -s {{ shellQuote $skill }} -a zed -y -g
 skill_path="${HOME}/.agents/skills/"{{ shellQuote $skill }}
 if [ "$scan_enabled" -eq 1 ]; then
-    scan_status=0
-    scan_output="$(skillspector scan "$skill_path" --no-llm 2>&1)" || scan_status=$?
-    printf '%s\n' "$scan_output"
-    if [[ "$scan_output" =~ Severity[[:space:]]+CRITICAL ]]; then
-        "${skills_command[@]}" rm {{ shellQuote $skill }} -a zed -g -y
-        removed_skills+=({{ shellQuote $skill }})
-    elif [[ "$scan_output" =~ Severity[[:space:]]+HIGH ]]; then
-        high_skills+=({{ shellQuote $skill }})
-    fi
-    if [ "$scan_status" -ne 0 ] && [[ "$scan_output" != *"SkillSpector Security Report"* ]]; then
-        scan_failed=1
-    fi
+  scan_status=0
+  scan_output="$(skillspector scan "$skill_path" --no-llm 2>&1)" || scan_status=$?
+  printf '%s\n' "$scan_output"
+  if [[ "$scan_output" =~ Severity[[:space:]]+CRITICAL ]]; then
+    "${skills_command[@]}" rm {{ shellQuote $skill }} -a zed -g -y
+    removed_skills+=({{ shellQuote $skill }})
+  elif [[ "$scan_output" =~ Severity[[:space:]]+HIGH ]]; then
+    high_skills+=({{ shellQuote $skill }})
+  fi
+  if [ "$scan_status" -ne 0 ] && [[ "$scan_output" != *"SkillSpector Security Report"* ]]; then
+    scan_failed=1
+  fi
 fi
 {{- end }}
 {{- end }}
@@ -55,24 +55,24 @@ fi
 echo "--------------------------------"
 
 if [ "$scan_enabled" -eq 0 ]; then
-    echo "Security scan skipped (skillspector not installed); skills were not checked."
+  echo "Security scan skipped (skillspector not installed); skills were not checked."
 else
-    if [ "${#removed_skills[@]}" -gt 0 ]; then
-        echo "CRITICAL skills removed:"
-        printf '  - %s\n' "${removed_skills[@]}"
-    else
-        echo "No CRITICAL skills removed."
-    fi
-    if [ "${#high_skills[@]}" -gt 0 ]; then
-        echo "HIGH skills retained for review:"
-        printf '  - %s\n' "${high_skills[@]}"
-    else
-        echo "No HIGH skills found."
-    fi
+  if [ "${#removed_skills[@]}" -gt 0 ]; then
+    echo "CRITICAL skills removed:"
+    printf '  - %s\n' "${removed_skills[@]}"
+  else
+    echo "No CRITICAL skills removed."
+  fi
+  if [ "${#high_skills[@]}" -gt 0 ]; then
+    echo "HIGH skills retained for review:"
+    printf '  - %s\n' "${high_skills[@]}"
+  else
+    echo "No HIGH skills found."
+  fi
 fi
 if [ "$scan_failed" -ne 0 ]; then
-    echo "skills install completed with scan failures." >&2
-    exit "$scan_failed"
+  echo "skills install completed with scan failures." >&2
+  exit "$scan_failed"
 fi
 echo "skills install completed."
 echo "--------------------------------"
