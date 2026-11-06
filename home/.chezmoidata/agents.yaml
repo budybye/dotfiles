@@ -342,6 +342,12 @@ agents:
     "alchemy-run/alchemy":
       - "alchemy-domain"
       - "alchemy-provider"
+
+    "roble3/cc-blender-skill":
+      - "blender-animation"
+      - "blender-export"
+      - "blender-materials"
+      - "blender-modeling"
       
     # "belt-sh/cli":
     # - "belt"
