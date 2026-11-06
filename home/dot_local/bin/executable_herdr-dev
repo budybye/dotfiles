@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # herdr-dev — herdr 起動エントリポイント: server 確保 → dev プリセット保証(タブ単位) → attach
-# 使い方: autostart(zprofile / bash_profile)から呼ぶ。herdr 内の shell からの手動実行でも可
+# 使い方: autostart(zlogin / bash_profile)から呼ぶ。herdr 内の shell からの手動実行でも可
 #         (その場合は構築のみで attach しない)。
 # 仕様: プリセット構成要素(tab 102 / Dev / Docs / lazydocker)はタブ単位で冪等に保証される —
 #       閉じられたタブは次回起動時に個別に復活する(プリセット常駐)。workspace も同様。
@@ -8,11 +8,27 @@
 # server が稼働中の通常起動 = タブ単位の存在保証のみ(既存 pane には触れない)。
 # 自前で server を起動した場合 = snapshot 復元直後(pane は素 shell のみ)なので
 # dev を閉じてコマンド再実行込みで完全再構築する。
-# 応答 ID は CLI reference v0.9.1 準拠: .result.{workspace.workspace_id, tab.tab_id,
+# 応答 ID は herdr 0.9.5 の実機で確認済み: .result.{workspace.workspace_id, tab.tab_id,
 # root_pane.pane_id, pane.pane_id}
 # 環境変数: HERDR_DEV_CWD(dev workspace の cwd。既定 ~/dotfiles)、
 #           HERDR_DEV_DATA(tab 102 の下段で cat.txt を表示する dir。既定 ~/。cat.txt が無ければ下段は作らない)
 set -eu
+
+case "${1:-}" in
+  -h|--help)
+    cat <<'EOF'
+Usage: herdr-dev [-h|--help]
+
+herdr の server を確保し、dev workspace のタブ(102 / Dev / Docs / lazydocker)を
+足りない分だけ作ってから attach する。herdr 内から実行したときは attach しない。
+
+Environment:
+  HERDR_DEV_CWD   dev workspace の cwd(既定 ~/dotfiles。無ければ ~)
+  HERDR_DEV_DATA  tab 102 の下段で cat.txt を表示する dir(既定 ~)
+EOF
+    exit 0
+    ;;
+esac
 
 command -v herdr >/dev/null 2>&1 || exit 1
 
@@ -65,8 +81,9 @@ if ! command -v jq >/dev/null 2>&1; then
 elif server_running; then
   # tab を作り、root pane の id を返す。失敗時は非 0
   new_tab() {
-    local out
-    out=$(herdr tab create --workspace "$W" --label "$1" --cwd "$2") || return 1
+    local out cwd="$2"
+    [ -d "$cwd" ] || cwd="$HOME"
+    out=$(herdr tab create --workspace "$W" --label "$1" --cwd "$cwd") || return 1
     printf '%s' "$out" | jq -er '.result.root_pane.pane_id'
   }
 
