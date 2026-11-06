@@ -302,12 +302,14 @@ install_zed() {
 install_vicinae() {
   if command -v vicinae >/dev/null 2>&1; then
     echo "vicinae already installed."
-  # 非対話シェルの TERM と /usr/local 権限を避ける
-  elif ! curl -fsSL https://vicinae.com/install | PREFIX="${HOME}/.local" TERM="${TERM:-dumb}" bash; then
+  # 非対話シェルの TERM と /usr/local 権限を避ける。
+  # installer は GitHub API (releases/latest) を GITHUB_TOKEN があれば認証付きで呼ぶ。無いと未認証の 60 回/時で 403 になり
+  # "Failed to fetch latest version" で失敗するので、CI の MISE_GITHUB_TOKEN を渡す。失敗しても他の GUI の導入は続ける
+  elif curl -fsSL https://vicinae.com/install | GITHUB_TOKEN="${GITHUB_TOKEN:-${MISE_GITHUB_TOKEN:-}}" PREFIX="${HOME}/.local" TERM="${TERM:-dumb}" bash; then
+    echo "vicinae installed."
+  else
     echo "vicinae install failed." >&2
-    return 1
   fi
-  echo "vicinae installed."
 }
 
 install_openhuman() {
