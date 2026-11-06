@@ -50,8 +50,7 @@ PROMPT='%F{green}%n@%m%f:%F{blue}%~ %f%F{yellow}$%f '
 # mux の自動起動は .zlogin（.zshrc の後）
 if [[ ! -o interactive ]]; then
     path=(${HOME}/.local/share/mise/shims(N-/) ${path})
-    # Vite+ bin を PATH 先頭に prepend（.zshrc と同じ）
-    if [ -f "${HOME}/.config/vite-plus/env" ]; then
-        . "${HOME}/.config/vite-plus/env"
-    fi
+    # Vite+ の bin を PATH 先頭に置く。env を source すると PATH の組み替えが遅い（0.6〜1.6 秒）ので、
+    # `vp env use` 用の関数が要らない非対話では bin だけ足す
+    path=(${HOME}/.config/vite-plus/bin(N-/) ${path:#${HOME}/.config/vite-plus/bin})
 fi
