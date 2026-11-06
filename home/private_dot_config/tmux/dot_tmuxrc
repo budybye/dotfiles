@@ -5,18 +5,18 @@ set -eu
 
 # 既にtmuxセッション内の場合は何もしない
 if [ -n "${TMUX:-}" ]; then
-    exit 0
+  exit 0
 fi
 
 # tmux/byobuコマンドの確認と設定
 TMUX_CMD=""
 if command -v byobu-tmux >/dev/null 2>&1; then
-    TMUX_CMD="byobu-tmux"
+  TMUX_CMD="byobu-tmux"
 elif command -v tmux >/dev/null 2>&1; then
-    TMUX_CMD="tmux"
+  TMUX_CMD="tmux"
 else
-    echo "tmux or byobu-tmux not found"
-    exit 0
+  echo "tmux or byobu-tmux not found"
+  exit 0
 fi
 
 # window 1 pane 1~4
@@ -40,7 +40,7 @@ W2P4="${HOME}/Developer/workers" #app4
 # セッションが既に存在する場合はattachして終了
 SES="Session"
 if ${TMUX_CMD} list-sessions | grep -q "^${SES}:"; then
-    exec ${TMUX_CMD} attach-session -t "${SES}"
+  exec ${TMUX_CMD} attach-session -t "${SES}"
 fi
 
 # セッション作成 ~/dotfiles

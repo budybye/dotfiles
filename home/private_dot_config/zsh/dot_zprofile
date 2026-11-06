@@ -2,7 +2,7 @@
 # .profile からbashと共通の環境変数を読み込む
 
 if [ -f "${HOME}/.profile" ]; then
-    emulate sh -c "source ${HOME}/.profile"
+  emulate sh -c "source ${HOME}/.profile"
 fi
 
 # PATHを再設定
@@ -10,31 +10,31 @@ fi
 typeset -U path PATH
 # (N-/) は その directory が存在する場合のみ追加する
 path=(
-    /opt/homebrew/bin(N-/)
-    /opt/homebrew/sbin(N-/)
-    /usr/bin
-    /usr/sbin
-    /bin
-    /sbin
-    /usr/local/bin(N-/)
-    /usr/local/sbin(N-/)
-    /Library/Apple/usr/bin(N-/)
-    /Applications/Obsidian.app/Contents/MacOS(N-/)
-    /opt/X11/bin(N-/)
-    /snap/bin(N-/)
-    ${HOME}/.local/share/mise/shims(N-/)
-    ${HOME}/.console-ninja/.bin(N-/)
-    ${HOME}/.local/share/bun/bin(N-/)
-    ${HOME}/.cache/.bun/bin(N-/)
-    ${HOME}/.bun/bin(N-/)
-    ${HOME}/.local/share/go/bin(N-/)
-    ${HOME}/go/bin(N-/)
-    # rustc/cargo/rustup は mise (rust@stable)。ここは cargo install / binstall 用
-    ${HOME}/.local/share/cargo/bin(N-/)
-    ${HOME}/.local/share/sheldon/repos/github.com/*/*/bin(N-/)
-    ${HOME}/.local/share/gem/bin(N-/)
-    ${HOME}/.local/bin(N-/)
-    ${path}
+  /opt/homebrew/bin(N-/)
+  /opt/homebrew/sbin(N-/)
+  /usr/bin
+  /usr/sbin
+  /bin
+  /sbin
+  /usr/local/bin(N-/)
+  /usr/local/sbin(N-/)
+  /Library/Apple/usr/bin(N-/)
+  /Applications/Obsidian.app/Contents/MacOS(N-/)
+  /opt/X11/bin(N-/)
+  /snap/bin(N-/)
+  ${HOME}/.local/share/mise/shims(N-/)
+  ${HOME}/.console-ninja/.bin(N-/)
+  ${HOME}/.local/share/bun/bin(N-/)
+  ${HOME}/.cache/.bun/bin(N-/)
+  ${HOME}/.bun/bin(N-/)
+  ${HOME}/.local/share/go/bin(N-/)
+  ${HOME}/go/bin(N-/)
+  # rustc/cargo/rustup は mise (rust@stable)。ここは cargo install / binstall 用
+  ${HOME}/.local/share/cargo/bin(N-/)
+  ${HOME}/.local/share/sheldon/repos/github.com/*/*/bin(N-/)
+  ${HOME}/.local/share/gem/bin(N-/)
+  ${HOME}/.local/bin(N-/)
+  ${path}
 )
 
 # プロンプトの設定
@@ -49,8 +49,8 @@ PROMPT='%F{green}%n@%m%f:%F{blue}%~ %f%F{yellow}$%f '
 # mise の shims を優先させるため、非対話では shims を PATH 先頭に置く
 # mux の自動起動は .zlogin（.zshrc の後）
 if [[ ! -o interactive ]]; then
-    path=(${HOME}/.local/share/mise/shims(N-/) ${path})
-    # Vite+ の bin を PATH 先頭に置く。env を source すると PATH の組み替えが遅い（0.6〜1.6 秒）ので、
-    # `vp env use` 用の関数が要らない非対話では bin だけ足す
-    path=(${HOME}/.config/vite-plus/bin(N-/) ${path:#${HOME}/.config/vite-plus/bin})
+  path=(${HOME}/.local/share/mise/shims(N-/) ${path})
+  # Vite+ の bin を PATH 先頭に置く。env を source すると PATH の組み替えが遅い（0.6〜1.6 秒）ので、
+  # `vp env use` 用の関数が要らない非対話では bin だけ足す
+  path=(${HOME}/.config/vite-plus/bin(N-/) ${path:#${HOME}/.config/vite-plus/bin})
 fi
