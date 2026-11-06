@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
+set -eu
 
 # bash_profile や zprofile の最後で読み込込む
 
 # 既にtmuxセッション内の場合は何もしない
-if [ -n "${TMUX}" ]; then
+if [ -n "${TMUX:-}" ]; then
     exit 0
 fi
 

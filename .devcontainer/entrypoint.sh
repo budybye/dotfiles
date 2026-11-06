@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -eu
 
 # ユーザーを作成して xrdp サービスを開始する
 # 引数
@@ -33,8 +34,9 @@ start_xrdp_services() {
 stop_xrdp_services() {
   # 引数があればそれを、なければ直前の終了ステータスで終了する
   local rc="${1:-$?}"
-  $sudo xrdp --kill
-  $sudo xrdp-sesman --kill
+  # 片方の停止に失敗しても、もう片方の停止と exit まで進める
+  $sudo xrdp --kill || true
+  $sudo xrdp-sesman --kill || true
   exit "$rc"
 }
 
