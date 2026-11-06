@@ -224,9 +224,13 @@ install_ghostty() {
   if command -v ghostty >/dev/null 2>&1; then
     echo "ghostty already installed."
   else
-  # 26.04 以上なら apt install ghostty で入る
-  $sudo apt-get install -y ghostty
-  echo "ghostty installed."
+  # 26.04 以上なら apt install ghostty で入る。Debian など package が無い環境では skip する
+  if apt-cache show ghostty >/dev/null 2>&1; then
+    $sudo apt-get install -y ghostty
+    echo "ghostty installed."
+  else
+    echo "ghostty is not available in apt on this system; skipping."
+  fi
   fi
 }
 

@@ -103,7 +103,11 @@ japan_setup() {
     
   if [ -d /run/systemd/system ] && command -v systemctl >/dev/null 2>&1; then
     $sudo apt-get install -y im-config
-    $sudo localectl set-locale LANG=ja_JP.UTF-8
+    # OrbStack 等では localectl が Access denied になるため update-locale にフォールバックする
+    if ! $sudo localectl set-locale LANG=ja_JP.UTF-8; then
+      echo "localectl set-locale failed; falling back to update-locale." >&2
+      $sudo update-locale LANG=ja_JP.UTF-8
+    fi
     # localectl は LANGUAGE のコロン区切り値をロケールとして拒否するため update-locale を使う
     $sudo update-locale LANGUAGE=ja_JP:ja
     # コンテナ/Debian では keymap 設定非対応 ("Setting X11 and console keymaps is not supported in Debian.")
