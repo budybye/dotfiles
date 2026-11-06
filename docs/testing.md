@@ -72,6 +72,7 @@ mise config ls
 | --- | --- | --- |
 | `ubuntu-amd64` | Ubuntu amd64 | `make init`（終了コードのみ） |
 | `ubuntu-arm64` | Ubuntu arm64 | `make init`（終了コードのみ） |
+| `debian` | Debian 13 の最小 image（docker run） | git・curl・sudo が無い root から `make init`（終了コードのみ。amd64 / arm64） |
 | `darwin` | macOS | `make init`（終了コードのみ） |
 | `lxd` | Ubuntu + LXD | cloud-init、container 起動、OS 情報（cloud-init の終了コードは無視。`make init` は実行しない） |
 | `rpi` | Ubuntu arm64 + LXD | `cloud-init/user-data` の cloud-init、OS 情報（cloud-init の終了コードは無視） |

@@ -60,6 +60,10 @@ make help
 make docker-build
 make docker-slim-build
 
+# Debian 版の image(既定は Ubuntu。tag に `-debian` が付く)
+make docker-slim-build BASE_IMAGE=debian:trixie-slim DOCKER_TAG_SUFFIX=-debian
+make docker-build BASE_IMAGE=debian:trixie-slim DOCKER_TAG_SUFFIX=-debian
+
 # 公開済み GHCR image を pull して `ubuntu-dev-ghcr` で起動（image タグはローカル build と共通で、pull で上書きされる）
 make docker-ghcr-run
 
@@ -162,6 +166,7 @@ orb -m orb-dev -u root su "$USER" -s /bin/bash -c \
 
 - macOS Sequoia 15 以降
 - Ubuntu 26.04 LTS
+- Debian 13 (trixie)。12 (bookworm) も動く想定(最小構成から。curl が無ければ `install.sh` が root の apt で入れる)
 - Docker
 - Multipass
 - OrbStack
