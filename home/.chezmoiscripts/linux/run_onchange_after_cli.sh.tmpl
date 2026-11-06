@@ -3,6 +3,14 @@
 # tools.toml: {{ include "private_dot_config/mise/conf.d/tools.toml" | sha256sum }}
 set -eu
 
+# 必須のステップ(mise と必須パッケージ)が失敗したら、記録して処理を続行し、最後に exit 1 する
+# (exit 0 だと chezmoi が run_onchange の状態を保存し、次回 apply で再試行されない)
+# 任意のステップ(zsh、flatpak、go / aqua / mkcert の確認)は警告だけにする。exit 1 は以降の script を止め、CI やイメージの build も落とすため
+failed_steps=""
+mark_failed() {
+  failed_steps="${failed_steps}${failed_steps:+, }$1"
+}
+
 sudo=""
 if [ "$(id -u)" -ne 0 ]; then
   sudo="sudo"
@@ -17,8 +25,9 @@ change_shell_to_zsh() {
     $sudo apt-get install -y zsh || echo "zsh install failed."
   fi
 
-  zsh_path=$(command -v zsh)
-  if [ "${SHELL}" != "${zsh_path}" ]; then
+  # zsh の install に失敗していても後続のステップを続行する
+  zsh_path=$(command -v zsh || true)
+  if [ -n "${zsh_path}" ] && [ "${SHELL}" != "${zsh_path}" ]; then
     # デフォルトシェルを変更
     if $sudo chsh -s "${zsh_path}" "$(whoami)"; then
       echo "zsh default shell changed to ${zsh_path}."
@@ -49,24 +58,26 @@ install_mise() {
     echo "mise already installed."
 
   elif command -v curl >/dev/null 2>&1; then
-    curl -fsSL https://mise.run | sh || echo "mise install failed."
+    curl -fsSL https://mise.run | sh || { echo "mise install failed."; mark_failed "mise install"; }
+    # cloud-init が chezmoi を /usr/local/bin に入れるため install.sh は ~/.local/bin を PATH に足さない
+    export PATH="${HOME}/.local/bin:${PATH}"
 
   else
     $sudo install -dm 755 /etc/apt/keyrings
     wget -qO - https://mise.jdx.dev/gpg-key.pub | $sudo gpg --dearmor | $sudo tee /etc/apt/keyrings/mise-archive-keyring.gpg 1>/dev/null
     echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=$(dpkg --print-architecture)] https://mise.jdx.dev/deb stable main" | $sudo tee /etc/apt/sources.list.d/mise.list
     $sudo apt-get update -y
-    $sudo apt-get install -y mise || echo "mise install failed."
+    $sudo apt-get install -y mise || { echo "mise install failed."; mark_failed "mise install"; }
   fi
 
-  mise --version || echo "mise not found"
+  mise --version || { echo "mise not found"; mark_failed "mise check"; }
 
   if [ -f "${HOME}/.config/mise.toml" ]; then
-    mise bootstrap packages apply --manager apt -y || echo "mise bootstrap packages failed."
+    mise bootstrap packages apply --manager apt -y || { echo "mise bootstrap packages failed."; mark_failed "mise bootstrap packages"; }
   fi
     
   if [ -f "${HOME}/.config/mise/conf.d/settings.toml" ]; then
-    mise i -y || echo "mise install failed."
+    mise i -y || { echo "mise install failed."; mark_failed "mise i"; }
   fi
 
   # eval "$(mise activate bash --shims)"
@@ -147,6 +158,12 @@ install_mise
 install_go_aqua
 install_mkcert
 install_flatpak
+if [ -n "${failed_steps}" ]; then
+  echo "--------------------------------"
+  echo "FAILED steps: ${failed_steps}" >&2
+  echo "Exiting with 1 so that chezmoi retries on the next apply." >&2
+  exit 1
+fi
 echo "--------------------------------"
 echo "CLI tools install done."
 echo "--------------------------------"

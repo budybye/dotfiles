@@ -3,6 +3,14 @@
 # tools.toml: {{ include "private_dot_config/mise/conf.d/tools.toml" | sha256sum }}
 set -eu
 
+# 必須のステップ(mise と必須パッケージ)が失敗したら、記録して処理を続行し、最後に exit 1 する
+# (exit 0 だと chezmoi が run_onchange の状態を保存し、次回 apply で再試行されない)
+# 任意のステップ(Rosetta、cask、defaults)は警告だけにする。exit 1 は以降の script を止め、CI やイメージの build も落とすため
+failed_steps=""
+mark_failed() {
+  failed_steps="${failed_steps}${failed_steps:+, }$1"
+}
+
 # Xcode コマンドラインツールのインストールおよびパスの設定
 install_xcode_command_line_tools() {
   echo "Xcode command line tools check it..."
@@ -50,7 +58,7 @@ install_homebrew() {
   if command -v brew >/dev/null 2>&1; then
     echo "Homebrew already installed."
   else
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" || echo "Homebrew install failed."
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" || { echo "Homebrew install failed."; mark_failed "Homebrew install"; }
     eval "$(/opt/homebrew/bin/brew shellenv)"
     echo "Homebrew installed."
   fi
@@ -68,7 +76,7 @@ install_mise() {
   else
     curl -fsSL https://mise.run | sh
     export PATH="${HOME}/.local/bin:${PATH}"
-    mise --version || echo "mise install failed."
+    mise --version || { echo "mise install failed."; mark_failed "mise install"; }
   fi
 
   eval "$(mise activate bash)"
@@ -77,7 +85,7 @@ install_mise() {
     # mise bootstrap dotfiles apply -y || echo "brew bootstrap failed."
     # mise bootstrap files apply -y || echo "brew bootstrap failed."
     # mise bootstrap packages apply -y || echo "mise bootstrap failed."
-    mise bootstrap packages apply --manager brew -y || echo "brew bootstrap failed."
+    mise bootstrap packages apply --manager brew -y || { echo "brew bootstrap failed."; mark_failed "brew bootstrap"; }
     mise bootstrap packages apply --manager brew-cask -y || echo "cask bootstrap failed."
     # mise bootstrap packages apply --manager mas -y || echo "mas bootstrap failed."
     # mise bootstrap plugins apply -y || echo "mas bootstrap failed."
@@ -86,7 +94,7 @@ install_mise() {
   fi
     
   if [ -f "${HOME}/.config/mise/conf.d/settings.toml" ]; then
-    mise i -y || echo "mise install failed."
+    mise i -y || { echo "mise install failed."; mark_failed "mise i"; }
   fi
     
   echo "mise setup completed."
@@ -101,5 +109,11 @@ install_mise
 echo "--------------------------------"
 echo "zsh --version $(zsh --version)"
 echo "--------------------------------"
+if [ -n "${failed_steps}" ]; then
+  echo "--------------------------------"
+  echo "FAILED steps: ${failed_steps}" >&2
+  echo "Exiting with 1 so that chezmoi retries on the next apply." >&2
+  exit 1
+fi
 echo "Package install && update done!!"
 echo "--------------------------------"
