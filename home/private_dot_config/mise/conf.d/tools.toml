@@ -163,6 +163,7 @@ oapi-codegen = "latest"
 # gcloud = "latest"
 gh = "latest"
 lazygit = "latest"
+git-lfs = "latest"       # git/config の filter "lfs"（required = true）が使う
 lazydocker = "latest"
 lazyssh = "latest"
 rclone = "latest" # file sync
