@@ -137,11 +137,26 @@ VM は chezmoi を導入して dotfiles を `/home/ubuntu/dotfiles` に clone �
 ## OrbStack
 
 ```sh
+# Ubuntu (既定) または Debian 12 / 13。同じ cloud-init を使う
 orb create ubuntu orb-dev -c cloud-init/orbstack.yaml
+orb create debian:trixie orb-dev -c cloud-init/orbstack.yaml   # Debian 13。bookworm は debian:bookworm
 orb -m orb-dev
 ```
 
-OrbStack用のcloud-initはCLI中心で、xrdpやデスクトップ環境を含めません。package を入れるだけで dotfiles は適用しないため、machine 内で clone して `make init` を手動実行します。
+OrbStack用のcloud-initはCLI中心で、xrdpやデスクトップ環境を含めません。package を入れるだけで dotfiles は適用しません。dotfiles は、Mac の作業ツリーを machine にコピーして適用します(マウント経由では使いません)。
+
+```sh
+# 使い捨て machine に dotfiles を適用する(age / SSH 鍵は使わない)。
+# `/Users` のマウント上のリポジトリを直接使わない。chezmoi は symlink で配備するため、machine 内の書き込みが Mac の作業ツリーを書き換える。
+# 作業ツリーを machine にコピーして適用する(.env は含めない)。
+# GITHUB_TOKEN が無いと GitHub API の匿名 rate limit (60 回/時) で mise / vicinae が失敗する。
+REPO=$PWD
+orb -m orb-dev -u root su "$USER" -s /bin/bash -c \
+  "mkdir -p ~/dotfiles && tar -C $REPO --exclude=.git --exclude=.jj --exclude=graphify-out --exclude=tmp --exclude=.env --exclude=.DS_Store -cf - . | tar -C ~/dotfiles -xf - && cd ~/dotfiles && SANDBOX=1 GITHUB_TOKEN=$(gh auth token) bash install.sh"
+```
+
+- 適用後の再実行は `chezmoi apply --force`(`.local/share` の変更確認が tty を要求するため)。
+- 適用後は login shell が zsh になる。`orb -m orb-dev` で入れる。
 
 ## 対応プラットフォーム
 
