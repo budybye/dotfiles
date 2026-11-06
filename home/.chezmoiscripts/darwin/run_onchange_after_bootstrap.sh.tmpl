@@ -94,7 +94,11 @@ install_mise() {
   fi
     
   if [ -f "${HOME}/.config/mise/conf.d/settings.toml" ]; then
-    mise i -y || { echo "mise install failed."; mark_failed "mise i"; }
+    mise i -y || {
+      # 配布元(archive.apache.org など)の一時的な失敗で apply 全体が止まるので、1 回だけ再試行する
+      echo "mise install failed; retrying once..."
+      mise i -y || { echo "mise install failed."; mark_failed "mise i"; }
+    }
   fi
     
   echo "mise setup completed."
