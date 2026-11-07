@@ -44,6 +44,19 @@ dump_state() {
   timeout 10 sudo -n dmesg 2>/dev/null | tail -40 || true
 }
 
+# 注釈(::error::)は、log が読めないときの唯一の手がかりになるので、要点を 1 つにまとめて載せる。
+# 改行は %0A、% は %25 に直し、長すぎると切られるので末尾を落とす
+summary_for_annotation() {
+  {
+    echo "[process tree]"
+    timeout 20 ps -eo pid,ppid,user,etime,stat,wchan:20,args --forest 2>/dev/null | cut -c1-140 | tail -40
+    echo "[D state]"
+    timeout 20 ps -eo pid,user,etime,stat,wchan:20,comm 2>/dev/null | awk 'NR > 1 && $4 ~ /^D/' | head -10
+    echo "[dmesg]"
+    timeout 10 sudo -n dmesg 2>/dev/null | tail -12 | cut -c1-150
+  } | head -c 3500 | sed -e 's/%/%25/g' | awk '{printf "%s%%0A", $0}'
+}
+
 (
   # kill されたら、握っている sleep も止めて終わる(sleep が残ると step の stdout を握り続ける)
   trap 'kill "${sleeper:-}" 2>/dev/null; exit 0' TERM
@@ -52,7 +65,7 @@ dump_state() {
   wait "${sleeper}"
   echo "=== watchdog: ${WATCHDOG_SECONDS} 秒経っても make が終わらない ==="
   dump_state
-  echo "::error title=make init が終わらない::${WATCHDOG_SECONDS} 秒経過。process tree は上の log を参照"
+  echo "::error title=make init が終わらない(${WATCHDOG_SECONDS} 秒経過)::$(summary_for_annotation)"
   kill_descendants "${self}"
   kill -TERM "${self}"
 ) &
