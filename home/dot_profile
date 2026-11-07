@@ -211,6 +211,7 @@ if command -v omp >/dev/null 2>&1; then
   mkdir -p "${XDG_CONFIG_HOME}/omp/profiles/god/agent"
   export PI_CONFIG_DIR=".config/omp" #default は ~/.omp XDGに ~/.config/omp 
   export OMP_PROFILE="god" # PI_CODING_AGENT_DIR を無視する為に
+  export PI_NATIVES_DIR="${XDG_CONFIG_HOME}/omp/profiles/god/natives" # ネイティブアドオンの置き場 (default は ~/.omp/natives 固定)
 fi
 
 if command -v docker >/dev/null 2>&1; then
