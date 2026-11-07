@@ -74,7 +74,11 @@ jobs:
           df -h
       - uses: actions/checkout@v7
       - name: make
-        run: make init
+        run: |
+          rc=0
+          make init || rc=$?
+          . .github/scripts/release-step-stdout.sh
+          exit "${rc}"
 
   ubuntu-arm64:
     runs-on: ubuntu-26.04-arm
@@ -83,7 +87,11 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - name: make
-        run: make init
+        run: |
+          rc=0
+          make init || rc=$?
+          . .github/scripts/release-step-stdout.sh
+          exit "${rc}"
 
   # 最小構成の Debian(git・curl・sudo が無い root)から make init が通ることの確認。
   # job container ではなく docker run にするのは、act でも同じ手順で動かすため
