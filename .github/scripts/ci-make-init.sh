@@ -15,11 +15,12 @@ if [ "$(id -u)" -ne 0 ]; then
   as_root=(sudo -n)
 fi
 
-# 引数の process の子孫をすべて止める(sudo で起動された root 所有のものも含む)。
+# 第 1 引数の process の子孫をすべて止める(sudo で起動された root 所有のものも含む)。
+# 第 2 引数は止めない process(呼び出し元自身。root では kill が組み込みなので、自分を先に殺すと残りが止まらない)。
 # 止めずに step を終えると、残った子孫が step の stdout を握ったままで、runner が step を終われない
 kill_descendants() {
   local pids
-  pids="$(ps -eo pid=,ppid= 2>/dev/null | awk -v r="$1" '
+  pids="$(ps -eo pid=,ppid= 2>/dev/null | awk -v r="$1" -v keep="${2:-0}" '
     { parent[$1] = $2 }
     END {
       mark[r] = 1; changed = 1
@@ -27,7 +28,7 @@ kill_descendants() {
         changed = 0
         for (p in parent) if (!(p in mark) && (parent[p] in mark)) { mark[p] = 1; changed = 1 }
       }
-      for (p in mark) if (p != r) print p
+      for (p in mark) if (p != r && p != keep) print p
     }')"
   if [ -n "${pids}" ]; then
     # shellcheck disable=SC2086
@@ -66,7 +67,7 @@ summary_for_annotation() {
   echo "=== watchdog: ${WATCHDOG_SECONDS} 秒経っても make が終わらない ==="
   dump_state
   echo "::error title=make init が終わらない(${WATCHDOG_SECONDS} 秒経過)::$(summary_for_annotation)"
-  kill_descendants "${self}"
+  kill_descendants "${self}" "${BASHPID}"
   kill -TERM "${self}"
 ) &
 watchdog=$!
