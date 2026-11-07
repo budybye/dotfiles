@@ -212,7 +212,7 @@ auto-doc = "latest"
 "github:pranshuparmar/witr" = "latest" # プロセス / ポートの起源調査（why is this running）
 "github:gcla/termshark" = "latest" # tshark の TUI
 "github:go-gitea/gitea" = "latest" # git系
-"github:agent0ai/spynel" = "latest" # 複数コーディングエージェントの管理
+# "github:agent0ai/spynel" = "latest" # 複数コーディングエージェントの管理
 # "github:egoist/mygo" = "latest" # frontend
 # "github:daichirata/hammer" = "latest" # gcloud
 # "github:gabe565/moreutils-go" = "latest" #moreutils
@@ -356,7 +356,7 @@ python = "latest"
 uv = "latest"
 ruff = "latest"
 pipx = "latest"
-hatch = "latest"
+# hatch = "latest"
 conan = { version = "latest", python = "3.14" } # pipx:conan（C/C++ 向けパッケージマネージャ）
 pre-commit = "latest"
 yt-dlp = "latest"
@@ -437,7 +437,7 @@ solidity = "latest"      # ethereum/solidity (C++)
 # Java
 # =============================================================================
 java = "latest"
-maven = "latest"
+# maven = "latest"
 # tomcat = "latest"
 # kafka = "latest"
 # spark = "latest"
