@@ -72,15 +72,24 @@ fi
 
 # step の stdout を握ったまま残る process(sudo 起動のものは root 所有なので root で探す)
 out="$(readlink "/proc/${self}/fd/1" 2>/dev/null || true)"
+# 祖先(この script を起動した step の shell など)は正当な持ち主なので、探す対象から外す
+ancestors=""
+p="${self}"
+while [ "${p}" -gt 1 ] 2>/dev/null; do
+  p="$(awk '{print $4}' "/proc/${p}/stat" 2>/dev/null || echo 0)"
+  ancestors="${ancestors} ${p}"
+done
 case "${out}" in
   pipe:*)
-    leaked="$(timeout 30 "${as_root[@]}" bash -s -- "${out}" "${self}" <<'SCAN' 2>/dev/null || true
+    leaked="$(timeout 30 "${as_root[@]}" bash -s -- "${out}" "${self}" "${ancestors}" <<'SCAN' 2>/dev/null || true
 out="$1"
 me="$2"
+ancestors="$3"
 for fd1 in /proc/[0-9]*/fd/1; do
   pid="${fd1#/proc/}"
   pid="${pid%%/*}"
   [ "${pid}" = "${me}" ] && continue
+  case " ${ancestors} " in *" ${pid} "*) continue ;; esac
   [ "$(readlink "${fd1}" 2>/dev/null)" = "${out}" ] || continue
   [ "${pid}" = "$$" ] && continue
   [ "$(awk '{print $4}' "/proc/${pid}/stat" 2>/dev/null)" = "$$" ] && continue
