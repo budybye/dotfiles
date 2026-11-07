@@ -76,9 +76,14 @@ jobs:
       - uses: actions/checkout@v7
       - name: make
         run: |
+          # 止まったときに job を cancel ではなく失敗で終わらせ(cancel だと log を API で読めない)、状況を残す
           rc=0
-          make init || rc=$?
+          timeout -k 30 45m make init || rc=$?
           . .github/scripts/release-step-stdout.sh
+          if [ "${rc}" -ne 0 ]; then
+            echo "=== make init exit code: ${rc}"
+            ps -eo pid,ppid,user,etime,stat,args --forest | cut -c1-180 | tail -80
+          fi
           if [ -n "${leaked:-}" ] && [ "${rc}" -eq 0 ]; then
             rc=1
           fi
@@ -93,9 +98,14 @@ jobs:
       - uses: actions/checkout@v7
       - name: make
         run: |
+          # 止まったときに job を cancel ではなく失敗で終わらせ(cancel だと log を API で読めない)、状況を残す
           rc=0
-          make init || rc=$?
+          timeout -k 30 45m make init || rc=$?
           . .github/scripts/release-step-stdout.sh
+          if [ "${rc}" -ne 0 ]; then
+            echo "=== make init exit code: ${rc}"
+            ps -eo pid,ppid,user,etime,stat,args --forest | cut -c1-180 | tail -80
+          fi
           if [ -n "${leaked:-}" ] && [ "${rc}" -eq 0 ]; then
             rc=1
           fi
