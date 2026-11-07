@@ -36,6 +36,7 @@ agents:
       - "rivet-actors"
       - "rivet-agentos" # CRITICAL
       - "rivet-secure-exec"
+      - "rivet-workflows"
       # - "rivetkit-client-javascript"
       # - "rivetkit-client-react"
       # - "rivetkit-client-swift"
