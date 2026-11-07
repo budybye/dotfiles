@@ -7,7 +7,7 @@ agents:
     # "stablyai/orca": 
     #  - "orca-cli"
     #  - "orchestration"
-    #  - "computer-use"
+    #  - "orca-computer-use"
     "xingkongliang/skills-manager":
       - "manage-skills"
     "mattpocock/skills":

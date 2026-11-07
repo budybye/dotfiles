@@ -227,7 +227,7 @@ adopt = false
 # "brew-cask:cloudflare-warp" = { os = "macos" }
 # "brew-cask:cursor" = "latest"
 # "brew-cask:coderabbit" = { os = "macos" }
-"brew-cask:ferdium" = "latest"
+# "brew-cask:ferdium" = { os = "macos" }
 "brew-cask:font-hackgen-nerd" = { os = "macos" }
 # "brew-cask:google-chrome" = { os = "macos" }
 "brew-cask:ghostty" = { os = "macos" }
@@ -240,7 +240,7 @@ adopt = false
 # "brew-cask:openhuman" = { os = "macos" } # ciでなぜかエラー
 # "brew-cask:open-design" = { os = "macos" } # ciでなぜかエラー
 # "brew-cask:stablyai/orca/orca" = "latest"
-"brew-cask:orbstack" = "latest"
+"brew-cask:orbstack" = { os = "macos" }
 # "brew-cask:raycast" = { os = "macos" }
 # "brew-cask:tradingview" = { os = "macos" }
 # "brew-cask:visual-studio-code" = "latest"
