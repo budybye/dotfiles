@@ -5,7 +5,7 @@ set -eu
 
 # 必須のステップ(mise と必須パッケージ)が失敗したら、記録して処理を続行し、最後に exit 1 する
 # (exit 0 だと chezmoi が run_onchange の状態を保存し、次回 apply で再試行されない)
-# 任意のステップ(zsh、flatpak、go / aqua / mkcert の確認)は警告だけにする。exit 1 は以降の script を止め、CI やイメージの build も落とすため
+# 任意のステップ(mise i の一部のツールの失敗、zsh、flatpak、go / aqua / mkcert の確認)は警告だけにする。exit 1 は以降の script を止め、CI やイメージの build も落とすため
 failed_steps=""
 mark_failed() {
   failed_steps="${failed_steps}${failed_steps:+, }$1"
@@ -80,7 +80,8 @@ install_mise() {
     mise i -y || {
       # 配布元(archive.apache.org など)の一時的な失敗で apply 全体が止まるので、1 回だけ再試行する
       echo "mise install failed; retrying once..."
-      mise i -y || { echo "mise install failed."; mark_failed "mise i"; }
+      # 1 つのツールの取得失敗(配布元の障害や minimum_release_age に引っかかる新しい依存など)で apply 全体を止めない
+      mise i -y || echo "mise install failed."
     }
   fi
 
