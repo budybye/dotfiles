@@ -17,10 +17,15 @@ case "${out}" in
     done
     if [ -n "${leaked}" ]; then
       echo "=== step の stdout を握ったまま残っている process(止めます) ==="
+      details=""
       for pid in ${leaked}; do
-        printf '%s ppid=%s %s\n' "${pid}" "$(awk '{print $4}' "/proc/${pid}/stat" 2>/dev/null)" \
-          "$(tr '\0' ' ' < "/proc/${pid}/cmdline" 2>/dev/null | cut -c1-200)"
+        line="$(printf '%s ppid=%s %s' "${pid}" "$(awk '{print $4}' "/proc/${pid}/stat" 2>/dev/null)" \
+          "$(tr '\0' ' ' < "/proc/${pid}/cmdline" 2>/dev/null | cut -c1-160)")"
+        echo "${line}"
+        details="${details}${details:+ | }${line}"
       done
+      # 原因が分かるまで step を失敗にして、test が通った扱い(= 公開の起動)にしない。呼び出し側が leaked を見る
+      echo "::error title=step の stdout を握る process が残っている::${details}"
       # shellcheck disable=SC2086
       kill ${leaked} 2>/dev/null || true
       sleep 2

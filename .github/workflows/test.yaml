@@ -18,6 +18,7 @@ concurrency:
 jobs:
   ubuntu-amd64:
     runs-on: ubuntu-26.04
+    timeout-minutes: 60
     env:
       MISE_GITHUB_TOKEN: ${{ secrets.MISE_GITHUB_TOKEN }}
     steps:
@@ -78,10 +79,14 @@ jobs:
           rc=0
           make init || rc=$?
           . .github/scripts/release-step-stdout.sh
+          if [ -n "${leaked:-}" ] && [ "${rc}" -eq 0 ]; then
+            rc=1
+          fi
           exit "${rc}"
 
   ubuntu-arm64:
     runs-on: ubuntu-26.04-arm
+    timeout-minutes: 60
     env:
       MISE_GITHUB_TOKEN: ${{ secrets.MISE_GITHUB_TOKEN }}
     steps:
@@ -91,6 +96,9 @@ jobs:
           rc=0
           make init || rc=$?
           . .github/scripts/release-step-stdout.sh
+          if [ -n "${leaked:-}" ] && [ "${rc}" -eq 0 ]; then
+            rc=1
+          fi
           exit "${rc}"
 
   # 最小構成の Debian(git・curl・sudo が無い root)から make init が通ることの確認。
