@@ -292,7 +292,7 @@ ast-grep = "latest"
 # github (Rust)
 # "github:Dicklesworthstone/pi_agent_rust" = "latest"
 # "github:sharkdp/hyperfine" = "latest"
-"github:sahenjp/RustXNG" = "latest"
+# "github:sahenjp/RustXNG" = "latest"  # v0.29.0 から attestation が無く、lock の provenance が downgrade になって mise lock / up が失敗する
 "github:vercel-labs/opensrc" = "latest" # context
 "github:vercel-labs/agent-browser" = "latest" # エージェント向けブラウザ自動化
 "github:rossmacarthur/sheldon" = "latest" # zsh プラグインマネージャ
