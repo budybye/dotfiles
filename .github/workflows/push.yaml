@@ -20,7 +20,7 @@ concurrency:
   cancel-in-progress: ${{ github.event_name != 'schedule' }}
 
 env:
-  REGISTRY_IMAGE: ghcr.io/budybye/ubuntu-dev
+  REGISTRY_IMAGE: ghcr.io/budybye/dotfiles
 jobs:
   build-images:
     # Release builds publish images; schedules refresh BuildKit caches without publishing images.
@@ -39,15 +39,15 @@ jobs:
           - linux/amd64
           - linux/arm64
         flavor:
-          - name: full
+          # flavor 名がそのまま tag になる。latest と semver tag は ubuntu-full だけに付く
+          - name: ubuntu-full
             dockerfile: Dockerfile
-          - name: slim
+          - name: ubuntu-slim
             dockerfile: slim.Dockerfile
-          # Debian 版。tag は slim-debian / full-debian(latest-debian は full-debian と同じ)
-          - name: slim-debian
+          - name: debian-slim
             dockerfile: slim.Dockerfile
             base_image: debian:trixie-slim
-          - name: full-debian
+          - name: debian-full
             dockerfile: Dockerfile
             base_image: debian:trixie-slim
         include:
@@ -118,8 +118,8 @@ jobs:
             DOTFILES_REF=${{ github.ref_name }}
             DOTFILES_REV=${{ github.sha }}
             ${{ matrix.flavor.base_image && format('BASE_IMAGE={0}', matrix.flavor.base_image) || '' }}
-          cache-from: type=gha,scope=ubuntu-dev-${{ matrix.flavor.name }}-${{ env.PLATFORM_PAIR }}
-          cache-to: type=gha,scope=ubuntu-dev-${{ matrix.flavor.name }}-${{ env.PLATFORM_PAIR }},mode=max
+          cache-from: type=gha,scope=dotfiles-${{ matrix.flavor.name }}-${{ env.PLATFORM_PAIR }}
+          cache-to: type=gha,scope=dotfiles-${{ matrix.flavor.name }}-${{ env.PLATFORM_PAIR }},mode=max
           platforms: ${{ matrix.platform }}
           labels: ${{ steps.meta.outputs.labels }}
           annotations: ${{ steps.meta.outputs.annotations }}
@@ -323,8 +323,8 @@ jobs:
           shopt -s nullglob
 
           # Publish full last so the latest tag is the newest manifest in GHCR.
-          # full-debian の glob(digests-*-full-debian)は full に、slim-debian は slim に一致しない
-          for flavor in slim dev slim-debian full-debian full; do
+          # ubuntu-full を最後にして、latest が最も新しい manifest になるようにする
+          for flavor in ubuntu-slim dev debian-slim debian-full ubuntu-full; do
             digest_files=(digests-*-"${flavor}"/*)
             if [ "${#digest_files[@]}" -eq 0 ]; then
               echo "No digest artifacts found for ${flavor}." >&2
@@ -337,10 +337,7 @@ jobs:
             done
 
             tags=(-t "${{ env.REGISTRY_IMAGE }}:${flavor}")
-            if [ "${flavor}" = "full-debian" ]; then
-              tags+=(-t "${{ env.REGISTRY_IMAGE }}:latest-debian")
-            fi
-            if [ "${flavor}" = "full" ]; then
+            if [ "${flavor}" = "ubuntu-full" ]; then
               tags+=(-t "${{ env.REGISTRY_IMAGE }}:latest")
               while IFS= read -r tag; do
                 tags+=(-t "${tag}")

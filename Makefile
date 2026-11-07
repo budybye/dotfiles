@@ -9,14 +9,14 @@ SHELL := bash
 DOTFILES_VERSION := $(shell git describe --tags --match '[0-9]*.[0-9]*.[0-9]*' --abbrev=0 2>/dev/null || echo dev)
 
 # Docker settings
-DOCKER_REGISTRY_IMAGE ?= ghcr.io/budybye/ubuntu-dev
-# Debian 版は BASE_IMAGE=debian:trixie-slim DOCKER_TAG_SUFFIX=-debian で build する(未指定なら Dockerfile の既定 ubuntu:26.04)
-DOCKER_BASE_IMAGE ?= $(BASE_IMAGE)
-DOCKER_TAG_SUFFIX ?=
+DOCKER_REGISTRY_IMAGE ?= ghcr.io/budybye/dotfiles
+# ubuntu(既定)か debian。debian は base image を debian:trixie-slim にする。tag は <distro>-full / <distro>-slim
+DOCKER_DISTRO ?= ubuntu
+DOCKER_BASE_IMAGE ?= $(if $(filter debian,$(DOCKER_DISTRO)),debian:trixie-slim)
 DOCKER_BUILD_ARGS := $(if $(DOCKER_BASE_IMAGE),--build-arg BASE_IMAGE=$(DOCKER_BASE_IMAGE))
-DOCKER_IMAGE ?= $(DOCKER_REGISTRY_IMAGE):latest$(DOCKER_TAG_SUFFIX)
-DOCKER_SLIM_IMAGE ?= $(DOCKER_REGISTRY_IMAGE):slim$(DOCKER_TAG_SUFFIX)
-DOCKER_DEV_IMAGE ?= $(DOCKER_REGISTRY_IMAGE):dev$(DOCKER_TAG_SUFFIX)
+DOCKER_IMAGE ?= $(DOCKER_REGISTRY_IMAGE):$(DOCKER_DISTRO)-full
+DOCKER_SLIM_IMAGE ?= $(DOCKER_REGISTRY_IMAGE):$(DOCKER_DISTRO)-slim
+DOCKER_DEV_IMAGE ?= $(DOCKER_REGISTRY_IMAGE):dev
 DOCKER_CONTAINER ?= ubuntu-dev
 DOCKER_HOSTNAME ?= container
 DOCKER_PORTS ?= -p 127.0.0.1:33389:3389

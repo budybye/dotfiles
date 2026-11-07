@@ -60,9 +60,9 @@ make help
 make docker-build
 make docker-slim-build
 
-# Debian 版の image(既定は Ubuntu。tag に `-debian` が付く)
-make docker-slim-build BASE_IMAGE=debian:trixie-slim DOCKER_TAG_SUFFIX=-debian
-make docker-build BASE_IMAGE=debian:trixie-slim DOCKER_TAG_SUFFIX=-debian
+# Debian 版の image(既定は Ubuntu。tag は ubuntu-full / ubuntu-slim / debian-full / debian-slim)
+make docker-slim-build DOCKER_DISTRO=debian
+make docker-build DOCKER_DISTRO=debian
 
 # 公開済み GHCR image を pull して `ubuntu-dev-ghcr` で起動（image タグはローカル build と共通で、pull で上書きされる）
 make docker-ghcr-run

@@ -145,7 +145,7 @@ if command -v docker >/dev/null 2>&1; then
     IMAGE_NAME="${1:-$(date +%Y%m%d%H%M%S)}"
     docker build -t "$IMAGE_NAME" . && docker push "$IMAGE_NAME"
   }
-  alias dx='docker run --rm -itd --privileged --hostname container --name dev -p 127.0.0.1:33389:3389 ghcr.io/budybye/ubuntu-dev:latest ubuntu ubuntu yes'
+  alias dx='docker run --rm -itd --privileged --hostname container --name dev -p 127.0.0.1:33389:3389 ghcr.io/budybye/dotfiles:latest ubuntu ubuntu yes'
 fi
 
 if command -v podman >/dev/null 2>&1; then
