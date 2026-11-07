@@ -75,19 +75,7 @@ jobs:
           df -h
       - uses: actions/checkout@v7
       - name: make
-        run: |
-          # 止まったときに job を cancel ではなく失敗で終わらせ(cancel だと log を API で読めない)、状況を残す
-          rc=0
-          timeout -k 30 45m make init || rc=$?
-          . .github/scripts/release-step-stdout.sh
-          if [ "${rc}" -ne 0 ]; then
-            echo "=== make init exit code: ${rc}"
-            ps -eo pid,ppid,user,etime,stat,args --forest | cut -c1-180 | tail -80
-          fi
-          if [ -n "${leaked:-}" ] && [ "${rc}" -eq 0 ]; then
-            rc=1
-          fi
-          exit "${rc}"
+        run: bash .github/scripts/ci-make-init.sh
 
   ubuntu-arm64:
     runs-on: ubuntu-26.04-arm
@@ -97,19 +85,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - name: make
-        run: |
-          # 止まったときに job を cancel ではなく失敗で終わらせ(cancel だと log を API で読めない)、状況を残す
-          rc=0
-          timeout -k 30 45m make init || rc=$?
-          . .github/scripts/release-step-stdout.sh
-          if [ "${rc}" -ne 0 ]; then
-            echo "=== make init exit code: ${rc}"
-            ps -eo pid,ppid,user,etime,stat,args --forest | cut -c1-180 | tail -80
-          fi
-          if [ -n "${leaked:-}" ] && [ "${rc}" -eq 0 ]; then
-            rc=1
-          fi
-          exit "${rc}"
+        run: bash .github/scripts/ci-make-init.sh
 
   # 最小構成の Debian(git・curl・sudo が無い root)から make init が通ることの確認。
   # job container ではなく docker run にするのは、act でも同じ手順で動かすため
